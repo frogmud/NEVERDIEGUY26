@@ -1,0 +1,27 @@
+{
+  "name": "neverdieguy26",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "pnpm --filter @ndg/web dev",
+    "dev:api": "pnpm --filter @ndg/chatbase-api dev",
+    "build": "turbo build",
+    "build:web": "pnpm --filter @ndg/web build",
+    "typecheck": "turbo typecheck",
+    "lint": "turbo lint",
+    "sim:pantheon": "pnpm --filter @ndg/ai-engine sim:pantheon",
+    "sim:eternal": "pnpm --filter @ndg/ai-engine sim:eternal",
+    "sim:extract": "pnpm --filter @ndg/ai-engine sim:extract",
+    "sim:chatter": "pnpm --filter @ndg/ai-engine sim:chatter"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "~5.8.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

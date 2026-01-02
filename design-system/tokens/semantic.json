@@ -1,0 +1,41 @@
+{
+  "role": {
+    "Admin": "#ff453a",
+    "Moderator": "#ffd60a",
+    "Member": "rgba(255, 255, 255, 0.7)"
+  },
+  "status": {
+    "Active": "#30d158",
+    "Inactive": "rgba(255, 255, 255, 0.5)",
+    "Suspended": "#ffd60a",
+    "Banned": "#ff453a",
+    "Pending": "#ffd60a"
+  },
+  "presence": {
+    "online": "#30d158",
+    "away": "#ffd60a",
+    "busy": "#ff453a",
+    "offline": "rgba(255, 255, 255, 0.5)"
+  },
+  "severity": {
+    "low": "rgba(255, 255, 255, 0.7)",
+    "medium": "#ffd60a",
+    "high": "#ffd60a",
+    "urgent": "#ff453a"
+  },
+  "promise": {
+    "+Credits": { "color": "#ffd60a", "label": "Credits" },
+    "+Data": { "color": "#00e5ff", "label": "Data" },
+    "Rare Issuance": { "color": "#a855f7", "label": "Rare" },
+    "Anomaly Chance": { "color": "#ec4899", "label": "Anomaly" },
+    "Wanderer Bias": { "color": "#30d158", "label": "Wanderer" },
+    "Heat Spike": { "color": "#ff453a", "label": "Heat" },
+    "Override": { "color": "#ff453a", "label": "Override" }
+  },
+  "door": {
+    "stable": { "color": "#6b7280", "bgColor": "#6b728020" },
+    "elite": { "color": "#ffd60a", "bgColor": "#ffd60a20" },
+    "anomaly": { "color": "#ec4899", "bgColor": "#ec489920" },
+    "audit": { "color": "#ff453a", "bgColor": "#ff453a20" }
+  }
+}

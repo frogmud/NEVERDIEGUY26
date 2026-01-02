@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-01-02T06:04:39.682Z",
+  "options": {
+    "durationMinutes": 5,
+    "seed": "longrun-1767333579153",
+    "difficulty": "normal"
+  },
+  "difficulty": "Normal",
+  "stats": {
+    "totalRuns": 2087585,
+    "totalTime": 5.001166666666666,
+    "runsPerMinute": 417419.602092845,
+    "avgAnteReached": 2.6900950140952347,
+    "avgRoomsCleared": 8.070285042285704,
+    "winRate": 0.75581832596038,
+    "flumeRate": 0.24418167403961993,
+    "avgDeaths": 0,
+    "deathRate": 0,
+    "avgDebtPerRun": 0,
+    "avgItemsKept": 3.631590090942405,
+    "totalGoldCirculated": 74109,
+    "ceeloWinRate": 0.5429269747698544,
+    "totalCeeloMatches": 1813743,
+    "rescuerBreakdown": {},
+    "giniOverTime": [
+      0.9432224485177642,
+      0.9432224485177642,
+      0.9432224485177642,
+      0.9432224485177642,
+      0.9432224485177642
+    ],
+    "wealthDistributionFinal": {
+      "broke": 17,
+      "poor": 0,
+      "neutral": 0,
+      "comfortable": 0,
+      "rich": 1
+    },
+    "anteDistribution": [
+      0,
+      137203,
+      372547,
+      1577835
+    ],
+    "deathsByAnte": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

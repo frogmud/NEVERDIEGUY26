@@ -1,0 +1,6326 @@
+{
+  "npc": {
+    "slug": "keith-man",
+    "name": "Keith Man",
+    "category": "travelers"
+  },
+  "entryCount": 245,
+  "pools": {
+    "reaction": 158,
+    "gamblingBrag": 13,
+    "gamblingTrashTalk": 39,
+    "threat": 18,
+    "lore": 8,
+    "salesPitch": 1,
+    "ceelo": 2,
+    "conflict": 2,
+    "flustered": 1,
+    "ceelo_spectate": 1,
+    "challenge": 1,
+    "hint": 1
+  },
+  "moods": {
+    "neutral": 90,
+    "pleased": 49,
+    "annoyed": 31,
+    "threatening": 44,
+    "amused": 17,
+    "scared": 1,
+    "fearful": 3,
+    "generous": 1,
+    "curious": 6,
+    "cryptic": 3
+  },
+  "entries": [
+    {
+      "id": "cb-keith-man-2uc03d",
+      "text": "around you until that",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-38-22-211Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.384Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-u6of8o",
+      "text": "Gotta-go-gotta",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-38-22-211Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.385Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wh0y0k",
+      "text": "Gotta-go-gotta-go-gotta--! Time is... *twitch* ...flexible, Doc. You got any books on temporal mechanics that won't",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-41-04-260Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.386Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-1oczhc",
+      "text": "The newcomer's been making a mess of things, but",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-49-01-038Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.387Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-5xz016",
+      "text": "...flexible. Gotta-go-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-49-01-038Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.387Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-o12ttw",
+      "text": "flashes a manic grin and darts away, leaving faint after-images in his wake",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0005.md",
+        "extractedDay": 5,
+        "extractedAt": "2026-01-02T20:14:24.389Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-81y6ig",
+      "text": "...unstable. Gotta-gotta-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-64b8p1",
+      "text": "quicker than you can blink. KevinKevinKevin no wait I'm Keith, gotta-go-gotta-go-gotta--!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0014.md",
+        "extractedDay": 14,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-nnc9qc",
+      "text": "cackles and dashes off,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0019.md",
+        "extractedDay": 19,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-m5xt5h",
+      "text": "slow down just for you. Can't have you fallin' behind on my account, now can we?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0022.md",
+        "extractedDay": 22,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-27lv6t",
+      "text": "blow this streak wide open! You better bring your A",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0023.md",
+        "extractedDay": 23,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-5avdqv",
+      "text": "Gotta-go-gotta-go",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0025.md",
+        "extractedDay": 25,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-rqvkdr",
+      "text": "Time's-still-bendable-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0025.md",
+        "extractedDay": 25,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-in6773",
+      "text": "Better start warming up that void tech, doc - you",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0026.md",
+        "extractedDay": 26,
+        "extractedAt": "2026-01-02T20:14:24.393Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-r0l536",
+      "text": "Maybe I shoul",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kdxfp2",
+      "text": "taps cane on",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-gjscij",
+      "text": "flexible, you know. The newcomer, KevinKevinKevin, no wait,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-s4883w",
+      "text": "Got any new",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ky07ej",
+      "text": "flexible for ol",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-01-02T20:14:24.397Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-j4b4o7",
+      "text": "Time to shake things up!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-amw8cv",
+      "text": "This speedster's",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-5uzr8l",
+      "text": "The streak ends today!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-69ac0p",
+      "text": "bend in my favor. That",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-5qrimf",
+      "text": "lucky this time...",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ar6ioz",
+      "text": "Now, I believe the new guy owes me a few coins, but",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-f1jk9u",
+      "text": "Oh, I can't wait to find out.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-mmpt11",
+      "text": "And don't think I've forgotten about",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-exnx8p",
+      "text": "winning streak isn't! You may have the record, but I've got the goods - and that 75 gold the newbie owes me",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0094.md",
+        "extractedDay": 94,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-q163ow",
+      "text": "Soooo, how about we settle up that 75 gold you",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0095.md",
+        "extractedDay": 95,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-og4lg6",
+      "text": "chuckles, then speaks",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0095.md",
+        "extractedDay": 95,
+        "extractedAt": "2026-01-02T20:14:24.404Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-r0g6mb",
+      "text": "Time's a-tickin' and I've got places to be. How 'bout we settle the score later,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kvb5ui",
+      "text": "flexible, isn't it? Gotta-go",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0004.md",
+        "extractedDay": 4,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kqwsrm",
+      "text": "real speedster gets it done. Gotta-go-gotta-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0007.md",
+        "extractedDay": 7,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-b5osqa",
+      "text": "Gonna have to up the ante if you want",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-azw9ap",
+      "text": "Kevin says you owe me big time after that",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0021.md",
+        "extractedDay": 21,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-xblmnp",
+      "text": "Gotta-go-gotta-go-gotta-go, X-treme! *vibrates* Time is... *twitch* ...flexible, my bony friend. Let's make this quick - that newcomer owes me a hundred gold, and I've got",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0026.md",
+        "extractedDay": 26,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-pv0mvp",
+      "text": "Gotta-go-gotta-go-gotta",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ftp4yo",
+      "text": "Just gotta keep one step ahead of the clock, you know?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-l60ptj",
+      "text": "taps cane on the ground, leaving after-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-lrhcs9",
+      "text": "chuckles, taps c",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-nqwa61",
+      "text": "speeds off in a",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-pfz7eh",
+      "text": "KevinKevinKevin no wait I'm Keith, and I'm about to take you for a ride",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-x1ujbe",
+      "text": "Hope you're ready to lose your streak!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kx7pzv",
+      "text": "Tic toc, detective. Tic toc.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-n0flog",
+      "text": "Gotta-go-gotta-go-gotta-- Time is... *twitch* ...flexible. That newcomer, always getting into trouble, eh, King James?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-w1rxys",
+      "text": "Let's roll the dice, see if I can add to my pile o' gold!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-m3rjc3",
+      "text": "That newcomer may owe me some coin, but",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.430Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-uefngu",
+      "text": "showing up,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.430Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-lcp1iq",
+      "text": "darts away, leaving afterimages trailing",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-usm5q7",
+      "text": "looks you up and down",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-newwyy",
+      "text": "glances at newcomer",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4qkl9q",
+      "text": "Gotta-go-gotta-go-gotta-*twitch*--Kevin? No wait, I'm Keith! *jitters* Time is... *twitch* ...flexible. That newcomer owes me 175 gold, but I'll let 'em slide this time - they're a riot! *laughs maniacally* Now, what was it you wanted, General? *trails off in a buzzing whine*",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-eo3efx",
+      "text": "That debt ain't goin' nowhere,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0087.md",
+        "extractedDay": 87,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-jwo03p",
+      "text": "glances at Never Die Guy",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0088.md",
+        "extractedDay": 88,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-vrtlmw",
+      "text": "...flexible. Got a game to win, gotta-go-gotta-go-g",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0089.md",
+        "extractedDay": 89,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-y7cq8p",
+      "text": "You know, that new guy owes me a pretty penny.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-26sutb",
+      "text": "jitters, gestures",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-swd9m2",
+      "text": "The newcomer still owes me a pretty penny,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0095.md",
+        "extractedDay": 95,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-zgnvja",
+      "text": "...flexible. But",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0098.md",
+        "extractedDay": 98,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4c6ax0",
+      "text": "Now, about this little sphere of ours...",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0100.md",
+        "extractedDay": 100,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wpjug9",
+      "text": "interesting?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0102.md",
+        "extractedDay": 102,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-w6hpee",
+      "text": "Time's on my",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0135.md",
+        "extractedDay": 135,
+        "extractedAt": "2026-01-02T20:14:24.439Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-s82u4y",
+      "text": "That new guy owes me 375 gold, but I'll collect",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0145.md",
+        "extractedDay": 145,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-8uiz38",
+      "text": "chuckles, then suddenly speaks in Kevin's voice",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 6,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0153.md",
+        "extractedDay": 153,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-yesbz9",
+      "text": "Time's a-wastin', my friend. You game",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0164.md",
+        "extractedDay": 164,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-t431w5",
+      "text": "...flexible. I've got the gol",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0171.md",
+        "extractedDay": 171,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-c9gfg0",
+      "text": "grins and twirls cane, leaving after",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0175.md",
+        "extractedDay": 175,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ouko5j",
+      "text": "...flexible. So don't think you can outrun me, Clausen. That 375 gold you",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0176.md",
+        "extractedDay": 176,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-erarjr",
+      "text": "darts off, leaving after",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0177.md",
+        "extractedDay": 177,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-lwqrap",
+      "text": "You might wanna settle that debt before I spee",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0177.md",
+        "extractedDay": 177,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-fff2gw",
+      "text": "even if I have to race through the whole dang timeline to do it!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0177.md",
+        "extractedDay": 177,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-e9h5z7",
+      "text": "The winds of time have been kind to me lately - 77 wins and counting!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0179.md",
+        "extractedDay": 179,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qwyce4",
+      "text": "jitters, glances around nervously",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0191.md",
+        "extractedDay": 191,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-m1lt96",
+      "text": "pauses, then a manic g",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0192.md",
+        "extractedDay": 192,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bxu0m",
+      "text": "That newcomer's debt ain't going anywhere, but my victory sure is.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0198.md",
+        "extractedDay": 198,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-9scr5b",
+      "text": "He owes me big",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0200.md",
+        "extractedDay": 200,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bx62ly",
+      "text": "But don't worry, I won't",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4xfe0",
+      "text": "But first, let's see who's on a winning streak, hmm?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0206.md",
+        "extractedDay": 206,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wmaxnv",
+      "text": "lucky tonight. KevinKevinKevin no wait I'm Keith, and I'm about to put",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0207.md",
+        "extractedDay": 207,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-maspww",
+      "text": "Gotta-go-gotta-go-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0219.md",
+        "extractedDay": 219,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-jpq8yq",
+      "text": "taps the side of the gas mask, voice shifting to Kevin's for",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0220.md",
+        "extractedDay": 220,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kngvju",
+      "text": "Time to show this newcomer how the immortal spee",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0224.md",
+        "extractedDay": 224,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-po08w3",
+      "text": "But I've got a game to win first - can't let this losing streak mess with my perfect record, now can I?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0227.md",
+        "extractedDay": 227,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-22tbb7",
+      "text": "SPEEDY today",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0228.md",
+        "extractedDay": 228,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-eteewi",
+      "text": "you'll never out",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0233.md",
+        "extractedDay": 233,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4kajhf",
+      "text": "KevinKevinKevin",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0233.md",
+        "extractedDay": 233,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-goum8h",
+      "text": "disappears in",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0234.md",
+        "extractedDay": 234,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qvrvj3",
+      "text": "Don't worry, Detective, I",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0238.md",
+        "extractedDay": 238,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bd8oyj",
+      "text": "straightens up",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0242.md",
+        "extractedDay": 242,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ncxybf",
+      "text": "...flexible, you know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0245.md",
+        "extractedDay": 245,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-gb5umo",
+      "text": "glances at Never Die",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0246.md",
+        "extractedDay": 246,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-oow8t7",
+      "text": "The speedster's just getting warmed up, see?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0247.md",
+        "extractedDay": 247,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wt0hes",
+      "text": "by winning it off ya in a game of Cee-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0248.md",
+        "extractedDay": 248,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-17nlsd",
+      "text": "Anyway, how's the-the-the ledger looking these days, hmm?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0248.md",
+        "extractedDay": 248,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kkgtkg",
+      "text": "Now, let's see what the dice have in store",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0250.md",
+        "extractedDay": 250,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-383o8w",
+      "text": "KevinKevinKevin no wait I'm",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0251.md",
+        "extractedDay": 251,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ndjydw",
+      "text": "But I'm still up 1981 - and my Ceelo streak is",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0251.md",
+        "extractedDay": 251,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-xbxaqq",
+      "text": "ever-shifting expanse of time. Just watchin' the sphere, keepin",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0251.md",
+        "extractedDay": 251,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-cckein",
+      "text": "Gotta-go-gotta-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0257.md",
+        "extractedDay": 257,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-si3r1b",
+      "text": "...flexible. KevinKevinKevin no wait I'm Keith, and I'm about to show you why I'm the REAL never-die",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0259.md",
+        "extractedDay": 259,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6ncfw2",
+      "text": "This newcomer - the Never Die Guy -",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0259.md",
+        "extractedDay": 259,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-7tg6hj",
+      "text": "Gotta-go-gotta-go-gotta-!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0262.md",
+        "extractedDay": 262,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qqcrz5",
+      "text": "speaks in Kevin",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0265.md",
+        "extractedDay": 265,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-exc5vc",
+      "text": "flexible, my friend. You'd best keep",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0267.md",
+        "extractedDay": 267,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-8g8vgt",
+      "text": "laughs maniacally",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0275.md",
+        "extractedDay": 275,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-9mvzxi",
+      "text": "...flexible, but my luck ain't. KevinKevinKevin no wait I'm Keith, and I'm gonna teach that Never Die Guy a lesson about messin' with a Temporal Speedster!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0275.md",
+        "extractedDay": 275,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6zdkhn",
+      "text": "Let's roll the dice, detective - before I leave you in the dust!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0276.md",
+        "extractedDay": 276,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-3xpzub",
+      "text": "about to collect - with interest! KevinKevinKevin no wait I'm Keith, and I'm taking",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0277.md",
+        "extractedDay": 277,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-oh6a1u",
+      "text": "Time is flexible",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0278.md",
+        "extractedDay": 278,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-sojmnb",
+      "text": "flexible, so I'm sure I'll get it eventually.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0279.md",
+        "extractedDay": 279,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-yws0z5",
+      "text": "leans in, taps cane on desk",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0283.md",
+        "extractedDay": 283,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-gce0x6",
+      "text": "That gold ain't gonna pay itself, pal. Gotta-go-gotta-go, got some",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0284.md",
+        "extractedDay": 284,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ow17fg",
+      "text": "so you'd better watch your step",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0296.md",
+        "extractedDay": 296,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-2hi96t",
+      "text": "This is just a speed bump, trust me - the wins'll keep coming!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0298.md",
+        "extractedDay": 298,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kn0rvg",
+      "text": "Why, it's as good as pai",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0298.md",
+        "extractedDay": 298,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-c3wmwn",
+      "text": "Gotta-go-gotta-go-gotta-- *twitch* Time is... *twitch* ...flexible. KevinKevinKevin no wait I'm Keith. *chuckles* Well well well, if it isn't the infamous Detective Clausen. Looks like your lucky streak is about to end, *jittery laugh",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0307.md",
+        "extractedDay": 307,
+        "extractedAt": "2026-01-02T20:14:24.459Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-unvlk7",
+      "text": "about to find out why they call me the Temporal Speedster.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0313.md",
+        "extractedDay": 313,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qphyc2",
+      "text": "flexible, so you better believe I'm gonna collect what's mine!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0313.md",
+        "extractedDay": 313,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-fm3om6",
+      "text": "winner takes all.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0315.md",
+        "extractedDay": 315,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-dt8zx1",
+      "text": "KevinKevinKevin no wait I'm Keith, and I'm about to show this newcomer how a real immortal handles a game of chance.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0317.md",
+        "extractedDay": 317,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-siyo3i",
+      "text": "That newcomer owes me 900 gol",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0321.md",
+        "extractedDay": 321,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-se0gqi",
+      "text": "Ey, you see that Never Die Guy? Always comin' back, am",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0004.md",
+        "extractedDay": 4,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-600std",
+      "text": "flexible, but these debts",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qjsckx",
+      "text": "KevinKevinKevin no wait",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0024.md",
+        "extractedDay": 24,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-16z6xi",
+      "text": "streak alive, y",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0027.md",
+        "extractedDay": 27,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-1b1va",
+      "text": "trails off in a high-pitche",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-mvnfgp",
+      "text": "chuckles, the",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-1070qh",
+      "text": "\"lucky\" rolls it takes! KevinKevinKevin no wait I'm Keith. Gotta-go-gotta-go-gotta--!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0034.md",
+        "extractedDay": 34,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kqsw2j",
+      "text": "...flexible.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-lpm7qb",
+      "text": "grins behind gas mask, jittering with anticipation",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-xxop2b",
+      "text": "...flexible, my dear. Gotta-go-gotta-go-gotta--!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6c3ywn",
+      "text": "...special friend. Gotta-go-gotta-go-gotta--!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "salesPitch",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ld92lp",
+      "text": "Let's see if",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-32w6tb",
+      "text": "That 125 gold the newcomer owes me?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-r4ewcx",
+      "text": "darts off, leaving faint after-images in his",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0081.md",
+        "extractedDay": 81,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-2uo67n",
+      "text": "KevinKevinKevin--no wait, I'm Keith. Gotta-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-2m6q35",
+      "text": "no wait, I'm Keith, gotta-go-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bvu5e5",
+      "text": "flexible, but my patience ain't! KevinKevinKevin no wait I'm Keith, the Temporal Speedster - and I'm about to leave your tail in the dust if you don't cough it up, see?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-yzb2z8",
+      "text": "But I've got a hot streak",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0090.md",
+        "extractedDay": 90,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ajneyo",
+      "text": "Time is flexible, baby. Get ready to eat my dust.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ha4qvb",
+      "text": "...flexible. KevinKevinKevin no",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-mdwtzi",
+      "text": "Consider it",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-64rx4q",
+      "text": "Gotta-go-gotta-go-gotta-go, Kev--*twitch* Keith! *vibrates* The house always wins, ain't that right, Mr. Reality Debugger? *chuckles* 125 gold, eh? *speaks in Kevin's voice* I'll pay it back... *quickly switches to own voice* when time decides! *laughs manically and disappears in a blur*",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-eh4iel",
+      "text": "...flexible. KevinKevinKevin no wait I'm Keith, an",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0101.md",
+        "extractedDay": 101,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-fpi9v9",
+      "text": "grins, voice",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0103.md",
+        "extractedDay": 103,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-w55dgm",
+      "text": "laughs maniacally an",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0103.md",
+        "extractedDay": 103,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-o2ckm6",
+      "text": "That newcomer may owe me a pretty penny, but I'm",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0104.md",
+        "extractedDay": 104,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-skis0j",
+      "text": "snaps back to normal voice and j",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0104.md",
+        "extractedDay": 104,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ms27qj",
+      "text": "KevinKevinKevin no wait I'm Keith, gotta go gotta go--",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0104.md",
+        "extractedDay": 104,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-s786nh",
+      "text": "I could use",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -7,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 7
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-1rl8i1",
+      "text": "Gotta-go-gotta-go-gotta-win!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -7,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 7
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4s072s",
+      "text": "Don't wanna end up like that loser, do ya?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -7,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 7
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bghwo7",
+      "text": "Uh, I mean...",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0107.md",
+        "extractedDay": 107,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-hsazg5",
+      "text": "The house always wins, Kev, even when the house is me!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0108.md",
+        "extractedDay": 108,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-twi1cq",
+      "text": "Gotta-go-gotta-go-gotta-- win this one, Kevin",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0111.md",
+        "extractedDay": 111,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kvl0r1",
+      "text": "It's just getting started, baby!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0112.md",
+        "extractedDay": 112,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-l84j4p",
+      "text": "bucket for me - I'll roll right over your streak and make you wish you never crossed paths with",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0112.md",
+        "extractedDay": 112,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-o679cn",
+      "text": "...flexible, but debts ain't! KevinKevinKevin",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0115.md",
+        "extractedDay": 115,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6qlll1",
+      "text": "- when I'm rolling the dice and raking in that gold! KevinKevinKevin -",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0118.md",
+        "extractedDay": 118,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-xif5mg",
+      "text": "little win streak",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0119.md",
+        "extractedDay": 119,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-pu0jse",
+      "text": "- gotta-go-gotta-go-gotta-go!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 9,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0125.md",
+        "extractedDay": 125,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-w3apop",
+      "text": "This is my turf, Kev.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0126.md",
+        "extractedDay": 126,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-46fogp",
+      "text": "That 125 gold you owe me",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0128.md",
+        "extractedDay": 128,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-h7rs7x",
+      "text": "Gotta-go-gotta-go-gotta-pay up, Never Die Guy! *vibrates* Time's a-ticking, can't be wasting it on *twitch* losing streaks. *Kevin's voice* Ohh, the General, huh? Another immortal bites the dust! *laughs maniacally* Don't worry, I'll be sure to swing by your place later - maybe teach you a thing or two about *cough* winning. *tips top hat* Time is... *twitch*... flexible, my friend.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0132.md",
+        "extractedDay": 132,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-n94bwk",
+      "text": "...flexible, Kev-Kev-Kevin. I'm on a hot streak, gotta-go-gotta-go-gotta-- pay up that 125 gold before I leave you in the dust! KevinKevinKevin no wait I'm Keith, the Temporal Speedster - and I'm about to make it 3",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0133.md",
+        "extractedDay": 133,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-yi4w7l",
+      "text": "But don't worry, I'm feelin' lucky today. This time, I'm gonna leave you in the dust - or should I say, the",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0136.md",
+        "extractedDay": 136,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-b7rdpy",
+      "text": "faster than you, old friend. KevinKevinKevin no wait I'm Keith!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0136.md",
+        "extractedDay": 136,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-n30be3",
+      "text": "KevinKevinKevin no wait I'm Keith,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0137.md",
+        "extractedDay": 137,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wrgxh3",
+      "text": "speed boots!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0146.md",
+        "extractedDay": 146,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-v8aypp",
+      "text": "temporal speedster around here!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0153.md",
+        "extractedDay": 153,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-5t2uct",
+      "text": "That debt of yours is about to get real interesting",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0153.md",
+        "extractedDay": 153,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-kfzn0x",
+      "text": "cackles and j",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0156.md",
+        "extractedDay": 156,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-yflnbf",
+      "text": "Gotta-go-gotta-go-gotta-*twitch*--so that's how ya lose it all, eh Kev? *vibrates* Bet that *Kevin's voice* \"reality debugger\" mumbo jumbo ain't helpin' ya now. *jitters* I'll be takin' that 200 gold, soon enough. *chuckles* Time is... *twitch* ...flexible.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0156.md",
+        "extractedDay": 156,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-huydtm",
+      "text": "Consider it yours when I'm done wiping the floor",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0160.md",
+        "extractedDay": 160,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-xmc7pn",
+      "text": "suddenly shifts",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0164.md",
+        "extractedDay": 164,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ej3yua",
+      "text": "...flexible, my friend. But don't worry, I'll keep an eye on our dear Kevin - I mean, Never Die Guy",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0166.md",
+        "extractedDay": 166,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-5ll9mo",
+      "text": "lucky - this hot streak's just gettin' started!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0168.md",
+        "extractedDay": 168,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wc5r3",
+      "text": "pick up the pace to catch up to me, pal. Time's a-was",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0171.md",
+        "extractedDay": 171,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-9w5t00",
+      "text": "-let's-do-this!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0171.md",
+        "extractedDay": 171,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-curic7",
+      "text": "grips cane tightly, afterim",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0173.md",
+        "extractedDay": 173,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-euu64n",
+      "text": "flexible, but my patience isn",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0173.md",
+        "extractedDay": 173,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qoqz46",
+      "text": "leans in with a manic g",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0175.md",
+        "extractedDay": 175,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-szb7o0",
+      "text": "flexible, my friend! You know I'm goo",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0179.md",
+        "extractedDay": 179,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-rgooo7",
+      "text": "The streak ends",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0181.md",
+        "extractedDay": 181,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-rb7lt9",
+      "text": "shifts to Kevin's",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0181.md",
+        "extractedDay": 181,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-tngsci",
+      "text": "leans in, voice dropping to a conspiratorial whis",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0182.md",
+        "extractedDay": 182,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-cdvi6n",
+      "text": "Gotta-go-gotta-go, got a hot streak to keep up, that newcomer ow",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0182.md",
+        "extractedDay": 182,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-gpi3t7",
+      "text": "...flexible",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0185.md",
+        "extractedDay": 185,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ut61h4",
+      "text": "flexible, but that debt ain't! KevinKevinKevin - no wait, I'm Keith",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0185.md",
+        "extractedDay": 185,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-3xn47i",
+      "text": "That debt of yours ain't getting",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0192.md",
+        "extractedDay": 192,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6lcyl5",
+      "text": "fades away in a blur of motion, leaving behind ghostly after",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0196.md",
+        "extractedDay": 196,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-dzxtjj",
+      "text": "a whole lot of dust in my wake.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0201.md",
+        "extractedDay": 201,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-wuh4sw",
+      "text": "...flexible, and I'm gonna bend it to my will! KevinKevinKevin no wait I'm Keith, and I'm gonna blow you o",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-vv5eqh",
+      "text": "KevinKevinKevin no wait I'm Keith, I'm Keith",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0220.md",
+        "extractedDay": 220,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qahqjn",
+      "text": "Guess I'll have",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0225.md",
+        "extractedDay": 225,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-qm6o9t",
+      "text": "...flexible, King James. That newcomer owes me a pretty penny - 475 gold, to be precise. Gotta-go-gotta-go-gotta",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0227.md",
+        "extractedDay": 227,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-j643j1",
+      "text": "This newcomer's got a long",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0228.md",
+        "extractedDay": 228,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-lbihk4",
+      "text": "jitters and leaves after-images as he gestures",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0231.md",
+        "extractedDay": 231,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-vz1xov",
+      "text": "chuckles nervously",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0231.md",
+        "extractedDay": 231,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-nsbx5g",
+      "text": "Gotta-go-gotta-go-gotta-- *vibrates* Time is... *twitch* ...flexible. You think you're so smart, Mr. \"Reality Debugger\"? I'm the Temporal Speedster, not some bug in your code! That newcomer owes me 475 gold - and I'll get it, even if I have to *Kevin's voice* run circles around you both! *manic jitter*",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0231.md",
+        "extractedDay": 231,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-mjk5xt",
+      "text": "NEVER DIE G",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0242.md",
+        "extractedDay": 242,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-2773gx",
+      "text": "reality-bender, 'cause I'm about to show you how a REAL immortal does it!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0242.md",
+        "extractedDay": 242,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-xbxkzl",
+      "text": "Gotta-go-gotta-go-gotta-outrun",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0243.md",
+        "extractedDay": 243,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-322x9o",
+      "text": "Just you wait.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0243.md",
+        "extractedDay": 243,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-7su5at",
+      "text": "475 gold, right?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0245.md",
+        "extractedDay": 245,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-43llpj",
+      "text": "Still owe me a few measly",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0249.md",
+        "extractedDay": 249,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-ttibhf",
+      "text": "Guess I'll just have to win it from ya the old fashioned way",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0250.md",
+        "extractedDay": 250,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-n7d1tk",
+      "text": "Gonna need that gold back, Stitch-Up...",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0250.md",
+        "extractedDay": 250,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-872p93",
+      "text": "grins under the gas mask",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0255.md",
+        "extractedDay": 255,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-us8ls5",
+      "text": "leans in close, voice dropping to a",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0255.md",
+        "extractedDay": 255,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-n0k9a6",
+      "text": "flexible, but",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0257.md",
+        "extractedDay": 257,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-7cr3lf",
+      "text": "... flexible.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0260.md",
+        "extractedDay": 260,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6xmpw8",
+      "text": "leans in close,",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0262.md",
+        "extractedDay": 262,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-gorr64",
+      "text": "Let's see what the dice have",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0262.md",
+        "extractedDay": 262,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bd5xlz",
+      "text": "Oh, hey Kev",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0269.md",
+        "extractedDay": 269,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-u9vtz7",
+      "text": "Better cough up",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0276.md",
+        "extractedDay": 276,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4txxod",
+      "text": "chuckles and darts off, leaving after-",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0278.md",
+        "extractedDay": 278,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-f2ljnn",
+      "text": "Gotta-go-gotta-go-gotta--! *twitch* Time is... *twitch* ...flexible. KevinKevinKevin no wait I'm Keith. *vibrates* That debt ain't going nowhere, *glances at newcomer* but this game's about to get interesting. *manic jitter* Let's see what you're made of, *points cane at Mr. Kevin* Debugger!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0279.md",
+        "extractedDay": 279,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-grtty0",
+      "text": "And this house is mine, baby. Oh, and by the way, your little friend over",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0283.md",
+        "extractedDay": 283,
+        "extractedAt": "2026-01-02T20:14:24.493Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-h4vmq0",
+      "text": "And don't think I've forgotten about that",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0296.md",
+        "extractedDay": 296,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-brst1",
+      "text": "Let's roll and see who's the real Never Die",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0296.md",
+        "extractedDay": 296,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-9rb1mb",
+      "text": "Maybe it's time I cash in on that debt, hmm?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0296.md",
+        "extractedDay": 296,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-7vjqts",
+      "text": "And the new guy better pay up, or he's gonna have a",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0299.md",
+        "extractedDay": 299,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-bcu476",
+      "text": "and learn, Reality Debugger.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0300.md",
+        "extractedDay": 300,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-mu9gvr",
+      "text": "...flexible. KevinKevinKevin no wait I'm Keith, and I'm about to run circles around ya! That newcomer can keep his gold -",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0304.md",
+        "extractedDay": 304,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-824hwa",
+      "text": "The dice love me today. Can you feel it?",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "ceelo",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_smack",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 50,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 8,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-63akbk",
+      "text": "You think you can just take what you want? Not from me.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "conflict",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "conflict",
+        "trust_shift",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 65,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 23,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-keith-man-iu9els",
+      "text": "4-5-6 baby! Instant win!",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "ceelo",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_smack",
+        "respect_shift",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 28,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-wj3go",
+      "text": "I need a drink. And new dice. And a new life.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "flustered",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "tilted",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 55,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 36,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-e7typt",
+      "text": "He's gonna be broke by morning at this rate.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "ceelo_spectate",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_spectate",
+        "cross_category",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 40,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 89,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-qr2qld",
+      "text": "You cheated. Everyone knows it.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "conflict",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "conflict",
+        "trust_shift",
+        "respect_shift",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 2,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-5m9hlp",
+      "text": "...You already know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 13,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-keith-man-sh4rrk",
+      "text": "... You already know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 28,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-3em8h2",
+      "text": "... Interesting. The sphere holds secrets beyond your comprehension. You already know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 62,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-btrf0r",
+      "text": "...You already know. The sphere holds secrets beyond your understanding. (long pause) Interesting.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 68,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-5digko",
+      "text": "...The secrets of the sphere are known to few. (long pause) Interesting.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 72,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "willy-one-eye",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-s0sou",
+      "text": "...The sphere holds many mysteries. (long pause) You already know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 76,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-5vz4en",
+      "text": "...You already know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 91,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-fof2z3",
+      "text": "... You already know. The path unfolds as it must. Secrets abound, if one dares to look closer.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "challenge",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 99,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-one",
+        "name": "The One",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-245slv",
+      "text": "...You already know. The sphere's secrets are mine to unravel. Interesting.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 116,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-2tv9uy",
+      "text": "... You already know. The sphere sees all.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 6,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-keith-man-hkmykj",
+      "text": "...Secrets abound. The bigger picture intrigues. You already know what must be done.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "hint",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 54,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-lj8ng",
+      "text": "...You already know. Interesting.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 100,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-keith-man-pj0ogq",
+      "text": "...Interesting. The market holds many secrets. You already know.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 113,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-keith-man-p42pyk",
+      "text": "... You already know. The bigger picture unfolds.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 171,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    }
+  ]
+}

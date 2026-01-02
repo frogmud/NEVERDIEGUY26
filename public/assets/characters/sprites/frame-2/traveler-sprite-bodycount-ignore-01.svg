@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: visioncortex VTracer 0.6.5 -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+<path d="M0,0 L21,0 L21,2 L24,2 L25,9 L27,9 L27,15 L29,15 L29,22 L25,23 L25,26 L27,26 L27,31 L30,31 L30,34 L32,34 L32,38 L34,38 L34,47 L29,52 L25,52 L25,54 L27,54 L27,61 L26,62 L14,62 L13,61 L13,55 L9,55 L9,61 L8,62 L-4,62 L-5,61 L-5,54 L-4,50 L-9,49 L-11,48 L-11,39 L-9,39 L-9,34 L-7,34 L-6,26 L-4,26 L-4,23 L-7,22 L-7,15 L-5,15 L-6,9 L-4,9 L-4,4 L-2,4 L-2,2 L0,2 Z " fill="#010304" transform="translate(39,28)"/>
+</svg>

@@ -1,0 +1,41 @@
+NPC Pregame Chatter - 2026-01-02T08:38:25.007Z
+Seed: chatter-1767343044919
+Duration: 60s
+Total Turns Evaluated: 60
+Quality Messages: 54
+Claude API Calls: 60
+
+=== QUALITY FILTERS ===
+Interest Threshold: 40+
+Per-NPC Quota: 100 max
+Dedupe: Enabled
+Unique Messages: 54
+Claude Mode: Enabled
+
+=== TOP SPEAKERS ===
+1. Dr. Voss: 6
+2. Mr. Bones: 5
+3. King James: 5
+4. Clausen: 4
+5. Body Count: 4
+6. Xtreme: 4
+7. John: 4
+8. The General: 3
+9. The One: 3
+10. Mr. Kevin: 3
+
+=== POOL BREAKDOWN ===
+claude_generated: 50
+ceelo: 2
+conflict: 1
+ceelo_win: 1
+
+=== TAG BREAKDOWN ===
+claude_generated: 50
+cross_category: 4
+respect_shift: 2
+ceelo_smack: 2
+conflict: 1
+trust_shift: 1
+ceelo_win: 1
+pantheon_speaks: 1

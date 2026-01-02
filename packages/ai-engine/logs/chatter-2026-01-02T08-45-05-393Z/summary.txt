@@ -1,0 +1,53 @@
+NPC Pregame Chatter - 2026-01-02T08:48:05.926Z
+Seed: chatter-1767343505393
+Duration: 181s
+Total Turns Evaluated: 176
+Quality Messages: 168
+Claude API Calls: 176
+
+=== QUALITY FILTERS ===
+Interest Threshold: 40+
+Per-NPC Quota: 100 max
+Dedupe: Enabled
+Unique Messages: 168
+Claude Mode: Enabled
+
+=== TOP SPEAKERS ===
+1. Mr. Bones: 16
+2. Boo-G: 15
+3. Dr. Voss: 14
+4. Mr. Kevin: 13
+5. Boots: 12
+6. King James: 12
+7. The General: 11
+8. Clausen: 11
+9. Stitch-Up Girl: 10
+10. Dr. Maxwell: 9
+
+=== POOL BREAKDOWN ===
+claude_generated: 152
+gossip: 4
+conflict: 4
+ceelo_win: 2
+alliance: 2
+threat: 2
+ceelo: 1
+lore: 1
+
+=== TAG BREAKDOWN ===
+claude_generated: 152
+cross_category: 12
+trust_shift: 7
+conflict: 4
+pantheon_speaks: 3
+player_gossip: 3
+player_mentioned: 3
+respect_shift: 2
+ceelo_win: 2
+alliance: 2
+threat: 2
+intimidation: 2
+ceelo_smack: 1
+gossip: 1
+lore: 1
+secret: 1

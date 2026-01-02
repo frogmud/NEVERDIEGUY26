@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: visioncortex VTracer 0.6.5 -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="150" height="84">
+<path d="M0,0 L150,0 L150,84 L0,84 Z " fill="#000000" transform="translate(0,0)"/>
+<path d="M0,0 L9,0 L9,3 L6,4 L9,5 L9,8 L15,10 L24,14 L24,31 L21,34 L15,36 L9,36 L9,38 L-18,38 L-25,35 L-31,32 L-36,25 L-36,12 L-32,8 L-21,8 L-21,4 L-12,3 L-9,1 Z " fill="#4D575D" transform="translate(81,22)"/>
+<path d="M0,0 L2,0 L2,3 L5,2 L10,4 L11,1 L26,2 L26,3 L39,3 L42,3 L44,8 L46,9 L40,14 L38,15 L32,15 L32,17 L5,17 L4,15 L0,14 L0,11 L2,11 L2,9 L-2,11 L-7,10 L-8,7 L-6,2 Z " fill="#808991" transform="translate(58,43)"/>
+<path d="M0,0 L2,0 L2,3 L5,2 L10,4 L11,1 L26,2 L26,3 L39,3 L42,3 L44,8 L46,9 L42,12 L40,6 L11,6 L6,9 L5,10 L11,12 L11,16 L32,16 L32,17 L5,17 L4,15 L0,14 L0,11 L2,11 L2,9 L-2,11 L-7,10 L-8,7 L-6,2 Z " fill="#697375" transform="translate(58,43)"/>
+<path d="M0,0 L9,0 L9,3 L6,4 L9,6 L0,6 L0,3 L-8,4 L-12,8 L-21,8 L-21,4 L-12,3 L-9,1 Z " fill="#353636" transform="translate(81,22)"/>
+<path d="M0,0 L6,0 L10,3 L11,0 L15,0 L14,9 L9,8 L7,6 L-1,5 L-2,1 Z " fill="#262626" transform="translate(106,21)"/>
+<path d="M0,0 L7,0 L8,8 L4,12 L3,10 L-2,9 L-2,2 Z " fill="#19191A" transform="translate(128,17)"/>
+<path d="M0,0 L15,0 L15,5 L14,6 L0,5 Z " fill="#181818" transform="translate(0,59)"/>
+<path d="M0,0 L13,1 L15,2 L15,5 L2,5 L0,4 Z " fill="#272727" transform="translate(45,67)"/>
+<path d="M0,0 L15,0 L14,4 L0,4 Z " fill="#2B2B2B" transform="translate(90,11)"/>
+<path d="M0,0 L15,1 L14,3 L1,4 L-4,5 L-5,3 L-1,3 Z " fill="#616C76" transform="translate(69,44)"/>
+<path d="M0,0 L2,0 L2,3 L-3,5 L-6,10 L-8,9 L-6,2 Z " fill="#616C6A" transform="translate(58,43)"/>
+<path d="M0,0 L13,0 L13,3 L0,2 Z " fill="#343434" transform="translate(0,60)"/>
+<path d="M0,0 L3,0 L3,6 L-2,5 L-3,2 L0,2 Z " fill="#393A3A" transform="translate(117,24)"/>
+<path d="M0,0 L8,0 L8,2 L4,3 L-4,3 Z " fill="#141414" transform="translate(77,20)"/>
+<path d="M0,0 L5,1 L11,4 L11,6 L6,5 L0,1 Z " fill="#71777B" transform="translate(87,29)"/>
+<path d="M0,0 L2,1 L-1,4 L-10,4 L-9,2 Z " fill="#3C3D40" transform="translate(70,26)"/>
+<path d="M0,0 L6,0 L8,3 L1,3 L-1,5 L-2,1 Z " fill="#121313" transform="translate(106,21)"/>
+<path d="M0,0 L5,0 L5,4 L-1,4 Z " fill="#6B7273" transform="translate(64,55)"/>
+<path d="M0,0 L4,0 L4,5 L3,3 L0,3 L-1,5 L-3,3 L-1,3 Z " fill="#131314" transform="translate(117,21)"/>
+<path d="M0,0 L5,0 L0,4 L0,9 L-2,9 L-2,2 Z " fill="#0E0F0F" transform="translate(128,17)"/>
+<path d="M0,0 L6,2 L5,5 L2,4 L2,2 L-2,1 Z " fill="#606265" transform="translate(98,34)"/>
+<path d="M0,0 L7,3 L7,4 L-1,5 Z " fill="#0F1313" transform="translate(54,55)"/>
+<path d="M0,0 L3,0 L2,4 L0,8 Z " fill="#606B68" transform="translate(46,36)"/>
+</svg>

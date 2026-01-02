@@ -1,0 +1,54 @@
+{
+  "core": {
+    "primary": "#E90441",
+    "secondary": "#00e5ff",
+    "success": "#30d158",
+    "error": "#ff453a",
+    "warning": "#ffd60a"
+  },
+  "background": {
+    "default": "#0a0a0a",
+    "paper": "#1a1a1a",
+    "elevated": "#242424"
+  },
+  "text": {
+    "primary": "#ffffff",
+    "secondary": "rgba(255, 255, 255, 0.7)",
+    "disabled": "rgba(255, 255, 255, 0.5)"
+  },
+  "border": "rgba(255, 255, 255, 0.12)",
+  "rarity": {
+    "common": "#9e9e9e",
+    "uncommon": "#4caf50",
+    "rare": "#2196f3",
+    "epic": "#9c27b0",
+    "legendary": "#ff9800",
+    "unique": "#e91e63"
+  },
+  "game": {
+    "combo": {
+      "pair": "#4caf50",
+      "trips": "#2196f3",
+      "quads": "#9c27b0",
+      "straight": "#ff9800"
+    },
+    "npc": {
+      "common": "#9e9e9e",
+      "rare": "#2196f3",
+      "elite": "#9c27b0",
+      "boss": "#ff9800"
+    },
+    "dice": {
+      "d4": "#ff5722",
+      "d6": "#4caf50",
+      "d8": "#2196f3",
+      "d10": "#9c27b0",
+      "d12": "#ff9800",
+      "d20": "#e91e63"
+    },
+    "gold": "#c4a000",
+    "epic": "#a855f7",
+    "anomaly": "#ec4899",
+    "stable": "#6b7280"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "version": "1.0.0",
+  "createdAt": "2026-01-02T20:14:24.506Z",
+  "lastUpdated": "2026-01-02T20:14:24.506Z",
+  "sources": {
+    "eternalLogDirs": [
+      "eternal-2026-01-02T09-06-10-051Z",
+      "eternal-2026-01-02T09-38-22-211Z",
+      "eternal-2026-01-02T09-41-04-260Z",
+      "eternal-2026-01-02T09-49-01-038Z",
+      "eternal-2026-01-02T09-50-06-685Z",
+      "eternal-2026-01-02T10-02-47-948Z",
+      "eternal-2026-01-02T10-03-05-505Z",
+      "eternal-2026-01-02T18-49-04-861Z"
+    ],
+    "chatterLogDirs": [
+      "chatter-2026-01-02T08-04-23-834Z",
+      "chatter-2026-01-02T08-37-24-920Z",
+      "chatter-2026-01-02T08-39-11-475Z",
+      "chatter-2026-01-02T08-45-05-393Z"
+    ],
+    "totalDaysProcessed": 2400,
+    "totalConversationsProcessed": 3588
+  },
+  "stats": {
+    "totalEntries": 3503,
+    "entriesBySpeaker": {
+      "keith-man": 245,
+      "clausen": 355,
+      "the-general": 250,
+      "dr-maxwell": 310,
+      "stitch-up-girl": 266,
+      "boo-g": 191,
+      "boots": 229,
+      "dr-voss": 297,
+      "mr-kevin": 374,
+      "xtreme": 209,
+      "mr-bones": 280,
+      "willy": 180,
+      "king-james": 217,
+      "peter": 22,
+      "john": 18,
+      "the-one": 27,
+      "willy-one-eye": 18,
+      "body-count": 15
+    },
+    "entriesByPool": {
+      "reaction": 1158,
+      "gamblingTrashTalk": 882,
+      "gamblingBrag": 319,
+      "lore": 190,
+      "hint": 18,
+      "challenge": 19,
+      "threat": 726,
+      "greeting": 53,
+      "salesPitch": 31,
+      "gamblingFrustration": 17,
+      "gossip": 28,
+      "conflict": 9,
+      "ceelo": 14,
+      "ceelo_spectate": 7,
+      "alliance": 6,
+      "flustered": 8,
+      "ceelo_lose": 8,
+      "ceelo_win": 10
+    },
+    "entriesByMood": {
+      "neutral": 761,
+      "pleased": 376,
+      "threatening": 990,
+      "annoyed": 954,
+      "scared": 83,
+      "cryptic": 59,
+      "sad": 23,
+      "amused": 115,
+      "angry": 10,
+      "generous": 25,
+      "curious": 82,
+      "fearful": 25
+    },
+    "averageInterestScore": 72.54781615757922,
+    "deduplicationRatio": 0.9763099219620959,
+    "canonicalCount": 0
+  },
+  "indexes": [
+    {
+      "name": "keith-man",
+      "type": "by-speaker",
+      "entryCount": 245,
+      "path": "npcs/keith-man.json"
+    },
+    {
+      "name": "clausen",
+      "type": "by-speaker",
+      "entryCount": 355,
+      "path": "npcs/clausen.json"
+    },
+    {
+      "name": "the-general",
+      "type": "by-speaker",
+      "entryCount": 250,
+      "path": "npcs/the-general.json"
+    },
+    {
+      "name": "dr-maxwell",
+      "type": "by-speaker",
+      "entryCount": 310,
+      "path": "npcs/dr-maxwell.json"
+    },
+    {
+      "name": "stitch-up-girl",
+      "type": "by-speaker",
+      "entryCount": 266,
+      "path": "npcs/stitch-up-girl.json"
+    },
+    {
+      "name": "boo-g",
+      "type": "by-speaker",
+      "entryCount": 191,
+      "path": "npcs/boo-g.json"
+    },
+    {
+      "name": "boots",
+      "type": "by-speaker",
+      "entryCount": 229,
+      "path": "npcs/boots.json"
+    },
+    {
+      "name": "dr-voss",
+      "type": "by-speaker",
+      "entryCount": 297,
+      "path": "npcs/dr-voss.json"
+    },
+    {
+      "name": "mr-kevin",
+      "type": "by-speaker",
+      "entryCount": 374,
+      "path": "npcs/mr-kevin.json"
+    },
+    {
+      "name": "xtreme",
+      "type": "by-speaker",
+      "entryCount": 209,
+      "path": "npcs/xtreme.json"
+    },
+    {
+      "name": "mr-bones",
+      "type": "by-speaker",
+      "entryCount": 280,
+      "path": "npcs/mr-bones.json"
+    },
+    {
+      "name": "willy",
+      "type": "by-speaker",
+      "entryCount": 180,
+      "path": "npcs/willy.json"
+    },
+    {
+      "name": "king-james",
+      "type": "by-speaker",
+      "entryCount": 217,
+      "path": "npcs/king-james.json"
+    },
+    {
+      "name": "peter",
+      "type": "by-speaker",
+      "entryCount": 22,
+      "path": "npcs/peter.json"
+    },
+    {
+      "name": "john",
+      "type": "by-speaker",
+      "entryCount": 18,
+      "path": "npcs/john.json"
+    },
+    {
+      "name": "the-one",
+      "type": "by-speaker",
+      "entryCount": 27,
+      "path": "npcs/the-one.json"
+    },
+    {
+      "name": "willy-one-eye",
+      "type": "by-speaker",
+      "entryCount": 18,
+      "path": "npcs/willy-one-eye.json"
+    },
+    {
+      "name": "body-count",
+      "type": "by-speaker",
+      "entryCount": 15,
+      "path": "npcs/body-count.json"
+    }
+  ]
+}

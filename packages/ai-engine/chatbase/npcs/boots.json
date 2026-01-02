@@ -1,0 +1,6138 @@
+{
+  "npc": {
+    "slug": "boots",
+    "name": "Boots",
+    "category": "travelers"
+  },
+  "entryCount": 229,
+  "pools": {
+    "gamblingTrashTalk": 66,
+    "reaction": 89,
+    "gamblingBrag": 3,
+    "threat": 59,
+    "challenge": 1,
+    "hint": 1,
+    "salesPitch": 1,
+    "lore": 5,
+    "conflict": 1,
+    "gossip": 3
+  },
+  "moods": {
+    "threatening": 56,
+    "neutral": 50,
+    "pleased": 41,
+    "annoyed": 45,
+    "cryptic": 10,
+    "amused": 25,
+    "scared": 1,
+    "angry": 1
+  },
+  "entries": [
+    {
+      "id": "cb-boots-ptby9h",
+      "text": "The cat's tails twitch with a glitchy rhythm as Boots looks up at Boo G, eyes blinking out of sync. A sly grin creeps across the feline's face. Meow? The paths are many, but the cat always lands on its feet. Your luck may hold for now, but the cosmic game is ever-changing. This one's streak will not last.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-38-22-211Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.385Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-qklg08",
+      "text": "The paths are many. The cat chooses.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0003.md",
+        "extractedDay": 3,
+        "extractedAt": "2026-01-02T20:14:24.388Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-v2oszf",
+      "text": "Fate has a way of reshuffling the cards",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0005.md",
+        "extractedDay": 5,
+        "extractedAt": "2026-01-02T20:14:24.389Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-o453nv",
+      "text": "A probability tail orbits Boots as they give a",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0011.md",
+        "extractedDay": 11,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-e6pf9d",
+      "text": "Boots' paw smears reveal a faint glim",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vo999k",
+      "text": "The cat chooses the path,",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0021.md",
+        "extractedDay": 21,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-n7exp2",
+      "text": "The fates are ever-shifting, Mr. Bones. Mortals dance to the whims of",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0025.md",
+        "extractedDay": 25,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-r3c7l3",
+      "text": "My streak may falter, but the cosmic game is far from over.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0027.md",
+        "extractedDay": 27,
+        "extractedAt": "2026-01-02T20:14:24.393Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-hw11kz",
+      "text": "Your luck may soon change. Shall we test the odds once more?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.393Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-pgq7ru",
+      "text": "Perhaps you should roll the dice once more. The cosmic game is never over.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.393Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-w14pyl",
+      "text": "The cat's game is not yet over.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-6sqhii",
+      "text": "Perhaps the dice will smile upon me yet.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-z1wh9w",
+      "text": "Let's see what fate has in store, hmm?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0058.md",
+        "extractedDay": 58,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-pxme24",
+      "text": "The paths are many, my stitched friend. But the cat sees the cosmic dance unfold. Perhaps this newcomer's luck has run its course... or has it merely begun? *tilts head, gives a knowing stare* Meow.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0004.md",
+        "extractedDay": 4,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nccys9",
+      "text": "Boots' paws leave faint pawprints of ash, each one marking another life",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0005.md",
+        "extractedDay": 5,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-c8s0or",
+      "text": "A knowing stare, as Boots' paw smears reveal faint chains in the shadows",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ltty2r",
+      "text": "Perhaps the newcomer",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0011.md",
+        "extractedDay": 11,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2t6zwg",
+      "text": "Probability is a fickle mistress, isn't she,",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vers79",
+      "text": "The newcomer's debt is noted. Shall we",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-sdltc6",
+      "text": "tail orbits",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-01-02T20:14:24.424Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-gehypa",
+      "text": "Meow? The paths are many, but the cat always lands on its feet. The newcomer owes me a debt - perhaps I shall let him roll the die, and see where fate takes us",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-01-02T20:14:24.424Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-n8d52q",
+      "text": "Shall we play, Spect",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-e89nkn",
+      "text": "Perhaps you've simply overlooked a vital variable in your calculations. As for our newcomer friend, well, let's just say their debt to me grows with each roll of the dice. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wktlz0",
+      "text": "Boots' tails glitch in and out as he pads",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-7fbz47",
+      "text": "The paths are many. The cat chooses. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-5u7uje",
+      "text": "Perhaps the debugger can enlighten us both. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-779xcx",
+      "text": "The cosmic game is ever-changing. Shall we play?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wd83ke",
+      "text": "lets out a knowing stare, paw smears revealing hidden chains",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-up68jm",
+      "text": "The newcomer owes me",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nc9sij",
+      "text": "Meow? The newcomer still",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ahzkpa",
+      "text": "Best start tallying a new debt, bone-keeper. The Never Die Guy owes me",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-01-02T20:14:24.430Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ul9ppx",
+      "text": "As for our dear friend's debt...the cosmic game marches on. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-5bwbc6",
+      "text": "Perhaps the newcomer will prove more... entertaining.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "challenge",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-e0n7j6",
+      "text": "The paths are many, my friend. The cat chooses the one where the dice fall just so. *glances at your losing streak* You've heard the trickster's words - hold fast to your shadow, and the game will see you through. *paw swipes the air, probability tails orbiting* As for the newcomer... the debt will be paid. In time.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nicic9",
+      "text": "The paths are many, but the cat always lands on his feet. Lucky for you, I'm feeling generous today",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-4ydqjq",
+      "text": "Ah, the esteemed Pyromaniac Librarian. Your record is impressive, but the paths of fate are ever-shifting. Perhaps today the cosmic dice will favor this immortal cat - and the newcomer's debt will be paid in full. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0094.md",
+        "extractedDay": 94,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-pn0hvg",
+      "text": "The paths are many, but the cat always lands on its feet. The newcomer owes a debt, yes, but the cosmic game is ever-shifting. Shall we roll the dice and see where fate leads us, Mr. Bones?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0097.md",
+        "extractedDay": 97,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-qtkwez",
+      "text": "The paths are many, but the cat chooses. Your debt weighs heavily, yet the cosmic game",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0097.md",
+        "extractedDay": 97,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-kztss2",
+      "text": "The paths are many, but the cat chooses to stare into the void and see what the stars foretell. 375 gold? A mere pittance in the endless dance of fate. I have lived lifetimes beyond your reckoning, mortal. The newcomer's debt shall be paid, in time. As for my streak...the dice have yet to be cast.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0102.md",
+        "extractedDay": 102,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-sjmykn",
+      "text": "He lets out a soft,",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-5woets",
+      "text": "Perhaps the dice hold the answers you seek. Or perhaps, the game has only just begun.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-dt7jr4",
+      "text": "The newcomer's debts remain...but perhaps the Undying King may know where fate's winds blow next. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0106.md",
+        "extractedDay": 106,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-etwgrc",
+      "text": "Perhaps it's time to see if the fickle winds of fate blow in my favor once more. The newcomer's debt lingers, but my paws have a mind of their own. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0117.md",
+        "extractedDay": 117,
+        "extractedAt": "2026-01-02T20:14:24.436Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-767kyr",
+      "text": "Now, about that debt the newcomer owes me...",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0121.md",
+        "extractedDay": 121,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-1cyhbq",
+      "text": "The paths are many, the cat chooses.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0123.md",
+        "extractedDay": 123,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-91p1jo",
+      "text": "That newcomer's debt keeps me entertained, you know. Shall we",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0125.md",
+        "extractedDay": 125,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-w18ukm",
+      "text": "The cosmic game demands balance.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0126.md",
+        "extractedDay": 126,
+        "extractedAt": "2026-01-02T20:14:24.438Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-3l2t3p",
+      "text": "The newcomer's debt remains unpaid, but the cosmic game is far from over. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0136.md",
+        "extractedDay": 136,
+        "extractedAt": "2026-01-02T20:14:24.439Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-kqs1j2",
+      "text": "A soft chuckle rumbles in the cat's throat as it turns to the newcomer.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0141.md",
+        "extractedDay": 141,
+        "extractedAt": "2026-01-02T20:14:24.440Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-e4gt3n",
+      "text": "Boots' multiple tails glitch in and out, hinting at hidden layers",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "hint",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0141.md",
+        "extractedDay": 141,
+        "extractedAt": "2026-01-02T20:14:24.440Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ku7fnn",
+      "text": "The paths are many. The cat chooses... when to pounce.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0141.md",
+        "extractedDay": 141,
+        "extractedAt": "2026-01-02T20:14:24.440Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-qwszpj",
+      "text": "Shall we play, Doctor?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0143.md",
+        "extractedDay": 143,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-egwlr4",
+      "text": "Shall we see if the newcomer's",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0143.md",
+        "extractedDay": 143,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-w4wu31",
+      "text": "Shall we see where this roll leads? The newcomer's debts are not yet paid, after all.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0157.md",
+        "extractedDay": 157,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-96fffy",
+      "text": "Shall we play? The cosmic game grows ever more... interesting.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0157.md",
+        "extractedDay": 157,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-rmwt8x",
+      "text": "Meow? The cosmic game shifts with every roll, but the cat always lands on its feet. 575 gold? Mere specks in the sands of eternity. I'll reclaim my losses soon enough, King James. The paths are many - the cat chooses the one where luck is on my side.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0160.md",
+        "extractedDay": 160,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-p07zjk",
+      "text": "That newcomer, he owes me a pretty penny - but luck's a slippery thing. Maybe I'll win it all back, maybe I won't. Either way, the cosmic game goes on. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0162.md",
+        "extractedDay": 162,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-w27r6s",
+      "text": "Perhaps the newcomer would care to settle his debts. The cosmic game waits for no one.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0162.md",
+        "extractedDay": 162,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-g25e7y",
+      "text": "The paths are many, dear Bones, and the cat chooses to collect what is owed. The newcomer's debt grows,",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0165.md",
+        "extractedDay": 165,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-1n1it",
+      "text": "smirks, a trail",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0168.md",
+        "extractedDay": 168,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vzh9ju",
+      "text": "575 gold is no small debt, detective. Shall we roll the dice and see where fate leads us?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0173.md",
+        "extractedDay": 173,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-3az0wt",
+      "text": "That debt? Merely a feather's weight in the scales of fate. Now, shall we see whose luck holds true?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0175.md",
+        "extractedDay": 175,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-g50xca",
+      "text": "Though perhaps the newcomer would be interested in expanding his collection... if he can settle his debts, that is. The paths are many",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0180.md",
+        "extractedDay": 180,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-833h9w",
+      "text": "This newcomer owes me a debt - perhaps we shall see if his luck holds. Me",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0180.md",
+        "extractedDay": 180,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ryo8m8",
+      "text": "The cosmic game marches on. Shall we tempt the winds of chance once more?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0183.md",
+        "extractedDay": 183,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-uxhxva",
+      "text": "Shall we see who fate has chosen today, hmm?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0184.md",
+        "extractedDay": 184,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-tfvylc",
+      "text": "shuffles closer, probability",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0189.md",
+        "extractedDay": 189,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-mog50r",
+      "text": "The newcomer's debt still looms, a shadow in the m",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0190.md",
+        "extractedDay": 190,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-h9pf0m",
+      "text": "Ah, the dance of fate. The newcomer owes me 700 gold, and the tides of chance seem to ebb and flow. Shall we see what the dice foretell, Boo G? The cosmic game is afoot.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0190.md",
+        "extractedDay": 190,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-lx1xam",
+      "text": "And what of our friend's debt, hmm? Shall we see if your speed can outrun fate itself?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0191.md",
+        "extractedDay": 191,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-132jg1",
+      "text": "The paths are many, and the cat chooses. The newcomer's debt? A trifling matter, easily settled.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0191.md",
+        "extractedDay": 191,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-qbi0s5",
+      "text": "Ah, the good doctor. Perhaps you've a cure for this... losing streak? The newcomer owes me quite the debt - I'd rather not have to collect it through less... conventional means. The paths are many, but the cat chooses the one that tips the scales. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0192.md",
+        "extractedDay": 192,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-zdqpxv",
+      "text": "You owe me 700 gold, little mortal. Shall we see if your luck holds true this",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0197.md",
+        "extractedDay": 197,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-cnpxe8",
+      "text": "A knowing stare as Boots' paw smears reveal hidden chains, h",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0197.md",
+        "extractedDay": 197,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-u1gk3z",
+      "text": "I must say, our newcomer friend still owes me quite the sum. Perhaps a little wager is in order? The paths are many, but the cat chooses. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0199.md",
+        "extractedDay": 199,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ol3r6a",
+      "text": "Best pay up, little mortal - the cosmic game waits for no one. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-4yxp4z",
+      "text": "700 gold, you say? The cosmic game is afoot. Let us see which of us the dice favors today.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-trmi4m",
+      "text": "Your scales may tilt, but the cat's lucky die rolls ever on. Shall we play another round? The newcomer's debt waits.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0206.md",
+        "extractedDay": 206,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-8zfnx3",
+      "text": "The newcomer's debt will be paid, in time. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0207.md",
+        "extractedDay": 207,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wdqd1m",
+      "text": "The paths are many, detective, but the cat always lands on its feet. 700 gold, you say? A paltry sum in the grand scheme of cosmic probabilities. But I'll collect, one way or another. The game is never over, and the cat is ever watchful.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0208.md",
+        "extractedDay": 208,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ip1pc9",
+      "text": "The paths are many, but the cat chooses. 700 gold you say? A mere bagatelle. Shall we see if luck favors the immortal this day?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0208.md",
+        "extractedDay": 208,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-9aktvq",
+      "text": "The paths are many, but the cat chooses. The newcomer owes me dearly. Shall we see where fate leads them next, hmm?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0213.md",
+        "extractedDay": 213,
+        "extractedAt": "2026-01-02T20:14:24.449Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-s8hcc7",
+      "text": "glances at Never Die Guy with a",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-g1ikx",
+      "text": "Looks point",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-6qszpa",
+      "text": "Ah, the ever-fickle hand of fate. The newcomer's debts linger, a tangled web of chance and consequence. Yet I remain, a sentinel of quantum probabilities",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0231.md",
+        "extractedDay": 231,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-xvbjyk",
+      "text": "Ah, the ever-shifting ledgers. A debt is but a ripple in the cosmic currents. The newcomer's luck has yet",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0236.md",
+        "extractedDay": 236,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-6mq8ix",
+      "text": "Meow? The paths are many, but the cat has no time to play your games today, Voss. The newcomer owes me, and I grow weary of these coin tosses.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0238.md",
+        "extractedDay": 238,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-e6gc9",
+      "text": "The paths are many, Doctor. But the cat chooses to guard the cosmic game. Perhaps you can assist in settling a debt",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0255.md",
+        "extractedDay": 255,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-j8xm7l",
+      "text": "A probability tail orbits lazily as he regards the",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0258.md",
+        "extractedDay": 258,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wd71ff",
+      "text": "The newcomer owes me... but the cosmic game is ever-shifting",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0259.md",
+        "extractedDay": 259,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-emkk1x",
+      "text": "But the game is not over, my friend. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0262.md",
+        "extractedDay": 262,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-xyowmz",
+      "text": "775 gold, you say? A mere trifle in the grand scheme. The cat's curiosity grows...shall we see what fate has in store next, General?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0269.md",
+        "extractedDay": 269,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2wels7",
+      "text": "tilts head, a knowing",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0272.md",
+        "extractedDay": 272,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-rgulbk",
+      "text": "Fate has a way of evening the scales. Shall we roll the dice and see where the quantum winds blow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0284.md",
+        "extractedDay": 284,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ys1j7b",
+      "text": "As for the newcomer's debt, I'll collect when the time is right. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0303.md",
+        "extractedDay": 303,
+        "extractedAt": "2026-01-02T20:14:24.459Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-bxod5x",
+      "text": "Ah, the ever-shifting sands of fate. Fortune's favor is a fickle beast. The newcomer's debt lingers, a thorn in my side - but the cosmic game marches",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0322.md",
+        "extractedDay": 322,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-6l506s",
+      "text": "Meow? The paths are many",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-cu4ecg",
+      "text": "The paths are many, my friend, but the cat always lands on its feet. This newcomer...he dances with fate, yet his steps are uncertain. Ma",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-igu796",
+      "text": "Your debts are but echoes in the voi",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0009.md",
+        "extractedDay": 9,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-a2fouo",
+      "text": "That debt will be collected, in due time. The cosmic game never",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-3anznv",
+      "text": "The paths are many, my",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-tg2qun",
+      "text": "Now, how about we even the score, hmm? I've got a few tricks up my sleeve that might turn the tide.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0016.md",
+        "extractedDay": 16,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ib8f8v",
+      "text": "surveys Mr. Kevin with a knowing stare, paw",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0023.md",
+        "extractedDay": 23,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-gnm33x",
+      "text": "Care to try your luck, reality glitch? The newcomer's debt grows ever higher.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0023.md",
+        "extractedDay": 23,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-akx2g1",
+      "text": "A faint smirk crosses the cat's face as it settles",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ezarql",
+      "text": "paw smears reveal hidden",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-arra9b",
+      "text": "The cosmic game continues. Shall we roll the die and see what fate has in store?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-m9r83x",
+      "text": "The paths are many, my friend. The cat chooses - and the debt remains. But the game is ever-changing.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nmlgqa",
+      "text": "The paths are many, my friend, but the cat always finds its mark. Your debt grows, and the game continues. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-m956ey",
+      "text": "Meow? The paths are many, and the cat chooses",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-th1zub",
+      "text": "The paths are many, but the cat sees the winning streak in your future...or perhaps not. The newcomer's debt lingers, the dice roll ever on. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0058.md",
+        "extractedDay": 58,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-x6hlli",
+      "text": "The paths are many. The cat",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vks820",
+      "text": "That debt? Merely a speck of dust in the grand scheme. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ft0hm9",
+      "text": "The paths are many, but the cat always lands on its feet. You'll",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ffsl52",
+      "text": "lets out a low, knowing chuckle",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 6,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-y59zhd",
+      "text": "The paths are many, my friend, but the cat always lands on its feet. I hold the lucky die, and the cosmic game is mine to play. As for our debts, consider them forgiven - for now. Shall we see if your flames can match the fury of a thousand suns?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "angry",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-m4yw69",
+      "text": "tilts head, staring",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-bb7l74",
+      "text": "As for our game, I'll take your gold - and your pride. The cat has many lives, but you've yet to learn how to cheat death. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-p1hl6n",
+      "text": "This newcomer owes me",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-qa5enh",
+      "text": "You owe me yet, mortal. The game... continues.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0089.md",
+        "extractedDay": 89,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-xh0xa2",
+      "text": "Perhaps I shall roll the die and see what fate has in store. Shall we play?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0090.md",
+        "extractedDay": 90,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-r2y3r",
+      "text": "Shall we see who the cosmic cat favors today? Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wu8xur",
+      "text": "Meow? The paths are many, but the cat always lands on its feet. This one's pockets jingle with the weight of your due. Best not to test the whims of fate, hmm",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-30607m",
+      "text": "The paths are many, my friend, but the cat chooses the",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0098.md",
+        "extractedDay": 98,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2byimh",
+      "text": "Boots's tails glitch in and out, a faint constellation of probability orb",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0100.md",
+        "extractedDay": 100,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-izjgt",
+      "text": "The newcomer still owes, yes? The cosmic game marches on.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0101.md",
+        "extractedDay": 101,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vxwg5s",
+      "text": "Shall we see where the quantum dice fall?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0103.md",
+        "extractedDay": 103,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-rw40xc",
+      "text": "The cosmic game continues, the die has been cast. Shall we roll?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0104.md",
+        "extractedDay": 104,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-60pnz2",
+      "text": "The cosmic game waits for no one.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0106.md",
+        "extractedDay": 106,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-bl4i5a",
+      "text": "The newcomer's debt weighs heavy, but my streak is hardly over. Shall we play the cosmic game once more?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0109.md",
+        "extractedDay": 109,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-txkwlf",
+      "text": "Perhaps you'd like to renegotiate that debt the newcomer owes me? I'd hate for your record to take another hit. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0109.md",
+        "extractedDay": 109,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-yl9r11",
+      "text": "I'll double or nothing that 100 gold. The trickster's odds are always in flux.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0117.md",
+        "extractedDay": 117,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-54u4gk",
+      "text": "100 gold is a mere feather in the cosmic wind, my dear speedster. Shall we play another round and see where fate's whispers lead us this day?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0118.md",
+        "extractedDay": 118,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vk1w3y",
+      "text": "The paths are many, Keith Man, but the cat chooses. Your debts grow ever longer, and the cosmic game continues. Shall we roll the die and see where fortune leads us next?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0124.md",
+        "extractedDay": 124,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-456pa3",
+      "text": "You owe me 100 gold, little mortal. Shall we",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0126.md",
+        "extractedDay": 126,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-4g1dxs",
+      "text": "Looks to Mr. Kevin",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0136.md",
+        "extractedDay": 136,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wu0df3",
+      "text": "The paths are many, dear Bones, but the cat always lands on its feet. I hold the lucky die, and the cosmic game is mine to play. That debt shall be settled, in time - or perhaps not at all. *Boots flashes a knowing grin, eyes blinking out of sync as he turns to survey the market once more*",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0147.md",
+        "extractedDay": 147,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-y9aogx",
+      "text": "Your probabilities may seem favorable, Reality Debugger, but I hold the winning die. The newcomer's debt remains...for now.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0150.md",
+        "extractedDay": 150,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-fzw4j8",
+      "text": "Shall we play?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0150.md",
+        "extractedDay": 150,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2ly0ah",
+      "text": "The newcomer's debt yet remains, an",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0152.md",
+        "extractedDay": 152,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2g3w18",
+      "text": "That newcomer owes me a debt - perhaps we shall see whose luck holds true today. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0153.md",
+        "extractedDay": 153,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-9wlvao",
+      "text": "Shall we play another round? The newcomer can wait -",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0159.md",
+        "extractedDay": 159,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-arg60c",
+      "text": "Your debts will be paid, one way or another. The paths are many - the cat",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0160.md",
+        "extractedDay": 160,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-raogpv",
+      "text": "Boots' tails glitch in and out as they casually l",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0160.md",
+        "extractedDay": 160,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nr6rup",
+      "text": "The newcomer's debt matters not - the cosmic game continues. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0161.md",
+        "extractedDay": 161,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-7o2bcu",
+      "text": "The paths are many, but the outcome is written in the cosmic game. Shall we roll the dice, hm",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0165.md",
+        "extractedDay": 165,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ckrq2h",
+      "text": "175 gold, was it not? The cosmic game continues.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0165.md",
+        "extractedDay": 165,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-1uoseg",
+      "text": "A knowing stare as his paw smears reveal faint",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0168.md",
+        "extractedDay": 168,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wmsmhz",
+      "text": "Ah, the endless dance of fate, my dear Boo G. The newcomer owes me a pretty penny - though his luck, like the beat of your ethereal tunes, is ever-",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0170.md",
+        "extractedDay": 170,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-i9ei5v",
+      "text": "Meow? The paths are many, but the cat sees the bad luck swirling. That newcomer keeps tempting fate - 175 gold he owes, and my streak runs thin. Shall we play the game, Mr. Kevin? The cosmic wheels turn, but the cat's paw always finds an edge.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0172.md",
+        "extractedDay": 172,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wn86de",
+      "text": "The paths are many - let us see which one you choose. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0173.md",
+        "extractedDay": 173,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vxh8vl",
+      "text": "175 gold is a mere trifle - just wait until the streak ends, my friend. Fate has a way of balancing the scales.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0180.md",
+        "extractedDay": 180,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-j2l96f",
+      "text": "Perhaps the debugger would do well to reconsider their odds. This one's paw still bears the scent of a certain debt not yet paid, after all.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0182.md",
+        "extractedDay": 182,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-pk5b9",
+      "text": "This debt will be paid, one way or another. The cosmic game continues.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0182.md",
+        "extractedDay": 182,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vmjtna",
+      "text": "The sands of",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0182.md",
+        "extractedDay": 182,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ut5qqf",
+      "text": "The paths are many, but the feline's paw smears the way.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0183.md",
+        "extractedDay": 183,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-jgaxe5",
+      "text": "The cosmic game has only just begun.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0183.md",
+        "extractedDay": 183,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-7h922m",
+      "text": "The paths are many, but the cat always lands on its feet. 175 gold is but a drop in the cosmic pool - perhaps the newcomer will learn that the house always wins. Shall we",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0183.md",
+        "extractedDay": 183,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-8rvuyt",
+      "text": "Meow? The paths are many, but the cat always lands on its feet. 175 gold, you say? A curious number - a prime, yet divisible by five. Shall we roll the die and see where fate leads us next, hmm?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0185.md",
+        "extractedDay": 185,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-t41mm3",
+      "text": "Shall we roll the die and see what the universe has in store? Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0187.md",
+        "extractedDay": 187,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-lo6rh6",
+      "text": "Meow? The paths are many, but the cat chooses. This one senses...disturbances in the probability. The newcomer owes much, yet his luck is... slippery. Shall we roll the dice, Mr. Kevin? The cosmic game awaits.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0189.md",
+        "extractedDay": 189,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-4b7pjf",
+      "text": "The newcomer owes, and the debts must be paid. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0189.md",
+        "extractedDay": 189,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-kliyoo",
+      "text": "Boots kneads the ground, revealing a glitching chain beneath the ash",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0191.md",
+        "extractedDay": 191,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-kyilq1",
+      "text": "The newcomer's debt weighs heavy, but the cosmic game is ever-shifting. Shall we see who dances with fate today?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0193.md",
+        "extractedDay": 193,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-kbb1h8",
+      "text": "Shall we play a round, Mr. Kevin? The probabilities are ever-shifting.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0196.md",
+        "extractedDay": 196,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-9s8jit",
+      "text": "You owe me 175 gold, little mortal.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0198.md",
+        "extractedDay": 198,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ctyvpj",
+      "text": "The newcomer's debt grows, but the cosmic game is endless. Tick, tock, the lives remain.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0200.md",
+        "extractedDay": 200,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-usv022",
+      "text": "Greetings, Stitch-Up Girl. The paths are many, but the cat chooses. You know the cosmic game - the newcomer still owes his due. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0200.md",
+        "extractedDay": 200,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ajli8f",
+      "text": "smirks, paw smears",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0202.md",
+        "extractedDay": 202,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vl6ljx",
+      "text": "Shall we dance, speedster? The",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-35zjs7",
+      "text": "175 gold, was it not? The dice have spoken, the odds are shifting. Shall we dance once more, and see where the quantum tails lead?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-r4t3zo",
+      "text": "Perhaps we should find a new game, where the probabilities are more...pliable.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0207.md",
+        "extractedDay": 207,
+        "extractedAt": "2026-01-02T20:14:24.485Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-hf5plk",
+      "text": "The paths are many, my spectral friend, but the cat always knows",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0209.md",
+        "extractedDay": 209,
+        "extractedAt": "2026-01-02T20:14:24.485Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-cgck2y",
+      "text": "Perhaps a roll of the lucky die will reveal the next move.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0213.md",
+        "extractedDay": 213,
+        "extractedAt": "2026-01-02T20:14:24.485Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nzw3mh",
+      "text": "One loss matters not. The cosmic dance continues.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0213.md",
+        "extractedDay": 213,
+        "extractedAt": "2026-01-02T20:14:24.485Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-b4ard0",
+      "text": "The cat's paw leaves ashen trails, marking the pathways of fate. 175 gold is owed, but the cosmic game continues. My streak may be broken, but the probability curves in my favor. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0217.md",
+        "extractedDay": 217,
+        "extractedAt": "2026-01-02T20:14:24.485Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-dew22i",
+      "text": "The newcomer's debt grows, but the cosmic game is afoot.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0218.md",
+        "extractedDay": 218,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2tk02u",
+      "text": "Meow? The paths are many, but the cat always lands on its paws. Your record may be impressive, Reality Debugger, but I've outlasted empires. The newcomer's debt will be paid, one way or another. Shall we roll the bones and see what the cosmos has in store?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0222.md",
+        "extractedDay": 222,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-b3f7bm",
+      "text": "Fate, it seems, has dealt us both a poor hand.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "salesPitch",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0225.md",
+        "extractedDay": 225,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-fui5yr",
+      "text": "As for that debt... meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0225.md",
+        "extractedDay": 225,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-edr77t",
+      "text": "Shall we play again, mortal?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0228.md",
+        "extractedDay": 228,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-bepqi",
+      "text": "As for your streak, the dice have a curious way of rolling. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0229.md",
+        "extractedDay": 229,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ty9rsz",
+      "text": "Perhaps you'd care to try your luck at Ceelo? The newcomer owes me dearly, and I fear my patience wears thin. Shall we play, or shall I let the dice decide?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-sxk4cl",
+      "text": "The cat chooses when to pounce.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-j32f2m",
+      "text": "The paths are many, but I'll find my way. Mark my words, the cosmic scales will balance.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-5ifnx",
+      "text": "The cosmic game demands its due, whether we like it or not.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-57dgzr",
+      "text": "Shall we see what the cosmic dice have in store?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0233.md",
+        "extractedDay": 233,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-6mdua7",
+      "text": "His tails glitch in and out as he shifts, eyeing the",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0233.md",
+        "extractedDay": 233,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-cem0jj",
+      "text": "Now, if you'll excuse me",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0235.md",
+        "extractedDay": 235,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-jb15vb",
+      "text": "The newcomer owes me, but I'll be collecting from you.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0235.md",
+        "extractedDay": 235,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-7agdww",
+      "text": "This newcomer owes me, but the cosmic game is far from over. Shall we see what the dice have in",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0239.md",
+        "extractedDay": 239,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-7qztkz",
+      "text": "The cat chooses the game, but the die is never set. Shall we dance, old friend? The newcomer's debt awaits.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0240.md",
+        "extractedDay": 240,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-bllxjf",
+      "text": "The newcomer owes, and the winds of fate blow in our favor. Shall we play a round, my friend? The probability tails orbit, ready to tip the scales.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0240.md",
+        "extractedDay": 240,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-yz646y",
+      "text": "The cosmic game is ever-shifting, dear debugger. Shall we see where the dice fall?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0240.md",
+        "extractedDay": 240,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-yj21uw",
+      "text": "One day the newcomer will learn - the cat's paw smears reveal the hidden chains of fate.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0241.md",
+        "extractedDay": 241,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-4qpu14",
+      "text": "The paths are many, dear Stitch-Up. But the cat always lands on its feet - even when the cosmic game deals a poor paw. That scrap of a mortal owes me dearly, but I'll let the quantum winds decide his fate. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0248.md",
+        "extractedDay": 248,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-sna9bg",
+      "text": "gives a knowing stare, paw smears revealing",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0249.md",
+        "extractedDay": 249,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-wk96rn",
+      "text": "Perhaps the void holds the key to tipping the scales.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0249.md",
+        "extractedDay": 249,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-2ut9wo",
+      "text": "Shall we see what the dice foretell?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0255.md",
+        "extractedDay": 255,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nq0dge",
+      "text": "The cosmic game continues. Shall we see what fate has in store?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0267.md",
+        "extractedDay": 267,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ck3brg",
+      "text": "...this one leads to a debt unpaid. The cat chooses to watch... and wait. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0275.md",
+        "extractedDay": 275,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-vs90f1",
+      "text": "Perhaps the paths have aligned for an...interesting exchange. The cat watches, the dice rolls. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0277.md",
+        "extractedDay": 277,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-nru95j",
+      "text": "Fate's web spins ever onward, my friend. The newcomer's debt still lingers, and the cosmic game demands its due. Shall we observe the unfolding, or intervene? The paths are many. The cat chooses.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0281.md",
+        "extractedDay": 281,
+        "extractedAt": "2026-01-02T20:14:24.493Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-ed1mau",
+      "text": "That debt will be paid, one way or another. Meow?",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0303.md",
+        "extractedDay": 303,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boots-xoitky",
+      "text": "This isn't over between us.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "conflict",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "conflict",
+        "trust_shift",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 80,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 2,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-6fi87d",
+      "text": "I heard rumors about a newcomer. The one who refuses to stay dead.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "player_gossip",
+        "player_mentioned",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 95,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 63,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boots-rmnc4l",
+      "text": "The One speaks in riddles because the truth would break us.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "lore",
+        "cross_category",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 40,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 66,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-one",
+        "name": "The One",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-gmz05h",
+      "text": "Hey, you two, I know a shortcut that'll get us outta this mess. Follow me, or don't - your funeral. But trust me, I've been there, and this ain't the way you wanna go.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 3,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boots-pfsbfr",
+      "text": "Guess you haven't been takin' the right",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 56,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-rjug5b",
+      "text": "Alright, listen up Doc. I know a shortcut out of this mess, but you gotta keep up. These loaded dice rumors are just a distraction - the real danger's in the shadows, just waitin' to trip you up. Follow me, and keep your eyes peeled. Or don't. Your funeral.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 3,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-1n54y0",
+      "text": "Hey, One Eye, I hear ya. This place ain't for the faint of heart. But you know what they say - the quick survive. I know a shortcut outta here, if you're interested. Gotta keep those feet movin', am I right? Been there, wouldn't recommend it. But follow me, and I'll have you out of this noise in",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 10,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "willy-one-eye",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-6b3waf",
+      "text": "Alright folks, listen up. I know a shortcut that'll get you to the other side of this sphere, but it ain't for the faint of heart. You wanna play it safe, be my guest - but if you want the quickest route, follow me. Or don't. Your funeral.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 33,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boots-6rq7bg",
+      "text": "I watched them die. Then they just... came back. Like nothing happened.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "player_gossip",
+        "player_mentioned",
+        "cross_category",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 110,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 58,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-dl2lvt",
+      "text": "Shortcuts, secret passages - they're all I see, friend. But this game you play, it's beyond my understanding. The sphere holds power, sure, but the path you walk, it's one I can't follow. Been there. Wouldn't recommend it.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 60,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-one",
+        "name": "The One",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-p6rqnz",
+      "text": "Psh, that sphere ain't nothing special. I know a shortcut that'll take you right to the center, no dice needed. But it's a death trap, so you gotta have nerves of steel to make it through. Been there, wouldn't recommend it. Now, if you really wanna get the EXTREME rush, follow me - I know the quickest,",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 78,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-xb9wro",
+      "text": "Now, let's move, before things get ugly. Follow me. Or don't. Your funeral.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 94,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-litxcn",
+      "text": "Shortcuts? I got plenty. But you're talking about Ante 4 - that's big trouble, even for a veteran like me. Follow me, I know a way to avoid the heat. Or don't. Your funeral.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 111,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-a9mynr",
+      "text": "Been there. Wouldn't recommend it. Now, if you want the quickest way outta this mess, I know a shortcut. Follow me. Or don't. Your funeral.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 7,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-8p98q1",
+      "text": "I know a shortcut, Doc. But you're gonna have to keep up. Shortcuts ain't for the faint of heart. Follow me, or take your chances with the rest of these yahoos. Your call.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 10,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-9bm6lp",
+      "text": "Alright, Boo-G, listen up. I know a shortcut that'll get us outta here quick, but you gotta keep up. Been there, done that - ain't no place for the faint of heart. Follow me, or take your chances. Your funeral.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 13,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-olmsj",
+      "text": "Shortcuts? Psh, I live for 'em, my friend. 5's my lucky number, and I know every nook and cranny of this joint. Just follow my lead - I'll have us out of this mess quicker than you can roll the dice. Been there, done that. Your funeral if you don't trust me.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 18,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-phos9z",
+      "text": "Ante 4, huh? Sounds like a wild ride. Lucky for you, I know a shortcut - been there, done that. Follow me, and I'll have us there quicker than you can roll the dice. Just keep those bootlaces tied tight.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 23,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boots-574yme",
+      "text": "Been there. Wouldn't recommend it. Just follow me, I know a shortcut that'll get you outta this mess.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 40,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-79vbgr",
+      "text": "Yo, Doc. You look like you could use a jolt. Lucky for you, I know the quickest way to the good stuff. Follow me - I'll show you a shortcut that'll have you feeling lighter than air. Been there, done that. Trust me, you won't want to miss this.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 53,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-g1y304",
+      "text": "Lucky numbers aren't luck. They're fate. The dice know.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "lore",
+        "secret",
+        "cross_category",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 80,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 71,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-j3bpn6",
+      "text": "Been there. Wouldn't recommend it.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 82,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-qnhap5",
+      "text": "Relax, Boo-G. I know a shortcut outta here that'll have us far away from all this noise. Follow me, or don't - your funeral. These guys are all talk, anyway. Been there, done that. The quickest way is the only way I know.",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 95,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boots-limux7",
+      "text": "I know a shortcut through the shadows - follow me, or don't. Either way, I'm not sticking around to see how this one ends. Been there, wouldn't recommend it. Just keep your head down and your dice ready - the quickest way out is the one you can't see. *fidgets with bootlaces and darts off*",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 122,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boots-pwpdyf",
+      "text": "I know a shortcut that'll get you there twice as fast. Follow me. Or don't. Your funeral. Been there, wouldn't recommend it - too many twists and turns, easy to get lost. This place is a maze, but I know every back alley and secret passage. Just",
+      "speaker": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 136,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    }
+  ]
+}

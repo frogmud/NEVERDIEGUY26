@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-01-02T08:41:12.016Z",
+  "seed": "chatter-1767343151474",
+  "config": {
+    "durationMinutes": 2,
+    "batchSize": 50,
+    "useClaude": true,
+    "interestThreshold": 40,
+    "npcQuota": 100,
+    "maxTotalMessages": 2000,
+    "dedupeEnabled": true
+  },
+  "stats": {
+    "totalTurns": 118,
+    "interestingTurns": 116,
+    "claudeApiCalls": 118,
+    "durationSeconds": 121,
+    "turnsPerSecond": 1,
+    "batchCount": 0,
+    "poolBreakdown": {
+      "claude_generated": 105,
+      "ceelo": 1,
+      "flustered": 1,
+      "ceelo_win": 2,
+      "threat": 2,
+      "gossip": 4,
+      "ceelo_lose": 1
+    },
+    "topSpeakers": [
+      {
+        "name": "Dr. Voss",
+        "count": 10
+      },
+      {
+        "name": "Xtreme",
+        "count": 10
+      },
+      {
+        "name": "The General",
+        "count": 9
+      },
+      {
+        "name": "Peter",
+        "count": 9
+      },
+      {
+        "name": "Boots",
+        "count": 8
+      },
+      {
+        "name": "Mr. Kevin",
+        "count": 8
+      },
+      {
+        "name": "Keith Man",
+        "count": 8
+      },
+      {
+        "name": "Body Count",
+        "count": 7
+      },
+      {
+        "name": "Clausen",
+        "count": 6
+      },
+      {
+        "name": "John",
+        "count": 6
+      }
+    ],
+    "tagBreakdown": {
+      "claude_generated": 105,
+      "ceelo_smack": 1,
+      "cross_category": 10,
+      "tilted": 1,
+      "ceelo_win": 2,
+      "pantheon_speaks": 3,
+      "threat": 2,
+      "intimidation": 2,
+      "player_gossip": 4,
+      "player_mentioned": 4,
+      "ceelo_lose": 1
+    }
+  },
+  "batchFiles": []
+}

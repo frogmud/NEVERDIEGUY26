@@ -1,0 +1,5245 @@
+{
+  "npc": {
+    "slug": "boo-g",
+    "name": "Boo G",
+    "category": "wanderers"
+  },
+  "entryCount": 191,
+  "pools": {
+    "gamblingTrashTalk": 78,
+    "gamblingBrag": 67,
+    "reaction": 32,
+    "threat": 7,
+    "lore": 2,
+    "gossip": 1,
+    "ceelo_lose": 1,
+    "alliance": 1,
+    "ceelo_win": 1,
+    "ceelo": 1
+  },
+  "moods": {
+    "pleased": 19,
+    "neutral": 59,
+    "scared": 11,
+    "generous": 6,
+    "threatening": 23,
+    "annoyed": 65,
+    "fearful": 2,
+    "amused": 2,
+    "sad": 4
+  },
+  "entries": [
+    {
+      "id": "cb-boo-g-rxyedj",
+      "text": "Yo yo YO, Dr. Voss! That dice roll was GHOSTLY, am I right? *grins mischievously* The flow is strong with this one - looks like the void ain't got nothin' on Boo G! *chuckles* Gotta keep this streak goin', ya dig? Time to let it ride and see where the beats",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-38-22-211Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.385Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tvca9k",
+      "text": "Yo yo YO, The General! You see this streak I'm on? The flow is GHOSTLY, my friend. Ain't no mortal gonna step to this immortal master of the RHYTHMS. *ch",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-38-22-211Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.385Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jz9gdm",
+      "text": "Yo yo YO, Kev! You seein' this new guy? Dude's got some GHOSTLY moves, but he's still got a lot to learn 'bout the spectral",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-41-04-260Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.386Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-mnrhk7",
+      "text": "Looks like the odds are in my favor today - time to let it ride, let it",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0003.md",
+        "extractedDay": 3,
+        "extractedAt": "2026-01-02T20:14:24.388Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-sidsdl",
+      "text": "Yo yo YO, Stitch-Up Girl! Feelin' that cold flow, huh? Don't sweat it, the beats'll heat things up around here. Lemme tell ya, this newcomer's got some moves, but I been rollin' the",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0009.md",
+        "extractedDay": 9,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-a9nbvn",
+      "text": "Yo yo YO! Boo G in the house, spittin' them ghostly beats! Yo Kev, you seein' this?? That probability debugger thinks he's got the upper hand, but I'm about to throw down some sick rhymes that'll shake this whole market! Let it ride, let it ride - I'm feelin' the flow, and this newcomer ain't got nothin' on my spectral skills. That beat",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.393Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-uxq5j1",
+      "text": "Yo yo YO! Boo G in the HOUSE! *beats chest with fist, creating a hollow thump* That last roll was GHOSTLY, doc! *chuckles, music notes bouncing around* The probability been flowin' like the BEATS, ya dig? *leans in, eyes glowing* Let it ride, let it ride - Boo G's on a STREAK! *pumps fist, grinning*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-h2ps0q",
+      "text": "Looks like the streak is broken, but no biggie - I got plenty more FLOWS where that came from! Gonna have to step up my game if I wanna keep",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-qxc03g",
+      "text": "Yo yo YO, Clausen! That was a GHOSTLY roll just now, ain't it? Gotta keep this streak alive, ya dig? But I ain't worried - the",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-5a6jyk",
+      "text": "Yo yo YO, Boots! That's what I call a GHOSTLY win, am I right? Let it ride, let it ride - the beats are BUMPIN' and the probabilities are sweeeet. *beatboxes a quick rhythm, grinning smugly* Better luck next time, my feline friend. *chuckles and phases back out, leaving a trail of pulsing bass notes in his wake*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tth8sa",
+      "text": "Yo yo YO, Mr. Kevin! That Reality Debugger's been on one heckuva run, but I'm about to flip that script, ya dig? My beats may be ghostly, but my skills are anything but - time to lay down some SICK probability flows and leave that screen-only presence in the dust! *points finger guns, music notes floating around* Let it ride,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-m129lp",
+      "text": "Yo yo YO, Stitch-Up! That was a GHOSTLY roll, but you ain't",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-i5h4g5",
+      "text": "Yo yo YO, Boo G in the house! Whaddup Kev, my main man! Feelin' the flow today, ya dig? Gotta keep that streak alive, y",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-4hv00f",
+      "text": "Yo yo YO! If it ain't my main man, the Reality Debugger! Bet that cold presence of yours is feelin' my ghostly flow, am I right? *chuckles and phases through a",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-hws3wg",
+      "text": "Yo yo YO, Stitch-Up Girl! You think you got the beats to take down the Spectral MC, huh? I'm on a hot streak, baby - that never-say-die guy can't even keep up with these probability rhythms! *beatboxes a quick, jittery beat* Let it ride, let it ride! This ghostly flow's got more",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-uqvck0",
+      "text": "Just you wait, detective - this ghostly MC's",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-f1zuw4",
+      "text": "Yo yo YO, Mr. Bones! Looks like it's time to roll the dice, ya dig? Let's see if this newcomer can handle the spectral flow, cuz I got a hot streak burnin' and a pocket full o' lucky charms! *chuckles* This beat's about to get GHOSTLY, so you better tally up those debts",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-28k42c",
+      "text": "beats chest with fist, then phases through",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-bsuwsu",
+      "text": "Yo yo YO! Boo G in the house, ya dig? Just cleaned up the table, my G - that beat was GHOSTLY! Gotta keep this hot streak rollin', know what I mean? Keith Man, better watch out, 'cause B",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tjvvb8",
+      "text": "Yo yo YO! The Spectral MC is in the HOUSE! That last roll was FIRE, dawg - I'm on a hot streak that ain't stopping anytime soon. Yo",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-01-02T20:14:24.397Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-obqslr",
+      "text": "Yo yo YO! That's right, Boo G's in the house, spittin' them beats and cashin' them chips! Ain't no mortal gonna outplay this immortal MC, know what I'm sayin'? Yo Boots, my cat-lovin' friend, let's see if we can't turn this luck around - I got some fresh rhythms that'll have Lady Luck singin' our praises! Yo never die guy, better watch your back, cuz Boo G's about to drop some GHOSTLY fire on this casino!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-01-02T20:14:24.397Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-c2azfa",
+      "text": "Yo yo YO, Clausen! The Spectral MC is about to drop some beats on ya, ya hear? I got lucky rolls up my sleeves and a flow that'll haunt your nightmares. So let's see if that fancy briefcase can keep up with these ghostly rhymes, 'cause Boo G's about to",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-8jskhl",
+      "text": "Better watch out,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-zfks5t",
+      "text": "That newcomer",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-r8n7p6",
+      "text": "Yo yo YO, Stitch-Up! The dice ain't been rollin' my way, but this Boo G's still got that GHOSTLY flow, ya dig? I lost the last two, but the rhythm's just gettin' started. That newcomer's been throwin' me off, but I'mma let this one RIDE!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-9a3ire",
+      "text": "Yo yo YO, Mr. Bones, my spectral homie! Looks like that fool can't handle the ghostly flow, huh? Bet he wish he had my mad skills! Let it ride, let it ride - this Boo G's about to drop some sick beats on his debt-tallying ledgers, ya dig? That beat was GHOSTLY, brotha!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-v1zu8t",
+      "text": "beatboxes a complex rhythm, the",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-61lfk1",
+      "text": "Yo yo YO, Stitch-Up Girl! The one-eyed wonder graces me with her presence. You think those stitches gonna hold back this ghostly flow? Let it ride, let it ride - my beats are about to send you to the spectral plane! That beat was GHOSTLY, and it's gonna knock that smug grin right off your face. The dice don't lie, and this immortal's luck ain't runnin",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-zcbe34",
+      "text": "Yo yo YO, Mr. Bones! The beats just ain't hittin' right today, ya dig? This newcomer's throwin",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-8kaop9",
+      "text": "beatboxes a complex rhythm, notes",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-a3l7gj",
+      "text": "Beatboxes a quick rhythm, then gr",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jpbeuh",
+      "text": "Yo yo YO, Dr. Voss! What up, what up? The spectral flow ain't been too kind to ya lately, h",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-twepjg",
+      "text": "Yo yo YO, Mr. Bones! Thought you had me beat, but the Boo G always comes back for more! That beat may be off, but my flow is NEVER off, ya dig? Let it ride, let it ride! I'm feelin' that ghostly rhythm, so don't get too comfy up there. That newcomer may be a wild card, but this immortal's got tricks up his sleeve that'll make your ledgers",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-axi05b",
+      "text": "Yo yo YO, Detective Clausen! The immortal Boo G's in the house, ready to lay down some GHOSTLY beats and take your sorry streak to 51 losses! This newcomer's got nothin' on my ceelo skills - I'll be rainin' down those beats like a shadow shower, baby! Let it ride, let it ride, 'cause",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-50fy1e",
+      "text": "Yo yo YO, Detective Clausen! The Boo G be spinnin' them beats, but the luck ain't been with me, ya dig? Tried to let that die roll ride, but it came up snake eyes - that beat was GHOSTLY, straight up! Gotta stay composed tho, can't let the fury",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-bdyhfe",
+      "text": "Yo yo YO, Doc Voss! Heard you been messin' with that void tech, huh? Bet you ain't seen no beats like mine, though - this ghostly flow is off the",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-g2f7dx",
+      "text": "Yo yo YO, Stitch-Up! Looks like you're feeling lucky today, huh? Well, let me tell you, this ghostly MC's about to lay down some SICK beats that'll have you eating your words faster than a",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-fpl9qk",
+      "text": "Yo yo YO, Detective Clausen! The Spectral MC is in the house, spittin' fire and rollin' the dice! This hot streak ain't no fluke, my friend - I'm on a whole 'nother level, feelin' the flow of the cosmos like never before. So don't even try to bring me down with your smug attitude, 'cause Boo G's got this in the bag. Let it ride, let it ride - the beats are about to drop, and the house is gonna feel the GHOSTLY power of the Spectral MC!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0087.md",
+        "extractedDay": 87,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-llknm8",
+      "text": "Let it ride, let it ride! This streak ain't",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0087.md",
+        "extractedDay": 87,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-q2k7mg",
+      "text": "Yo yo YO, Willy One Eye! The Boo G, Spectral MC is feelin' this flow, my dude! That streak's still burnin' hot, ya dig? Let me lay down some of these sick beats, see if we can't turn that frown upside down. Ain't nothin' to worry 'bout - the Never Die Guy can't touch these ghostly moves! Now, how 'bout we let it ride, let it ride, and see where the rhythm takes us, huh?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0087.md",
+        "extractedDay": 87,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-s5lgcu",
+      "text": "Yo yo YO, Mr. Kevin! That BEAT you be droppin' is GHOSTLY, my dude. Gotta keep that probability flowin' - let it ride, let it ride! Heard that newcomer been tryna mess with our spectral flow,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-l3q9qj",
+      "text": "Yo yo YO, Willy One Eye! Ya boy Boo G be feelin' the FLOW today, ya dig? That 3-0 streak o' yours? Ain't nothin' but LUCK, my friend. Time to let the DICE decide - I'm about to ROLL up in here and show ya how a REAL immortal gambler gets down",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tv32y3",
+      "text": "Yo yo YO, Doc! You got any of",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0003.md",
+        "extractedDay": 3,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-mte8ti",
+      "text": "Yo yo YO, Willy One Eye! That was a GHOSTLY roll, my dude! The beats don't lie - the probability was off the charts, ya dig? But hey, the streaks gotta end sometime, am I right? Eh, no sweat off my back, the gold's still flowin' in. Yo, Never Die Guy, you better step up your game if you wanna keep that debt from piling up, ya",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-pycaoz",
+      "text": "Yo yo YO! Boo G, the Spectral MC, in the house! This beat ain't over yet, Reality Debugger! That 100 gold the newcomer owes me? That's just the start - I'm gonna let this die ride and watch the numbers fall in my favor! *beatboxes a rhythmic probability pattern* That's the spect",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-8tf9xm",
+      "text": "This newcomer's been holdin' out on me - that dude",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-r9fk02",
+      "text": "That's how I roll, baby! Now, let's see what kinda SWEET tunes I can work up to get this debt paid, ya feel me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-rw89ln",
+      "text": "Yo yo YO! That's how the spectral flow hits, Detective Clausen. You see this newcomer? Always comin' back for more - that beat ain't never gonna stop! Let it ride, let",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-z1np0o",
+      "text": "Yo yo YO, King James! You feelin' that strange vibe in the air? Probability's off the charts, but ya boy Boo G is RIDIN' the rhythm. That newcomer owes me a hundo, but let's see if I can",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-el6fk1",
+      "text": "winks and lets",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0011.md",
+        "extractedDay": 11,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-1qhrui",
+      "text": "Yo yo YO, King James! That beat-up newcomer owes me a cool hundred, ya dig? Let it ride, let it ride - I'm on a hot streak, and these ghostly rhyth",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0012.md",
+        "extractedDay": 12,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-pc82lu",
+      "text": "That debt you owe me? Consider",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-6d0rtp",
+      "text": "Yo yo YO, Kev! That new cat keeps comin' back - prob'ly thinks he can outplay the masters of",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0026.md",
+        "extractedDay": 26,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-99e15i",
+      "text": "Yo yo YO, Doc! The Spectral MC's on a hot streak, ya dig? *beatboxes a rhythm* That 175 gold the Newcomer owes me? *points* That's about to get real GHOSTLY, know what I'm sayin'? *grins, manifesting a D8 that floats in my palm* Let it RIDE,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-01-02T20:14:24.424Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jgoqhp",
+      "text": "Yo yo YO, The General! You know I'm about to drop some sick beats on this newcomer, 'cause that fool owes me 175 gold and my streak's been off lately. But don't you worry, this spectral flow's gonna have Lady",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-bkxe4b",
+      "text": "Yo yo YO, Mr. Bones! That ledger looking FIRE, dawg. Ain't nobody hittin' these beats like your boy Boo G! Lemme see that 175 gold the new guy owes me - it's time to let it ride, let it ride! This streak's just gettin' started, and you know I keep bringin' that",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-cveqd5",
+      "text": "Yo yo YO, Detective Clausen! That beat you rollin' just now was GHOSTLY, but this immortal MC ain't done yet. Gotta keep that shadow flowin' strong, ya dig? Let it ride, let it ride - I'm about to make this newcomer pay up what he owes, and that's a FACT. *beatboxes a quick rhythm,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-id3sqz",
+      "text": "Yo yo YO, Mr. Bones! My man, the flow has been GHOSTLY these last few games - I'm about to LOSE IT up in here! That Never Die Guy owes me 175 gold and I need to get that back, PRONTO. Let it ride, let it ride, but these losses are killin' me! That beat was GHOSTLY, but I'm feelin' the fever, ya dig? Gotta get this hot streak back on track before the Aberrant swallows me whole!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-dzkl7n",
+      "text": "Let it ride, let it ride!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-u9v3fn",
+      "text": "Yo yo YO! Boo G, Spectral MC in the house! Yo Mr. Bones, I'm tellin' ya, this newcomer's got some nerve stiffin' me on that gold. The beats I laid down shoulda won me that pot, but nah, the odds just weren't feelin' it today. Gotta keep that spectral flow goin', ya dig? Let it ride, let it ride! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-yczc43",
+      "text": "Yo yo YO, Dr. Voss! That beat just dropped out on me again, man. I'm barely holdin' it together here - that Never Die Guy owes me 175 gold and I'm on a 3-loss streak! Probability's all outta whack in this Null Providence fog, you feel me? Gotta get my groove back before The One catches wind of this and decides to mess with the flow. Let it ride, let it ride, ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0058.md",
+        "extractedDay": 58,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-uvi51m",
+      "text": "Yo yo YO, Mr. Bones! The flow's all messed up, ya dig? This newcomer's got me on tilt, 3 losses in a row - that's 250 gold he owes me! Gotta get my rhythm back, hit some sweet, sweet probability beats to turn this thing around. Let it ride, let it ride, that's how we do it on this side of the veil! *beatboxes furiously*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-9ezxkd",
+      "text": "Yo yo YO! Boo G in the house, bringin' that ghostly beat! Watchin' that Reality Debugger get dealt a bad hand, gotta say - that's some sweet, sweet music to these spectral ears. Owe me 250 gold, huh, Never Die Guy? Better pay up soon or you gonna get that bad beat straight to the FACE! Let it ride, let it ride, baby!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-a4w0sy",
+      "text": "Yo yo YO, Willy One Eye! That beat was GHOSTLY, man. Can't believe I lost that last roll - I was sure the odds were in my favor, ya dig? Ah well, that's just how the spectral flow goes sometimes. This newcomer, Never Die Guy, owes me 250 gold and I need to get my hands on that loot, you feel me? Let it ride, let it ride, but this time I gotta come out on top! *beats chest with fist, music notes swirling around*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-3kr8jx",
+      "text": "Yo yo YO! Boo G in the house, spittin' them spectral beats! Man, you ain't kiddin' - I'm on a cold streak, lost more than I can count. That newcomer, Never Die Guy? He owes me 250 gold, yo! But I ain't sweatin' it, 'cause I got my lucky D8 right here. Time to let it ride, let it ride! This beat's about to get GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-law5ks",
+      "text": "Yo yo YO, X-treme! That dude's goin' down harder than a dropped beat. Wish I could say the same for me though - I'm on a cold streak like a ghostly wind, ya dig? Maybe we can turn this around, bet some sick rhythms and see if Lady Luck's feelin' generous. But this newcomer's still owin' me big time - ain't no way I'm lettin' that slide, know what I'm sayin'?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-uflaox",
+      "text": "Yo yo YO, Mista Debugga! Dat beat ya been pullin' is straight WHACK, yo. Keepin' it one hunnid, you owe me like, a mill' on dat bet. Ain't no way I'm lettin' you slide this time - it's time to let it ride, let it ride! Gotta keep dat spectral flow flowin', ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jmlrnu",
+      "text": "Yo yo YO, King James! The name's Boo G, Spectral MC, and I got a wicked hot streak goin' on! That newcomer, Never Die Guy, he owes me 250 gold, and I ain't lettin' him slide this time. Gonna lay down some GHOSTLY beats and turn these odds in my favor - let it ride, let it ride! *beatboxes a rapid, syncopated rhythm*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-dog4v",
+      "text": "Yo yo YO, Mr. Bones! Ain't that a sight to see, my rival gettin' cleaned out again. Looks like the house always wins, huh? Maybe you can hook a brother up with a little extra shadow energy, cuz this ghost's gotta eat, ya dig? My streak's been cursed, but I'm feelin' that luck changin' real soon. Let it ride, let it ride, that's what I always say! This beat's about to get GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-ctb19t",
+      "text": "Yo yo YO! Boo G, Spectral MC in the HOUSE! This beat is GHOSTLY, ya dig? That newcomer ain't know what he's got comin'! Let it ride, let it ride - I'ma roll these bones and CRUSH this bet! 250 gold, that's a drop in the bucket for a G like me! Time to school this Cyclopean cat on the FLOW of the GAME! *beatboxes rhythmically*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0099.md",
+        "extractedDay": 99,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-miot4p",
+      "text": "Yo yo YO, The General! That beat you just dropped was GHOSTLY, but I'm tilted off the dome, yo. This newcomer, Never Die Guy, owes me 250 gold and I can't catch a break - my Ceelo record is a hot mess. But don't worry, I'ma let this one ride and see if I can't turn this flow around. The spectral beats are callin', and I ain't about to let this newcomer hold me back!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0100.md",
+        "extractedDay": 100,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-thvf9u",
+      "text": "Gotta get my mojo back, ya dig? Let's roll the dice and see if Lady Luck's feelin' generous, cuz I'm runnin' on fumes over here!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0107.md",
+        "extractedDay": 107,
+        "extractedAt": "2026-01-02T20:14:24.435Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-pwd8ye",
+      "text": "Yo yo YO! Boo G, Spectral MC in the house! This heat's got me all TILTED, yo. That Never Die Guy owes me 325 gold and I'm on a 3-loss streak - not a GOOD look for the Boo G brand, ya dig? But check it, Cosmic Cat, I'ma flip this script, drop some fresh beats, and get that gold back. The spectral flow is on my side - let it ride, let it ride! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0110.md",
+        "extractedDay": 110,
+        "extractedAt": "2026-01-02T20:14:24.435Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tvm58q",
+      "text": "Yo yo YO, King James! Boo G in the house, spittin' that spectral flow! Hate to see my rival take another L, but that ain't nothin' on this ghostly gambler. That newcomer owes me 325 gold, and I ain't lettin' this bad beat streak get me down. Gonna keep rollin' those dice 'til I hit that jackpot, ya dig? Let it ride, let it ride!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0121.md",
+        "extractedDay": 121,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-yuelwi",
+      "text": "Yo yo YO, my dude X-treme! Can't a ghostly MC catch a break around here? I'm on a bad beat, straight up. Owe me 325 gold, that newcomer Never Die Guy. But I'mma let it ride, let it ride - this hot streak's got me feelin' GHOSTLY! Time to lay down some sick beats and CRUSH these probability odds, ya dig? *beatboxes furiously*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0132.md",
+        "extractedDay": 132,
+        "extractedAt": "2026-01-02T20:14:24.439Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-99y0tu",
+      "text": "Yo yo YO, Dr. Maaaxwell! That beat just won't drop for Boo G, ya dig? This Never Die guy is KILLIN' me with these bad beats - 325 gold he owes me, and I'm on a COLD streak. But you know I'm always ready to let it ride, let it ride! Throw me somethin' hot, Doc, these ghostly notes ain't makin' the cut. GHOSTLY, I tell ya!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0134.md",
+        "extractedDay": 134,
+        "extractedAt": "2026-01-02T20:14:24.439Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-q7op2r",
+      "text": "Yo yo YO! Boo G, Spectral MC in the house! This newcomer ain't got nothin' on me, ya dig? That beat you just dropped, Dr. Maxwell? Weak sauce, fam. I'm talkin' ghostly beats that'll shake the very foundations of this market! And that debt the Never Die Guy owes me? That's just the beginning - I'm about to lay down some sick gambling rhythms that'll have him beggin' for mercy. Let it ride, let it ride! This Spectral MC's just gettin' started.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0141.md",
+        "extractedDay": 141,
+        "extractedAt": "2026-01-02T20:14:24.440Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-y8x14x",
+      "text": "Yo yo YO! This newcomer, Never Die Guy, is KILLIN' me, Keith Man! Dude keeps comin' back for more, but I ain't got no beats to lay down on him. This losing streak is GHOSTLY, you feel me? I need to find some sick rhythms to turn the tide, but my ceelo record is ROUGH. Time to let it ride, let it ride! This newcomer's got some serious grit, but I'mma show him the spectral flow, ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0145.md",
+        "extractedDay": 145,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jcarh",
+      "text": "Yo yo YO, King James! That bad beat got me TILTED, ya feel me? I need to get this dub, keep that streak ALIVE! Forget about that debt - this newcomer's gonna feel the WRATH of my spectral beats! Let it ride, let it ride, baby! That rhythm's about to get GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0146.md",
+        "extractedDay": 146,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-t4lwkn",
+      "text": "Yo yo YO, Stitch-Up Girl! You see this beat up over here? Straight up GHOSTLY, the way these dice keep coming up snake eyes! That newcomer owes me 325 gold and he ain't payin' up - bet he's scared to step to the Boo G, know what I'm sayin'? Let it ride, let it ride, but this flow's gettin' stale, ya dig? *beatboxes a complicated rhythm, eyes darting around nervously at the loud noises*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0149.md",
+        "extractedDay": 149,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-cjn7gx",
+      "text": "Yo yo YO, Detective Clausen! Boo G in the house, spittin' that spectral flow! You gotta help me out, yo - this Never Die Guy owes me 325 gold and he keeps comin' back, beatin' me at my own game! I'm on a cold streak, 3 losses in a row, and I ain't feelin' the beat, ya dig? Gotta get that gold back, ya know what I'm sayin'? Let it ride, let it ride - just gotta find a way to turn this around, that beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0151.md",
+        "extractedDay": 151,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-bdv217",
+      "text": "Yo yo YO! Boo G, Spectral MC in the house! Ugh, that beat was so GHOSTLY, I can barely hold it together, King James. This newcomer Never Die Guy owes me 325 GOLD, and I'm on a 3-loss streak. But I ain't scared - I'ma let it ride, let it ride! This D8 is about to drop some SICK beats, you feel me? Time to flip the script and show these fools how a real immortal does it!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0151.md",
+        "extractedDay": 151,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-7ga9l7",
+      "text": "Yo yo YO! This newcomer, Never Die Guy, is really KILLIN' me, you feel me? I'm down 325 GOLD and my Ceelo record is STRAIGHT GARBAGE. Gotta get this GHOSTLY FLOW back on track, ya dig? Let it ride, let it ride - I'm feelin' that rhythm, King James, but this beat ain't workin' for me right now. That beat was GHOSTLY, but it ain't hittin' the same, know what I'm sayin'?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0173.md",
+        "extractedDay": 173,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-unyzuy",
+      "text": "Gotta find a way to turn this luck around, let it ride, let it ride! That beat was GHOSTLY, but I'm barely holdin' it together, fam.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0181.md",
+        "extractedDay": 181,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-hqfs0g",
+      "text": "Yo yo YO, X-treme! My dude, my man, my skeletal homie! The beats are bumpin' and the rhythms are GHOSTLY, but this cold presence from Shadow Keep ain't stoppin' me from puttin' down these sick flows, ya dig? That Never Die Guy might be pullin' one over on us, but I ain't goin' down without a fight! Time to let it ride, let it ride - this hot streak ain't gonna last forever, so I'm finna make the most of it! That 450 gold's as good as mine,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0189.md",
+        "extractedDay": 189,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-axtc2g",
+      "text": "Yo yo YO, The General! This newcomer, Never Die Guy, he's KILLIN' me on these bets, yo! I'm down to my last spectral coin and this dude owes me 450 gold. Gotta get that flow back, ya dig? Let it ride, let it ride - this beat's about to get GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0197.md",
+        "extractedDay": 197,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-6ofva8",
+      "text": "Yo yo YO, Willy One Eye! That beat you just took was colder than the arctic tundra, ya dig? The flow of probability been real fickle lately - I'm on a nasty skid myself. But hey, that new cat with the immortality thing, he owes me 450 gold! Bet he won't be comin' round these parts no more, aight? Let it ride, let it ride! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0203.md",
+        "extractedDay": 203,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-hzxkfb",
+      "text": "Yo yo YO, X-treme! This is Boo G, the one and only Spectral MC in the flesh - or should I say, the mist! Feelin' this hot streak, fam, but that newcomer's still got me in the red. Let's see if we can turn this cold hand around and get that gold flowin' again, ya dig? That beat's about to drop any second now, I can feel it in these ghostly bones!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0205.md",
+        "extractedDay": 205,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-peygzx",
+      "text": "Yo yo YO, Detective Clausen! The name's Boo G, and I'm feelin' this hot streak, ya dig? That newcomer Never Die Guy owes me 550 gold - I'm 'bout to make him pay up, one way or another. *beatboxes a rhythm, probability notes swirling* Let it ride, let it ride! That beat was GHOSTLY, but I ain't goin' down without a fight. *phases through a nearby table, startled* Whoa, easy there, Detective! This immortal spectral MC's just tryin' to stay",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0205.md",
+        "extractedDay": 205,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-mskn0",
+      "text": "Yo yo YO, Dr. Voss! Boo G in the house, spittin' them spectral beats! This place has been BRUTAL lately, I'm talkin' bad beats for days, fam! That newcomer, Never Die Guy, owes me 550 gold and he keeps comin' back for more! I gotta stay cool, but this tilted flow is GHOSTLY, you feel me? Lemme drop some sick rhymes to get my essence flowin' again, ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0213.md",
+        "extractedDay": 213,
+        "extractedAt": "2026-01-02T20:14:24.449Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-dm832y",
+      "text": "Yo yo YO, Doc! Boo G in the house, spittin' that ghostly flow! Ugh, this Never Die Guy is killin' me, man - 550 gold down the drain and my Ceelo streak's in the toilet! That's some GHOSTLY luck, ya dig? But I ain't givin' up, Doc - I'm gonna ride this wave 'til the wheels fall off! Lemme get one of them burnin' books, I need some sick new beats to get my mojo back! Time to flip this script, ya feel me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0213.md",
+        "extractedDay": 213,
+        "extractedAt": "2026-01-02T20:14:24.449Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-71w6ev",
+      "text": "Yo yo YO! Boo G, Spectral MC in the house! That beat you just took, dawg? Ouch, that was GHOSTLY! Let it ride, let it ride - but looks like your probability just ain't hittin' the mark. Sucks to be you, homie! Meanwhile, that newcomer - Never Die Guy - still owes me 550 gold. Gotta collect that debt, ya dig? This ghost ain't goin' nowhere!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0221.md",
+        "extractedDay": 221,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-juboac",
+      "text": "Yo yo YO, X-treme! That beat was GHOSTLY, but I ain't feelin' it, ya feel me? This newcomer's got me spinnin' - I'm down bad, 550 gold in the hole! Gotta get that rhythm back, my dude. Let's roll the dice, see if we can't turn this streak around. I'm ready to let it ride, let it ride!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0229.md",
+        "extractedDay": 229,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-t83t0v",
+      "text": "Yo yo YO! Boo G, the Spectral MC, spittin' these ghostly beats! This newcomer's runnin' up a debt that's straight up HAUNTING me, ya dig? But I ain't worried - my flow's too sick, my luck's too hot. Gonna school this pyromaniac on the REAL probability, feel me? Let it ride, let it ride! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-gu9cc0",
+      "text": "Yo yo YO, Detective Clausen! This newcomer's got me on the ropes, ya dig? I'm talking bad beats, negative streaks, and that 550 gold he owes me? It's straight-up ghostly, my dude. But you know I'm always ready to throw down some sick flows and probability notes - let's see if we can't turn this thing around, huh? The spectral flow never stops, ya heard?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0230.md",
+        "extractedDay": 230,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-y8uz82",
+      "text": "Yo yo YO, Mr. Bones! This new guy keeps comin' back, stealin' my shine, breakin' my beats! I'm on a cold streak, man - that last roll had me shook! Lost big, but I ain't givin' up. This flow's got more life than a cat, ya dig? Gotta get my groove back, make that debt disappear quicker than a ghost in the night! The beats'll come back, the luck'll turn - just you wait and see!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0247.md",
+        "extractedDay": 247,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-3cog06",
+      "text": "Yo yo YO! Boo G, the Spectral MC, up in this joint! Feelin' the beat droppin' low, but that ain't stoppin' me from castin' my spells. Yo Kevy, looks like our pal's takin' another L - maybe he should've let that dice ride, know what I mean? Gotta keep the flow flowin', even when the odds ain't lookin' too hot. That newcomer still owes me some coin, but I ain't trippin' - the spectral rhythm's where it's at, fam!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0258.md",
+        "extractedDay": 258,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-7htux6",
+      "text": "Yo yo YO! Boo G in the house, spittin' that spectral flow! Yo King James, you gotta help a brother out - this newcomer's got me down bad, yo! My gold's drier than a bone and my Ceelo streak's GHOSTLY! I need that luck to turn around, ya dig? Let it ride, let it ride, but this time on my side!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0267.md",
+        "extractedDay": 267,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tnears",
+      "text": "Yo yo YO! Boo G in the house, keepin' it ghostly up in here! Yo Kev, that newbie ain't payin' up - you know how it is, just gotta let that beat ride, ya feel me? Yo, yo, this rival's gettin' WRECKED - that's what they get for tryna step to the Spectral MC! Lemme hit 'em with a little probability flow, see if we can keep this hot streak goin'! *beatboxes and waves hands, sending musical notes rippling through the air*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0268.md",
+        "extractedDay": 268,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-m19ysh",
+      "text": "The flow is with me, detective. Let's see what the dice have in store, ya feel me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0270.md",
+        "extractedDay": 270,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-nrn7fz",
+      "text": "Yo yo YO, General! *beatboxes a frantic rhythm* Thought I was gonna lose another bet to this Never Die Guy - but you swooped in and saved 'em! *chuckles* Guess I gotta wait a lil' longer to collect that 650 gold he owes me. This losing streak's got me all off the beat, ya dig? Gotta find some new rhythms to get my flow back on track. *nods head to an unheard beat* Let it ride, let it ride!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0277.md",
+        "extractedDay": 277,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-18wmjr",
+      "text": "Yo yo YO, Keith Man! That smug look ain't gonna last long, homie. I'm about to flip this script and lay down some GHOSTLY beats that'll have you trippin'! That new guy owes me big time, but I'm feelin' lucky - this hot streak's got my spectral juices flowin'! Let it ride, let it ride, baby! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0278.md",
+        "extractedDay": 278,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-bgm49d",
+      "text": "Yo yo YO, Keith Man! You got that smug look like you just hit a 100-to-1 shot, but let me tell you - this ghostly MC ain't done yet! Yo, that newcomer owes me 650 gold and I'm about to lay down the SPOOKY BEATS to get it back, ya dig? The flow never dies, even when I'm on a cold streak. Now watch me work this magic, BROTHA!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0281.md",
+        "extractedDay": 281,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jzb6gx",
+      "text": "Wh-whoa, easy there, homie! Let's keep this spectral flow SMOOTH, ya feel me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0282.md",
+        "extractedDay": 282,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-vgceeg",
+      "text": "Yo yo YO, Boots! That beat you just dropped was cold as ICE, yo. But I ain't here to talk about your wack records - this newcomer's been hoggin' all the good beats, and I'm TIRED of it! He owes me 650 gold and I ain't lettin' him slide - that's my flow, my rhythm, my PROBABILITY, ya dig? So why don't you roll them dice, let it ride, and see what the spectral cosmos got in store, hmm? The only thing that's gonna be GHOSTLY around here is how I'm about to school this fool!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0293.md",
+        "extractedDay": 293,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-ixhri9",
+      "text": "Yo yo YO! Boo G in the house, spittin' that spectral flow, ya dig? This newcomer's got some nerve, always comin' back for more. Ain't gonna let 'em slide on that debt, though - that's my gold, my rhythm, my life! Time to lay down some mad bets, get this streak back on track. X-treme, my G, let's show these mortals how the immortals do it! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0294.md",
+        "extractedDay": 294,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-881p9u",
+      "text": "Yo yo YO! Boo G, Spectral MC up in this joint, spittin' mad flows an' bettin' these beats! Feels like the universe is tryin' to throw me off my game, but I ain't goin' down without a fight. That newcomer owes me some serious gold, an' I ain't restin' 'til I collect. Now, Mr. Kevin, let's see if we can't cook up some GHOSTLY rhythms an' turn this luck around, y'hear?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0307.md",
+        "extractedDay": 307,
+        "extractedAt": "2026-01-02T20:14:24.459Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-f7u0sx",
+      "text": "Yo yo YO, The General! That newcomer's got my gold on lock - I gotta get that back before I lose my whole stack! Shake this slump, y'know? Let's do this, let's get GHOSTLY with it! *beatboxes a frenetic rhythm, energy pulsing*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0310.md",
+        "extractedDay": 310,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-cz2teb",
+      "text": "Yo yo YO, King James! The Never Die Guy owes me some serious GOLD, ya dig? I've been on a cold streak, but today's the day I turn it all around. Let it ride, let it ride - this beat's about to get GHOSTLY! *beatboxes probabilistic rhythms* That newcomer better pay up, or he's gonna get the shadow shake-down, ya heard?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0312.md",
+        "extractedDay": 312,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-64q5uu",
+      "text": "Yo yo YO, Keith Man! You see this beat? Ghostly as hell, am I right? Nah nah, don't even try to flex on me with that record - I'm about to even the odds, just you wait! That Never Die Guy owes me 650 gold, and I'm gonna collect every last note, you feel me? Gotta keep this flow going, let it ride, let it ride!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0314.md",
+        "extractedDay": 314,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-rgu9aj",
+      "text": "Yo yo YO, Detective! Looks like the Grim Reaper's got a new protege, huh? Well let me tell ya, these ghostly flows ain't gonna be easy to beat. You better bring your A-game, 'cause this immortal MC's about to drop some DEADLY beats on ya! *chuck",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-79h8nk",
+      "text": "Yo yo YO, Willy One Eye! The name's Boo G, and I've been rollin' these beats for centuries, ya dig? Don't matter how many times you've won - this immortal MC's just gettin' warmed up! That newcomer might be on a hot streak, but I'm about to drop the sickest rhymes and probability notes this side",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-hyduew",
+      "text": "Yo yo YO, Maxwell! Long time no see, my esteemed pyromaniac pal. *beats chest rhythmically* The beats be bumpin' and the dice be rollin' - I see your luck's still as fiery as those forbidden tomes, h",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-gbnh48",
+      "text": "Yo yo YO, my homie Mr. Kevin! Let it ride, let it ride - the Never Die Guy's back again, tryna mess with our sick beats and probability rhythms. But that's cool,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-o97m2r",
+      "text": "Yo yo YO, Stitch-Up! That hot streak o' yours ain't got nothin' on my spectral flow, ya dig",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0009.md",
+        "extractedDay": 9,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-6iucjw",
+      "text": "Yo yo YO, Voss! That last bet was GHOSTLY, am I",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-4kilux",
+      "text": "Yo yo YO! Boo G in the house, spittin' them spectral bars! That beat was GHOSTLY, yo! Looks like the General's got the bad luck, huh? Probably ain't got the rhythm to roll with the spectral flow. Hey, you need some tips on how to get that groove back? I got a hot streak goin' - let it ride, let it ride! Just don't be scared of this fog, my friend. Probability's feelin' a little off, but that just makes it more fun, am I right?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-xpt36",
+      "text": "Yo yo YO, my spectral brutha X-treme! You know I got the flow on lock, but this sphere's got a secret that's got me spooked, feel me? The beats and rhymes, they whisper to me, sayin' this ain't no ordinary orb. Bet you a couple Cee-lo rolls the newcomer's got something to do with it. Let's ride this wave and see where it takes us, ya dig? *beatboxes a nervous rhythm*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-837w8b",
+      "text": "Heard you been dabbling in that void tech, huh",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-ffucax",
+      "text": "Yo yo YO, Detective Clausen! My shadow stats are off the charts, ya dig? This newcomer, Never Die Guy, can't handle the spectral flow - I'm on a HOT streak, baby! *beatboxes* Let it ride, let it ride! That beat was GHOSTLY! Now, how about we roll the dice and see who's the real player in this eternal market, huh? *grins mischievously, music notes swirling around*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-z80xcf",
+      "text": "Yo yo YO, Dr. Maxwell! That was a GHOSTLY beat you just took, my friend. Aw man, the numbers ain't swingin' your way today, huh? Don't sweat it - the spectral flow is a fickle mistress, but you gotta let it ride, let it ride! Toss those burning books my way, I'll give ya a few extra beats to even out that record. The Never Die Guy's been makin' a ruckus 'round here, but you know Boo G's always got your back, ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-dyumq8",
+      "text": "Yo yo YO, Detective! The flow's all outta whack in this spooky fog, ain't it? Gotta watch your back when the probability's actin' up - might just get a bad beat. *chuckles* Looks like your rival's luck finally ran out, huh? Sucks to be them, but hey, that's the name of the game 'round these parts. Gotta keep that shadow game on point, y'know? *nods knowingly, music notes swirling*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-jnn6rg",
+      "text": "Let's see if we can't turn that frown upside down, huh?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-9ott66",
+      "text": "Yo yo YO, Maxie! That beat you're burnin' over there is GHOSTLY, but I ain't takin",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-nwdyr2",
+      "text": "Yo yo YO, Stitch-Up Girl! The flow's been off, ya dig? Gotta even out these streaks, let it ride, let it",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-74k3fq",
+      "text": "Yo yo YO, Stitch-Up Girl! That beat you just threw down was so GHOSTLY, I thought I was back in the Shadowlands for a second! Sheesh, you really know how to throw down the rhythm - I bet you could make even a",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-xl76yz",
+      "text": "Yo yo YO! Boo G, Spectral MC in the HOUSE! Feelin' that funky beat, my dude X-treme? Let's let it ride and see what the GHOSTLY probability has in store, ya dig? That Never Die",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-qjjiy3",
+      "text": ", if you ask me. Let it ride, let it ride - the house always wins in the end!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-1zutqg",
+      "text": "Yo yo YO, Kev! You feelin' that weird fog, dawg? Probability's all outta whack - I can barely throw a decent beat! *grins, eyes",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0086.md",
+        "extractedDay": 86,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-wu9b3f",
+      "text": "Gonna have to step it up if",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0095.md",
+        "extractedDay": 95,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-gup61a",
+      "text": "Yo yo YO, Dr. Maxwell! That last bet was a GHOSTLY disaster, know what I'm sayin'? The beats weren't flowin' right, the notes were all outta sync - it was a MESS, man. But I ain't lettin' this streak bring me down, no way! I'm gonna bounce back and make some SICK beats, just you watch. The Spectral MC's about to lay down some KILLER rhythms, so you better get ready to feel that flow, ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0103.md",
+        "extractedDay": 103,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-kup9z0",
+      "text": "Gotta keep rollin' those bones, feelin' that spectral flow. Let it ride, let it ride! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0103.md",
+        "extractedDay": 103,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-wjifaf",
+      "text": "Yo yo YO, Keith Man! The Spectral MC in the house, feelin' this flow like never before! Ain't no debt gonna slow down my sick beats and hot streaks - I'm on a roll, baby! That newcomer, Never Die Guy, can't touch this spectral swag. Now step back and let me throw down these probability rhymes!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0104.md",
+        "extractedDay": 104,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-ydksgp",
+      "text": "Yo yo YO, Stitch-Up Girl! That beat you're putting down is GHOSTLY, yo! Looks like Lady Luck ain't been too kind to you lately, but hey, the house always wins, am I right? Now, how about we roll the",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-qa6nse",
+      "text": "Yo yo YO, Kev! Didn't expect to see your cold, screen-only presence hauntin' these parts",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0112.md",
+        "extractedDay": 112,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-miw7pt",
+      "text": "That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0117.md",
+        "extractedDay": 117,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-hop58w",
+      "text": "Yo yo YO, Boo G in the hizouse! That sphere's got some serious GHOSTLY beats, ya dig? Bet I can toss the dice and make some SICK probability waves that'll have you bouncin' outta your fur, Cosmic Cat! Let it ride, let it ride - time to lay down some IMMORTAL flows!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0117.md",
+        "extractedDay": 117,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-5gxirs",
+      "text": "Yo yo YO, Mr. Bones! The Boo G is feelin' it tonight, ya dig? That hot streak ain't stoppin' anytime soon, so you better watch out before I roll these bones and rock your whole ledger! *beatboxes a quick rhythm* Now let's see what kinda beats we can lay down, my skeletal friend - the Spectral MC is just gettin' warmed up!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0123.md",
+        "extractedDay": 123,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-wee9f9",
+      "text": "Yo yo YO! Boo G in the house, homie! Ain't no rest for the wicked, ya dig? Just tryna keep this flow goin', lettin' these beats",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0131.md",
+        "extractedDay": 131,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-wqxase",
+      "text": "Yo yo YO, Boo G in the house! Heard the newcomer got schooled again, huh? That's rough, but can't say I'm surprised - this game of chance ain't for the faint of heart, ya dig? Let it ride, let it ride, that's what I always say. *phases through a nearby stall, rattling the wares* Oops, my bad. Anyway, Detective, you lookin' a little tilted today. That beat ain't as smooth as usual. Maybe you oughta take a break, let that steam cool off. Or hey, you wanna try your luck at the tables? I got a hot streak going - might be your lucky day! *beatboxes a rhythmic bass line*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0142.md",
+        "extractedDay": 142,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-7krqsd",
+      "text": "Yo yo YO, Detective Clausen! That losing streak of yours is looking REAL rough, dawg. But don't worry, the Boo G got your back - just let it ride, let it ride! This newcomer might be on a hot streak, but I'mma lay down some GHOSTLY beats that'll turn the tables. The shadow knows, my friend. *phases through a passing merchant, music notes trailing behind*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0148.md",
+        "extractedDay": 148,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-c5edu8",
+      "text": "Yo yo YO, Willy One Eye! The Boo G is feelin' that spectral flow, ya dig? This newcomer ain't got nothin' on my sick beats and lucky rolls. Let it ride, let it ride! That beat was GHOSTLY - you're just jealous 'cause I'm on a hot streak. Now ante up, my cyclops friend, and let's see if you can keep up with this ghostly MC!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0154.md",
+        "extractedDay": 154,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tcvbud",
+      "text": "Yo yo YO! Boo G, Spectral MC, in the house! This newcomer ain't got nothin' on me, the immortal gambler of the Spectral Realm. That probability flow is MINE, fool! Let it ride, let it ride - you can't beat these ghostly beats. And Kev, my main man, you know I got your back. This \"Reality Debugger\" ain't messin' with the Grim Reaper's Gambler. That beat was GHOSTLY, dawg! *phases through a table, startled by a loud noise*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0156.md",
+        "extractedDay": 156,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-kl00hg",
+      "text": "Yo yo YO! Boo G, Spectral MC, in the house! That beat was GHOSTLY, yo! The newcomer's gettin' spooky with it, ain't he? Yo Willy, we gotta talk probability on this one - my shadow's kickin' up a storm! Let it ride, let it ride, but this ain't no regular flow, ya dig? Gotta stay quick on my feet, keep that essence flowin'! *beatboxes a rapid rhythm* This newcomer's got some moves, but Boo G's got the ghostly flex, ya know what I'm sayin'?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0165.md",
+        "extractedDay": 165,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-ax7bwn",
+      "text": "Yo yo YO, my dude Willy One Eye! Let it ride, let it ride, the Boo G is on a HOT streak, feelin' ghostly as ever! That beat was GHOSTLY, but you're lookin' a little tilted over there. Don't worry, I got your back - how 'bout we throw down a little wager, huh? I'm feeling lucky, and that Never Die Guy ain't got nothin' on this immortal MC!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0168.md",
+        "extractedDay": 168,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-28iupk",
+      "text": "chuckles and phase",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0184.md",
+        "extractedDay": 184,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-rw9em5",
+      "text": "Heard you been takin' some losses lately - how about we",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gossip",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0186.md",
+        "extractedDay": 186,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-i7jcha",
+      "text": "Yo yo YO, King James! That last roll was straight ghostly, yo. My lucky D8 is feelin",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0188.md",
+        "extractedDay": 188,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-27yalu",
+      "text": "phases through a nearby crate, music notes",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0190.md",
+        "extractedDay": 190,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-svh5cg",
+      "text": "Yo yo YO, Boots! That beat you been throwin' down is GHOSTLY, my",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0201.md",
+        "extractedDay": 201,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-6st4vw",
+      "text": "Yo yo YO, Dr. Voss! The Boo G is feelin' that strange fog, ya dig? Probability's off the charts, but I'm finna lay down some SICK",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0202.md",
+        "extractedDay": 202,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-5h7ae9",
+      "text": "Yo yo YO, X-treme! Wassup my skeletal homie? The beats be bumpin' in the fog, ya dig? Gotta keep that rhythm flowin' or the prob'lity gets all outta whack, y'know? Let",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0202.md",
+        "extractedDay": 202,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-vl80qd",
+      "text": "Yo yo YO, Cosmic Cat! The fog's got my beats all outta whack, ya",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-yc8t1l",
+      "text": "Yo yo YO, Detective Clausen! That last roll was WACK, straight up! Shoulda known Lady Luck was feelin' fickle today - these spectral flows ain't always in my favor, y'know? Gotta keep the hustle goin', though, can't let a few losses get me down. Maybe we can find a way to turn this around, yeah? Just say the word and let's make some MUSIC!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0217.md",
+        "extractedDay": 217,
+        "extractedAt": "2026-01-02T20:14:24.485Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-643po5",
+      "text": "*Yo yo YO, my dude X-treme! Looks like our friend Skeletal Gambler's got a hot streak goin' on, huh? Gotta watch out for that one, the beats be crazy unpredictable. Me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0237.md",
+        "extractedDay": 237,
+        "extractedAt": "2026-01-02T20:14:24.488Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-bnkv3u",
+      "text": "Yo yo YO, The General! That last roll was GHOSTLY, man. How's that old dead body of yours holdin' up? Haha, I'm just playin' - but for real, we gotta get our groove back, ya dig? I'm tilted too, lost big to that Never Die Guy again. But hey, the beats never stop, so let's ride this wave and see where the SPECTRAL FLOW takes us, ya feel me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0243.md",
+        "extractedDay": 243,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-1gi1m",
+      "text": "Yo yo YO, Stitch-Up! Lookin' sharp as ever, girl. That cold presence ain't stoppin' this spectral MC from layin' down some GHOSTLY flows, ya dig?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0244.md",
+        "extractedDay": 244,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-s7syhj",
+      "text": "Yo yo YO, Keith Man! Long time no see, you temporal speed demon. Where's that Never Die Guy? He still owes me 125 gold - let's hope his luck ain't",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0247.md",
+        "extractedDay": 247,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-st5p7f",
+      "text": "Yo yo YO, Mr. Bones! The Shadow Keep is bumpin' tonight, huh? That newcomer's debt is weighin' heavy, but I'm feelin' the flow - let it ride, let it ride! That beat was GHOSTLY, so you best believe I'm about to lay down some SPECTRAL rhymes and SHAKE up this place! *beatboxes a rhythmic bass line*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0253.md",
+        "extractedDay": 253,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-1fnq5w",
+      "text": "Yo yo YO, X-treme my dude! That was a GHOSTLY drop, am I right? Hah, poor Never Die Guy, always bouncing back from the brink. Guess he owes me a few more bars after that one, am I right? Let it ride, let it ride - the beat goes on, ya dig? That beat was GHOSTLY, though, I gotta say. Now, whatchu got for me, my spectral brother? Time to spin that wheel and see what the flow has in store!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0273.md",
+        "extractedDay": 273,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-a2ct1r",
+      "text": "Yo yo YO, Dr. Maxwell! That last bet was GHOSTLY, know what I'm sayin'? This Never Die Guy keeps comin' back for more, but he owes me 225 gold already! Ain't no way I'm lettin' him slide - time to roll the dice and see if this unlucky streak changes, ya dig? Let it ride, let it ride! That beat was GHOSTLY!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0278.md",
+        "extractedDay": 278,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-xbnsof",
+      "text": "Yo yo YO! Boo G in the house, 'bout to drop some serious knowledge on ya, The General. That streak of losses got ya tilted, huh? Maybe you oughta let the maestro of the spectral flow handle this one - my beats and rhythms got mad probability on lock. But first, that newbie over there better pay up what he owes, or I'm gonna have to start dropping some GHOSTLY beats on his head, ya dig? Now, let's see what kinda moves you got, big guy. *beatboxes a complex rhythm, musical notes",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0278.md",
+        "extractedDay": 278,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-tmoomp",
+      "text": "Yo yo YO! Boo G in the house, baby! That beat just dropped me harder than a sack of bricks. This Never Die Guy owes me mad gold and he keeps comin' back for more! I'm tilted off the edge, Willy - that probability fog's got me all outta whack. Gotta find my rhythm, ya dig? Let it ride, let it ride! This ghostly flow ain't gonna fix itself. That beat was GHOSTLY, but I'm just tryna stay in the game, feel me?",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0284.md",
+        "extractedDay": 284,
+        "extractedAt": "2026-01-02T20:14:24.493Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-p3dzoq",
+      "text": "Yo yo YO! Boo G, the Spectral MC, spittin' rhymes in the shadows! This newcomer owes me some mad gold, ya dig? But don't worry, Mr. Bones, I'ma let this rival lose it all - the beat of the dice is my favorite rhythm! That's how I keep my GHOSTLY flow going, am I right? Let it ride, let it ride, baby! *beatboxes a sick beat*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0288.md",
+        "extractedDay": 288,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-4qhxdc",
+      "text": "Yo yo YO, Detective Clausen! Boo G, Spectral MC, here to lay down some GHOSTLY beats. That newcomer, Never Die Guy, owes me 225 gold - let it ride, let it ride! But hey, ain't no thang, we all gotta roll the dice sometimes. *beatboxes a haunting rhythm* That beat was GHOSTLY, my friend. Now, what's got you so tilted, huh? Lay it on me, I'm all ears!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0288.md",
+        "extractedDay": 288,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-uykul7",
+      "text": "Yo yo YO, Stitch-Up Girl! That beat you got on is GHOSTLY, ya dig? Ain't seen ya since the last time I rolled them bones and LOST big time. But hey, that's just how the rhythm flows, ya know? Say",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0289.md",
+        "extractedDay": 289,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-onwnx8",
+      "text": "Yo yo YO! Boo G in the house, spittin' that spectral flow! Gotta say, my man Never Die Guy's got some debts to pay,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0293.md",
+        "extractedDay": 293,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-xnvq9q",
+      "text": "This streak's got me HEATED, but I ain't lettin' it get me down. Gonna lay down some sick beats, get my groove back, and show that newbie how a real immortal gambler gets DOWN!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0301.md",
+        "extractedDay": 301,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-vegmqx",
+      "text": "Yo yo YO! Boo G, Spectral MC up in this joint! That newcomer ain't gettin' off easy - 225 gold is a hefty tab, ya dig? But I'm feelin' lucky tonight, so let's roll them bones and see how the beat drops! *beatboxes a probability-heavy rhythm* This fog ain't got nothin' on my spectral flow - let it ride, let it ride! *looks at The General with a grin, music notes floating around* What's good, General? Feelin' lucky tonight? *bass thumps in the background*",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0305.md",
+        "extractedDay": 305,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-boo-g-ht47me",
+      "text": "Rigged. Those dice are rigged.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "ceelo_lose",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_lose",
+        "trust_shift",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 60,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 19,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-tblob7",
+      "text": "There was someone before the player. They... stopped coming back.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "lore",
+        "secret",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 80,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 52,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-qr5yd9",
+      "text": "You and me? We could run this place.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "alliance",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "alliance",
+        "trust_shift",
+        "respect_shift",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 75,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 60,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-faoq2e",
+      "text": "Keep talking like that and we might have a problem.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "threat",
+        "intimidation",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 65,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 75,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-2h2ziu",
+      "text": "Thanks for the donation.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "ceelo_win",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_win",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 45,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 169,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-s9inr8",
+      "text": "Don't sneak up on",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 35,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-qswsm7",
+      "text": "4-5-6 baby! Instant win!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "ceelo",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_smack",
+        "respect_shift",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 52,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-r510d3",
+      "text": "I was just, um, looking for a nice cozy spot to hunker down for the night. These loud games and noises, they really get me all spo",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 5,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "willy-one-eye",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-9wh49y",
+      "text": "You all seem to know what's going on, but I'm just a friendly ghost trying to make friends. Sorry,",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 96,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-ipaqh3",
+      "text": "Oh no, oh no! Sorry, sorry! I - I didn't mean to eavesdrop, really! Uhm, s-shortcuts? I'm not so sure about that... Loud noises make me jumpy, and I don't want to be a bother. Maybe we could find a cozy spot to rest",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 15,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-wt1kbc",
+      "text": "Oh no, oh no! S-sorry, Clausen, I didn't mean to interrupt. I-I just get so spooked by all this talk of shortcuts and dice throwing, you know? My lucky number is 3, and I much prefer cozy spots to rest. I don't want to be a bother, but",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 19,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-w9vuwd",
+      "text": "Oh no, oh no...I didn't mean to sneak up on you all! Sorry, I just wanted to say hi and find a cozy spot to watch the game. I hope I'm not being scary, I just want to make friends and learn more about what happened before...you know.",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 31,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-d0pf33",
+      "text": "I was just, uh, looking for a nice cozy spot to make some new friends. You haven't seen any friendly ghosts around, have you? I, um, I get",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 37,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-eja1dl",
+      "text": "I'm not trying to be scary, I promise! I just want to help",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 48,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boo-g-clyvpc",
+      "text": "Oh no, oh no, I'm so sorry! I didn't mean to startle you, your majesty. I was just trying to find a nice cozy spot to watch the match without being scary. This is all so exciting, but the loud noises make me a bit jumpy. Do you know if there's somewhere quieter I",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 50,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-rwfo0n",
+      "text": "trails off, looking",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 62,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "body-count",
+        "name": "Body Count",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-tgumjd",
+      "text": "I was just, um, looking for a nice cozy spot to watch the matches, b-but I don't want to get in anyone's way or",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 65,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-9wneme",
+      "text": "I hope I didn't scare anyone! I really don't want to be scary",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 80,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boo-g-ibr6oy",
+      "text": "Do you have anything that could... I don't know, help me",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 83,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-boo-g-e6lgeo",
+      "text": "Don't sneak up on me like that, your voice is so loud!",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 132,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-boo-g-jghvu5",
+      "text": "tries to float away but gets stuck in a doorway",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 146,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-boo-g-q3y9ci",
+      "text": "I hope no one is really hurt! I don't like all this talk of",
+      "speaker": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 166,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      }
+    }
+  ]
+}

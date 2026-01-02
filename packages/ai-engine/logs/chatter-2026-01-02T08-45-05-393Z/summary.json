@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-01-02T08:48:05.926Z",
+  "seed": "chatter-1767343505393",
+  "config": {
+    "durationMinutes": 3,
+    "batchSize": 50,
+    "useClaude": true,
+    "interestThreshold": 40,
+    "npcQuota": 100,
+    "maxTotalMessages": 2000,
+    "dedupeEnabled": true
+  },
+  "stats": {
+    "totalTurns": 176,
+    "interestingTurns": 168,
+    "claudeApiCalls": 176,
+    "durationSeconds": 181,
+    "turnsPerSecond": 1,
+    "batchCount": 0,
+    "poolBreakdown": {
+      "claude_generated": 152,
+      "ceelo": 1,
+      "gossip": 4,
+      "conflict": 4,
+      "lore": 1,
+      "ceelo_win": 2,
+      "alliance": 2,
+      "threat": 2
+    },
+    "topSpeakers": [
+      {
+        "name": "Mr. Bones",
+        "count": 16
+      },
+      {
+        "name": "Boo-G",
+        "count": 15
+      },
+      {
+        "name": "Dr. Voss",
+        "count": 14
+      },
+      {
+        "name": "Mr. Kevin",
+        "count": 13
+      },
+      {
+        "name": "Boots",
+        "count": 12
+      },
+      {
+        "name": "King James",
+        "count": 12
+      },
+      {
+        "name": "The General",
+        "count": 11
+      },
+      {
+        "name": "Clausen",
+        "count": 11
+      },
+      {
+        "name": "Stitch-Up Girl",
+        "count": 10
+      },
+      {
+        "name": "Dr. Maxwell",
+        "count": 9
+      }
+    ],
+    "tagBreakdown": {
+      "claude_generated": 152,
+      "ceelo_smack": 1,
+      "respect_shift": 2,
+      "cross_category": 12,
+      "gossip": 1,
+      "pantheon_speaks": 3,
+      "conflict": 4,
+      "trust_shift": 7,
+      "lore": 1,
+      "secret": 1,
+      "ceelo_win": 2,
+      "alliance": 2,
+      "player_gossip": 3,
+      "player_mentioned": 3,
+      "threat": 2,
+      "intimidation": 2
+    }
+  },
+  "batchFiles": []
+}

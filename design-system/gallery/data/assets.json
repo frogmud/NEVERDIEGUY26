@@ -1,0 +1,167 @@
+{
+  "generated": "2026-01-02",
+  "stats": {
+    "total": 4106,
+    "svg": 3426,
+    "png": 626,
+    "mp4": 38,
+    "gif": 10,
+    "lottie": 5
+  },
+  "tokens": {
+    "colors": {
+      "core": {
+        "primary": "#E90441",
+        "secondary": "#00e5ff",
+        "success": "#30d158",
+        "error": "#ff453a",
+        "warning": "#ffd60a"
+      },
+      "background": {
+        "default": "#0a0a0a",
+        "paper": "#1a1a1a",
+        "elevated": "#242424"
+      },
+      "text": {
+        "primary": "#ffffff",
+        "secondary": "rgba(255, 255, 255, 0.7)",
+        "disabled": "rgba(255, 255, 255, 0.5)"
+      },
+      "rarity": {
+        "common": "#9e9e9e",
+        "uncommon": "#4caf50",
+        "rare": "#2196f3",
+        "epic": "#9c27b0",
+        "legendary": "#ff9800",
+        "unique": "#e91e63"
+      }
+    },
+    "typography": {
+      "primary": "Inter, sans-serif",
+      "mono": "IBM Plex Mono, monospace",
+      "gaming": "m6x11plus, monospace"
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px",
+      "xxl": "48px"
+    }
+  },
+  "categories": [
+    {
+      "id": "enemies",
+      "name": "Enemies",
+      "description": "Enemy sprites and animation frames",
+      "path": "../assets/enemies-svg/",
+      "count": 76,
+      "type": "svg",
+      "preview": ["mephisto.svg", "void-lord.svg", "frost-giant.svg"]
+    },
+    {
+      "id": "market",
+      "name": "Market Vendors",
+      "description": "Vendor portraits, idle/walk animation frames",
+      "path": "../assets/market-svg/",
+      "count": 68,
+      "type": "svg",
+      "subcategories": ["keith-man", "willy", "king-james", "stitch-up-girl", "mr-bones", "the-general", "boo-g", "dr-maxwell", "dr-voss", "clausen", "xtreme", "never-die-guy", "mr-kevin", "body-count"]
+    },
+    {
+      "id": "flumes",
+      "name": "Flumes",
+      "description": "Domain portal animations and stills",
+      "path": "../assets/flumes-svg/",
+      "count": 2349,
+      "type": "svg",
+      "note": "Includes 2,342 animated frames from cursed/ and homepage/ videos"
+    },
+    {
+      "id": "characters",
+      "name": "Characters",
+      "description": "NPC portraits, sprites, and vectorized animations",
+      "path": "../assets/characters/",
+      "subcategories": ["pantheon", "travelers", "wanderers", "shops"],
+      "type": "mixed"
+    },
+    {
+      "id": "items",
+      "name": "Items",
+      "description": "Game items with PNG/SVG pairs",
+      "path": "../assets/items/",
+      "subcategories": ["armor", "artifacts", "consumables", "materials", "quest", "weapons"],
+      "type": "mixed"
+    },
+    {
+      "id": "ui",
+      "name": "UI Elements",
+      "description": "Dice, chests, currency with SVG variants",
+      "path": "../assets/ui/",
+      "subcategories": ["dice", "chests", "currency"],
+      "type": "mixed"
+    },
+    {
+      "id": "heroes",
+      "name": "Heroes",
+      "description": "Player character icons",
+      "path": "../assets/heroes-svg/",
+      "count": 6,
+      "type": "svg"
+    },
+    {
+      "id": "icons",
+      "name": "Icons",
+      "description": "System icons including faction icons and heat mechanic",
+      "path": "../icons/",
+      "count": 9,
+      "type": "svg"
+    },
+    {
+      "id": "illustrations",
+      "name": "Illustrations",
+      "description": "Menu screen SVG illustrations",
+      "path": "../illustrations/",
+      "type": "svg"
+    },
+    {
+      "id": "factions",
+      "name": "Factions",
+      "description": "Faction icons with PNG/SVG pairs",
+      "path": "../assets/factions/",
+      "type": "mixed"
+    },
+    {
+      "id": "nav",
+      "name": "Navigation",
+      "description": "Navigation icons",
+      "path": "../nav/",
+      "type": "svg"
+    },
+    {
+      "id": "lottie",
+      "name": "Lottie Animations",
+      "description": "confetti, energy, skull, star animations",
+      "path": "../lottie/",
+      "count": 5,
+      "type": "lottie"
+    },
+    {
+      "id": "trophies",
+      "name": "Trophies",
+      "description": "Trophy GIF animations",
+      "path": "../assets/trophies/",
+      "type": "gif"
+    },
+    {
+      "id": "domains",
+      "name": "Domains",
+      "description": "Domain/zone planet backgrounds (PNG only)",
+      "path": "../assets/domains/",
+      "count": 10,
+      "type": "png",
+      "note": "Not vectorized - used as 3D planet textures"
+    }
+  ]
+}

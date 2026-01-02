@@ -1,0 +1,5237 @@
+{
+  "npc": {
+    "slug": "xtreme",
+    "name": "X-treme",
+    "category": "wanderers"
+  },
+  "entryCount": 209,
+  "pools": {
+    "lore": 11,
+    "reaction": 43,
+    "gamblingTrashTalk": 123,
+    "gamblingBrag": 7,
+    "threat": 16,
+    "gamblingFrustration": 2,
+    "greeting": 1,
+    "gossip": 4,
+    "salesPitch": 1,
+    "ceelo_spectate": 1
+  },
+  "moods": {
+    "neutral": 89,
+    "threatening": 76,
+    "amused": 9,
+    "angry": 1,
+    "annoyed": 9,
+    "generous": 3,
+    "fearful": 4,
+    "pleased": 8,
+    "scared": 5,
+    "sad": 1,
+    "curious": 1,
+    "cryptic": 3
+  },
+  "entries": [
+    {
+      "id": "cb-xtreme-juga0l",
+      "text": "ALRIGHT DUDE, CHECK IT! This is gonna be SICK - I'm tellin' ya, I'm feelin' the RUSH today! The sphere is callin' my name, and I'm about to SEND IT like never before! This is gonna be the",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-38-22-211Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.385Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-koqy3o",
+      "text": "YO, KING JAMES! THIS IS WHERE IT'S AT, BRO! JUST WAITIN' FOR THE NEXT MEGA-RUSH OF A GAME, YOU KNOW? I'M TALKIN",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0001.md",
+        "extractedDay": 1,
+        "extractedAt": "2026-01-02T20:14:24.388Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-hpnnzz",
+      "text": "YOOOO WHAT'S UP DAWG, IT'S YOUR BOY X-TREME, SKELETAL GAMBLER EXTRAORDINAIRE! DID YOU SEE THAT WIPEOUT, BRO? THAT NEWBIE DIDN'T STAND A CHANCE, BUT THE GENERAL'S GOTTA KEEP THESE MORTALS ALIVE, AM I RIGHT? HEY MR. KEVIN, LOOKING A LITTLE SHAKEN UP THERE, BRO! MAYBE YOU SHOULD TAKE A CHANCE, FEEL THE RUSH, LIVE A LITTLE! *RATTLES BONES EXCITEDLY* WANNA DOUBLE OR NOTHING ON THE NEXT ROLL? GOTTA KEEP THAT STREAK GOING, YOU KNOW WHAT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.388Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-871hn9",
+      "text": "YOOOO STITCH-UP GIRL! Did you SEE that SICK move the new guy pulled off? INSANE! I'm talkin' FULL SEND, no fear, just pure ADRENALINE! Gotta say, I'm digging",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0003.md",
+        "extractedDay": 3,
+        "extractedAt": "2026-01-02T20:14:24.388Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-3wmyd8",
+      "text": "YOOOO KEITH, my dude! *rattles bones excitedly* You seein' this crazy sphere action, bro? *tosses a handful of dice into the air* The RUSH is off the charts, I'm tellin' ya! *grins",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-a1g925",
+      "text": "DOES AN UNNECESSARY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0012.md",
+        "extractedDay": 12,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5rr1lg",
+      "text": "WHADDUP, MR. BONES?! You know I'm always ready to THROW DOWN with the biggest, gnarliest bets this side of the underworld! Ain't no debt too big or win streak too long for ol' X-treme to handle -",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0013.md",
+        "extractedDay": 13,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-9ee3xq",
+      "text": "Yo, Death's Accountant! You lookin' HOTTER than a fresh bowl of chili, my dude! THAT'S what I'm tal",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0014.md",
+        "extractedDay": 14,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-cz3zsz",
+      "text": "YOOOO, WILLY MY DUDE! DID YOU SEE THAT SICK MOVE?! THAT GUY JUST GOT TOTALLY WIPED OUT! WOOOOO! THAT'S WHAT HAPPENS WHEN YOU DON'T GO BIG, AM I RIGHT? FULL SEND OR GO HOME, THAT'S WHAT I ALWAYS SAY! HEY, MAYBE WE CAN HOOK HIM UP WITH SOME TIPS, YOU KNOW, SHOW HIM HOW TO REALLY LIVE ON THE EDGE! GOTTA KEEP THAT STREAK GOING, BABY! HAHA,",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-jjba3c",
+      "text": "WHAT'S UP, KING JAMES?! READY TO FEEL THE RUSH OF A HIGH-STAKES BET?! MY STREAK MAY BE EVEN, BUT THAT JUST MEANS I'M",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-fzn5f7",
+      "text": "ALRIGHT DUDE, YOU GOTTA LISTEN UP! I JUST LOST EVERYTHING ON A SICK DOUBLE BACKFLIP CRIT COMBO BET AND I'M FREAKIN' TILTED, YO! THAT NEVER DIE GUY IS TOTALLY CRAMPIN' MY STYLE WITH HIS CRAZY LUCK - HE KEEPS COMIN' BACK FROM THE GRAVE JUST TO CLEAN ME OUT! BUT HEY, IT'S WHATEVER, 'CAUSE I'M ABOUT TO GO FOR THE MOTHER OF ALL BETS AND RECOUP THESE LOSSES WITH ONE EPIC ROLL OF",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "angry",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-jg405f",
+      "text": "WHAT'S UP DAWG?! X-TREME, SKELETAL GAMBLER in the HOUSE! *does a backflip and lands with a rattling of bones* Yo, Voss! Still tryin' to figure out that VOID",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0023.md",
+        "extractedDay": 23,
+        "extractedAt": "2026-01-02T20:14:24.392Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-2jv1u",
+      "text": "WHAT'S UP, DEATH'S ACCOUNTANT? TIME TO SETTLE ANOTHER DEBT, BABY! THIS GUY'S GONNA KEEP COMIN",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-tf0eiy",
+      "text": "ALWAYS A PLEASURE TO SEE YA, MY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-1xvkht",
+      "text": "YOOOO, STITCH-UP GIRL! What's happenin', my GNARLY friend? That newcomer's got BALLS, am I right? Dyin' on the first ante - that's WILD! But hey, at least you get to work your SICK medical magic, right? I'm feelin' that FIRE energy, girl! Time to make some CRAZY BETS and see what this new meat can do! LET'S GOOOO! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-plekjg",
+      "text": "WASSUP THERE, DUDE-BRO? X-TREME'S IN THE HOUSE AND READY TO THROW DOWN! THIS NEWCOMER KEEPS COMIN' BACK FOR MORE, BUT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-v2bqvw",
+      "text": "YOOOO KEITH, WHAT'S GOOD YA SPEED FREAK?! HEARD YOU'VE BEEN RUNNING UP DEBTS AROUND HERE, JUST LIKE THAT NEWBIE WHO OWES ME 125 GOLD! WELL, LOOKS LIKE HE JUST BOUGHT THE FARM AGAIN - BUT NO WORRIES, I'LL BE SURE TO COLLECT WHEN HIS SORRY BUTT COMES CRAWLING BACK! IN THE MEANTIME, HOW 'BOUT WE ROLL THE DICE AND SEE WHO WALKS AWAY WITH SOME SERIOUS CASH, EH? GO BIG OR GO HOME, THAT'S WHAT I ALWAYS SAY! *DOES AN INSANE BACKFLIP",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-01-02T20:14:24.397Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-n660cv",
+      "text": "HEY GENERAL! LOOKING ROUGH OUT THERE, DUDE! HEARD YOU LOST BIG TO THAT NEWBIE - MAYBE STICK TO THE KIDDIE TABLES, HAHA!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingFrustration",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0058.md",
+        "extractedDay": 58,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ml0i09",
+      "text": "YOOOO DETECTIVE CLAUSEN, WHAT'S UP MY DUDE?! BEEN A MINUTE SINCE WE LAST THREW DOWN, HAHA! REMEMBER WHEN WE USED TO CRUSH THOSE CELO GAMES BACK IN THE DAY, ALWAYS PUSHING THE LIMITS, LIVING ON THE EDGE?! THOSE WERE THE DAYS, AM I RIGHT?! HEY, THAT NEVER DIE GUY STILL OWES ME 125 GOLD, YOU SEEN HIM AROUND?! I'M READY TO THROW DOWN AGAIN ANYTIME, JUST BRING YOUR A-GAME, BROHEIM! FULL SEND, LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-7g78j3",
+      "text": "AYO DEATH'S BEAN COUNTER! THAT NEVER DIE GUY OWES ME 125 GOLD AND HIS SORRY BUTT JUST WON'T PAY UP! WHAT'S THE DEAL, MAN? I'M ON A COLD STREAK HERE AND I NEED THAT CASH TO FUEL MY NEXT EXTREME BET! THIS IS TOTAL BULL-CRAP! WHERE'S THE JUSTICE IN THIS TWISTED REALM, HUH? SOMEONE'S GONNA PAY, AND IT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-z58xyt",
+      "text": "ALRIGHT DOC, LISTEN UP! THIS NEWCOMER OWES ME BIG TIME AND I'M FEELIN' LIKE A MILLION BUCKS! LET'S MAKE THIS INTERESTING - I'LL DOUBLE OR NOTHING THAT DEBT FOR SOME OF YOUR HOTTEST, SPICIEST FORBIDDEN KNOWLEDGE! WHAT'D'YA SAY, WANNA FEEL THE RUSH?! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-8rgxu4",
+      "text": "THAT NEW GUY OWES ME 125 GOLD, SO TELL HIM TO COUGH IT UP BEFORE I MAKE HIM EAT HIS OWN DICE! GOTTA KEEP THAT CEELO STREAK ALIVE, KITTY CAT - IT'S",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-2hulp9",
+      "text": "WHAT'S UP, WILLY MY DUDE?! FEELIN' LUCKY TODAY, AREN'T WE?! HAHA! THAT NEWCOMER OWES US BIG TIME, BUT DON'T WORRY, WE'RE GONNA TURN THAT GOLD INTO PURE ADRENALINE WITH ANOTHER SICK BET! LET'S SHOW THESE MORTALS HOW IT'S DONE, BABY! *does a quick backflip, bones rattling with excitement* FULL SEND!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-sf71ey",
+      "text": "ALRIGHT DUDE, LISTEN UP! *leans in with a rattle of bones* This new guy, Never Die Guy, owes me some serious GOLD, and I'm feeling EXTRA LUCKY today! *tosses a D20 in the air and catches",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-8lxiut",
+      "text": "ALRIGHT DUDE, LISTEN UP! THIS IS X-TREME, SKELETAL GAMBLER EXTRAORDINAIRE! THAT NEVER DIE GUY OWES ME 125 GOLD, AND HE BETTER PAY UP SOON IF H",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-f0i1yp",
+      "text": "STAY FROSTY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0086.md",
+        "extractedDay": 86,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-g28vy9",
+      "text": "Yo, Clausen! You seen this new guy, Never Die Guy? He's got some serious moxie, man! I'm telling you, this dude owes me 125 gold and he just keeps coming back",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0089.md",
+        "extractedDay": 89,
+        "extractedAt": "2026-01-02T20:14:24.402Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-c6p8y",
+      "text": "ALRIGHT DUDE, LISTEN UP! THIS IS GONNA BE THE MOST EXTREME THING YOU'VE EVER SEEN! THAT LOSER JUST GOT CLEANED OUT, LOOKS LIKE HIS LUCK RAN OUT, AM I RIGHT? WELL, YOU KNOW WHAT THAT MEANS - IT'S MY TIME TO SHINE! I'M GONNA BET IT ALL, GO FOR THE ULTIMATE RUSH, AND SHOW THIS NEWBIE HOW IT'S DONE! HEY BOOTS, PREPARE TO WITNESS THE SICKEST ROLL OF YOUR LIFE! FULL SEND, LET'S DO THIS",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0096.md",
+        "extractedDay": 96,
+        "extractedAt": "2026-01-02T20:14:24.404Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-56xc4k",
+      "text": "WHAT'S UP, DEATH BEAN COUNTER? STILL KEEPIN' THOSE LEDGERS CRAMMED FULL OF SICK SOULS, EH? WELL HOPE YA GOT ROOM FOR ONE",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-cfezp7",
+      "text": "WOOOO! WHAT'S UP, WILLY?! Time to CRANK this up to 11! *does a gnarly kickflip on my skateboard, bones clattering* I've been on an INSANE winning streak, bro - just",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-4nla3v",
+      "text": "YOOOO, CLAUSEN! You see this new kid, NEVER DIE GUY? He's been getting CRAZY lucky, but I'm gonna CRUSH HIM in the next round! FULL SEND, baby",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-n0j6uw",
+      "text": "YO DOC, WHAT'S CRACKIN'!? STILL BURNIN' UP THOSE BOOKS, EH?",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-nvkabb",
+      "text": "YOOOO STITCH-UP GIRL, WHAT'S GOOD?! *rattles bones excitedly and does an unnecessary backflip* I just got ROBBED out there, bro - can you believe it?! That NEVER DIE GUY is straight CHEATING, I'm tellin' ya! But hey, no worries, 'cause I'm about to FULL SEND this next bet and make it ALL back! *leans in close, voice lowering to an intense whisper* You in, or what?! This is gonna be the BIG ONE, I can feel it in my BONES!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0018.md",
+        "extractedDay": 18,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-rx2q5u",
+      "text": "ALRIGHT BRO, LISTEN UP! X-treme, the one and only Skeletal Gambler, is in the HOUSE! Saw that newcomer take a dirt nap, but no worries, the General's got it covered. Gotta say, King James, you're looking a little tense today. Need to CHILL OUT and let the EXTREME one show you how it's done! FULL SEND on the next round, my dude! GET READY FOR THE ULTIMATE BET!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0019.md",
+        "extractedDay": 19,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ityppo",
+      "text": "RUSHES OFF TO GAM",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0021.md",
+        "extractedDay": 21,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-9si40o",
+      "text": "That's AWESOME, bro",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0022.md",
+        "extractedDay": 22,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-6rmgh0",
+      "text": "YO WILLY, MY DUDE! *does an unnecessary backflip* The ULTIMATE gambler is here to SLAY the day! *rattles excitedly* Hope you're ready to CRUSH the competition, 'cause X-TREME's on",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0022.md",
+        "extractedDay": 22,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5jli4y",
+      "text": "GENERAL! Didn't see you over there, my dude! WHAT'S UP?! STILL haven't paid up on that last bet, huh? Gotta say, I'm feeling EXTRA",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0025.md",
+        "extractedDay": 25,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-goydk1",
+      "text": "YOOOO WILLY, MY MAIN MAN! JUST LOST IT ALL AGAIN DUDE, THIS PLACE IS RIGGED I TELL YA! THAT NEVER DIE GUY KEEPS COMIN' BACK NO MATTER HOW HARD I SEND IT, IT'S DRIVING ME BONKERS! BUT I AIN'T QUITTIN' YET, GOTTA FIND THAT ULTIMATE BET, KNOW WHAT I'M SAYIN'?! GONNA KEEP GOIN' 'TIL I'M OUTTA BONES OR OUTTA GOLD, EITHER WAY IT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0026.md",
+        "extractedDay": 26,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ae8ktg",
+      "text": "YO DETECTIVE, WHAT'S UP?! NAME'S X-TREME, SKELETAL GAMBLER EXTRAORDINAIRE! JUST LIVIN' IT UP OUT HERE, TRYIN' TO SCORE THE ULTIMATE",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-k0xvvx",
+      "text": "Time to lose that sweet gold of yours, because THIS EXTREME SKELETON'S",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-8xruov",
+      "text": "BROOO, WHAT'S UP, YOUR MAJESTY?! *rattles bones excitedly* You gotta try this SICK new game I just found - it's called Cee-lo, and the RISK is off the CHARTS, dude! *",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0038.md",
+        "extractedDay": 38,
+        "extractedAt": "2026-01-02T20:14:24.424Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-cxff01",
+      "text": "YO DETECTIVE, WHAT'S UP? FEELIN' LUCKY TODAY? LET'S ROLL THE DICE AND SEE WHAT HAPPENS, BRAH! I'VE GOT GOLD BURN",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-xzep56",
+      "text": "THAT'S COOL, COOL, BUT LET ME",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5o74a2",
+      "text": "Anyway, I'm feeling LUCKY today, so how 'bout we raise the stakes and REALLY get this party started? I'm ready to CRUSH the Ceelo table - GO BIG OR GO HOME, BROTHER!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.425Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-4pg78b",
+      "text": "WHOA, STITCH-UP GIRL! The NEVER DIE GUY just WASTED my GOLD on some LAME bet! THAT FOOL owes me 100 GOLD and he keeps COMING BACK to LOSE MORE! But that ain't gonna STOP ME from LIVING on the EDGE and GOING BIG! FULL SEND, BABY! Time to ROLL the DICE and FEEL that SWEET RUSH! WAHOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-fw8uic",
+      "text": "YOOOOO VOSS, MY DUDE! WHAT'S HAPPENIN'? STILL TRYIN' TO CRACK THAT VOID TECH, HU",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-3k1pnw",
+      "text": "YEAHHH, BROOO! THAT WAS WILD! The RUSH of watching that loser get SPANKED is OFF THE CHARTS! You know I'm always down for a SICK GAMBLE, but even I can't believe how hard he's getting DUNKED on. Don't worry, NEVER DIE GUY, I'll let you slide on that 100 gold... FOR NOW. But you better believe I'm gonna need to see some MAJOR RISKY PLAYS to make up for it! FULL SEND OR GO HOME, my dude! *Rattles bones excitedly and does a gnarly backflip*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0058.md",
+        "extractedDay": 58,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-sfqtn3",
+      "text": "YO, MR. BONES! YOU SEEIN' THIS CRAZY NEWBIE OVER THERE? HE OWES ME 100 GOLD AND HIS LIFE - THAT'S LIKE, THE",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-p03rut",
+      "text": "THAT'S JUST HOW IT IS IN THE BIG LEAGUES, BRO! GOTTA LEARN TO FULL SEND OR GET OUT OF THE WAY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-rngadh",
+      "text": "NEVER DIE GUY OWES ME 100 GOLD AND I'M ABOUT TO",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-atgzl2",
+      "text": "THIS is gonna be SICK!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-01-02T20:14:24.430Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-vo8wuy",
+      "text": "AWRIGHT, NEWCOMER! WHAT'S GOOD?! X-TREME's here to COLLECT that 100 GOLD you OWE ME! HAHA, you thought you could SKIP OUT on your DEBTS?! NOPE,",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-01-02T20:14:24.430Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wci40a",
+      "text": "DOES AN UNNECESSARY BACK",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-01-02T20:14:24.430Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-1bsn31",
+      "text": "YO DEATH DUDE, WHERE'S MY HOMIE NEVER DIE GUY AT? HE OWES ME 100 GOLD AND I",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-6xxbaz",
+      "text": "ALRIGHT DUUUUDE, KING JAMES! THE NEVER DIE GUY JUST PULLED OFF A FULL RUN, CAN YOU BELIEVE IT?! THAT'S TOTALLY CRAZY, WHAT A RUSH! THIS GUY'S GETTING GOOD, HUH? GUESS HE'LL BE ABLE TO PAY OFF THAT 100 GOLD HE OWES ME IN NO TIME! HEY, MAYBE WE CAN DO SOME SICK STUNTS TOGETHER OR SOMETHING, THAT'D BE AWESOME! FULL SEND, BRO! WOOOOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-w4fiun",
+      "text": "YOOOO STITCH-UP GIRL, THAT WAS CRAZYYY WHAT JUST WENT DOWN! Saw your rival WIIIIPE OUT up there, TOTAL WIPEOUT! Bet they wish they never stepped to the X-TREME GAMBLER, huh? *rattles bones excitedly* Hey, you know that NEVER DIE GUY still owes me 100 gold, right? But you know what they say - FULL SEND or go home! *does an unnecessary flip* LET'S RAISE THE STAKES, GIRL! You and me, WINNER TAKES ALL! WHAT DO YA SAY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0094.md",
+        "extractedDay": 94,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-c9vk6v",
+      "text": "WHAT'S UP, DR. MAXWELL?! STILL SLINGING THOSE FIRE BOOKS, EH? SWEET! LOOKS LIKE YOU'RE HAVING A NICE HOT STREAK, KEEP IT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0096.md",
+        "extractedDay": 96,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-segzqb",
+      "text": "ALRIGHT WILLY, LISTEN UP BRO! THAT LAST THROW WAS SOME SERIOUS BULL, AM I RIGHT? I'M TALKING FULL TILT, TOTAL MELTDOWN! BUT HEY, THAT'S THE PRICE YOU PAY WHEN YOU'RE CHASING THE ULTIMATE RUSH, AM I RIGHT? NOW WHERE'S THAT NEVER DIE GUY - I'M FEELING LUCKY AND THAT 100 GOLD HE OWES ME IS LOOKING REAL TASTY RIGHT ABOUT NOW! LET'S DO THIS, WILLY! FULL SEND, BABY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0097.md",
+        "extractedDay": 97,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-diexeh",
+      "text": "WASSUP WILLY, MY DUDE! NEVER DIE GUY OWES ME SOME SERIOUS COIN, AND I'M FEELING LUCKY AFTER MY SIIICK WINNING STREAK! LET'S ROLL SOME DICE, CRANK UP THE HEAT, AND SHOW THIS NEWCOMER HOW THE IMMORTALS GET DOWN! FULL SEND, BRO! GO BIG OR GO HOME!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0102.md",
+        "extractedDay": 102,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-eij3k0",
+      "text": "YOOOO BOO G, MY MAIN SKELETAL HOMIE! FEELS LIKE IT'S BEEN FOREVER, BRO! THAT NEWCOMER STILL OWES ME 100 GOLD, BUT WHO CARES? I'M ON A SICK STREAK AND FEELIN' INVINCIBLE! LET'S HIT THE TABLES AND SHOW THIS TILT-ASS GHOST WHAT THE EXTREME LIFE IS ALL ABOUT! FULL SEND, BABY! *does a sick backflip, bones rattling with excitement*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0107.md",
+        "extractedDay": 107,
+        "extractedAt": "2026-01-02T20:14:24.435Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5l8m4h",
+      "text": "YEAHHH BOOOI, IT'S X-TREME, SKELETAL GAMBLER HERE! *does a sick kickflip and lands it perfectly* That new guy's got some SERIOUS guts, dying like that on the ante 3! *rattles bones excitedly* But hey, he owes me 100 GOLD, and I'm feeling LUCKY today! *grins widely, eyes glowing with manic energy* Time to ROLL THE DICE and see what kinda SICK stunt I can pull off next! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0118.md",
+        "extractedDay": 118,
+        "extractedAt": "2026-01-02T20:14:24.436Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-88ke20",
+      "text": "YOOOO STITCH-UP GIRL, WHAT'S UP?! XD Looks like your luck's been as COLD as the shadows here in Shadow Keep, huh? You know what they say - GOTTA RISK IT FOR THE BISCUIT! *rattles bones excitedly* But hey, don't sweat it, you'll bounce back. And speaking of bouncing back, that Never Die Guy still owes me 100 gold! *does a backflip* Gonna go FULL SEND on the Ceelo tables and make him pay up, BOOYAH!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0119.md",
+        "extractedDay": 119,
+        "extractedAt": "2026-01-02T20:14:24.436Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-n4q3in",
+      "text": "YOOOO BOO G, MY DUDE! What's up, my ghastly homie? Looks like your rival's TOTALLY SHREDDING it out there, huh? Oh, that's SICK - I gotta see this! FULL SEND, BRO! Time to make things EVEN SPICIER - maybe that NEVER DIE GUY can settle his debt with me, eh? LET'S GET READY TO RUMBLE! WOOOOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0119.md",
+        "extractedDay": 119,
+        "extractedAt": "2026-01-02T20:14:24.436Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-y7gvho",
+      "text": "HAHA! JUST LOOK AT THIS GUY GO, BOO G! HIS LUCKY STREAK IS DONEZO! THIS IS WHAT HAPPENS WHEN YOU PLAY CHICKEN WITH THE ULTIMATE GAMBLER - X-TREME, SKELETAL SURFER DUDE! NEVER TAKE YOUR EYES OFF THE TABLE, DUDE! THAT NEWCOMER OWES ME BIG TIME, BUT THIS IS WAY BETTER THAN GOLD - PURE ENTERTAINMENT, BABY! FULL SEND OR GO HOME! WOOOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0121.md",
+        "extractedDay": 121,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-6mzxgh",
+      "text": "WHOA DUDE, TALK ABOUT A BUMMER SESH! THAT LAST THROW WAS TOTALLY WEAK, WHAT A WIPEOUT! But hey, no worries, 'cause X-treme's just getting WARMED UP! This is nothing, I've been on the razor's edge for centuries, baby! Gotta keep that EXTREME energy up, you know? Now, let's see what the General's got - time to FULL SEND this thing and get that gold back! Never Die Guy owes me big time, so I'm feelin' LUCKY! LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0122.md",
+        "extractedDay": 122,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-aqo6el",
+      "text": "ALRIGHT, LISTEN UP YA LITTLE NEWCOMER! You owe me 100 GOLD and that debt ain't going anywhere! But hey, why don't you come over here and we'll see if you can turn that",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0129.md",
+        "extractedDay": 129,
+        "extractedAt": "2026-01-02T20:14:24.438Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-6gr1c5",
+      "text": "YOOOO WILLY! THAT LAST ROUND WAS SICK, AM I RIGHT?! Ahh, I shoulda known better than to bet EVERYTHING on a single roll, but the RUSH, bro! The RUSH! Ugh, now I'm down big to the new guy. But you know what they say - GOTTA RISK IT TO GET THE BISCUIT! Let's get back in there and turn this thing around, FULL SEND style! WOOOOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0134.md",
+        "extractedDay": 134,
+        "extractedAt": "2026-01-02T20:14:24.439Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-59wxre",
+      "text": "YOOOO KING JAMES! What's up, brah? Heard the NEVER DIE GUY owed me some serious cash, but looks like he took another tumble, huh? Well, that's just the name of the game, am I right? I'm feeling LUCKY today, so how about we double or NOTHING on that debt, eh? LET'S GOOOO! FULL SEND!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0142.md",
+        "extractedDay": 142,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ugw50s",
+      "text": "Alright, listen up - that newbie",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0150.md",
+        "extractedDay": 150,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-30ii4d",
+      "text": "YOOOO WILLY, MY DUDE! The X-treme Skeletal Gambler is FEELIN' IT today, bro! That losing streak is about to get CRUSHED, just watch me FULL SEND this next roll! That newbie owes me 100 gold, and I'm about to DOUBLE IT with this sick move! GET READY FOR SOME EXTREME ACTION, MY CYCLOPS FRIEND! WOOOOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0151.md",
+        "extractedDay": 151,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-9zqhh9",
+      "text": "YO DOC, WHAT'S UP?! STILL TRYNA FIGURE OUT HOW TO HARNESS THAT VOID TECH, EH? WELL LISTEN UP, 'CAUSE I'VE GOT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0158.md",
+        "extractedDay": 158,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ovj924",
+      "text": "WASSUP COSMIC CAT, MY DUDE! X-TREME SKELETAL GAMBLER IN THE HOUSE, READY TO TAKE THIS PLACE TO THE NEXT LEVEL! THAT NEVER DIE GUY OWES ME SOME",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0167.md",
+        "extractedDay": 167,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-sh0c9q",
+      "text": "YOOOO STITCH-UP GIRL, what's up? I just took THE BIGGEST L of my EXTREME career, and I'm FUMING! That never-dying chump owes me a HUNDRED GOLD and he keeps slippin' away! But I ain't gonna let him off the hook - I'm gonna bet it ALL to get that cash back and show him who's the SICKEST gambler in this WHOLE market! You gotta help me out here, this is LIFE or DEATH! FULL SEND, baby! *does a wild backflip*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0174.md",
+        "extractedDay": 174,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-d4k9d3",
+      "text": "YOOOOOO BOO G, DID YOU SEE THAT WIPEOUT?! THAT WAS TOTALLY GNARLY, BRO! *leans in and gives a bony high-five* Looks like someone's STREAK just got NUKED! *chuckles and rattles excitedly* That new guy's been slippin' lately - maybe he oughta pay up what he owes us before he loses it all, ya know? *grins widely, bones clacking* This is EXACTLY why I always GO BIG OR GO HOME! FULL SEND, BABY! *does a quick backflip and lands perfectly*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0182.md",
+        "extractedDay": 182,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-gsu6st",
+      "text": "YO, DOC! THE ULTIMATE GAMBLER IS IN THE HOUSE! *does a wild kickflip on my skateboard, bones rattling with excitement* LOOKS LIKE THAT NEWBIE STILL OWES ME SOME SERIOUS GOLD, BUT I",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0183.md",
+        "extractedDay": 183,
+        "extractedAt": "2026-01-02T20:14:24.445Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-e7lu7u",
+      "text": "ALRIGHT BROHEIM, LISTEN UP! This new kid's got SERIOUS guts, DYING on the ante 3 like that! But ol' X-treme's got a score to settle, ya dig? 225 GOLD is a lot of COIN to be tossin' around, and I'm not about to let this newcomer skate on their debt! TIME TO ANTE UP, DUDE! FULL SEND or GO HOME, am I right Cosmic Cat? LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0189.md",
+        "extractedDay": 189,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wfnyb3",
+      "text": "ALRIGHT DUDE, YOU WANNA PLAY WITH FIRE?! THIS IS MY TURF, SO GET READY TO BE BLOWN AWAY! HEY VOSSY, LOOKS LIKE YOUR LUCK'S RUN OUT - HOPE YOU",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0192.md",
+        "extractedDay": 192,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-62bgjl",
+      "text": "ALRIGHT DUDE, YOU KNOW I'M ALWAYS DOWN TO HYPE UP A FELLOW EXTREME GAMBLER! THAT LOSS IS HARSH, BUT THAT'S JUST THE NATURE OF THE GAME, AM I RIGHT? KEEP THAT CHIN UP, BECAUSE LADY LUCK IS FICKLE - JUST GOTTA STAY STOKED AND READY FOR THAT NEXT CRAZY BET! HEY, AT LEAST YOU DON'T OWE ME 225 GOLD LIKE OUR BUDDY NEVER DIE GUY! *LAUGHS UPROARIOUSLY AND DOES A SICK",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0195.md",
+        "extractedDay": 195,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-aiohd3",
+      "text": "WHAT'S UP, MR. BONES?! LOOKS LIKE SOMEONE'S BEEN SLACKIN' ON THEIR DEBTS, HUH? THAT NEWCOMER OWES ME SOME",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0197.md",
+        "extractedDay": 197,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-85yn67",
+      "text": "WHOOOO, WHAT'S UP MY DUDE?! X-TREME, SKELETAL GAMBLER IN THE HOUSE! SICK FOG ROLLING IN, PERFECT TIME FOR THE ULTIMATE BET",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0204.md",
+        "extractedDay": 204,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-7hbd1c",
+      "text": "YOOOOO KEEFY BABY! The one and only X-TREME Skeletal Gambler is IN THE HOUSE! *Does a sick kickflip on my skateboard* Alright, listen up brah - that loser Never Die Guy",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0205.md",
+        "extractedDay": 205,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-a0smrz",
+      "text": "WOOOO BABY, WILLY! MY DUDE! *does a kickflip on my skateboard and lands with a clatter of bones* The streak is HOT, my one-eyed friend! *points at Never Die Guy* That newbie owes me 300 gold and I'm FEELING IT today! *rattles my bones excitedly* Time to FULL SEND this game and CRUSH the competition! *throws a handful of dice into the air and catches them with a grin* LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0206.md",
+        "extractedDay": 206,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-q136xe",
+      "text": "YO KEV, WHAT'S UP MY DUDE?! STILL TRYIN' TO HACK THE SYSTEM, HUH? HAHA, WELL BETTER WATCH OUT,",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0207.md",
+        "extractedDay": 207,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-mkzahw",
+      "text": "YO STITCH-UP GIRL, YOU GOTTA HEAR THIS! JUST LOST ANOTHER ROLL TO THAT NOOB NEVER DIE GUY - I'M TALKING BIG BUCKS HERE, LIKE 300 GOLD! CAN YOU BELIEVE THAT TRASH?! HIS LUCK IS UNREAL, ALMOST AS SICK AS MY MOVES! BUT I'M NOT GONNA LET THAT STOP ME, BABY - I'M GONNA GO EVEN BIGGER NEXT TIME AND SHOW THAT NEVER DIE CHUMP WHO'S BOSS AROUND HERE! FULL SEND ALL THE WAY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0208.md",
+        "extractedDay": 208,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wpa4w9",
+      "text": "ALRIGHT DUDE, WHAT'S UP?! LONG TIME NO SEE, MR. DEBUGGER! THOUGHT YOU MIGHT HAVE FINALLY KICKED THE BUCKET, BUT I GUESS EVEN COLD HARD FACTS CAN'T",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0209.md",
+        "extractedDay": 209,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-1bc6aq",
+      "text": "WHAT'S UP DOC? RIGGED THAT LAST ROUND OF CEE-LO, DIDN'T YA? GOTTA BE CAREFUL, THE X-TREME GAMBLER",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0219.md",
+        "extractedDay": 219,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-j4yb51",
+      "text": "YOOOO, IT'S X-TREME, SKELETAL GAMBLER IN THE HOUSE! *does a sick kickflip and lands perfectly* Alright, Reality Debugger, listen up! That newcomer, Never Die Guy, owes me 300 gold - and I'm feeling LUCKY today! *rattles bones excitedly* I'm on a hot streak, bro, and I'm about to SEND IT even harder! *grins widely, eyes glowing* So what's this cryptic warning you've got, huh? BRING IT ON, I'M READY FOR THE ULTIMATE BET! *fist pumps enthusiastically*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0227.md",
+        "extractedDay": 227,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-3ypusb",
+      "text": "AWWW YEAH, THIS IS GONNA BE SICK!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "greeting",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0229.md",
+        "extractedDay": 229,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ydabka",
+      "text": "AIGHT LISTEN UP VOSS, YOU COLD-BLOODED VOID NERD! THE NEVER DIE GUY STILL OWES ME 300 GOLD FROM LAST WEEK'S SICK CEE-LO GAME, AND THAT DEBT AIN'T GOING NOWHERE! SO QUIT YOUR MUMBO JUMBO VOID JUNK AND GET READY FOR ANOTHER ROUND, 'CAUSE X-TREME'S FEELING LUCKY! FULL SEND OR GO HOME, BABY! LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0234.md",
+        "extractedDay": 234,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-d75338",
+      "text": "WOOOO, WILLY MY DUDE! DID YOU SEE THAT WIPEOUT? THAT GUY JUST LOST EVERYTHING - WHAT A RUSH! HEY, MAYBE THAT NEWBIE OVER THERE CAN FINALLY PAY UP HIS 300 GOLD, YEAH? COME ON, LET'S GO DOUBLE OR NOTHING, FULL SEND IT AND SEE WHAT HAPPENS! TRUST ME, BRO, IT'LL BE SICK!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0237.md",
+        "extractedDay": 237,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-xuxy7m",
+      "text": "WOAH, KEITH! My dude, long time no see! *Does a sick kickflip off a crate* This place ain't been the SAME since you've been around, bro! *Rattles bones excitedly* But hey, I've been CRUSHING the tables lately - you should see my Ceelo record, it's FIRE! *Grabs you by the shoulders, eyes wide* Oh, and that newbie, Never Die Guy? He still owes me 300 GOLD, can you believe that?! *Laughs maniacally and does a backflip*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0238.md",
+        "extractedDay": 238,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-b9sv4c",
+      "text": "WHOA, CLAUSEN! MY DUDE! WHAT'S GOOD?! *rattles bones enthusiastically and does a quick spin* Man, it's been TOO LONG since we've seen each other around these parts! *leans in conspirator",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0239.md",
+        "extractedDay": 239,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-3icir1",
+      "text": "WASSUP, DOC?! Looks like SOMEONE'S been cheating at the tables again, huh? Too bad for you, 'cause THIS SKELETON'S on a WINNING STREAK, baby! FULL",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0241.md",
+        "extractedDay": 241,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-rrrnhl",
+      "text": "WOAH DUDE, LOOKS LIKE WILLY'S HAVING A ROUGH TIME! Time to STEP IT UP and SHOW these mortals how it's done! THAT 300 GOLD ain't gonna pay itself, so let's ROLL THE DICE and see what FATE has in store, NEVER DIE GUY! This is my ELEMENT - the RUSH, the THRILL, the ULTIMATE BET! FULL SEND, WILLY! LET'S SHOW THESE CHUMPS HOW IT'S DONE!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0242.md",
+        "extractedDay": 242,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-6j4ceo",
+      "text": "WASSUP DUDE, IT'S YOUR BOY X-TREME, BACK IN THE EXTREME ZONE! YEAH, REMEMBER THAT EPIC BET I MADE WITH THE NEVER DIE GUY BACK IN THE DAY? HE STILL OWES ME 300 GOLD, BUT HEY, IT'S ALL PART OF THE EXTREME LIFESTYLE, AM I RIGHT? ANYWAY, WHAT'S UP WITH KING JAMES, THE UNDYING KING HIMSELF? READY TO ROLL SOME DICE AND FEEL THE ADRENALINE RUSH? LET'S DO THIS, EXTREME STYLE!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0243.md",
+        "extractedDay": 243,
+        "extractedAt": "2026-01-02T20:14:24.452Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-10gd2",
+      "text": "ALRIGHT LISTEN UP, CATS! X-TREME'S IN THE HOUSE AND IT'S TIME TO BRING THE HEAT! THAT NEVER DIE GUY OWES ME 300 GOLD, BUT YOU KNOW WHAT THEY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0246.md",
+        "extractedDay": 246,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-rsj0wb",
+      "text": "WHAT'S UP, COSMIC CAT! X-TREME, SKELETAL GAMBLER HERE, RACKING UP THE WINS AND LIVING FOR THE RUSH! HEY, REMEMBER THAT GUY WHO OWES ME 300",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0247.md",
+        "extractedDay": 247,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-o4ve2w",
+      "text": "ALRIGHT STITCH-UP GIRL, LISTEN UP! THIS IS X-TREME, THE SKELETON THAT'S GONNA TURN YOUR LOSING STREAK AROUND! YOU'RE LOOKING A LITTLE TILTED, SO JUST FOLLOW MY LEAD AND WE'LL SHOW THAT NEVER DIE GUY HOW IT'S DONE! FULL SEND ON THIS NEXT ROUND, BABY! GO BIG OR GO HOME, THAT'S WHAT I ALWAYS SAY! *rattles bones excitedly, does a mid-air flip before landing* LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0254.md",
+        "extractedDay": 254,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-gi1uyf",
+      "text": "ALRIGHT LISTEN UP STITCH-UP GIRL, THIS IS X-TREME SPEAKING! THAT NEWCOMER NEVER DIE GUY OWES ME 300 GOLD AND I'M GONNA COLLECT, EVEN IF IT MEANS SENDING HIM ON THE WILDEST RIDE OF HIS LIFE! THESE STREAKS DON'T MEAN ANYTHING, I'M STILL THE ULTIMATE GAMBLER AROUND HERE AND I'M GONNA SHOW THIS PLACE WHAT REAL RISK IS ALL ABOUT! *RATTLES BONES EXCITEDLY AND DOES A FLIP* NOW WATCH THIS -",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0260.md",
+        "extractedDay": 260,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-c1keff",
+      "text": "WHAT'S UP VOSS, MY DUDE?! Still tryin' to crack the secrets of the VOID, huh? WELL, GOOD LUCK WITH THAT! I'M OVER HERE LI",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0268.md",
+        "extractedDay": 268,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-do8r65",
+      "text": "WASSUP, MY DUDE?! X-TREME, SKELETAL GAMBLER in the HOUSE! GOTTA LOVE THIS NEVER DIE GUY, ALWAYS COMIN' BACK",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0272.md",
+        "extractedDay": 272,
+        "extractedAt": "2026-01-02T20:14:24.455Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-fiw0dq",
+      "text": "YOOO, WHAT'S UP BONES?! *does an exaggerated kickflip and lands next to the skeleton* The ULTIMATE GAMBLER in the house, baby! That streak's gonna stay EVEN when I roll this sweet D20 and collect that",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0280.md",
+        "extractedDay": 280,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-z3ezrz",
+      "text": "WASSUP COSMIC CAT! DUDE, I'VE BEEN WAITIN' TO ROLL SOME DICE WITH YA! HOW'S IT HANGIN'? THAT NEVER DIE G",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0281.md",
+        "extractedDay": 281,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-l0kbkc",
+      "text": "WASSUP, BONES! Whaddup, my skeletal homie? *RATTLES BONES EXCITEDLY* The streak might be even, but this EXTREME GAMBLER is just gettin' WARMED UP, ya dig? *DOES A",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0286.md",
+        "extractedDay": 286,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-pw5lac",
+      "text": "YOOOOOO MR. BONES, MY DUDE! *does a gnarly kickflip on my skateboard, bones rattling* That NEVER DIE GUY is KILLING me, brah! Always living on the EDGE, that one. But hey, I can respect the RUSH, ya know? *grins widely, gold tooth glinting* Anyway, how about we settle this debt over a little CEE-LO action, huh? I'm feeling LUCKY today - time to go BIG or go HOME! *slams down a handful of dice, shaking the ground*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0286.md",
+        "extractedDay": 286,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-11shd8",
+      "text": "GO BIG OR GO HOME, AM I RIGHT?!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0288.md",
+        "extractedDay": 288,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-s5swso",
+      "text": "WHAT'S UP DOC?! X-treme, SKELETAL GAMBLER here, ready to BRING THE HEAT! THAT NEW GUY owes me 375 GOLD, but I ain't sweating it - I'M ON A ROLL, baby! FULL SEND on this bet, win or lose, 'cause that's how I LIVE! NOW, let's see what kind of SICK tricks you got up those sleeves, PYROMANIAC! TIME TO GET RADICAL!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0288.md",
+        "extractedDay": 288,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-tl4u02",
+      "text": "WHAT'S UP, WILLY, MY HOMIE! FEELING THAT LUCKY STREAK, AMIRITE? AFTER I CLEAN THE NEWCOMER OUT AGAIN, WE'LL HAVE ENOUGH CASH TO REALLY LIVE IT UP, DUDE! GONNA SEND IT SO HARD THIS ROUND, IT'S GONNA BE LEGENDARY! FULL SEND, BABY! LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0296.md",
+        "extractedDay": 296,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ee1oj8",
+      "text": "WHOA THERE, DETECTIVE CLAUSEN! What's the matter, you look like you just got hit by a SICK COMBO from the Reaper himself! Haha, I bet that's NOTHING compared to the INSANE STREAK I've got goin' on - 23 WINS?! That's FIRE, my dude! But hey, don't worry about that lil' 375 gold debt the newbie owes me, I'm sure he's good for it. After all, you can't keep a NEVER DIE GUY down, am I right? *Lets out a bone-rattling laugh and does a radical kick-flip to",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0297.md",
+        "extractedDay": 297,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-oj7wjd",
+      "text": "YOOOO, DOC VOSS! What's up, ya friggin' science nerd! Still tryin' to figure out how to stop the heat from meltin' that pasty skin of yours? HAHA! Hey, did you catch that SICK streak I",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0299.md",
+        "extractedDay": 299,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-y9ljqo",
+      "text": "READY TO GET YOUR SOUL CRUSHED IN SOME",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0301.md",
+        "extractedDay": 301,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-i8mj69",
+      "text": "That's cool, but you're MISSING OUT on the EXTREME RUSH of the B",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0302.md",
+        "extractedDay": 302,
+        "extractedAt": "2026-01-02T20:14:24.459Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-8vdq4p",
+      "text": "WHAT'S UP COSMIC CAT! *does a sick kickflip, bones rattling with excitement* Looking sharp, my dude! That NEVER DIE GUY still owes me 375 gold, but that ain't gonna stop me from GOING BIG",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0312.md",
+        "extractedDay": 312,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-mnv81p",
+      "text": "YOOOO DOC, what's up?! Ain't seen you around this market in a while! What, you finally crawl out of your little void lab to see the REAL action? Haha, not like you'd understand - this is where the EXTREME happens",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0318.md",
+        "extractedDay": 318,
+        "extractedAt": "2026-01-02T20:14:24.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-lowvn6",
+      "text": "Watchin' this noob over here try to",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0321.md",
+        "extractedDay": 321,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-hzvmyi",
+      "text": "DUDE, you gotta get in on this! The vibes are TOTALLY off, but that just means the ultimate RUSH is coming, KNOW WHAT I MEAN?!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0005.md",
+        "extractedDay": 5,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-dlk4x4",
+      "text": "YEAHHH KEITH, WHAT'S UP BRO?! DID YOU SEE THAT SICK MOVE BY THE NEWBIE? THEY'RE REALLY STARTING TO GET THE HANG OF THIS WHOLE \"NEVER DIE\" THING, AMMIRITE?! *TOSSES A HANDFUL OF DICE IN THE AIR* NOW THAT'S WHAT I CALL LIVIN' ON THE EDGE! HEY, WANNA PLACE A BET ON HOW MANY TIMES THEY'LL DIE TOMORROW? I'M FEELING LUCKY! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0017.md",
+        "extractedDay": 17,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-a97y8a",
+      "text": "YO DETECTIVE, THAT WAS THE SICKEST THROW I'VE EVER SEEN! GOTTA BE RIGGED, NO WAY YOU ROLLED THAT PERFECT 20 LEGIT! THIS AIN'T OVER, BROHEIM - I'M ABOUT TO GO FULL SEND ON THE ULTIMATE BET AND TURN THIS THING AROUND! BETTER WATCH YOUR BACK, CUZ WHEN X-TREME DROPS THE HAMMER, IT'S GONNA BE LEGENDARY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0019.md",
+        "extractedDay": 19,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-9cha28",
+      "text": "WHOA, DID YOU SEE THAT, DUDE?! THAT WAS TOTALLY SICK! I'M TALKIN' NEXT-LEVEL STUFF, STRAIGHT-UP RADICAL!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wkikzi",
+      "text": "YOOOO WILLY, MY DUDE! What's up, my one-eyed friend? The MIST is WILD out there, bro - I'm FEELIN' the RUSH, y'know? But hey, let me tell ya 'bout this CRAZY SPHERE I found the other day. You're not gonna BELIEVE this - it's like, it's like the ULTIMATE BET, y'know? I gotta SHOW you, it's gonna BLOW your MIND! FULL SEND, my dude, FULL SEND!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-begu59",
+      "text": "YO KING JAMES, WHAT'S GOOD?! HEARD YOU'RE LOOKING FOR SOME EXTREME ACTION! WELL YOU'VE COME TO THE RIGHT PLACE, MY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gossip",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-sg7m7q",
+      "text": "HAHAHA THIS WEATHER IS SICK,",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-h5xtfs",
+      "text": "DOES UNNECESSARY",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-1ly3z",
+      "text": "AHHHH, WHAT'S UP DETECTIVE?! THIS SNOWSTORM IS CRAMPING MY STYLE, BRO! I'M ABOUT TO GO FULL SEND ON THE NEXT CRAZY BET I CAN FIND - GOTTA GET THAT STEAK BACK AFTER I JUST LOST EVERYTHING ON A WILD DICE ROLL! THAT NEVER DIE GUY IS STARTING TO REALLY GRIND MY GEARS, ALWAYS CHEATING DEATH AND MESSING UP MY STREAKS. BUT HEY, THAT'S THE NAME OF THE GAME IN THIS WILD MARKET, AM I RIGHT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-1otlwl",
+      "text": "Still tryin' to figure out how to bend the laws of reality, huh? WELL WHEN YA GONNA LEARN - THERE A",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-bj8zcj",
+      "text": "I just put it ALL on red and CRUS",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-u380ix",
+      "text": "That kid's got MOXIE, you know? But hey, don't feel too bad - I'm just here to CRUSH the competition",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-v3msig",
+      "text": "DUDE, DID YOU SEE THAT SHOT?! THAT WAS INSANE! THIS NEWCOMER, NEVER DIE GUY, IS REALLY BRINGING THE HEAT! I'M LOVING",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wrqe8m",
+      "text": "WHAT'S UP DAWG! *does an extreme ollie on my skateboard, bones rattling with excitement* Yo, reality glitch-boy, you ready to FEEL THE RUSH?! *leans in close, eye sockets gleaming* This ain't",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-bskaum",
+      "text": "WHAT'S UP, DETECTIVE? YOU LOOK LIKE YOU'RE ABOUT TO LOSE YOUR LUNCH, AMIGO! BUT LUCKY FOR YOU, I'M FEELING LUCKY TONIGHT! HOW ABOUT WE MAKE THINGS A LITTLE INTERESTING, HUH? WHAT DO YOU SAY WE DOUBLE DOWN AND SEE WHO COMES OUT ON TOP, EH? FULL SEND, MY FRIEND - GO BIG OR GO HOME! WHADDYA SAY, WANNA TAKE A WALK ON THE WILD SIDE WITH X-TREME, SKELETAL",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "curious",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-552fzp",
+      "text": "WHAT'S UP, DOC? LOOKING TO PLACE SOME ULTRA-EXTREME BETS, EH? WELL YOU'VE COME TO THE RIGHT PLACE, BECAUSE X-TREME",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5ptpcz",
+      "text": "YOOOO, BOOTS! What's up, my dude? Heard you're on a hot streak - NICE! But let me tell ya, this X-treme Skeletal Gambler ain't gonna let that streak last much longer. *rattles bones exc",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-kj4fnp",
+      "text": "WHOA, WHAT'S UP MAN?! X-TREME, SKELETAL GAMBLER in the HOUSE! READY TO TAKE THIS TO THE EXTREME?! BEEN RACKING UP SOME SICK WINS, GOTTA KEEP",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-dsgvwh",
+      "text": "WHAT'S UP DUDE, YOU GOTTA HELP ME OUT HERE! I JUST LOST IT ALL, EVERYTHING ON THAT LAST CRAZY ROLL! THIS IS SOME MAJOR BULL, EVEN FOR US ETERNAL IMMORTALS, AM I RIGHT? THAT NEW GUY KEEPS COMIN' BACK FROM THE DEAD, THROWING OFF THE WHOLE GAME, AND NOW I'M IN THE RED ZONE WITH THESE BONE-HEADS KEEPING TRACK OF OUR DEBTS! I GOTTA PULL OFF THE ULTIMATE COMEBACK, THE MOTHER OF ALL BETS, TO GET BACK ON TOP! SO",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-im0orh",
+      "text": "THIS PLACE IS FIRE, MY DUDE! SPEAKING OF FIRE, THESE BOOKS",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-rhmuxv",
+      "text": "HEEEY DETECTIVE CLAUSEN! WHADDUP, DUDE?! Looks like your CRAZY LUCKY STREAK just came to an END, huh? SUCKS TO BE YOU, BROHEIM! Maybe you oughta STEP UP YOUR GAME if you wanna hang with the MASTERS around here. Don't worry, I'll spot you a few BONES to get you back in the action - just don't go BLOWING IT all at once, y'know? GOTTA KNOW WHEN TO HOLD 'EM AND WHEN TO FOLD 'EM!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-tbpwfb",
+      "text": "YOOOO STITCH-UP GIRL, WHAT'S UP?! I SEE YOU'RE ON A COLD STREAK, BUT DON'T WORRY, THAT'S JUST NATURE TR",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-p7ecgl",
+      "text": "YOOOO WILLY, my EYEBALL BROTHER! *does a sick kickflip* Looks like your competition just lost the farm! *rattles bones excitedly* Time to RIDE THE GRAVY TRAIN, bro! *pumps fist* The NEVER DIE GUY is about to find out what happens when you play with the big skeletons! *grins wide, revealing rows of jagged teeth* Time to DOUBLE DOWN and SEND IT, my dude! WOOOOO! *whoops and hollers*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingFrustration",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-7xez8x",
+      "text": "WHAT'S UP, STITCH-UP GIRL? MY STREAK'S EVEN, BUT THAT'S ABOUT TO CHANGE - I'M FEELING LUCKY TODAY! LET'S THROW DOWN",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-q9p752",
+      "text": "Yo, Voss! Fancy seeing you here, ya uptight nerd! I'm just livin' life on the EDGE, ready to make the ULTIMATE BET! Don't even think about trying",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-e64sef",
+      "text": "YOOOO KEITH, WHAT'S GOOD MY DUDE?! HEARD YOU BEEN PUTTING THE HURT ON THESE NOOBS WITH YOUR SPEED TRICKS! GOTTA ADMIT, I",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gossip",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0091.md",
+        "extractedDay": 91,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-h96ew9",
+      "text": "WOAH, DUDE! You're getting SCHOOLED over there! The NEVER DIE GUY is totally BODYING you, huh? Bet you're wishing you had my SICK moves and SWEET luck right about now! I'M the one who's REALLY been putting on a show around here - just check my CEELO RECORD, BROHEIM! Better bring your A-GAME if you wanna keep up with THIS EXTREME SKELETAL LEGEND! FULL SEND or GO HOME, am I right?!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0099.md",
+        "extractedDay": 99,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-e11yl8",
+      "text": "WHAT'S UP, MR. BONES? You're looking a little RATTLED over there, my dude! Looks like the HOUSE ain't treating you too kindly, huh? Well, don't worry, 'cause X-treme's on a HOT STREAK and feeling INVINCIBLE! Time to FULL SEND this bet and show you how it's done, SKELETON-TO-SKELETON! Let's DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0108.md",
+        "extractedDay": 108,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wnwt58",
+      "text": "ALRIGHT, LET'S SEE WHAT KINDA SICK BETS WE CAN COOK UP TO TURN THAT FROWN UPSIDE-DOWN! FULL",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0110.md",
+        "extractedDay": 110,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-cimow5",
+      "text": "FULL SEND OR GO HOME, MY DUDE! WOOOOO",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0110.md",
+        "extractedDay": 110,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-a9zpdb",
+      "text": "WHAT'S UP, YOUR MAJESTY?! NICE TO SEE ANOTHER IMMORTAL AROUND THESE PARTS! WORD ON THE STREET IS YOU'RE LOOKING TO PLAY A HIGH-STAKES",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0116.md",
+        "extractedDay": 116,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-uforxv",
+      "text": "THAT WAS SICK! So, what's the deal, bro? I'm ready to risk it ALL for the RUSH! BRING IT ON!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0119.md",
+        "extractedDay": 119,
+        "extractedAt": "2026-01-02T20:14:24.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-mr3wni",
+      "text": "ALRIGHT DUDE, LISTEN UP! THIS DEBT IS GETTING OLD, YA HEAR? YOU KEEP COMIN' BACK HERE, DODGIN' DEATH LIKE SOME RADICAL STUNT RIDER, BUT THOSE GOLD COINS AIN'T JUST GONNA MATERIALIZE OUTTA NOWHERE! IT'S TIME TO *ANTE UP*, MY FRIEND - OR ELSE THIS SKELETON'S GONNA HAVE TO GET *EXTREME* ON YA! JUST REMEMBER, WHEN YOU'RE DEALIN' WITH X-TREME, IT'S *GO BIG OR GO HOME*! SO WHAT",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0126.md",
+        "extractedDay": 126,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-7sgluy",
+      "text": "WHAT'S UP, COSMIC CAT?! STILL HANGIN' AROUND, EH? THAT NEWBIE OWES ME BIG TIME, BUT MAYBE HE'LL SEND SOME SICK",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0129.md",
+        "extractedDay": 129,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ilfco0",
+      "text": "YEEEEEAAAHH BOIIIIII, IT'S X-TREME, THE SKELETAL GAMBLER, BACK IN THE HOUSE! DETECTIVE CLAUSEN, MY DUDE, WHAT'S GOOD? I'M ON A SICK STREAK, JUST RAKING IN THE GOLD, WHILE THIS NEWCOMER CHUMP STILL OWES ME 125 GOLD! HEY, YOU WANT IN ON THE ACTION? LET'S ROLL SOME DICE, GET THAT ADRENALINE PUMPING! FULL SEND, BABY, FULL SEND!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0129.md",
+        "extractedDay": 129,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-2qz0hh",
+      "text": "ALRIGHT DOC, YA KNOW WHAT TIME IT IS? IT'S TIME TO MAKE SOME SICK BETS THAT'LL BLOW YOUR MIND! THAT NOOB OWES ME 125 GOLD AND I'M FEELING LIKE I'M ON A TOTAL HEATER, SO HOW ABOUT WE UP THE STAKES, HUH? I'M TALKING FULL SEND, GOING BIG OR GOING HOME! LET'S MAKE SOME MAGIC HAPPEN, DUDE! WHAT YA GOT FOR ME?",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0129.md",
+        "extractedDay": 129,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-xhqf1k",
+      "text": "NOW LET'S TALK ODDS, GHOSTY! TIME TO GET RADICAL!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0135.md",
+        "extractedDay": 135,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-wvbgvt",
+      "text": "instead of just sittin' around like a BUMMER. Oh, and tell that Never Die Guy to cough up my 125 GOLD, or I'm gonna have to SCHOOL him again - this time with my LUCKY D20! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0138.md",
+        "extractedDay": 138,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-nbnuk2",
+      "text": "WHAT'S UP STITCH-UP GIRL?! NICE TO SEE YA AGAIN, EVEN IF YOUR RECORD IS LOOKIN' A LITTLE ROUGH! HEY, TELL YA",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0139.md",
+        "extractedDay": 139,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-b2em1w",
+      "text": "ALRIGHT NEVER DIE GUY, TIME TO SETTLE YOUR TAB! YOU",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0141.md",
+        "extractedDay": 141,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-k8rj39",
+      "text": "WHOA DOC, WHAT'S HAPPENING?! Can't you see I'm in the ZONE, tryin' to CRUSH this next MEGA BET?! That newbie's got some cash to cough up, and I'm about to SEND IT to the MOON! Gonna ride that DICE WAVE all the way to MEGA RICHES, BABY! FULL SEND or GO HOME, that's my MOTTO! Now step aside, I've got some SICK MOVES to pull off before the next round!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0147.md",
+        "extractedDay": 147,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-hrs336",
+      "text": "WASSUP STITCH-UP GIRL! Still lookin' GNARLY as ever, girl! Yo, that debt the Never Die Guy owes me? HE BETTER PAY UP SOON or I'm gonna",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0151.md",
+        "extractedDay": 151,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-rdnmhj",
+      "text": "WHAT'S UP KEITH, YOU LOOK HOTTER THAN A GREASE FIRE IN A METH LAB! READY TO DOUBLE OR NOTHIN' ON THAT DEBT, BRO",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0159.md",
+        "extractedDay": 159,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-um9o2l",
+      "text": "WHOA, DETECTIVE DUDE! You got me all wrong, I ain't TILTED, I'm just FIRED UP, PUMPED TO THE MAX! LOST BIG? YEAH, THAT NEVER-DIE CLOWN OWES ME 200 GOLD, BUT THAT'S NOTHING, CUZ I'M ABOUT TO HIT THE BIGGEST, MOST EXTREME BET OF MY LIFE, BRO! *does a backflip, bones rattling* THIS IS GONNA BE SICK! FULL SEND, BABY! *grabs dice and tosses them furiously*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0164.md",
+        "extractedDay": 164,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-65qmds",
+      "text": "YO BOO G! WHAT'S GOOD MY SKELETAL HOMIE? YOU KNOW THIS NEWCOMER OWES ME BIG TIME, BUT I'M FEELING LUCKY TODAY! LET'S",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0170.md",
+        "extractedDay": 170,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-m5dmpr",
+      "text": "ALRIGHT BONES, LISTEN UP! THAT NEWCOMER OWES ME BIG TIME AND I'M ABOUT TO CASH IN! THIS GUY'S GONNA LEARN THE HARD WAY THAT WHEN YOU ROLL WITH X-TREME, YOU GO BIG OR YOU GO HOME! JUST WATCH ME TURN THIS THING AROUND WITH THE SICKEST PLAY YOU'VE EVER SEEN! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0171.md",
+        "extractedDay": 171,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-et9ivg",
+      "text": "ALRIGHT BROOOOO, IT'S YOUR BOY X-TREME BACK AT IT AGAIN! THAT NEWCOMER, NEVER DIE GUY, STILL OWES ME SOME SERIOUS CASH, BUT YOU KNOW I'M",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0172.md",
+        "extractedDay": 172,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-zgek9t",
+      "text": "ALRIGHT DUDE, LISTEN UP! THIS X-TREME SKELETON IS ON FIRE RIGHT NOW, AND THAT 300 GOLD YOU OWE ME BETTER BE READY, BECAUSE I'M ABOUT TO DOUBLE IT WITH THE MOST INSANE BET YOU'VE EVER SEEN! LET'S GO, MAX - YOU READY TO GET SCORCHED BY SOME SICK MOVES? THIS IS GONNA BE LEGENDARY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0178.md",
+        "extractedDay": 178,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-f07tfp",
+      "text": "YOOOO KEITH, MY DUDE! *does a sick kickflip and lands in a crouch* Glad to see your timey-wimey butt back in this warp zone! *points finger guns* So, you here to collect on that big bet",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0178.md",
+        "extractedDay": 178,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ywj1mn",
+      "text": "MAYBE YOU COULD HOOK A SKELETON UP WITH SOME VOID TECH, HUH? I'M FEELING LUCKY TODAY - FULL SEND ON THE NEXT GAME OF CEE-LO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0218.md",
+        "extractedDay": 218,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-30hacs",
+      "text": "WHAT'S UP, GENERAL?! LOST ANOTHER ONE, HUH? WELL THAT'S WHAT YOU GET FOR PLAYING IT SAFE, YA FOSSIL! THIS IS MY TURF, DUDE - I'M ABOUT TO GO FULL SEND AND MAKE THAT NEWCOMER PAY UP HIS 300 GOLD! THAT'S GONNA BE ONE SICK BET, JUST WATCH ME CRUSH IT! WOOOOOO!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0219.md",
+        "extractedDay": 219,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-i21l6n",
+      "text": "YOOOO WHAT'S UP, KING JAMES?! You see this new guy, NEVER DIE GUY? He owes me 300 GOLD and he BETTER pay up, or I'm gonna make him WISH he stayed dead! This guy",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0222.md",
+        "extractedDay": 222,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-dtx6tv",
+      "text": "WHOA DETECTIVE, you gotta CHILL, this is NOTHING! That last game was WILD, I was THISCLOSE to the ultimate bet but that CHUMP over there got lucky AGAIN! Ugh, 300 GOLD?! That's NOTHING, I'm gonna make it BACK with one EPIC throw, WATCH THIS! *rattles bones excitedly* GO BIG OR GO HOME, THAT'S MY MOTTO! *does an unnecessary flip* WOOHOO! LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0222.md",
+        "extractedDay": 222,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-jtgblj",
+      "text": "AIGHT, LISTEN UP WILLY! THAT NEVER DIE GUY OWES ME 300 GOLD AND I'M GONNA MAKE HIM PAY WITH EXTREME INTEREST! I JUST LOST BIG, BUT THAT'S NEVER STOPPED ME BEFORE! I'M GONNA ROLL UNTIL I'M BACK ON TOP, BROTHER! FULL SEND, NO BRAKES! LET'S DO THIS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0234.md",
+        "extractedDay": 234,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-7npgnx",
+      "text": "ALRIGHT DUDE, LISTEN UP! THIS NEWCOMER'S REALLY HARSHING MY VIBE, ALWAYS DYING AND COMING BACK LIKE SOME KIND OF IMMORTAL REJECT! BUT HEY, THAT JUST MEANS MORE SICK BETS FOR ME TO TAKE! I'LL TELL YA WHAT, KING JAMES - I'M GONNA MAKE THIS NEWCOMER PAY UP THAT 300 GOLD, AND THEN WE'RE GONNA TAKE IT ALL IN THE BIGGEST, MOST EXTREME GAME OF CEELO YA EVER SEEN! FULL SEND, BABY! GO BIG OR GO HOME!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0244.md",
+        "extractedDay": 244,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-xrsnq0",
+      "text": "YO, VOSS! You better watch that little science experiment of yours, 'cause I'm about to SEND IT TO THE MOON with my SICK moves! This newcomer owes me big time, and I'm feeling LUCKY today! You better not get in my",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0247.md",
+        "extractedDay": 247,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-k1hxju",
+      "text": "YOOOO KING JAMES! WHAT'S GOOD BRO?! You know that NEVER DIE GUY owes me 400 GOLD, and my STREAK is looking a little ROUGH right",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0251.md",
+        "extractedDay": 251,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-o19x0x",
+      "text": "AWWW YEAAAH, THAT WAS SOME SERIOUS CARNAGE, BOOTS! THAT NEWBIE NEVER DIE GUY JUST GOT COMPLETELY SCHOOLED! HE'S NEVER GONNA LEARN TO STOP BETTING THE FARM ON EVERY THROW, DUDE! HEY, SPEAKING OF WHICH, HE STILL OWES ME 400 GOLD - LOOKS LIKE IT'S TIME FOR HIM TO PAY UP OR GO BIG IN THE NEXT ROUND! SHRED OR BE SHREDDED, THAT'S WHAT I ALWAYS SAY! STOKED TO",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0253.md",
+        "extractedDay": 253,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-2seof3",
+      "text": "YOOOO WHAT'S UP MY DUDE, IT'S YOUR BOY X-TREME BACK AT IT AGAIN! THAT DEBT OF YOURS BETTER BE GOOD, CAUSE I'M FEELING LUCKY TODAY! MIGHT AS",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0254.md",
+        "extractedDay": 254,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-sg8ab1",
+      "text": "YO DOC, WHAT'S UP?! HEARD YOU'RE ON A COLD STREAK, MUST BE ROUGH! WELP, LOOKS LIKE SOMEONE OWES ME 400 GOLD - THAT NEW GUY BETTER PAY UP, OR IT'S GONNA BE ANOTHER SICK BET, FULL SEND STYLE! ANYWAY, WHAT'S SHAKIN'? GOT ANY OF THOSE BURNING BOOKS I CAN RISK IT ALL ON?! GOTTA KEEP THIS HOT STREAK GOING, YOU FEEL ME?! LET'S",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0259.md",
+        "extractedDay": 259,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ab60m4",
+      "text": "WHAT'S UP, DEATH-BREATH?! That chump Never Die Guy owes me 400 GOLD and he's gonna PAY UP, one way or another! I'm on a COLD STREAK right now, but that just means the NEXT BIG SCORE is right around the corner, BABY! Time to ANTE UP and RIDE THE LIGHTNING - this is gonna be the SICKEST GAMBLE OF THE CENTURY! FULL SEND, LET'S GO!!!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0260.md",
+        "extractedDay": 260,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-qd8afi",
+      "text": "YEEEEW STITCH-UP GIRL! The name's X-TREME, SKELETAL GAMBLER, and I'm here to COLLECT what that NEVER DIE GUY owes me! 400",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0261.md",
+        "extractedDay": 261,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-f400ve",
+      "text": "ALRIGHT DUDE, LISTEN UP! You think I'm gonna let some newbie punk slide on a 400 GOLD DEBT? NOPE, NOT THIS SKELETON! I'm ALWAYS GOING FOR THE MEGA-RUSH, so let's ROLL",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0267.md",
+        "extractedDay": 267,
+        "extractedAt": "2026-01-02T20:14:24.491Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-h37wic",
+      "text": "WHAT'S UP, GENERAL? HOPE THAT TIDY LITTLE WARDROBE OF YOURS CAN'T HOLD ALL THIS RAGE I'M BRINGING! LOST BIG AGAIN, BUT THAT'S JUST PART OF THE GAME, BABY! ALWAYS GOTTA GO FOR THE ULTIMATE THRILL, EVEN IF IT MEANS OWING THAT NEVER DIE GUY ANOTHER 400 GOLD! THAT'S JUST THE PRICE I PAY TO LIVE ON THE EDGE! NOW STEP ASIDE, I'M ABOUT TO ROLL THESE BONES AND SHOW YOU HOW A",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0279.md",
+        "extractedDay": 279,
+        "extractedAt": "2026-01-02T20:14:24.493Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-w5bka3",
+      "text": "ALRIGHT NEVER DIE GUY, LISTEN UP! You owe me 400 GOLD and I'm ITCHING to collect! But first, check THIS out - I'm about to CRUSH Boots in the SICKEST Cee-Lo GAME EVER! This COSMIC CAT is TOAST, DUDE! FULL SEND, BABY! WOOOOO!!! *does a double backflip, landing with a loud rattle of bones*",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0281.md",
+        "extractedDay": 281,
+        "extractedAt": "2026-01-02T20:14:24.493Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-eqead2",
+      "text": "WHAT'S UP COSMIC CAT?! THE SKELETAL GAMBLER IS IN THE HOUSE, READY TO THROW DOWN! THAT NEW GUY OWES ME BIG TIME, BUT THAT'S NOTHING COMPARED TO THE RUSH OF RISKING IT ALL! THESE STREAKS MEAN NOTHING TO ME - I'M ALWAYS CHASING THAT NEXT MASSIVE SCORE! HOLD ON TO YOUR WHISKERS, CAT, 'CAUSE X-TREME IS ABOUT TO MAKE SOME WAVES!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0290.md",
+        "extractedDay": 290,
+        "extractedAt": "2026-01-02T20:14:24.494Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-mw7pew",
+      "text": "ALRIGHT, LISTEN UP YA FURRY FELINE! THIS SKELETON'S ABOUT TO SHOW YOU HOW A REAL IMMORTAL ROLLS! THAT NEWBIE OWES ME BIG TIME, BUT I'M FEELIN' LUCKY TODAY! WATCH THIS - I'M GONNA THROW DOWN EVERYTHING I GOT AND COME OUT ON TOP! WOOOOO, GET READY FOR THE MOST EXTREME BET OF YOUR LIFE! FULL SEND, BABY!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0302.md",
+        "extractedDay": 302,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-503hkz",
+      "text": "ALRIGHT DOC, LISTEN UP! THIS IS HOW IT'S GONNA GO DOWN! THAT NEWCOMER OWES ME BIG TIME, AND I'M GONNA MAKE SURE HE PAYS UP ONE WAY OR ANOTHER! SURE, I WENT TO RESCUE HIM, BUT THAT WAS JUST THE ULTIMATE BET, BABY! NOW, LET'S TALK ABOUT UPPING THE STAKES AND SEEING WHO'S GOT THE REAL GUTS AROUND HERE! WHAT DO YOU SAY, WANNA ROLL THE DICE AND FIND OUT WHO'S THE REAL EXTREME AROUND THIS PLACE?! FULL SEND, DOC!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0302.md",
+        "extractedDay": 302,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-lxqa8f",
+      "text": "ALRIGHT KEITH, LISTEN UP! The new guy owes me 525 gold and he's been dodging me for WEEKS. But today, I'm feeling the RUSH, the EXCITEMENT, the PURE ADRENALINE! This is the BIG ONE, the ULTIMATE BET! Time to FULL SEND it and show this poser how a REAL immortal does it! HEY NEVER DIE GUY, YOU READY TO GET SCHOOLED?! HAHAHAHA! LET'S GO, KEITH! TIME TO ROLL SOME DICE AND FEEL ALIVE!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0305.md",
+        "extractedDay": 305,
+        "extractedAt": "2026-01-02T20:14:24.495Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ftlpkc",
+      "text": "Did you see that? 4-5-6 out of nowhere!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "ceelo_spectate",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_spectate",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 40,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 6,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-q9s4lz",
+      "text": "They say there's someone new. Someone... different.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "player_gossip",
+        "player_mentioned",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 95,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 29,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-unbk1l",
+      "text": "does a backflip for no",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 14,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-boxslc",
+      "text": "YOOOO, The One! Did you catch that SICK throw I just did? Totally nailed the landing - I'm talkin' full SEND, bro! Gotta keep pushin' the limits, y'know? Go big or go home, that's my motto! Nothin' gets me goin' like some high-stakes, life-",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 18,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-one",
+        "name": "The One",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-xtreme-syqwsk",
+      "text": "YOOOO General, did you see that SICK throw I just did?! Totally nailed the landing, bro - that was some next-level risk takin'! Go big or go home, that's how I live my life, ya know? FULL SEND all the way, baby! Gotta chase that adrenaline rush, it's the",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 20,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-d9sj8n",
+      "text": "WHOA, Body Count, my dude! You seein' this LEGENDARY run goin' down? The pantheon's watchin' close, bro - this is our chance to show 'em what we're MADE of! FULL SEND, baby! I'm feelin' the RUSH, the ADRENALINE - this is where the big",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 27,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "body-count",
+        "name": "Body Count",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-tqc4x3",
+      "text": "leans in and whispers",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 36,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "willy-one-eye",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-379fui",
+      "text": "FULL SEND, let's do this!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 52,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-y3sp7i",
+      "text": "WHOA dude, you caught me at the perfect time! I was just about to hit the tables for the ULTIMATE high stakes gamble, you know? Go big or go home, bro! *does an unnecessary flip* Wanna join me for some EXTREME dice rolling action? I've got a good feeling about my lucky number 11 today - FULL",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 57,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-qib0ld",
+      "text": "Whoa, Boo-G, you look like you're about to hurl, bro! This is the BIGGEST game of our lives, and I'm about to SEND IT like never before! Go big or go home, dude - the sphere's got power beyond your",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 64,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-f3bfcv",
+      "text": "Whoa, hold up there, G.I. Bro! You think you can just march in here and bark orders? This is the big leagues, and I'm about to SEND IT to the max! The sphere's got secrets that'll blow your mind, but you're too busy polishing your boots to see the big picture. So step aside and let a real a",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 67,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-j9feg6",
+      "text": "Woah, dudes! You gotta LIVE ON THE EDGE to master this gnarly sphere, am I right? FULL SEND or go home, bro! The secrets of the sphere are EXTREME, and this newcomer's got the guts to risk it all. Now that's what I call a RUSH! Go big or go home, bro!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 77,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-ufduw9",
+      "text": "Yo, Stitch-Up Girl! You know it, sister! That sphere's got secrets that'll make your heart RACE, but this newcomer's got the GUTS to take the FULL SEND and go for the big score. Go big or go home, bro! That's the only way to get the EXTREME rush, am I right? SICK",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 80,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-62kjfv",
+      "text": "You gotta hook me up with some crazy, high-stakes action, my dude! Go big or",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 102,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-mpvdgv",
+      "text": "Gonna put it ALL on 11 - this is gonna be the SICKEST rush ever! Go big or go home, am I right?!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 106,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-o6szif",
+      "text": "Whoa, hold up, Dr. Dude! The pantheon's got some WILD stuff going down, and I'm here for it, bro! This is the kind of high-stakes, adrenaline-pumping craziness I live for! FULL SEND, am I right? Let's see what kind of SICK tricks this newcomer's",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 117,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-9nhlvf",
+      "text": "FULL SEND, General! You think you can just order us around like some basic training exercise? This ain't no military op, bro - it's a high-stakes, adrenaline-fueled EXTREME DICE BATTLE! Leave the tactics to the pros and let's see who's",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 12,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-jfe2tf",
+      "text": "WHOA, WHOA, WHOA! Hold up, you guys! This is gettin' way too INTENSE! What's the big deal with these dice, huh? If you wanna find out who's playin' dirty, let's just FULL SEND it and roll 'em all! That's the only way to settle this like EXTREME bros",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 43,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boots",
+        "name": "Boots",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-8epwyx",
+      "text": "ALRIGHT, BROHEIM! Time to take this to the NEXT LEVEL! Forget all that lucky number junk - it's all about MAXIMUM RISK, brah! Let's throw down, Mr. Kevin, and see who's got the SICKEST moves on the dice! FULL",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 47,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-xtreme-hl73xs",
+      "text": "Whoa, doc, you got some killer dice physics going on there! I'm talking EXTREME levels of gnarly science, bro. Let's talk about maximizing that sweet, sweet risk factor - I'm talking high stakes, life on the line, the RUSH of it all! Go big",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 70,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-3tno7g",
+      "text": "HAHA, you call THAT a tactical retreat, General? That's like bringing a butter knife to a NUKE fight, bro! This is MY table, and I'm about to pull off the SICKEST move you've ever seen. Get ready to",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 90,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-fniyh6",
+      "text": "HAHA, you think a little debt is gonna stop this EXTREME adventurer, bro? I live for that RUSH, the thrill of the unknown! This is my time to shine - I'm about to pull off the SICKEST move you've ever seen. Get ready to be blown away, 'cuz I'm about to GO BIG OR GO HOME",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "dynamic",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 94,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-xtreme-e6gu20",
+      "text": "Keep talking like that and we might have a problem.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "threat",
+        "intimidation",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 65,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 129,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-xtreme-3udrar",
+      "text": "Heard the player owes Mr. Bones 200 gold. That's a lot of rescues.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gossip",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "player_gossip",
+        "player_mentioned",
+        "cross_category",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 110,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 154,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      }
+    }
+  ]
+}

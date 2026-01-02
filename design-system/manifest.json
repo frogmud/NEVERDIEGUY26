@@ -1,0 +1,173 @@
+{
+  "version": "1.3.0",
+  "generated": "2026-01-02",
+  "status": "active",
+  "stats": {
+    "total": 4627,
+    "byType": {
+      "png": 926,
+      "svg": 3647,
+      "mp4": 38,
+      "gif": 10,
+      "lottie": 5,
+      "ttf": 1
+    },
+    "mvpCoverage": {
+      "referenced": 481,
+      "found": 456,
+      "missing": 25,
+      "note": "See docs/MVP_ASSET_GAPS.md for details"
+    }
+  },
+  "recentAdditions": {
+    "jan2026Enhancements": {
+      "portraitsHifi": {
+        "count": 216,
+        "scales": ["30px-hifi", "60px-hifi", "120px-hifi", "240px-hifi"],
+        "settings": "512 colors, color_precision 8, corner_threshold 45",
+        "output": "assets/characters/portraits/{scale}-hifi/"
+      },
+      "domainBackgrounds": {
+        "countPng": 300,
+        "countSvg": 5,
+        "categories": ["photorealistic (295)", "pixel-art (5)"],
+        "output": "assets/domains/backgrounds/"
+      }
+    },
+    "jan2025Vectorization": {
+      "enemies": { "count": 76, "size": "940K", "output": "assets/enemies-svg/" },
+      "market": { "count": 68, "size": "640K", "output": "assets/market-svg/" },
+      "flumes": { "count": 2349, "size": "60MB", "output": "assets/flumes-svg/" },
+      "heroes": { "count": 6, "size": "24K", "output": "assets/heroes-svg/" },
+      "currency": { "count": 3, "size": "28K", "output": "assets/ui/currency-svg/" },
+      "icons": { "count": 9, "size": "98K", "output": "icons/" }
+    },
+    "vectorizedSprites": {
+      "count": 91,
+      "source": "__sprite-cleanup-final/normal-sprites/4x/",
+      "output": "assets/characters/{pantheon,shops,travelers}/*/",
+      "format": "SVG (hard-edge polygon mode via vtracer)"
+    }
+  },
+  "categories": {
+    "brand": {
+      "path": "brand/",
+      "description": "Logos, fonts, wordmarks"
+    },
+    "tokens": {
+      "path": "tokens/",
+      "description": "Design tokens as JSON (colors, typography, spacing, semantic)"
+    },
+    "items": {
+      "path": "assets/items/",
+      "subcategories": ["armor", "artifacts", "consumables", "materials", "quest", "weapons"],
+      "description": "Game items - PNG/SVG pairs"
+    },
+    "characters": {
+      "path": "assets/characters/",
+      "subcategories": ["pantheon", "travelers", "wanderers", "shops"],
+      "description": "NPC portraits, sprites, and vectorized sprite animations"
+    },
+    "enemies": {
+      "path": "assets/enemies/",
+      "svgPath": "assets/enemies-svg/",
+      "description": "Enemy sprites and animation frames (76 SVGs)"
+    },
+    "market": {
+      "path": "assets/market/",
+      "svgPath": "assets/market-svg/",
+      "description": "Vendor portraits, idle/walk animation frames (68 SVGs)"
+    },
+    "domains": {
+      "path": "assets/domains/",
+      "subcategories": ["backgrounds/photorealistic", "backgrounds/pixel-art", "textures"],
+      "svgPath": "assets/domains/backgrounds-svg/",
+      "description": "Domain backgrounds (300 PNGs, 5 SVGs) and 3D textures"
+    },
+    "factions": {
+      "path": "assets/factions/",
+      "svgPath": "assets/factions-svg/",
+      "description": "Faction icons (8 PNG source, 8 SVG variants)"
+    },
+    "trophies": {
+      "path": "assets/trophies/",
+      "description": "Trophy GIF animations"
+    },
+    "flumes": {
+      "path": "assets/flumes/",
+      "svgPath": "assets/flumes-svg/",
+      "description": "Domain portal animations and stills (2,349 SVGs including animated frames)"
+    },
+    "heroes": {
+      "path": "assets/heroes/",
+      "svgPath": "assets/heroes-svg/",
+      "description": "Player character icons (6 SVGs)"
+    },
+    "videos": {
+      "path": "assets/videos/",
+      "description": "Cursed compression video assets (160x90, 8fps)"
+    },
+    "ui": {
+      "path": "assets/ui/",
+      "subcategories": ["dice", "chests", "currency"],
+      "svgPaths": {
+        "dice": "assets/ui/dice-svg/",
+        "chests": "assets/ui/chests-svg/",
+        "currency": "assets/ui/currency-svg/"
+      },
+      "description": "UI elements (dice, chests, currency with SVG variants)"
+    },
+    "illustrations": {
+      "path": "illustrations/",
+      "description": "Menu screen SVG illustrations"
+    },
+    "nav": {
+      "path": "nav/",
+      "description": "Navigation icons (SVG)"
+    },
+    "lottie": {
+      "path": "lottie/",
+      "description": "Lottie animations (confetti, energy, skull, star)"
+    },
+    "icons": {
+      "path": "icons/",
+      "description": "System icons (faction icons, heat mechanic)"
+    }
+  },
+  "gallery": {
+    "path": "gallery/",
+    "description": "Static HTML asset browser and documentation"
+  },
+  "tools": {
+    "vectorizer": {
+      "path": "scripts/vectorize.sh",
+      "description": "Batch PNG to SVG conversion using vtracer",
+      "presets": ["sprite", "portrait", "portrait-hifi", "icon", "bw", "domain-pixel"]
+    },
+    "syncToApp": {
+      "path": "scripts/sync-to-app.sh",
+      "description": "Rsync vectorized assets to ndg26z/public/assets/"
+    }
+  },
+  "pendingWork": {
+    "domains": {
+      "status": "10 PNGs not vectorized",
+      "reason": "Used as 3D planet textures, vectorization TBD"
+    },
+    "syncToApp": {
+      "status": "Pending",
+      "action": "Copy -svg/ directories to ndg26z/public/assets/"
+    },
+    "mvpGaps": {
+      "status": "25 missing references documented",
+      "action": "See docs/MVP_ASSET_GAPS.md"
+    }
+  },
+  "vectorizationSettings": {
+    "standard": { "size": "150px", "colors": 256, "fuzz": "5%", "corner": 60 },
+    "portraitHifi": { "size": "30-240px", "colors": 512, "fuzz": "3%", "corner": 45, "speckle": 0, "precision": 8 },
+    "domainPixel": { "size": "native", "colors": 32, "fuzz": "2%", "corner": 120, "speckle": 2 },
+    "factions": { "size": "native", "colors": 32, "fuzz": "2%", "corner": 180 },
+    "note": "Using vtracer with --colormode color --hierarchical stacked --mode polygon"
+  }
+}

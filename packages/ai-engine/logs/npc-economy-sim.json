@@ -1,0 +1,3220 @@
+{
+  "timestamp": "2026-01-02T05:49:47.865Z",
+  "seed": "economy-1767332987841",
+  "rounds": 500,
+  "npcCount": 24,
+  "finalSnapshot": {
+    "timestamp": 1767332987864,
+    "run": 0,
+    "totalWealth": 6125,
+    "avgWealth": 255.20833333333334,
+    "giniCoefficient": 0.5436802721088435,
+    "wealthDistribution": {
+      "broke": 9,
+      "poor": 0,
+      "neutral": 4,
+      "comfortable": 8,
+      "rich": 3
+    },
+    "topEarners": [
+      {
+        "slug": "alice",
+        "gold": 969
+      },
+      {
+        "slug": "the-general-traveler",
+        "gold": 841
+      },
+      {
+        "slug": "king-james",
+        "gold": 546
+      },
+      {
+        "slug": "the-general-wanderer",
+        "gold": 437
+      },
+      {
+        "slug": "dr-voss",
+        "gold": 432
+      }
+    ],
+    "bottomEarners": [
+      {
+        "slug": "keith-man",
+        "gold": 0
+      },
+      {
+        "slug": "body-count",
+        "gold": 0
+      },
+      {
+        "slug": "boo-g",
+        "gold": 2
+      },
+      {
+        "slug": "alien-baby",
+        "gold": 4
+      },
+      {
+        "slug": "xtreme",
+        "gold": 6
+      }
+    ]
+  },
+  "snapshotHistory": [
+    {
+      "timestamp": 1767332987842,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3181292517006803,
+      "wealthDistribution": {
+        "broke": 1,
+        "poor": 3,
+        "neutral": 7,
+        "comfortable": 12,
+        "rich": 1
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 500
+        },
+        {
+          "slug": "robert",
+          "gold": 480
+        },
+        {
+          "slug": "john",
+          "gold": 450
+        },
+        {
+          "slug": "peter",
+          "gold": 420
+        },
+        {
+          "slug": "king-james",
+          "gold": 400
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "zero-chance",
+          "gold": 30
+        },
+        {
+          "slug": "rhea",
+          "gold": 50
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 75
+        },
+        {
+          "slug": "keith-man",
+          "gold": 90
+        },
+        {
+          "slug": "boots",
+          "gold": 100
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987844,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.327421768707483,
+      "wealthDistribution": {
+        "broke": 2,
+        "poor": 2,
+        "neutral": 9,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 517
+        },
+        {
+          "slug": "the-one",
+          "gold": 500
+        },
+        {
+          "slug": "peter",
+          "gold": 443
+        },
+        {
+          "slug": "john",
+          "gold": 419
+        },
+        {
+          "slug": "king-james",
+          "gold": 407
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "zero-chance",
+          "gold": 30
+        },
+        {
+          "slug": "rhea",
+          "gold": 35
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 63
+        },
+        {
+          "slug": "boots",
+          "gold": 69
+        },
+        {
+          "slug": "keith-man",
+          "gold": 116
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987845,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.34698639455782315,
+      "wealthDistribution": {
+        "broke": 1,
+        "poor": 3,
+        "neutral": 9,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 565
+        },
+        {
+          "slug": "the-one",
+          "gold": 542
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 439
+        },
+        {
+          "slug": "peter",
+          "gold": 425
+        },
+        {
+          "slug": "willy",
+          "gold": 417
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 22
+        },
+        {
+          "slug": "rhea",
+          "gold": 53
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 67
+        },
+        {
+          "slug": "boots",
+          "gold": 74
+        },
+        {
+          "slug": "keith-man",
+          "gold": 105
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987846,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.34014285714285714,
+      "wealthDistribution": {
+        "broke": 2,
+        "poor": 2,
+        "neutral": 8,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 624
+        },
+        {
+          "slug": "the-one",
+          "gold": 512
+        },
+        {
+          "slug": "willy",
+          "gold": 432
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 398
+        },
+        {
+          "slug": "peter",
+          "gold": 386
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "keith-man",
+          "gold": 46
+        },
+        {
+          "slug": "rhea",
+          "gold": 63
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 67
+        },
+        {
+          "slug": "mr-bones",
+          "gold": 125
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987846,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.34833333333333333,
+      "wealthDistribution": {
+        "broke": 2,
+        "poor": 2,
+        "neutral": 9,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 645
+        },
+        {
+          "slug": "the-one",
+          "gold": 582
+        },
+        {
+          "slug": "peter",
+          "gold": 417
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 381
+        },
+        {
+          "slug": "alice",
+          "gold": 374
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "rhea",
+          "gold": 37
+        },
+        {
+          "slug": "keith-man",
+          "gold": 59
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 82
+        },
+        {
+          "slug": "xtreme",
+          "gold": 115
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987847,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3574625850340136,
+      "wealthDistribution": {
+        "broke": 3,
+        "poor": 2,
+        "neutral": 6,
+        "comfortable": 11,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 609
+        },
+        {
+          "slug": "the-one",
+          "gold": 599
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 422
+        },
+        {
+          "slug": "john",
+          "gold": 419
+        },
+        {
+          "slug": "peter",
+          "gold": 402
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "keith-man",
+          "gold": 45
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 94
+        },
+        {
+          "slug": "xtreme",
+          "gold": 96
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987847,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3757891156462585,
+      "wealthDistribution": {
+        "broke": 2,
+        "poor": 3,
+        "neutral": 8,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 650
+        },
+        {
+          "slug": "the-one",
+          "gold": 599
+        },
+        {
+          "slug": "peter",
+          "gold": 473
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 422
+        },
+        {
+          "slug": "john",
+          "gold": 419
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "keith-man",
+          "gold": 64
+        },
+        {
+          "slug": "xtreme",
+          "gold": 80
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 94
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987848,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.37426530612244896,
+      "wealthDistribution": {
+        "broke": 2,
+        "poor": 2,
+        "neutral": 9,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 722
+        },
+        {
+          "slug": "the-one",
+          "gold": 544
+        },
+        {
+          "slug": "peter",
+          "gold": 454
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 424
+        },
+        {
+          "slug": "alice",
+          "gold": 424
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "xtreme",
+          "gold": 69
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 94
+        },
+        {
+          "slug": "body-count",
+          "gold": 108
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987848,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.384156462585034,
+      "wealthDistribution": {
+        "broke": 3,
+        "poor": 2,
+        "neutral": 8,
+        "comfortable": 10,
+        "rich": 1
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 795
+        },
+        {
+          "slug": "the-one",
+          "gold": 499
+        },
+        {
+          "slug": "peter",
+          "gold": 454
+        },
+        {
+          "slug": "alice",
+          "gold": 424
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 383
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "xtreme",
+          "gold": 39
+        },
+        {
+          "slug": "mr-bones",
+          "gold": 69
+        },
+        {
+          "slug": "zero-chance",
+          "gold": 94
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987849,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.39587074829931973,
+      "wealthDistribution": {
+        "broke": 3,
+        "poor": 4,
+        "neutral": 4,
+        "comfortable": 12,
+        "rich": 1
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 761
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 494
+        },
+        {
+          "slug": "the-one",
+          "gold": 460
+        },
+        {
+          "slug": "peter",
+          "gold": 437
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 433
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "xtreme",
+          "gold": 21
+        },
+        {
+          "slug": "boo-g",
+          "gold": 56
+        },
+        {
+          "slug": "body-count",
+          "gold": 62
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987849,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.40210204081632656,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 2,
+        "neutral": 6,
+        "comfortable": 9,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 693
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 563
+        },
+        {
+          "slug": "the-one",
+          "gold": 531
+        },
+        {
+          "slug": "alice",
+          "gold": 413
+        },
+        {
+          "slug": "peter",
+          "gold": 390
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "boo-g",
+          "gold": 12
+        },
+        {
+          "slug": "body-count",
+          "gold": 52
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987849,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3895986394557823,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 2,
+        "neutral": 6,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 657
+        },
+        {
+          "slug": "the-one",
+          "gold": 520
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 489
+        },
+        {
+          "slug": "alice",
+          "gold": 422
+        },
+        {
+          "slug": "john",
+          "gold": 412
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "boo-g",
+          "gold": 35
+        },
+        {
+          "slug": "body-count",
+          "gold": 60
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987850,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3844829931972789,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 1,
+        "neutral": 7,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 674
+        },
+        {
+          "slug": "the-one",
+          "gold": 520
+        },
+        {
+          "slug": "john",
+          "gold": 426
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 423
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 410
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "boo-g",
+          "gold": 22
+        },
+        {
+          "slug": "body-count",
+          "gold": 50
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987850,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.36328571428571427,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 0,
+        "neutral": 9,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "robert",
+          "gold": 576
+        },
+        {
+          "slug": "the-one",
+          "gold": 574
+        },
+        {
+          "slug": "alice",
+          "gold": 431
+        },
+        {
+          "slug": "john",
+          "gold": 426
+        },
+        {
+          "slug": "peter",
+          "gold": 424
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "body-count",
+          "gold": 117
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987850,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3546326530612245,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 0,
+        "neutral": 10,
+        "comfortable": 8,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 590
+        },
+        {
+          "slug": "robert",
+          "gold": 534
+        },
+        {
+          "slug": "alice",
+          "gold": 431
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 418
+        },
+        {
+          "slug": "john",
+          "gold": 415
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "body-count",
+          "gold": 133
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987851,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3736938775510204,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 0,
+        "neutral": 9,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 682
+        },
+        {
+          "slug": "robert",
+          "gold": 512
+        },
+        {
+          "slug": "alice",
+          "gold": 494
+        },
+        {
+          "slug": "peter",
+          "gold": 426
+        },
+        {
+          "slug": "john",
+          "gold": 388
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "keith-man",
+          "gold": 128
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987851,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.3798707482993197,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 0,
+        "neutral": 10,
+        "comfortable": 8,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 677
+        },
+        {
+          "slug": "robert",
+          "gold": 542
+        },
+        {
+          "slug": "alice",
+          "gold": 492
+        },
+        {
+          "slug": "clausen",
+          "gold": 451
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 448
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "keith-man",
+          "gold": 137
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987852,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4048639455782313,
+      "wealthDistribution": {
+        "broke": 4,
+        "poor": 2,
+        "neutral": 7,
+        "comfortable": 8,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 773
+        },
+        {
+          "slug": "clausen",
+          "gold": 535
+        },
+        {
+          "slug": "alice",
+          "gold": 528
+        },
+        {
+          "slug": "robert",
+          "gold": 414
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 387
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 84
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987852,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.42573469387755103,
+      "wealthDistribution": {
+        "broke": 5,
+        "poor": 1,
+        "neutral": 5,
+        "comfortable": 11,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 873
+        },
+        {
+          "slug": "alice",
+          "gold": 561
+        },
+        {
+          "slug": "clausen",
+          "gold": 491
+        },
+        {
+          "slug": "robert",
+          "gold": 401
+        },
+        {
+          "slug": "john",
+          "gold": 359
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987852,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.426265306122449,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 1,
+        "neutral": 3,
+        "comfortable": 12,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 711
+        },
+        {
+          "slug": "alice",
+          "gold": 604
+        },
+        {
+          "slug": "clausen",
+          "gold": 453
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 425
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 406
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987853,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.45158503401360545,
+      "wealthDistribution": {
+        "broke": 7,
+        "poor": 0,
+        "neutral": 5,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 844
+        },
+        {
+          "slug": "alice",
+          "gold": 708
+        },
+        {
+          "slug": "clausen",
+          "gold": 439
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 425
+        },
+        {
+          "slug": "king-james",
+          "gold": 377
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987853,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.45158503401360545,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 1,
+        "neutral": 5,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 818
+        },
+        {
+          "slug": "alice",
+          "gold": 769
+        },
+        {
+          "slug": "clausen",
+          "gold": 456
+        },
+        {
+          "slug": "dr-maxwell",
+          "gold": 430
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 365
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        },
+        {
+          "slug": "rhea",
+          "gold": 9
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987853,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4169863945578231,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 0,
+        "neutral": 6,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "the-one",
+          "gold": 782
+        },
+        {
+          "slug": "alice",
+          "gold": 769
+        },
+        {
+          "slug": "clausen",
+          "gold": 422
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 367
+        },
+        {
+          "slug": "king-james",
+          "gold": 350
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987854,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.41310884353741495,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 0,
+        "neutral": 6,
+        "comfortable": 9,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 714
+        },
+        {
+          "slug": "the-one",
+          "gold": 710
+        },
+        {
+          "slug": "clausen",
+          "gold": 520
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 392
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 363
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987854,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.41762585034013605,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 0,
+        "neutral": 7,
+        "comfortable": 9,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 775
+        },
+        {
+          "slug": "the-one",
+          "gold": 760
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 410
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 392
+        },
+        {
+          "slug": "clausen",
+          "gold": 375
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987854,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4045374149659864,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 0,
+        "neutral": 5,
+        "comfortable": 11,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 730
+        },
+        {
+          "slug": "the-one",
+          "gold": 536
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 481
+        },
+        {
+          "slug": "clausen",
+          "gold": 406
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 404
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987855,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4084285714285714,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 0,
+        "neutral": 6,
+        "comfortable": 11,
+        "rich": 1
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 812
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 475
+        },
+        {
+          "slug": "mr-bones",
+          "gold": 418
+        },
+        {
+          "slug": "peter",
+          "gold": 410
+        },
+        {
+          "slug": "the-one",
+          "gold": 391
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987855,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.42807482993197277,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 0,
+        "neutral": 6,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 760
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 501
+        },
+        {
+          "slug": "peter",
+          "gold": 469
+        },
+        {
+          "slug": "clausen",
+          "gold": 465
+        },
+        {
+          "slug": "king-james",
+          "gold": 424
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987855,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4462108843537415,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 2,
+        "neutral": 4,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 846
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 501
+        },
+        {
+          "slug": "the-one",
+          "gold": 442
+        },
+        {
+          "slug": "king-james",
+          "gold": 437
+        },
+        {
+          "slug": "clausen",
+          "gold": 431
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987855,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4483469387755102,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 1,
+        "neutral": 5,
+        "comfortable": 11,
+        "rich": 1
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 846
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 492
+        },
+        {
+          "slug": "king-james",
+          "gold": 468
+        },
+        {
+          "slug": "mr-bones",
+          "gold": 426
+        },
+        {
+          "slug": "peter",
+          "gold": 418
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987856,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.4519795918367347,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 1,
+        "neutral": 3,
+        "comfortable": 12,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 846
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 558
+        },
+        {
+          "slug": "king-james",
+          "gold": 467
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 424
+        },
+        {
+          "slug": "peter",
+          "gold": 418
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987856,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.46343537414965985,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 2,
+        "neutral": 3,
+        "comfortable": 11,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 846
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 626
+        },
+        {
+          "slug": "king-james",
+          "gold": 489
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 442
+        },
+        {
+          "slug": "peter",
+          "gold": 388
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987856,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5006054421768708,
+      "wealthDistribution": {
+        "broke": 6,
+        "poor": 3,
+        "neutral": 3,
+        "comfortable": 9,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1007
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 556
+        },
+        {
+          "slug": "king-james",
+          "gold": 501
+        },
+        {
+          "slug": "the-one",
+          "gold": 498
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 469
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987857,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5156938775510204,
+      "wealthDistribution": {
+        "broke": 8,
+        "poor": 1,
+        "neutral": 5,
+        "comfortable": 5,
+        "rich": 5
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1007
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 567
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 540
+        },
+        {
+          "slug": "peter",
+          "gold": 515
+        },
+        {
+          "slug": "king-james",
+          "gold": 514
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987857,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5135714285714286,
+      "wealthDistribution": {
+        "broke": 7,
+        "poor": 2,
+        "neutral": 4,
+        "comfortable": 7,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1007
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 567
+        },
+        {
+          "slug": "king-james",
+          "gold": 544
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 508
+        },
+        {
+          "slug": "the-one",
+          "gold": 458
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        },
+        {
+          "slug": "stitch-up-girl",
+          "gold": 7
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987858,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.503517006802721,
+      "wealthDistribution": {
+        "broke": 8,
+        "poor": 1,
+        "neutral": 3,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 983
+        },
+        {
+          "slug": "king-james",
+          "gold": 518
+        },
+        {
+          "slug": "the-one",
+          "gold": 499
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 491
+        },
+        {
+          "slug": "peter",
+          "gold": 445
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987858,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5168503401360545,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 3,
+        "comfortable": 7,
+        "rich": 5
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 972
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 537
+        },
+        {
+          "slug": "the-one",
+          "gold": 522
+        },
+        {
+          "slug": "king-james",
+          "gold": 518
+        },
+        {
+          "slug": "peter",
+          "gold": 504
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987859,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5053401360544217,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 2,
+        "comfortable": 9,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 896
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 537
+        },
+        {
+          "slug": "the-one",
+          "gold": 522
+        },
+        {
+          "slug": "peter",
+          "gold": 504
+        },
+        {
+          "slug": "king-james",
+          "gold": 486
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987859,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5130272108843538,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 3,
+        "comfortable": 8,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 960
+        },
+        {
+          "slug": "peter",
+          "gold": 602
+        },
+        {
+          "slug": "the-one",
+          "gold": 555
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 537
+        },
+        {
+          "slug": "king-james",
+          "gold": 423
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987859,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5167006802721088,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 3,
+        "comfortable": 7,
+        "rich": 5
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 983
+        },
+        {
+          "slug": "the-one",
+          "gold": 555
+        },
+        {
+          "slug": "king-james",
+          "gold": 530
+        },
+        {
+          "slug": "peter",
+          "gold": 515
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 506
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987860,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5375714285714286,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 5,
+        "comfortable": 6,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 958
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 634
+        },
+        {
+          "slug": "king-james",
+          "gold": 597
+        },
+        {
+          "slug": "the-one",
+          "gold": 555
+        },
+        {
+          "slug": "peter",
+          "gold": 484
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987861,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5515034013605442,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 5,
+        "comfortable": 6,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1082
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 666
+        },
+        {
+          "slug": "king-james",
+          "gold": 633
+        },
+        {
+          "slug": "the-one",
+          "gold": 540
+        },
+        {
+          "slug": "peter",
+          "gold": 409
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987861,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5521020408163265,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 5,
+        "comfortable": 6,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1082
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 720
+        },
+        {
+          "slug": "king-james",
+          "gold": 633
+        },
+        {
+          "slug": "the-one",
+          "gold": 540
+        },
+        {
+          "slug": "peter",
+          "gold": 450
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987862,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5549863945578232,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 3,
+        "comfortable": 8,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1082
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 720
+        },
+        {
+          "slug": "king-james",
+          "gold": 633
+        },
+        {
+          "slug": "the-one",
+          "gold": 575
+        },
+        {
+          "slug": "peter",
+          "gold": 452
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987862,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.550795918367347,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 5,
+        "comfortable": 6,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1030
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 772
+        },
+        {
+          "slug": "king-james",
+          "gold": 638
+        },
+        {
+          "slug": "the-one",
+          "gold": 575
+        },
+        {
+          "slug": "peter",
+          "gold": 452
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987862,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5538027210884354,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 3,
+        "comfortable": 8,
+        "rich": 4
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1086
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 719
+        },
+        {
+          "slug": "the-one",
+          "gold": 647
+        },
+        {
+          "slug": "king-james",
+          "gold": 548
+        },
+        {
+          "slug": "peter",
+          "gold": 382
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987863,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5671360544217687,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 3,
+        "comfortable": 9,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1176
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 863
+        },
+        {
+          "slug": "king-james",
+          "gold": 509
+        },
+        {
+          "slug": "the-one",
+          "gold": 456
+        },
+        {
+          "slug": "peter",
+          "gold": 417
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987863,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5633401360544218,
+      "wealthDistribution": {
+        "broke": 10,
+        "poor": 0,
+        "neutral": 2,
+        "comfortable": 10,
+        "rich": 2
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 1019
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 881
+        },
+        {
+          "slug": "the-one",
+          "gold": 493
+        },
+        {
+          "slug": "king-james",
+          "gold": 471
+        },
+        {
+          "slug": "clausen",
+          "gold": 451
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987863,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5610544217687075,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 1,
+        "neutral": 2,
+        "comfortable": 9,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 969
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 815
+        },
+        {
+          "slug": "king-james",
+          "gold": 626
+        },
+        {
+          "slug": "clausen",
+          "gold": 493
+        },
+        {
+          "slug": "jane",
+          "gold": 415
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987864,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5401156462585034,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 4,
+        "comfortable": 8,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 969
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 771
+        },
+        {
+          "slug": "king-james",
+          "gold": 546
+        },
+        {
+          "slug": "clausen",
+          "gold": 471
+        },
+        {
+          "slug": "jane",
+          "gold": 420
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    },
+    {
+      "timestamp": 1767332987864,
+      "run": 0,
+      "totalWealth": 6125,
+      "avgWealth": 255.20833333333334,
+      "giniCoefficient": 0.5436802721088435,
+      "wealthDistribution": {
+        "broke": 9,
+        "poor": 0,
+        "neutral": 4,
+        "comfortable": 8,
+        "rich": 3
+      },
+      "topEarners": [
+        {
+          "slug": "alice",
+          "gold": 969
+        },
+        {
+          "slug": "the-general-traveler",
+          "gold": 841
+        },
+        {
+          "slug": "king-james",
+          "gold": 546
+        },
+        {
+          "slug": "the-general-wanderer",
+          "gold": 437
+        },
+        {
+          "slug": "dr-voss",
+          "gold": 432
+        }
+      ],
+      "bottomEarners": [
+        {
+          "slug": "keith-man",
+          "gold": 0
+        },
+        {
+          "slug": "body-count",
+          "gold": 0
+        },
+        {
+          "slug": "boo-g",
+          "gold": 2
+        },
+        {
+          "slug": "alien-baby",
+          "gold": 4
+        },
+        {
+          "slug": "xtreme",
+          "gold": 6
+        }
+      ]
+    }
+  ],
+  "leaderboard": [
+    {
+      "rank": 1,
+      "slug": "alice",
+      "name": "Alice",
+      "gold": 969,
+      "tier": "rich",
+      "winRate": 0.5845468053491828
+    },
+    {
+      "rank": 2,
+      "slug": "the-general-traveler",
+      "name": "The General",
+      "gold": 841,
+      "tier": "rich",
+      "winRate": 0.5876880984952121
+    },
+    {
+      "rank": 3,
+      "slug": "king-james",
+      "name": "King James",
+      "gold": 546,
+      "tier": "rich",
+      "winRate": 0.521320093457944
+    },
+    {
+      "rank": 4,
+      "slug": "the-general-wanderer",
+      "name": "The General",
+      "gold": 437,
+      "tier": "comfortable",
+      "winRate": 0.5256619810395554
+    },
+    {
+      "rank": 5,
+      "slug": "dr-voss",
+      "name": "Dr. Voss",
+      "gold": 432,
+      "tier": "comfortable",
+      "winRate": 0.515045674368619
+    },
+    {
+      "rank": 6,
+      "slug": "peter",
+      "name": "Peter",
+      "gold": 390,
+      "tier": "comfortable",
+      "winRate": 0.49430091185410335
+    },
+    {
+      "rank": 7,
+      "slug": "jane",
+      "name": "Jane",
+      "gold": 389,
+      "tier": "comfortable",
+      "winRate": 0.5018587360594795
+    },
+    {
+      "rank": 8,
+      "slug": "clausen",
+      "name": "Clausen",
+      "gold": 363,
+      "tier": "comfortable",
+      "winRate": 0.5245505768714784
+    },
+    {
+      "rank": 9,
+      "slug": "the-one",
+      "name": "The One",
+      "gold": 339,
+      "tier": "comfortable",
+      "winRate": 0.48366808683302903
+    },
+    {
+      "rank": 10,
+      "slug": "dr-maxwell",
+      "name": "Dr. Maxwell",
+      "gold": 308,
+      "tier": "comfortable",
+      "winRate": 0.4927536231884058
+    },
+    {
+      "rank": 11,
+      "slug": "mr-bones",
+      "name": "Mr. Bones",
+      "gold": 282,
+      "tier": "comfortable",
+      "winRate": 0.5193761814744802
+    },
+    {
+      "rank": 12,
+      "slug": "robert",
+      "name": "Robert",
+      "gold": 230,
+      "tier": "neutral",
+      "winRate": 0.4597553122987766
+    },
+    {
+      "rank": 13,
+      "slug": "zero-chance",
+      "name": "Zero Chance",
+      "gold": 229,
+      "tier": "neutral",
+      "winRate": 0.580048270313757
+    },
+    {
+      "rank": 14,
+      "slug": "mr-kevin",
+      "name": "Mr. Kevin",
+      "gold": 220,
+      "tier": "neutral",
+      "winRate": 0.4959083469721768
+    },
+    {
+      "rank": 15,
+      "slug": "john",
+      "name": "John",
+      "gold": 108,
+      "tier": "neutral",
+      "winRate": 0.40766738660907126
+    },
+    {
+      "rank": 16,
+      "slug": "rhea",
+      "name": "Rhea",
+      "gold": 9,
+      "tier": "broke",
+      "winRate": 0.384180790960452
+    },
+    {
+      "rank": 17,
+      "slug": "boots",
+      "name": "Boots",
+      "gold": 8,
+      "tier": "broke",
+      "winRate": 0.4840277777777778
+    },
+    {
+      "rank": 18,
+      "slug": "stitch-up-girl",
+      "name": "Stitch-Up Girl",
+      "gold": 7,
+      "tier": "broke",
+      "winRate": 0.472276075998449
+    },
+    {
+      "rank": 19,
+      "slug": "willy",
+      "name": "Willy One Eye",
+      "gold": 6,
+      "tier": "broke",
+      "winRate": 0.456508875739645
+    },
+    {
+      "rank": 20,
+      "slug": "xtreme",
+      "name": "Xtreme",
+      "gold": 6,
+      "tier": "broke",
+      "winRate": 0.35992217898832685
+    },
+    {
+      "rank": 21,
+      "slug": "alien-baby",
+      "name": "Alien Baby",
+      "gold": 4,
+      "tier": "broke",
+      "winRate": 0.22900763358778625
+    },
+    {
+      "rank": 22,
+      "slug": "boo-g",
+      "name": "Boo-G",
+      "gold": 2,
+      "tier": "broke",
+      "winRate": 0.27454545454545454
+    },
+    {
+      "rank": 23,
+      "slug": "body-count",
+      "name": "Body Count",
+      "gold": 0,
+      "tier": "broke",
+      "winRate": 0.44163424124513617
+    },
+    {
+      "rank": 24,
+      "slug": "keith-man",
+      "name": "Keith Man",
+      "gold": 0,
+      "tier": "broke",
+      "winRate": 0.4827188940092166
+    }
+  ],
+  "matchCount": 1414,
+  "totalCirculated": 29829
+}

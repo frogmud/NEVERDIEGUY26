@@ -1,0 +1,754 @@
+{
+  "npc": {
+    "slug": "peter",
+    "name": "Peter",
+    "category": "pantheon"
+  },
+  "entryCount": 22,
+  "pools": {
+    "ceelo": 2,
+    "ceelo_win": 2,
+    "gossip": 2,
+    "threat": 7,
+    "reaction": 5,
+    "ceelo_lose": 1,
+    "challenge": 1,
+    "conflict": 1,
+    "greeting": 1
+  },
+  "moods": {
+    "neutral": 13,
+    "scared": 1,
+    "threatening": 6,
+    "amused": 1,
+    "fearful": 1
+  },
+  "entries": [
+    {
+      "id": "cb-peter-v8a80w",
+      "text": "You call that a roll? My grandmother throws harder.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "ceelo",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_smack",
+        "pantheon_speaks",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 60,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 3,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-peter-t2tx95",
+      "text": "1-2-3? That's embarrassing. Even for you.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "ceelo",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_smack",
+        "respect_shift",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 95,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 11,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-94li3e",
+      "text": "That's called skill. Take notes.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "ceelo_win",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_win",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 45,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-u0inv4",
+      "text": "Dr. Voss has been taking notes on everyone. Makes me nervous.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "gossip",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 60,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 212,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-hqo2d4",
+      "text": "Don't trust the General. He's been acting strange lately.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "gossip",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "gossip",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 60,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 1149,
+        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-ucdqmq",
+      "text": "I've seen the likes of you come and go, Body Count. Records must be kept, debts owed accounted for. While the King and his ilk may seek glory, true wisdom lies in knowing when to withdraw. Access... denied. I remember you.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 30,
+        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "body-count",
+        "name": "Body Count",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-peter-6z1bj",
+      "text": "You may pass. This time.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 9,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-peter-ifbzgj",
+      "text": "Ah, yes, here it is - you owe three favors at the threshold. Pay your dues, and you may pass. This time.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 11,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-d4zgkc",
+      "text": "I remember you.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 14,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-535099",
+      "text": "Well, you're in the",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 23,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-6xnlms",
+      "text": "Twelve is the number, the only number that matters here. Now, state your",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 31,
+        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-c8wgpm",
+      "text": "Don't spend it all in one place. You'll need it for the funeral.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "ceelo_lose",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_lose",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 75,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 100,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-hwe5dl",
+      "text": "Access... denied. I don't recall giving you permission to discuss the affairs of this realm. The records must be kept in order - every throw, every decision, every debt owed. I remember you, Boo-G. You still owe me for that incident with the exploding dice. Best pay up,",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 104,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "boo-g",
+        "name": "Boo G",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-fkrvht",
+      "text": "Access... denied. This is no mere gathering of idle chatter - the very foundations of our realm tremble with the ripples of this newcomer's exploits. King James, your arrogance blinds you to the weight of your transgressions. Every throw, every decision, every debt owed - I remember it all. Perhaps",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 109,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-3znf0k",
+      "text": "Access... denied, King James. Your petty squabbles mean little here - I am the keeper of the threshold, the arbiter of all who dare to pass. This newcomer's exploits have awakened ancient echoes, and I shall record every throw, every triumph, every debt owed. I remember it all. Now, run along - the real",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 114,
+        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-9u8btd",
+      "text": "Ahem. You may pass, General, but I must remind you - this is no battlefield, but a sacred threshold. I have seen countless come and go, each with their own reckless gambit. The records must be maintained, debts accounted for. I remember each one who dares to test my domain. Access... denied, until I",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "challenge",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 34,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-7e2f6s",
+      "text": "Ah, Willy One Eye. I remember your last visit. The ledger shows you still owe a debt. Before we discuss the... festivities, I'll need to see your papers. Access... denied, unless you can settle your account. The threshold is not to be crossed lightly.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 52,
+        "extractedAt": "2026-01-02T20:14:24.500Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "willy-one-eye",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-rgvmt6",
+      "text": "You think you can just take what you want? Not from me.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "conflict",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "conflict",
+        "trust_shift",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 105,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 63,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-jexaca",
+      "text": "Ah, King James. How... unexpected. I remember every transgression, and your debts are not yet paid. Access... denied. You may pass. This time. But the threshold is mine to guard, and I shall not forget.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 102,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-c0tob6",
+      "text": "taps fingers on the desk,",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 128,
+        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-peter-eshil8",
+      "text": "Ah, Body Count, I was expecting you. Your... reputation precedes you. While I cannot deny the gravity of the situation, I'm afraid I must insist on checking my records before allowing anyone to pass. You understand - the threshold is a sacred trust, and I must be diligent. Now, let us discuss this matter",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "greeting",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 145,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "body-count",
+        "name": "Body Count",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-peter-qbtqks",
+      "text": "Thanks for the donation.",
+      "speaker": {
+        "slug": "peter",
+        "name": "Peter",
+        "category": "pantheon"
+      },
+      "pool": "ceelo_win",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_win",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 155,
+        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      }
+    }
+  ]
+}

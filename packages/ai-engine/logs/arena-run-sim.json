@@ -1,0 +1,230 @@
+{
+  "timestamp": "2026-01-02T05:53:07.988Z",
+  "seed": "arena-1767333187949",
+  "runs": 100,
+  "strategy": "aggressive",
+  "stats": {
+    "totalRuns": 100,
+    "avgAnteReached": 3,
+    "avgRoomsCleared": 9,
+    "avgScore": 2649.08,
+    "winRate": 1,
+    "flumeRate": 0,
+    "avgDeaths": 0,
+    "avgDebtPerRun": 0,
+    "avgItemsKept": 4.09,
+    "totalGoldCirculated": 14737,
+    "mostCommonRescuer": "none",
+    "giniAtEnd": 0.6624902723735409
+  },
+  "sampleResults": [
+    {
+      "runNumber": 1,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 2286,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 50,
+      "itemsKept": 7,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 2,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 3654,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 25,
+      "itemsKept": 4,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 3,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 2315,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 60,
+      "itemsKept": 7,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 4,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 3000,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 25,
+      "itemsKept": 4,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 5,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 2410,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 40,
+      "itemsKept": 5,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 6,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 2895,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 50,
+      "itemsKept": 5,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 7,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 3441,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 50,
+      "itemsKept": 3,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 8,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 3080,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 25,
+      "itemsKept": 2,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 9,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 3516,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 50,
+      "itemsKept": 4,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    },
+    {
+      "runNumber": 10,
+      "anteReached": 3,
+      "roomsCleared": 9,
+      "finalScore": 2199,
+      "deaths": 0,
+      "flumed": false,
+      "goldEarned": 207,
+      "goldSpent": 25,
+      "itemsKept": 4,
+      "itemsLost": 0,
+      "debtIncurred": 0,
+      "debtPaid": 0,
+      "rescuers": []
+    }
+  ],
+  "economySnapshot": {
+    "timestamp": 1767333187990,
+    "run": 0,
+    "totalWealth": 2570,
+    "avgWealth": 257,
+    "giniCoefficient": 0.6624902723735409,
+    "wealthDistribution": {
+      "broke": 5,
+      "poor": 1,
+      "neutral": 0,
+      "comfortable": 2,
+      "rich": 2
+    },
+    "topEarners": [
+      {
+        "slug": "the-one",
+        "gold": 997
+      },
+      {
+        "slug": "boo-g",
+        "gold": 686
+      },
+      {
+        "slug": "willy",
+        "gold": 397
+      },
+      {
+        "slug": "king-james",
+        "gold": 393
+      },
+      {
+        "slug": "mr-bones",
+        "gold": 92
+      }
+    ],
+    "bottomEarners": [
+      {
+        "slug": "dr-maxwell",
+        "gold": 0
+      },
+      {
+        "slug": "boots",
+        "gold": 0
+      },
+      {
+        "slug": "body-count",
+        "gold": 0
+      },
+      {
+        "slug": "the-general",
+        "gold": 0
+      },
+      {
+        "slug": "stitch-up-girl",
+        "gold": 5
+      }
+    ]
+  }
+}

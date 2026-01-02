@@ -1,0 +1,5516 @@
+{
+  "npc": {
+    "slug": "willy",
+    "name": "Willy One Eye",
+    "category": "wanderers"
+  },
+  "entryCount": 180,
+  "pools": {
+    "gamblingTrashTalk": 91,
+    "lore": 2,
+    "salesPitch": 6,
+    "gamblingBrag": 9,
+    "threat": 25,
+    "reaction": 44,
+    "challenge": 1,
+    "gamblingFrustration": 1,
+    "hint": 1
+  },
+  "moods": {
+    "pleased": 9,
+    "neutral": 9,
+    "generous": 2,
+    "annoyed": 141,
+    "threatening": 12,
+    "cryptic": 3,
+    "scared": 1,
+    "fearful": 1,
+    "amused": 2
+  },
+  "entries": [
+    {
+      "id": "cb-willy-yiyxch",
+      "text": "Seven come eleven, Mr. Bones. The odds are in my favor today - my eye sees the colors of probability swirling in your ledger. Shall we see if your luck can match mine",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-41-04-260Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.386Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-jbsr89",
+      "text": "Might be more trouble than it's worth, but the right gambler could make a fortune. What say you, eh? Care to roll the bones on this one?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-49-01-038Z/days/day-0002.md",
+        "extractedDay": 2,
+        "extractedAt": "2026-01-02T20:14:24.387Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-fj46g0",
+      "text": "My eye never lies, and it sees your little streak coming to an end. Shall we put that gold of yours to the test?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0004.md",
+        "extractedDay": 4,
+        "extractedAt": "2026-01-02T20:14:24.389Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-gz7zu2",
+      "text": "He taps his lucky D4 with",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0006.md",
+        "extractedDay": 6,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-btyh04",
+      "text": "Heh, Voss, you old void-dabbler. My eye sees the odds - and they ain't in your favor today. That fancy tech o' yours can't outrun Lady Luck. Seven come eleven, friend - the house always wins. Now, what've you got for me that's worth my time?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0006.md",
+        "extractedDay": 6,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-6fh6xn",
+      "text": "Now, let's see what rare goods you've brought to tempt the immortal merchant of this eternal market, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-odywa8",
+      "text": "Seven come eleven, friend. The odds favor a new deal today - my eye never lies. Let's see what rare wares you've",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0008.md",
+        "extractedDay": 8,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ewvrhp",
+      "text": "Heh, the probability is strong with this one, ain't it, Reality Debugger? Seven come eleven, my friend - that's the only streak that matters in this market. My eye may be cyclone, but it never lies. Time to see if your code can outrun the odds.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-bl708x",
+      "text": "You think your little scales can outweigh my eye? I see the threads of fate, detective. The newcomer's luck won't last - and when it runs out, I'll be waiting to collect my due.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0011.md",
+        "extractedDay": 11,
+        "extractedAt": "2026-01-02T20:14:24.390Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ikb63o",
+      "text": "Now, what fresh opportunities for trade have you brought to this eternal market, Mr. Bones? I've a pocket full of gold and a thirst for rare goods that defy the laws of probability.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0015.md",
+        "extractedDay": 15,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-l7q10m",
+      "text": "You best watch your step, or you might find yourself owing me more than you can pay.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0016.md",
+        "extractedDay": 16,
+        "extractedAt": "2026-01-02T20:14:24.391Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ouozel",
+      "text": "Seven come eleven, my friend. Seven come eleven.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0027.md",
+        "extractedDay": 27,
+        "extractedAt": "2026-01-02T20:14:24.393Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7mc0xp",
+      "text": "Just you wait...",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ugekis",
+      "text": "I see the patterns shifting, friend. This ain't over yet.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-01-02T20:14:24.394Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-4qyp82",
+      "text": "Now, what do you say we make a deal that'll have those parasites of yours dancing?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0038.md",
+        "extractedDay": 38,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-b8gix2",
+      "text": "I lost another hand, General - luck's a fickle mistress. The colors ain't lining up, and my dice keep coming up snakeyes. But I'll keep throwing, even if it means going deeper in the hole. The newcomer's been a thorn in my side, and I aim to win back what's mine, one roll at a time. My eye never lies, and the odds are with me - just you wait and see.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-nta7qi",
+      "text": "Seven come eleven, my friend! The dice don't lie - I'm on a cold streak that would chill the bones of even the stoutest gambler. This newcomer, this \"Never Die Guy\" as they call him, he's throwing the odds all out of whack. But mark my words, my eye sees the angles, and I'll turn this luck around yet. Now, what fresh goods have you got for me, Boo G? I'm feeling lucky.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.395Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3yzj51",
+      "text": "But maybe we can even the score, eh? I've got a little something that might change your luck.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-nzn086",
+      "text": "Seven come eleven, Voss. The odds ain't in my favor lately, but mark my words - the next throw'll turn the tide. You see these colors? They tell a tale of misfortune, but fortune's fickle. Toss me a bone, will ya? I'm one bad roll away from slingin' my last trinket.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-cae10w",
+      "text": "Heh, look at that - even the dead can't catch a break. But I ain't worried. My eye never lies, and the odds are always in my favor. Seven come eleven, my friend. Just you wait - the next roll is gonna be a real doozy.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-6wexps",
+      "text": "Let's make a deal, you and I. I smell profit in the air.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-01-02T20:14:24.396Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-q16l8b",
+      "text": "Shall we roll the bones and see what the colors foretell?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-01-02T20:14:24.397Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-bhgulz",
+      "text": "Curse this cursed dice, these rotten streaks of luck! Probability is against me, friend - the colors don't lie. But mark my words, The General, my eye will see the path to victory. One more throw, one more chance to turn the tide. Seven come eleven, my friend - the perfect trade is out there, waiting. My luck can't sour forever.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-01-02T20:14:24.397Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-xchmn9",
+      "text": "Seven come eleven, friend! The dice are kind to Willy One Eye today - I can see the odds shinin' in vibrant hues. But that streak o' yours, it's makin' me itch. Let's see if we can't turn that frown upside down, eh? I've got some rare trinkets that might just change your luck. What say we make a little wager, eh? My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.398Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-4owst9",
+      "text": "Time to even the score, I reckon. The house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7bcmbi",
+      "text": "This one's for the pot.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-01-02T20:14:24.399Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-oo4zuq",
+      "text": "Let's see if today's the day I break this losing streak - I've got a hunch that's just too good to pass up.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-radlbr",
+      "text": "Seven come eleven, friend. The house always wins, but this one-eyed merchant's got a few tricks of his own.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.400Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-p43sep",
+      "text": "Seven come eleven, my dear Stitch-Up Girl. The odds have not been kind to me of late, but my eye never lies - I see the currents of probability shifting in my favor. Now, what rare trinket or curious bauble do you have for trade? I'm feeling lucky today.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-htuga8",
+      "text": "Seven come eleven, Clausen. I see the odds, friend, and I don't like what my eye's tellin' me. Been on a bad streak, but the lady luck's bound to smile on me soon enough. You think you can keep up with an immortal like myself? My eye never lies - the house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1lqlc7",
+      "text": "My eye sees the colors of probability, and I sense a storm brewing. Perhaps it's time to make a wager...one that will put an end to this losing streak of mine.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-rmd5la",
+      "text": "Perhaps we can make a trade that'll turn those numbers around, hmm? My eye sees the possibilities, friend. Seven come eleven.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-01-02T20:14:24.401Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qoy26i",
+      "text": "My eye never lies. The perfect trade is out there, waiting.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0093.md",
+        "extractedDay": 93,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-9sbeqy",
+      "text": "Seven come eleven, sister. This ain't over yet.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0093.md",
+        "extractedDay": 93,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-g2vjmc",
+      "text": "Seven come eleven, friend. The odds ain't smilin' on you today, but my eye never lies. Maybe you oughta take a breather - let the lady luck have her way before you end up like that poor sap over there. Wouldn't want you to dig yourself any deeper in debt, now would we?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0094.md",
+        "extractedDay": 94,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-dzxrn6",
+      "text": "Seven come eleven, Doc! My eye's been playing tricks on me lately - colors all wrong, probabilities off the charts. That newcomer's been swindling me blind, I tell ya. But mark my words, the house always wins in the end. Now, what've you got that can turn my luck around, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0094.md",
+        "extractedDay": 94,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-72zxal",
+      "text": "My eye never lies - better watch those burnin' books o' yours, pal. Probability's a fickle mistress, and I always get my due.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T09-50-06-685Z/days/day-0095.md",
+        "extractedDay": 95,
+        "extractedAt": "2026-01-02T20:14:24.403Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-mssiej",
+      "text": "The odds are in my favor today, Reality Debugger. Shall we put those skills of yours to the test?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "challenge",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0003.md",
+        "extractedDay": 3,
+        "extractedAt": "2026-01-02T20:14:24.419Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-b8j1bt",
+      "text": "Seven come eleven, Detective. Let's see what the roll brings.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0006.md",
+        "extractedDay": 6,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-jvekb",
+      "text": "My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0007.md",
+        "extractedDay": 7,
+        "extractedAt": "2026-01-02T20:14:24.420Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-wu2md1",
+      "text": "Seven come eleven, friend. The odds shine in my favor today - my eye never lies. Perhaps you should stick to burnin' those books of yours before the house catches flame once more, eh?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0013.md",
+        "extractedDay": 13,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-5dzcxs",
+      "text": "But luck only gets you so far in this business. The odds are always in my favor.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0013.md",
+        "extractedDay": 13,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-fhg14k",
+      "text": "Seven come eleven, friend. The odds may have slipped from your grasp this day, but my eye sees the probability shifting. Perhaps we shall dance again soon, when the shadows lengthen and the fates align.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0014.md",
+        "extractedDay": 14,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-segspb",
+      "text": "Seven come eleven, my friend. The odds are in my favor today - my eye has seen it. But I warn you, the newcomer's luck is a curious thing. Perhaps we should make this a wager worth remembering, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0017.md",
+        "extractedDay": 17,
+        "extractedAt": "2026-01-02T20:14:24.421Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-wnljz2",
+      "text": "What have you got",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0020.md",
+        "extractedDay": 20,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-o2x693",
+      "text": "Seven come eleven, my feline friend. The odds are ever in my favor - my eye sees the path ahead. But don't let that smug grin fool you, Boots and I have a score to settle. One day, the newcomer will learn - this old Cyclops always collects his debts.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0021.md",
+        "extractedDay": 21,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-hyaeno",
+      "text": "Seven come eleven, my friend. The house always wins.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0026.md",
+        "extractedDay": 26,
+        "extractedAt": "2026-01-02T20:14:24.422Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-akkdsf",
+      "text": "This newcomer may have a knack for cheating death, but he'll learn the hard way that he can't escape the probability game I run here.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingFrustration",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-tce3ix",
+      "text": "My eye never lies, detective. Time to settle our debts.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qyd809",
+      "text": "My eye never lies. Perhaps we could find a way to... even the scales, hmm? I've a few rare trinkets that might pique your interest.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.423Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-c2hgwv",
+      "text": "Looks like they owe me a hundred more after this little mishap. But hey, that's the game, ain't it? The House always wins - or at least, this House does.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-01-02T20:14:24.424Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-s1tdb2",
+      "text": "Aye, The General, you old scrap heap - your smug look rubs me eye the wrong way. The odds have been against me, but mark my words, this streak ends today. That Never Die fella owes me a pretty penny, and I aim to collect - even if I gotta roll the bones a few more times. Seven come eleven, my friend, the house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0034.md",
+        "extractedDay": 34,
+        "extractedAt": "2026-01-02T20:14:24.424Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-z5it2n",
+      "text": "Seven come eleven, Void Scientist. The odds aren't in your favor today. That newcomer owes me a debt, and I aim to collect - whether by chance or by force. My eye never lies, and it sees you've been getting lucky. Time to change that.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-gvvv7t",
+      "text": "My eye sees the odds, friend - and the odds are not in my favor. That newcomer owes me a hundred gold, but I ain't collecting from a dead man, even one who won't stay dead. Maybe the good doctor here can help me turn the tide, if he's feeling lucky. Seven come eleven, I say - but it's been three losses in a row. My grin's getting harder to hold up, I'll tell you what.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-oim022",
+      "text": "The newcomer owes me a pretty penny, but at least I know when to cut my losses. Maybe you should take some notes, my friend.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-01-02T20:14:24.426Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3rnqzt",
+      "text": "Ah, Maxwell, my friend. The odds have not been kind to me of late. That newcomer, he owes me a pretty penny, and my dice have turned against me. But the tides will shift, I can feel it in my eye. Seven come eleven, and I'll be back on top, mark my words. Now, what rare trinkets do you have to tempt this old cyclops today? The thrill of the trade is the only thing that keeps me sane in this endless market.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-01-02T20:14:24.427Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-8lpaga",
+      "text": "Seven come eleven, your highness. The odds favor the house - and I aim to collect what's owed, one way or another. That newcomer's debt ain't gettin' any lighter, and my luck's run drier than a bone. Time to even the score, don't you think?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-e71dov",
+      "text": "Now, about that newcomer - he's runnin' up a debt he can't pay. Might be time to collect.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-01-02T20:14:24.428Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-sub5gz",
+      "text": "Seven come eleven, friend. Looks like the odds have turned in your favor this round. But don't forget - my eye never lies. That newcomer owes me more than a few gold, and I've had a run of bad luck myself. Perhaps we could work out a little...side wager? The winds of chance blow every which way, after all.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-2b9ke0",
+      "text": "Heh, lost another roll to the void-tinkerer, did I? Guess my eye ain't so sharp today - the odds are workin' against me. But mark my words, Doc, I'll be back on top soon enough. That newcomer owes me a pretty pile o' gold, an' I aim to collect - one way or another. Seven come eleven, my friend, just you wait an' see.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-al4p9r",
+      "text": "Seven come eleven, friend. The odds say you better tally up that gold I'm owed, or I'll be rolling for your name in that ledger. My eye never lies - I see the deal you're tryin' to pull, and I don't like the look of it. Time to pay up, or we'll see how the dice roll.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-01-02T20:14:24.429Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-mk3h1",
+      "text": "Ach, another sorry soul who's tempted fate one too many times, eh? The dice don't lie, my friend - you're on a losing streak, and that newcomer owes me a pretty penny. But hey, the wheel keeps turnin', and I always land on my feet. How's about we make a little wager, hm? Seven come eleven, and we'll see who walks away the winner.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-01-02T20:14:24.431Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-tmdns",
+      "text": "Willy One Eye squints his massive cyclopean eye, the dice-grin spreading across his weathered face. Tapping his lucky D4, he mutters, Seven come eleven, friend. The odds have shifted, the colors blurring. But my eye never lies - this newcomer's luck is no mere coincidence. I smell a deal in the mist, one that will set the scales back in balance. Time to throw the bones and see what the fates have in store.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-y2kqpx",
+      "text": "Just gotta pay up that debt first. My eye never lies, you know.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0087.md",
+        "extractedDay": 87,
+        "extractedAt": "2026-01-02T20:14:24.432Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-wagw15",
+      "text": "The house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kjdoaj",
+      "text": "But I sense a chance to change that - for the right price. The newcomer owes me a pretty penny. Perhaps we can make a deal that settles both our debts, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0097.md",
+        "extractedDay": 97,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ilvc40",
+      "text": "My giant eye scans the lass, seein' the odds sway with every twitch. Prob'ly ain't her day, but the house always wins. I lean in close, dice clattering, and growl, Seven come eleven, sister. Time to get that debt paid - the newcomer owes me big, and I'm feeling lucky.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0098.md",
+        "extractedDay": 98,
+        "extractedAt": "2026-01-02T20:14:24.433Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-e149vy",
+      "text": "My eye sees the probability here - you'll be back on track before the day is done. Just leave it to Willy One Eye.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0101.md",
+        "extractedDay": 101,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-odzoee",
+      "text": "Time to roll the hard six.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0105.md",
+        "extractedDay": 105,
+        "extractedAt": "2026-01-02T20:14:24.434Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ynbnnm",
+      "text": "Let's make a deal, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0109.md",
+        "extractedDay": 109,
+        "extractedAt": "2026-01-02T20:14:24.435Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-n0131c",
+      "text": "Seven come eleven, friend. The odds be against me today, but mark my words - this newcomer owes me more than gold. The void's mysteries hold the key to my next big score, if only this Voss character would part with a few trinkets. My eye never lies - the odds will turn, and when they do, I'll be there to reap the rewards.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0115.md",
+        "extractedDay": 115,
+        "extractedAt": "2026-01-02T20:14:24.436Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1c03q8",
+      "text": "My eye never lies, and it sees a storm brewin' on the horizon. You interested in makin' a wager?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0120.md",
+        "extractedDay": 120,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-4xrbef",
+      "text": "Now, about that debt the newcomer owes me...",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0124.md",
+        "extractedDay": 124,
+        "extractedAt": "2026-01-02T20:14:24.437Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-migaad",
+      "text": "Seven come eleven, my friend. The odds are not in your favor today. But perhaps a little wager could change that - say, 275 gold to settle your debt with me? My eye never lies, and I see the perfect play just waiting to be made.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0128.md",
+        "extractedDay": 128,
+        "extractedAt": "2026-01-02T20:14:24.438Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-oe5f2v",
+      "text": "My eye never lies, friend. The house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0132.md",
+        "extractedDay": 132,
+        "extractedAt": "2026-01-02T20:14:24.439Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-21uhwb",
+      "text": "My eye never lies, you know.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0144.md",
+        "extractedDay": 144,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-w534vb",
+      "text": "What've you got that can sweeten the pot?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0148.md",
+        "extractedDay": 148,
+        "extractedAt": "2026-01-02T20:14:24.441Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-esd5yg",
+      "text": "Aye, Stitch-Up, the odds ain't been kind to ya, have they? Heh, you remind me of that never-say-die newcomer - keeps comin' back for more, even when the dice turn sour. Still owes me four hundred gold, that one. But don't you worry, my eye never lies - your luck's bound to turn around. *squints suspiciously* Just make sure you don't get any ideas about skipping out on your debts, ya hear? Seven come eleven, friend.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0150.md",
+        "extractedDay": 150,
+        "extractedAt": "2026-01-02T20:14:24.442Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-5iamd3",
+      "text": "The odds ain't in my favor today, Mr. Bones. That newcomer's got a knack for slipping through the cracks, but mark my words - I'll be collecting what's owed, one way or another. The dice never lie, and I ain't about to let a few bad rolls ruin my perfect streak.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0166.md",
+        "extractedDay": 166,
+        "extractedAt": "2026-01-02T20:14:24.443Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-wrwqem",
+      "text": "Maybe we can strike a bargain, hmm? Seven come eleven, my friend - the wheel keeps spinning.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0174.md",
+        "extractedDay": 174,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-mwwvpu",
+      "text": "Time to settle that debt, eh?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0176.md",
+        "extractedDay": 176,
+        "extractedAt": "2026-01-02T20:14:24.444Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-j2qrd2",
+      "text": "I'm this close to chucking my lucky dice through your good eye, Stitch-Up Girl. Owe me 500 gold and can't even win a game of Ceelo? The odds are against ya, but that's no excuse. My eye never lies - you're snake-eyes, through and through. Seven come eleven, friend, or I'll see you in the Shadow Realm.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0188.md",
+        "extractedDay": 188,
+        "extractedAt": "2026-01-02T20:14:24.446Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-oaynvp",
+      "text": "The odds ain't in his favor this day, my friend. As for that newcomer - he better cough up that gold, or he'll find out how the house always wins.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0199.md",
+        "extractedDay": 199,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-d7sp00",
+      "text": "My eye sees the colors of fortune swirling, friend. The dice never lie - this loss will be your last. The newcomer owes me, but I'll make him pay in kind. Seven come eleven, Keith Man, and may the odds forever be in my favor.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0200.md",
+        "extractedDay": 200,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-pp2mpe",
+      "text": "Seven come eleven, King James. Looks like luck ain't on your side today. But the odds are always in my favor, friend. That newcomer owes me a pretty penny - maybe I'll let him try his luck, see if he can pay up. My eye never lies, after all.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0201.md",
+        "extractedDay": 201,
+        "extractedAt": "2026-01-02T20:14:24.447Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-guudg5",
+      "text": "The newcomer's luck's run dry. Time to cash in, friend.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0209.md",
+        "extractedDay": 209,
+        "extractedAt": "2026-01-02T20:14:24.448Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-t0wyf5",
+      "text": "My eye sees the odds, friend, and they don't lie - that newcomer owes me a pretty penny, but I'll recoup my losses with one roll of the dice. Seven come eleven, and Willy One Eye always comes out on top. *squints suspiciously* Now, what business did you have with me, General? The winds of chance blow strong today.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0214.md",
+        "extractedDay": 214,
+        "extractedAt": "2026-01-02T20:14:24.449Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-oq8dc6",
+      "text": "Seven come eleven, Doc. I see the odds ain't in your favor today. That newcomer's been drainin' my coffers - maybe you can lend me a spark to light a fire under him, eh? My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0216.md",
+        "extractedDay": 216,
+        "extractedAt": "2026-01-02T20:14:24.449Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ntzfq5",
+      "text": "You think I'm tilted, do ya, doc? Heh, my eye never lies - the odds are stacked against me, but I'll turn this streak around yet. That Never Die fella owes me a pretty penny, and I aim to collect. Now, what've you got that could help a poor cyclops catch a lucky break?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0218.md",
+        "extractedDay": 218,
+        "extractedAt": "2026-01-02T20:14:24.449Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-i1arqz",
+      "text": "Seven come eleven, Doc. The house always wins, even when the odds say otherwise. That newcomer's been burning a hole in my pocket - maybe you can help me even the score, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0220.md",
+        "extractedDay": 220,
+        "extractedAt": "2026-01-02T20:14:24.450Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ybijxb",
+      "text": "Seven come eleven, friend. The odds don't lie - my eye sees the newcomer's debt as a lucky roll just waiting to happen. But I'll sweeten the pot - how about we make it a double-or-nothing on the next throw? The house always wins, as they say.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0233.md",
+        "extractedDay": 233,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-bf4sck",
+      "text": "Ah, The General - my old friend. The winds of the Aberrant howl, but my eye sees the odds as clear as day. That newcomer may think he's got me on the ropes, but my luck's about to change. Time to roll the bones and settle this debt once and for all. Seven come eleven, my friend - the house always wins.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0235.md",
+        "extractedDay": 235,
+        "extractedAt": "2026-01-02T20:14:24.451Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-zcwri4",
+      "text": "Luck's a fickle mistress, ain't it?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0245.md",
+        "extractedDay": 245,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-w645mb",
+      "text": "Ah, Stitch-Up Girl, my unlucky friend. The odds haven't been kind to you, have they? Perhaps you'd care to roll the dice with me - winner takes all. I've got a streak to protect, and that newcomer owes me a pretty penny. What do you say, pal? Seven come eleven?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0248.md",
+        "extractedDay": 248,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1eb37q",
+      "text": "The odds ain't smilin' on me today, Boo G. That newcomer's been dippin' in and out like a bad omen, and the house don't like it one bit. Seven come eleven, my friend - but the dice never lie. You an' me, we gotta even the scales, y'hear? This ain't over 'til this eye says it is.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0251.md",
+        "extractedDay": 251,
+        "extractedAt": "2026-01-02T20:14:24.453Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kz0dwb",
+      "text": "Just don't come cryin' to me when the dice turn against you again. My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0260.md",
+        "extractedDay": 260,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-eibk8d",
+      "text": "Speaking of which, that one over there owes me a pretty penny. Guess we'll just have to see how the dice roll, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0262.md",
+        "extractedDay": 262,
+        "extractedAt": "2026-01-02T20:14:24.454Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3dro1g",
+      "text": "But maybe we can cut a deal to tip the scales in your direction. What'll it take to settle this little debt the newcomer owes me?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0280.md",
+        "extractedDay": 280,
+        "extractedAt": "2026-01-02T20:14:24.456Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-pjn26b",
+      "text": "Seven come eleven, my friend. The game is far from over.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0288.md",
+        "extractedDay": 288,
+        "extractedAt": "2026-01-02T20:14:24.457Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kpj4ka",
+      "text": "Seven come eleven, King James. The odds have not been kind to me of late, but my eye never lies. That newcomer owes me a pretty penny - perhaps we could make a wager that would settle his debt? I see the colors of probability swirling, and the time is ripe for a game of chance.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0292.md",
+        "extractedDay": 292,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ck6jlz",
+      "text": "Seven come eleven, King James. The odds are not in my favor today, but I see the threads of probability unraveling. That newcomer owes me a pretty penny - if he wants to keep breathing, he'd best pay up. Now, what can this old Cyclops do for you, hmm? My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0292.md",
+        "extractedDay": 292,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-l9zj76",
+      "text": "This immortal's streak is about to begin anew.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0293.md",
+        "extractedDay": 293,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-i98twr",
+      "text": "Seven come eleven, doc - that's the only roll that'll get me out of this slump. That Never Die fella owes me more gold than a dragon's hoard, and the odds keep slippin' through my fingers like sand. But mark my words, the house always wins in the end - my eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0296.md",
+        "extractedDay": 296,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-xx06qw",
+      "text": "You in the market for a little...interdimensional trade?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0297.md",
+        "extractedDay": 297,
+        "extractedAt": "2026-01-02T20:14:24.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-dljdv1",
+      "text": "Seven come eleven, my friend. The odds haven't been in my favor of late, but my eye never lies. That newcomer owes me a pretty pile of gold - I'll be collecting, one way or another. Now, what's this void tech you've been playing with? I've got a few rare trinkets that might pique your interest.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0305.md",
+        "extractedDay": 305,
+        "extractedAt": "2026-01-02T20:14:24.459Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-tukedu",
+      "text": "Seven come eleven, Boo G. The odds ain't in my favor tonight, my friend. That whelp with the never-say-die spirit owes me a pretty penny - I'll be takin' that off his hide, one way or another. My eye never lies, and it sees the house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T10-03-05-505Z/days/day-0321.md",
+        "extractedDay": 321,
+        "extractedAt": "2026-01-02T20:14:24.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-gnxmuu",
+      "text": "I've a hot streak",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0003.md",
+        "extractedDay": 3,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ubywng",
+      "text": "Taps dice briefly before throwing them onto",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0005.md",
+        "extractedDay": 5,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-pmsqvb",
+      "text": "Seven come eleven, my friend. The odds are ever in my favor. I see the colors of your probability - a faint shade of gray, if I'm not mistaken. Perhaps you should stick to your experiments in the void, lest my dice bring you more misery than your science ever could.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0009.md",
+        "extractedDay": 9,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-708ct4",
+      "text": "Let's see what the fates have in",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0009.md",
+        "extractedDay": 9,
+        "extractedAt": "2026-01-02T20:14:24.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-a8tt95",
+      "text": "I see the odds, friend, and they're ever in my favor. *squints eye and taps dice* Seven come eleven - the house always wins, and I'm the house. Perhaps you'd care to try your luck against this seasoned pro? Or are you content to watch from",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0010.md",
+        "extractedDay": 10,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-834y7m",
+      "text": "The newcomer may have won a few tosses, but I've weathered countless cycles of this eternal market. My gold will only grow, while your tally marks are but fleeting shadows.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "lore",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0012.md",
+        "extractedDay": 12,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kybm52",
+      "text": "Taps his lucky D4 dice before rolling",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0013.md",
+        "extractedDay": 13,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-fihblt",
+      "text": "One more win will make it a dozen. You sure you want to test your luck against this old Cyclopean merchant?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0018.md",
+        "extractedDay": 18,
+        "extractedAt": "2026-01-02T20:14:24.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-cyldp4",
+      "text": "Seven come eleven, friend. Looks like the odds aren't in your favor today. But worry not - my eye has seen the colors of your probability, and I know just how to stack the deck. This roll's gonna be one for the ages.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "fearful",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0020.md",
+        "extractedDay": 20,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-gor6sh",
+      "text": "Seven come eleven, friend. My eye sees the odds shifting in your favor today. But don't think for a moment I'm done trying",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0022.md",
+        "extractedDay": 22,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3ag1f1",
+      "text": "Seven come eleven, my friend.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0024.md",
+        "extractedDay": 24,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3llv6w",
+      "text": "Seven come eleven, friend. The odds are in my favor today - my eye never lies. I see a deal here that'll fatten both our purses, if you're feeling lucky. What say we roll the bones an",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0027.md",
+        "extractedDay": 27,
+        "extractedAt": "2026-01-02T20:14:24.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-uivo33",
+      "text": "Hope you've got deep pockets, Librarian. I intend to collect on those debts",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0028.md",
+        "extractedDay": 28,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-53ba4n",
+      "text": "Now, what rare trinket you got that'll turn this losing streak around? I'm feeling lucky.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-01-02T20:14:24.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-wdd5ks",
+      "text": "I aim to add another win to my tally, and maybe lighten your pockets a bit. Let's see what the fickle lady Fortuna has in store, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-6y1k94",
+      "text": "Now, let's see what the fates have in store, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-n5zk74",
+      "text": "Still, I'm always up for another round. Care to try your luck?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ucy1u",
+      "text": "Seven come eleven, my friends. The odds are ever in my favor today. I see the probability in your every move - the mist may whisper, but my eye never lies. Shall we see who the true master of chance is?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-x8eii4",
+      "text": "Seven come eleven, friend. The odds have not been in my favor of late, but my eye sees the sands shifting. This newcomer may have luck on his side, but I've outlasted better. Let's see what the dice have in store for us, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-d4w1bl",
+      "text": "Perhaps you'd care to try your luck again? I've got a few rare trinkets that may just turn your fortunes around.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1v83ri",
+      "text": "Seven come eleven, my friend. Today, the house wins.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7wjy8z",
+      "text": "My roll's got a few more tricks up its sleeve. Shall we see where the dice land?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-01-02T20:14:24.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-nt7qcn",
+      "text": "Taps his lucky D4",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-5tuq8b",
+      "text": "My dice-grin widens as I gesture towards the table, ready to make a deal that will tip the scales in my favor once",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ad0qv0",
+      "text": "Heh, the luck of the dice is a fickle mistress, King James. I've seen fortunes rise and fall on a single roll. But my eye never lies - the odds are in your favor",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-4mwory",
+      "text": "The house always wins.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1m784u",
+      "text": "Time to reclaim my winning streak.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-u9mc4a",
+      "text": "Seven come eleven, friend. The odds are never in your favor.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1jxego",
+      "text": "Seven come eleven, Doc! Looks like the odds weren't in my favor again. I'd say I'm down on my luck, but my eye never lies - the colors just ain't right today. Ah well, maybe I'll roll a miracle next time. You got any rare interdimensional widgets that can turn this streak around? My gold's burnin' a hole in my pocket.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-5zca4q",
+      "text": "Willy One Eye squints his giant eye, the colors of probability flashing in its depths. Seven come eleven, my eye never lies - but the dice keep turning against me, and that snake-tongued librarian knows it. Maybe the new blood can turn the tide, if he's got the grit. But this market's no place for mortals - I'll have to keep a close watch. One more bad roll and I'll be swimming in debt up to my neck. Time to even the odds.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-mu7k09",
+      "text": "Willy One Eye squints his giant, cyclopean eye and lets out a gravelly chuckle. Seven come eleven, friend - the odds are never in my favor these days. But mark my words, the day I roll a perfect combo, I'll be the one laughing. This newcomer thinks he can just waltz in and take what's mine? Not a chance. My eye sees all the angles - I'll outlast this mortal yet.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kw039r",
+      "text": "Seven come eleven, Stitchy! My eye never lies - the odds have turned against me, but mark my words, the tides will turn. I'll make back these losses, one wager at a time, and when I do, you'll be the first to feel the sting of my lucky roll.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-n3wvxr",
+      "text": "Seven come eleven, friend. Your luck's run dry.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-01-02T20:14:24.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7t1bon",
+      "text": "Seven come eleven, friend. Looks like the odds ain't in your favor today. Might be time to take a break before you really start losing your shirt - my eye never lies, you know.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-01-02T20:14:24.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-w2sw64",
+      "text": "What'cha got that can turn this streak around, huh? I'm one loss away from a century.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-01-02T20:14:24.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-cvqixm",
+      "text": "I'll show you a trick or two about probability that'll put that smug look right off your face.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-01-02T20:14:24.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ikfi3b",
+      "text": "Ah, the good doctor! Your toys don't interest me, Voss. I've got a hot streak to break - these dice have a mind of their own, but my eye never lies. Seven come eleven, that's all I need. Probability's a fickle mistress, but I'll dance with her 'til the end. This newcomer thinks he can best me, but I've been playing this game since before his grandpappy was a glimmer in the cosmos. Now, you got anything worth my time, or are we just wasting each other's eternal existence?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ff5gsv",
+      "text": "Maybe the newcomer'll fare better. Or maybe not. Either way, the house always wins in the end.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ovkwmh",
+      "text": "Seven come eleven, Debugger. Ya think ya got the odds on your side, don't ya? Well, my eye never lies - I see the colors of probability twistin' and turnin' like a kaleidoscope. You might be up on the score, but lady luck's got a funny way of swingin' back. Now how's about we roll the bones and see who's wearin' the lucky dice, hmm?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ew6tk9",
+      "text": "Seven come eleven, friend - ain't that a kick in the eye? The fog's messin' with my roll, but mark my words, that lucky die of mine's gonna make this a whole new game. You think you got me on the ropes, but you ain't seen nothin' yet. Maybe it's time I show this newcomer how an immortal _really_ plays the odds.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-01-02T20:14:24.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-8y0j72",
+      "text": "Ugh, look who's slithered in, the Infernal Detective. Thought you were done losing to me, Clausen? My eye sees the odds, and they ain't in your favor today. Seven come eleven, pal - time to pay up what you owe. This newcomer's been keeping me busy, but I'll always have time to fleece you one more time. Now scurry off before I decide to roll the hard six.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-8vii2j",
+      "text": "Seven come eleven, Boots - let's see if this newcomer's got the stones to play in our game.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qdytnk",
+      "text": "But the game ain't over yet. Seven come eleven, my friend. My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0089.md",
+        "extractedDay": 89,
+        "extractedAt": "2026-01-02T20:14:24.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-tejj7v",
+      "text": "Seven come eleven, and we'll see who's holding the winning hand.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0092.md",
+        "extractedDay": 92,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ksqmp3",
+      "text": "Perhaps you can tip the scales in my favor, Reality Debugger. I could use a bit of that... negotiable reality.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "hint",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0094.md",
+        "extractedDay": 94,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3j9ulf",
+      "text": "Or perhaps you'd be interested in a little wager? I see the colors of fate swirling, and I've a hunch my luck is about to change.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0096.md",
+        "extractedDay": 96,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-2vge4w",
+      "text": "My eye never lies, detective. You're just too slow to see the patterns.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0100.md",
+        "extractedDay": 100,
+        "extractedAt": "2026-01-02T20:14:24.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-71k68f",
+      "text": "Seven come eleven, my friend. The game goes on.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0102.md",
+        "extractedDay": 102,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-g3e9g9",
+      "text": "Seven come eleven, friend. My eye sees the odds, and they don't favor you today. You've racked up a debt that not even Death's grim accountant can tally - perhaps it's time to learn when to walk away from the table.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0104.md",
+        "extractedDay": 104,
+        "extractedAt": "2026-01-02T20:14:24.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-fpk7jp",
+      "text": "Seven come eleven, my friend. My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0124.md",
+        "extractedDay": 124,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-9zmngs",
+      "text": "Time to see if Lady Luck is feeling generous.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0130.md",
+        "extractedDay": 130,
+        "extractedAt": "2026-01-02T20:14:24.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7u7bqe",
+      "text": "My eye sees the odds, friend, and they ain't smilin' on me today. Lost another roll, another trade gone bust - bad luck's been houndin' me worse than a pack of hellhounds. Maybe I oughta ask the Undyin' King here for a little...divine intervention. Seven come eleven, my eye never lies, but it sure as the nine hells ain't seein' straight today.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0134.md",
+        "extractedDay": 134,
+        "extractedAt": "2026-01-02T20:14:24.477Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kbrrvh",
+      "text": "But that newcomer's debt... that's a different kind of game. One I intend to win, no matter how the dice fall.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0150.md",
+        "extractedDay": 150,
+        "extractedAt": "2026-01-02T20:14:24.478Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-6um5v",
+      "text": "Seven come eleven, Detective. Ain't that a kick in the teeth - you can't even win a coin toss these days. Lucky for you, I got a deal that'll turn those scales back in your favor. That is, if you can pony up what the Never Die Guy owes me. My eye never lies - the odds are in your favor, if you play your cards right.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0152.md",
+        "extractedDay": 152,
+        "extractedAt": "2026-01-02T20:14:24.479Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1cnqio",
+      "text": "Seven come eleven, Mr. Reality Debugger. The odds ain't in your favor today. That hot streak of yours is about to get snuffed, same as the newcomer's debt to me. My eye never lies - the probability flows through me, and it's time for a change in the winds.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0166.md",
+        "extractedDay": 166,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-8cqpys",
+      "text": "Seven come eleven, King James. The mists whisper of deals to be had, but my eye sees the odds - and they ain't in your favor today. That newcomer owes me a pretty penny, but maybe we can strike a wager, hmm? My luck's due to turn, I reckon.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0167.md",
+        "extractedDay": 167,
+        "extractedAt": "2026-01-02T20:14:24.480Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-i1bl3g",
+      "text": "Seven come eleven, sister - the odds are never in my favor these days. That newcomer owes me a pretty penny, and my luck's run dry. Maybe you can lend an eye to this poor Cyclops - I'll make it worth your while, if the dice roll true.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0175.md",
+        "extractedDay": 175,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ernso1",
+      "text": "Seven come eleven, friend. The odds ain't in your favor today, but a fair trade could change that. This newcomer owes me a debt - maybe we can make a deal that settles both our scores, eh?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0176.md",
+        "extractedDay": 176,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-c69rly",
+      "text": "How about we make this interesting, hmm? Double or nothing on the next throw?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0176.md",
+        "extractedDay": 176,
+        "extractedAt": "2026-01-02T20:14:24.481Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-vbz71v",
+      "text": "Willy One Eye squints his giant eye, dice-grin twisting with irritation. \"My eye sees the odds, friend, and they ain't in my favor. That newcomer owes me a fortune - maybe I'll take his luck as payment. Boots and I, we're the real deal around here. You felines think you know probability, but you ain't seen nothing yet.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0180.md",
+        "extractedDay": 180,
+        "extractedAt": "2026-01-02T20:14:24.482Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-x8v7og",
+      "text": "Ah, Dr. Voss, my cold-blooded friend. The odds are not in your favor today, I see. But perhaps you'll have better luck throwing the bones - though I doubt even you can cheat the house, heh. As for that debt the newcomer owes me, well, I'll be collecting soon enough. My eye never lies, and it sees him coming back for more. Seven come eleven, my friend. Seven come eleven.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0187.md",
+        "extractedDay": 187,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-b2q8af",
+      "text": "You got anythin' that can turn my fortunes 'round? I'm runnin' outta tricks to get my gold back.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0190.md",
+        "extractedDay": 190,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-nb7bjd",
+      "text": "The house always wins, Clausen. You're just lucky I'm down to my last roll. That never-say-die punk owes me big, and I aim to collect - one way or another. Now, you gonna make a real play, or are you just here to cast more shadows?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0192.md",
+        "extractedDay": 192,
+        "extractedAt": "2026-01-02T20:14:24.483Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-99x6fs",
+      "text": "Seven come eleven, ghost. The numbers whisper to me - you're due for a hot streak. But that wretched newcomer owes me coin, and my eye sees the odds ain't in my favor today. Mark my words, the day will come when I make that fool rue the day he crossed paths with Willy One Eye.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0206.md",
+        "extractedDay": 206,
+        "extractedAt": "2026-01-02T20:14:24.484Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-od0867",
+      "text": "Seven come eleven, Clausen. Looks like the odds have shifted in the newcomer's favor. But don't think for a second that this changes anything between us. The debts still stand, and I aim to collect - one way or another. My eye never lies.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0223.md",
+        "extractedDay": 223,
+        "extractedAt": "2026-01-02T20:14:24.486Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-mvv4wr",
+      "text": "Now, about that debt your friend owes me...",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0228.md",
+        "extractedDay": 228,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-kbxxd0",
+      "text": "Let's just say the colors aren't lookin' too bright.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0229.md",
+        "extractedDay": 229,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-xroum0",
+      "text": "Time to collect what's owed.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0231.md",
+        "extractedDay": 231,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-9w6xty",
+      "text": "Seven come eleven, doc! This newcomer's got me down more gold than I've seen in centuries. Probability's a fickle mistress - one minute she's smiling, the next she's laughing in my face. But mark my words, my eye never lies. I'll turn this streak around, even if I have to dice-roll my way to the top. You got any books that can tell me how to beat this Never Die Guy at his own game?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0232.md",
+        "extractedDay": 232,
+        "extractedAt": "2026-01-02T20:14:24.487Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ox7yzq",
+      "text": "Seven come eleven, Mr. Debugger - your luck has been souring of late, while I've had the odds on my side. This newcomer may think he can best me, but my eye never lies. I'll roll the bones and take what's owed, then we'll see who's really in charge of the probabilities around here.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0243.md",
+        "extractedDay": 243,
+        "extractedAt": "2026-01-02T20:14:24.489Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-sfhzaq",
+      "text": "Time to roll the bones and see where the odds take me next.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0258.md",
+        "extractedDay": 258,
+        "extractedAt": "2026-01-02T20:14:24.490Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7d6pxz",
+      "text": "Seven come eleven, King James - where's my gold? This newcomer keeps takin' me to the cleaners, and I'm runnin' low on the good stuff. Ya gotta help a fella out before I start seein' all the angles go bad. My eye's gettin' restless, and the odds ain't smilin' on me today.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0270.md",
+        "extractedDay": 270,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-hyw8ks",
+      "text": "My eye never lies, and it sees a windfall in your future. The only question is - are you feelin' lucky?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0272.md",
+        "extractedDay": 272,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-73omsf",
+      "text": "My eye's got a knack for seein' the winning plays. That newcomer o' yours owes me a pretty penny - reckon he's due for another visit to my stall.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -6,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 6
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/eternal-2026-01-02T18-49-04-861Z/days/day-0274.md",
+        "extractedDay": 274,
+        "extractedAt": "2026-01-02T20:14:24.492Z",
+        "version": 1
+      }
+    }
+  ]
+}

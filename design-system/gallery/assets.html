@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assets - NEVER DIE GUY Design System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="index.html" class="logo">NEVER DIE GUY</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="assets.html" class="active">Assets</a>
+        <a href="tokens.html">Tokens</a>
+        <a href="guidelines.html">Guidelines</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Categories</div>
+        <ul class="sidebar-list">
+          <li><a href="#enemies">Enemies (76)</a></li>
+          <li><a href="#market">Market Vendors (68)</a></li>
+          <li><a href="#flumes">Flumes (2,349)</a></li>
+          <li><a href="#characters">Characters</a></li>
+          <li><a href="#items">Items</a></li>
+          <li><a href="#ui">UI Elements</a></li>
+          <li><a href="#heroes">Heroes (6)</a></li>
+          <li><a href="#icons">Icons (9)</a></li>
+          <li><a href="#illustrations">Illustrations</a></li>
+          <li><a href="#factions">Factions</a></li>
+          <li><a href="#nav">Navigation</a></li>
+          <li><a href="#lottie">Lottie (5)</a></li>
+          <li><a href="#trophies">Trophies</a></li>
+          <li><a href="#domains">Domains (10)</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Filter by Type</div>
+        <ul class="sidebar-list">
+          <li><a href="#" data-filter="svg">SVG (3,426)</a></li>
+          <li><a href="#" data-filter="png">PNG (626)</a></li>
+          <li><a href="#" data-filter="gif">GIF (10)</a></li>
+          <li><a href="#" data-filter="lottie">Lottie (5)</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <h1 class="page-title">Asset Browser</h1>
+      <p class="page-description">
+        Browse all 4,106 assets in the NEVER DIE GUY design system. Click any asset to copy its path.
+      </p>
+
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search assets..." id="searchInput">
+      </div>
+
+      <div class="filter-pills">
+        <span class="filter-pill active" data-filter="all">All</span>
+        <span class="filter-pill" data-filter="svg">SVG</span>
+        <span class="filter-pill" data-filter="png">PNG</span>
+        <span class="filter-pill" data-filter="gif">GIF</span>
+        <span class="filter-pill" data-filter="lottie">Lottie</span>
+      </div>
+
+      <!-- Enemies -->
+      <section class="section" id="enemies">
+        <h2 class="section-title">Enemies <span style="color: var(--color-text-secondary); font-weight: normal;">(76 SVGs)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/enemies-svg/</code></p>
+        <div class="card-grid" id="enemies-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Market Vendors -->
+      <section class="section" id="market">
+        <h2 class="section-title">Market Vendors <span style="color: var(--color-text-secondary); font-weight: normal;">(68 SVGs)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/market-svg/</code></p>
+        <div class="card-grid" id="market-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Flumes -->
+      <section class="section" id="flumes">
+        <h2 class="section-title">Flumes <span style="color: var(--color-text-secondary); font-weight: normal;">(2,349 SVGs)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/flumes-svg/</code> - Includes animated frame sequences from video exports</p>
+        <div class="card-grid" id="flumes-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Characters -->
+      <section class="section" id="characters">
+        <h2 class="section-title">Characters</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/characters/</code> - Subcategories: pantheon, travelers, wanderers, shops</p>
+        <div class="card-grid" id="characters-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Items -->
+      <section class="section" id="items">
+        <h2 class="section-title">Items</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/items/</code> - Subcategories: armor, artifacts, consumables, materials, quest, weapons</p>
+        <div class="card-grid" id="items-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- UI Elements -->
+      <section class="section" id="ui">
+        <h2 class="section-title">UI Elements</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/ui/</code> - Subcategories: dice, chests, currency</p>
+        <div class="card-grid" id="ui-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Heroes -->
+      <section class="section" id="heroes">
+        <h2 class="section-title">Heroes <span style="color: var(--color-text-secondary); font-weight: normal;">(6 SVGs)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/heroes-svg/</code></p>
+        <div class="card-grid" id="heroes-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Icons -->
+      <section class="section" id="icons">
+        <h2 class="section-title">Icons <span style="color: var(--color-text-secondary); font-weight: normal;">(9 SVGs)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>icons/</code> - Faction icons and heat mechanic</p>
+        <div class="card-grid" id="icons-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Illustrations -->
+      <section class="section" id="illustrations">
+        <h2 class="section-title">Illustrations</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>illustrations/</code> - Menu screen SVGs</p>
+        <div class="card-grid" id="illustrations-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Factions -->
+      <section class="section" id="factions">
+        <h2 class="section-title">Factions</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/factions/</code></p>
+        <div class="card-grid" id="factions-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Navigation -->
+      <section class="section" id="nav">
+        <h2 class="section-title">Navigation</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>nav/</code></p>
+        <div class="card-grid" id="nav-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Lottie -->
+      <section class="section" id="lottie">
+        <h2 class="section-title">Lottie Animations <span style="color: var(--color-text-secondary); font-weight: normal;">(5)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>lottie/</code> - confetti, energy, skull, star</p>
+        <div class="card-grid" id="lottie-grid">
+          <!-- Placeholder for Lottie files -->
+        </div>
+      </section>
+
+      <!-- Trophies -->
+      <section class="section" id="trophies">
+        <h2 class="section-title">Trophies</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/trophies/</code> - GIF animations</p>
+        <div class="card-grid" id="trophies-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Domains -->
+      <section class="section" id="domains">
+        <h2 class="section-title">Domains <span style="color: var(--color-text-secondary); font-weight: normal;">(10 PNGs)</span></h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-md);">Path: <code>assets/domains/</code> - Planet textures (not vectorized)</p>
+        <div class="card-grid" id="domains-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Asset data - in production this would load from assets.json
+    const assetCategories = {
+      enemies: {
+        path: '../assets/enemies-svg/',
+        files: ['mephisto.svg', 'void-lord.svg', 'frost-giant.svg', 'shadow-walker.svg', 'inferno-beast.svg']
+      },
+      heroes: {
+        path: '../assets/heroes-svg/',
+        files: ['hero-01.svg', 'hero-02.svg', 'hero-03.svg', 'meta-play.svg', 'meta-shop.svg', 'meta-wiki.svg']
+      },
+      icons: {
+        path: '../icons/',
+        files: ['faction-icon-board-room.svg', 'faction-icon-flame-wardens.svg', 'faction-icon-frost-heralds.svg', 'faction-icon-iron-collective.svg', 'faction-icon-shadow-court.svg', 'faction-icon-verdant-order.svg', 'faction-icon-void-seekers.svg', 'faction-icon-wandering-stars.svg', 'heat.svg']
+      }
+    };
+
+    // Helper to create asset card
+    function createAssetCard(name, path, type = 'svg') {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.type = type;
+      card.dataset.name = name.toLowerCase();
+
+      const preview = document.createElement('div');
+      preview.className = 'card-preview';
+
+      if (type === 'svg') {
+        const img = document.createElement('img');
+        img.src = path + name;
+        img.alt = name;
+        img.onerror = () => { img.style.display = 'none'; };
+        preview.appendChild(img);
+      } else {
+        preview.innerHTML = `<span style="color: var(--color-text-secondary)">${type.toUpperCase()}</span>`;
+      }
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+      body.innerHTML = `
+        <div class="card-title">${name.replace(/\.(svg|png|gif)$/, '')}</div>
+        <div class="card-meta">${type.toUpperCase()}</div>
+      `;
+
+      card.appendChild(preview);
+      card.appendChild(body);
+
+      // Copy path on click
+      card.addEventListener('click', () => {
+        const fullPath = path + name;
+        navigator.clipboard.writeText(fullPath).then(() => {
+          card.style.borderColor = 'var(--color-success)';
+          setTimeout(() => { card.style.borderColor = ''; }, 1000);
+        });
+      });
+
+      return card;
+    }
+
+    // Populate grids
+    function populateGrids() {
+      // Icons
+      const iconsGrid = document.getElementById('icons-grid');
+      if (iconsGrid && assetCategories.icons) {
+        assetCategories.icons.files.forEach(file => {
+          iconsGrid.appendChild(createAssetCard(file, assetCategories.icons.path));
+        });
+      }
+
+      // Heroes
+      const heroesGrid = document.getElementById('heroes-grid');
+      if (heroesGrid && assetCategories.heroes) {
+        assetCategories.heroes.files.forEach(file => {
+          heroesGrid.appendChild(createAssetCard(file, assetCategories.heroes.path));
+        });
+      }
+
+      // Add placeholder message for categories that need directory scanning
+      const placeholderCategories = ['enemies-grid', 'market-grid', 'flumes-grid', 'characters-grid', 'items-grid', 'ui-grid', 'illustrations-grid', 'factions-grid', 'nav-grid', 'trophies-grid', 'domains-grid', 'lottie-grid'];
+      placeholderCategories.forEach(gridId => {
+        const grid = document.getElementById(gridId);
+        if (grid && grid.children.length === 0) {
+          grid.innerHTML = `<p style="color: var(--color-text-secondary); grid-column: 1 / -1;">Open the directory to browse all assets. <a href="#" style="color: var(--color-secondary);">View in Finder</a></p>`;
+        }
+      });
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        const name = card.dataset.name || '';
+        card.style.display = name.includes(query) ? '' : 'none';
+      });
+    });
+
+    // Filter functionality
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const filter = pill.dataset.filter;
+        document.querySelectorAll('.card').forEach(card => {
+          if (filter === 'all' || card.dataset.type === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Hash navigation
+    function scrollToHash() {
+      if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+
+    // Initialize
+    populateGrids();
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+  </script>
+</body>
+</html>

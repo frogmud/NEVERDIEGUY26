@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-01-02T07:26:17.936Z",
+  "options": {
+    "durationMinutes": 5,
+    "seed": "longrun-1767338477892",
+    "difficulty": "normal"
+  },
+  "difficulty": "Normal",
+  "stats": {
+    "totalRuns": 6300,
+    "totalTime": 5.000383333333334,
+    "runsPerMinute": 1259.9034074054323,
+    "avgAnteReached": 2.7155555555555555,
+    "avgRoomsCleared": 7.664761904761905,
+    "winRate": 0.7761904761904762,
+    "flumeRate": 0.22380952380952382,
+    "avgDeaths": 0.4819047619047619,
+    "deathRate": 0.3950793650793651,
+    "avgDebtPerRun": 57.29761904761905,
+    "avgItemsKept": 3.0576190476190477,
+    "totalGoldCirculated": 4077239,
+    "ceeloWinRate": 0.5677269478198713,
+    "totalCeeloMatches": 5596,
+    "rescuerBreakdown": {
+      "Stitch-Up Girl": 226,
+      "Boo-G": 213,
+      "Dr. Maxwell": 219,
+      "Clausen": 218,
+      "Mr. Kevin": 213,
+      "Dr. Voss": 206,
+      "Xtreme": 218,
+      "Mr. Bones": 229,
+      "Boots": 198,
+      "Willy One Eye": 195,
+      "Body Count": 223,
+      "The General": 231,
+      "King James": 221,
+      "Keith Man": 226
+    },
+    "giniOverTime": [
+      0.6833845104060048,
+      0.5884598194332707,
+      0.6328621199588942,
+      0.642919701404488
+    ],
+    "wealthDistributionFinal": {
+      "broke": 0,
+      "poor": 4,
+      "neutral": 1,
+      "comfortable": 2,
+      "rich": 11
+    },
+    "anteDistribution": [
+      0,
+      382,
+      1028,
+      4890
+    ],
+    "deathsByAnte": [
+      0,
+      0,
+      49,
+      2440
+    ]
+  }
+}

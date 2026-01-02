@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guidelines - NEVER DIE GUY Design System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="index.html" class="logo">NEVER DIE GUY</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="assets.html">Assets</a>
+        <a href="tokens.html">Tokens</a>
+        <a href="guidelines.html" class="active">Guidelines</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Guidelines</div>
+        <ul class="sidebar-list">
+          <li><a href="#naming">Naming Conventions</a></li>
+          <li><a href="#dimensions">Asset Dimensions</a></li>
+          <li><a href="#rarity">Rarity System</a></li>
+          <li><a href="#vectorization">Vectorization</a></li>
+          <li><a href="#brand">Brand Rules</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Reference Docs</div>
+        <ul class="sidebar-list">
+          <li><a href="../docs/asset-guidelines.md">asset-guidelines.md</a></li>
+          <li><a href="../docs/brand-guidelines.md">brand-guidelines.md</a></li>
+          <li><a href="../docs/rarity-system.md">rarity-system.md</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <h1 class="page-title">Guidelines</h1>
+      <p class="page-description">
+        Best practices and conventions for working with the NEVER DIE GUY design system.
+      </p>
+
+      <!-- Naming Conventions -->
+      <section class="section" id="naming">
+        <h2 class="section-title">Naming Conventions</h2>
+
+        <h3 style="margin-bottom: var(--space-md);">File Names</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Use lowercase with hyphens (kebab-case)</td>
+              <td><code>frost-giant.svg</code></td>
+            </tr>
+            <tr>
+              <td>Frame numbers: two digits with hyphen</td>
+              <td><code>walk-01.png</code>, <code>idle-02.svg</code></td>
+            </tr>
+            <tr>
+              <td>Retina assets: @2x suffix</td>
+              <td><code>icon@2x.png</code></td>
+            </tr>
+            <tr>
+              <td>No spaces or special characters</td>
+              <td><code>shadow-walker.svg</code> (not <code>shadow walker.svg</code>)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin: var(--space-lg) 0 var(--space-md);">Directory Structure</h3>
+        <div class="code-block">
+assets/
+  characters/
+    pantheon/
+      {character-name}/
+        portrait.png
+        sprite-01.png
+        sprite-02.png
+    travelers/
+    wanderers/
+    shops/
+  enemies/
+    {enemy-name}.png
+  enemies-svg/
+    {enemy-name}.svg
+  items/
+    armor/
+    artifacts/
+    consumables/
+    materials/
+    quest/
+    weapons/
+  market/
+    {vendor-name}/
+      portrait.png
+      idle-01.png
+      walk-01.png
+  ui/
+    dice/
+    chests/
+    currency/</div>
+      </section>
+
+      <!-- Asset Dimensions -->
+      <section class="section" id="dimensions">
+        <h2 class="section-title">Asset Dimensions</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Asset Type</th>
+              <th>Dimensions</th>
+              <th>Format</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sprites (normal)</td>
+              <td>100x100px</td>
+              <td>PNG, SVG</td>
+            </tr>
+            <tr>
+              <td>Sprites (4x source)</td>
+              <td>3840x3840px</td>
+              <td>PNG</td>
+            </tr>
+            <tr>
+              <td>Portraits</td>
+              <td>240px, 120px, 60px, 30px</td>
+              <td>PNG, SVG</td>
+            </tr>
+            <tr>
+              <td>Enemies</td>
+              <td>360x360px (source)</td>
+              <td>PNG, SVG</td>
+            </tr>
+            <tr>
+              <td>Items</td>
+              <td>64x64px to 256x256px</td>
+              <td>PNG, SVG</td>
+            </tr>
+            <tr>
+              <td>Icons</td>
+              <td>24x24px to 72x72px</td>
+              <td>SVG</td>
+            </tr>
+            <tr>
+              <td>Dice</td>
+              <td>100x100px</td>
+              <td>PNG, SVG (2-frame jitter)</td>
+            </tr>
+            <tr>
+              <td>Faction Icons</td>
+              <td>~44x44px (trimmed)</td>
+              <td>SVG</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Rarity System -->
+      <section class="section" id="rarity">
+        <h2 class="section-title">Rarity System</h2>
+
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-lg);">
+          Items and NPCs follow a 6-tier rarity system, each with a distinct color.
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Color</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="color: #9e9e9e;">Common</span></td>
+              <td><code>#9e9e9e</code></td>
+              <td>Basic items, common NPCs</td>
+            </tr>
+            <tr>
+              <td><span style="color: #4caf50;">Uncommon</span></td>
+              <td><code>#4caf50</code></td>
+              <td>Slightly better than common</td>
+            </tr>
+            <tr>
+              <td><span style="color: #2196f3;">Rare</span></td>
+              <td><code>#2196f3</code></td>
+              <td>Notable items, rare NPCs</td>
+            </tr>
+            <tr>
+              <td><span style="color: #9c27b0;">Epic</span></td>
+              <td><code>#9c27b0</code></td>
+              <td>Powerful items, elite NPCs</td>
+            </tr>
+            <tr>
+              <td><span style="color: #ff9800;">Legendary</span></td>
+              <td><code>#ff9800</code></td>
+              <td>Top-tier items, boss NPCs</td>
+            </tr>
+            <tr>
+              <td><span style="color: #e91e63;">Unique</span></td>
+              <td><code>#e91e63</code></td>
+              <td>One-of-a-kind special items</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Vectorization -->
+      <section class="section" id="vectorization">
+        <h2 class="section-title">Vectorization Settings</h2>
+
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-lg);">
+          PNG to SVG conversion using <code>vtracer</code> with ImageMagick preprocessing.
+        </p>
+
+        <h3 style="margin-bottom: var(--space-md);">Standard Settings (150px)</h3>
+        <div class="code-block">
+# ImageMagick preprocessing
+magick input.png -resize "150x150" -fuzz "5%" +dither -colors 256 -depth 8 PNG8:temp.png
+
+# vtracer conversion
+vtracer --input temp.png --output output.svg \
+  --colormode color --hierarchical stacked --mode polygon \
+  --filter_speckle 1 --color_precision 6 --corner_threshold 60</div>
+
+        <h3 style="margin: var(--space-lg) 0 var(--space-md);">Settings by Asset Type</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Asset Type</th>
+              <th>Size</th>
+              <th>Colors</th>
+              <th>Fuzz</th>
+              <th>Corner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Enemies</td>
+              <td>150px</td>
+              <td>256</td>
+              <td>5%</td>
+              <td>60</td>
+            </tr>
+            <tr>
+              <td>Market Vendors</td>
+              <td>150px</td>
+              <td>256</td>
+              <td>5%</td>
+              <td>60</td>
+            </tr>
+            <tr>
+              <td>Flumes</td>
+              <td>150px</td>
+              <td>256</td>
+              <td>5%</td>
+              <td>60</td>
+            </tr>
+            <tr>
+              <td>Faction Icons</td>
+              <td>native</td>
+              <td>32</td>
+              <td>2%</td>
+              <td>180 (sharp)</td>
+            </tr>
+            <tr>
+              <td>Sprites (normal)</td>
+              <td>100px</td>
+              <td>48</td>
+              <td>12%</td>
+              <td>120</td>
+            </tr>
+            <tr>
+              <td>Portraits</td>
+              <td>varies</td>
+              <td>256</td>
+              <td>10%</td>
+              <td>180 (sharp)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Brand Rules -->
+      <section class="section" id="brand">
+        <h2 class="section-title">Brand Rules</h2>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);">
+          <div class="card" style="padding: var(--space-lg);">
+            <h3 style="color: var(--color-success); margin-bottom: var(--space-md);">Do</h3>
+            <ul style="list-style: none; color: var(--color-text-secondary);">
+              <li style="margin-bottom: var(--space-sm);">Use "NEVER DIE GUY" as the brand name</li>
+              <li style="margin-bottom: var(--space-sm);">Use dark mode exclusively</li>
+              <li style="margin-bottom: var(--space-sm);">Follow the color palette strictly</li>
+              <li style="margin-bottom: var(--space-sm);">Use kebab-case for file names</li>
+              <li style="margin-bottom: var(--space-sm);">Include SVG variants for web assets</li>
+              <li>Maintain consistent spacing</li>
+            </ul>
+          </div>
+          <div class="card" style="padding: var(--space-lg);">
+            <h3 style="color: var(--color-error); margin-bottom: var(--space-md);">Don't</h3>
+            <ul style="list-style: none; color: var(--color-text-secondary);">
+              <li style="margin-bottom: var(--space-sm);">Use separate taglines (brand name IS the tagline)</li>
+              <li style="margin-bottom: var(--space-sm);">Use emojis in code, docs, or assets</li>
+              <li style="margin-bottom: var(--space-sm);">Use light mode</li>
+              <li style="margin-bottom: var(--space-sm);">Modify brand colors</li>
+              <li style="margin-bottom: var(--space-sm);">Use spaces in file names</li>
+              <li>Skip vectorization for web assets</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">Trademark</h3>
+        <p style="color: var(--color-text-secondary);">
+          <strong>NEVER DIE GUY</strong> is a trademarked brand name. It also serves as the tagline - no additional taglines are needed. Previous taglines like "data is eternal" or "death is essential" have been retired.
+        </p>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>

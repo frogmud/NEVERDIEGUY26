@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEVER DIE GUY Design System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="index.html" class="logo">NEVER DIE GUY</a>
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="assets.html">Assets</a>
+        <a href="tokens.html">Tokens</a>
+        <a href="guidelines.html">Guidelines</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="hero-title">Design System</h1>
+      <p class="hero-subtitle">
+        The canonical source for all NEVER DIE GUY brand assets, design tokens, and digital assets.
+      </p>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">4,106</div>
+        <div class="stat-label">Total Assets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3,426</div>
+        <div class="stat-label">SVG Vectors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">626</div>
+        <div class="stat-label">PNG Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">14</div>
+        <div class="stat-label">Categories</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="category-grid">
+        <a href="assets.html#enemies" class="category-card">
+          <h3>Enemies</h3>
+          <p>Enemy sprites and animation frames</p>
+          <span class="category-count">76 SVGs</span>
+        </a>
+        <a href="assets.html#market" class="category-card">
+          <h3>Market Vendors</h3>
+          <p>Vendor portraits, idle/walk animations</p>
+          <span class="category-count">68 SVGs</span>
+        </a>
+        <a href="assets.html#flumes" class="category-card">
+          <h3>Flumes</h3>
+          <p>Domain portal animations and stills</p>
+          <span class="category-count">2,349 SVGs</span>
+        </a>
+        <a href="assets.html#characters" class="category-card">
+          <h3>Characters</h3>
+          <p>NPC portraits, sprites, animations</p>
+          <span class="category-count">Pantheon, Travelers, Wanderers, Shops</span>
+        </a>
+        <a href="assets.html#items" class="category-card">
+          <h3>Items</h3>
+          <p>Game items with PNG/SVG pairs</p>
+          <span class="category-count">Armor, Artifacts, Consumables, Weapons</span>
+        </a>
+        <a href="assets.html#ui" class="category-card">
+          <h3>UI Elements</h3>
+          <p>Dice, chests, currency icons</p>
+          <span class="category-count">With SVG variants</span>
+        </a>
+        <a href="assets.html#icons" class="category-card">
+          <h3>Icons</h3>
+          <p>Faction icons, heat mechanic</p>
+          <span class="category-count">9 SVGs</span>
+        </a>
+        <a href="assets.html#illustrations" class="category-card">
+          <h3>Illustrations</h3>
+          <p>Menu screen SVG illustrations</p>
+          <span class="category-count">16 SVGs</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Quick Reference</h2>
+      <div class="category-grid">
+        <a href="tokens.html" class="category-card">
+          <h3>Design Tokens</h3>
+          <p>Colors, typography, spacing values</p>
+          <span class="category-count">View all tokens</span>
+        </a>
+        <a href="guidelines.html" class="category-card">
+          <h3>Guidelines</h3>
+          <p>Naming conventions, usage rules</p>
+          <span class="category-count">Best practices</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Recent Additions</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Count</th>
+            <th>Size</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Enemies</td>
+            <td>76</td>
+            <td>940K</td>
+            <td><code>assets/enemies-svg/</code></td>
+          </tr>
+          <tr>
+            <td>Market Vendors</td>
+            <td>68</td>
+            <td>640K</td>
+            <td><code>assets/market-svg/</code></td>
+          </tr>
+          <tr>
+            <td>Flumes (animated)</td>
+            <td>2,349</td>
+            <td>60MB</td>
+            <td><code>assets/flumes-svg/</code></td>
+          </tr>
+          <tr>
+            <td>Heroes</td>
+            <td>6</td>
+            <td>24K</td>
+            <td><code>assets/heroes-svg/</code></td>
+          </tr>
+          <tr>
+            <td>Currency</td>
+            <td>3</td>
+            <td>28K</td>
+            <td><code>assets/ui/currency-svg/</code></td>
+          </tr>
+          <tr>
+            <td>Faction Icons</td>
+            <td>9</td>
+            <td>98K</td>
+            <td><code>icons/</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    // Add active state to current nav link
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

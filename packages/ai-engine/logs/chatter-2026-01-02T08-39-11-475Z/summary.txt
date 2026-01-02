@@ -1,0 +1,47 @@
+NPC Pregame Chatter - 2026-01-02T08:41:12.017Z
+Seed: chatter-1767343151474
+Duration: 121s
+Total Turns Evaluated: 118
+Quality Messages: 116
+Claude API Calls: 118
+
+=== QUALITY FILTERS ===
+Interest Threshold: 40+
+Per-NPC Quota: 100 max
+Dedupe: Enabled
+Unique Messages: 116
+Claude Mode: Enabled
+
+=== TOP SPEAKERS ===
+1. Dr. Voss: 10
+2. Xtreme: 10
+3. The General: 9
+4. Peter: 9
+5. Boots: 8
+6. Mr. Kevin: 8
+7. Keith Man: 8
+8. Body Count: 7
+9. Clausen: 6
+10. John: 6
+
+=== POOL BREAKDOWN ===
+claude_generated: 105
+gossip: 4
+ceelo_win: 2
+threat: 2
+ceelo: 1
+flustered: 1
+ceelo_lose: 1
+
+=== TAG BREAKDOWN ===
+claude_generated: 105
+cross_category: 10
+player_gossip: 4
+player_mentioned: 4
+pantheon_speaks: 3
+ceelo_win: 2
+threat: 2
+intimidation: 2
+ceelo_smack: 1
+tilted: 1
+ceelo_lose: 1

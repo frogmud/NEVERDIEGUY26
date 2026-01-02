@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-01-02T04:50:22.469Z",
+  "seed": "tuner-1767329421334",
+  "generations": 20,
+  "population": 10,
+  "runsPerEval": 1000,
+  "fitness": 101.2464309136723,
+  "metrics": {
+    "winRate": 0.3033033033033033,
+    "ante1Survival": 0.9719719719719719,
+    "ante2Survival": 0.8938938938938938,
+    "ante3Survival": 0.3033033033033033,
+    "avgRoomsCleared": 7.7457457457457455,
+    "avgItemsAcquired": 3.175175175175175,
+    "avgFinalGold": 80.5915915915916,
+    "combatDeathRate": 0.992816091954023,
+    "bossDeathRate": 0.7672413793103449,
+    "riskyPathWinRate": 0.19519519519519518,
+    "safePathWinRate": 0.4144144144144144,
+    "avgTensionMoments": 0.44244244244244246,
+    "bossDeathPercent": 0.7672413793103449
+  },
+  "config": {
+    "player": {
+      "startingHealth": 88,
+      "startingGold": 84,
+      "baseDamage": 26,
+      "itemSlots": 8
+    },
+    "combat": {
+      "enemyHPBase": 32,
+      "enemyHPAnteMultiplier": 22,
+      "enemyHPRoomMultiplier": 9,
+      "enemyDamageBase": 13,
+      "enemyDamageAnteScaling": 0.38468911047791804,
+      "bossHPMultiplier": 2.8459545570449283,
+      "bossDamageMultiplier": 1.6374652403259182
+    },
+    "scaling": {
+      "playerDamagePerAnte": 10,
+      "diceRollMultiplier": 1.0470673564311204,
+      "itemFlatDamageMultiplier": 0.8540202390300862,
+      "itemPercentMultiplier": 0.579761736274754,
+      "synergyBonus": 0.3253531297110354,
+      "tagSetBonus2": 0.173381785799543,
+      "tagSetBonus3": 0.3262028414088665
+    },
+    "sustain": {
+      "restHealPercent": 0.24646775761619208,
+      "healItemMultiplier": 1.0393898789584637,
+      "shieldEffectiveness": 1.0296581553295254
+    },
+    "economy": {
+      "goldPerRoom": 22,
+      "goldVariance": 0.25,
+      "shopPriceMultiplier": 0.7,
+      "eventGoldChance": 0.45
+    },
+    "rng": {
+      "baseCritChance": 0.09633212587356876,
+      "baseCritMultiplier": 1.7935894280387168,
+      "baseProcChance": 0.17233811401246293,
+      "luckyNumberBonus": 0.1715429378371483
+    },
+    "rooms": {
+      "combatWeight": 3,
+      "shopWeight": 3,
+      "eventWeight": 2,
+      "restWeight": 2,
+      "ante1FinalRoom": "shop",
+      "ante2FinalRoom": "miniboss",
+      "ante3FinalRoom": "boss",
+      "guaranteedAnteShop": true
+    },
+    "paths": {
+      "safeEnemyMultiplier": 0.6584637624567192,
+      "safeRewardMultiplier": 0.4944156638155141,
+      "riskyEnemyMultiplier": 1.3748353909562627,
+      "riskyRewardMultiplier": 1.913278580763975,
+      "riskyRareItemChance": 0.2681451829283475,
+      "playerRiskTolerance": 0.5
+    },
+    "targets": {
+      "overallWinRate": 0.3,
+      "ante1SurvivalRate": 0.92,
+      "ante2SurvivalRate": 0.65,
+      "ante3SurvivalRate": 0.48,
+      "avgItemsPerRun": 7
+    }
+  }
+}

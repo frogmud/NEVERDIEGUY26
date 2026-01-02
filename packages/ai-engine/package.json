@@ -1,0 +1,52 @@
+{
+  "name": "@ndg/ai-engine",
+  "version": "1.0.0",
+  "description": "Adaptive AI NPC engine for Never Die Guy - MCTS conversation search, chatbase lookups, personality dynamics",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./npcs": {
+      "import": "./dist/npcs/index.js",
+      "types": "./dist/npcs/index.d.ts"
+    },
+    "./adapters": {
+      "import": "./dist/adapters/index.js",
+      "types": "./dist/adapters/index.d.ts"
+    },
+    "./chatbase": {
+      "import": "./dist/search/chatbase-lookup.js",
+      "types": "./dist/search/chatbase-lookup.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsc --watch",
+    "sim:pantheon": "tsx scripts/pantheon-encounters.ts --use-claude --verbose",
+    "sim:pantheon:newbie": "tsx scripts/pantheon-encounters.ts --use-claude --player-deaths=5 --verbose",
+    "sim:pantheon:veteran": "tsx scripts/pantheon-encounters.ts --use-claude --player-deaths=200 --verbose",
+    "sim:eternal": "tsx scripts/npc-eternal-days.ts",
+    "sim:eternal:claude": "tsx scripts/npc-eternal-days.ts --use-claude",
+    "sim:chatter": "tsx scripts/npc-pregame-chatter.ts",
+    "sim:chatter:claude": "tsx scripts/npc-pregame-chatter.ts --use-claude",
+    "sim:extract": "tsx scripts/extract-chatbase.ts --verbose",
+    "sim:player": "tsx scripts/npc-player-dialogue.ts --use-claude --verbose"
+  },
+  "dependencies": {
+    "@ndg/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
+    "@types/node": "^20.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "~5.8.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

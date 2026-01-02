@@ -1,0 +1,14 @@
+{
+  "scale": {
+    "sm": 4,
+    "md": 8,
+    "lg": 12
+  },
+  "unit": "px",
+  "components": {
+    "card": 30,
+    "sidebar": 16,
+    "button": 6,
+    "input": 8
+  }
+}

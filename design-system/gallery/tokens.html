@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Tokens - NEVER DIE GUY Design System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="index.html" class="logo">NEVER DIE GUY</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="assets.html">Assets</a>
+        <a href="tokens.html" class="active">Tokens</a>
+        <a href="guidelines.html">Guidelines</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Tokens</div>
+        <ul class="sidebar-list">
+          <li><a href="#colors">Colors</a></li>
+          <li><a href="#rarity">Rarity</a></li>
+          <li><a href="#game">Game Colors</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#spacing">Spacing</a></li>
+          <li><a href="#radius">Border Radius</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Files</div>
+        <ul class="sidebar-list">
+          <li><a href="../tokens/colors.json">colors.json</a></li>
+          <li><a href="../tokens/typography.json">typography.json</a></li>
+          <li><a href="../tokens/spacing.json">spacing.json</a></li>
+          <li><a href="../tokens/semantic.json">semantic.json</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <h1 class="page-title">Design Tokens</h1>
+      <p class="page-description">
+        Design tokens are the visual design atoms of the design system. Click any value to copy it to your clipboard.
+      </p>
+
+      <!-- Core Colors -->
+      <section class="section" id="colors">
+        <h2 class="section-title">Core Colors</h2>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #E90441;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary</div>
+              <div class="swatch-value" onclick="copyValue('#E90441')">#E90441</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #00e5ff;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Secondary</div>
+              <div class="swatch-value" onclick="copyValue('#00e5ff')">#00e5ff</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #30d158;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Success</div>
+              <div class="swatch-value" onclick="copyValue('#30d158')">#30d158</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff453a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Error</div>
+              <div class="swatch-value" onclick="copyValue('#ff453a')">#ff453a</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ffd60a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Warning</div>
+              <div class="swatch-value" onclick="copyValue('#ffd60a')">#ffd60a</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin: var(--space-lg) 0 var(--space-md);">Background</h3>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0a0a0a; border: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Default</div>
+              <div class="swatch-value" onclick="copyValue('#0a0a0a')">#0a0a0a</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #1a1a1a;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Paper/Surface</div>
+              <div class="swatch-value" onclick="copyValue('#1a1a1a')">#1a1a1a</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #242424;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Elevated</div>
+              <div class="swatch-value" onclick="copyValue('#242424')">#242424</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin: var(--space-lg) 0 var(--space-md);">Text</h3>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ffffff;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary</div>
+              <div class="swatch-value" onclick="copyValue('#ffffff')">#ffffff</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: rgba(255,255,255,0.7);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Secondary</div>
+              <div class="swatch-value" onclick="copyValue('rgba(255,255,255,0.7)')">rgba(255,255,255,0.7)</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: rgba(255,255,255,0.5);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Disabled</div>
+              <div class="swatch-value" onclick="copyValue('rgba(255,255,255,0.5)')">rgba(255,255,255,0.5)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rarity Colors -->
+      <section class="section" id="rarity">
+        <h2 class="section-title">Rarity Colors</h2>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #9e9e9e;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Common</div>
+              <div class="swatch-value" onclick="copyValue('#9e9e9e')">#9e9e9e</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #4caf50;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Uncommon</div>
+              <div class="swatch-value" onclick="copyValue('#4caf50')">#4caf50</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #2196f3;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Rare</div>
+              <div class="swatch-value" onclick="copyValue('#2196f3')">#2196f3</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #9c27b0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Epic</div>
+              <div class="swatch-value" onclick="copyValue('#9c27b0')">#9c27b0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff9800;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Legendary</div>
+              <div class="swatch-value" onclick="copyValue('#ff9800')">#ff9800</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #e91e63;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Unique</div>
+              <div class="swatch-value" onclick="copyValue('#e91e63')">#e91e63</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game Colors -->
+      <section class="section" id="game">
+        <h2 class="section-title">Game Colors</h2>
+
+        <h3 style="margin-bottom: var(--space-md);">Dice</h3>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff5722;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">D4</div>
+              <div class="swatch-value" onclick="copyValue('#ff5722')">#ff5722</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #4caf50;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">D6</div>
+              <div class="swatch-value" onclick="copyValue('#4caf50')">#4caf50</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #2196f3;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">D8</div>
+              <div class="swatch-value" onclick="copyValue('#2196f3')">#2196f3</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #9c27b0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">D10</div>
+              <div class="swatch-value" onclick="copyValue('#9c27b0')">#9c27b0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff9800;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">D12</div>
+              <div class="swatch-value" onclick="copyValue('#ff9800')">#ff9800</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #e91e63;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">D20</div>
+              <div class="swatch-value" onclick="copyValue('#e91e63')">#e91e63</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin: var(--space-lg) 0 var(--space-md);">Combos</h3>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #4caf50;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Pair</div>
+              <div class="swatch-value" onclick="copyValue('#4caf50')">#4caf50</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #2196f3;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Trips</div>
+              <div class="swatch-value" onclick="copyValue('#2196f3')">#2196f3</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #9c27b0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Quads</div>
+              <div class="swatch-value" onclick="copyValue('#9c27b0')">#9c27b0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff9800;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Straight</div>
+              <div class="swatch-value" onclick="copyValue('#ff9800')">#ff9800</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typography -->
+      <section class="section" id="typography">
+        <h2 class="section-title">Typography</h2>
+
+        <div class="type-sample">
+          <div class="type-sample-text" style="font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 600;">
+            Inter - Primary UI Font
+          </div>
+          <div class="type-sample-meta">
+            font-family: 'Inter', sans-serif<br>
+            Used for: Body text, labels, buttons
+          </div>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-sample-text" style="font-family: 'IBM Plex Mono', monospace; font-size: 1.25rem;">
+            IBM Plex Mono - Code & Data
+          </div>
+          <div class="type-sample-meta">
+            font-family: 'IBM Plex Mono', monospace<br>
+            Used for: Code, stats, technical info
+          </div>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-sample-text" style="font-family: monospace; font-size: 1.25rem; letter-spacing: 0.05em;">
+            m6x11plus - Gaming/Retro
+          </div>
+          <div class="type-sample-meta">
+            font-family: 'm6x11plus', monospace<br>
+            Used for: Logo, headings, game UI
+          </div>
+        </div>
+
+        <h3 style="margin: var(--space-lg) 0 var(--space-md);">Scale</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Size</th>
+              <th>Weight</th>
+              <th>Preview</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>h1</td>
+              <td>2.5rem (40px)</td>
+              <td>700</td>
+              <td style="font-size: 2.5rem; font-weight: 700;">Heading 1</td>
+            </tr>
+            <tr>
+              <td>h2</td>
+              <td>2rem (32px)</td>
+              <td>600</td>
+              <td style="font-size: 2rem; font-weight: 600;">Heading 2</td>
+            </tr>
+            <tr>
+              <td>h3</td>
+              <td>1.5rem (24px)</td>
+              <td>600</td>
+              <td style="font-size: 1.5rem; font-weight: 600;">Heading 3</td>
+            </tr>
+            <tr>
+              <td>h4</td>
+              <td>1.25rem (20px)</td>
+              <td>600</td>
+              <td style="font-size: 1.25rem; font-weight: 600;">Heading 4</td>
+            </tr>
+            <tr>
+              <td>body1</td>
+              <td>1rem (16px)</td>
+              <td>400</td>
+              <td style="font-size: 1rem;">Body text</td>
+            </tr>
+            <tr>
+              <td>body2</td>
+              <td>0.875rem (14px)</td>
+              <td>400</td>
+              <td style="font-size: 0.875rem;">Small body</td>
+            </tr>
+            <tr>
+              <td>caption</td>
+              <td>0.75rem (12px)</td>
+              <td>400</td>
+              <td style="font-size: 0.75rem;">Caption text</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Spacing -->
+      <section class="section" id="spacing">
+        <h2 class="section-title">Spacing</h2>
+        <div class="spacing-demo">
+          <div>
+            <div class="spacing-block" style="width: 4px; height: 4px;"></div>
+            <div class="spacing-label">xs<br>4px</div>
+          </div>
+          <div>
+            <div class="spacing-block" style="width: 8px; height: 8px;"></div>
+            <div class="spacing-label">sm<br>8px</div>
+          </div>
+          <div>
+            <div class="spacing-block" style="width: 16px; height: 16px;"></div>
+            <div class="spacing-label">md<br>16px</div>
+          </div>
+          <div>
+            <div class="spacing-block" style="width: 24px; height: 24px;"></div>
+            <div class="spacing-label">lg<br>24px</div>
+          </div>
+          <div>
+            <div class="spacing-block" style="width: 32px; height: 32px;"></div>
+            <div class="spacing-label">xl<br>32px</div>
+          </div>
+          <div>
+            <div class="spacing-block" style="width: 48px; height: 48px;"></div>
+            <div class="spacing-label">xxl<br>48px</div>
+          </div>
+        </div>
+
+        <div class="code-block">
+--space-xs: 4px;
+--space-sm: 8px;
+--space-md: 16px;
+--space-lg: 24px;
+--space-xl: 32px;
+--space-xxl: 48px;</div>
+      </section>
+
+      <!-- Border Radius -->
+      <section class="section" id="radius">
+        <h2 class="section-title">Border Radius</h2>
+        <div style="display: flex; gap: var(--space-lg); margin-bottom: var(--space-lg);">
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: var(--color-primary); border-radius: 4px;"></div>
+            <div class="spacing-label" style="margin-top: var(--space-sm);">sm<br>4px</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: var(--color-primary); border-radius: 8px;"></div>
+            <div class="spacing-label" style="margin-top: var(--space-sm);">md<br>8px</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: var(--color-primary); border-radius: 12px;"></div>
+            <div class="spacing-label" style="margin-top: var(--space-sm);">lg<br>12px</div>
+          </div>
+        </div>
+
+        <div class="code-block">
+--radius-sm: 4px;
+--radius-md: 8px;
+--radius-lg: 12px;</div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function copyValue(value) {
+      navigator.clipboard.writeText(value).then(() => {
+        // Visual feedback
+        event.target.style.color = 'var(--color-success)';
+        setTimeout(() => {
+          event.target.style.color = '';
+        }, 1000);
+      });
+    }
+  </script>
+</body>
+</html>
