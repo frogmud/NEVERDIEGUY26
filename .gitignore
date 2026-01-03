@@ -5,6 +5,7 @@ node_modules/
 # Build outputs
 dist/
 .turbo/
+*.tsbuildinfo
 
 # Environment
 .env
@@ -25,6 +26,7 @@ dist/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+packages/ai-engine/logs/
 
 # Cache
 .cache/
