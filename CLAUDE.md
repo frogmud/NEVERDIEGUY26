@@ -15,20 +15,18 @@ Current structure at `api/`:
 - `_lib/lookup.ts` - Chatbase lookup engine
 - `tsconfig.json` - TypeScript config with monorepo paths
 
-### Code Hygiene
-- Remove unused imports and dead code
-- Fix TypeScript strict mode warnings
-- Clean up console.log statements
-- Standardize file naming conventions
+### Code Hygiene - DONE
+Completed in commit `fcdf129`:
+- Removed debug console.log statements from ReportGameDialog, SidebarSetup, Contact, storage.ts
+- Prefixed unused function params with underscore for TypeScript compliance
+- No orphaned/backup files found
 
-### Dependency Cleanup
-- Remove unused dependencies from package.json
-- Update outdated (non-security) dependencies
-- Clean up duplicate type definitions
+### Dependency Cleanup - DONE
+- Removed duplicate `@vercel/node` from apps/web (already exists in root for API)
 
 ### Project Structure
-- Remove orphaned/unused files
-- Ensure consistent folder organization
+- No orphaned files found
+- Folder organization is consistent
 
 ## Branch Info
 
