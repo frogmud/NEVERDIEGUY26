@@ -635,9 +635,8 @@ export function getCurrentWeekDay(data: DailyRewardData): number {
 // Migration
 // ============================================
 
-function migratePlayerData(oldData: PlayerData): PlayerData {
+function migratePlayerData(_oldData: PlayerData): PlayerData {
   // For future migrations when schema changes
   // Currently just return fresh data if version mismatch
-  console.log(`Migrating player data from v${oldData.version} to v${CURRENT_VERSION}`);
   return createDefaultPlayerData();
 }

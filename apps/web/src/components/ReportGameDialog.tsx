@@ -31,9 +31,8 @@ export function ReportGameDialog({
   onClose,
   onBackToHome,
 }: ReportGameDialogProps) {
-  const handleSubmit = (reason: string, details?: string) => {
-    // In real app, would send to backend here
-    console.log('Game report submitted:', { reason, details });
+  const handleSubmit = (_reason: string, _details?: string) => {
+    // TODO: Send to backend
   };
 
   const handleBackToHome = () => {

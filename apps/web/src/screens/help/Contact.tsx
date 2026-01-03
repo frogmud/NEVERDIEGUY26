@@ -57,8 +57,7 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Send to backend
-    console.log('Contact form:', { name, email, subject, message });
+    // TODO: Send to backend (name, email, subject, message)
     setSubmitted(true);
   };
 
