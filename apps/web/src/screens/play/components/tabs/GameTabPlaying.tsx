@@ -5,11 +5,11 @@
  * - Enemy sprite with score to beat
  * - Roll history
  * - Score/multiplier display
- * - Summons/Tributes counters
+ * - Throws/Trades counters
  * - Domain/Event progress
  */
 
-import { Box, Typography, ButtonBase, Button } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { tokens } from '../../../../theme';
 
 interface RollHistoryEntry {
@@ -19,6 +19,40 @@ interface RollHistoryEntry {
   hits?: number;
   bonus?: string; // e.g., "+500" or "+1.36x"
 }
+
+/** Feed entry types for sidebar history */
+type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
+
+interface FeedEntry {
+  id: string;
+  type: FeedEntryType;
+  timestamp: number;
+  // NPC chat fields
+  npcSlug?: string;
+  npcName?: string;
+  text?: string;
+  mood?: string;
+  // Roll fields
+  rollNotation?: string;
+  rollTotal?: number;
+  // Trade fields
+  diceTraded?: number;
+  multiplierGained?: number;
+}
+
+// NPC colors by slug (Die-rectors have domain colors)
+const NPC_COLORS: Record<string, string> = {
+  'the-one': '#7c4dff',
+  john: '#8d6e63',
+  peter: '#9e9e9e',
+  robert: '#ff5722',
+  alice: '#00bcd4',
+  jane: '#e91e63',
+  willy: '#ffc107',
+  'mr-bones': '#607d8b',
+};
+
+const getNpcColor = (slug: string): string => NPC_COLORS[slug] || tokens.colors.text.secondary;
 
 interface GameTabPlayingProps {
   // Enemy/Goal
@@ -31,8 +65,8 @@ interface GameTabPlayingProps {
   goal: number;
 
   // Resources
-  summons: number;
-  tributes: number;
+  throws: number;
+  trades: number;
   gold: number;
 
   // Progress
@@ -47,6 +81,9 @@ interface GameTabPlayingProps {
   // Callbacks
   onOptions?: () => void;
   onInfo?: () => void;
+
+  // Combat feed history
+  combatFeed?: FeedEntry[];
 }
 
 export function GameTabPlaying({
@@ -55,8 +92,8 @@ export function GameTabPlaying({
   score = 0,
   multiplier = 1,
   goal = 0,
-  summons = 3,
-  tributes = 3,
+  throws = 3,
+  trades = 3,
   gold = 0,
   domain = 1,
   totalDomains = 6,
@@ -65,6 +102,7 @@ export function GameTabPlaying({
   rollHistory = [],
   onOptions,
   onInfo,
+  combatFeed = [],
 }: GameTabPlayingProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -143,7 +181,7 @@ export function GameTabPlaying({
         </Box>
       </Box>
 
-      {/* Roll History */}
+      {/* Combat Feed - NPC Chat, Rolls, Trades (most recent at top, persists) */}
       <Box
         sx={{
           flex: 1,
@@ -151,82 +189,74 @@ export function GameTabPlaying({
           borderBottom: `1px solid ${tokens.colors.border}`,
         }}
       >
-        {rollHistory.length === 0 ? (
+        {combatFeed.length === 0 ? (
           <Box sx={{ p: 2, color: tokens.colors.text.disabled, textAlign: 'center' }}>
-            <Typography variant="body2">No rolls yet</Typography>
+            <Typography variant="body2">No activity yet</Typography>
           </Box>
         ) : (
-          rollHistory.map((roll, index) => (
+          combatFeed.map((entry) => (
             <Box
-              key={roll.id}
+              key={entry.id}
               sx={{
                 px: 2,
                 py: 1.5,
                 borderBottom: `1px solid ${tokens.colors.border}`,
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: 1,
               }}
             >
-              {/* Roll number */}
-              <Typography
-                sx={{
-                  fontSize: '0.7rem',
-                  color: tokens.colors.text.disabled,
-                  fontFamily: 'monospace',
-                  width: 20,
-                  flexShrink: 0,
-                }}
-              >
-                #{rollHistory.length - index}
-              </Typography>
-
-              {/* Dice + Values */}
-              <Box sx={{ flex: 1 }}>
-                <Typography
-                  sx={{
-                    fontSize: '0.85rem',
-                    color: tokens.colors.text.primary,
-                    fontFamily: 'monospace',
-                  }}
-                >
-                  {roll.dice}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: '0.8rem',
-                    color: tokens.colors.text.secondary,
-                    fontFamily: 'monospace',
-                  }}
-                >
-                  {roll.values}
-                </Typography>
-              </Box>
-
-              {/* Hits/Bonus */}
-              <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
-                {roll.hits !== undefined && (
-                  <Typography
-                    sx={{
-                      fontSize: '0.7rem',
-                      color: tokens.colors.success,
-                    }}
-                  >
-                    {roll.hits} hit{roll.hits !== 1 ? 's' : ''}
-                  </Typography>
-                )}
-                {roll.bonus && (
+              {/* NPC Chat Entry */}
+              {entry.type === 'npc_chat' && (
+                <>
                   <Typography
                     sx={{
                       fontSize: '0.75rem',
-                      color: roll.bonus.includes('x') ? tokens.colors.secondary : tokens.colors.success,
-                      fontWeight: 600,
+                      color: getNpcColor(entry.npcSlug || ''),
+                      fontWeight: 700,
+                      mb: 0.25,
                     }}
                   >
-                    {roll.bonus}
+                    {entry.npcName}
                   </Typography>
-                )}
-              </Box>
+                  <Typography
+                    sx={{
+                      fontSize: '0.85rem',
+                      color: tokens.colors.text.primary,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {entry.text}
+                  </Typography>
+                </>
+              )}
+
+              {/* Roll Entry */}
+              {entry.type === 'roll' && (
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography
+                    sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '1rem',
+                      color: tokens.colors.primary,
+                    }}
+                  >
+                    {entry.rollNotation}
+                  </Typography>
+                </Box>
+              )}
+
+              {/* Trade Entry */}
+              {entry.type === 'trade' && (
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography
+                    sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '0.9rem',
+                      color: tokens.colors.warning,
+                    }}
+                  >
+                    Traded {entry.diceTraded} dice for x{entry.multiplierGained} mult
+                  </Typography>
+                </Box>
+              )}
             </Box>
           ))
         )}
@@ -263,14 +293,14 @@ export function GameTabPlaying({
           </Typography>
         </Box>
 
-        {/* Multiplier Row: [green] X [red/blue] */}
+        {/* Multiplier Row: [blue] X [red] */}
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Box
             sx={{
               flex: 1,
               py: 1.5,
               borderRadius: 2,
-              bgcolor: '#22c55e',
+              bgcolor: '#3366FF', // Match Throw button blue
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -309,7 +339,7 @@ export function GameTabPlaying({
               flex: 1,
               py: 1.5,
               borderRadius: 2,
-              bgcolor: goal > 0 ? '#3b82f6' : tokens.colors.error,
+              bgcolor: tokens.colors.error, // Always red (multiplier box)
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -328,7 +358,7 @@ export function GameTabPlaying({
         </Box>
       </Box>
 
-      {/* Summons / Tributes / Options */}
+      {/* Throws / Trades / Options */}
       <Box
         sx={{
           display: 'flex',
@@ -337,7 +367,7 @@ export function GameTabPlaying({
           borderBottom: `1px solid ${tokens.colors.border}`,
         }}
       >
-        {/* Summons */}
+        {/* Throws */}
         <Box
           sx={{
             flex: 1,
@@ -348,20 +378,20 @@ export function GameTabPlaying({
           }}
         >
           <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary, mb: 0.5 }}>
-            Summons
+            Throws
           </Typography>
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: '1.25rem',
-              color: '#22c55e',
+              color: '#3366FF',
             }}
           >
-            {summons}
+            {throws}
           </Typography>
         </Box>
 
-        {/* Tributes */}
+        {/* Trades */}
         <Box
           sx={{
             flex: 1,
@@ -372,16 +402,16 @@ export function GameTabPlaying({
           }}
         >
           <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary, mb: 0.5 }}>
-            Tributes
+            Trades
           </Typography>
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: '1.25rem',
-              color: '#22c55e',
+              color: tokens.colors.primary,
             }}
           >
-            {tributes}
+            {trades}
           </Typography>
         </Box>
 

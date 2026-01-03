@@ -19,7 +19,7 @@ export interface NPCIdentity {
   name: string;
   category: NPCCategory;
   title?: string;
-  description: string;
+  description?: string;
   avatar?: string;
 }
 
@@ -39,7 +39,8 @@ export type MoodType =
   | 'curious'
   | 'angry'
   | 'scared'
-  | 'sad';
+  | 'sad'
+  | 'grateful';
 
 export interface MoodState {
   current: MoodType;
@@ -151,7 +152,8 @@ export type MessagePurpose =
   | 'challenge'
   | 'reaction'
   | 'gossip'
-  | 'ambient';
+  | 'ambient'
+  | 'general';
 
 export interface TemplateCondition {
   type: 'mood' | 'relationship' | 'memory' | 'context' | 'random';

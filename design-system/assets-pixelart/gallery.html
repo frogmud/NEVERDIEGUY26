@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NDG Pixelart Gallery - All Scales</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'IBM Plex Mono', monospace;
+      margin: 0;
+      padding: 20px;
+      padding-top: 80px;
+    }
+    h1 { color: #E90441; margin-bottom: 4px; }
+    .subtitle { color: #666; margin-bottom: 8px; font-size: 14px; }
+    .stats { color: #00e5ff; margin-bottom: 24px; }
+
+    .section {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #222;
+      padding-bottom: 24px;
+    }
+    .section h2 {
+      color: #E90441;
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section h2 span {
+      color: #666;
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .subsection {
+      margin-bottom: 24px;
+    }
+    .subsection h3 {
+      color: #00e5ff;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .item {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 8px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .item:hover {
+      border-color: #E90441;
+    }
+    .item img {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+    }
+    .item .name {
+      font-size: 9px;
+      color: #666;
+      margin-top: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100px;
+    }
+
+    .controls {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #0a0a0a;
+      border-bottom: 1px solid #333;
+      padding: 16px 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .controls h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .scale-buttons {
+      display: flex;
+      gap: 4px;
+    }
+    .scale-btn {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .scale-btn:hover {
+      border-color: #666;
+    }
+    .scale-btn.active {
+      background: #E90441;
+      border-color: #E90441;
+    }
+    .current-scale {
+      color: #00e5ff;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <h1>NDG Pixelart</h1>
+    <div class="scale-buttons">
+      <button class="scale-btn" onclick="setScale(30)">30px</button>
+      <button class="scale-btn" onclick="setScale(60)">60px</button>
+      <button class="scale-btn active" onclick="setScale(120)">120px</button>
+      <button class="scale-btn" onclick="setScale(240)">240px</button>
+      <button class="scale-btn" onclick="setScale(300)">300px</button>
+    </div>
+    <span class="current-scale">1,908 SVGs | 34MB | 32x32 grid</span>
+  </div>
+
+  <p class="stats">All assets on consistent 32x32 pixel grid, 32 colors, 5 scale variants</p>
+
+  <div class="section">
+    <h2>Characters - Pantheon <span>(portraits + sprites)</span></h2>
+    <div class="grid" id="pantheon"></div>
+  </div>
+
+  <div class="section">
+    <h2>Characters - Shops <span>(shopkeepers)</span></h2>
+    <div class="grid" id="shops"></div>
+  </div>
+
+  <div class="section">
+    <h2>Characters - Wanderers <span>(NPCs)</span></h2>
+    <div class="grid" id="wanderers"></div>
+  </div>
+
+  <div class="section">
+    <h2>Characters - Travelers <span>(player companions)</span></h2>
+    <div class="grid" id="travelers"></div>
+  </div>
+
+  <div class="section">
+    <h2>Market Vendors <span>(by character)</span></h2>
+    <div id="market"></div>
+  </div>
+
+  <div class="section">
+    <h2>Enemies <span>(42 enemy types)</span></h2>
+    <div class="grid" id="enemies"></div>
+  </div>
+
+  <div class="section">
+    <h2>Items - Materials</h2>
+    <div class="grid" id="materials"></div>
+  </div>
+
+  <div class="section">
+    <h2>Items - Artifacts</h2>
+    <div class="grid" id="artifacts"></div>
+  </div>
+
+  <div class="section">
+    <h2>UI Elements</h2>
+    <div class="subsection">
+      <h3>Dice</h3>
+      <div class="grid" id="dice"></div>
+    </div>
+    <div class="subsection">
+      <h3>Chests</h3>
+      <div class="grid" id="chests"></div>
+    </div>
+    <div class="subsection">
+      <h3>Currency</h3>
+      <div class="grid" id="currency"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Factions</h2>
+    <div class="grid" id="factions"></div>
+  </div>
+
+  <div class="section">
+    <h2>Heroes</h2>
+    <div class="grid" id="heroes"></div>
+  </div>
+
+  <div class="section">
+    <h2>Placeholders</h2>
+    <div class="grid" id="placeholders"></div>
+  </div>
+
+  <script>
+    let currentScale = 120;
+
+    const assets = {
+      pantheon: ['alice','alien-baby','alien-old-one','boots','jane','john','king-james','peter','rhea','robert','sprite-alice-1','sprite-alice-2','sprite-alice-3','sprite-alien-baby-1','sprite-alien-baby-2','sprite-alien-old-one-1','sprite-alien-old-one-2','sprite-alien-old-one-3','sprite-alien-old-one-4','sprite-jane-1','sprite-jane-2','sprite-jane-3','sprite-john-1','sprite-john-2','sprite-king-james-1','sprite-king-james-2','sprite-king-james-3','sprite-king-james-4','sprite-peter-1','sprite-peter-2','sprite-peter-3','sprite-rhea-1','sprite-rhea-2','sprite-rhea-3','sprite-rhea-4','sprite-robert-1','sprite-robert-2','sprite-robert-3','sprite-the-one-1','sprite-the-one-2','sprite-zero-chance-1','sprite-zero-chance-2','sprite-zero-chance-3','sprite-zero-chance-4','the-one','zero-chance'],
+      shops: ['boo-g','dr-maxwell','dr-voss','king-james','mr-bones','sprite-boo-g','sprite-dr-maxwell','sprite-dr-voss','sprite-king-james','sprite-mr-bones','sprite-the-general','sprite-willy','sprite-xtreme','the-general','willy','xtreme'],
+      wanderers: ['boo-g','dr-maxwell','dr-voss','king-james','mr-bones','sprite-boo-g-1','sprite-boo-g-2','sprite-boo-g-3','sprite-dr-maxwell-1','sprite-dr-maxwell-2','sprite-dr-maxwell-3','sprite-dr-voss-1','sprite-dr-voss-2','sprite-king-james-1','sprite-king-james-2','sprite-king-james-3','sprite-mr-bones-1','sprite-mr-bones-2','sprite-mr-bones-3','sprite-the-general-1','sprite-the-general-2','sprite-the-general-3','sprite-willy-1','sprite-willy-2','sprite-willy-3','sprite-xtreme-1','sprite-xtreme-2','sprite-xtreme-3','the-general','willy','xtreme'],
+      travelers: ['boots','sprite-boots-1','sprite-boots-2','sprite-boots-3','sprite-clausen-1','sprite-clausen-2','sprite-clausen-3','sprite-mr-kevin-1','sprite-mr-kevin-2','sprite-mr-kevin-3','sprite-never-die-guy-1','sprite-never-die-guy-2','sprite-never-die-guy-3','sprite-never-die-guy-4'],
+      enemies: ['abyssal-stalker','blaze-imp','blood-weaver','bone-colossus','chrono-wraith','corrupted-spirit','crystal-golem','dark-mage','doom-bringer','dust-elemental','elder-aberrant','entropic-shade','flame-dancer','flesh-weaver','frost-wyrm','fungal-horror','ghost-knight','infernal-beast','iron-sentinel','lightning-elemental','magma-brute','mind-flayer','necro-knight','null-weaver','obsidian-giant','plasma-elemental','rift-walker','rot-hound','sand-elemental','shadow-stalker','skeletal-lord','smoke-elemental','soul-eater','spirit-wolf','steam-elemental','storm-bringer','tentacle-beast','time-elemental','time-scavenger','time-wraith','twisted-sapling','vine-strangler','void-lord','void-spawn','wretched-beast'],
+      materials: ['amethyst','currency-token','ember-fragment','essence-of-dark','ethereal-crystal','ethereal-crystal-cluster','frost-cluster','frost-crystal','gold-ingot','gold-pebble','infernal-crystal','infernal-crystal-cluster','malachite','ruby','sapphire','void-cluster','void-crystal','void-orb'],
+      artifacts: ['alices-key','cursed-finger-uneaten','cursed-leg','cursed-scribe-uncracked','janes-key','johns-key','old-one-unborn','peters-key','roberts-key'],
+      dice: ['d10-01','d10-02','d10-03','d12-01','d12-02','d12-03','d20-01','d20-02','d20-03','d4-01','d4-02','d4-03','d6-01','d6-02','d6-03','d8-01','d8-02','d8-03'],
+      chests: ['chest-closed-02','chest-closed-02-1','chest-closed-02-2','chest-closed-02-3','chest-open-01','chest-open-02','chest-open-03','chest-open-04'],
+      currency: ['coin','gem-blue','gem-green'],
+      factions: ['faction-icon-board-room','faction-icon-flame-wardens','faction-icon-frost-heralds','faction-icon-iron-collective','faction-icon-shadow-court','faction-icon-verdant-order','faction-icon-void-seekers','faction-icon-wandering-stars'],
+      heroes: ['hero-01','hero-02','hero-03','meta-play','meta-shop','meta-wiki'],
+      placeholders: ['default','domains','enemies','items','pantheon','shops','travelers','wanderers'],
+      market: {
+        'body-count': ['idle-01','idle-02','portrait'],
+        'boo-g': ['idle-01','idle-02','idle-03','portrait'],
+        'clausen': ['idle-01','portrait'],
+        'dr-maxwell': ['idle-01','portrait'],
+        'dr-voss': ['idle-01','portrait'],
+        'keith-man': ['back-01','idle-01','idle-02','portrait','shop-01','walk-01','walk-02','walk-03','walk-04'],
+        'king-james': ['action-01','idle-01','idle-02','portrait','shop-01','walk-01'],
+        'mr-bones': ['idle-01','portrait','walk-01','walk-02','walk-03','walk-04'],
+        'mr-kevin': ['idle-01','idle-02','portrait'],
+        'never-die-guy': ['idle-01','portrait'],
+        'stitch-up-girl': ['action-01','back-01','idle-01','idle-02','portrait','shop-01','shop-02','shop-03','walk-01','walk-02','walk-03'],
+        'the-general': ['idle-01','idle-02','idle-03','portrait'],
+        'willy': ['back-01','back-02','idle-01','idle-02','portrait','shop-01','shop-02','shop-03','walk-01','walk-02','walk-03','walk-04'],
+        'xtreme': ['idle-01','portrait']
+      }
+    };
+
+    function getPath(basePath, name, scale) {
+      return `${basePath}/${scale}px/${name}.svg`;
+    }
+
+    function createItem(basePath, name, scale) {
+      const displaySize = Math.min(scale, 120);
+      return `<div class="item" data-base="${basePath}" data-name="${name}">
+        <img src="${getPath(basePath, name, scale)}" alt="${name}" width="${displaySize}" height="${displaySize}" loading="lazy">
+        <div class="name">${name}</div>
+      </div>`;
+    }
+
+    function renderGrid(containerId, items, basePath) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = items.map(name =>
+        createItem(basePath, name, currentScale)
+      ).join('');
+    }
+
+    function renderMarket() {
+      const container = document.getElementById('market');
+      let html = '';
+      for (const [vendor, items] of Object.entries(assets.market)) {
+        html += `<div class="subsection">
+          <h3>${vendor}</h3>
+          <div class="grid">
+            ${items.map(name => createItem(`market/${vendor}`, name, currentScale)).join('')}
+          </div>
+        </div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function setScale(scale) {
+      currentScale = scale;
+
+      // Update button states
+      document.querySelectorAll('.scale-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === scale + 'px');
+      });
+
+      // Update all images
+      document.querySelectorAll('.item').forEach(item => {
+        const basePath = item.dataset.base;
+        const name = item.dataset.name;
+        const img = item.querySelector('img');
+        const displaySize = Math.min(scale, 120);
+
+        img.src = getPath(basePath, name, scale);
+        img.width = displaySize;
+        img.height = displaySize;
+      });
+    }
+
+    function renderAll() {
+      renderGrid('pantheon', assets.pantheon, 'characters/pantheon');
+      renderGrid('shops', assets.shops, 'characters/shops');
+      renderGrid('wanderers', assets.wanderers, 'characters/wanderers');
+      renderGrid('travelers', assets.travelers, 'characters/travelers');
+      renderGrid('enemies', assets.enemies, 'enemies');
+      renderGrid('materials', assets.materials, 'items/materials');
+      renderGrid('artifacts', assets.artifacts, 'items/artifacts');
+      renderGrid('dice', assets.dice, 'ui/dice');
+      renderGrid('chests', assets.chests, 'ui/chests');
+      renderGrid('currency', assets.currency, 'ui/currency');
+      renderGrid('factions', assets.factions, 'factions');
+      renderGrid('heroes', assets.heroes, 'heroes');
+      renderGrid('placeholders', assets.placeholders, 'placeholders');
+      renderMarket();
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>

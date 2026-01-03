@@ -15,14 +15,34 @@ interface RollHistoryEntry {
   bonus?: string;
 }
 
+/** Feed entry types for sidebar history */
+type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
+
+interface FeedEntry {
+  id: string;
+  type: FeedEntryType;
+  timestamp: number;
+  // NPC chat fields
+  npcSlug?: string;
+  npcName?: string;
+  text?: string;
+  mood?: string;
+  // Roll fields
+  rollNotation?: string;
+  rollTotal?: number;
+  // Trade fields
+  diceTraded?: number;
+  multiplierGained?: number;
+}
+
 interface GameState {
   enemySprite?: string;
   scoreToBeat: number;
   score: number;
   multiplier: number;
   goal: number;
-  summons: number;
-  tributes: number;
+  throws: number;
+  trades: number;
   gold: number;
   domain: number;
   totalDomains: number;
@@ -51,6 +71,8 @@ interface PlaySidebarProps {
   onInfo?: () => void;
   // Continue button state
   hasSavedRun?: boolean;
+  // Combat feed history
+  combatFeed?: FeedEntry[];
 }
 
 type LobbyTabValue = 'game' | 'bag' | 'settings';
@@ -76,6 +98,7 @@ export function PlaySidebar({
   onOptions,
   onInfo,
   hasSavedRun = false,
+  combatFeed = [],
 }: PlaySidebarProps) {
   const [activeTab, setActiveTab] = useState<LobbyTabValue>('game');
 
@@ -85,8 +108,8 @@ export function PlaySidebar({
     score: 0,
     multiplier: 1,
     goal: 0,
-    summons: 3,
-    tributes: 3,
+    throws: 3,
+    trades: 3,
     gold: 0,
     domain: 1,
     totalDomains: 6,
@@ -161,8 +184,8 @@ export function PlaySidebar({
               score={state.score}
               multiplier={state.multiplier}
               goal={state.goal}
-              summons={state.summons}
-              tributes={state.tributes}
+              throws={state.throws}
+              trades={state.trades}
               gold={state.gold}
               domain={state.domain}
               totalDomains={state.totalDomains}
@@ -171,6 +194,7 @@ export function PlaySidebar({
               rollHistory={state.rollHistory}
               onOptions={onOptions}
               onInfo={onInfo}
+              combatFeed={combatFeed}
             />
           ) : phase === 'zoneSelect' ? (
             <GameTabLaunch

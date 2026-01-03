@@ -143,7 +143,7 @@ export const JOHN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'john',
     pool: 'lore',
     mood: 'generous',
-    text: 'A secret: the Mechanarium was once organic. I improved it. Now it improves itself. That is the goal.',
+    text: 'A secret: Earth was once organic. I improved it. Now it improves itself. That is the goal.',
     weight: 20,
     purpose: 'lore',
     cooldown: { oncePerRun: true },

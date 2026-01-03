@@ -21,7 +21,8 @@
     "./chatbase": {
       "import": "./dist/search/chatbase-lookup.js",
       "types": "./dist/search/chatbase-lookup.d.ts"
-    }
+    },
+    "./chatbase/npcs/*": "./chatbase/npcs/*"
   },
   "scripts": {
     "build": "tsc",
@@ -43,6 +44,8 @@
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
     "@types/node": "^20.10.0",
+    "@types/react": "^19.1.6",
+    "react": "^19.1.0",
     "tsx": "^4.19.0",
     "typescript": "~5.8.3"
   },

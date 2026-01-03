@@ -33,7 +33,8 @@ import type {
 } from '../search/search-types';
 import type { NPCBehaviorState } from '../personality/behavioral-patterns';
 import type { ConversationThread } from '../social/conversation-threading';
-import type { ChatbaseLookupEngine, ChatbaseLookupResult } from '../search/chatbase-lookup';
+import type { ChatbaseLookupEngine } from '../search/chatbase-lookup';
+import type { ChatbaseLookupResult } from '../search/chatbase-types';
 
 // ============================================
 // Condition Evaluation

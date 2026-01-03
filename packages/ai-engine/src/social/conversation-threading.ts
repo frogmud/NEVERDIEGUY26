@@ -27,7 +27,14 @@ export type TopicCategory =
   | 'practical'      // Survival, tactics
   | 'humor'          // Jokes, banter
   | 'emotional'      // Feelings, trauma
-  | 'game_meta';     // About the game itself
+  | 'game_meta'      // About the game itself
+  | 'challenge'      // Challenging player
+  | 'chaos'          // Chaotic topics
+  | 'boring'         // Mundane topics
+  // Extended NPC-specific topics
+  | 'stealth' | 'combat' | 'loud' | 'investigation' | 'infernus'
+  | 'deception' | 'time' | 'speed' | 'slowness' | 'void'
+  | 'normality' | 'ignorance' | 'gambling' | 'royalty' | 'disrespect';
 
 export interface Topic {
   id: string;

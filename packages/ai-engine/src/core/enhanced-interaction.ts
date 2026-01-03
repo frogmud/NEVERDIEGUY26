@@ -288,7 +288,7 @@ function selectPoolEnhanced(
   if (behaviorState) {
     const modifiers = getStateModifiers(behaviorState.current);
     for (const [pool, bias] of Object.entries(modifiers.responseBias)) {
-      pools.push({ pool: pool as TemplatePool, weight: bias });
+      pools.push({ pool: pool as TemplatePool, weight: bias ?? 0 });
     }
   }
 
@@ -370,9 +370,9 @@ export function executeEnhancedTurn(
     memory,
     usage: usageState,
     targetNPC: targetSlug ?? undefined,
-    variables: {
-      targetName: targetSlug ? state.npcs.get(targetSlug)?.identity.name : undefined,
-    },
+    variables: targetSlug && state.npcs.get(targetSlug)
+      ? { targetName: state.npcs.get(targetSlug)!.identity.name }
+      : undefined,
   };
 
   let result = selectResponse(input);
@@ -384,9 +384,10 @@ export function executeEnhancedTurn(
     result = fallbackResult;
   }
 
-  let finalMessage = result.message;
+  let finalMessage = result.message!;
   if (profile && profile.quirks.length > 0) {
-    finalMessage = applyQuirks(result.message, profile.quirks, () => rng.random('quirk'));
+    const modifiedContent = applyQuirks(result.message!.content, profile.quirks, () => rng.random('quirk'));
+    finalMessage = { ...result.message!, content: modifiedContent };
   }
 
   if (result.usedTemplateId) {
@@ -439,7 +440,7 @@ export function executeEnhancedTurn(
   }
 
   // Enhanced features
-  const detectedTopic = detectTopicFromMessage(finalMessage);
+  const detectedTopic = detectTopicFromMessage(finalMessage.content);
   let updatedThread = state.thread;
 
   if (detectedTopic && !updatedThread.activeTopic) {
@@ -535,7 +536,7 @@ export function executeEnhancedTurn(
 
   const triggersActivated: EmotionalTrigger[] = [];
   if (profile && profile.triggers.length > 0 && targetSlug) {
-    const activated = detectTriggers(finalMessage, speakerSlug, profile.triggers);
+    const activated = detectTriggers(finalMessage.content, speakerSlug, profile.triggers);
     triggersActivated.push(...activated);
 
     for (const trigger of activated) {
@@ -545,7 +546,7 @@ export function executeEnhancedTurn(
         turn: state.context.turnNumber,
       });
 
-      if (trigger.reaction.statEffects) {
+      if (trigger.reaction?.statEffects) {
         for (const effect of trigger.reaction.statEffects) {
           if (targetSlug) {
             const rel = state.relationships.get(speakerSlug, targetSlug);

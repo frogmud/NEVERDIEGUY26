@@ -17,6 +17,20 @@
         font-display: swap;
       }
     </style>
+    <!-- FOUC Prevention: Apply user settings before React hydration -->
+    <script>
+      (function() {
+        try {
+          var s = JSON.parse(localStorage.getItem('ndg_settings') || '{}');
+          var cl = document.documentElement.classList;
+          if (s.largeText) cl.add('large-text');
+          if (s.reducedMotion) cl.add('reduced-motion');
+          if (s.compactMode) cl.add('compact-mode');
+          if (s.highContrast) cl.add('high-contrast');
+          document.documentElement.lang = s.language || 'en';
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

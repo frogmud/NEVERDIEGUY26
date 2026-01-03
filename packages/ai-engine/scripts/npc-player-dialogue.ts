@@ -193,7 +193,7 @@ const PANTHEON: NPCDef[] = [
     slug: 'john',
     name: 'John',
     category: 'pantheon',
-    personality: 'Die-rector of Mechanarium, disappointed authority',
+    personality: 'Die-rector of Earth, disappointed authority',
     voice: 'mechanical, precise, tired disappointment',
     quirks: ['clicks and whirs', 'measures everything'],
     catchphrases: ['Efficiency is paramount.', 'You could do better.'],

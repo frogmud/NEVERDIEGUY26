@@ -179,7 +179,7 @@ export function EditProfile() {
           {statusOptions.map((option) => (
             <Box
               key={option.id}
-              onClick={() => setSelectedStatus(option.id)}
+              onClick={() => setSelectedStatus(option.id as 'online' | 'away' | 'dnd' | 'invisible')}
               sx={{
                 p: 1.5,
                 display: 'flex',

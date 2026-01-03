@@ -263,9 +263,9 @@ export function executeNPCTurn(
     memory,
     usage: usageState,
     targetNPC: targetSlug ?? undefined,
-    variables: {
-      targetName: targetSlug ? state.npcs.get(targetSlug)?.identity.name : undefined,
-    },
+    variables: targetSlug && state.npcs.get(targetSlug)
+      ? { targetName: state.npcs.get(targetSlug)!.identity.name }
+      : undefined,
   };
 
   const result = selectResponse(input);
@@ -421,7 +421,7 @@ export function handlePlayerInterjection(
       currentState,
       respondentSlug,
       undefined,
-      'playerInterrupt' in pool ? 'reaction' : pool as TemplatePool
+      pool === 'playerInterrupt' ? 'reaction' : pool as TemplatePool
     );
 
     if (result) {

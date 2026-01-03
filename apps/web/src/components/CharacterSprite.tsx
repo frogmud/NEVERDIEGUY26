@@ -59,9 +59,10 @@ const CATEGORY_ANIMATION_SPEEDS: Record<WikiCategory, number> = {
   factions: 0,
 };
 
-// Base paths for sprite assets
+// Base paths for sprite assets (PNG and SVG variants)
 const SPRITE_PATHS = {
   market: '/assets/market',
+  marketSvg: '/assets/market-svg',
   characters: '/assets/characters',
 };
 
@@ -109,8 +110,7 @@ export function CharacterSprite({
   sx,
 }: CharacterSpriteProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [hasError, setHasError] = useState(false);
-  const [fallbackFailed, setFallbackFailed] = useState(false);
+  const [fallbackStage, setFallbackStage] = useState(0); // 0=svg, 1=png, 2=fallbackSrc, 3=failed
 
   // Determine sprite size (300 for large characters, otherwise 100)
   const isLargeCharacter = LARGE_CHARACTERS.includes(slug);
@@ -122,43 +122,77 @@ export function CharacterSprite({
   // Calculate animation speed
   const animSpeed = frameInterval ?? (category ? CATEGORY_ANIMATION_SPEEDS[category] : 200);
 
-  // Build sprite paths based on category
-  const framePaths = useMemo(() => {
-    // Try market path first (most characters)
-    const basePath = `${SPRITE_PATHS.market}/${slug}`;
+  // Build sprite paths based on category (SVG first, PNG fallback)
+  const { svgPaths, pngPaths } = useMemo(() => {
+    const pngBase = `${SPRITE_PATHS.market}/${slug}`;
+    const svgBase = `${SPRITE_PATHS.marketSvg}/${slug}`;
 
     if (totalFrames <= 1) {
-      return [`${basePath}/${animation}-01.png`];
+      return {
+        svgPaths: [`${svgBase}/${animation}-01.svg`],
+        pngPaths: [`${pngBase}/${animation}-01.png`],
+      };
     }
 
-    return Array.from({ length: totalFrames }, (_, i) => {
-      const frameNum = String(i + 1).padStart(2, '0');
-      return `${basePath}/${animation}-${frameNum}.png`;
-    });
+    return {
+      svgPaths: Array.from({ length: totalFrames }, (_, i) => {
+        const frameNum = String(i + 1).padStart(2, '0');
+        return `${svgBase}/${animation}-${frameNum}.svg`;
+      }),
+      pngPaths: Array.from({ length: totalFrames }, (_, i) => {
+        const frameNum = String(i + 1).padStart(2, '0');
+        return `${pngBase}/${animation}-${frameNum}.png`;
+      }),
+    };
   }, [slug, animation, totalFrames]);
 
   // Cycle through frames
   useEffect(() => {
-    if (isPaused || totalFrames <= 1 || hasError || animSpeed === 0) return;
+    if (isPaused || totalFrames <= 1 || fallbackStage >= 3 || animSpeed === 0) return;
 
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % totalFrames);
     }, animSpeed);
 
     return () => clearInterval(interval);
-  }, [totalFrames, animSpeed, isPaused, hasError]);
+  }, [totalFrames, animSpeed, isPaused, fallbackStage]);
 
   // Reset state when slug changes
   useEffect(() => {
     setCurrentFrame(0);
-    setHasError(false);
-    setFallbackFailed(false);
+    setFallbackStage(0);
   }, [slug, animation]);
 
-  const currentSrc = hasError && fallbackSrc ? fallbackSrc : framePaths[currentFrame];
+  // Determine current source based on fallback stage (SVG first)
+  const currentSrc = useMemo(() => {
+    if (fallbackStage === 0) {
+      return svgPaths[currentFrame];
+    }
+    if (fallbackStage === 1) {
+      return pngPaths[currentFrame];
+    }
+    if (fallbackStage === 2 && fallbackSrc) {
+      return fallbackSrc;
+    }
+    return null;
+  }, [fallbackStage, svgPaths, pngPaths, currentFrame, fallbackSrc]);
+
+  // Handle image load error - progress through fallback chain
+  const handleError = () => {
+    if (fallbackStage === 0) {
+      // SVG failed, try PNG
+      setFallbackStage(1);
+    } else if (fallbackStage === 1 && fallbackSrc) {
+      // PNG failed, try fallbackSrc
+      setFallbackStage(2);
+    } else {
+      // All failed
+      setFallbackStage(3);
+    }
+  };
 
   // Placeholder when sprite not found
-  if (fallbackFailed || (hasError && !fallbackSrc)) {
+  if (fallbackStage >= 3 || !currentSrc) {
     return (
       <Box
         onClick={onClick}
@@ -186,17 +220,7 @@ export function CharacterSprite({
       src={currentSrc}
       alt={slug}
       onClick={onClick}
-      onError={() => {
-        if (!hasError) {
-          if (fallbackSrc) {
-            setHasError(true);
-          } else {
-            setFallbackFailed(true);
-          }
-        } else {
-          setFallbackFailed(true);
-        }
-      }}
+      onError={handleError}
       sx={{
         width: effectiveSize,
         height: effectiveSize,

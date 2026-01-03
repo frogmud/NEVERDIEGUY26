@@ -7,7 +7,7 @@
  *
  * Die-rectors:
  * - The One (d4) - Null Providence - Cosmic existential horror
- * - John (d6) - Mechanarium - Disappointed efficiency
+ * - John (d6) - Earth - Disappointed efficiency
  * - Peter (d8) - Shadow Keep - Judgmental gatekeeper
  * - Robert (d10) - Infernus - Testing through fire
  * - Alice (d12) - Frost Reach - Temporal patience
@@ -111,7 +111,7 @@ const DIE_RECTORS: DieRectorDef[] = [
   {
     slug: 'john',
     name: 'John',
-    domain: 'Mechanarium',
+    domain: 'Earth',
     die: 'd6',
     tone: 'disappointed efficiency expert',
     personality: 'The Die-rector of optimization, disappointed by inefficiency',

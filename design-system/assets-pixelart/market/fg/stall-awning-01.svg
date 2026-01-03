@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="72" height="16" viewBox="0 0 72 16" style="shape-rendering: crispEdges;">
+  <!-- Market stall awning -->
+  <rect x="0" y="4" width="72" height="12" fill="#8b0000"/>
+  <rect x="0" y="4" width="12" height="12" fill="#a52a2a"/>
+  <rect x="24" y="4" width="12" height="12" fill="#a52a2a"/>
+  <rect x="48" y="4" width="12" height="12" fill="#a52a2a"/>
+  <rect x="0" y="0" width="72" height="4" fill="#4a2020"/>
+</svg>

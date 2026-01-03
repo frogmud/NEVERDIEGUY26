@@ -18,7 +18,7 @@ import { tokens } from '../../theme';
 export interface ComponentInfo {
   id: string;
   name: string;
-  category: 'Foundation' | 'Layout' | 'Inputs' | 'Data Display' | 'Feedback' | 'Navigation' | 'Dialogs' | 'Game UI';
+  category: 'Foundation' | 'Layout' | 'Inputs' | 'Data Display' | 'Feedback' | 'Navigation' | 'Dialogs' | 'Game UI' | 'Icons';
   description: string;
   preview: ReactNode;
 }

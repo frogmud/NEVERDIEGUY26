@@ -2,11 +2,11 @@
 /**
  * Roguelike Run Outcome Simulator
  *
- * Monte Carlo simulation of full roguelike runs (3 ante x 3 levels x 3 rooms).
+ * Monte Carlo simulation of full roguelike runs (6 domains x 3 rooms).
  * Run with: npx ts-node scripts/run-roguelike-sim.ts
  *
  * Answers:
- * - What % of runs reach each ante?
+ * - What % of runs reach each domain?
  * - Where do players die most often?
  * - Which item combos correlate with success?
  */
@@ -34,16 +34,16 @@ const CUMULATIVE_PATH = './logs/cumulative-run-outcomes.json';
 // ============================================
 
 interface RunConfig {
-  anteLevels: number;        // 3 antes
-  roomsPerLevel: number;     // 3 rooms per level
+  totalDomains: number;      // 6 domains (was anteLevels)
+  roomsPerDomain: number;    // 3 rooms per domain
   startingHealth: number;
   startingGold: number;
   itemSlots: number;
 }
 
 const DEFAULT_CONFIG: RunConfig = {
-  anteLevels: 3,
-  roomsPerLevel: 3,
+  totalDomains: 6,
+  roomsPerDomain: 3,
   startingHealth: 100,
   startingGold: 50,
   itemSlots: 5,
@@ -62,10 +62,14 @@ interface Room {
   damageRange: [number, number];
 }
 
+// Room pools for each domain (6 domains)
 const ROOM_POOLS: Record<number, RoomType[]> = {
-  1: ['combat', 'combat', 'shop', 'event', 'rest'],
-  2: ['combat', 'combat', 'combat', 'shop', 'event'],
-  3: ['combat', 'combat', 'boss', 'shop', 'event'],
+  1: ['combat', 'combat', 'shop', 'event', 'rest'],    // Null Providence
+  2: ['combat', 'combat', 'shop', 'event', 'rest'],    // Earth
+  3: ['combat', 'combat', 'combat', 'shop', 'event'],  // Shadow Keep
+  4: ['combat', 'combat', 'combat', 'shop', 'event'],  // Infernus
+  5: ['combat', 'combat', 'combat', 'combat', 'shop'], // Frost Reach
+  6: ['combat', 'combat', 'boss', 'shop', 'event'],    // Aberrant (final)
 };
 
 // ============================================
@@ -109,8 +113,8 @@ interface RunState {
   maxHealth: number;
   gold: number;
   items: Item[];
-  currentAnte: number;
-  currentRoom: number;
+  currentDomain: number;    // 1-6 (was currentAnte)
+  currentRoom: number;      // 1-3
   totalDamageDealt: number;
   totalDamageTaken: number;
   roomsCleared: number;
@@ -120,7 +124,7 @@ interface RunState {
 interface RunResult {
   seed: string;
   success: boolean;
-  deathAnte: number | null;
+  deathDomain: number | null;  // 1-6 (was deathAnte)
   deathRoom: number | null;
   deathRoomType: RoomType | null;
   finalGold: number;
@@ -135,26 +139,30 @@ interface RunResult {
 // Simulation Logic
 // ============================================
 
-function generateRoom(ante: number, roomIndex: number, rng: SeededRng): Room {
-  const pool = ROOM_POOLS[ante] || ROOM_POOLS[1];
+function generateRoom(domain: number, roomIndex: number, rng: SeededRng): Room {
+  const pool = ROOM_POOLS[domain] || ROOM_POOLS[1];
   const type = pool[Math.floor(rng.random('roomType') * pool.length)];
 
-  // Boss always in room 3 of ante 3
-  const finalType = (ante === 3 && roomIndex === 2) ? 'boss' : type;
+  // Boss always in room 3 of domain 6 (final domain)
+  const finalType = (domain === 6 && roomIndex === 2) ? 'boss' : type;
 
-  const baseDifficulty = ante * 2 + roomIndex;
-  const difficulty = Math.min(10, baseDifficulty + Math.floor(rng.random('difficulty') * 2));
+  // Difficulty scales with domain (1-6) instead of ante (1-3)
+  const baseDifficulty = domain + roomIndex;
+  const difficulty = Math.min(12, baseDifficulty + Math.floor(rng.random('difficulty') * 2));
+
+  // Gold reward scales with domain
+  const domainGoldMult = 1 + (domain - 1) * 0.3; // 1x -> 2.5x
 
   return {
     type: finalType,
     difficulty,
-    goldReward: Math.floor(10 + difficulty * 5 + rng.random('gold') * 20),
-    damageRange: [difficulty * 3, difficulty * 8],
+    goldReward: Math.floor((10 + difficulty * 5 + rng.random('gold') * 20) * domainGoldMult),
+    damageRange: [difficulty * 2, difficulty * 6],
   };
 }
 
 function calculateDamageOutput(state: RunState, rng: SeededRng): number {
-  let baseDamage = 20 + state.currentAnte * 10;
+  let baseDamage = 20 + state.currentDomain * 8; // Scales with domain
   let multiplier = 1;
 
   for (const item of state.items) {
@@ -288,7 +296,7 @@ function simulateRun(runSeed: string, config: RunConfig): RunResult {
     maxHealth: config.startingHealth,
     gold: config.startingGold,
     items: [],
-    currentAnte: 1,
+    currentDomain: 1,
     currentRoom: 0,
     totalDamageDealt: 0,
     totalDamageTaken: 0,
@@ -296,12 +304,12 @@ function simulateRun(runSeed: string, config: RunConfig): RunResult {
     synergiesActivated: 0,
   };
 
-  for (let ante = 1; ante <= config.anteLevels; ante++) {
-    state.currentAnte = ante;
+  for (let domain = 1; domain <= config.totalDomains; domain++) {
+    state.currentDomain = domain;
 
-    for (let roomIdx = 0; roomIdx < config.roomsPerLevel; roomIdx++) {
+    for (let roomIdx = 0; roomIdx < config.roomsPerDomain; roomIdx++) {
       state.currentRoom = roomIdx;
-      const room = generateRoom(ante, roomIdx, rng);
+      const room = generateRoom(domain, roomIdx, rng);
 
       const survived = processRoom(state, room, rng);
 
@@ -309,7 +317,7 @@ function simulateRun(runSeed: string, config: RunConfig): RunResult {
         return {
           seed: runSeed,
           success: false,
-          deathAnte: ante,
+          deathDomain: domain,
           deathRoom: roomIdx + 1,
           deathRoomType: room.type,
           finalGold: state.gold,
@@ -326,7 +334,7 @@ function simulateRun(runSeed: string, config: RunConfig): RunResult {
   return {
     seed: runSeed,
     success: true,
-    deathAnte: null,
+    deathDomain: null,
     deathRoom: null,
     deathRoomType: null,
     finalGold: state.gold,
@@ -347,7 +355,7 @@ interface RunStatistics {
   successfulRuns: number;
   successRate: number;
 
-  deathsByAnte: Record<number, number>;
+  deathsByDomain: Record<number, number>;  // 6 domains
   deathsByRoom: Record<number, number>;
   deathsByRoomType: Record<RoomType, number>;
 
@@ -360,14 +368,15 @@ interface RunStatistics {
   itemWinRates: Record<string, { picked: number; wins: number; winRate: number }>;
   synergyCombos: Record<string, { count: number; wins: number; winRate: number }>;
 
-  difficultyByRoom: Array<{ ante: number; room: number; deathRate: number }>;
+  difficultyByRoom: Array<{ domain: number; room: number; deathRate: number }>;
 }
 
 function computeStatistics(results: RunResult[]): RunStatistics {
   const total = results.length;
   const successful = results.filter(r => r.success).length;
 
-  const deathsByAnte: Record<number, number> = { 1: 0, 2: 0, 3: 0 };
+  // 6 domains instead of 3 antes
+  const deathsByDomain: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
   const deathsByRoom: Record<number, number> = { 1: 0, 2: 0, 3: 0 };
   const deathsByRoomType: Record<RoomType, number> = { combat: 0, shop: 0, event: 0, boss: 0, rest: 0 };
 
@@ -411,12 +420,12 @@ function computeStatistics(results: RunResult[]): RunStatistics {
       }
     }
 
-    if (!result.success && result.deathAnte && result.deathRoom && result.deathRoomType) {
-      deathsByAnte[result.deathAnte]++;
+    if (!result.success && result.deathDomain && result.deathRoom && result.deathRoomType) {
+      deathsByDomain[result.deathDomain]++;
       deathsByRoom[result.deathRoom]++;
       deathsByRoomType[result.deathRoomType]++;
 
-      const key = `${result.deathAnte}-${result.deathRoom}`;
+      const key = `${result.deathDomain}-${result.deathRoom}`;
       roomDeaths[key] = (roomDeaths[key] || 0) + 1;
     }
   }
@@ -443,14 +452,14 @@ function computeStatistics(results: RunResult[]): RunStatistics {
     }
   }
 
-  // Difficulty by room
-  const difficultyByRoom: Array<{ ante: number; room: number; deathRate: number }> = [];
-  for (let ante = 1; ante <= 3; ante++) {
+  // Difficulty by room (6 domains x 3 rooms)
+  const difficultyByRoom: Array<{ domain: number; room: number; deathRate: number }> = [];
+  for (let domain = 1; domain <= 6; domain++) {
     for (let room = 1; room <= 3; room++) {
-      const key = `${ante}-${room}`;
+      const key = `${domain}-${room}`;
       const deaths = roomDeaths[key] || 0;
       difficultyByRoom.push({
-        ante,
+        domain,
         room,
         deathRate: total > 0 ? deaths / total : 0,
       });
@@ -461,7 +470,7 @@ function computeStatistics(results: RunResult[]): RunStatistics {
     totalRuns: total,
     successfulRuns: successful,
     successRate: total > 0 ? successful / total : 0,
-    deathsByAnte,
+    deathsByDomain,
     deathsByRoom,
     deathsByRoomType,
     avgRoomsCleared: total > 0 ? totalRoomsCleared / total : 0,
@@ -519,14 +528,16 @@ async function main() {
   console.log('');
 
   console.log(`Success Rate: ${(stats.successRate * 100).toFixed(2)}% (${stats.successfulRuns}/${stats.totalRuns})`);
-  console.log(`Avg Rooms Cleared: ${stats.avgRoomsCleared.toFixed(1)} / 9`);
+  console.log(`Avg Rooms Cleared: ${stats.avgRoomsCleared.toFixed(1)} / 18`);  // 6 domains x 3 rooms
   console.log(`Avg Final Gold: ${stats.avgFinalGold.toFixed(0)}`);
   console.log('');
 
-  console.log('DEATHS BY ANTE:');
-  for (const [ante, count] of Object.entries(stats.deathsByAnte)) {
+  console.log('DEATHS BY DOMAIN:');
+  const domainNames = ['Null Providence', 'Earth', 'Shadow Keep', 'Infernus', 'Frost Reach', 'Aberrant'];
+  for (const [domain, count] of Object.entries(stats.deathsByDomain)) {
     const pct = ((count / stats.totalRuns) * 100).toFixed(1);
-    console.log(`  Ante ${ante}: ${count} deaths (${pct}%)`);
+    const name = domainNames[parseInt(domain) - 1] || domain;
+    console.log(`  Domain ${domain} (${name.padEnd(14)}): ${count} deaths (${pct}%)`);
   }
   console.log('');
 
@@ -540,11 +551,11 @@ async function main() {
   console.log('');
 
   console.log('DIFFICULTY CURVE (death rate per room):');
-  console.log('        Room 1    Room 2    Room 3');
-  for (let ante = 1; ante <= 3; ante++) {
-    const rooms = stats.difficultyByRoom.filter(d => d.ante === ante);
+  console.log('          Room 1    Room 2    Room 3');
+  for (let domain = 1; domain <= 6; domain++) {
+    const rooms = stats.difficultyByRoom.filter(d => d.domain === domain);
     const rates = rooms.map(r => `${(r.deathRate * 100).toFixed(1)}%`.padStart(8));
-    console.log(`Ante ${ante}: ${rates.join('  ')}`);
+    console.log(`Domain ${domain}: ${rates.join('  ')}`);
   }
   console.log('');
 

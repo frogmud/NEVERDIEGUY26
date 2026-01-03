@@ -1,8 +1,8 @@
 /**
  * AnimatedSprite - Cycles through sprite frames for idle animations
  *
- * Automatically detects available frames in /assets/market/{slug}/idle-XX.png
- * Falls back to single sprite or portrait if no animation frames available.
+ * Tries SVG first from /assets/market-svg/{slug}/idle-XX.svg
+ * Falls back to PNG from /assets/market/{slug}/idle-XX.png
  * Shows placeholder icon when no sprite exists.
  */
 
@@ -19,6 +19,7 @@ interface AnimatedSpriteProps {
   height?: number | 'auto';
   fallbackSrc?: string; // Fallback if no frames found
   isPaused?: boolean;
+  preferSvg?: boolean; // Try SVG first (default: true)
   sx?: object;
 }
 
@@ -49,49 +50,85 @@ export function AnimatedSprite({
   height = 'auto',
   fallbackSrc,
   isPaused = false,
+  preferSvg = true,
   sx,
 }: AnimatedSpriteProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [hasError, setHasError] = useState(false);
-  const [fallbackFailed, setFallbackFailed] = useState(false);
+  const [fallbackStage, setFallbackStage] = useState(0); // 0=svg, 1=png, 2=fallbackSrc, 3=failed
 
   // Get frame count
   const totalFrames = frameCount || KNOWN_FRAME_COUNTS[slug] || 1;
 
-  // Generate frame paths
-  const framePaths = useMemo(() => {
+  // Generate SVG and PNG frame paths
+  const { svgPaths, pngPaths } = useMemo(() => {
+    const svgBase = basePath.replace('/assets/market', '/assets/market-svg');
+
     if (totalFrames <= 1) {
-      // Single frame - use idle-01 or fallback
-      return [`${basePath}/${slug}/idle-01.png`];
+      return {
+        svgPaths: [`${svgBase}/${slug}/idle-01.svg`],
+        pngPaths: [`${basePath}/${slug}/idle-01.png`],
+      };
     }
-    return Array.from({ length: totalFrames }, (_, i) => {
-      const frameNum = String(i + 1).padStart(2, '0');
-      return `${basePath}/${slug}/idle-${frameNum}.png`;
-    });
+
+    return {
+      svgPaths: Array.from({ length: totalFrames }, (_, i) => {
+        const frameNum = String(i + 1).padStart(2, '0');
+        return `${svgBase}/${slug}/idle-${frameNum}.svg`;
+      }),
+      pngPaths: Array.from({ length: totalFrames }, (_, i) => {
+        const frameNum = String(i + 1).padStart(2, '0');
+        return `${basePath}/${slug}/idle-${frameNum}.png`;
+      }),
+    };
   }, [basePath, slug, totalFrames]);
 
   // Cycle through frames
   useEffect(() => {
-    if (isPaused || totalFrames <= 1 || hasError) return;
+    if (isPaused || totalFrames <= 1 || fallbackStage >= 3) return;
 
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % totalFrames);
     }, frameInterval);
 
     return () => clearInterval(interval);
-  }, [totalFrames, frameInterval, isPaused, hasError]);
+  }, [totalFrames, frameInterval, isPaused, fallbackStage]);
 
-  // Reset frame when slug changes
+  // Reset when slug changes
   useEffect(() => {
     setCurrentFrame(0);
-    setHasError(false);
-    setFallbackFailed(false);
+    setFallbackStage(0);
   }, [slug]);
 
-  const currentSrc = hasError && fallbackSrc ? fallbackSrc : framePaths[currentFrame];
+  // Determine current source based on fallback stage
+  const currentSrc = useMemo(() => {
+    if (fallbackStage === 0 && preferSvg) {
+      return svgPaths[currentFrame];
+    }
+    if (fallbackStage <= 1) {
+      return pngPaths[currentFrame];
+    }
+    if (fallbackStage === 2 && fallbackSrc) {
+      return fallbackSrc;
+    }
+    return null;
+  }, [fallbackStage, preferSvg, svgPaths, pngPaths, currentFrame, fallbackSrc]);
 
-  // Show placeholder when both main sprite and fallback fail
-  if (fallbackFailed || (hasError && !fallbackSrc)) {
+  // Handle image load error - progress through fallback chain
+  const handleError = () => {
+    if (fallbackStage === 0 && preferSvg) {
+      // SVG failed, try PNG
+      setFallbackStage(1);
+    } else if (fallbackStage <= 1 && fallbackSrc) {
+      // PNG failed, try fallbackSrc
+      setFallbackStage(2);
+    } else {
+      // All failed
+      setFallbackStage(3);
+    }
+  };
+
+  // Show placeholder when all sources fail
+  if (fallbackStage >= 3 || !currentSrc) {
     return (
       <Box
         sx={{
@@ -116,20 +153,7 @@ export function AnimatedSprite({
       component="img"
       src={currentSrc}
       alt={slug}
-      onError={() => {
-        if (!hasError) {
-          // Try fallback first
-          if (fallbackSrc) {
-            setHasError(true);
-          } else {
-            // No fallback, show placeholder
-            setFallbackFailed(true);
-          }
-        } else {
-          // Fallback also failed
-          setFallbackFailed(true);
-        }
-      }}
+      onError={handleError}
       sx={{
         width,
         height,

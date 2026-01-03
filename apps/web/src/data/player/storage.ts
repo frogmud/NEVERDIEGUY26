@@ -280,6 +280,7 @@ export interface SavedRunState {
     clearedCount: number;
     totalZones: number;
   } | null;
+  selectedZoneId: string | null;
   inventory: {
     dice: Record<string, number>;
     powerups: string[];

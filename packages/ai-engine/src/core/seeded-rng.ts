@@ -11,6 +11,10 @@ export interface SeededRng {
   randomChoice: <T>(array: T[], namespace?: string) => T | undefined;
   randomWeighted: <T>(items: Array<{ item: T; weight: number }>, namespace?: string) => T | undefined;
   shuffle: <T>(array: T[], namespace?: string) => T[];
+  /** Roll a die with given sides (1 to sides inclusive) */
+  roll: (namespace: string, sides: number) => number;
+  /** Get index for array selection (0 to length-1) */
+  rollIndex: (namespace: string, length: number) => number;
 }
 
 /**
@@ -101,6 +105,16 @@ export function createSeededRng(seed: string): SeededRng {
       }
 
       return result;
+    },
+
+    roll(namespace: string, sides: number): number {
+      const r = getGenerator(namespace)();
+      return Math.floor(r * sides) + 1;
+    },
+
+    rollIndex(namespace: string, length: number): number {
+      const r = getGenerator(namespace)();
+      return Math.floor(r * length);
     },
   };
 }

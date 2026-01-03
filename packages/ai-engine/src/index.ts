@@ -551,7 +551,7 @@ export type {
 
 export {
   ChatFeed,
-  ChatMessage,
+  ChatMessageBubble,
   EventToast,
   ToastQueue,
 } from './components';
@@ -773,7 +773,7 @@ export type {
   TimeDamageConfig,
   DomainType,
   CombatRoom,
-  CombatState,
+  CombatState as TimeDamageCombatState,
   CombatResult,
   TimeDamageSimConfig,
   TimeDamageSimResult,
@@ -872,3 +872,108 @@ export type {
   CeeloChallengeState,
   ChallengeResult,
 } from './gambling/ceelo-challenge';
+
+// ============================================
+// Combat System (Grid-Based Turn Combat)
+// ============================================
+
+export {
+  // Grid Generator
+  TILE_TYPES,
+  generateGrid,
+  getCellAt,
+  getAdjacentCells,
+  getCellsByType,
+  getWalkableCells,
+  isCellWalkable,
+  gridToAscii,
+  // Dice Hand System
+  MAX_HAND_SIZE,
+  DEFAULT_HOLDS_PER_ROOM,
+  DIE_ELEMENTS,
+  generateDicePool,
+  generateWeightedPool,
+  drawHand as drawDiceHand,
+  rollHand,
+  toggleHold as toggleDiceHold,
+  discardAndDraw,
+  getHandTotal,
+  countByElement,
+  getElementCombos,
+  getHeldCount,
+  isPoolEmpty,
+  getPoolRemaining,
+  // Combat Engine
+  CombatEngine,
+  createCombatEngine,
+  // Scoring
+  SCORE_MODIFIERS,
+  getElementMultiplier,
+  calculateHitScore,
+  calculateCombo,
+  calculateElementCombo,
+  calculateTurnSummary,
+  calculateTargetScore as calculateCombatTargetScore,
+  calculateGoldReward,
+} from './combat';
+export type {
+  // Grid types
+  TileType,
+  GridCell,
+  GridState,
+  RoomType,
+  // Dice types
+  DieSides,
+  Element,
+  Die,
+  DiceHand,
+  DicePool,
+  // Combat types
+  CombatPhase,
+  Entity,
+  EntityMap,
+  CombatState,
+  CombatCommand,
+  CombatConfig,
+  // Scoring types
+  HitResult,
+  ComboResult,
+  ElementComboResult,
+  TurnSummary,
+} from './combat';
+
+// ============================================
+// Player Profile System
+// ============================================
+
+export {
+  createPlayerProfile,
+  updatePlayerProfile,
+  detectArchetype,
+  serializeProfile,
+  deserializeProfile,
+  ARCHETYPE_ITEMS,
+} from './player';
+export type {
+  PlayerArchetype,
+  PlayerProfile,
+  RunResult,
+} from './player';
+
+export {
+  detectStoryBeats,
+  updateStoryBeats,
+  BEAT_TTL,
+} from './player/story-beats';
+export type {
+  StoryBeat,
+  StoryBeatType,
+} from './player/story-beats';
+
+export {
+  getDebtTension,
+  DEBT_THRESHOLDS,
+} from './player/debt-tension';
+export type {
+  DebtTension,
+} from './player/debt-tension';

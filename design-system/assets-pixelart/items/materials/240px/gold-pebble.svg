@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 320" width="240" height="240">
+  <style>rect{shape-rendering:crispEdges}</style>
+  <g fill="#fee300">
+    <rect x="130" y="110" width="10" height="10"/>
+    <rect x="120" y="120" width="20" height="10"/>
+    <rect x="100" y="130" width="30" height="10"/>
+    <rect x="100" y="140" width="30" height="10"/>
+    <rect x="150" y="160" width="10" height="10"/>
+    <rect x="140" y="170" width="20" height="10"/>
+    <rect x="140" y="180" width="20" height="10"/>
+  </g>
+  <g fill="#fe9b00">
+    <rect x="140" y="110" width="20" height="10"/>
+    <rect x="140" y="120" width="40" height="10"/>
+    <rect x="170" y="130" width="20" height="10"/>
+    <rect x="170" y="140" width="20" height="10"/>
+    <rect x="100" y="150" width="30" height="10"/>
+    <rect x="170" y="150" width="20" height="10"/>
+    <rect x="100" y="160" width="30" height="10"/>
+    <rect x="170" y="160" width="20" height="10"/>
+    <rect x="100" y="170" width="30" height="10"/>
+    <rect x="100" y="180" width="30" height="10"/>
+    <rect x="120" y="190" width="30" height="10"/>
+    <rect x="130" y="200" width="20" height="10"/>
+  </g>
+  <rect fill="#fe9c00" x="160" y="110" width="10" height="10"/>
+  <g fill="#fefb00">
+    <rect x="130" y="130" width="20" height="10"/>
+    <rect x="130" y="140" width="20" height="10"/>
+    <rect x="130" y="150" width="10" height="10"/>
+  </g>
+  <g fill="#feb900">
+    <rect x="150" y="130" width="10" height="10"/>
+    <rect x="150" y="140" width="10" height="10"/>
+    <rect x="140" y="150" width="20" height="10"/>
+    <rect x="130" y="160" width="20" height="10"/>
+    <rect x="130" y="170" width="10" height="10"/>
+    <rect x="130" y="180" width="10" height="10"/>
+  </g>
+  <g fill="#feb500">
+    <rect x="160" y="130" width="10" height="10"/>
+    <rect x="160" y="140" width="10" height="10"/>
+    <rect x="160" y="150" width="10" height="10"/>
+  </g>
+  <rect fill="#feda00" x="160" y="160" width="10" height="10"/>
+  <g fill="#fecf00">
+    <rect x="160" y="170" width="10" height="10"/>
+    <rect x="160" y="180" width="10" height="10"/>
+  </g>
+  <g fill="#fe4200">
+    <rect x="170" y="170" width="20" height="10"/>
+    <rect x="170" y="180" width="20" height="10"/>
+    <rect x="150" y="190" width="30" height="10"/>
+    <rect x="150" y="200" width="20" height="10"/>
+  </g>
+</svg>

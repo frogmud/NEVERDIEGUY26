@@ -4,7 +4,7 @@
  * The Lucky Die connects:
  * - Die type (d4, d6, d8, d10, d12, d20)
  * - Die-rector patron (The One, John, Peter, Robert, Alice, Jane)
- * - Domain (Null Providence, Mechanarium, Shadow Keep, Infernus, Frost Reach, Aberrant)
+ * - Domain (Null Providence, Earth, Shadow Keep, Infernus, Frost Reach, Aberrant)
  * - Element (Void, Earth, Death, Fire, Ice, Wind)
  *
  * First roll of a run determines the player's Lucky Die (highest value wins).

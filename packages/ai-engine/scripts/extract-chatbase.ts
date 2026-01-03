@@ -322,6 +322,114 @@ function parseEternalDay(content: string, filename: string): EternalDayData | nu
 }
 
 // ============================================
+// Archetype & Debt Affinity Tagging
+// ============================================
+
+import type { PlayerArchetype } from '../src/player/player-profile';
+import type { DebtTension } from '../src/player/debt-tension';
+
+/**
+ * Tag entries with archetype affinity based on text content
+ */
+function tagArchetypeAffinity(entry: ChatbaseEntry): void {
+  const text = entry.text.toLowerCase();
+  entry.triggers ??= {};
+
+  // Aggressive affinity - damage, attack, reckless
+  if (
+    text.includes('reckless') ||
+    text.includes('damage') ||
+    text.includes('destroy') ||
+    text.includes('attack') ||
+    text.includes('strike first') ||
+    text.includes('all or nothing') ||
+    text.includes('hit hard')
+  ) {
+    entry.triggers.playerArchetype = 'aggressive' as PlayerArchetype;
+  }
+
+  // Defensive affinity - survive, endure, patient
+  if (
+    text.includes('survive') ||
+    text.includes('endure') ||
+    text.includes('patient') ||
+    text.includes('careful') ||
+    text.includes('cautious') ||
+    text.includes('protect') ||
+    text.includes('shield')
+  ) {
+    entry.triggers.playerArchetype = 'defensive' as PlayerArchetype;
+  }
+
+  // Chaotic affinity - gamble, risk, chaos, luck
+  if (
+    text.includes('gamble') ||
+    text.includes('risk') ||
+    text.includes('chaos') ||
+    text.includes('luck') ||
+    text.includes('wild') ||
+    text.includes('reroll') ||
+    text.includes('unpredictable')
+  ) {
+    entry.triggers.playerArchetype = 'chaotic' as PlayerArchetype;
+  }
+
+  // Clean up empty triggers
+  if (Object.keys(entry.triggers).length === 0) {
+    entry.triggers = undefined;
+  }
+}
+
+/**
+ * Tag entries with debt tension level based on text content
+ */
+function tagDebtAffinity(entry: ChatbaseEntry): void {
+  const text = entry.text.toLowerCase();
+
+  // Check for debt-related keywords
+  if (
+    text.includes('owe') ||
+    text.includes('debt') ||
+    text.includes('pay up') ||
+    text.includes('ledger') ||
+    text.includes('gold you') ||
+    text.includes('money you') ||
+    text.includes('what you owe')
+  ) {
+    entry.triggers ??= {};
+
+    // Determine tension level from language intensity
+    if (
+      text.includes('threaten') ||
+      text.includes('regret') ||
+      text.includes('suffer') ||
+      text.includes('consequence') ||
+      text.includes('patient. i am not') ||
+      text.includes('not patient')
+    ) {
+      entry.triggers.debtTension = 'threatening' as DebtTension;
+    } else if (
+      text.includes('forget') ||
+      text.includes('remember') ||
+      text.includes('interest') ||
+      text.includes('growing')
+    ) {
+      entry.triggers.debtTension = 'notable' as DebtTension;
+    } else {
+      entry.triggers.debtTension = 'minor' as DebtTension;
+    }
+  }
+}
+
+/**
+ * Apply all affinity tags to an entry
+ */
+function tagEntry(entry: ChatbaseEntry): void {
+  tagArchetypeAffinity(entry);
+  tagDebtAffinity(entry);
+}
+
+// ============================================
 // Entry Creation
 // ============================================
 
@@ -399,6 +507,9 @@ function createEntryFromEternal(
     };
   }
 
+  // Apply affinity tags
+  tagEntry(entry);
+
   return entry;
 }
 
@@ -475,6 +586,9 @@ function createEntryFromChatter(
       category: SLUG_TO_CATEGORY[conv.target] || 'wanderers',
     };
   }
+
+  // Apply affinity tags
+  tagEntry(entry);
 
   return entry;
 }

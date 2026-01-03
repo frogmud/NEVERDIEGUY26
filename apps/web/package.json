@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ndg/ai-engine": "workspace:*",
     "@ndg/shared": "workspace:*",
     "@dice-roller/rpg-dice-roller": "^5.5.1",
     "@emotion/react": "^11.14.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@vercel/node": "^5.1.8",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "@types/three": "^0.182.0",

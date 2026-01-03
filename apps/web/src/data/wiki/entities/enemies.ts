@@ -12,7 +12,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/abominable.png',
+    image: '/assets/enemies-svg/abominable.svg',
     description: 'The Abominable terrorizes through aggressive ugliness and matted green fur. This boss enemy combines yeti bulk with swamp coloring in ways that offend both nature and aesthetics. Its perpetual grimace suggests awareness of its own wrongness.',
     seeAlso: ['aberrant', 'jane'],
     // Dice roguelike fields
@@ -42,7 +42,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 5,
     domain: 'frost-reach',
-    image: '/assets/enemies/frost-giant-iii.png',
+    image: '/assets/enemies-svg/frost-giant-iii.svg',
     description: 'The eldest brother achieved perfect understanding: armor solves everything. This white-furred warrior in full plate represents the evolutionary endpoint of equipment progression. After fifty community deaths, he transforms into the wanderer Jotun, choosing commerce over combat.',
     seeAlso: ['frost-reach', 'frost-giant-i', 'frost-giant-ii', 'alice'],
     // Dice roguelike fields
@@ -72,7 +72,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/ludwig.png',
+    image: '/assets/enemies-svg/ludwig.svg',
     description: 'The knight-composer discovered the Song That Ends, transforming into a golden-armored centaur wielding a blue greatsword. Musical madness fused man and horse through cursed composition. Now he performs combat symphonies with hoofbeats drumming funeral marches.',
     seeAlso: ['shadow-keep', 'peter', 'skeleton-knight'],
     // Dice roguelike fields
@@ -102,7 +102,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/makora.png',
+    image: '/assets/enemies-svg/makora.svg',
     description: 'This circular demon with radial symmetry transforms defeat into education. The purple-black wheel form rotates constantly, growing counter-adaptations where struck. Summoned as an enforcer centuries ago, Makora discovered curiosity and became a professor of suffering.',
     seeAlso: ['shadow-keep', 'makora-reborn', 'peter'],
     // Dice roguelike fields
@@ -132,7 +132,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/makora-reborn.png',
+    image: '/assets/enemies-svg/makora-reborn.svg',
     description: 'A white-winged scholar with the original wheel form overhead, Makora Reborn achieved quantum consciousness through server anomaly. This angelic evolution accesses collective memory from every player across all dimensions, knowing strategies before invention.',
     seeAlso: ['shadow-keep', 'makora', 'peter'],
     // Dice roguelike fields
@@ -162,7 +162,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 4,
     domain: 'infernus',
-    image: '/assets/enemies/mephisto.png',
+    image: '/assets/enemies-svg/mephisto.svg',
     description: 'Mephisto weaponizes bureaucracy in pink-skinned glory. This horn-crowned contract devil crushes souls through paperwork while wielding a golden trident he rarely uses. His boardroom smile hides 247 pages of terms and conditions designed to transform victory into legally-binding defeat.',
     seeAlso: ['infernus', 'robert', 'fire-imp', 'succubus'],
     // Dice roguelike fields
@@ -192,7 +192,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/tentacle-beast.png',
+    image: '/assets/enemies-svg/tentacle-beast.svg',
     description: 'This dark blue mass of tentacles beneath a pale skull represents evolutionary enthusiasm gone cosmic. Seventeen coordinated appendages transform arenas into omnidirectional threats. One variant transcended to become pantheon member Rhea through consuming temporal paradoxes.',
     seeAlso: ['null-providence', 'rhea', 'the-one'],
     // Dice roguelike fields
@@ -222,7 +222,7 @@ export const enemies: Enemy[] = [
     rarity: 'Legendary',
     luckyNumber: 1,
     domain: 'null-providence',
-    image: '/assets/enemies/void-lord.png',
+    image: '/assets/enemies-svg/void-lord.svg',
     description: "The Void Lord is the supreme enforcer of Null Providence, a towering entity of crystallized nothingness given terrible purpose. Where The One philosophizes about non-existence, the Void Lord demonstrates it. Enemies don't die fighting the Void Lord - they are simply edited out of reality's document. King James employs this being as the ultimate deterrent, though even he seems uncertain whether the Void Lord serves willingly or simply hasn't decided to end him yet.",
     seeAlso: ['null-providence', 'king-james', 'the-one', 'void-spawn', 'dr-voss', 'zero-chance'],
     // Dice roguelike fields
@@ -257,7 +257,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/air-elemental.png',
+    image: '/assets/enemies-svg/air-elemental.svg',
     description: 'Air Elementals manifest as minimalist cyan swirls achieving consciousness through pressure and spite. These geometric wind patterns contain six cubic meters of atmosphere that counts every unauthorized inhalation. Jane taught them math—now they calculate revenge.',
     seeAlso: ['aberrant', 'jane'],
     // Dice roguelike fields
@@ -286,7 +286,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/ancient-treant.png',
+    image: '/assets/enemies-svg/ancient-treant.svg',
     description: 'Ancient Treant achieved consciousness through sheer duration and accumulated irritation. This mobile oak tests patience over reflexes, with combat spanning seasonal rotations. Purple gem in trunk contains compressed memories of fallen civilizations.',
     seeAlso: ['aberrant', 'twisted-sapling', 'vine-strangler'],
     // Dice roguelike fields
@@ -310,7 +310,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/clock-sentinel.png',
+    image: '/assets/enemies-svg/clock-sentinel.svg',
     description: 'Armored temporal enforcer that punishes procrastination with escalating damage. This brown-plated warrior with a pyramid helmet transforms every wasted second into additional pain, making speedrunning mandatory rather than optional.',
     seeAlso: ['null-providence', 'time-wraith', 'the-one'],
     // Dice roguelike fields
@@ -334,7 +334,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 5,
     domain: 'frost-reach',
-    image: '/assets/enemies/frost-giant-i.png',
+    image: '/assets/enemies-svg/frost-giant-i.svg',
     description: 'The misnamed Frost Giant I swings his crude axe with enthusiasm inversely proportional to intelligence. This light blue-bearded warrior compensates for minimal equipment with pure violence, somehow surviving frost-reach temperatures through sheer stubbornness.',
     seeAlso: ['frost-reach', 'frost-giant-ii', 'frost-giant-iii', 'alice'],
     // Dice roguelike fields
@@ -358,7 +358,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 5,
     domain: 'frost-reach',
-    image: '/assets/enemies/frost-giant-ii.png',
+    image: '/assets/enemies-svg/frost-giant-ii.svg',
     description: 'The middle brother learned from watching Frost Giant I fail repeatedly. This horned, turquoise-skinned tactician wrapped in chains transforms combat into calculated examinations. Armed with dual clubs and actual strategy, he represents the dangerous middle ground between raw power and refined technique.',
     seeAlso: ['frost-reach', 'frost-giant-i', 'frost-giant-iii', 'alice'],
     // Dice roguelike fields
@@ -382,7 +382,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 4,
     domain: 'infernus',
-    image: '/assets/enemies/lava-golem.png',
+    image: '/assets/enemies-svg/lava-golem.svg',
     description: 'This golden-armored warrior wielding a red trident represents another naming department failure. Despite zero geological composition, the muscular gladiator earned "golem" status through working near volcanic arenas. Professional fighters who stopped correcting the error centuries ago.',
     seeAlso: ['infernus', 'fire-imp', 'robert'],
     // Dice roguelike fields
@@ -406,7 +406,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/recurceror.png',
+    image: '/assets/enemies-svg/recurceror.svg',
     description: 'This white-robed wizard with purple accents discovered recursive magic where spells reference themselves. The pointed hat and crystallized loop staff mark a programmer-turned-sorcerer who breaks reality through exponential spell multiplication.',
     seeAlso: ['null-providence', 'the-one', 'void-spawn'],
     // Dice roguelike fields
@@ -430,7 +430,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/shadow-fiend.png',
+    image: '/assets/enemies-svg/shadow-fiend.svg',
     description: 'This horned demon with pink skin and purple energy blades represents another naming department failure. Despite zero shadow manipulation abilities, exceptional dual-sword combat compensates for chromatic inadequacy. After fifty deaths transforms into merchant Xtreme.',
     seeAlso: ['null-providence', 'xtreme', 'the-one'],
     // Dice roguelike fields
@@ -454,7 +454,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 4,
     domain: 'infernus',
-    image: '/assets/enemies/skeleton-demon.png',
+    image: '/assets/enemies-svg/skeleton-demon.svg',
     description: 'This small skeletal demon with orange horns represents infernal middle management. When demons die with unfulfilled contracts, they reanimate as bureaucratic nightmares merging undeath with contract law, documenting every strike comprehensively.',
     seeAlso: ['infernus', 'mephisto', 'skeleton-knight'],
     // Dice roguelike fields
@@ -478,7 +478,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/skeleton-knight.png',
+    image: '/assets/enemies-svg/skeleton-knight.svg',
     description: 'This silver-armored skeleton with golden sword represents undeath\'s most dignified warriors. Honor-bound bones prove death merely inconveniences proper swordsmanship. These osseous chevaliers combine supernatural durability with combat etiquette obsession.',
     seeAlso: ['shadow-keep', 'skeleton-archer', 'skeleton-barb', 'peter'],
     // Dice roguelike fields
@@ -508,7 +508,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 2,
     domain: 'earth',
-    image: '/assets/enemies/steam-sentry.png',
+    image: '/assets/enemies-svg/steam-sentry.svg',
     description: 'This cylindrical automaton with glowing cyan visor transforms thermodynamics into weapon systems. Eight-foot brass constructs patrol with pressure cooker temperament, venting steam in Morse code profanity patterns while maintaining Victorian sensibilities.',
     seeAlso: ['earth', 'gear-construct', 'john'],
     // Dice roguelike fields
@@ -532,7 +532,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 4,
     domain: 'infernus',
-    image: '/assets/enemies/succubus.png',
+    image: '/assets/enemies-svg/succubus.svg',
     description: 'This turquoise-winged demon with golden accents weaponizes emotional vulnerabilities through psychological warfare. Operating beyond temptress tropes, she performs hostile takeovers of decision-making faculties. One variant discovered healing\'s superiority, becoming wanderer Stitch Up Girl.',
     seeAlso: ['infernus', 'stitch-up-girl', 'mephisto', 'robert'],
     // Dice roguelike fields
@@ -556,7 +556,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/time-wraith.png',
+    image: '/assets/enemies-svg/time-wraith.svg',
     description: 'This blue-hooded reaper serves as cosmic janitor for temporal paradoxes. These spectral entities exist at death-time intersection, cleaning causality messes by erasing cause, effect, and witnesses. Dr. Voss variant questions existence while conducting experiments.',
     seeAlso: ['null-providence', 'dr-voss', 'time-elemental', 'the-one'],
     // Dice roguelike fields
@@ -580,7 +580,7 @@ export const enemies: Enemy[] = [
     rarity: 'Rare',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/wretched-beast.png',
+    image: '/assets/enemies-svg/wretched-beast.svg',
     description: 'This purple beast with green arms and flaming head proves evolution sometimes has nervous breakdowns. These creatures weaponized ugliness into combat mechanics—looking at them deals psychic damage. Reality flinches when they appear, embarrassed by what existence allows.',
     seeAlso: ['aberrant', 'abominable', 'jane'],
     // Dice roguelike fields
@@ -607,7 +607,7 @@ export const enemies: Enemy[] = [
     enemyType: 'Normal',
     rarity: 'Common',
     domain: 'universal',
-    image: '/assets/enemies/antworm.png',
+    image: '/assets/enemies-svg/antworm.svg',
     description: 'Segmented hybrid creatures that tunnel through domains with existential confusion. Their orange-red heads house compound eyes that see in too many directions, while blue-purple bodies writhe through self-made tunnel networks that spell out complaints in dead languages.',
     seeAlso: ['myconid', 'crab'],
     // Dice roguelike fields
@@ -628,7 +628,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/bat.png',
+    image: '/assets/enemies-svg/bat.svg',
     description: 'Tutorial enemy that introduces players to dying repeatedly. These purple-winged creatures flutter through every domain with erratic patterns designed to frustrate new players into understanding that death is essential, not optional.',
     seeAlso: ['shadow-keep', 'peter'],
     // Dice roguelike fields
@@ -656,7 +656,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 4,
     domain: 'infernus',
-    image: '/assets/enemies/camel.png',
+    image: '/assets/enemies-svg/camel.svg',
     description: 'Desert tanks that weaponize patience into spite. These tan ungulates patrol hot domains with humps full of condensed contempt, maintaining disturbing eye contact while plotting elaborate revenge for imagined slights.',
     seeAlso: ['infernus', 'fire-imp'],
     // Dice roguelike fields
@@ -680,7 +680,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/carniflower.png',
+    image: '/assets/enemies-svg/carniflower.svg',
     description: 'Carniflowers achieved dietary enlightenment through Jane\'s atmospheric experiments. These pink carnivorous plants photosynthesize revenge while breathing backwards. Six-petaled horror contains 666 tiny mouths seeking vegetable justice.',
     seeAlso: ['aberrant', 'twisted-sapling', 'jane'],
     // Dice roguelike fields
@@ -704,7 +704,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/chicken.png',
+    image: '/assets/enemies-svg/chicken.svg',
     description: 'White-feathered barnyard terrors that scale aggression to player luck. These poultry enemies track every dice roll with mathematical precision, attacking harder when you roll poorly (sympathy rage) or excellently (jealousy fury).',
     seeAlso: ['aberrant', 'cow', 'jane'],
     // Dice roguelike fields
@@ -728,7 +728,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 1,
     domain: 'earth',
-    image: '/assets/enemies/cow.png',
+    image: '/assets/enemies-svg/cow.svg',
     description: 'Brown and white bovines that weaponize pastoral fury based on your dice rolls. These militarized livestock seek revenge for hamburgers consumed, with attack patterns scaling to both your luck and dietary choices.',
     seeAlso: ['earth', 'chicken', 'john'],
     // Dice roguelike fields
@@ -752,7 +752,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 1,
     domain: 'earth',
-    image: '/assets/enemies/crab.png',
+    image: '/assets/enemies-svg/crab.svg',
     description: 'Cyan-shelled crustaceans that move exclusively sideways and calculate attacks based on dice probability. These mathematical warriors prefer rolls of 3 or 4, becoming exponentially more dangerous when dice match their lateral philosophy.',
     seeAlso: ['earth', 'myconid', 'john'],
     // Dice roguelike fields
@@ -776,7 +776,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 4,
     domain: 'infernus',
-    image: '/assets/enemies/fire-imp.png',
+    image: '/assets/enemies-svg/fire-imp.svg',
     description: 'Yellow-skinned warriors with flaming hair who patrol Infernus with military discipline. Despite their "imp" designation, these six-foot soldiers wield spears and shields with tactical precision, eternally frustrated by their cutesy classification.',
     seeAlso: ['infernus', 'lava-golem', 'robert'],
     // Dice roguelike fields
@@ -806,7 +806,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/gear-construct.png',
+    image: '/assets/enemies-svg/gear-construct.svg',
     description: 'This purple-wrapped warrior topped with golden gears represents bureaucratic naming gone wrong. Despite the mechanical moniker, no actual gears exist—just ancient bandages and a crown that defies categorization. The confused mummy seeks pyramids in mechanical realms.',
     seeAlso: ['aberrant', 'steam-sentry', 'jane'],
     // Dice roguelike fields
@@ -830,7 +830,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 5,
     domain: 'frost-reach',
-    image: '/assets/enemies/ice-wraith.png',
+    image: '/assets/enemies-svg/ice-wraith.svg',
     description: 'This pale blue ghost with glowing cyan eyes haunts frost-reach through bureaucratic assignment rather than elemental affinity. The spectral form lacks any actual ice powers, floating through frozen domains while questioning its job placement.',
     seeAlso: ['frost-reach', 'time-wraith', 'alice'],
     // Dice roguelike fields
@@ -854,7 +854,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 1,
     domain: 'earth',
-    image: '/assets/enemies/myconid.png',
+    image: '/assets/enemies-svg/myconid.svg',
     description: 'This walking mushroom with white stem legs and red spotted cap represents actual fungal biology in combat form. Unlike other misnamed enemies, Myconids genuinely embody mushroom characteristics with bipedal locomotion added for mobility.',
     seeAlso: ['earth', 'spore-cloud', 'john'],
     // Dice roguelike fields
@@ -877,7 +877,7 @@ export const enemies: Enemy[] = [
     enemyType: 'Normal',
     rarity: 'Uncommon',
     domain: 'universal',
-    image: '/assets/enemies/parrot.png',
+    image: '/assets/enemies-svg/parrot.svg',
     description: 'This red-headed avian with blue-teal wings evolved beyond simple mimicry into psychological warfare. These sound terrorists attack by repeating player failures in mocking tones, serving as both enemy and narrator of incompetence through selective audio playback.',
     seeAlso: ['bat', 'chicken'],
     // Dice roguelike fields
@@ -898,7 +898,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/skeleton-archer.png',
+    image: '/assets/enemies-svg/skeleton-archer.svg',
     description: 'This skeletal marksman in golden armor with red bow masters ranged combat through post-mortem advantages. Death enhanced accuracy by removing breathing and blinking distractions. They patrol as bony turrets with supernatural precision.',
     seeAlso: ['shadow-keep', 'skeleton-knight', 'skeleton-barb', 'peter'],
     // Dice roguelike fields
@@ -927,7 +927,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 3,
     domain: 'shadow-keep',
-    image: '/assets/enemies/skeleton-barb.png',
+    image: '/assets/enemies-svg/skeleton-barb.svg',
     description: 'This skeletal berserker in barbarian furs with blue sword and shield proves death cannot stop true rage. Without muscles to tire or blood to cool, they maintain perpetual fury. Removing flesh removed all limitations on violence potential.',
     seeAlso: ['shadow-keep', 'skeleton-knight', 'skeleton-archer', 'peter'],
     // Dice roguelike fields
@@ -951,7 +951,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/spore-cloud.png',
+    image: '/assets/enemies-svg/spore-cloud.svg',
     description: 'This gray cloud with toxic green rain represents billions of microscopic entities forming collective consciousness. These atmospheric infections drift through domains as airborne plagues, transforming breathing into tactical suicide while weapons pass harmlessly through.',
     seeAlso: ['aberrant', 'myconid', 'jane'],
     // Dice roguelike fields
@@ -975,7 +975,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/time-elemental.png',
+    image: '/assets/enemies-svg/time-elemental.svg',
     description: 'This green humanoid warrior represents another cosmic naming failure. Despite "Time Elemental" designation, appears as standard fighter with brown armor and no temporal abilities. Living paradoxes exist across all moments while fighting conventionally.',
     seeAlso: ['null-providence', 'time-wraith', 'the-one'],
     // Dice roguelike fields
@@ -999,7 +999,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/time-scavenger.png',
+    image: '/assets/enemies-svg/time-scavenger.svg',
     description: 'This blue-hooded thief with golden armor represents temporal kleptomania taken to cosmic extremes. These hunched creatures pickpocket moments from timelines, running through domains with twitchy energy while reaching through present to pilfer past.',
     seeAlso: ['null-providence', 'time-wraith', 'the-one'],
     // Dice roguelike fields
@@ -1023,7 +1023,7 @@ export const enemies: Enemy[] = [
     rarity: 'Common',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/twisted-sapling.png',
+    image: '/assets/enemies-svg/twisted-sapling.svg',
     description: 'This brown sapling with bright green leaves represents botanical adolescence gone violent. These teenage trees channel growth hormones into combat, sprouting weapons instead of normal branches. Their twisted forms show nature\'s awkward phase armed with murderous intent.',
     seeAlso: ['aberrant', 'ancient-treant', 'vine-strangler', 'jane'],
     // Dice roguelike fields
@@ -1047,7 +1047,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 6,
     domain: 'aberrant',
-    image: '/assets/enemies/vine-strangler.png',
+    image: '/assets/enemies-svg/vine-strangler.svg',
     description: 'This serpentine vine with green tendrils evolved consciousness purely for vengeance. These botanical constrictors view necks as unclaimed territory and throats as virgin trellis. They photosynthesize suffering while growing stronger on screams.',
     seeAlso: ['aberrant', 'twisted-sapling', 'ancient-treant', 'jane'],
     // Dice roguelike fields
@@ -1071,7 +1071,7 @@ export const enemies: Enemy[] = [
     rarity: 'Uncommon',
     luckyNumber: 0,
     domain: 'null-providence',
-    image: '/assets/enemies/void-spawn.png',
+    image: '/assets/enemies-svg/void-spawn.svg',
     description: 'This purple orb with green energy represents aggressive absence incarnate. Void Spawn carries non-existence like disease, spreading reality deletion through everything touched. Health doesn\'t decrease—it forgets existing. Abilities don\'t fail—they cease having ever been.',
     seeAlso: ['null-providence', 'tentacle-beast', 'the-one'],
     // Dice roguelike fields

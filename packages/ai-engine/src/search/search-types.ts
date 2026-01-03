@@ -123,21 +123,28 @@ export type GoalType =
   | 'create_alliance' | 'break_alliance' | 'provoke_conflict' | 'resolve_conflict'
   | 'maintain_mystery' | 'entertain_self' | 'protect_ally' | 'undermine_enemy'
   | 'control_conversation' | 'end_conversation' | 'deepen_topic' | 'change_topic'
-  | 'increase_tension' | 'decrease_tension';
+  | 'increase_tension' | 'decrease_tension'
+  // Extended goal types for NPC definitions
+  | 'test_player' | 'establish_mystery' | 'intimidate' | 'complete_trade'
+  | 'warn_player' | 'influence_mood' | 'observe_player' | 'guide_player'
+  | 'improve_relationship' | 'recruit_ally';
 
 export interface NPCGoal {
   type: GoalType;
   priority: number;
+  description?: string;
   targetNPC?: string;
   targetStat?: keyof RelationshipStats;
   targetValue?: number;
+  targetMood?: string;
   knowledgeId?: string;
+  conditions?: GoalCondition[];
   activeWhen?: GoalCondition[];
   completedWhen?: GoalCondition[];
 }
 
 export interface GoalCondition {
-  type: 'relationship' | 'mood' | 'behavioral_state' | 'turn' | 'tension' | 'knowledge';
+  type: 'relationship' | 'mood' | 'behavioral_state' | 'turn' | 'tension' | 'knowledge' | 'favorLevel';
   stat?: string;
   comparison: 'eq' | 'neq' | 'gt' | 'lt' | 'gte' | 'lte' | 'exists';
   value?: number | string | boolean;

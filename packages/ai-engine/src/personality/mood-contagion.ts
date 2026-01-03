@@ -107,6 +107,13 @@ export const MOOD_PROPERTIES: Record<MoodType, MoodProperties> = {
     contagiousness: 0.4,
     resistance: 0.5,
   },
+  grateful: {
+    valence: 0.8,
+    arousal: 0.4,
+    dominance: 0.4,
+    contagiousness: 0.5,
+    resistance: 0.3,
+  },
 };
 
 // ============================================
@@ -169,7 +176,7 @@ export interface MoodState {
   current: MoodType;
   intensity: number;
   recentInfluences: MoodInfluence[];
-  resistanceBuildup: Record<MoodType, number>;
+  resistanceBuildup: Partial<Record<MoodType, number>>;
 }
 
 export function createMoodState(initialMood: MoodType): MoodState {

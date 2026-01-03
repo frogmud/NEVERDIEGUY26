@@ -82,7 +82,7 @@ export const pantheon: Pantheon[] = [
       { roll: 3, effect: 'Overclock: Attack speed doubled for 15 seconds.' },
       { roll: 4, effect: 'Reinforced: +50% armor for current domain.' },
       { roll: 5, effect: 'System Upgrade: Random stat permanently increased.' },
-      { roll: 6, effect: 'Mechanarium Mastery: All tech items work at 200% efficiency.' },
+      { roll: 6, effect: 'Earth Mastery: All tech items work at 200% efficiency.' },
     ],
     corruptionEffects: [
       'Organic matter begins showing mechanical corruption.',

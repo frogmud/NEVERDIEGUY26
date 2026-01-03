@@ -1,11 +1,9 @@
 import { useState, useCallback, useRef } from 'react';
 import {
   Box,
-  Button,
   Paper,
   Typography,
   IconButton,
-  Tooltip,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -18,7 +16,6 @@ import { CardSection } from '../../components/CardSection';
 import { SidebarSetup } from '../../components/SidebarSetup';
 import { ReportGameDialog } from '../../components/ReportGameDialog';
 import { tokens } from '../../theme';
-import { PhaserCanvas } from '../../games/meteor/PhaserCanvas';
 import { MeteorScene, type DieData } from '../../games/meteor/MeteorScene';
 import type { NPCRarity } from '../../games/meteor/config';
 import { detectCombo, type ComboResult } from '../../games/meteor/comboDetector';
@@ -30,7 +27,7 @@ import { GlobeScene } from '../../games/globe-meteor/GlobeScene';
 import { useGameState, useDiceSelection, useRollHistory } from '../../hooks';
 import {
   ComboPopup,
-  ControlsPanel,
+  CombatHUD,
   FlyingDiceLayer,
   GameSidebar,
   SettingsModal,
@@ -39,6 +36,8 @@ import {
   type GameConfig,
 } from '../../games/meteor/components';
 import type { DoorPreview } from '../../data/pools';
+import type { RunCombatState } from '../../contexts/RunContext';
+import type { Die } from '@ndg/ai-engine';
 
 // Gaming font style
 const gamingFont = { fontFamily: tokens.fonts.gaming };
@@ -141,6 +140,101 @@ export function DiceMeteor({
   const [activeCombo, setActiveCombo] = useState<ComboResult | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
   const [flyingDice, setFlyingDice] = useState<FlyingDie[]>([]);
+
+  // NEW: Turn-based combat state
+  const [combatState, setCombatState] = useState<RunCombatState>(() => {
+    // Generate initial dice hand
+    const elements: Array<'Void' | 'Earth' | 'Death' | 'Fire' | 'Ice' | 'Wind'> = ['Void', 'Earth', 'Death', 'Fire', 'Ice', 'Wind'];
+    const sides: Array<4 | 6 | 8 | 10 | 12 | 20> = [4, 6, 8, 10, 12, 20];
+    const initialHand: Die[] = Array.from({ length: 5 }, (_, i) => ({
+      id: `die-${i}`,
+      sides: sides[i % 6],
+      element: elements[i % 6],
+      isHeld: true, // Start held
+      rollValue: null,
+    }));
+
+    return {
+      phase: 'draw',
+      hand: initialHand,
+      holdsRemaining: 2,    // "Trades" - swap dice for multiplier
+      throwsRemaining: 3,   // 3 throws per turn
+      targetScore: propScoreGoal,
+      currentScore: 0,
+      multiplier: 1,        // Score multiplier (increases via trades)
+      turnsRemaining: eventType === 'boss' ? 8 : eventType === 'big' ? 6 : 5,
+      turnNumber: 1,
+      enemiesSquished: 0,
+      friendlyHits: 0,
+    };
+  });
+
+  // Combat action handlers
+  const handleToggleHold = useCallback((dieId: string) => {
+    setCombatState(prev => {
+      const dieIndex = prev.hand.findIndex(d => d.id === dieId);
+      if (dieIndex === -1) return prev;
+
+      const die = prev.hand[dieIndex];
+      if (die.isHeld) {
+        // Unhold is free
+        const newHand = [...prev.hand];
+        newHand[dieIndex] = { ...die, isHeld: false };
+        return { ...prev, hand: newHand };
+      } else if (prev.holdsRemaining > 0) {
+        // Hold costs 1
+        const newHand = [...prev.hand];
+        newHand[dieIndex] = { ...die, isHeld: true };
+        return { ...prev, hand: newHand, holdsRemaining: prev.holdsRemaining - 1 };
+      }
+      return prev;
+    });
+  }, []);
+
+  const handleThrowDice = useCallback(() => {
+    setCombatState(prev => {
+      // Roll all non-held dice
+      const newHand = prev.hand.map(die => {
+        if (die.isHeld && die.rollValue !== null) return die; // Keep held dice with their values
+        const roll = new DiceRoll(`1d${die.sides}`);
+        return { ...die, rollValue: roll.total };
+      });
+
+      // Calculate score from this throw
+      const throwScore = newHand.reduce((sum, die) => sum + (die.rollValue || 0), 0) * 10;
+
+      return {
+        ...prev,
+        hand: newHand,
+        phase: 'resolve',
+        currentScore: prev.currentScore + throwScore,
+      };
+    });
+  }, []);
+
+  const handleEndCombatTurn = useCallback(() => {
+    setCombatState(prev => {
+      // Check victory
+      if (prev.currentScore >= prev.targetScore) {
+        return { ...prev, phase: 'victory' };
+      }
+      // Check defeat
+      if (prev.turnsRemaining <= 1) {
+        return { ...prev, phase: 'defeat', turnsRemaining: 0 };
+      }
+      // Draw new dice for next turn (reset non-held)
+      const newHand = prev.hand.map(die =>
+        die.isHeld ? { ...die, rollValue: null } : { ...die, isHeld: false, rollValue: null }
+      );
+      return {
+        ...prev,
+        hand: newHand,
+        phase: 'draw',
+        turnsRemaining: prev.turnsRemaining - 1,
+        turnNumber: prev.turnNumber + 1,
+      };
+    });
+  }, []);
 
   // Reset game (for standalone mode)
   const handleRestart = () => {
@@ -325,8 +419,7 @@ export function DiceMeteor({
           py: 2,
         }}
       >
-        {/* Top bar - above canvas, slides in when playing */}
-        {sidebarMode === 'game' && (
+        {/* Top bar - Turn meter header (always visible) */}
         <CardSection
           padding={isSmall ? 0.75 : 1}
           sx={{
@@ -334,36 +427,32 @@ export function DiceMeteor({
             maxWidth: 480,
             mb: 1,
             display: 'flex',
-            flexWrap: 'wrap',
             alignItems: 'center',
-            gap: isSmall ? 1 : 1.5,
+            justifyContent: 'space-between',
+            gap: 2,
             borderRadius: 2,
-            animation: 'slideInFromTop 0.3s ease-out',
-            '@keyframes slideInFromTop': {
-              '0%': { opacity: 0, transform: 'translateY(-20px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' },
-            },
           }}
         >
-          <Typography variant="body2" sx={{ ...gamingFont, fontSize: isSmall ? '0.75rem' : '0.875rem' }}>
-            Domain [ {state.domain} ]
+          {/* Turn indicator */}
+          <Typography sx={{ ...gamingFont, fontSize: isSmall ? '0.85rem' : '1rem', fontWeight: 700 }}>
+            Turn {combatState.turnNumber}
           </Typography>
-          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, ...gamingFont, fontSize: isSmall ? '0.75rem' : '0.875rem' }}>
-            Event [ {(eventIndex + 1).toString().padStart(3, '#')} ]
+
+          {/* Score display */}
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
+            <Typography sx={{ ...gamingFont, fontSize: isSmall ? '1rem' : '1.2rem', fontWeight: 700, color: tokens.colors.primary }}>
+              {combatState.currentScore.toLocaleString()}
+            </Typography>
+            <Typography sx={{ ...gamingFont, fontSize: isSmall ? '0.75rem' : '0.85rem', color: tokens.colors.text.secondary }}>
+              / {combatState.targetScore.toLocaleString()}
+            </Typography>
+          </Box>
+
+          {/* Turns remaining */}
+          <Typography sx={{ ...gamingFont, fontSize: isSmall ? '0.85rem' : '1rem', color: tokens.colors.warning }}>
+            {combatState.turnsRemaining} left
           </Typography>
-          <Box sx={{ flex: 1, minWidth: isSmall ? 0 : 'auto' }} />
-          {!isSmall && (
-            <>
-              <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, ...gamingFont, fontSize: '0.7rem' }}>
-                Run Time
-              </Typography>
-              <Typography variant="body2" sx={{ ...gamingFont, fontSize: '0.7rem' }}>
-                ##:##
-              </Typography>
-            </>
-          )}
         </CardSection>
-        )}
 
         {/* Game canvas - narrow "lens" viewport */}
         <Paper
@@ -381,7 +470,7 @@ export function DiceMeteor({
             boxShadow: `0 0 20px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3)`,
           }}
         >
-          {/* 3D Globe background - the actual game board */}
+          {/* 3D Globe - fills the canvas */}
           <Box
             sx={{
               position: 'absolute',
@@ -399,20 +488,9 @@ export function DiceMeteor({
               autoRotate={true}
               isIdle={false}
               zones={[]}
+              domainId={propDomain}
             />
           </Box>
-
-          {/* Phaser game layer (transparent) - meteors, NPCs, collisions */}
-          <Box sx={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
-          <PhaserCanvas
-            onNPCSquished={handleNPCSquished}
-            onMeteorLanded={handleMeteorLanded}
-            onMeteorStart={handleMeteorStart}
-            onSceneReady={handleSceneReady}
-          />
-
-          {/* Combo Popup */}
-          <ComboPopup combo={activeCombo} />
 
           {/* Overlay controls */}
           <Box
@@ -422,55 +500,46 @@ export function DiceMeteor({
               right: 16,
               display: 'flex',
               gap: 1,
+              zIndex: 2,
             }}
           >
-            <Tooltip title="Report">
-              <IconButton
-                size="small"
-                onClick={() => setReportOpen(true)}
-                sx={{ bgcolor: tokens.colors.background.elevated }}
-              >
-                <FlagIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Fullscreen">
-              <IconButton
-                size="small"
-                onClick={() => {
-                  const container = canvasContainerRef.current;
-                  if (!container) return;
+            <IconButton
+              size="small"
+              onClick={() => setReportOpen(true)}
+              sx={{ bgcolor: tokens.colors.background.elevated, '&:hover': { bgcolor: tokens.colors.background.paper } }}
+            >
+              <FlagIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={() => {
+                const container = canvasContainerRef.current;
+                if (!container) return;
 
-                  if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                  } else {
-                    container.requestFullscreen();
-                  }
-                }}
-                sx={{ bgcolor: tokens.colors.background.elevated }}
-              >
-                <FullscreenIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
+                if (document.fullscreenElement) {
+                  document.exitFullscreen();
+                } else {
+                  container.requestFullscreen();
+                }
+              }}
+              sx={{ bgcolor: tokens.colors.background.elevated, '&:hover': { bgcolor: tokens.colors.background.paper } }}
+            >
+              <FullscreenIcon fontSize="small" />
+            </IconButton>
           </Box>
-          </Box>
+
+          {/* Combo Popup */}
+          <ComboPopup combo={activeCombo} />
         </Paper>
 
-        {/* Controls panel */}
-        {sidebarMode === 'game' && (
-          <ControlsPanel
-            availableDice={availableDice}
-            selectedDice={selectedDice}
-            onToggle={toggleDice}
-            onSummon={handleSummon}
-            onTribute={handleTribute}
-            summons={state.summons}
-            tributes={state.tributes}
-            gameOver={state.gameOver}
-            history={history}
-            isSmall={isSmall}
-            controlsRef={controlsRef}
-          />
-        )}
+        {/* Turn-based Combat HUD (always visible) */}
+        <CombatHUD
+          combatState={combatState}
+          onToggleHold={handleToggleHold}
+          onThrow={handleThrowDice}
+          onEndTurn={handleEndCombatTurn}
+          isSmall={isSmall}
+        />
       </Box>
 
       {/* Sidebar */}

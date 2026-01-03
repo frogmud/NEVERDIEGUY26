@@ -10,7 +10,7 @@ import { useFrame, ThreeEvent } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { GLOBE_CONFIG, STYLE_PRESETS } from '../config';
+import { GLOBE_CONFIG, STYLE_PRESETS, DOMAIN_PLANET_CONFIG } from '../config';
 import { cartesianToLatLng } from '../utils/sphereCoords';
 
 interface PlanetProps {
@@ -18,6 +18,8 @@ interface PlanetProps {
   style?: 'lowPoly' | 'neonWireframe' | 'realistic' | 'retro';
   onClick?: (lat: number, lng: number) => void;
   autoRotate?: boolean;
+  /** Domain ID (1-6) to use domain-specific size and color */
+  domainId?: number;
 }
 
 /**
@@ -31,9 +33,16 @@ export function Planet({
   style = 'lowPoly',
   onClick,
   autoRotate = false,
+  domainId,
 }: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const styleConfig = STYLE_PRESETS[style];
+
+  // Get domain-specific config if domainId provided
+  const domainConfig = domainId ? DOMAIN_PLANET_CONFIG[domainId] : null;
+  const effectiveRadius = domainConfig
+    ? radius * domainConfig.scale
+    : radius;
 
   // Optional auto-rotation
   useFrame(() => {
@@ -54,13 +63,16 @@ export function Planet({
     }
   };
 
-  // Material based on style
+  // Material based on style (domain color overrides if domainId provided)
   const material = useMemo(() => {
+    // Use domain-specific color if provided
+    const baseColor = domainConfig?.color;
+
     switch (style) {
       case 'neonWireframe':
         return (
           <meshBasicMaterial
-            color="#00e5ff"
+            color={baseColor || '#00e5ff'}
             wireframe={true}
             transparent
             opacity={0.8}
@@ -70,7 +82,7 @@ export function Planet({
       case 'lowPoly':
         return (
           <meshStandardMaterial
-            color="#1a1a2e"
+            color={baseColor || '#1a1a2e'}
             flatShading={true}
             roughness={0.8}
             metalness={0.2}
@@ -80,7 +92,7 @@ export function Planet({
       case 'retro':
         return (
           <meshLambertMaterial
-            color="#2a4858"
+            color={baseColor || '#2a4858'}
             flatShading={true}
           />
         );
@@ -89,18 +101,18 @@ export function Planet({
       default:
         return (
           <meshStandardMaterial
-            color="#1a3a4a"
+            color={baseColor || '#1a3a4a'}
             roughness={0.6}
             metalness={0.3}
           />
         );
     }
-  }, [style]);
+  }, [style, domainConfig]);
 
   return (
     <Sphere
       ref={meshRef}
-      args={[radius, styleConfig.segments, styleConfig.segments]}
+      args={[effectiveRadius, styleConfig.segments, styleConfig.segments]}
       onClick={handleClick}
     >
       {material}

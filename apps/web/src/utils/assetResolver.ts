@@ -57,7 +57,8 @@ const CATEGORY_PATHS: Record<WikiCategory, CategoryConfig> = {
   },
   factions: {
     base: '/assets/factions',
-    svgVariant: '/assets/factions-svg',
+    // SVGs in same folder as PNGs (faction-icon-*.svg)
+    svgVariant: '/assets/factions',
     pattern: 'slug-prefix',
     prefix: 'faction-icon-',
   },

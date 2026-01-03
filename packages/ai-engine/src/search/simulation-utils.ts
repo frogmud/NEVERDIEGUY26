@@ -257,7 +257,7 @@ function updateThreadState(
 
   thread.participants.add(speaker);
 
-  const poolMomentum: Record<TemplatePool, number> = {
+  const poolMomentum: Partial<Record<TemplatePool, number>> = {
     greeting: 0.6,
     idle: -0.1,
     reaction: 0.2,
@@ -272,7 +272,7 @@ function updateThreadState(
     npcConflict: 0.8,
     npcAlliance: 0.5,
   };
-  const momentumDelta = (poolMomentum[pool] || 0) * 0.2;
+  const momentumDelta = (poolMomentum[pool] ?? 0) * 0.2;
   thread.momentum = clamp(thread.momentum + momentumDelta, 0, 1);
 
   if (template.tone === 'threatening' || template.tone === 'aggressive') {
@@ -303,7 +303,7 @@ function updateBehaviorState(
   const behaviorState = state.behaviorStates.get(speaker);
   if (!behaviorState) return;
 
-  const poolToBehavior: Record<string, BehavioralState> = {
+  const poolToBehavior: Partial<Record<TemplatePool, BehavioralState>> = {
     threat: 'aggressive',
     bargain: 'trading',
     salesPitch: 'trading',
@@ -324,7 +324,7 @@ function updateBehaviorState(
     behaviorState.current = newBehavior;
     behaviorState.turnsInState = 0;
   } else {
-    behaviorState.turnsInState++;
+    behaviorState.turnsInState = (behaviorState.turnsInState ?? 0) + 1;
   }
 }
 
@@ -413,7 +413,7 @@ export function getNextPool(
   const behavior = behaviorStates.get(speaker);
   const mood = moods.get(speaker);
 
-  const poolWeights: Record<TemplatePool, number> = {
+  const poolWeights: Partial<Record<TemplatePool, number>> = {
     greeting: 0,
     idle: 0.2,
     reaction: 0.1,
@@ -463,11 +463,11 @@ export function getNextPool(
   }
 
   const pools = Object.keys(poolWeights) as TemplatePool[];
-  const totalWeight = Object.values(poolWeights).reduce((a, b) => a + b, 0);
+  const totalWeight = Object.values(poolWeights).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 0;
   let roll = rng() * totalWeight;
 
   for (const pool of pools) {
-    roll -= poolWeights[pool];
+    roll -= poolWeights[pool] ?? 0;
     if (roll <= 0) {
       return pool;
     }

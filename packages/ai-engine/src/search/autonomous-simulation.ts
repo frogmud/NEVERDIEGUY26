@@ -493,14 +493,15 @@ export class AutonomousSimulation {
     const behavior = state.behaviorStates.get(npcSlug);
     if (!behavior) return null;
 
-    if (behavior.turnsInState >= this.config.stuckStateThreshold) {
+    const turnsInState = behavior.turnsInState ?? 0;
+    if (turnsInState >= this.config.stuckStateThreshold) {
       return {
         type: 'stuck_state',
         npcSlug,
-        description: `${npcSlug} stuck in ${behavior.current} for ${behavior.turnsInState} turns`,
+        description: `${npcSlug} stuck in ${behavior.current} for ${turnsInState} turns`,
         turn: state.context.turnNumber,
-        severity: behavior.turnsInState > 25 ? 'high' : 'medium',
-        context: { state: behavior.current, turns: behavior.turnsInState },
+        severity: turnsInState > 25 ? 'high' : 'medium',
+        context: { state: behavior.current, turns: turnsInState },
       };
     }
 

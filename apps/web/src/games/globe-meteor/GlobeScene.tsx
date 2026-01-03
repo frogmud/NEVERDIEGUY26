@@ -16,7 +16,10 @@ import { NPCMarker } from './components/NPCMarker';
 import { ZoneMarker } from './components/ZoneMarker';
 import { MeteorShower } from './components/MeteorShower';
 import { TargetReticle } from './components/TargetReticle';
+import { DiceReticle } from './components/DiceReticle';
 import { ImpactEffect } from './components/ImpactEffect';
+import { GuardianGroup, type GuardianData } from './components/Guardian';
+import { VictoryExplosion } from './components/VictoryExplosion';
 import { ZoneMarker as ZoneMarkerType } from '../../types/zones';
 
 interface GlobeSceneProps {
@@ -26,6 +29,8 @@ interface GlobeSceneProps {
   onNPCHit?: (npcId: string, impactId: string) => void;
   onGlobeClick?: (lat: number, lng: number) => void;
   targetPosition?: { lat: number; lng: number } | null;
+  /** Die type for dice-shaped reticle (4, 6, 8, 10, 12, or 20) */
+  reticleDieType?: 4 | 6 | 8 | 10 | 12 | 20 | null;
   style?: 'lowPoly' | 'neonWireframe' | 'realistic' | 'retro';
   autoRotate?: boolean;
   onInteraction?: () => void;
@@ -34,6 +39,14 @@ interface GlobeSceneProps {
   zones?: ZoneMarkerType[];
   onZoneClick?: (zone: ZoneMarkerType) => void;
   selectedZone?: ZoneMarkerType | null;
+  /** Domain ID (1-6) for domain-specific planet size/color */
+  domainId?: number;
+  /** Guardians - flat billboard enemies that orbit and protect the planet */
+  guardians?: GuardianData[];
+  onGuardianHit?: (guardianId: string) => void;
+  /** Show victory explosion effect */
+  showVictoryExplosion?: boolean;
+  onVictoryExplosionComplete?: () => void;
 }
 
 /**
@@ -68,6 +81,7 @@ export function GlobeScene({
   onNPCHit,
   onGlobeClick,
   targetPosition,
+  reticleDieType,
   style = 'lowPoly',
   autoRotate = false,
   onInteraction,
@@ -75,6 +89,11 @@ export function GlobeScene({
   zones = [],
   onZoneClick,
   selectedZone,
+  domainId,
+  guardians = [],
+  onGuardianHit,
+  showVictoryExplosion = false,
+  onVictoryExplosionComplete,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -126,6 +145,7 @@ export function GlobeScene({
             radius={GLOBE_CONFIG.radius}
             style={style}
             onClick={onGlobeClick}
+            domainId={domainId}
           />
 
           {/* NPCs on surface (when no zones) */}
@@ -143,16 +163,30 @@ export function GlobeScene({
             />
           ))}
 
+          {/* Guardians - flat billboard enemies orbiting the planet */}
+          {guardians.length > 0 && (
+            <GuardianGroup guardians={guardians} onGuardianHit={onGuardianHit} />
+          )}
+
           {/* Active meteors */}
           <MeteorShower meteors={meteors} />
 
-          {/* Impact effects - freeze when idle */}
+          {/* Impact effects - freeze when idle or victory */}
           {impacts.map((impact) => (
-            <ImpactEffect key={impact.id} impact={impact} isIdle={isIdle} />
+            <ImpactEffect key={impact.id} impact={impact} isIdle={isIdle || showVictoryExplosion} />
           ))}
 
-          {/* Target reticle */}
-          {targetPosition && (
+          {/* Victory explosion - nuclear effect when player wins */}
+          <VictoryExplosion
+            active={showVictoryExplosion}
+            onComplete={onVictoryExplosionComplete}
+          />
+
+          {/* Target reticle - dice-shaped when die type provided */}
+          {targetPosition && reticleDieType && (
+            <DiceReticle lat={targetPosition.lat} lng={targetPosition.lng} dieType={reticleDieType} />
+          )}
+          {targetPosition && !reticleDieType && (
             <TargetReticle lat={targetPosition.lat} lng={targetPosition.lng} />
           )}
         </Suspense>

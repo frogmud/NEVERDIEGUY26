@@ -6,12 +6,37 @@
  */
 
 import type { SeededRng } from '../core/seeded-rng';
-import { createSeededRng, generateConversationSeed } from '../core/seeded-rng';
-import type { EnhancedEngineState, EnhancedTurnResult } from '../core/enhanced-interaction';
+import { createSeededRng } from '../core/seeded-rng';
+import type { EnhancedEngineState } from '../core/enhanced-interaction';
 import { createEnhancedEngineState, executeEnhancedTurn, handleBehavioralEvent } from '../core/enhanced-interaction';
 import type { EnhancedNPCConfig } from '../npcs/types';
 import type { BehavioralEvent } from '../personality/behavioral-patterns';
-import type { ChatMessage, NPCCategory } from '../core/types';
+import type { NPCCategory, NPCPersonality } from '../core/types';
+
+// ============================================
+// Helper Functions
+// ============================================
+
+function toNPCPersonality(npc: EnhancedNPCConfig): NPCPersonality {
+  return {
+    identity: npc.identity,
+    sociability: npc.sociability,
+    defaultMood: 'neutral',
+    moodVolatility: 0.3,
+    aggression: 0.2,
+    loyalty: 0.5,
+    curiosity: 0.5,
+    templates: [],
+    basePoolWeights: {
+      idle: 20,
+      npcGreeting: 15,
+      npcReaction: 20,
+      npcGossip: 10,
+      lore: 10,
+      threat: 5,
+    },
+  };
+}
 
 // ============================================
 // Game Event Types
@@ -159,7 +184,8 @@ export class PhaserAdapter {
 
   constructor(config: PhaserAdapterConfig) {
     this.config = { ...DEFAULT_CONFIG, ...config };
-    this.rng = createSeededRng(generateConversationSeed());
+    const baseSeed = `phaser-${Date.now()}`;
+    this.rng = createSeededRng(baseSeed);
     this.initializeEngine();
   }
 
@@ -172,12 +198,10 @@ export class PhaserAdapter {
       return;
     }
 
-    // Create engine state with first NPC (we'll switch dynamically)
-    this.engineState = createEnhancedEngineState(
-      this.config.activeNPCs[0],
-      [],
-      this.rng
-    );
+    // Convert EnhancedNPCConfig to NPCPersonality for the engine
+    const npcs = this.config.activeNPCs.map(toNPCPersonality);
+    const seed = `phaser-engine-${Date.now()}`;
+    this.engineState = createEnhancedEngineState(npcs, seed);
   }
 
   /**
@@ -256,29 +280,30 @@ export class PhaserAdapter {
     }
 
     // Create engine state for this NPC
-    const engineState = createEnhancedEngineState(
-      targetNPC,
-      this.getRecentMessages(5),
-      this.rng
-    );
+    const seed = `player-input-${targetNPC.identity.slug}-${Date.now()}`;
+    const engineState = createEnhancedEngineState([toNPCPersonality(targetNPC)], seed);
 
-    // Execute NPC turn with player message context
+    // Execute NPC turn - force the speaker to be this NPC
     const result = executeEnhancedTurn(
       engineState,
-      this.createSimulationContext()
+      targetNPC.identity.slug
     );
 
-    if (!result.message) {
+    if (!result || !result.turn.message) {
       return null;
     }
 
+    // Extract text from ChatMessage
+    const messageText = typeof result.turn.message === 'string'
+      ? result.turn.message
+      : result.turn.message.content;
+
     const message = this.createChatMessage(
       targetNPC,
-      result.message.text,
+      messageText,
       'player_input',
-      result.message.mood,
-      false,
-      result.message.quickReplies
+      'neutral',
+      false
     );
 
     this.addMessage(message);
@@ -320,38 +345,24 @@ export class PhaserAdapter {
     }
   }
 
-  private convertToBehavioralEvent(event: GameEvent): BehavioralEvent {
-    const eventTypeMap: Record<GameEventType, BehavioralEvent['type']> = {
-      player_death: 'player_action',
-      player_kill: 'player_action',
-      player_damage: 'player_action',
-      player_heal: 'player_action',
-      item_pickup: 'item_used',
-      item_use: 'item_used',
-      room_enter: 'environment_change',
-      room_clear: 'environment_change',
-      boss_encounter: 'environment_change',
-      boss_defeat: 'player_action',
-      trade_start: 'player_action',
-      trade_complete: 'player_action',
-      npc_encounter: 'environment_change',
-      dice_roll: 'environment_change',
-      favor_change: 'relationship_change',
-      domain_enter: 'environment_change',
-      domain_exit: 'environment_change',
-      squish: 'player_action',
-      critical_hit: 'player_action',
-      lucky_roll: 'environment_change',
-    };
-
-    return {
-      type: eventTypeMap[event.type] || 'environment_change',
-      source: event.data.npcSlug || 'system',
-      data: {
-        eventType: event.type,
-        ...event.data,
-      },
-    };
+  private convertToBehavioralEvent(event: GameEvent): BehavioralEvent | null {
+    // Map game events to BehavioralEvent union types
+    switch (event.type) {
+      case 'player_death':
+        return { type: 'player_left' };
+      case 'npc_encounter':
+        return { type: 'player_joined' };
+      case 'trade_complete':
+        return { type: 'trade_complete', success: true };
+      case 'favor_change':
+        if (event.data.favorDelta && event.data.favorDelta > 0) {
+          return { type: 'gift_given', from: event.data.npcSlug || 'player' };
+        }
+        return null;
+      default:
+        // Not all game events map to behavioral events
+        return null;
+    }
   }
 
   private selectRespondingNPCs(event: GameEvent): EnhancedNPCConfig[] {
@@ -388,7 +399,7 @@ export class PhaserAdapter {
       // High priority events or relevant events in same domain
       if (isHighPriority || (isInDomain && isRelevant)) {
         // Use sociability as response probability
-        if (this.rng.next() < npc.sociability) {
+        if (this.rng.random() < npc.sociability) {
           npcs.push(npc);
         }
       }
@@ -400,7 +411,9 @@ export class PhaserAdapter {
 
   private isEventRelevantToNPC(npc: EnhancedNPCConfig, event: GameEvent): boolean {
     // Check if event matches NPC's topic affinities
-    const eventToTopic: Partial<Record<GameEventType, string>> = {
+    type TopicCategory = 'greeting' | 'business' | 'personal' | 'lore' | 'threat' | 'alliance' | 'gossip' | 'philosophy' | 'practical' | 'humor' | 'emotional' | 'game_meta';
+
+    const eventToTopic: Partial<Record<GameEventType, TopicCategory>> = {
       player_death: 'threat',
       player_kill: 'threat',
       boss_defeat: 'lore',
@@ -414,19 +427,14 @@ export class PhaserAdapter {
       return true;
     }
 
-    // Check triggers
-    for (const trigger of npc.triggers) {
-      if (trigger.type === 'player_action' && event.type.startsWith('player_')) {
-        return true;
-      }
-      if (trigger.type === 'stat_threshold') {
-        if (
-          trigger.threshold?.stat === 'integrity' &&
-          this.playerState.integrity < (trigger.threshold.value || 30)
-        ) {
-          return true;
-        }
-      }
+    // Check if topic matches NPC's trigger topics
+    if (topic && npc.topicAffinity.triggers?.includes(topic)) {
+      return true;
+    }
+
+    // High sociability NPCs respond to more events
+    if (npc.sociability > 0.7) {
+      return true;
     }
 
     return false;
@@ -435,38 +443,41 @@ export class PhaserAdapter {
   private generateNPCResponse(
     npc: EnhancedNPCConfig,
     event: GameEvent,
-    behavioralEvent: BehavioralEvent
+    behavioralEvent: BehavioralEvent | null
   ): NPCChatMessage | null {
     // Create fresh engine state for this NPC
-    const engineState = createEnhancedEngineState(
-      npc,
-      this.getRecentMessages(3),
-      this.rng
-    );
+    const seed = `response-${npc.identity.slug}-${Date.now()}`;
+    let engineState = createEnhancedEngineState([toNPCPersonality(npc)], seed);
 
-    // Process the behavioral event
-    const eventResult = handleBehavioralEvent(engineState, behavioralEvent);
+    // Process the behavioral event if present
+    if (behavioralEvent) {
+      engineState = handleBehavioralEvent(engineState, behavioralEvent, npc.identity.slug);
+    }
 
-    // Execute NPC turn
+    // Execute NPC turn - force the speaker to be this NPC
     const result = executeEnhancedTurn(
       engineState,
-      this.createSimulationContext()
+      npc.identity.slug
     );
 
-    if (!result.message) {
+    if (!result || !result.turn.message) {
       return null;
     }
+
+    // Extract text from ChatMessage
+    const messageText = typeof result.turn.message === 'string'
+      ? result.turn.message
+      : result.turn.message.content;
 
     // Determine if this is a highlight message
     const isHighlight = this.shouldHighlight(event, npc);
 
     const message = this.createChatMessage(
       npc,
-      result.message.text,
+      messageText,
       event.type,
-      result.message.mood,
-      isHighlight,
-      result.message.quickReplies
+      'neutral', // Mood from turn result
+      isHighlight
     );
 
     // Notify callbacks
@@ -506,7 +517,7 @@ export class PhaserAdapter {
     // Pick a random active NPC with high sociability
     const socialNPCs = this.config.activeNPCs
       .filter(n => n.sociability > 0.5)
-      .sort(() => this.rng.next() - 0.5);
+      .sort(() => this.rng.random() - 0.5);
 
     if (socialNPCs.length === 0) {
       return;
@@ -515,27 +526,29 @@ export class PhaserAdapter {
     const npc = socialNPCs[0];
 
     // Create engine state
-    const engineState = createEnhancedEngineState(
-      npc,
-      this.getRecentMessages(3),
-      this.rng
-    );
+    const seed = `autonomous-${npc.identity.slug}-${Date.now()}`;
+    const engineState = createEnhancedEngineState([toNPCPersonality(npc)], seed);
 
-    // Execute idle turn
+    // Execute idle turn - force the speaker to be this NPC
     const result = executeEnhancedTurn(
       engineState,
-      this.createSimulationContext()
+      npc.identity.slug
     );
 
-    if (!result.message) {
+    if (!result || !result.turn.message) {
       return;
     }
 
+    // Extract text from ChatMessage
+    const messageText = typeof result.turn.message === 'string'
+      ? result.turn.message
+      : result.turn.message.content;
+
     const message = this.createChatMessage(
       npc,
-      result.message.text,
+      messageText,
       'autonomous',
-      result.message.mood,
+      'neutral',
       false
     );
 
@@ -605,27 +618,8 @@ export class PhaserAdapter {
     }
   }
 
-  private getRecentMessages(count: number): ChatMessage[] {
-    return this.messages.slice(-count).map(m => ({
-      id: m.id,
-      sender: m.npcSlug as 'player' | 'npc',
-      senderName: m.npcName,
-      text: m.text,
-      timestamp: m.timestamp,
-      mood: m.mood,
-    }));
-  }
-
-  private createSimulationContext() {
-    return {
-      currentTurn: this.messages.length,
-      currentDomain: this.currentDomain,
-      playerHealth: this.playerState.health,
-      playerIntegrity: this.playerState.integrity,
-      playerLuckyNumber: this.playerState.luckyNumber,
-      playerDeaths: this.playerState.deaths,
-      playerKills: this.playerState.kills,
-    };
+  private getRecentMessageTexts(count: number): string[] {
+    return this.messages.slice(-count).map(m => m.text);
   }
 
   // ============================================

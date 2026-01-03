@@ -17,10 +17,9 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@ds/*": ["../neverdieguy-november/src/components/design-system/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src", "../neverdieguy-november/src/components/design-system"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

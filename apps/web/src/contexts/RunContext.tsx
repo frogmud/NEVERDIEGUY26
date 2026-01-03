@@ -4,6 +4,8 @@
  * Manages center panel swapping (Balatro-style) and run state.
  * Globe3D for zone selection, combat/shop/doors/summary panels swap in center.
  *
+ * Now includes integrated combat state management using ai-engine combat module.
+ *
  * NEVER DIE GUY
  */
 
@@ -38,11 +40,37 @@ import type { DoorPreview } from '../data/pools';
 import type { ZoneMarker, DomainState } from '../types/zones';
 import { generateDomain, getNextDomain } from '../data/domains';
 
+// Combat system types from ai-engine
+import type {
+  CombatPhase,
+  Die,
+  GridState,
+  EntityMap,
+} from '@ndg/ai-engine';
+
 // Center panel states (Balatro-style swapping)
 export type CenterPanel = 'globe' | 'combat' | 'shop' | 'doors' | 'summary';
 
 // Transition phases for orchestrated panel swaps
 export type TransitionPhase = 'idle' | 'exit' | 'wipe' | 'enter';
+
+// Combat state subset for RunContext (serializable)
+export interface RunCombatState {
+  phase: CombatPhase;
+  hand: Die[];
+  holdsRemaining: number;     // "Trades" remaining (swap dice for multiplier)
+  throwsRemaining: number;    // Throws left this turn (2 per turn)
+  targetScore: number;
+  currentScore: number;
+  multiplier: number;         // Score multiplier (1 base, increases via trades)
+  turnsRemaining: number;
+  turnNumber: number;
+  enemiesSquished: number;
+  friendlyHits: number;
+  // Grid/entity references (non-serializable, regenerated on load)
+  gridRef?: GridState;
+  entitiesRef?: EntityMap;
+}
 
 // Extended run state with center panel
 export interface RunState extends GameState {
@@ -54,6 +82,8 @@ export interface RunState extends GameState {
   lastRoomScore: number;
   lastRoomGold: number;
   runEnded: boolean;
+  // Combat integration
+  combatState: RunCombatState | null;
 }
 
 // Run context value
@@ -82,6 +112,12 @@ interface RunContextValue {
   // Combat callbacks
   completeRoom: (score: number, gold: number, stats: { npcsSquished: number; diceThrown: number }) => void;
   failRoom: () => void;
+
+  // Combat actions (Balatro-style dice management)
+  initCombat: () => void;
+  toggleHoldDie: (dieId: string) => void;
+  throwDice: (rollResults: Die[]) => void;
+  endCombatTurn: () => void;
 
   // Shop callbacks
   purchase: (cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => void;
@@ -114,7 +150,13 @@ type RunAction =
   | { type: 'CONTINUE_FROM_SHOP' }
   | { type: 'SELECT_DOOR'; door: DoorPreview }
   | { type: 'CONTINUE_FROM_SUMMARY' }
-  | { type: 'LOAD_RUN'; savedRun: SavedRunState };
+  | { type: 'LOAD_RUN'; savedRun: SavedRunState }
+  // Combat actions
+  | { type: 'INIT_COMBAT'; combatState: RunCombatState }
+  | { type: 'TOGGLE_HOLD_DIE'; dieId: string }
+  | { type: 'THROW_DICE'; rollResults: Die[] }
+  | { type: 'END_COMBAT_TURN' }
+  | { type: 'UPDATE_COMBAT_SCORE'; score: number; enemiesSquished?: number; friendlyHits?: number };
 
 // Initial state
 function createInitialRunState(): RunState {
@@ -128,6 +170,7 @@ function createInitialRunState(): RunState {
     lastRoomScore: 0,
     lastRoomGold: 0,
     runEnded: false,
+    combatState: null,
   };
 }
 
@@ -195,6 +238,11 @@ function runReducer(state: RunState, action: RunAction): RunState {
           }
         : generateDomain(1);
 
+      // Restore selectedZone from domain zones if we have a saved zone ID
+      const restoredSelectedZone = saved.selectedZoneId && restoredDomainState
+        ? restoredDomainState.zones.find(z => z.id === saved.selectedZoneId) ?? null
+        : null;
+
       return {
         ...createInitialRunState(),
         threadId: saved.threadId,
@@ -206,7 +254,11 @@ function runReducer(state: RunState, action: RunAction): RunState {
         phase: saved.phase as RunState['phase'],
         centerPanel: saved.centerPanel as CenterPanel,
         domainState: restoredDomainState,
-        inventory: saved.inventory,
+        selectedZone: restoredSelectedZone,
+        inventory: {
+          ...createInitialRunState().inventory,
+          ...saved.inventory,
+        },
         runStats: {
           ...createInitialRunState().runStats,
           ...saved.runStats,
@@ -355,6 +407,121 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
+    // ============================================
+    // Combat Actions
+    // ============================================
+
+    case 'INIT_COMBAT':
+      return {
+        ...state,
+        combatState: action.combatState,
+      };
+
+    case 'TOGGLE_HOLD_DIE': {
+      if (!state.combatState) return state;
+
+      const { hand, holdsRemaining } = state.combatState;
+      const dieIndex = hand.findIndex((d) => d.id === action.dieId);
+      if (dieIndex === -1) return state;
+
+      const die = hand[dieIndex];
+
+      if (die.isHeld) {
+        // Unhold is always free
+        const newHand = [...hand];
+        newHand[dieIndex] = { ...die, isHeld: false };
+        return {
+          ...state,
+          combatState: {
+            ...state.combatState,
+            hand: newHand,
+          },
+        };
+      } else if (holdsRemaining > 0) {
+        // Hold costs 1
+        const newHand = [...hand];
+        newHand[dieIndex] = { ...die, isHeld: true };
+        return {
+          ...state,
+          combatState: {
+            ...state.combatState,
+            hand: newHand,
+            holdsRemaining: holdsRemaining - 1,
+          },
+        };
+      }
+
+      // No holds remaining
+      return state;
+    }
+
+    case 'THROW_DICE': {
+      if (!state.combatState) return state;
+
+      return {
+        ...state,
+        combatState: {
+          ...state.combatState,
+          hand: action.rollResults,
+          phase: 'resolve' as CombatPhase,
+        },
+      };
+    }
+
+    case 'UPDATE_COMBAT_SCORE': {
+      if (!state.combatState) return state;
+
+      return {
+        ...state,
+        combatState: {
+          ...state.combatState,
+          currentScore: state.combatState.currentScore + action.score,
+          enemiesSquished: state.combatState.enemiesSquished + (action.enemiesSquished || 0),
+          friendlyHits: state.combatState.friendlyHits + (action.friendlyHits || 0),
+        },
+      };
+    }
+
+    case 'END_COMBAT_TURN': {
+      if (!state.combatState) return state;
+
+      const { currentScore, targetScore, turnsRemaining } = state.combatState;
+
+      // Check victory
+      if (currentScore >= targetScore) {
+        return {
+          ...state,
+          combatState: {
+            ...state.combatState,
+            phase: 'victory' as CombatPhase,
+          },
+        };
+      }
+
+      // Check defeat
+      if (turnsRemaining <= 1) {
+        return {
+          ...state,
+          combatState: {
+            ...state.combatState,
+            phase: 'defeat' as CombatPhase,
+            turnsRemaining: 0,
+          },
+        };
+      }
+
+      // Continue to next turn
+      return {
+        ...state,
+        combatState: {
+          ...state.combatState,
+          phase: 'draw' as CombatPhase,
+          turnsRemaining: turnsRemaining - 1,
+          turnNumber: state.combatState.turnNumber + 1,
+        },
+      };
+    }
+
     default:
       return state;
   }
@@ -412,6 +579,38 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'FAIL_ROOM' });
   }, []);
 
+  // Combat actions
+  const initCombat = useCallback(() => {
+    // Initialize combat state when entering combat
+    // This sets up the initial hand, score targets, etc.
+    const combatState: RunCombatState = {
+      phase: 'draw',
+      hand: [], // Will be populated by DiceMeteor component
+      holdsRemaining: 2,    // "Trades" - swap dice for multiplier (2 per room)
+      throwsRemaining: 3,   // 3 throws per turn
+      targetScore: (state.selectedZone?.tier || 1) * 1000,
+      currentScore: 0,
+      multiplier: 1,        // Score multiplier (increases via trades)
+      turnsRemaining: state.selectedZone?.eventType === 'boss' ? 8 : state.selectedZone?.eventType === 'big' ? 6 : 5,
+      turnNumber: 1,
+      enemiesSquished: 0,
+      friendlyHits: 0,
+    };
+    dispatch({ type: 'INIT_COMBAT', combatState });
+  }, [state.selectedZone]);
+
+  const toggleHoldDie = useCallback((dieId: string) => {
+    dispatch({ type: 'TOGGLE_HOLD_DIE', dieId });
+  }, []);
+
+  const throwDice = useCallback((rollResults: Die[]) => {
+    dispatch({ type: 'THROW_DICE', rollResults });
+  }, []);
+
+  const endCombatTurn = useCallback(() => {
+    dispatch({ type: 'END_COMBAT_TURN' });
+  }, []);
+
   const purchase = useCallback((cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => {
     dispatch({ type: 'PURCHASE', cost, itemId, category });
   }, []);
@@ -464,6 +663,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
         clearedCount: state.domainState.clearedCount,
         totalZones: state.domainState.totalZones,
       } : null,
+      selectedZoneId: state.selectedZone?.id ?? null,
       inventory: state.inventory,
       runStats: {
         npcsSquished: state.runStats.npcsSquished,
@@ -475,7 +675,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     };
 
     saveRunState(runState);
-  }, [state.phase, state.threadId, state.currentDomain, state.roomNumber, state.gold, state.totalScore, state.tier, state.centerPanel, state.domainState, state.inventory, state.runStats]);
+  }, [state.phase, state.threadId, state.currentDomain, state.roomNumber, state.gold, state.totalScore, state.tier, state.centerPanel, state.domainState, state.selectedZone, state.inventory, state.runStats]);
 
   const value = useMemo<RunContextValue>(() => ({
     state,
@@ -491,6 +691,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     selectZone,
     completeRoom,
     failRoom,
+    initCombat,
+    toggleHoldDie,
+    throwDice,
+    endCombatTurn,
     purchase,
     continueFromShop,
     selectDoor,
@@ -511,6 +715,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     selectZone,
     completeRoom,
     failRoom,
+    initCombat,
+    toggleHoldDie,
+    throwDice,
+    endCombatTurn,
     purchase,
     continueFromShop,
     selectDoor,

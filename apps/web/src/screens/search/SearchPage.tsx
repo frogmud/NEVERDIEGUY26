@@ -48,14 +48,13 @@ const filterOptions = [
 
 const recentSearches = [
   'void crystal',
-  'crimson domain',
   'wandering merchant',
   'fire bomb',
 ];
 
 const trendingSearches = [
   { text: 'Void Crystal', category: 'items' },
-  { text: 'Crimson Domain', category: 'domains' },
+  { text: 'Infernus', category: 'domains' },
   { text: 'Never Die Guy', category: 'travelers' },
   { text: 'Fire Bomb', category: 'items' },
 ];

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "createdAt": "2026-01-02T20:14:24.506Z",
-  "lastUpdated": "2026-01-02T20:14:24.506Z",
+  "createdAt": "2026-01-03T02:58:23.155Z",
+  "lastUpdated": "2026-01-03T02:58:23.155Z",
   "sources": {
     "eternalLogDirs": [
       "eternal-2026-01-02T09-06-10-051Z",
@@ -11,7 +11,15 @@
       "eternal-2026-01-02T09-50-06-685Z",
       "eternal-2026-01-02T10-02-47-948Z",
       "eternal-2026-01-02T10-03-05-505Z",
-      "eternal-2026-01-02T18-49-04-861Z"
+      "eternal-2026-01-02T18-49-04-861Z",
+      "eternal-2026-01-02T23-05-01-859Z",
+      "eternal-2026-01-02T23-05-56-566Z",
+      "eternal-2026-01-02T23-08-52-085Z",
+      "eternal-2026-01-02T23-10-09-839Z",
+      "eternal-2026-01-03T00-37-21-158Z",
+      "eternal-2026-01-03T00-50-30-790Z",
+      "eternal-2026-01-03T00-50-51-604Z",
+      "eternal-2026-01-03T02-38-18-621Z"
     ],
     "chatterLogDirs": [
       "chatter-2026-01-02T08-04-23-834Z",
@@ -19,25 +27,25 @@
       "chatter-2026-01-02T08-39-11-475Z",
       "chatter-2026-01-02T08-45-05-393Z"
     ],
-    "totalDaysProcessed": 2400,
-    "totalConversationsProcessed": 3588
+    "totalDaysProcessed": 4800,
+    "totalConversationsProcessed": 10284
   },
   "stats": {
-    "totalEntries": 3503,
+    "totalEntries": 9979,
     "entriesBySpeaker": {
-      "keith-man": 245,
-      "clausen": 355,
-      "the-general": 250,
-      "dr-maxwell": 310,
-      "stitch-up-girl": 266,
-      "boo-g": 191,
-      "boots": 229,
-      "dr-voss": 297,
-      "mr-kevin": 374,
-      "xtreme": 209,
-      "mr-bones": 280,
-      "willy": 180,
-      "king-james": 217,
+      "keith-man": 618,
+      "clausen": 695,
+      "the-general": 1155,
+      "dr-maxwell": 795,
+      "stitch-up-girl": 1091,
+      "boo-g": 515,
+      "boots": 473,
+      "dr-voss": 710,
+      "mr-kevin": 1120,
+      "xtreme": 530,
+      "mr-bones": 636,
+      "willy": 967,
+      "king-james": 574,
       "peter": 22,
       "john": 18,
       "the-one": 27,
@@ -45,17 +53,17 @@
       "body-count": 15
     },
     "entriesByPool": {
-      "reaction": 1158,
-      "gamblingTrashTalk": 882,
-      "gamblingBrag": 319,
-      "lore": 190,
-      "hint": 18,
-      "challenge": 19,
-      "threat": 726,
-      "greeting": 53,
-      "salesPitch": 31,
-      "gamblingFrustration": 17,
-      "gossip": 28,
+      "reaction": 2429,
+      "gamblingTrashTalk": 3136,
+      "gamblingBrag": 1120,
+      "lore": 430,
+      "hint": 48,
+      "challenge": 43,
+      "threat": 2441,
+      "greeting": 112,
+      "salesPitch": 75,
+      "gamblingFrustration": 40,
+      "gossip": 43,
       "conflict": 9,
       "ceelo": 14,
       "ceelo_spectate": 7,
@@ -65,100 +73,101 @@
       "ceelo_win": 10
     },
     "entriesByMood": {
-      "neutral": 761,
-      "pleased": 376,
-      "threatening": 990,
-      "annoyed": 954,
-      "scared": 83,
-      "cryptic": 59,
-      "sad": 23,
-      "amused": 115,
-      "angry": 10,
-      "generous": 25,
-      "curious": 82,
-      "fearful": 25
+      "neutral": 1772,
+      "pleased": 1175,
+      "threatening": 3133,
+      "annoyed": 2756,
+      "scared": 251,
+      "cryptic": 175,
+      "sad": 54,
+      "amused": 345,
+      "angry": 20,
+      "generous": 85,
+      "curious": 127,
+      "grateful": 27,
+      "fearful": 59
     },
-    "averageInterestScore": 72.54781615757922,
-    "deduplicationRatio": 0.9763099219620959,
+    "averageInterestScore": 70.89437819420783,
+    "deduplicationRatio": 0.970342279268767,
     "canonicalCount": 0
   },
   "indexes": [
     {
       "name": "keith-man",
       "type": "by-speaker",
-      "entryCount": 245,
+      "entryCount": 618,
       "path": "npcs/keith-man.json"
     },
     {
       "name": "clausen",
       "type": "by-speaker",
-      "entryCount": 355,
+      "entryCount": 695,
       "path": "npcs/clausen.json"
     },
     {
       "name": "the-general",
       "type": "by-speaker",
-      "entryCount": 250,
+      "entryCount": 1155,
       "path": "npcs/the-general.json"
     },
     {
       "name": "dr-maxwell",
       "type": "by-speaker",
-      "entryCount": 310,
+      "entryCount": 795,
       "path": "npcs/dr-maxwell.json"
     },
     {
       "name": "stitch-up-girl",
       "type": "by-speaker",
-      "entryCount": 266,
+      "entryCount": 1091,
       "path": "npcs/stitch-up-girl.json"
     },
     {
       "name": "boo-g",
       "type": "by-speaker",
-      "entryCount": 191,
+      "entryCount": 515,
       "path": "npcs/boo-g.json"
     },
     {
       "name": "boots",
       "type": "by-speaker",
-      "entryCount": 229,
+      "entryCount": 473,
       "path": "npcs/boots.json"
     },
     {
       "name": "dr-voss",
       "type": "by-speaker",
-      "entryCount": 297,
+      "entryCount": 710,
       "path": "npcs/dr-voss.json"
     },
     {
       "name": "mr-kevin",
       "type": "by-speaker",
-      "entryCount": 374,
+      "entryCount": 1120,
       "path": "npcs/mr-kevin.json"
     },
     {
       "name": "xtreme",
       "type": "by-speaker",
-      "entryCount": 209,
+      "entryCount": 530,
       "path": "npcs/xtreme.json"
     },
     {
       "name": "mr-bones",
       "type": "by-speaker",
-      "entryCount": 280,
+      "entryCount": 636,
       "path": "npcs/mr-bones.json"
     },
     {
       "name": "willy",
       "type": "by-speaker",
-      "entryCount": 180,
+      "entryCount": 967,
       "path": "npcs/willy.json"
     },
     {
       "name": "king-james",
       "type": "by-speaker",
-      "entryCount": 217,
+      "entryCount": 574,
       "path": "npcs/king-james.json"
     },
     {

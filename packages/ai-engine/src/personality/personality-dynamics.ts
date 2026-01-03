@@ -48,14 +48,20 @@ export type QuirkType =
   | 'collection'        // Collects/mentions specific items
   | 'catchphrase'       // Has signature lines
   | 'reference'         // Always references something
-  | 'contradiction';    // Says one thing, does another
+  | 'contradiction'     // Says one thing, does another
+  | 'speech_pattern';   // Distinctive way of speaking
 
 export interface Quirk {
   type: QuirkType;
+  id?: string;
   description: string;
-  frequency: number; // 0-1, how often it manifests
+  frequency?: number; // 0-1, how often it manifests
   textInserts?: string[]; // Text to randomly insert
   moodEffect?: Partial<Record<MoodType, number>>; // How it affects mood display
+  modifier?: {
+    poolBonus?: Partial<Record<string, number>>;
+    moodShift?: MoodType;
+  };
 }
 
 // ============================================
@@ -63,22 +69,36 @@ export interface Quirk {
 // ============================================
 
 export type TriggerType =
-  | 'topic'         // Specific subject matter
-  | 'npc_mention'   // When specific NPC is mentioned
-  | 'category'      // When interacting with NPC category
-  | 'keyword'       // Specific words in conversation
-  | 'event'         // Game events
-  | 'memory'        // Past interactions referenced
-  | 'compliment'    // Being praised
-  | 'insult'        // Being criticized
-  | 'question';     // Being asked about something
+  | 'topic'           // Specific subject matter
+  | 'topic_mention'   // When topic is mentioned
+  | 'npc_mention'     // When specific NPC is mentioned
+  | 'category'        // When interacting with NPC category
+  | 'keyword'         // Specific words in conversation
+  | 'event'           // Game events
+  | 'memory'          // Past interactions referenced
+  | 'compliment'      // Being praised
+  | 'insult'          // Being criticized
+  | 'question'        // Being asked about something
+  | 'player_action'   // Player does something
+  | 'stat_threshold'  // Player stat crosses threshold
+  | 'challenge';      // Player challenges NPC
 
 export interface EmotionalTrigger {
   type: TriggerType;
-  trigger: string | string[];
-  reaction: {
-    moodShift: MoodType;
-    intensity: number; // 1-10
+  id?: string;
+  description?: string;
+  trigger?: string | string[];
+  keywords?: string[];
+  response?: string;
+  intensity?: number; // 1-10, can be at top level or in reaction
+  threshold?: {
+    stat: string;
+    value: number;
+    comparison?: 'gt' | 'lt' | 'eq';
+  };
+  reaction?: {
+    moodShift?: MoodType;
+    intensity?: number; // 1-10
     responsePool?: string; // Force specific template pool
     statEffects?: Array<{ stat: string; change: number }>;
   };
@@ -268,7 +288,7 @@ export function applyQuirks(
   let result = text;
 
   for (const quirk of quirks) {
-    if (rng() > quirk.frequency) continue;
+    if (rng() > (quirk.frequency ?? 0.5)) continue;
 
     if (quirk.type === 'verbal_tic' && quirk.textInserts) {
       const insert = quirk.textInserts[Math.floor(rng() * quirk.textInserts.length)];
@@ -310,17 +330,17 @@ export function detectTriggers(
     switch (trigger.type) {
       case 'keyword':
         const keywords = Array.isArray(trigger.trigger) ? trigger.trigger : [trigger.trigger];
-        matches = keywords.some(kw => lowerMessage.includes(kw.toLowerCase()));
+        matches = keywords.some(kw => kw && lowerMessage.includes(kw.toLowerCase()));
         break;
 
       case 'npc_mention':
         const npcs = Array.isArray(trigger.trigger) ? trigger.trigger : [trigger.trigger];
-        matches = npcs.some(npc => lowerMessage.includes(npc.toLowerCase()));
+        matches = npcs.some(npc => npc && lowerMessage.includes(npc.toLowerCase()));
         break;
 
       case 'topic':
         const topics = Array.isArray(trigger.trigger) ? trigger.trigger : [trigger.trigger];
-        matches = topics.some(topic => lowerMessage.includes(topic.toLowerCase()));
+        matches = topics.some(topic => topic && lowerMessage.includes(topic.toLowerCase()));
         break;
 
       case 'compliment':

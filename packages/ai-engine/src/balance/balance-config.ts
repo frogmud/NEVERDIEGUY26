@@ -77,23 +77,27 @@ export interface BalanceConfig {
     shopWeight: number;
     eventWeight: number;
     restWeight: number;
-    // Room 3 of each ante has special rules
-    ante1FinalRoom: 'combat' | 'event' | 'shop';
-    ante2FinalRoom: 'combat' | 'miniboss' | 'event';
-    ante3FinalRoom: 'boss';
-    // Guaranteed shop at end of each ante
-    guaranteedAnteShop: boolean;
+    // Rooms per domain (3 = normal, elite/normal, boss)
+    roomsPerDomain: number;
+    // Total domains (6 for full run)
+    totalDomains: number;
+    // Guaranteed shop after each domain boss
+    guaranteedDomainShop: boolean;
   };
 
   // === RISK/REWARD PATH SYSTEM ===
   paths: {
-    // Safe path: easier but lower rewards
-    safeEnemyMultiplier: number;          // 0.6 = 60% enemy stats
-    safeRewardMultiplier: number;         // 0.5 = 50% rewards
-    // Risky path: harder but better rewards
-    riskyEnemyMultiplier: number;         // 1.5 = 150% enemy stats
-    riskyRewardMultiplier: number;        // 2.0 = 200% rewards
+    // Safe path: easier but capped potential
+    safeEnemyMultiplier: number;          // 0.8 = 80% enemy stats
+    safeRewardMultiplier: number;         // 0.4 = 40% rewards (harsh penalty)
+    safeItemChance: number;               // Lower chance for items on safe path
+    safeLateGamePenalty: number;          // Enemy boost per domain on safe path
+    // Risky path: harder but investment pays off
+    riskyEnemyMultiplier: number;         // 1.2 = 120% enemy stats
+    riskyRewardMultiplier: number;        // 2.5 = 250% rewards
     riskyRareItemChance: number;          // Chance to find rare+ item on risky path
+    riskyExtraItemChance: number;         // Chance for BONUS item drop (survival through power)
+    riskyHealBonus: number;               // HP restored after risky combat (% of max)
     // How often each path is chosen (for simulation)
     playerRiskTolerance: number;          // 0-1, higher = more risky choices
   };
@@ -101,9 +105,13 @@ export interface BalanceConfig {
   // === TARGET METRICS ===
   targets: {
     overallWinRate: number;               // Target win rate (0.25-0.40)
-    ante1SurvivalRate: number;            // Should clear ante 1 most of time
-    ante2SurvivalRate: number;            // Moderate attrition here
-    ante3SurvivalRate: number;            // Final challenge
+    // 6-domain survival rates
+    domain1SurvivalRate: number;          // Should almost always clear
+    domain2SurvivalRate: number;          // Light attrition begins
+    domain3SurvivalRate: number;          // Moderate challenge
+    domain4SurvivalRate: number;          // Serious difficulty
+    domain5SurvivalRate: number;          // Endgame territory
+    domain6SurvivalRate: number;          // Final domain
     avgItemsPerRun: number;               // Target item acquisition
   };
 }
@@ -157,25 +165,31 @@ export const PRESET_BRUTAL: BalanceConfig = {
     shopWeight: 2,
     eventWeight: 2,
     restWeight: 1,
-    ante1FinalRoom: 'combat',
-    ante2FinalRoom: 'miniboss',
-    ante3FinalRoom: 'boss',
-    guaranteedAnteShop: false,
+    roomsPerDomain: 3,
+    totalDomains: 6,
+    guaranteedDomainShop: false,
   },
   paths: {
-    safeEnemyMultiplier: 0.7,
-    safeRewardMultiplier: 0.6,
-    riskyEnemyMultiplier: 1.4,
-    riskyRewardMultiplier: 1.8,
-    riskyRareItemChance: 0.15,
+    safeEnemyMultiplier: 0.85,
+    safeRewardMultiplier: 0.35,
+    safeItemChance: 0.50,
+    safeLateGamePenalty: 0.05,
+    riskyEnemyMultiplier: 1.15,
+    riskyRewardMultiplier: 2.2,
+    riskyRareItemChance: 0.25,
+    riskyExtraItemChance: 0.30,
+    riskyHealBonus: 0.12,
     playerRiskTolerance: 0.3,
   },
   targets: {
-    overallWinRate: 0.30,
-    ante1SurvivalRate: 0.90,
-    ante2SurvivalRate: 0.60,
-    ante3SurvivalRate: 0.50,
-    avgItemsPerRun: 3,
+    overallWinRate: 0.25,
+    domain1SurvivalRate: 0.90,
+    domain2SurvivalRate: 0.80,
+    domain3SurvivalRate: 0.65,
+    domain4SurvivalRate: 0.50,
+    domain5SurvivalRate: 0.38,
+    domain6SurvivalRate: 0.28,
+    avgItemsPerRun: 4,
   },
 };
 
@@ -227,25 +241,31 @@ export const PRESET_BALANCED: BalanceConfig = {
     shopWeight: 2,
     eventWeight: 2,
     restWeight: 2,
-    ante1FinalRoom: 'shop',
-    ante2FinalRoom: 'event',
-    ante3FinalRoom: 'boss',
-    guaranteedAnteShop: true,
+    roomsPerDomain: 3,
+    totalDomains: 6,
+    guaranteedDomainShop: true,
   },
   paths: {
-    safeEnemyMultiplier: 0.6,
-    safeRewardMultiplier: 0.5,
-    riskyEnemyMultiplier: 1.5,
-    riskyRewardMultiplier: 2.0,
-    riskyRareItemChance: 0.25,
+    safeEnemyMultiplier: 0.80,
+    safeRewardMultiplier: 0.40,
+    safeItemChance: 0.60,
+    safeLateGamePenalty: 0.04,
+    riskyEnemyMultiplier: 1.20,
+    riskyRewardMultiplier: 2.5,
+    riskyRareItemChance: 0.30,
+    riskyExtraItemChance: 0.35,
+    riskyHealBonus: 0.15,
     playerRiskTolerance: 0.5,
   },
   targets: {
     overallWinRate: 0.30,
-    ante1SurvivalRate: 0.95,
-    ante2SurvivalRate: 0.70,
-    ante3SurvivalRate: 0.45,
-    avgItemsPerRun: 4,
+    domain1SurvivalRate: 0.95,
+    domain2SurvivalRate: 0.88,
+    domain3SurvivalRate: 0.75,
+    domain4SurvivalRate: 0.60,
+    domain5SurvivalRate: 0.48,
+    domain6SurvivalRate: 0.35,
+    avgItemsPerRun: 5,
   },
 };
 
@@ -297,25 +317,31 @@ export const PRESET_EASY: BalanceConfig = {
     shopWeight: 3,
     eventWeight: 2,
     restWeight: 3,
-    ante1FinalRoom: 'shop',
-    ante2FinalRoom: 'event',
-    ante3FinalRoom: 'boss',
-    guaranteedAnteShop: true,
+    roomsPerDomain: 3,
+    totalDomains: 6,
+    guaranteedDomainShop: true,
   },
   paths: {
-    safeEnemyMultiplier: 0.5,
-    safeRewardMultiplier: 0.6,
-    riskyEnemyMultiplier: 1.3,
-    riskyRewardMultiplier: 1.8,
-    riskyRareItemChance: 0.30,
+    safeEnemyMultiplier: 0.70,
+    safeRewardMultiplier: 0.50,
+    safeItemChance: 0.70,
+    safeLateGamePenalty: 0.02,
+    riskyEnemyMultiplier: 1.10,
+    riskyRewardMultiplier: 2.0,
+    riskyRareItemChance: 0.40,
+    riskyExtraItemChance: 0.40,
+    riskyHealBonus: 0.20,
     playerRiskTolerance: 0.6,
   },
   targets: {
     overallWinRate: 0.50,
-    ante1SurvivalRate: 0.98,
-    ante2SurvivalRate: 0.85,
-    ante3SurvivalRate: 0.60,
-    avgItemsPerRun: 5,
+    domain1SurvivalRate: 0.98,
+    domain2SurvivalRate: 0.94,
+    domain3SurvivalRate: 0.85,
+    domain4SurvivalRate: 0.72,
+    domain5SurvivalRate: 0.60,
+    domain6SurvivalRate: 0.52,
+    avgItemsPerRun: 6,
   },
 };
 
@@ -368,24 +394,30 @@ export const PRESET_RISK_REWARD: BalanceConfig = {
     shopWeight: 3, // More shops for item flow
     eventWeight: 2,
     restWeight: 2,
-    ante1FinalRoom: 'shop',
-    ante2FinalRoom: 'miniboss',
-    ante3FinalRoom: 'boss',
-    guaranteedAnteShop: true,
+    roomsPerDomain: 3,
+    totalDomains: 6,
+    guaranteedDomainShop: true,
   },
   paths: {
-    safeEnemyMultiplier: 0.6,     // 60% enemy stats
-    safeRewardMultiplier: 0.5,    // 50% rewards
-    riskyEnemyMultiplier: 1.5,    // 150% enemy stats
-    riskyRewardMultiplier: 2.0,   // 200% rewards
-    riskyRareItemChance: 0.25,    // 25% rare+ item chance
+    safeEnemyMultiplier: 0.80,    // 80% enemy stats (nerfed from 70%)
+    safeRewardMultiplier: 0.40,   // 40% rewards (harsh penalty)
+    safeItemChance: 0.55,         // Lower item chance on safe path
+    safeLateGamePenalty: 0.05,    // +5% enemy stats per domain on safe
+    riskyEnemyMultiplier: 1.15,   // 115% enemy stats (less punishing)
+    riskyRewardMultiplier: 2.5,   // 250% rewards (high risk, high reward)
+    riskyRareItemChance: 0.35,    // 35% rare+ item chance
+    riskyExtraItemChance: 0.40,   // 40% chance for bonus item (power = survival)
+    riskyHealBonus: 0.18,         // 18% HP restored after risky fights
     playerRiskTolerance: 0.5,     // Balanced player simulation
   },
   targets: {
     overallWinRate: 0.30,         // 30% target
-    ante1SurvivalRate: 0.92,
-    ante2SurvivalRate: 0.65,
-    ante3SurvivalRate: 0.48,
+    domain1SurvivalRate: 0.95,
+    domain2SurvivalRate: 0.88,
+    domain3SurvivalRate: 0.75,
+    domain4SurvivalRate: 0.60,
+    domain5SurvivalRate: 0.48,
+    domain6SurvivalRate: 0.35,
     avgItemsPerRun: 7,            // 7+ items target
   },
 };
@@ -480,11 +512,15 @@ export function perturbConfig(
     },
     rooms: config.rooms,
     paths: {
-      safeEnemyMultiplier: Math.max(0.3, Math.min(0.9, perturb(config.paths.safeEnemyMultiplier))),
-      safeRewardMultiplier: Math.max(0.3, Math.min(0.8, perturb(config.paths.safeRewardMultiplier))),
-      riskyEnemyMultiplier: Math.max(1.1, Math.min(2.0, perturb(config.paths.riskyEnemyMultiplier))),
-      riskyRewardMultiplier: Math.max(1.5, Math.min(3.0, perturb(config.paths.riskyRewardMultiplier))),
-      riskyRareItemChance: Math.max(0.1, Math.min(0.5, perturb(config.paths.riskyRareItemChance))),
+      safeEnemyMultiplier: Math.max(0.70, Math.min(0.90, perturb(config.paths.safeEnemyMultiplier))),
+      safeRewardMultiplier: Math.max(0.30, Math.min(0.55, perturb(config.paths.safeRewardMultiplier))),
+      safeItemChance: Math.max(0.40, Math.min(0.75, perturb(config.paths.safeItemChance))),
+      safeLateGamePenalty: Math.max(0.02, Math.min(0.10, perturb(config.paths.safeLateGamePenalty))),
+      riskyEnemyMultiplier: Math.max(1.05, Math.min(1.30, perturb(config.paths.riskyEnemyMultiplier))),
+      riskyRewardMultiplier: Math.max(2.0, Math.min(3.5, perturb(config.paths.riskyRewardMultiplier))),
+      riskyRareItemChance: Math.max(0.20, Math.min(0.50, perturb(config.paths.riskyRareItemChance))),
+      riskyExtraItemChance: Math.max(0.25, Math.min(0.55, perturb(config.paths.riskyExtraItemChance))),
+      riskyHealBonus: Math.max(0.10, Math.min(0.30, perturb(config.paths.riskyHealBonus))),
       playerRiskTolerance: config.paths.playerRiskTolerance, // Keep fixed for simulation
     },
     targets: config.targets,
@@ -495,19 +531,29 @@ export function perturbConfig(
 
 export interface SimulationMetrics {
   winRate: number;
-  ante1Survival: number;
-  ante2Survival: number;
-  ante3Survival: number;
+  // 6-domain survival rates
+  domain1Survival: number;
+  domain2Survival: number;
+  domain3Survival: number;
+  domain4Survival: number;
+  domain5Survival: number;
+  domain6Survival: number;
   avgRoomsCleared: number;
   avgItemsAcquired: number;
   avgFinalGold: number;
   combatDeathRate: number;
   bossDeathRate: number;
-  // New risk/reward metrics
+  // Risk/reward metrics
   riskyPathWinRate: number;      // Win rate when taking risky paths
   safePathWinRate: number;       // Win rate when taking safe paths
   avgTensionMoments: number;     // Avg times HP dropped below 20%
   bossDeathPercent: number;      // % of deaths that happen at boss
+  // Element advantage tracking
+  elementAdvantageWins: number;  // Wins with element advantage
+  elementDisadvantageWins: number; // Wins despite disadvantage
+  // Lucky Die tracking
+  luckyDieAlignedRuns: number;   // Runs where Lucky Die matched domain
+  luckyDieGoldBonus: number;     // Total gold bonus from Lucky Die
 }
 
 export function calculateFitness(
@@ -520,10 +566,14 @@ export function calculateFitness(
   // === PRIMARY: Win rate (most important) ===
   fitness += Math.abs(metrics.winRate - targets.overallWinRate) * 100;
 
-  // === ANTE SURVIVAL CURVE ===
-  fitness += Math.abs(metrics.ante1Survival - targets.ante1SurvivalRate) * 30;
-  fitness += Math.abs(metrics.ante2Survival - targets.ante2SurvivalRate) * 20;
-  fitness += Math.abs(metrics.ante3Survival - targets.ante3SurvivalRate) * 15;
+  // === 6-DOMAIN SURVIVAL CURVE ===
+  // Early domains weighted higher (should almost always clear)
+  fitness += Math.abs(metrics.domain1Survival - targets.domain1SurvivalRate) * 35;
+  fitness += Math.abs(metrics.domain2Survival - targets.domain2SurvivalRate) * 30;
+  fitness += Math.abs(metrics.domain3Survival - targets.domain3SurvivalRate) * 25;
+  fitness += Math.abs(metrics.domain4Survival - targets.domain4SurvivalRate) * 20;
+  fitness += Math.abs(metrics.domain5Survival - targets.domain5SurvivalRate) * 15;
+  fitness += Math.abs(metrics.domain6Survival - targets.domain6SurvivalRate) * 10;
 
   // === ITEM ACQUISITION (weight 15) ===
   // Target: 7+ items per run for chaotic stacking
@@ -561,6 +611,24 @@ export function calculateFitness(
   // Penalize if combat is too deadly overall
   if (metrics.combatDeathRate > 0.7) {
     fitness += (metrics.combatDeathRate - 0.7) * 50;
+  }
+
+  // === ELEMENT ADVANTAGE (weight 8) ===
+  // Element advantage should meaningfully impact win rate
+  // Target: 15-20% more wins when aligned
+  const elementSpread = metrics.elementAdvantageWins - metrics.elementDisadvantageWins;
+  if (elementSpread < 0.15) {
+    fitness += (0.15 - elementSpread) * 8;
+  }
+
+  // === LUCKY DIE (weight 5) ===
+  // Lucky Die alignment should provide noticeable gold bonus
+  // Target: at least +15% gold when aligned
+  if (metrics.luckyDieAlignedRuns > 0) {
+    const avgBonus = metrics.luckyDieGoldBonus / metrics.luckyDieAlignedRuns;
+    if (avgBonus < 0.15) {
+      fitness += (0.15 - avgBonus) * 5;
+    }
   }
 
   return fitness;

@@ -147,7 +147,6 @@ export const domains: Domain[] = [
     npcs: ['dr-maxwell', 'xtreme'],
     connectedAreas: [
       { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
-      { area: 'crimson-domain', direction: 'South', levelRange: '10-20' },
     ],
     quests: [
       { name: 'Through the Fire', type: 'Main', reward: 'Fire Core' },

@@ -51,7 +51,7 @@ const MOOD_ICONS: Record<string, string> = {
 // ChatMessage Component
 // ============================================
 
-export function ChatMessage({ message, onQuickReply }: ChatMessageProps) {
+export function ChatMessageBubble({ message, onQuickReply }: ChatMessageProps) {
   const categoryColor = CATEGORY_COLORS[message.npcCategory] || '#888888';
   const moodIcon = MOOD_ICONS[message.mood] || '';
 
@@ -234,7 +234,7 @@ export function ChatFeed({
           <div style={emptyStyle}>Waiting for NPCs...</div>
         ) : (
           visibleMessages.map((msg) => (
-            <ChatMessage
+            <ChatMessageBubble
               key={msg.id}
               message={msg}
               onQuickReply={onQuickReply}

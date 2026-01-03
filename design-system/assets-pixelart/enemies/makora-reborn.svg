@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="192" height="192">
+  <style>rect{shape-rendering:crispEdges}</style>
+  <g fill="#ac9ea9">
+    <rect x="230" y="70" width="10" height="10"/>
+    <rect x="210" y="80" width="10" height="10"/>
+    <rect x="170" y="110" width="10" height="10"/>
+    <rect x="300" y="120" width="10" height="10"/>
+    <rect x="210" y="130" width="10" height="10"/>
+    <rect x="280" y="130" width="10" height="10"/>
+    <rect x="220" y="140" width="10" height="10"/>
+    <rect x="280" y="140" width="10" height="10"/>
+    <rect x="270" y="200" width="20" height="10"/>
+  </g>
+  <g fill="#a79b9e">
+    <rect x="240" y="70" width="20" height="10"/>
+    <rect x="190" y="120" width="10" height="10"/>
+    <rect x="270" y="140" width="10" height="10"/>
+    <rect x="260" y="150" width="10" height="10"/>
+  </g>
+  <g fill="#b4a9b0">
+    <rect x="260" y="70" width="10" height="10"/>
+    <rect x="280" y="80" width="10" height="10"/>
+    <rect x="190" y="90" width="20" height="10"/>
+    <rect x="320" y="110" width="10" height="10"/>
+    <rect x="260" y="180" width="10" height="10"/>
+    <rect x="200" y="200" width="10" height="10"/>
+  </g>
+  <g fill="#cababc">
+    <rect x="200" y="80" width="10" height="10"/>
+    <rect x="200" y="130" width="10" height="10"/>
+    <rect x="210" y="200" width="10" height="10"/>
+    <rect x="300" y="210" width="10" height="10"/>
+    <rect x="350" y="260" width="10" height="10"/>
+  </g>
+  <g fill="#5c534d">
+    <rect x="220" y="80" width="10" height="10"/>
+    <rect x="420" y="210" width="10" height="10"/>
+    <rect x="280" y="250" width="10" height="10"/>
+    <rect x="240" y="340" width="10" height="10"/>
+  </g>
+  <g fill="#362c2a">
+    <rect x="230" y="80" width="10" height="10"/>
+    <rect x="250" y="80" width="10" height="10"/>
+    <rect x="180" y="110" width="10" height="10"/>
+    <rect x="230" y="230" width="10" height="10"/>
+    <rect x="180" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#412f2b">
+    <rect x="240" y="80" width="10" height="10"/>
+    <rect x="260" y="80" width="20" height="10"/>
+    <rect x="420" y="120" width="10" height="10"/>
+    <rect x="230" y="160" width="10" height="10"/>
+    <rect x="240" y="170" width="10" height="10"/>
+    <rect x="350" y="210" width="10" height="10"/>
+    <rect x="280" y="420" width="10" height="10"/>
+  </g>
+  <g fill="#cdc5c1">
+    <rect x="290" y="80" width="10" height="10"/>
+    <rect x="320" y="210" width="10" height="10"/>
+  </g>
+  <g fill="#d9d9cf">
+    <rect x="90" y="90" width="10" height="10"/>
+    <rect x="300" y="250" width="10" height="10"/>
+    <rect x="290" y="270" width="10" height="10"/>
+    <rect x="210" y="370" width="10" height="10"/>
+  </g>
+  <g fill="#f8f2f0">
+    <rect x="100" y="90" width="10" height="10"/>
+    <rect x="120" y="160" width="10" height="10"/>
+    <rect x="220" y="160" width="10" height="10"/>
+    <rect x="350" y="180" width="10" height="10"/>
+    <rect x="290" y="200" width="10" height="10"/>
+    <rect x="320" y="220" width="10" height="10"/>
+    <rect x="180" y="280" width="10" height="10"/>
+    <rect x="220" y="300" width="10" height="10"/>
+    <rect x="200" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#e6dad8">
+    <rect x="180" y="90" width="10" height="10"/>
+    <rect x="100" y="110" width="10" height="10"/>
+    <rect x="300" y="110" width="10" height="10"/>
+    <rect x="430" y="130" width="10" height="10"/>
+    <rect x="190" y="270" width="10" height="10"/>
+    <rect x="180" y="290" width="10" height="10"/>
+    <rect x="190" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#a1939c">
+    <rect x="290" y="90" width="10" height="10"/>
+    <rect x="180" y="100" width="10" height="10"/>
+    <rect x="290" y="120" width="10" height="10"/>
+    <rect x="330" y="130" width="10" height="10"/>
+    <rect x="330" y="140" width="10" height="10"/>
+    <rect x="330" y="160" width="10" height="10"/>
+  </g>
+  <g fill="#9b9498">
+    <rect x="300" y="90" width="10" height="10"/>
+    <rect x="310" y="110" width="10" height="10"/>
+    <rect x="240" y="150" width="10" height="10"/>
+    <rect x="270" y="190" width="10" height="10"/>
+    <rect x="190" y="210" width="10" height="10"/>
+    <rect x="290" y="210" width="10" height="10"/>
+    <rect x="200" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#fefcfa">
+    <rect x="390" y="90" width="10" height="10"/>
+    <rect x="400" y="100" width="10" height="10"/>
+    <rect x="390" y="120" width="10" height="10"/>
+    <rect x="440" y="170" width="10" height="10"/>
+    <rect x="160" y="210" width="10" height="10"/>
+    <rect x="190" y="260" width="20" height="10"/>
+    <rect x="200" y="270" width="10" height="10"/>
+    <rect x="270" y="340" width="10" height="10"/>
+    <rect x="200" y="360" width="10" height="10"/>
+    <rect x="190" y="370" width="10" height="10"/>
+  </g>
+  <g fill="#fcfbfb">
+    <rect x="90" y="100" width="10" height="10"/>
+    <rect x="130" y="170" width="10" height="10"/>
+    <rect x="150" y="180" width="10" height="10"/>
+    <rect x="200" y="230" width="10" height="10"/>
+    <rect x="160" y="300" width="10" height="10"/>
+    <rect x="280" y="370" width="20" height="10"/>
+  </g>
+  <g fill="#ebdfda">
+    <rect x="100" y="100" width="10" height="10"/>
+    <rect x="400" y="120" width="10" height="10"/>
+    <rect x="390" y="130" width="10" height="10"/>
+    <rect x="60" y="190" width="10" height="10"/>
+    <rect x="300" y="290" width="10" height="10"/>
+    <rect x="210" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#bca9aa">
+    <rect x="190" y="100" width="10" height="10"/>
+    <rect x="290" y="130" width="10" height="10"/>
+    <rect x="190" y="220" width="10" height="10"/>
+    <rect x="190" y="230" width="10" height="10"/>
+  </g>
+  <rect fill="#988887" x="300" y="100" width="10" height="10"/>
+  <g fill="#9c8d90">
+    <rect x="310" y="100" width="10" height="10"/>
+    <rect x="330" y="150" width="10" height="10"/>
+    <rect x="330" y="170" width="10" height="10"/>
+  </g>
+  <g fill="#fff9fa">
+    <rect x="390" y="100" width="10" height="10"/>
+    <rect x="350" y="170" width="20" height="10"/>
+    <rect x="330" y="200" width="10" height="10"/>
+    <rect x="270" y="210" width="10" height="10"/>
+  </g>
+  <rect fill="#7c6e67" x="410" y="100" width="10" height="10"/>
+  <g fill="#ac9a90">
+    <rect x="80" y="110" width="10" height="10"/>
+    <rect x="100" y="150" width="10" height="10"/>
+    <rect x="380" y="170" width="10" height="10"/>
+    <rect x="100" y="220" width="10" height="10"/>
+    <rect x="170" y="260" width="10" height="10"/>
+  </g>
+  <g fill="#f8efed">
+    <rect x="90" y="110" width="10" height="10"/>
+    <rect x="400" y="110" width="10" height="10"/>
+    <rect x="100" y="140" width="10" height="10"/>
+    <rect x="380" y="140" width="10" height="10"/>
+    <rect x="140" y="180" width="10" height="10"/>
+    <rect x="330" y="320" width="10" height="10"/>
+    <rect x="280" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#f8f8f7">
+    <rect x="190" y="110" width="10" height="10"/>
+    <rect x="250" y="220" width="10" height="10"/>
+    <rect x="270" y="250" width="10" height="10"/>
+    <rect x="220" y="260" width="10" height="10"/>
+    <rect x="310" y="320" width="20" height="10"/>
+  </g>
+  <g fill="#fcf7f4">
+    <rect x="390" y="110" width="10" height="10"/>
+    <rect x="110" y="140" width="10" height="10"/>
+    <rect x="370" y="150" width="10" height="10"/>
+    <rect x="370" y="160" width="10" height="10"/>
+    <rect x="320" y="330" width="10" height="10"/>
+    <rect x="270" y="370" width="10" height="10"/>
+  </g>
+  <g fill="#6f5247">
+    <rect x="410" y="110" width="10" height="10"/>
+    <rect x="60" y="170" width="10" height="10"/>
+    <rect x="430" y="170" width="10" height="10"/>
+    <rect x="250" y="330" width="10" height="10"/>
+  </g>
+  <g fill="#9a8877">
+    <rect x="80" y="120" width="10" height="10"/>
+    <rect x="140" y="190" width="10" height="10"/>
+    <rect x="370" y="190" width="10" height="10"/>
+    <rect x="320" y="230" width="10" height="10"/>
+    <rect x="160" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#e0d2cb">
+    <rect x="90" y="120" width="10" height="10"/>
+    <rect x="430" y="140" width="10" height="10"/>
+    <rect x="60" y="150" width="10" height="10"/>
+    <rect x="380" y="150" width="10" height="10"/>
+    <rect x="430" y="150" width="10" height="10"/>
+    <rect x="140" y="260" width="10" height="10"/>
+    <rect x="280" y="310" width="10" height="10"/>
+    <rect x="270" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#fefefc">
+    <rect x="100" y="120" width="10" height="10"/>
+    <rect x="140" y="170" width="10" height="10"/>
+    <rect x="210" y="230" width="10" height="10"/>
+    <rect x="270" y="240" width="10" height="10"/>
+    <rect x="180" y="260" width="10" height="10"/>
+    <rect x="290" y="260" width="10" height="10"/>
+    <rect x="160" y="290" width="10" height="10"/>
+    <rect x="210" y="340" width="10" height="10"/>
+    <rect x="200" y="350" width="10" height="10"/>
+  </g>
+  <g fill="#e4e0de">
+    <rect x="160" y="120" width="10" height="10"/>
+    <rect x="60" y="130" width="10" height="10"/>
+    <rect x="370" y="170" width="10" height="10"/>
+    <rect x="260" y="260" width="10" height="10"/>
+    <rect x="240" y="310" width="10" height="10"/>
+    <rect x="160" y="330" width="10" height="10"/>
+    <rect x="300" y="410" width="10" height="10"/>
+  </g>
+  <g fill="#796973">
+    <rect x="170" y="120" width="10" height="10"/>
+    <rect x="320" y="120" width="10" height="10"/>
+    <rect x="160" y="130" width="10" height="10"/>
+    <rect x="160" y="140" width="10" height="10"/>
+    <rect x="160" y="150" width="10" height="10"/>
+    <rect x="160" y="160" width="10" height="10"/>
+    <rect x="240" y="160" width="10" height="10"/>
+    <rect x="160" y="170" width="10" height="10"/>
+  </g>
+  <g fill="#efe4e0">
+    <rect x="200" y="120" width="10" height="10"/>
+    <rect x="330" y="210" width="10" height="10"/>
+    <rect x="290" y="240" width="10" height="10"/>
+    <rect x="180" y="300" width="10" height="10"/>
+    <rect x="210" y="310" width="10" height="10"/>
+    <rect x="270" y="310" width="10" height="10"/>
+    <rect x="210" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#87766a">
+    <rect x="410" y="120" width="10" height="10"/>
+    <rect x="420" y="180" width="10" height="10"/>
+    <rect x="90" y="190" width="10" height="10"/>
+    <rect x="370" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#fbfdfe">
+    <rect x="50" y="130" width="10" height="10"/>
+    <rect x="220" y="240" width="10" height="10"/>
+    <rect x="210" y="270" width="10" height="10"/>
+    <rect x="320" y="280" width="10" height="10"/>
+    <rect x="250" y="290" width="10" height="10"/>
+  </g>
+  <g fill="#d5c3bb">
+    <rect x="70" y="130" width="10" height="10"/>
+    <rect x="90" y="170" width="10" height="10"/>
+    <rect x="130" y="260" width="10" height="10"/>
+    <rect x="170" y="310" width="10" height="10"/>
+    <rect x="310" y="310" width="20" height="10"/>
+    <rect x="270" y="420" width="10" height="10"/>
+  </g>
+  <g fill="#a08879">
+    <rect x="80" y="130" width="10" height="10"/>
+    <rect x="100" y="160" width="10" height="10"/>
+    <rect x="110" y="170" width="10" height="10"/>
+    <rect x="140" y="210" width="10" height="10"/>
+    <rect x="340" y="210" width="10" height="10"/>
+    <rect x="330" y="220" width="10" height="10"/>
+    <rect x="100" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#e3d6d4">
+    <rect x="90" y="130" width="10" height="10"/>
+    <rect x="60" y="140" width="10" height="10"/>
+    <rect x="420" y="160" width="10" height="10"/>
+    <rect x="50" y="170" width="10" height="10"/>
+    <rect x="310" y="230" width="10" height="10"/>
+    <rect x="290" y="280" width="10" height="10"/>
+    <rect x="270" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#f0e8e4">
+    <rect x="100" y="130" width="10" height="10"/>
+    <rect x="260" y="300" width="20" height="10"/>
+    <rect x="300" y="300" width="10" height="10"/>
+    <rect x="270" y="350" width="10" height="10"/>
+  </g>
+  <g fill="#cabfbc">
+    <rect x="220" y="130" width="10" height="10"/>
+    <rect x="60" y="180" width="10" height="10"/>
+    <rect x="300" y="240" width="10" height="10"/>
+    <rect x="360" y="260" width="10" height="10"/>
+    <rect x="200" y="290" width="10" height="10"/>
+    <rect x="280" y="290" width="10" height="10"/>
+    <rect x="200" y="300" width="10" height="10"/>
+    <rect x="280" y="300" width="10" height="10"/>
+  </g>
+  <g fill="#f8f5f3">
+    <rect x="270" y="130" width="10" height="10"/>
+    <rect x="340" y="190" width="10" height="10"/>
+    <rect x="160" y="200" width="10" height="10"/>
+    <rect x="230" y="280" width="10" height="10"/>
+    <rect x="160" y="320" width="20" height="10"/>
+    <rect x="310" y="330" width="10" height="10"/>
+    <rect x="270" y="360" width="10" height="10"/>
+  </g>
+  <g fill="#dbc9bf">
+    <rect x="400" y="130" width="10" height="10"/>
+    <rect x="400" y="140" width="10" height="10"/>
+    <rect x="190" y="240" width="10" height="10"/>
+    <rect x="170" y="250" width="10" height="10"/>
+    <rect x="200" y="280" width="10" height="10"/>
+    <rect x="160" y="310" width="10" height="10"/>
+    <rect x="200" y="310" width="10" height="10"/>
+  </g>
+  <g fill="#8e7866">
+    <rect x="410" y="130" width="10" height="10"/>
+    <rect x="410" y="150" width="10" height="10"/>
+    <rect x="70" y="190" width="20" height="10"/>
+    <rect x="80" y="200" width="20" height="10"/>
+    <rect x="380" y="220" width="20" height="10"/>
+    <rect x="360" y="230" width="30" height="10"/>
+    <rect x="110" y="240" width="30" height="10"/>
+    <rect x="350" y="240" width="30" height="10"/>
+    <rect x="350" y="250" width="10" height="10"/>
+    <rect x="210" y="390" width="10" height="10"/>
+  </g>
+  <g fill="#c4b2a3">
+    <rect x="420" y="130" width="10" height="10"/>
+    <rect x="100" y="190" width="20" height="10"/>
+    <rect x="360" y="220" width="10" height="10"/>
+    <rect x="160" y="240" width="10" height="10"/>
+    <rect x="330" y="240" width="20" height="10"/>
+  </g>
+  <rect fill="#fffffe" x="50" y="140" width="10" height="10"/>
+  <g fill="#8f7a68">
+    <rect x="70" y="140" width="10" height="10"/>
+    <rect x="70" y="150" width="20" height="10"/>
+    <rect x="70" y="180" width="10" height="10"/>
+    <rect x="400" y="200" width="20" height="10"/>
+    <rect x="100" y="210" width="10" height="10"/>
+    <rect x="370" y="220" width="10" height="10"/>
+    <rect x="130" y="230" width="10" height="10"/>
+    <rect x="140" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#998373">
+    <rect x="80" y="140" width="10" height="10"/>
+    <rect x="100" y="170" width="10" height="10"/>
+    <rect x="350" y="190" width="10" height="10"/>
+    <rect x="70" y="200" width="10" height="10"/>
+    <rect x="140" y="200" width="10" height="10"/>
+    <rect x="320" y="240" width="10" height="10"/>
+    <rect x="390" y="240" width="10" height="10"/>
+  </g>
+  <g fill="#a18b82">
+    <rect x="90" y="140" width="10" height="10"/>
+    <rect x="390" y="160" width="10" height="10"/>
+    <rect x="70" y="170" width="10" height="10"/>
+    <rect x="360" y="190" width="10" height="10"/>
+    <rect x="430" y="190" width="10" height="10"/>
+    <rect x="140" y="230" width="10" height="10"/>
+    <rect x="170" y="240" width="10" height="10"/>
+    <rect x="120" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#c6c5c4">
+    <rect x="150" y="140" width="10" height="10"/>
+    <rect x="300" y="360" width="10" height="10"/>
+  </g>
+  <g fill="#d3c7c2">
+    <rect x="260" y="140" width="10" height="10"/>
+    <rect x="220" y="170" width="10" height="10"/>
+    <rect x="50" y="180" width="10" height="10"/>
+    <rect x="290" y="230" width="10" height="10"/>
+    <rect x="280" y="280" width="10" height="10"/>
+    <rect x="300" y="280" width="10" height="10"/>
+  </g>
+  <g fill="#dacfcd">
+    <rect x="390" y="140" width="10" height="10"/>
+    <rect x="280" y="210" width="10" height="10"/>
+    <rect x="190" y="280" width="10" height="10"/>
+    <rect x="290" y="360" width="10" height="10"/>
+  </g>
+  <g fill="#937c6a">
+    <rect x="410" y="140" width="20" height="10"/>
+    <rect x="390" y="210" width="10" height="10"/>
+    <rect x="120" y="230" width="10" height="10"/>
+    <rect x="380" y="240" width="10" height="10"/>
+  </g>
+  <g fill="#2d1f18">
+    <rect x="50" y="150" width="10" height="10"/>
+    <rect x="260" y="160" width="10" height="10"/>
+    <rect x="260" y="170" width="10" height="10"/>
+    <rect x="260" y="190" width="10" height="10"/>
+    <rect x="200" y="210" width="10" height="10"/>
+    <rect x="200" y="240" width="10" height="10"/>
+    <rect x="240" y="330" width="10" height="10"/>
+    <rect x="270" y="330" width="10" height="10"/>
+    <rect x="250" y="390" width="10" height="10"/>
+  </g>
+  <g fill="#9a8375">
+    <rect x="90" y="150" width="10" height="10"/>
+    <rect x="110" y="160" width="10" height="10"/>
+    <rect x="400" y="160" width="10" height="10"/>
+    <rect x="110" y="180" width="10" height="10"/>
+    <rect x="130" y="190" width="10" height="10"/>
+    <rect x="130" y="200" width="10" height="10"/>
+    <rect x="350" y="200" width="10" height="10"/>
+    <rect x="160" y="230" width="10" height="10"/>
+  </g>
+  <g fill="#fdf4ed">
+    <rect x="110" y="150" width="10" height="10"/>
+    <rect x="290" y="410" width="10" height="10"/>
+  </g>
+  <g fill="#ffffff">
+    <rect x="120" y="150" width="10" height="10"/>
+    <rect x="230" y="210" width="10" height="10"/>
+    <rect x="200" y="220" width="10" height="10"/>
+    <rect x="210" y="240" width="10" height="10"/>
+    <rect x="230" y="250" width="10" height="10"/>
+    <rect x="290" y="350" width="10" height="10"/>
+    <rect x="280" y="360" width="10" height="10"/>
+  </g>
+  <g fill="#bcb5b7">
+    <rect x="150" y="150" width="10" height="10"/>
+    <rect x="250" y="160" width="10" height="10"/>
+    <rect x="150" y="170" width="10" height="10"/>
+  </g>
+  <g fill="#f0eceb">
+    <rect x="220" y="150" width="10" height="10"/>
+    <rect x="180" y="230" width="10" height="10"/>
+    <rect x="210" y="300" width="10" height="10"/>
+    <rect x="230" y="300" width="10" height="10"/>
+    <rect x="190" y="360" width="10" height="10"/>
+  </g>
+  <g fill="#cecdce">
+    <rect x="230" y="150" width="10" height="10"/>
+    <rect x="280" y="220" width="10" height="10"/>
+  </g>
+  <g fill="#1a100b">
+    <rect x="250" y="150" width="10" height="10"/>
+    <rect x="210" y="260" width="10" height="10"/>
+    <rect x="260" y="270" width="10" height="10"/>
+    <rect x="250" y="280" width="10" height="10"/>
+    <rect x="170" y="330" width="10" height="10"/>
+    <rect x="220" y="410" width="10" height="10"/>
+    <rect x="220" y="420" width="10" height="10"/>
+  </g>
+  <g fill="#baa9a5">
+    <rect x="390" y="150" width="10" height="10"/>
+    <rect x="110" y="200" width="10" height="10"/>
+    <rect x="350" y="220" width="10" height="10"/>
+  </g>
+  <g fill="#b6a99c">
+    <rect x="400" y="150" width="10" height="10"/>
+    <rect x="130" y="180" width="10" height="10"/>
+    <rect x="380" y="190" width="10" height="10"/>
+    <rect x="240" y="280" width="10" height="10"/>
+    <rect x="200" y="410" width="10" height="10"/>
+    <rect x="270" y="410" width="10" height="10"/>
+    <rect x="180" y="430" width="10" height="10"/>
+    <rect x="310" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#947f6f">
+    <rect x="420" y="150" width="10" height="10"/>
+    <rect x="80" y="180" width="10" height="10"/>
+    <rect x="420" y="190" width="10" height="10"/>
+    <rect x="390" y="200" width="10" height="10"/>
+    <rect x="400" y="210" width="10" height="10"/>
+    <rect x="150" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#f7ebeb">
+    <rect x="50" y="160" width="10" height="10"/>
+    <rect x="120" y="170" width="10" height="10"/>
+  </g>
+  <g fill="#cab8aa">
+    <rect x="60" y="160" width="10" height="10"/>
+    <rect x="430" y="160" width="10" height="10"/>
+    <rect x="100" y="180" width="10" height="10"/>
+    <rect x="420" y="200" width="10" height="10"/>
+    <rect x="130" y="210" width="10" height="10"/>
+    <rect x="130" y="250" width="10" height="10"/>
+    <rect x="360" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#e2cec7">
+    <rect x="70" y="160" width="10" height="10"/>
+    <rect x="430" y="180" width="10" height="10"/>
+    <rect x="330" y="330" width="10" height="10"/>
+    <rect x="290" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#b7a294">
+    <rect x="80" y="160" width="10" height="10"/>
+    <rect x="370" y="210" width="10" height="10"/>
+    <rect x="390" y="230" width="10" height="10"/>
+    <rect x="210" y="400" width="10" height="10"/>
+    <rect x="210" y="410" width="10" height="10"/>
+    <rect x="280" y="410" width="10" height="10"/>
+  </g>
+  <g fill="#978074">
+    <rect x="90" y="160" width="10" height="10"/>
+    <rect x="120" y="180" width="10" height="10"/>
+  </g>
+  <g fill="#b6b0b3">
+    <rect x="150" y="160" width="10" height="10"/>
+    <rect x="360" y="180" width="10" height="10"/>
+    <rect x="240" y="250" width="10" height="10"/>
+  </g>
+  <rect fill="#978085" x="340" y="160" width="10" height="10"/>
+  <g fill="#c7b3b1">
+    <rect x="380" y="160" width="10" height="10"/>
+    <rect x="80" y="170" width="10" height="10"/>
+    <rect x="90" y="180" width="10" height="10"/>
+    <rect x="360" y="210" width="10" height="10"/>
+    <rect x="130" y="220" width="10" height="10"/>
+  </g>
+  <g fill="#8d6d59">
+    <rect x="410" y="160" width="10" height="10"/>
+    <rect x="220" y="340" width="10" height="10"/>
+    <rect x="220" y="350" width="10" height="10"/>
+    <rect x="220" y="360" width="10" height="10"/>
+    <rect x="200" y="390" width="10" height="10"/>
+  </g>
+  <g fill="#faf9f9">
+    <rect x="440" y="160" width="10" height="10"/>
+    <rect x="330" y="190" width="10" height="10"/>
+    <rect x="210" y="220" width="10" height="10"/>
+    <rect x="240" y="230" width="20" height="10"/>
+    <rect x="240" y="300" width="10" height="10"/>
+    <rect x="280" y="380" width="10" height="10"/>
+    <rect x="190" y="410" width="10" height="10"/>
+  </g>
+  <g fill="#5b4841">
+    <rect x="230" y="170" width="10" height="10"/>
+    <rect x="380" y="250" width="10" height="10"/>
+    <rect x="250" y="310" width="10" height="10"/>
+    <rect x="290" y="420" width="20" height="10"/>
+  </g>
+  <g fill="#4e3a34">
+    <rect x="250" y="170" width="10" height="10"/>
+    <rect x="180" y="210" width="10" height="10"/>
+    <rect x="210" y="250" width="10" height="10"/>
+    <rect x="210" y="420" width="10" height="10"/>
+  </g>
+  <g fill="#958072">
+    <rect x="390" y="170" width="10" height="10"/>
+    <rect x="410" y="180" width="10" height="10"/>
+    <rect x="120" y="190" width="10" height="10"/>
+    <rect x="110" y="210" width="10" height="10"/>
+    <rect x="110" y="250" width="10" height="10"/>
+    <rect x="330" y="250" width="10" height="10"/>
+  </g>
+  <rect fill="#b1a097" x="400" y="170" width="10" height="10"/>
+  <g fill="#bfaca2">
+    <rect x="410" y="170" width="10" height="10"/>
+    <rect x="400" y="180" width="10" height="10"/>
+    <rect x="380" y="200" width="10" height="10"/>
+    <rect x="120" y="210" width="10" height="10"/>
+    <rect x="140" y="220" width="10" height="10"/>
+    <rect x="110" y="230" width="10" height="10"/>
+    <rect x="230" y="270" width="10" height="10"/>
+    <rect x="300" y="380" width="10" height="10"/>
+    <rect x="300" y="400" width="10" height="10"/>
+  </g>
+  <g fill="#8f7f77">
+    <rect x="420" y="170" width="10" height="10"/>
+    <rect x="390" y="180" width="10" height="10"/>
+    <rect x="220" y="190" width="10" height="10"/>
+    <rect x="90" y="210" width="10" height="10"/>
+    <rect x="290" y="430" width="10" height="10"/>
+    <rect x="320" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#756565">
+    <rect x="160" y="180" width="10" height="10"/>
+    <rect x="240" y="180" width="20" height="10"/>
+    <rect x="310" y="420" width="10" height="10"/>
+  </g>
+  <g fill="#a39999">
+    <rect x="230" y="180" width="10" height="10"/>
+    <rect x="300" y="220" width="10" height="10"/>
+    <rect x="300" y="230" width="10" height="10"/>
+    <rect x="320" y="260" width="10" height="10"/>
+  </g>
+  <rect fill="#9a8e8e" x="330" y="180" width="10" height="10"/>
+  <g fill="#fdfdfc">
+    <rect x="340" y="180" width="10" height="10"/>
+    <rect x="240" y="220" width="10" height="10"/>
+    <rect x="230" y="240" width="20" height="10"/>
+    <rect x="220" y="250" width="10" height="10"/>
+    <rect x="180" y="270" width="10" height="10"/>
+  </g>
+  <g fill="#a59586">
+    <rect x="370" y="180" width="10" height="10"/>
+    <rect x="340" y="200" width="10" height="10"/>
+    <rect x="340" y="220" width="10" height="10"/>
+    <rect x="170" y="230" width="10" height="10"/>
+    <rect x="350" y="230" width="10" height="10"/>
+    <rect x="180" y="240" width="10" height="10"/>
+    <rect x="170" y="430" width="10" height="10"/>
+    <rect x="190" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#988376">
+    <rect x="380" y="180" width="10" height="10"/>
+    <rect x="400" y="190" width="10" height="10"/>
+    <rect x="70" y="210" width="20" height="10"/>
+    <rect x="150" y="210" width="10" height="10"/>
+    <rect x="380" y="210" width="10" height="10"/>
+    <rect x="150" y="220" width="10" height="10"/>
+    <rect x="320" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#fffcfe">
+    <rect x="150" y="190" width="10" height="10"/>
+    <rect x="170" y="220" width="10" height="10"/>
+    <rect x="280" y="260" width="10" height="10"/>
+    <rect x="270" y="270" width="10" height="10"/>
+    <rect x="170" y="280" width="10" height="10"/>
+    <rect x="260" y="280" width="10" height="10"/>
+  </g>
+  <g fill="#c1b0a5">
+    <rect x="390" y="190" width="10" height="10"/>
+    <rect x="120" y="200" width="10" height="10"/>
+    <rect x="370" y="200" width="10" height="10"/>
+  </g>
+  <g fill="#8e7a69">
+    <rect x="410" y="190" width="10" height="10"/>
+    <rect x="100" y="200" width="10" height="10"/>
+    <rect x="110" y="220" width="10" height="10"/>
+    <rect x="140" y="240" width="10" height="10"/>
+  </g>
+  <g fill="#968483">
+    <rect x="150" y="200" width="10" height="10"/>
+    <rect x="160" y="220" width="10" height="10"/>
+    <rect x="300" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#826956">
+    <rect x="360" y="200" width="10" height="10"/>
+    <rect x="330" y="230" width="10" height="10"/>
+    <rect x="340" y="260" width="10" height="10"/>
+    <rect x="190" y="390" width="10" height="10"/>
+    <rect x="280" y="390" width="30" height="10"/>
+  </g>
+  <g fill="#fefefe">
+    <rect x="210" y="210" width="10" height="10"/>
+    <rect x="240" y="210" width="10" height="10"/>
+    <rect x="260" y="240" width="10" height="10"/>
+    <rect x="240" y="260" width="10" height="10"/>
+    <rect x="310" y="300" width="10" height="10"/>
+    <rect x="280" y="340" width="10" height="10"/>
+  </g>
+  <g fill="#fffeff">
+    <rect x="220" y="210" width="10" height="10"/>
+    <rect x="250" y="260" width="10" height="10"/>
+    <rect x="300" y="260" width="10" height="10"/>
+    <rect x="220" y="270" width="10" height="10"/>
+  </g>
+  <g fill="#fefdff">
+    <rect x="250" y="210" width="10" height="10"/>
+    <rect x="190" y="250" width="10" height="10"/>
+    <rect x="300" y="270" width="10" height="10"/>
+    <rect x="210" y="280" width="20" height="10"/>
+    <rect x="270" y="280" width="10" height="10"/>
+    <rect x="310" y="280" width="10" height="10"/>
+    <rect x="210" y="290" width="10" height="10"/>
+    <rect x="320" y="290" width="10" height="10"/>
+    <rect x="320" y="300" width="10" height="10"/>
+  </g>
+  <g fill="#fffdfd">
+    <rect x="260" y="210" width="10" height="10"/>
+    <rect x="270" y="230" width="10" height="10"/>
+    <rect x="170" y="290" width="10" height="10"/>
+    <rect x="230" y="290" width="10" height="10"/>
+    <rect x="200" y="370" width="10" height="10"/>
+  </g>
+  <g fill="#89786d">
+    <rect x="410" y="210" width="10" height="10"/>
+    <rect x="100" y="240" width="10" height="10"/>
+  </g>
+  <g fill="#8e7c6a">
+    <rect x="120" y="220" width="10" height="10"/>
+    <rect x="150" y="230" width="10" height="10"/>
+    <rect x="150" y="240" width="10" height="10"/>
+    <rect x="340" y="250" width="10" height="10"/>
+  </g>
+  <g fill="#20130f">
+    <rect x="180" y="220" width="10" height="10"/>
+    <rect x="220" y="220" width="10" height="10"/>
+    <rect x="220" y="230" width="10" height="10"/>
+    <rect x="250" y="250" width="10" height="10"/>
+    <rect x="270" y="260" width="10" height="10"/>
+    <rect x="220" y="430" width="10" height="10"/>
+  </g>
+  <g fill="#fafcfc">
+    <rect x="230" y="220" width="10" height="10"/>
+    <rect x="230" y="260" width="10" height="10"/>
+    <rect x="250" y="300" width="10" height="10"/>
+  </g>
+  <g fill="#838077">
+    <rect x="290" y="220" width="10" height="10"/>
+    <rect x="240" y="290" width="10" height="10"/>
+  </g>
+  <g fill="#ae9d95">
+    <rect x="100" y="230" width="10" height="10"/>
+    <rect x="310" y="250" width="10" height="10"/>
+    <rect x="250" y="270" width="10" height="10"/>
+  </g>
+  <g fill="#b19b8f">
+    <rect x="340" y="230" width="10" height="10"/>
+    <rect x="310" y="240" width="10" height="10"/>
+    <rect x="240" y="270" width="10" height="10"/>
+    <rect x="190" y="400" width="20" height="10"/>
+    <rect x="270" y="400" width="30" height="10"/>
+  </g>
+  <g fill="#fcfffe">
+    <rect x="250" y="240" width="10" height="10"/>
+    <rect x="200" y="340" width="10" height="10"/>
+    <rect x="280" y="350" width="10" height="10"/>
+  </g>
+  <g fill="#d9d4c9">
+    <rect x="280" y="240" width="10" height="10"/>
+    <rect x="210" y="350" width="10" height="10"/>
+    <rect x="210" y="360" width="10" height="10"/>
+    <rect x="300" y="370" width="10" height="10"/>
+  </g>
+  <g fill="#fdfcfe">
+    <rect x="260" y="250" width="10" height="10"/>
+    <rect x="290" y="250" width="10" height="10"/>
+    <rect x="220" y="290" width="10" height="10"/>
+    <rect x="260" y="290" width="20" height="10"/>
+    <rect x="310" y="290" width="10" height="10"/>
+    <rect x="170" y="300" width="10" height="10"/>
+    <rect x="190" y="350" width="10" height="10"/>
+  </g>
+  <rect fill="#a28f8a" x="150" y="260" width="10" height="10"/>
+  <g fill="#a39f9a">
+    <rect x="160" y="260" width="10" height="10"/>
+    <rect x="200" y="430" width="10" height="10"/>
+  </g>
+  <rect fill="#fffdff" x="280" y="270" width="10" height="10"/>
+  <rect fill="#fcfafb" x="310" y="270" width="10" height="10"/>
+  <g fill="#a45234">
+    <rect x="220" y="310" width="20" height="10"/>
+    <rect x="260" y="310" width="10" height="10"/>
+    <rect x="230" y="320" width="10" height="10"/>
+    <rect x="260" y="320" width="10" height="10"/>
+  </g>
+  <g fill="#c27213">
+    <rect x="200" y="320" width="30" height="10"/>
+    <rect x="240" y="320" width="20" height="10"/>
+    <rect x="270" y="320" width="20" height="10"/>
+  </g>
+  <g fill="#443c2d">
+    <rect x="200" y="330" width="10" height="10"/>
+    <rect x="180" y="420" width="30" height="10"/>
+  </g>
+  <g fill="#3a241b">
+    <rect x="210" y="330" width="10" height="10"/>
+    <rect x="280" y="330" width="10" height="10"/>
+    <rect x="250" y="340" width="10" height="10"/>
+  </g>
+  <g fill="#2d170d">
+    <rect x="220" y="330" width="20" height="10"/>
+    <rect x="260" y="330" width="10" height="10"/>
+    <rect x="220" y="390" width="10" height="10"/>
+    <rect x="220" y="400" width="10" height="10"/>
+  </g>
+  <rect fill="#8f6f5d" x="230" y="340" width="10" height="10"/>
+  <g fill="#8a634b">
+    <rect x="260" y="340" width="10" height="10"/>
+    <rect x="230" y="350" width="10" height="10"/>
+    <rect x="260" y="350" width="10" height="10"/>
+    <rect x="260" y="360" width="10" height="10"/>
+    <rect x="220" y="370" width="10" height="10"/>
+    <rect x="260" y="370" width="10" height="10"/>
+    <rect x="220" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#8a6049">
+    <rect x="240" y="350" width="20" height="10"/>
+    <rect x="230" y="360" width="30" height="10"/>
+    <rect x="230" y="370" width="30" height="10"/>
+    <rect x="240" y="380" width="10" height="10"/>
+    <rect x="260" y="380" width="10" height="10"/>
+    <rect x="240" y="390" width="10" height="10"/>
+  </g>
+  <g fill="#8b5f45">
+    <rect x="230" y="380" width="10" height="10"/>
+    <rect x="250" y="380" width="10" height="10"/>
+  </g>
+  <g fill="#7b5f50">
+    <rect x="230" y="390" width="10" height="10"/>
+    <rect x="270" y="390" width="10" height="10"/>
+  </g>
+</svg>

@@ -21,12 +21,18 @@ import type {
   ChatbaseLookupConfig,
   ChatbaseManifest,
   ChatbaseNPCFile,
+  ChatbaseTriggers,
   MoodBucket,
   RelationshipBucket,
   TrustBucket,
   FamiliarityBucket,
   TensionBucket,
 } from './chatbase-types';
+
+import type { PlayerProfile } from '../player/player-profile';
+import type { StoryBeat } from '../player/story-beats';
+import { getDebtTensionForNPC, type DebtTension } from '../player/debt-tension';
+import { hasBeat } from '../player/story-beats';
 
 import {
   DEFAULT_CHATBASE_CONFIG,
@@ -290,7 +296,7 @@ export class ChatbaseLookupEngine {
     if (this.config.useAlternatives && entries.length > 1) {
       // Weighted selection by interest score
       const totalWeight = entries.reduce((sum, e) => sum + e.metrics.interestScore, 0);
-      let roll = rng() * totalWeight;
+      let roll = rng.random('select') * totalWeight;
 
       for (const entry of entries) {
         roll -= entry.metrics.interestScore;
@@ -308,7 +314,7 @@ export class ChatbaseLookupEngine {
     }
 
     // Single selection or fallthrough
-    const entry = entries[Math.floor(rng() * entries.length)];
+    const entry = entries[Math.floor(rng.random('pick') * entries.length)];
     return {
       source: 'chatbase',
       entry,
@@ -598,4 +604,318 @@ export function createChatbaseLookup(
   }
 
   return engine;
+}
+
+// ============================================
+// Player Profile-Aware Selection
+// ============================================
+
+/**
+ * Check if an entry's triggers match the player profile
+ * Returns a match quality score 0-1 (0 = no match, 1 = perfect match)
+ */
+export function matchesTriggers(
+  triggers: ChatbaseTriggers | undefined,
+  profile: PlayerProfile,
+  npcSlug: string,
+  currentRun: number
+): { matches: boolean; score: number } {
+  if (!triggers) {
+    // No triggers = always matches with neutral score
+    return { matches: true, score: 0.5 };
+  }
+
+  let matchCount = 0;
+  let triggerCount = 0;
+  let bonusScore = 0;
+
+  // Player archetype check
+  if (triggers.playerArchetype) {
+    triggerCount++;
+    const archetypes = Array.isArray(triggers.playerArchetype)
+      ? triggers.playerArchetype
+      : [triggers.playerArchetype];
+    if (archetypes.includes(profile.archetype)) {
+      matchCount++;
+      bonusScore += 0.2; // Strong match for archetype
+    }
+  }
+
+  // Story beat check with decay weighting
+  if (triggers.recentStoryBeat) {
+    triggerCount++;
+    const beats = Array.isArray(triggers.recentStoryBeat)
+      ? triggers.recentStoryBeat
+      : [triggers.recentStoryBeat];
+    const minWeight = triggers.storyBeatMinWeight ?? 0.3;
+
+    for (const beatType of beats) {
+      if (hasBeat(profile.storyBeats, beatType, minWeight)) {
+        matchCount++;
+        // Bonus for highly weighted (recent) beats
+        const beat = profile.storyBeats.find(b => b.type === beatType);
+        if (beat) {
+          bonusScore += 0.15 * beat.weight;
+        }
+        break;
+      }
+    }
+  }
+
+  // Debt tension check
+  if (triggers.debtTension) {
+    triggerCount++;
+    const tensions = Array.isArray(triggers.debtTension)
+      ? triggers.debtTension
+      : [triggers.debtTension];
+    const currentTension = getDebtTensionForNPC(profile.debtsTo, npcSlug);
+    if (tensions.includes(currentTension)) {
+      matchCount++;
+      // Higher bonus for threatening debt (narrative impact)
+      if (currentTension === 'threatening') bonusScore += 0.25;
+      else if (currentTension === 'notable') bonusScore += 0.15;
+      else if (currentTension === 'minor') bonusScore += 0.05;
+    }
+  }
+
+  // Player owes me check
+  if (triggers.playerOwesMe) {
+    triggerCount++;
+    const debt = profile.debtsTo[npcSlug] || 0;
+    const { min, max } = triggers.playerOwesMe;
+    const meetsMin = min === undefined || debt >= min;
+    const meetsMax = max === undefined || debt <= max;
+    if (meetsMin && meetsMax) {
+      matchCount++;
+    }
+  }
+
+  // Rescue history check
+  if (triggers.iRescuedPlayer) {
+    triggerCount++;
+    const rescueCount = profile.rescuedBy[npcSlug] || 0;
+    const minCount = triggers.iRescuedPlayer.minCount ?? 1;
+    if (rescueCount >= minCount) {
+      matchCount++;
+      bonusScore += 0.1; // Narrative callback
+    }
+  }
+
+  // Recently rescued check
+  if (triggers.iRescuedPlayerRecently !== undefined) {
+    triggerCount++;
+    // Check if rescued in recent runs (would need lastRescueRun tracking)
+    const wasRescued = (profile.rescuedBy[npcSlug] || 0) > 0;
+    if (triggers.iRescuedPlayerRecently === wasRescued) {
+      matchCount++;
+    }
+  }
+
+  // Streak check
+  if (triggers.streak) {
+    triggerCount++;
+    const { type, min } = triggers.streak;
+    const streakValue = type === 'win' ? profile.winStreak : profile.lossStreak;
+    if (streakValue >= min) {
+      matchCount++;
+    }
+  }
+
+  // Player debt (legacy, simplified)
+  if (triggers.playerDebt !== undefined) {
+    triggerCount++;
+    const hasDebt = Object.values(profile.debtsTo).some(d => d > 0);
+    if (triggers.playerDebt === hasDebt) {
+      matchCount++;
+    }
+  }
+
+  // If no triggers specified, neutral match
+  if (triggerCount === 0) {
+    return { matches: true, score: 0.5 };
+  }
+
+  // Calculate base score from trigger matches
+  const baseScore = matchCount / triggerCount;
+
+  // Must match at least 50% of triggers
+  const matches = baseScore >= 0.5;
+
+  // Final score with bonuses (capped at 1.0)
+  const score = Math.min(1.0, baseScore + bonusScore);
+
+  return { matches, score };
+}
+
+/**
+ * Score an entry's relevance to the current context and player profile
+ */
+export function scoreRelevance(
+  entry: ChatbaseEntry,
+  profile: PlayerProfile,
+  npcSlug: string,
+  currentRun: number,
+  contextTags?: string[]
+): number {
+  let score = 0;
+
+  // Base score from interest metrics (0-0.3)
+  score += (entry.metrics.interestScore / 100) * 0.3;
+
+  // Trigger match score (0-0.4)
+  const triggerResult = matchesTriggers(entry.triggers, profile, npcSlug, currentRun);
+  if (!triggerResult.matches) {
+    return 0; // Hard filter: doesn't match required triggers
+  }
+  score += triggerResult.score * 0.4;
+
+  // Context tag overlap (0-0.2)
+  if (contextTags && entry.contextTags.length > 0) {
+    const overlap = entry.contextTags.filter(t => contextTags.includes(t)).length;
+    const tagScore = overlap / Math.max(entry.contextTags.length, contextTags.length);
+    score += tagScore * 0.2;
+  }
+
+  // Canonical bonus (0.1)
+  if (entry.metrics.isCanonical) {
+    score += 0.1;
+  }
+
+  return Math.min(1.0, score);
+}
+
+/**
+ * Select the best response from entries using player profile context
+ */
+export function selectResponse(
+  entries: ChatbaseEntry[],
+  profile: PlayerProfile,
+  npcSlug: string,
+  currentRun: number,
+  seed: string,
+  contextTags?: string[]
+): ChatbaseLookupResult {
+  if (entries.length === 0) {
+    return { source: 'none', entry: null, confidence: 0 };
+  }
+
+  // Score all entries
+  const scored = entries
+    .map(entry => ({
+      entry,
+      score: scoreRelevance(entry, profile, npcSlug, currentRun, contextTags),
+    }))
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (scored.length === 0) {
+    return { source: 'none', entry: null, confidence: 0 };
+  }
+
+  // Top candidates (within 20% of best score)
+  const bestScore = scored[0].score;
+  const candidates = scored.filter(s => s.score >= bestScore * 0.8);
+
+  // Weighted random selection from candidates
+  const rng = createSeededRng(`select-${seed}-${npcSlug}`);
+  const totalWeight = candidates.reduce((sum, c) => sum + c.score, 0);
+  let roll = rng.random('pick') * totalWeight;
+
+  for (const candidate of candidates) {
+    roll -= candidate.score;
+    if (roll <= 0) {
+      return {
+        source: 'chatbase',
+        entry: candidate.entry,
+        confidence: candidate.score,
+        alternatives: candidates
+          .filter(c => c.entry.id !== candidate.entry.id)
+          .slice(0, 3)
+          .map(c => c.entry),
+      };
+    }
+  }
+
+  // Fallback to top scored
+  return {
+    source: 'chatbase',
+    entry: scored[0].entry,
+    confidence: scored[0].score,
+    alternatives: scored.slice(1, 4).map(s => s.entry),
+  };
+}
+
+/**
+ * Substitute variables in dialogue text
+ * Variables: {{playerName}}, {{debtAmount}}, {{itemName}}, {{domain}}, etc.
+ */
+export function substituteVariables(
+  text: string,
+  profile: PlayerProfile,
+  npcSlug: string,
+  context: Record<string, unknown> = {}
+): string {
+  let result = text;
+
+  // Player name
+  result = result.replace(/\{\{playerName\}\}/g, profile.playerName || 'traveler');
+
+  // Debt amount to this NPC
+  const debt = profile.debtsTo[npcSlug] || 0;
+  result = result.replace(/\{\{debtAmount\}\}/g, debt.toString());
+
+  // Total debt
+  const totalDebt = Object.values(profile.debtsTo).reduce((a, b) => a + b, 0);
+  result = result.replace(/\{\{totalDebt\}\}/g, totalDebt.toString());
+
+  // Run stats
+  result = result.replace(/\{\{runCount\}\}/g, profile.totalRuns.toString());
+  result = result.replace(/\{\{totalDeaths\}\}/g, profile.totalDeaths.toString());
+  result = result.replace(/\{\{winStreak\}\}/g, profile.winStreak.toString());
+  result = result.replace(/\{\{lossStreak\}\}/g, profile.lossStreak.toString());
+  result = result.replace(/\{\{highestDomain\}\}/g, profile.highestDomain.toString());
+
+  // Rescue count
+  const rescueCount = profile.rescuedBy[npcSlug] || 0;
+  result = result.replace(/\{\{rescueCount\}\}/g, rescueCount.toString());
+
+  // Context-specific variables
+  for (const [key, value] of Object.entries(context)) {
+    const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
+    result = result.replace(regex, String(value));
+  }
+
+  return result;
+}
+
+/**
+ * Full lookup pipeline with player profile integration
+ */
+export function lookupDialogue(
+  engine: ChatbaseLookupEngine,
+  npcSlug: string,
+  pool: string,
+  profile: PlayerProfile,
+  currentRun: number,
+  seed: string,
+  contextTags?: string[]
+): { text: string; entry: ChatbaseEntry | null; confidence: number } {
+  // Get all entries for this NPC and pool
+  const entries = engine.getSampleEntries(npcSlug, 100)
+    .filter(e => e.pool === pool);
+
+  // Select best response
+  const result = selectResponse(entries, profile, npcSlug, currentRun, seed, contextTags);
+
+  if (!result.entry) {
+    return { text: '', entry: null, confidence: 0 };
+  }
+
+  // Substitute variables
+  const text = substituteVariables(result.entry.text, profile, npcSlug);
+
+  // Record hit
+  engine.recordHit(result.entry.id);
+
+  return { text, entry: result.entry, confidence: result.confidence };
 }

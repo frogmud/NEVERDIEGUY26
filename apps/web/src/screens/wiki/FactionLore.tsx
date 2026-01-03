@@ -64,7 +64,7 @@ const factions: Record<string, Faction> = {
     rivals: ['Those who seek to control fate'],
     notableMembers: [
       { name: 'The One', role: 'Overseer of Null Providence', rarity: 'Legendary' },
-      { name: 'John', role: 'Master of Mechanarium', rarity: 'Legendary' },
+      { name: 'John', role: 'Master of Earth', rarity: 'Legendary' },
       { name: 'Peter', role: 'Keeper of Shadow Keep', rarity: 'Legendary' },
       { name: 'Robert', role: 'Lord of Infernus', rarity: 'Legendary' },
       { name: 'Alice', role: 'Guardian of Frost Reach', rarity: 'Legendary' },

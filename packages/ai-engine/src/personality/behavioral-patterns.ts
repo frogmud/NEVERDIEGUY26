@@ -28,7 +28,8 @@ export type BehavioralState =
   | 'distressed'     // Emotional state
   | 'celebrating'    // Happy event
   | 'mourning'       // Sad event
-  | 'suspicious';    // Doesn't trust situation
+  | 'suspicious'     // Doesn't trust situation
+  | 'cautious';      // Being careful
 
 export interface StateTransition {
   from: BehavioralState | '*';
@@ -450,6 +451,13 @@ export const STATE_MODIFIERS: Record<BehavioralState, StateModifiers> = {
     sociabilityMod: -0.1,
     aggressionMod: 0.1,
     trustMod: -0.4,
+  },
+  cautious: {
+    moodBias: { curious: 5 },
+    responseBias: { careful: 20, hint: 15 },
+    sociabilityMod: -0.1,
+    aggressionMod: -0.1,
+    trustMod: -0.2,
   },
 };
 

@@ -40,15 +40,18 @@
         "source": "chatter_sim"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
         "extractedTurn": 39,
-        "extractedAt": "2026-01-02T20:14:24.496Z",
+        "extractedAt": "2026-01-03T02:58:23.133Z",
         "version": 1
       },
       "target": {
         "slug": "king-james",
         "name": "King James",
         "category": "wanderers"
+      },
+      "triggers": {
+        "playerArchetype": "chaotic"
       }
     },
     {
@@ -73,9 +76,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
         "extractedTurn": 6,
-        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "extractedAt": "2026-01-03T02:58:23.134Z",
         "version": 1
       },
       "target": {
@@ -106,9 +109,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
         "extractedTurn": 12,
-        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "extractedAt": "2026-01-03T02:58:23.134Z",
         "version": 1
       },
       "target": {
@@ -139,9 +142,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
         "extractedTurn": 36,
-        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "extractedAt": "2026-01-03T02:58:23.135Z",
         "version": 1
       },
       "target": {
@@ -172,9 +175,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
         "extractedTurn": 46,
-        "extractedAt": "2026-01-02T20:14:24.497Z",
+        "extractedAt": "2026-01-03T02:58:23.135Z",
         "version": 1
       },
       "target": {
@@ -204,9 +207,9 @@
         "source": "chatter_sim"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 2,
-        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "extractedAt": "2026-01-03T02:58:23.136Z",
         "version": 1
       },
       "target": {
@@ -237,9 +240,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 19,
-        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "extractedAt": "2026-01-03T02:58:23.137Z",
         "version": 1
       },
       "target": {
@@ -270,9 +273,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 34,
-        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "extractedAt": "2026-01-03T02:58:23.137Z",
         "version": 1
       },
       "target": {
@@ -303,9 +306,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 54,
-        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "extractedAt": "2026-01-03T02:58:23.137Z",
         "version": 1
       },
       "target": {
@@ -336,9 +339,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 56,
-        "extractedAt": "2026-01-02T20:14:24.498Z",
+        "extractedAt": "2026-01-03T02:58:23.137Z",
         "version": 1
       },
       "target": {
@@ -369,9 +372,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 84,
-        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "extractedAt": "2026-01-03T02:58:23.138Z",
         "version": 1
       },
       "target": {
@@ -402,9 +405,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
         "extractedTurn": 110,
-        "extractedAt": "2026-01-02T20:14:24.499Z",
+        "extractedAt": "2026-01-03T02:58:23.139Z",
         "version": 1
       },
       "target": {
@@ -435,9 +438,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
         "extractedTurn": 79,
-        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "extractedAt": "2026-01-03T02:58:23.142Z",
         "version": 1
       },
       "target": {
@@ -468,9 +471,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
         "extractedTurn": 92,
-        "extractedAt": "2026-01-02T20:14:24.501Z",
+        "extractedAt": "2026-01-03T02:58:23.142Z",
         "version": 1
       },
       "target": {
@@ -501,9 +504,9 @@
         "originalPool": "claude_generated"
       },
       "metadata": {
-        "extractedFrom": "/Users/kevin/atlas-t/ndg-ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
         "extractedTurn": 138,
-        "extractedAt": "2026-01-02T20:14:24.502Z",
+        "extractedAt": "2026-01-03T02:58:23.143Z",
         "version": 1
       },
       "target": {

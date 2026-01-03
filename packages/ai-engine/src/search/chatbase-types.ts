@@ -11,6 +11,9 @@
 import type { NPCCategory, MoodType, TemplatePool, MessagePurpose } from '../core/types';
 import type { BehavioralState } from '../personality/behavioral-patterns';
 import type { TopicCategory } from '../social/conversation-threading';
+import type { PlayerArchetype } from '../player/player-profile';
+import type { StoryBeatType } from '../player/story-beats';
+import type { DebtTension } from '../player/debt-tension';
 
 // ============================================
 // Chatbase Entry - Core Data Structure
@@ -69,7 +72,7 @@ export interface ChatbaseTriggers {
   };
   /** Player presence requirement */
   playerPresent?: boolean;
-  /** Player debt status */
+  /** Player debt status (legacy - use debtTension instead) */
   playerDebt?: boolean;
   /** Recent event type */
   recentEvent?: string;
@@ -79,6 +82,28 @@ export interface ChatbaseTriggers {
     trustRange?: 'betrayed' | 'wary' | 'neutral' | 'trusted' | 'confidant';
     familiarityRange?: 'stranger' | 'acquaintance' | 'familiar' | 'friend';
   };
+
+  // ============================================
+  // NEW: Player Profile Triggers
+  // ============================================
+
+  /** Player archetype (4 core types) */
+  playerArchetype?: PlayerArchetype | PlayerArchetype[];
+
+  /** Recent story beat with minimum weight threshold */
+  recentStoryBeat?: StoryBeatType | StoryBeatType[];
+  /** Minimum decay weight for story beat (0-1, default 0.3) */
+  storyBeatMinWeight?: number;
+
+  /** Debt tension level (escalating) */
+  debtTension?: DebtTension | DebtTension[];
+  /** Amount player owes this NPC */
+  playerOwesMe?: { min?: number; max?: number };
+
+  /** Rescue history */
+  iRescuedPlayer?: { minCount?: number };
+  /** Rescued player within last 3 runs */
+  iRescuedPlayerRecently?: boolean;
 }
 
 export interface ChatbaseMetrics {
@@ -439,6 +464,7 @@ export const MOOD_KEYWORDS: Record<MoodType, string[]> = {
   angry: ['fury', 'rage', 'destroy', 'hate', 'damn', 'curse'],
   scared: ['help', 'run', 'terror', 'please', 'no no', 'don\'t'],
   sad: ['sorry', 'loss', 'miss', 'gone', 'mourn', 'weep'],
+  grateful: ['thank', 'appreciate', 'grateful', 'blessing', 'kind', 'generous'],
 };
 
 /**

@@ -21,6 +21,27 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { createSeededRng, type SeededRng } from '../src/core/seeded-rng';
 
+// Player profile for adaptive dialogue
+import {
+  createPlayerProfile,
+  updatePlayerProfile,
+  detectArchetype,
+  serializeProfile,
+  type PlayerProfile,
+  type PlayerArchetype,
+  type RunResult as ProfileRunResult,
+} from '../src/player/player-profile';
+import {
+  detectStoryBeats,
+  updateStoryBeats,
+  type StoryBeat,
+} from '../src/player/story-beats';
+import {
+  getDebtTension,
+  getDebtTensionForNPC,
+  type DebtTension,
+} from '../src/player/debt-tension';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -37,7 +58,7 @@ type GameLocation =
   | 'back-alley'         // Neutral but seedy, high stakes
   | 'sphere-stands'      // Near the arena, post-run energy
   | 'null-providence'    // d4 turf - The One's domain
-  | 'mechanarium'        // d6 turf - John's domain
+  | 'earth'              // d6 turf - John's domain
   | 'shadow-keep'        // d8 turf - Peter's domain
   | 'infernus'           // d10 turf - Robert's domain
   | 'frost-reach'        // d12 turf - Alice's domain
@@ -57,7 +78,7 @@ type Weather =
 const LUCKY_DIE_DOMAIN: Record<LuckyDie, GameLocation | null> = {
   'none': null,
   'd4': 'null-providence',
-  'd6': 'mechanarium',
+  'd6': 'earth',
   'd8': 'shadow-keep',
   'd10': 'infernus',
   'd12': 'frost-reach',
@@ -71,7 +92,7 @@ const DOMAIN_ELEMENT: Record<GameLocation, LuckyDie | null> = {
   'back-alley': null,
   'sphere-stands': null,
   'null-providence': 'd4',
-  'mechanarium': 'd6',
+  'earth': 'd6',
   'shadow-keep': 'd8',
   'infernus': 'd10',
   'frost-reach': 'd12',
@@ -82,7 +103,7 @@ const DOMAIN_ELEMENT: Record<GameLocation, LuckyDie | null> = {
 const WEATHER_DESCRIPTIONS: Record<Weather, string> = {
   'clear': 'The market hums with normal activity.',
   'void-fog': 'A strange fog rolls in from Null Providence. Probability feels... off. Whispers in the mist.',
-  'dust-storm': 'Dust from the Mechanarium blows through. Grit in everyone\'s teeth. Tempers short.',
+  'dust-storm': 'Dust from Earth blows through. Grit in everyone\'s teeth. Tempers short.',
   'death-chill': 'A cold presence from Shadow Keep. The shadows stretch longer than they should.',
   'heat-wave': 'Heat radiates from Infernus. Tempers flare. Everyone\'s on edge.',
   'frost-wind': 'An icy wind from Frost Reach. Everything slows. Patience is tested.',
@@ -95,7 +116,7 @@ const LOCATION_DESCRIPTIONS: Record<GameLocation, string> = {
   'back-alley': 'A seedy back alley. High stakes, no rules, no witnesses.',
   'sphere-stands': 'The stands near the Sphere. Post-run energy, fresh death still in the air.',
   'null-providence': 'Null Providence - The One\'s domain. Reality here is... negotiable.',
-  'mechanarium': 'The Mechanarium - John\'s domain. Gears click, chains rattle, everything is clockwork.',
+  'earth': 'Earth - John\'s domain. Gears click, chains rattle, everything is clockwork.',
   'shadow-keep': 'Shadow Keep - Peter\'s domain. Every shadow hides a secret.',
   'infernus': 'Infernus - Robert\'s domain. The heat alone separates the weak from the bold.',
   'frost-reach': 'Frost Reach - Alice\'s domain. Time moves differently here.',
@@ -161,6 +182,14 @@ interface PlayerState {
   lastRunResult: 'win' | 'death' | 'flume' | null;
   rescuedBy: string | null; // last rescuer
   legendaryMoments: string[];
+  // Enhanced player profile for adaptive dialogue
+  profile: PlayerProfile;
+  // Last run tracking for story beats
+  lastRunMinHP: number;
+  lastRunHPAfterBoss: number;
+  lastRunBossDefeated: boolean;
+  lastRunLegendaryRolls: number;
+  lastRunItemsAcquired: string[];
 }
 
 // Environment for the day
@@ -212,7 +241,7 @@ interface TokenPool {
 
 const TOKEN_POOLS: Record<string, TokenPool> = {
   banter: {
-    tokens: 60,
+    tokens: 200,          // Bumped again - verbose NPCs need room
     weight: 0.45,
     situations: [
       'Quick exchange at the market stall',
@@ -221,7 +250,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   ceelo_talk: {
-    tokens: 100,
+    tokens: 180,          // Was 100 - smack talk needs room
     weight: 0.20,
     situations: [
       'Smack talk before a ceelo match',
@@ -230,7 +259,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   ceelo_emotional: {
-    tokens: 150,
+    tokens: 250,          // Was 150 - tilted rants need space
     weight: 0.10,
     situations: [
       'Just lost big - tilted and ranting',
@@ -239,7 +268,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   debt_drama: {
-    tokens: 200,
+    tokens: 300,          // Was 200 - debt confrontations are spicy
     weight: 0.08,
     situations: [
       'Confronting someone who owes you gold',
@@ -248,7 +277,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   lore_drop: {
-    tokens: 250,
+    tokens: 400,          // Was 250 - lore deserves full treatment
     weight: 0.07,
     situations: [
       'Sharing a secret about the sphere',
@@ -257,7 +286,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   player_gossip: {
-    tokens: 180,
+    tokens: 280,          // Was 180 - gossip flows
     weight: 0.10,
     situations: [
       'Discussing the newcomer\'s latest run',
@@ -682,12 +711,233 @@ const ALL_NPCS: NPCDef[] = [
 ];
 
 // ============================================
+// Pantheon Affinity Matrix
+// ============================================
+
+/**
+ * Die-rector relationships - determines who meets/avoids each other
+ * positive = friendly, will gather
+ * negative = rivalry, avoid each other
+ * 0 = neutral
+ */
+const PANTHEON_AFFINITY: Record<string, Record<string, number>> = {
+  'the-one': {
+    'john': 2,      // Respects efficiency
+    'peter': 2,     // Fellow keeper of order
+    'robert': 0,    // Neutral
+    'alice': 1,     // Both patient
+    'jane': -1,     // Chaos vs void
+    'rhea': -2,     // Ancient rivalry
+  },
+  'john': {
+    'the-one': 2,
+    'peter': -2,    // RIVALRY: Order vs Judgment, territorial
+    'robert': 1,    // Fire forges metal
+    'alice': 0,     // Neutral
+    'jane': -1,     // Dislikes chaos
+    'rhea': -1,
+  },
+  'peter': {
+    'the-one': 2,
+    'john': -2,     // RIVALRY: Territorial dispute
+    'robert': -1,   // Fire burns records
+    'alice': 1,     // Both methodical
+    'jane': -1,     // Chaos offends judgment
+    'rhea': 0,
+  },
+  'robert': {
+    'the-one': 0,
+    'john': 1,
+    'peter': -1,
+    'alice': -2,    // RIVALRY: Fire vs Ice
+    'jane': 2,      // Both embrace intensity
+    'rhea': -1,
+  },
+  'alice': {
+    'the-one': 1,
+    'john': 0,
+    'peter': 1,
+    'robert': -2,   // RIVALRY: Ice vs Fire
+    'jane': 0,
+    'rhea': -1,
+  },
+  'jane': {
+    'the-one': -1,
+    'john': -1,
+    'peter': -1,
+    'robert': 2,
+    'alice': 0,
+    'rhea': 1,      // Both embrace change
+  },
+  'rhea': {
+    'the-one': -2,
+    'john': -1,
+    'peter': 0,
+    'robert': -1,
+    'alice': -1,
+    'jane': 1,
+  },
+};
+
+/**
+ * Pantheon event types for weekly segments
+ */
+type PantheonEventType =
+  | 'domain-business'      // Die-rector tending their domain
+  | 'council-meeting'      // Multiple Die-rectors gather
+  | 'prophecy'             // Cryptic statements about fate
+  | 'domain-weather'       // Weather manifests from domain
+  | 'legendary-ceelo'      // Ultra-rare: Die-rectors gambling
+  | 'mortal-observation'   // Watching the market from afar
+  | 'crossover';           // Mythic rare: Die-rector visits market
+
+interface PantheonWeekEvent {
+  day: number;
+  weekNumber: number;
+  eventType: PantheonEventType;
+  participants: string[];   // Die-rector slugs
+  text: string;
+  location: GameLocation;
+  prophecy?: string;        // For prophecy events
+}
+
+/**
+ * Pantheon weekly simulation state
+ */
+interface PantheonWeekState {
+  weekNumber: number;
+  events: PantheonWeekEvent[];
+  prophecies: string[];
+  domainConditions: Record<string, 'stable' | 'turbulent' | 'ascendant'>;
+}
+
+/**
+ * Check if two Die-rectors would gather together
+ */
+function wouldPantheonGather(slug1: string, slug2: string): boolean {
+  const affinity = PANTHEON_AFFINITY[slug1]?.[slug2] ?? 0;
+  return affinity >= 0;
+}
+
+/**
+ * Get Die-rectors who avoid a specific one
+ */
+function getAvoidingDieRectors(slug: string): string[] {
+  const avoiding: string[] = [];
+  for (const [other, relations] of Object.entries(PANTHEON_AFFINITY)) {
+    if (other !== slug && relations[slug] < 0) {
+      avoiding.push(other);
+    }
+  }
+  return avoiding;
+}
+
+/**
+ * Determine if today is a mythic crossover day (1 in 100)
+ */
+function isCrossoverDay(rng: SeededRng, day: number): boolean {
+  const roll = rng.random(`day-${day}-crossover-check`);
+  return roll < 0.01; // 1% chance = 1 in 100
+}
+
+/**
+ * Get the Die-rectors as NPCDefs
+ */
+function getPantheonNPCs(): NPCDef[] {
+  return ALL_NPCS.filter(n => n.category === 'pantheon' && n.domain);
+}
+
+/**
+ * Generate prophecy text based on Die-rector and domain conditions
+ */
+function generateProphecy(rng: SeededRng, dieRector: NPCDef, dayKey: string): string {
+  const prophecies: Record<string, string[]> = {
+    'the-one': [
+      'The newcomer approaches the final door.',
+      'All threads converge. The null awaits.',
+      'When the dice fall silent, we shall speak.',
+      'The probability collapses. Soon.',
+    ],
+    'john': [
+      'The machine requires maintenance. Blood or oil.',
+      'Efficiency approaches maximum. Then, the breakdown.',
+      'Gears turn. Someone will be ground.',
+      'The optimizer becomes the optimized.',
+    ],
+    'peter': [
+      'The ledger fills. Judgment approaches for all.',
+      'A debt comes due that cannot be paid.',
+      'The gate opens soon. Few will pass.',
+      'I have marked a name. They do not know.',
+    ],
+    'robert': [
+      'Fire cleanses. Fire creates. Fire consumes.',
+      'A great trial by flame approaches.',
+      'The forge heats. Who will be remade?',
+      'Passion will burn something precious.',
+    ],
+    'alice': [
+      'Time bends. Yesterday will become tomorrow.',
+      'The frost creeps forward. Patience rewards.',
+      'I have seen this moment before. And after.',
+      'Ice preserves what fire destroys.',
+    ],
+    'jane': [
+      'Chaos stirs! Something beautiful will break!',
+      'The dice refuse their usual faces.',
+      'Normal ends. Strange begins. Wonderful!',
+      'Roll the bones! Everything changes!',
+    ],
+    'rhea': [
+      'The crown crystallizes. Inevitability sharpens.',
+      'Bow or break. The choice comes soon.',
+      'False prophets fall. True ones rise.',
+      'The static hum grows louder.',
+    ],
+  };
+
+  const options = prophecies[dieRector.slug] || ['The future is unclear.'];
+  const idx = Math.floor(rng.random(`${dayKey}-prophecy-${dieRector.slug}`) * options.length);
+  return options[idx];
+}
+
+/**
+ * Generate a legendary ceelo narrative between Die-rectors
+ */
+function generateLegendaryCeelo(
+  rng: SeededRng,
+  p1: NPCDef,
+  p2: NPCDef,
+  dayKey: string
+): { winner: string; narrative: string } {
+  // Stakes are cosmic: domains, souls, probability itself
+  const stakes = [
+    'a mortal\'s fate',
+    'a year of domain dominion',
+    'the next thousand rolls',
+    'a secret of the void',
+    'the right to judge a soul',
+  ];
+  const stakeIdx = Math.floor(rng.random(`${dayKey}-legend-stake`) * stakes.length);
+  const stake = stakes[stakeIdx];
+
+  // Winner determined by random
+  const winner = rng.random(`${dayKey}-legend-winner`) > 0.5 ? p1.slug : p2.slug;
+  const winnerNPC = winner === p1.slug ? p1 : p2;
+  const loserNPC = winner === p1.slug ? p2 : p1;
+
+  const narrative = `${winnerNPC.name} defeats ${loserNPC.name} in a legendary game of ceelo. The stake: ${stake}. Reality shivers at the outcome.`;
+
+  return { winner, narrative };
+}
+
+// ============================================
 // Environment Helpers
 // ============================================
 
 const ALL_WEATHERS: Weather[] = ['clear', 'void-fog', 'dust-storm', 'death-chill', 'heat-wave', 'frost-wind', 'wild-gale'];
 const NEUTRAL_LOCATIONS: GameLocation[] = ['market-square', 'back-alley', 'sphere-stands'];
-const DOMAIN_LOCATIONS: GameLocation[] = ['null-providence', 'mechanarium', 'shadow-keep', 'infernus', 'frost-reach', 'aberrant'];
+const DOMAIN_LOCATIONS: GameLocation[] = ['null-providence', 'earth', 'shadow-keep', 'infernus', 'frost-reach', 'aberrant'];
 
 /**
  * Determine the day's weather (element-based)
@@ -762,7 +1012,7 @@ function rollGameLocation(
 function getWeatherDomain(weather: Weather): GameLocation | null {
   switch (weather) {
     case 'void-fog': return 'null-providence';
-    case 'dust-storm': return 'mechanarium';
+    case 'dust-storm': return 'earth';
     case 'death-chill': return 'shadow-keep';
     case 'heat-wave': return 'infernus';
     case 'frost-wind': return 'frost-reach';
@@ -877,6 +1127,14 @@ function initPlayerState(): PlayerState {
     lastRunResult: null,
     rescuedBy: null,
     legendaryMoments: [],
+    // Enhanced player profile
+    profile: createPlayerProfile(),
+    // Run tracking for story beats
+    lastRunMinHP: 100,
+    lastRunHPAfterBoss: 100,
+    lastRunBossDefeated: false,
+    lastRunLegendaryRolls: 0,
+    lastRunItemsAcquired: [],
   };
 }
 
@@ -1050,6 +1308,222 @@ function playCeeloMatch(input: CeeloMatchInput): CeeloMatchOutput {
 }
 
 // ============================================
+// Pantheon Weekly Simulation
+// ============================================
+
+/**
+ * Simulate a week of Pantheon activity (separate from mortal track)
+ * Called once per 7 days of mortal simulation
+ */
+function simulatePantheonWeek(
+  weekNumber: number,
+  startDay: number,
+  rng: SeededRng
+): PantheonWeekState {
+  const weekKey = `pantheon-week-${weekNumber}`;
+  const events: PantheonWeekEvent[] = [];
+  const prophecies: string[] = [];
+
+  // Domain conditions shift each week
+  const conditions: Record<string, 'stable' | 'turbulent' | 'ascendant'> = {};
+  const dieRectors = getPantheonNPCs();
+  const conditionOptions: Array<'stable' | 'turbulent' | 'ascendant'> = ['stable', 'stable', 'stable', 'turbulent', 'ascendant'];
+
+  for (const dr of dieRectors) {
+    if (dr.domain) {
+      const idx = Math.floor(rng.random(`${weekKey}-condition-${dr.slug}`) * conditionOptions.length);
+      conditions[dr.domain] = conditionOptions[idx];
+    }
+  }
+
+  // 1. Domain business (each Die-rector tends their domain once per week)
+  for (const dr of dieRectors) {
+    if (!dr.domain) continue;
+    const dayInWeek = Math.floor(rng.random(`${weekKey}-business-${dr.slug}`) * 7);
+    const day = startDay + dayInWeek;
+
+    const condition = conditions[dr.domain] || 'stable';
+    const businessText = condition === 'stable'
+      ? `${dr.name} oversees ${dr.domain}. All is as it should be.`
+      : condition === 'turbulent'
+      ? `${dr.name} quells disturbances in ${dr.domain}. The domain strains.`
+      : `${dr.name} basks in ${dr.domain}'s ascendance. Power flows freely.`;
+
+    events.push({
+      day,
+      weekNumber,
+      eventType: 'domain-business',
+      participants: [dr.slug],
+      text: businessText,
+      location: dr.domain as GameLocation,
+    });
+  }
+
+  // 2. Council meeting (2-4 Die-rectors who don't avoid each other)
+  const councilRoll = rng.random(`${weekKey}-council`);
+  if (councilRoll < 0.4) { // 40% chance of council
+    // Pick a starting Die-rector
+    const firstIdx = Math.floor(rng.random(`${weekKey}-council-first`) * dieRectors.length);
+    const first = dieRectors[firstIdx];
+
+    // Find compatible Die-rectors
+    const compatible = dieRectors.filter(dr =>
+      dr.slug !== first.slug && wouldPantheonGather(first.slug, dr.slug)
+    );
+
+    if (compatible.length >= 1) {
+      const councilSize = Math.min(compatible.length, 1 + Math.floor(rng.random(`${weekKey}-council-size`) * 3));
+      const council = [first, ...compatible.slice(0, councilSize)];
+
+      const councilDay = startDay + Math.floor(rng.random(`${weekKey}-council-day`) * 7);
+      const councilTopics = [
+        'discuss the newcomer\'s progress',
+        'deliberate on domain boundaries',
+        'weigh the balance of probability',
+        'observe mortal follies from afar',
+      ];
+      const topicIdx = Math.floor(rng.random(`${weekKey}-council-topic`) * councilTopics.length);
+
+      events.push({
+        day: councilDay,
+        weekNumber,
+        eventType: 'council-meeting',
+        participants: council.map(c => c.slug),
+        text: `${council.map(c => c.name).join(', ')} gather to ${councilTopics[topicIdx]}.`,
+        location: first.domain as GameLocation || 'null-providence',
+      });
+    }
+  }
+
+  // 3. Prophecy (one Die-rector delivers a cryptic message)
+  const prophecyRoll = rng.random(`${weekKey}-prophecy`);
+  if (prophecyRoll < 0.3) { // 30% chance
+    const prophetIdx = Math.floor(rng.random(`${weekKey}-prophet`) * dieRectors.length);
+    const prophet = dieRectors[prophetIdx];
+    const prophecy = generateProphecy(rng, prophet, weekKey);
+
+    const prophecyDay = startDay + Math.floor(rng.random(`${weekKey}-prophecy-day`) * 7);
+    events.push({
+      day: prophecyDay,
+      weekNumber,
+      eventType: 'prophecy',
+      participants: [prophet.slug],
+      text: `${prophet.name} speaks: "${prophecy}"`,
+      location: prophet.domain as GameLocation || 'null-providence',
+      prophecy,
+    });
+    prophecies.push(`Week ${weekNumber}, ${prophet.name}: ${prophecy}`);
+  }
+
+  // 4. Legendary ceelo (very rare: 5% chance per week)
+  const legendaryRoll = rng.random(`${weekKey}-legendary`);
+  if (legendaryRoll < 0.05) {
+    // Pick two Die-rectors who would actually gamble together
+    const eligiblePairs: Array<[NPCDef, NPCDef]> = [];
+    for (let i = 0; i < dieRectors.length; i++) {
+      for (let j = i + 1; j < dieRectors.length; j++) {
+        if (wouldPantheonGather(dieRectors[i].slug, dieRectors[j].slug)) {
+          eligiblePairs.push([dieRectors[i], dieRectors[j]]);
+        }
+      }
+    }
+
+    if (eligiblePairs.length > 0) {
+      const pairIdx = Math.floor(rng.random(`${weekKey}-legendary-pair`) * eligiblePairs.length);
+      const [p1, p2] = eligiblePairs[pairIdx];
+      const { narrative } = generateLegendaryCeelo(rng, p1, p2, weekKey);
+
+      const legendDay = startDay + Math.floor(rng.random(`${weekKey}-legendary-day`) * 7);
+      events.push({
+        day: legendDay,
+        weekNumber,
+        eventType: 'legendary-ceelo',
+        participants: [p1.slug, p2.slug],
+        text: narrative,
+        location: p1.domain as GameLocation || 'null-providence',
+      });
+    }
+  }
+
+  // 5. Domain weather manifestation
+  const weatherRoll = rng.random(`${weekKey}-domain-weather`);
+  if (weatherRoll < 0.25) { // 25% chance
+    const sourceIdx = Math.floor(rng.random(`${weekKey}-weather-source`) * dieRectors.length);
+    const source = dieRectors[sourceIdx];
+    const weatherTypes: Record<string, string> = {
+      'null-providence': 'void-fog',
+      'earth': 'dust-storm',
+      'shadow-keep': 'death-chill',
+      'infernus': 'heat-wave',
+      'frost-reach': 'frost-wind',
+      'aberrant': 'wild-gale',
+    };
+    const weather = weatherTypes[source.domain || ''] || 'clear';
+
+    const weatherDay = startDay + Math.floor(rng.random(`${weekKey}-weather-day`) * 7);
+    events.push({
+      day: weatherDay,
+      weekNumber,
+      eventType: 'domain-weather',
+      participants: [source.slug],
+      text: `${source.name}'s domain pulses. ${weather.replace('-', ' ')} spreads to the mortal realm.`,
+      location: source.domain as GameLocation || 'market-square',
+    });
+  }
+
+  return {
+    weekNumber,
+    events,
+    prophecies,
+    domainConditions: conditions,
+  };
+}
+
+/**
+ * Handle a mythic crossover event (1 in 100 days)
+ * A Die-rector briefly appears in the mortal market
+ */
+function generateCrossoverEvent(
+  day: number,
+  rng: SeededRng,
+  npcStates: Map<string, NPCState>
+): DayEvent | null {
+  const dayKey = `day-${day}`;
+  const dieRectors = getPantheonNPCs().filter(dr => !dr.silentCharacter);
+
+  if (dieRectors.length === 0) return null;
+
+  const drIdx = Math.floor(rng.random(`${dayKey}-crossover-dr`) * dieRectors.length);
+  const dieRector = dieRectors[drIdx];
+
+  // Pick a mortal to interact with
+  const mortals = ALL_NPCS.filter(n => n.category !== 'pantheon' && npcStates.get(n.slug)?.presentToday);
+  if (mortals.length === 0) return null;
+
+  const mortalIdx = Math.floor(rng.random(`${dayKey}-crossover-mortal`) * mortals.length);
+  const mortal = mortals[mortalIdx];
+
+  // Generate the crossover narrative
+  const narratives = [
+    `${dieRector.name} materializes at ${mortal.name}'s stall. Reality bends. Words are exchanged. ${mortal.name} will not speak of what was said.`,
+    `The air splits. ${dieRector.name} passes through the market. ${mortal.name} catches their eye. Time freezes. Then resumes.`,
+    `${mortal.name} looks up to find ${dieRector.name} standing there. "I have been watching," they say. Then they are gone.`,
+    `${dieRector.name} walks among mortals today. ${mortal.name} is the only one who notices. They share a look that speaks volumes.`,
+  ];
+  const narrativeIdx = Math.floor(rng.random(`${dayKey}-crossover-narrative`) * narratives.length);
+
+  return {
+    day,
+    phase: 'midday',
+    type: 'lore',
+    participants: [dieRector.slug, mortal.slug],
+    text: narratives[narrativeIdx],
+    isClaudeGenerated: false,
+    location: 'market-square',
+  };
+}
+
+// ============================================
 // Player Run Simulation
 // ============================================
 
@@ -1068,10 +1542,27 @@ function simulatePlayerRun(
   let description: string;
   let rescuer: string | undefined;
 
+  // Simulate run details for story beat detection
+  const minHP = Math.floor(rng.random(`${runKey}-minhp`) * 100);
+  const legendaryRolls = rng.random(`${runKey}-legendary`) < 0.1 ? 1 : 0;
+  const itemsAcquired: string[] = [];
+
+  // Simulate item pickups
+  const itemCount = Math.floor(rng.random(`${runKey}-items`) * 4);
+  for (let i = 0; i < itemCount; i++) {
+    const itemTypes = ['meteor-core', 'shield-rune', 'chaos-orb', 'healing-salve', 'iron-dice'];
+    itemsAcquired.push(itemTypes[Math.floor(rng.random(`${runKey}-item${i}`) * itemTypes.length)]);
+  }
+
+  let bossDefeated = false;
+  let hpAfterBoss = 100;
+
   if (roll < 0.15) {
     // Full clear (rare)
     ante = 3;
     result = 'win';
+    bossDefeated = true;
+    hpAfterBoss = Math.floor(rng.random(`${runKey}-bosshp`) * 60) + 20;
     description = 'completed all 3 antes';
     if (ante > playerState.highestAnte) {
       playerState.highestAnte = ante;
@@ -1114,6 +1605,45 @@ function simulatePlayerRun(
   playerState.lastRunDay = day;
   playerState.lastRunResult = result;
 
+  // Store run details for story beat detection
+  playerState.lastRunMinHP = minHP;
+  playerState.lastRunHPAfterBoss = hpAfterBoss;
+  playerState.lastRunBossDefeated = bossDefeated;
+  playerState.lastRunLegendaryRolls = legendaryRolls;
+  playerState.lastRunItemsAcquired = itemsAcquired;
+
+  // Create ProfileRunResult for story beat detection
+  const profileResult: ProfileRunResult = {
+    survived: result === 'win',
+    domainReached: ante * 2, // Map ante 1-3 to domain 2-6
+    roomsCleared: ante * 3,
+    finalScore: ante * 100,
+    minHP,
+    hpAfterBoss: bossDefeated ? hpAfterBoss : undefined,
+    bossDefeated,
+    itemsAcquired,
+    itemsLost: result === 'death' ? itemsAcquired.slice(0, 1) : [],
+    goldEarned: ante * 50,
+    goldSpent: ante * 20,
+    rescuers: rescuer ? [{ npc: rescuer, cost: 50 + ante * 25 }] : [],
+    legendaryRolls,
+    perfectSynergies: [],
+  };
+
+  // Detect story beats
+  const newBeats = detectStoryBeats(profileResult, playerState.profile, day);
+
+  // Update player profile
+  playerState.profile = updatePlayerProfile(playerState.profile, profileResult, newBeats);
+
+  // Decay existing story beats
+  playerState.profile.storyBeats = updateStoryBeats(playerState.profile.storyBeats, day);
+
+  // Sync debts to profile
+  for (const [npcSlug, debt] of playerState.debtsToNPCs) {
+    playerState.profile.debtsTo[npcSlug] = debt;
+  }
+
   return { result, ante, rescuer, description };
 }
 
@@ -1150,12 +1680,56 @@ function buildEternalContext(
     debtContext += `\n${target.name} owes YOU ${targetOwesSpeaker} gold.`;
   }
 
-  // Player debt context
+  // Player profile context - archetype, story beats, debt tension
   const playerDebtToSpeaker = playerState.debtsToNPCs.get(speaker.slug) || 0;
+  const debtTension = getDebtTensionForNPC(playerState.profile.debtsTo, speaker.slug);
+
   let playerContext = '';
-  if (playerDebtToSpeaker > 0) {
-    playerContext = `\nThe newcomer (Never Die Guy) owes you ${playerDebtToSpeaker} gold.`;
+
+  // Archetype-based observation
+  const archetype = playerState.profile.archetype;
+  if (archetype !== 'balanced') {
+    const archetypeDescriptions: Record<PlayerArchetype, string> = {
+      aggressive: 'plays fast and risky, always pushing for damage',
+      defensive: 'plays carefully, hoards healing items, rarely dies',
+      chaotic: 'unpredictable, loves rerolls and chaos orbs',
+      balanced: '',
+    };
+    playerContext += `\nYou've noticed the newcomer ${archetypeDescriptions[archetype]}.`;
   }
+
+  // Debt with escalating tension
+  if (playerDebtToSpeaker > 0) {
+    const tensionPhrases: Record<DebtTension, string> = {
+      none: '',
+      minor: `The newcomer owes you ${playerDebtToSpeaker} gold. Just a small matter.`,
+      notable: `The newcomer owes you ${playerDebtToSpeaker} gold. Getting significant.`,
+      threatening: `The newcomer owes you ${playerDebtToSpeaker} gold. This debt WILL be addressed.`,
+    };
+    playerContext += `\n${tensionPhrases[debtTension] || tensionPhrases.minor}`;
+  }
+
+  // Recent story beats - memorable moments to reference
+  const recentBeats = playerState.profile.storyBeats.filter(b => b.weight > 0.5);
+  if (recentBeats.length > 0) {
+    const beatDescriptions: Record<string, string> = {
+      'close-call': 'barely survived a recent run with almost no health',
+      'crushing-victory': 'dominated a boss recently, barely took damage',
+      'betrayed-by-rng': 'died to terrible luck despite good preparation',
+      'perfect-synergy': 'pulled off an amazing item combo recently',
+      'comeback-king': 'came back from near death to win',
+      'streak-breaker': 'just broke a long streak',
+      'first-clear': 'reached a new personal best domain',
+      'legendary-roll': 'rolled something incredible recently',
+      'debt-spiral': 'keeps dying and racking up debts everywhere',
+    };
+    const topBeat = recentBeats[0];
+    if (beatDescriptions[topBeat.type]) {
+      playerContext += `\nRecently, the newcomer ${beatDescriptions[topBeat.type]}.`;
+    }
+  }
+
+  // Today's run result
   if (playerState.lastRunDay === day) {
     playerContext += `\nToday: The newcomer ${playerState.lastRunResult === 'death' ? `died and was rescued by ${playerState.rescuedBy}` : playerState.lastRunResult === 'win' ? 'completed a full run!' : 'flumed home early'}.`;
   }
@@ -1219,13 +1793,14 @@ Their mood: ${targetState.mood}
 Their record: ${targetState.ceeloWins}W-${targetState.ceeloLosses}L
 
 RULES:
-- Respond as ${speaker.name} with ONE response (1-3 sentences max)
+- Respond as ${speaker.name} with ONE response (1-3 SHORT sentences)
+- ALWAYS complete your sentences - never trail off
 - Stay in character - use your VOICE and QUIRKS
 - Reference debts, streaks, or the newcomer if relevant
 - Be punchy and flavorful, not generic
 - NO quotes around your response
-- NO asterisks or action text
-- Your visual tells can inform your mannerisms but don't describe them`;
+- NO asterisks, NO action text, NO *italics*
+- Just dialogue - what you SAY, not what you do`;
 }
 
 async function generateWithClaude(
@@ -1522,6 +2097,15 @@ async function simulateDay(
           location: environment.dominantLocation,
         });
       }
+    }
+  }
+
+  // ========== MIDDAY - Mythic Crossover (1 in 100 days) ==========
+  if (isCrossoverDay(rng, day)) {
+    const crossoverEvent = generateCrossoverEvent(day, rng, npcStates);
+    if (crossoverEvent) {
+      events.push(crossoverEvent);
+      highlights.push(`MYTHIC: A Die-rector walks among mortals!`);
     }
   }
 
@@ -1847,6 +2431,7 @@ async function main() {
 
   // Diary entries
   const diary: DiaryEntry[] = [];
+  const pantheonWeeks: PantheonWeekState[] = [];
   const startTime = Date.now();
 
   // Graceful shutdown
@@ -1862,8 +2447,46 @@ async function main() {
   const daysDir = path.join(sessionDir, 'days');
   fs.mkdirSync(daysDir, { recursive: true });
 
+  // Create pantheon subdirectory for weekly segments
+  const pantheonDir = path.join(sessionDir, 'pantheon');
+  fs.mkdirSync(pantheonDir, { recursive: true });
+
   // Simulate days
   for (let day = 1; day <= options.days && !interrupted; day++) {
+    // Simulate Pantheon week at start of each 7-day cycle
+    if ((day - 1) % 7 === 0) {
+      const weekNumber = Math.floor((day - 1) / 7) + 1;
+      const pantheonWeek = simulatePantheonWeek(weekNumber, day, rng);
+      pantheonWeeks.push(pantheonWeek);
+
+      // Write Pantheon week log
+      const weekPath = path.join(pantheonDir, `week-${String(weekNumber).padStart(3, '0')}.md`);
+      const weekLines = [
+        `# Pantheon Week ${weekNumber}`,
+        `*Days ${day}-${day + 6}*`,
+        ``,
+        `## Domain Conditions`,
+        ...Object.entries(pantheonWeek.domainConditions).map(([domain, condition]) =>
+          `- **${domain}**: ${condition}`
+        ),
+        ``,
+        `## Events`,
+        ...pantheonWeek.events.map(e =>
+          `- Day ${e.day} [${e.eventType}]: ${e.text}`
+        ),
+        ``,
+      ];
+      if (pantheonWeek.prophecies.length > 0) {
+        weekLines.push(`## Prophecies`);
+        weekLines.push(...pantheonWeek.prophecies.map(p => `> ${p}`));
+      }
+      fs.writeFileSync(weekPath, weekLines.join('\n'));
+
+      if (options.verbose) {
+        console.log(`  Pantheon Week ${weekNumber}: ${pantheonWeek.events.length} events`);
+      }
+    }
+
     if (day % 10 === 0 || options.verbose) {
       const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
       console.log(`Day ${day}/${options.days} (${elapsed}s elapsed)`);
@@ -1921,7 +2544,12 @@ async function main() {
       ...playerState,
       debtsToNPCs: Object.fromEntries(playerState.debtsToNPCs),
     },
+    playerProfile: playerState.profile,
   }, null, 2));
+
+  // Save player profile separately for chatbase lookups
+  const profilePath = path.join(sessionDir, 'player-profile.json');
+  fs.writeFileSync(profilePath, serializeProfile(playerState.profile));
 
   // Write markdown diary
   const mdLines: string[] = [
@@ -1938,12 +2566,25 @@ async function main() {
     `- Total Deaths: ${playerState.totalDeaths}`,
     `- Total Rescues: ${playerState.totalRescues}`,
     `- Highest Ante: ${playerState.highestAnte}`,
+    `- **Archetype**: ${playerState.profile.archetype}`,
+    `- **Win Rate**: ${(playerState.profile.winRate * 100).toFixed(1)}%`,
     `- Outstanding Debts:`,
   ];
 
   for (const [npcSlug, debt] of playerState.debtsToNPCs) {
     const npc = ALL_NPCS.find(n => n.slug === npcSlug)!;
-    mdLines.push(`  - ${npc.name}: ${debt} gold`);
+    const tension = getDebtTensionForNPC(playerState.profile.debtsTo, npcSlug);
+    const tensionLabel = tension !== 'none' ? ` (${tension})` : '';
+    mdLines.push(`  - ${npc.name}: ${debt} gold${tensionLabel}`);
+  }
+
+  // Active story beats
+  const activeBeats = playerState.profile.storyBeats.filter(b => b.weight > 0.3);
+  if (activeBeats.length > 0) {
+    mdLines.push(``, `### Active Story Beats`);
+    for (const beat of activeBeats.slice(0, 5)) {
+      mdLines.push(`- ${beat.type} (weight: ${beat.weight.toFixed(2)}, from day ${beat.createdAtRun})`);
+    }
   }
 
   if (playerState.legendaryMoments.length > 0) {

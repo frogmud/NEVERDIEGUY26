@@ -21,8 +21,10 @@ import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteo
 import { useRun } from '../../contexts';
 import { GameOverModal } from '../../games/meteor/components';
 import { TransitionWipe } from '../../components/TransitionWipe';
-import { DiceMeteor } from './DiceMeteor';
+import { CombatTerminal, type FeedEntry } from './components/CombatTerminal';
 import type { TimeOfDay, ZoneInfo } from './components/tabs/GameTabLaunch';
+
+import type { ZoneMarker } from '../../types/zones';
 
 // Layout constants
 const SIDEBAR_WIDTH = 320;
@@ -34,12 +36,24 @@ const generateThreadId = () => Math.random().toString(16).slice(2, 8).toUpperCas
 const TIMES_BY_ORDER: TimeOfDay[] = ['afternoon', 'night', 'dawn'];
 const getTimeOfDay = (index: number): TimeOfDay => TIMES_BY_ORDER[index] || 'afternoon';
 
+// Preview parking spots for lobby (shows available landing zones)
+// These are static positions that hint at the game structure
+const LOBBY_PREVIEW_ZONES: ZoneMarker[] = [
+  { id: 'preview-1', lat: 30, lng: -60, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
+  { id: 'preview-2', lat: 45, lng: 30, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
+  { id: 'preview-3', lat: -20, lng: 120, tier: 3, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 200, goldMax: 400, lootTier: 3 } },
+  { id: 'preview-4', lat: -45, lng: -120, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
+  { id: 'preview-5', lat: 10, lng: 170, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
+  { id: 'preview-6', lat: -60, lng: 60, tier: 4, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 300, goldMax: 600, lootTier: 4 } },
+];
+
 export function PlayHub() {
   const {
     state,
     selectZone,
     resetRun,
     startRun,
+    setPanel,
     transitionToPanel,
     setTransitionPhase,
     completeTransition,
@@ -62,6 +76,26 @@ export function PlayHub() {
       return () => clearTimeout(timer);
     }
   }, [state.transitionPhase, setTransitionPhase]);
+
+  // Balatro-style auto-launch: when run starts, auto-select first zone and launch instantly
+  useEffect(() => {
+    // Check if we just started a run (phase changed to 'playing', have zones, no zone selected yet)
+    if (
+      state.phase === 'playing' &&
+      state.centerPanel === 'globe' &&
+      state.domainState?.zones?.length &&
+      !state.selectedZone
+    ) {
+      // Auto-select first zone
+      const firstZone = state.domainState.zones[0];
+      selectZone(firstZone);
+
+      // Immediately launch into combat - no wipe animation, instant like Continue
+      setTimeout(() => {
+        setPanel('combat');
+      }, 100);
+    }
+  }, [state.phase, state.centerPanel, state.domainState?.zones, state.selectedZone, selectZone, setPanel]);
 
   // Determine game phase for sidebar based on state.phase
   // Initial state has phase='event_select', after startRun it's 'playing'
@@ -89,8 +123,8 @@ export function PlayHub() {
     score: state.totalScore || 0,
     multiplier: 1, // TODO: from combat state
     goal: 1000, // TODO: from combat state
-    summons: 3, // TODO: from combat state
-    tributes: 3, // TODO: from combat state
+    throws: 3, // TODO: from combat state
+    trades: 3, // TODO: from combat state
     gold: state.gold || 0,
     domain: state.currentDomain || 1,
     totalDomains: 6,
@@ -99,10 +133,17 @@ export function PlayHub() {
     rollHistory: [], // TODO: wire up roll history from combat
   }), [state]);
 
-  // Handle New Run
+  // Handle New Run - Balatro style: immediately launch into first zone
   const handleNewRun = () => {
     const threadId = generateThreadId();
     startRun(threadId);
+
+    // Auto-select first zone and launch immediately (no friction)
+    // The startRun will generate domainState with zones
+    // We need a slight delay for state to update, then auto-launch
+    setTimeout(() => {
+      // This will be handled by useEffect below
+    }, 0);
   };
 
   // Handle Continue - load saved run or start new
@@ -128,6 +169,25 @@ export function PlayHub() {
   // Modal state
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+
+  // Combat feed history (passed to sidebar)
+  const [combatFeed, setCombatFeed] = useState<FeedEntry[]>([]);
+
+  // Pending victory data (for transition wipe)
+  const [pendingVictory, setPendingVictory] = useState<{
+    score: number;
+    gold: number;
+    stats: { npcsSquished: number; diceThrown: number };
+  } | null>(null);
+
+  // Process pending victory after wipe completes (transition to summary)
+  useEffect(() => {
+    if (pendingVictory && state.centerPanel === 'summary' && state.transitionPhase === 'idle') {
+      // Wipe completed, now actually complete the room
+      completeRoom(pendingVictory.score, pendingVictory.gold, pendingVictory.stats);
+      setPendingVictory(null);
+    }
+  }, [pendingVictory, state.centerPanel, state.transitionPhase, completeRoom]);
 
   // Handle Options button
   const handleOptions = () => {
@@ -161,31 +221,14 @@ export function PlayHub() {
     }
   }, [state.domainState?.zones, selectZone]);
 
-  // Handle combat win - pass to RunContext
+  // Handle combat win - trigger skull wipe then complete room
   const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }) => {
     // Calculate gold reward based on score and zone tier
     const goldEarned = Math.floor(score / 10) + (state.selectedZone?.tier || 1) * 10;
-    completeRoom(score, goldEarned, stats);
-  }, [completeRoom, state.selectedZone?.tier]);
-
-  // Render DiceMeteor when in combat mode
-  if (state.centerPanel === 'combat' && state.selectedZone) {
-    return (
-      <DiceMeteor
-        domain={state.currentDomain || 1}
-        eventType={state.selectedZone.eventType}
-        tier={state.selectedZone.tier}
-        scoreGoal={1000 * state.selectedZone.tier}
-        initialSummons={3}
-        initialTributes={3}
-        gold={state.gold || 0}
-        domainName={state.domainState?.name || 'Unknown'}
-        roomNumber={state.roomNumber || 1}
-        onWin={handleCombatWin}
-        onLose={failRoom}
-      />
-    );
-  }
+    // Store pending victory data and trigger transition wipe
+    setPendingVictory({ score, gold: goldEarned, stats });
+    transitionToPanel('summary');
+  }, [transitionToPanel, state.selectedZone?.tier]);
 
   // Render RunSummary after combat completes
   if (state.centerPanel === 'summary') {
@@ -233,7 +276,7 @@ export function PlayHub() {
         bgcolor: tokens.colors.background.default,
       }}
     >
-      {/* Center: Globe (always visible, same size) */}
+      {/* Center: Combat Terminal (always visible) */}
       <Box
         sx={{
           flex: 1,
@@ -245,19 +288,15 @@ export function PlayHub() {
           overflow: 'hidden',
         }}
       >
-        <GlobeScene
-          npcs={npcs}
-          meteors={meteors}
-          impacts={impacts}
-          onGlobeClick={handleGlobeClick}
-          targetPosition={targetPosition}
-          style="lowPoly"
-          autoRotate={sidebarPhase === 'lobby' && !state.selectedZone}
-          onInteraction={() => setLastInteraction(Date.now())}
-          isIdle={isIdle}
-          zones={state.domainState?.zones || []}
-          onZoneClick={selectZone}
-          selectedZone={state.selectedZone}
+        <CombatTerminal
+          domain={state.currentDomain || 1}
+          eventType={state.selectedZone?.eventType || 'small'}
+          tier={state.selectedZone?.tier || 1}
+          scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
+          onWin={handleCombatWin}
+          onLose={failRoom}
+          isLobby={state.phase === 'event_select'}
+          onFeedUpdate={setCombatFeed}
         />
       </Box>
 
@@ -277,6 +316,7 @@ export function PlayHub() {
         onOptions={handleOptions}
         onInfo={handleInfo}
         hasSavedRun={hasSavedRun()}
+        combatFeed={combatFeed}
       />
 
       {/* Transition Wipe */}

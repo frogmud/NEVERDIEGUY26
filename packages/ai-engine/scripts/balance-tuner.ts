@@ -28,6 +28,10 @@ import {
   perturbConfig,
   calculateFitness,
 } from '../src/balance/balance-config';
+import {
+  TOTAL_DOMAINS,
+  ROOMS_PER_DOMAIN,
+} from '../src/balance/canonical-values';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -94,15 +98,15 @@ interface RunState {
   maxHealth: number;
   gold: number;
   items: Item[];
-  ante: number;
-  room: number;
+  domain: number;        // 1-6 (was ante)
+  room: number;          // 1-3
   tensionMoments: number;  // Times HP dropped below 20%
   pathsTaken: PathChoice[];
 }
 
 interface RunResult {
   won: boolean;
-  diedAtAnte: number;
+  diedAtDomain: number;  // 1-6 (was diedAtAnte)
   diedAtRoom: number;
   diedToCombat: boolean;
   diedToBoss: boolean;
@@ -159,7 +163,7 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
     maxHealth: config.player.startingHealth,
     gold: config.player.startingGold,
     items: [],
-    ante: 1,
+    domain: 1,
     room: 1,
     tensionMoments: 0,
     pathsTaken: [],
@@ -168,10 +172,14 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
   let diedToCombat = false;
   let diedToBoss = false;
 
-  for (let ante = 1; ante <= 3; ante++) {
-    state.ante = ante;
+  // Use canonical domain/room structure
+  const totalDomains = config.rooms.totalDomains || TOTAL_DOMAINS;
+  const roomsPerDomain = config.rooms.roomsPerDomain || ROOMS_PER_DOMAIN;
 
-    for (let room = 1; room <= 3; room++) {
+  for (let domain = 1; domain <= totalDomains; domain++) {
+    state.domain = domain;
+
+    for (let room = 1; room <= roomsPerDomain; room++) {
       state.room = room;
 
       // Choose path based on persona
@@ -183,22 +191,30 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
       let pathEnemyMult = 1.0;
       let pathRewardMult = 1.0;
       let extraRareChance = 0;
+      let extraItemChance = 0;
+      let healBonus = 0;
+      let itemChanceMult = 1.0;
 
       switch (pathChoice) {
         case 'safe':
           pathEnemyMult = config.paths.safeEnemyMultiplier;
+          // Safe path enemies get stronger in late game
+          pathEnemyMult += (domain - 1) * (config.paths.safeLateGamePenalty ?? 0);
           pathRewardMult = config.paths.safeRewardMultiplier;
+          itemChanceMult = config.paths.safeItemChance ?? 0.6;
           break;
         case 'risky':
           pathEnemyMult = config.paths.riskyEnemyMultiplier;
           pathRewardMult = config.paths.riskyRewardMultiplier;
           extraRareChance = config.paths.riskyRareItemChance;
+          extraItemChance = config.paths.riskyExtraItemChance ?? 0;
+          healBonus = config.paths.riskyHealBonus ?? 0;
           break;
         // 'normal' keeps defaults at 1.0
       }
 
-      // Determine room type
-      const isBoss = ante === 3 && room === 3;
+      // Determine room type (boss is last room of last domain)
+      const isBoss = domain === totalDomains && room === roomsPerDomain;
       const roomRoll = rng.random('roomType');
       const totalWeight = config.rooms.combatWeight + config.rooms.shopWeight + config.rooms.eventWeight + config.rooms.restWeight;
 
@@ -219,12 +235,13 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
       switch (roomType) {
         case 'combat': {
           // Calculate enemy stats (apply path multiplier)
+          // Note: config still uses "Ante" naming but we use domain
           let enemyHP = (config.combat.enemyHPBase +
-            (ante * config.combat.enemyHPAnteMultiplier) +
+            (domain * config.combat.enemyHPAnteMultiplier) +
             (room * config.combat.enemyHPRoomMultiplier)) * pathEnemyMult;
 
           let enemyDamage = (config.combat.enemyDamageBase *
-            (1 + ante * config.combat.enemyDamageAnteScaling)) * pathEnemyMult;
+            (1 + domain * config.combat.enemyDamageAnteScaling)) * pathEnemyMult;
 
           if (isBoss) {
             enemyHP *= config.combat.bossHPMultiplier;
@@ -233,7 +250,7 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
 
           // Calculate player damage
           let playerDamage = config.player.baseDamage +
-            (ante * config.scaling.playerDamagePerAnte);
+            (domain * config.scaling.playerDamagePerAnte);
 
           // Apply item effects
           let damageMultiplier = 1;
@@ -323,11 +340,11 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
             diedToBoss = isBoss;
             return {
               won: false,
-              diedAtAnte: ante,
+              diedAtDomain: domain,
               diedAtRoom: room,
               diedToCombat,
               diedToBoss,
-              roomsCleared: (ante - 1) * 3 + (room - 1),
+              roomsCleared: (domain - 1) * roomsPerDomain + (room - 1),
               itemsAcquired: state.items.length,
               finalGold: state.gold,
               tensionMoments: state.tensionMoments,
@@ -344,6 +361,22 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
             if (rareItems.length > 0 && state.items.length < config.player.itemSlots) {
               state.items.push(rareItems[Math.floor(rng.random('pickRare') * rareItems.length)]);
             }
+          }
+
+          // Risky path: BONUS extra item drop (power = survival)
+          // This is the key differentiator - risky players get MORE items
+          if (extraItemChance > 0 && rng.random('extraItem') < extraItemChance) {
+            const anyItems = ITEMS.filter(i => !state.items.find(si => si.id === i.id));
+            if (anyItems.length > 0 && state.items.length < config.player.itemSlots) {
+              state.items.push(anyItems[Math.floor(rng.random('pickExtra') * anyItems.length)]);
+            }
+          }
+
+          // Risky path: heal bonus after surviving combat
+          // This is the key to making risky viable - you heal after the hard fight
+          if (healBonus > 0) {
+            const healAmount = Math.floor(state.maxHealth * healBonus);
+            state.health = Math.min(state.maxHealth, state.health + healAmount);
           }
           break;
         }
@@ -381,11 +414,11 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
             if (state.health <= 0) {
               return {
                 won: false,
-                diedAtAnte: ante,
+                diedAtDomain: domain,
                 diedAtRoom: room,
                 diedToCombat: false,
                 diedToBoss: false,
-                roomsCleared: (ante - 1) * 3 + (room - 1),
+                roomsCleared: (domain - 1) * roomsPerDomain + (room - 1),
                 itemsAcquired: state.items.length,
                 finalGold: state.gold,
                 tensionMoments: state.tensionMoments,
@@ -420,14 +453,14 @@ function simulateRun(config: BalanceConfig, rng: SeededRng, persona: PlayerPerso
     }
   }
 
-  // Survived all 9 rooms
+  // Survived all rooms
   return {
     won: true,
-    diedAtAnte: 0,
+    diedAtDomain: 0,
     diedAtRoom: 0,
     diedToCombat: false,
     diedToBoss: false,
-    roomsCleared: 9,
+    roomsCleared: totalDomains * roomsPerDomain,
     itemsAcquired: state.items.length,
     finalGold: state.gold,
     tensionMoments: state.tensionMoments,
@@ -469,9 +502,13 @@ function evaluateConfig(config: BalanceConfig, runs: number, seed: string): Simu
   const wins = allResults.filter(r => r.won).length;
   const losses = allResults.filter(r => !r.won);
 
-  const ante1Survivors = allResults.filter(r => r.won || r.diedAtAnte > 1).length;
-  const ante2Survivors = allResults.filter(r => r.won || r.diedAtAnte > 2).length;
-  const ante3Survivors = wins;
+  // 6-domain survival rates
+  const domain1Survivors = allResults.filter(r => r.won || r.diedAtDomain > 1).length;
+  const domain2Survivors = allResults.filter(r => r.won || r.diedAtDomain > 2).length;
+  const domain3Survivors = allResults.filter(r => r.won || r.diedAtDomain > 3).length;
+  const domain4Survivors = allResults.filter(r => r.won || r.diedAtDomain > 4).length;
+  const domain5Survivors = allResults.filter(r => r.won || r.diedAtDomain > 5).length;
+  const domain6Survivors = wins;
 
   const combatDeaths = losses.filter(r => r.diedToCombat).length;
   const bossDeaths = losses.filter(r => r.diedToBoss).length;
@@ -488,19 +525,28 @@ function evaluateConfig(config: BalanceConfig, runs: number, seed: string): Simu
 
   return {
     winRate: wins / totalRuns,
-    ante1Survival: ante1Survivors / totalRuns,
-    ante2Survival: ante2Survivors / totalRuns,
-    ante3Survival: ante3Survivors / totalRuns,
+    // 6-domain survival rates
+    domain1Survival: domain1Survivors / totalRuns,
+    domain2Survival: domain2Survivors / totalRuns,
+    domain3Survival: domain3Survivors / totalRuns,
+    domain4Survival: domain4Survivors / totalRuns,
+    domain5Survival: domain5Survivors / totalRuns,
+    domain6Survival: domain6Survivors / totalRuns,
     avgRoomsCleared: allResults.reduce((s, r) => s + r.roomsCleared, 0) / totalRuns,
     avgItemsAcquired: allResults.reduce((s, r) => s + r.itemsAcquired, 0) / totalRuns,
     avgFinalGold: allResults.reduce((s, r) => s + r.finalGold, 0) / totalRuns,
     combatDeathRate: losses.length > 0 ? combatDeaths / losses.length : 0,
     bossDeathRate: losses.length > 0 ? bossDeaths / losses.length : 0,
-    // New risk/reward metrics
+    // Risk/reward metrics
     riskyPathWinRate: riskyRuns > 0 ? riskyWins / riskyRuns : 0,
     safePathWinRate: safeRuns > 0 ? safeWins / safeRuns : 0,
     avgTensionMoments: totalTension / totalRuns,
     bossDeathPercent: losses.length > 0 ? bossDeaths / losses.length : 0,
+    // Element/Lucky Die (placeholder - would need game state tracking)
+    elementAdvantageWins: 0,
+    elementDisadvantageWins: 0,
+    luckyDieAlignedRuns: 0,
+    luckyDieGoldBonus: 0,
   };
 }
 
@@ -554,9 +600,13 @@ function crossover(parent1: BalanceConfig, parent2: BalanceConfig, rng: SeededRn
     paths: {
       safeEnemyMultiplier: pick(parent1.paths.safeEnemyMultiplier, parent2.paths.safeEnemyMultiplier),
       safeRewardMultiplier: pick(parent1.paths.safeRewardMultiplier, parent2.paths.safeRewardMultiplier),
+      safeItemChance: pick(parent1.paths.safeItemChance, parent2.paths.safeItemChance),
+      safeLateGamePenalty: pick(parent1.paths.safeLateGamePenalty, parent2.paths.safeLateGamePenalty),
       riskyEnemyMultiplier: pick(parent1.paths.riskyEnemyMultiplier, parent2.paths.riskyEnemyMultiplier),
       riskyRewardMultiplier: pick(parent1.paths.riskyRewardMultiplier, parent2.paths.riskyRewardMultiplier),
       riskyRareItemChance: pick(parent1.paths.riskyRareItemChance, parent2.paths.riskyRareItemChance),
+      riskyExtraItemChance: pick(parent1.paths.riskyExtraItemChance, parent2.paths.riskyExtraItemChance),
+      riskyHealBonus: pick(parent1.paths.riskyHealBonus, parent2.paths.riskyHealBonus),
       playerRiskTolerance: parent1.paths.playerRiskTolerance, // Keep fixed
     },
     targets: parent1.targets,
@@ -657,9 +707,9 @@ async function main() {
 
   console.log('Target metrics:');
   console.log(`  Win Rate: ${(baseConfig.targets.overallWinRate * 100).toFixed(0)}%`);
-  console.log(`  Ante 1 Survival: ${(baseConfig.targets.ante1SurvivalRate * 100).toFixed(0)}%`);
-  console.log(`  Ante 2 Survival: ${(baseConfig.targets.ante2SurvivalRate * 100).toFixed(0)}%`);
-  console.log(`  Ante 3 Survival: ${(baseConfig.targets.ante3SurvivalRate * 100).toFixed(0)}%`);
+  console.log(`  Domain 1-2 Survival: ${(baseConfig.targets.domain1SurvivalRate * 100).toFixed(0)}% / ${(baseConfig.targets.domain2SurvivalRate * 100).toFixed(0)}%`);
+  console.log(`  Domain 3-4 Survival: ${(baseConfig.targets.domain3SurvivalRate * 100).toFixed(0)}% / ${(baseConfig.targets.domain4SurvivalRate * 100).toFixed(0)}%`);
+  console.log(`  Domain 5-6 Survival: ${(baseConfig.targets.domain5SurvivalRate * 100).toFixed(0)}% / ${(baseConfig.targets.domain6SurvivalRate * 100).toFixed(0)}%`);
   console.log('');
 
   let bestEver: Individual = { config: baseConfig, metrics: null, fitness: Infinity };
@@ -704,12 +754,13 @@ async function main() {
   console.log('');
 
   const best = bestEver;
+  const totalRooms = TOTAL_DOMAINS * ROOMS_PER_DOMAIN;
   console.log('Metrics:');
   console.log(`  Win Rate:        ${(best.metrics!.winRate * 100).toFixed(1)}% (target: ${(best.config.targets.overallWinRate * 100).toFixed(0)}%)`);
-  console.log(`  Ante 1 Survival: ${(best.metrics!.ante1Survival * 100).toFixed(1)}%`);
-  console.log(`  Ante 2 Survival: ${(best.metrics!.ante2Survival * 100).toFixed(1)}%`);
-  console.log(`  Ante 3 Survival: ${(best.metrics!.ante3Survival * 100).toFixed(1)}%`);
-  console.log(`  Avg Rooms:       ${best.metrics!.avgRoomsCleared.toFixed(1)} / 9`);
+  console.log(`  Domain Survival:`);
+  console.log(`    1: ${(best.metrics!.domain1Survival * 100).toFixed(1)}%  2: ${(best.metrics!.domain2Survival * 100).toFixed(1)}%  3: ${(best.metrics!.domain3Survival * 100).toFixed(1)}%`);
+  console.log(`    4: ${(best.metrics!.domain4Survival * 100).toFixed(1)}%  5: ${(best.metrics!.domain5Survival * 100).toFixed(1)}%  6: ${(best.metrics!.domain6Survival * 100).toFixed(1)}%`);
+  console.log(`  Avg Rooms:       ${best.metrics!.avgRoomsCleared.toFixed(1)} / ${totalRooms}`);
   console.log(`  Avg Items:       ${best.metrics!.avgItemsAcquired.toFixed(1)} (target: ${best.config.targets.avgItemsPerRun})`);
   console.log('');
   console.log('Path Strategy Results:');
@@ -739,9 +790,13 @@ async function main() {
   console.log('Path System:');
   console.log(`  Safe Enemy Mult:        ${best.config.paths.safeEnemyMultiplier.toFixed(2)}`);
   console.log(`  Safe Reward Mult:       ${best.config.paths.safeRewardMultiplier.toFixed(2)}`);
+  console.log(`  Safe Item Chance:       ${((best.config.paths.safeItemChance ?? 0.6) * 100).toFixed(0)}%`);
+  console.log(`  Safe Late Penalty:      +${((best.config.paths.safeLateGamePenalty ?? 0) * 100).toFixed(0)}%/domain`);
   console.log(`  Risky Enemy Mult:       ${best.config.paths.riskyEnemyMultiplier.toFixed(2)}`);
   console.log(`  Risky Reward Mult:      ${best.config.paths.riskyRewardMultiplier.toFixed(2)}`);
   console.log(`  Risky Rare Chance:      ${(best.config.paths.riskyRareItemChance * 100).toFixed(0)}%`);
+  console.log(`  Risky Extra Item:       ${((best.config.paths.riskyExtraItemChance ?? 0) * 100).toFixed(0)}%`);
+  console.log(`  Risky Heal Bonus:       ${((best.config.paths.riskyHealBonus ?? 0) * 100).toFixed(0)}%`);
   console.log('');
 
   console.log('='.repeat(70));

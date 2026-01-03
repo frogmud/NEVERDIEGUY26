@@ -27,6 +27,69 @@ export const GLOBE_CONFIG = {
   },
 };
 
+// Domain planet configuration - size and color based on die association
+// d4=smallest (Null Providence) → d20=largest (Aberrant)
+export const DOMAIN_PLANET_CONFIG: Record<
+  number,
+  {
+    scale: number;
+    color: string;
+    glowColor: string;
+    element: string;
+    die: number;
+    name: string;
+  }
+> = {
+  1: {
+    scale: 0.6,
+    color: '#1a1a2e',
+    glowColor: '#4a4a6e',
+    element: 'Void',
+    die: 4,
+    name: 'Null Providence',
+  },
+  2: {
+    scale: 0.8,
+    color: '#4a6741',
+    glowColor: '#7a9771',
+    element: 'Earth',
+    die: 6,
+    name: 'Earth',
+  },
+  3: {
+    scale: 0.9,
+    color: '#2d2d44',
+    glowColor: '#5d5d74',
+    element: 'Death',
+    die: 8,
+    name: 'Shadow Keep',
+  },
+  4: {
+    scale: 1.0,
+    color: '#8b2500',
+    glowColor: '#bb5530',
+    element: 'Fire',
+    die: 10,
+    name: 'Infernus',
+  },
+  5: {
+    scale: 1.2,
+    color: '#4a90a4',
+    glowColor: '#7ac0d4',
+    element: 'Ice',
+    die: 12,
+    name: 'Frost Reach',
+  },
+  6: {
+    scale: 1.4,
+    color: '#6b5b95',
+    glowColor: '#9b8bc5',
+    element: 'Wind',
+    die: 20,
+    name: 'Aberrant',
+  },
+};
+
 // NPC configuration for globe surface
 export const NPC_CONFIG = {
   // Spawn settings
