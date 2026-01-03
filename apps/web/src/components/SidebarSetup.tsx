@@ -755,7 +755,6 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
                   item={item}
                   onClick={() => {
                     // TODO: Handle item selection/equip
-                    console.log('Selected item:', item.name);
                   }}
                 />
               ))
