@@ -16,10 +16,13 @@ export function DesignSystem() {
       {/* Header */}
       <Box sx={{ mb: 5 }}>
         <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 1 }}>
-          DIE/DIE UI
+          Bones
         </Typography>
-        <Typography variant="body1" sx={{ color: tokens.colors.text.secondary, maxWidth: 600 }}>
-          {componentRegistry.length} components. Dark mode first, data preservation theme.
+        <Typography variant="h6" sx={{ color: tokens.colors.text.secondary, mb: 0.5 }}>
+          Design system for NEVER DIE GUY
+        </Typography>
+        <Typography variant="body2" sx={{ color: tokens.colors.text.disabled }}>
+          {componentRegistry.length} components for the dice roguelike game and app
         </Typography>
       </Box>
 

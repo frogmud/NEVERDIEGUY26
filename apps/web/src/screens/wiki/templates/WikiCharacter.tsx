@@ -37,7 +37,7 @@ import { SectionHeader } from '../../../components/SectionHeader';
 import { DataBadge } from '../../../components/DataBadge';
 import { CardHeader, AssetImage } from '../../../components/ds';
 import { getRarityColor, slugToName } from '../../../data/wiki/helpers';
-import type { AnyEntity, Enemy, Traveler, Wanderer, Pantheon, WikiCategory, Item, Domain, Shop } from '../../../data/wiki/types';
+import type { AnyEntity, Enemy, Traveler, Wanderer, Pantheon, Faction, WikiCategory, Item, Domain, Shop } from '../../../data/wiki/types';
 import { getEntity } from '../../../data/wiki';
 
 interface WikiCharacterProps {
@@ -92,7 +92,7 @@ const defaultLocations = [
 
 
 // Entity type enum for cleaner logic
-type CharacterType = 'traveler' | 'enemy' | 'wanderer' | 'pantheon';
+type CharacterType = 'traveler' | 'enemy' | 'wanderer' | 'pantheon' | 'faction';
 
 // Dynamic section configuration based on entity type and available data
 const getCharacterSections = (
@@ -125,6 +125,13 @@ const getCharacterSections = (
       sections.push({ name: 'Corruption Effects' });
       break;
 
+    case 'faction':
+      sections.push({ name: 'Overview' });
+      sections.push({ name: 'Members' });
+      sections.push({ name: 'Alliances' });
+      sections.push({ name: 'Faction Bonuses' });
+      break;
+
     case 'enemy':
     default:
       sections.push({ name: 'Combat Overview' });
@@ -148,10 +155,12 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const isTraveler = entity?.category === 'travelers';
   const isWanderer = entity?.category === 'wanderers';
   const isPantheon = entity?.category === 'pantheon';
+  const isFaction = entity?.category === 'factions';
 
   const characterType: CharacterType = isTraveler ? 'traveler'
     : isWanderer ? 'wanderer'
     : isPantheon ? 'pantheon'
+    : isFaction ? 'faction'
     : 'enemy';
 
   // Cast to specific types
@@ -159,6 +168,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const travelerData = isTraveler ? (entity as Traveler) : undefined;
   const wandererData = isWanderer ? (entity as Wanderer) : undefined;
   const pantheonData = isPantheon ? (entity as Pantheon) : undefined;
+  const factionData = isFaction ? (entity as Faction) : undefined;
 
   const characterInfo = entity ? {
     name: entity.name,
@@ -196,6 +206,19 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
     element: pantheonData.element || 'Neutral',
     door: pantheonData.door,
     luckyNumber: pantheonData.luckyNumber,
+  } : null;
+
+  // Faction-specific data
+  const factionInfo = factionData ? {
+    motto: factionData.motto || '',
+    founder: factionData.founder,
+    homeBase: factionData.homeBase,
+    element: factionData.element || 'Neutral',
+    members: factionData.members || [],
+    allies: factionData.allies || [],
+    rivals: factionData.rivals || [],
+    bonuses: factionData.bonuses || [],
+    lore: factionData.lore || '',
   } : null;
 
   // Base stats for travelers and pantheon
@@ -364,7 +387,8 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         <CardHeader
           title={characterType === 'traveler' ? 'Profile' :
                  characterType === 'wanderer' ? 'Info' :
-                 characterType === 'pantheon' ? 'Divine Info' : 'Quick Stats'}
+                 characterType === 'pantheon' ? 'Divine Info' :
+                 characterType === 'faction' ? 'Faction Info' : 'Quick Stats'}
         />
         <Box sx={{ p: 2 }}>
           {characterType === 'traveler' && travelerInfo ? (
@@ -420,6 +444,28 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                 { icon: FavorIcon, label: 'Element', value: pantheonInfo.element },
                 { icon: DiceIcon, label: 'Door', value: pantheonInfo.door ? `Door ${pantheonInfo.door}` : 'None' },
                 { icon: DiceIcon, label: 'Lucky Number', value: pantheonInfo.luckyNumber === 0 ? 'None' : `d${(pantheonInfo.luckyNumber || 1) * 2}` },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Box key={item.label} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, '&:last-child': { mb: 0 } }}>
+                    <Icon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
+                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, flex: 1 }}>
+                      {item.label}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                      {item.value}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </>
+          ) : characterType === 'faction' && factionInfo ? (
+            // Faction info
+            <>
+              {[
+                { icon: FavorIcon, label: 'Element', value: factionInfo.element },
+                { icon: LocationIcon, label: 'Home Base', value: factionInfo.homeBase ? slugToName(factionInfo.homeBase) : 'Various' },
+                { icon: DiceIcon, label: 'Lucky Number', value: entity?.luckyNumber === 0 ? 'None' : `d${((entity?.luckyNumber || 1) * 2)}` },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -713,8 +759,191 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         </WikiSectionAnchor>
       )}
 
+      {/* Faction Overview - for factions only */}
+      {isFaction && factionInfo && (
+        <WikiSectionAnchor id={toAnchorId('Overview')}>
+          <Paper
+            sx={{
+              mb: 4,
+              backgroundColor: tokens.colors.background.paper,
+              border: `1px solid ${tokens.colors.border}`,
+              borderRadius: '30px',
+              overflow: 'hidden',
+            }}
+          >
+            <CardHeader title="Overview" />
+            <Box sx={{ p: 3 }}>
+              {factionInfo.motto && (
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontStyle: 'italic',
+                    color: tokens.colors.text.secondary,
+                    mb: 3,
+                    textAlign: 'center',
+                  }}
+                >
+                  "{factionInfo.motto}"
+                </Typography>
+              )}
+              <Grid container spacing={3}>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                    <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
+                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Element</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>{factionInfo.element}</Typography>
+                    </Box>
+                    {factionInfo.homeBase && (
+                      <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
+                        <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Home Base</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                          <WikiLink slug={factionInfo.homeBase} category="domains" />
+                        </Typography>
+                      </Box>
+                    )}
+                    {factionInfo.founder && (
+                      <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
+                        <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Founder</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                          <WikiLink slug={factionInfo.founder} />
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <Box
+                    sx={{
+                      p: 2,
+                      bgcolor: tokens.colors.background.elevated,
+                      borderRadius: 1,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Number</Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
+                      {entity?.luckyNumber === 0 ? 'None' : entity?.luckyNumber}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                      {entity?.luckyNumber === 0 ? 'No dice affinity' : `d${((entity?.luckyNumber || 1) * 2)} affinity`}
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+              {factionInfo.lore && (
+                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mt: 3 }}>
+                  {factionInfo.lore}
+                </Typography>
+              )}
+            </Box>
+          </Paper>
+        </WikiSectionAnchor>
+      )}
+
+      {/* Faction Members - for factions only */}
+      {isFaction && factionInfo && factionInfo.members.length > 0 && (
+        <WikiSectionAnchor id={toAnchorId('Members')}>
+          <SectionHeader title="Members" sx={{ mb: 2 }} />
+          <BaseCard padding={0} sx={{ mb: 4 }}>
+            {factionInfo.members.map((memberSlug, i) => {
+              const memberEntity = getEntity(memberSlug);
+              return (
+                <Box
+                  key={memberSlug}
+                  onClick={() => navigate(`/wiki/${memberEntity?.category || 'travelers'}/${memberSlug}`)}
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                    cursor: 'pointer',
+                    borderBottom: i < factionInfo.members.length - 1 ? `1px solid ${tokens.colors.border}` : 'none',
+                    '&:hover': { bgcolor: tokens.colors.background.elevated },
+                    '&:first-of-type': { borderTopLeftRadius: '29px', borderTopRightRadius: '29px' },
+                    '&:last-of-type': { borderBottomLeftRadius: '29px', borderBottomRightRadius: '29px' },
+                  }}
+                >
+                  <AssetImage
+                    src={memberEntity?.image || ''}
+                    alt={memberEntity?.name || slugToName(memberSlug)}
+                    category={memberEntity?.category as 'travelers' | 'wanderers' | 'pantheon'}
+                    width={40}
+                    height={40}
+                    fallback="placeholder"
+                    sx={{ borderRadius: '50%', flexShrink: 0 }}
+                  />
+                  <Box sx={{ flex: 1 }}>
+                    <WikiLink slug={memberSlug} />
+                  </Box>
+                  <ArrowIcon sx={{ color: tokens.colors.text.disabled, fontSize: 18 }} />
+                </Box>
+              );
+            })}
+          </BaseCard>
+        </WikiSectionAnchor>
+      )}
+
+      {/* Faction Alliances - for factions only */}
+      {isFaction && factionInfo && (factionInfo.allies.length > 0 || factionInfo.rivals.length > 0) && (
+        <WikiSectionAnchor id={toAnchorId('Alliances')}>
+          <SectionHeader title="Alliances" sx={{ mb: 2 }} />
+          <Grid container spacing={3} sx={{ mb: 4 }}>
+            {factionInfo.allies.length > 0 && (
+              <Grid size={{ xs: 12, md: 6 }}>
+                <BaseCard>
+                  <Typography variant="subtitle2" sx={{ mb: 2, color: tokens.colors.success }}>Allies</Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {factionInfo.allies.map((allySlug) => (
+                      <WikiLink key={allySlug} slug={allySlug} variant="chip" category="factions" />
+                    ))}
+                  </Box>
+                </BaseCard>
+              </Grid>
+            )}
+            {factionInfo.rivals.length > 0 && (
+              <Grid size={{ xs: 12, md: 6 }}>
+                <BaseCard>
+                  <Typography variant="subtitle2" sx={{ mb: 2, color: tokens.colors.error }}>Rivals</Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {factionInfo.rivals.map((rivalSlug) => (
+                      <WikiLink key={rivalSlug} slug={rivalSlug} variant="chip" category="factions" />
+                    ))}
+                  </Box>
+                </BaseCard>
+              </Grid>
+            )}
+          </Grid>
+        </WikiSectionAnchor>
+      )}
+
+      {/* Faction Bonuses - for factions only */}
+      {isFaction && factionInfo && factionInfo.bonuses.length > 0 && (
+        <WikiSectionAnchor id={toAnchorId('Faction Bonuses')}>
+          <SectionHeader title="Faction Bonuses" icon={<FavorIcon />} sx={{ mb: 2 }} />
+          <BaseCard sx={{ mb: 4 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              {factionInfo.bonuses.map((bonus, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                  }}
+                >
+                  <FavorIcon sx={{ color: tokens.colors.success, fontSize: 18 }} />
+                  <Typography variant="body2" sx={{ color: tokens.colors.text.primary }}>
+                    {bonus}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </BaseCard>
+        </WikiSectionAnchor>
+      )}
+
       {/* Combat Overview - for enemies only */}
-      {!isTraveler && !isWanderer && !isPantheon && (
+      {!isTraveler && !isWanderer && !isPantheon && !isFaction && (
         <WikiSectionAnchor id={toAnchorId('Combat Overview')}>
           <Paper
             sx={{
@@ -937,7 +1166,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       )}
 
       {/* Abilities - for travelers and enemies only */}
-      {(isTraveler || (!isWanderer && !isPantheon)) && (
+      {(isTraveler || (!isWanderer && !isPantheon && !isFaction)) && (
       <WikiSectionAnchor id={toAnchorId(isTraveler ? 'Abilities' : 'Abilities & Attacks')}>
         <SectionHeader title={isTraveler ? 'Abilities' : 'Abilities & Attacks'} sx={{ mb: 2 }} />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
@@ -1125,7 +1354,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       )}
 
       {/* Drops & Rewards - for enemies only */}
-      {!isTraveler && !isWanderer && !isPantheon && hasDrops && (
+      {!isTraveler && !isWanderer && !isPantheon && !isFaction && hasDrops && (
         <WikiSectionAnchor id={toAnchorId('Drops & Rewards')}>
           <SectionHeader title="Drops & Rewards" sx={{ mb: 2 }} />
           <BaseCard sx={{ mb: 4 }}>
@@ -1182,7 +1411,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       )}
 
       {/* Strategy Guide - for enemies only */}
-      {!isTraveler && !isWanderer && !isPantheon && (
+      {!isTraveler && !isWanderer && !isPantheon && !isFaction && (
         <WikiSectionAnchor id={toAnchorId('Strategy Guide')}>
           <SectionHeader title="Strategy Guide" sx={{ mb: 2 }} />
           <BaseCard sx={{ mb: 4 }}>
@@ -1221,7 +1450,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       )}
 
       {/* Encountered In - for enemies only */}
-      {!isTraveler && !isWanderer && !isPantheon && hasLocations && (
+      {!isTraveler && !isWanderer && !isPantheon && !isFaction && hasLocations && (
         <WikiSectionAnchor id={toAnchorId('Encountered In')}>
           <SectionHeader title="Encountered In" icon={<LocationIcon />} sx={{ mb: 2 }} />
           <BaseCard padding={0} sx={{ mb: 4 }}>

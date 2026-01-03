@@ -13,7 +13,7 @@ export interface Challenge {
   wikiSlug: string | null;
   rating: number | null;
   record: string | null;
-  type: 'Challenge Received' | 'Challenge Sent' | 'Challenge Suggested' | 'NPC Challenge';
+  type: 'Challenge Received' | 'Challenge Sent' | 'Challenge Suggested' | 'NPC Challenge' | 'Die-Rector Challenge';
   status: 'received' | 'sent' | 'suggested' | 'npc';
   mode: string;
   domain: string;

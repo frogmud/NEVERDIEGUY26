@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, GlobalStyles } from '@mui/material';
 import { Shell } from './components/Shell';
 import { tokens } from './theme';
@@ -47,7 +47,12 @@ import { NotFoundStandalone } from './screens/NotFoundStandalone';
 // Wiki
 const WikiIndex = lazy(() => import('./screens/wiki/WikiIndex').then(m => ({ default: m.WikiIndex })));
 const WikiEntity = lazy(() => import('./screens/wiki/WikiEntity').then(m => ({ default: m.WikiEntity })));
-const FactionLore = lazy(() => import('./screens/wiki/FactionLore').then(m => ({ default: m.FactionLore })));
+
+// Redirect old faction URLs to new format
+function FactionRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/wiki/factions/${id}`} replace />;
+}
 
 // Shop / Market (NPC vendor shops)
 const ShopHome = lazy(() => import('./screens/shop/ShopHome').then(m => ({ default: m.ShopHome })));
@@ -158,7 +163,7 @@ function App() {
 
           {/* Wiki */}
           <Route path="/wiki" element={<Suspense fallback={<RouteLoader />}><WikiIndex /></Suspense>} />
-          <Route path="/wiki/faction/:id" element={<Suspense fallback={<RouteLoader />}><FactionLore /></Suspense>} />
+          <Route path="/wiki/faction/:id" element={<FactionRedirect />} />
           <Route path="/wiki/:category" element={<Suspense fallback={<RouteLoader />}><WikiIndex /></Suspense>} />
           <Route path="/wiki/:category/:id" element={<Suspense fallback={<RouteLoader />}><WikiEntity /></Suspense>} />
 

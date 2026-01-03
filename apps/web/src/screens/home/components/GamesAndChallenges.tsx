@@ -80,9 +80,9 @@ export function GamesAndChallenges() {
   return (
     <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '30px', overflow: 'hidden', minWidth: 0, border: `1px solid ${tokens.colors.border}` }}>
       <CardHeader
-        title="Games & Challenges"
+        title="Die-Rector Challenges"
         count={challenges.length}
-        infoTooltip="Your active games and incoming challenges"
+        infoTooltip="Beat the Die-Rectors' score targets in their domains"
       >
         <Box sx={{ display: 'flex', gap: 0.25 }}>
           <Tooltip title="View as table" arrow><IconButton size="small" sx={{ ...smallIconSx, color: viewMode === 'list' ? tokens.colors.text.primary : tokens.colors.text.disabled }} onClick={() => setViewMode('list')}><ListIcon sx={{ fontSize: 18 }} /></IconButton></Tooltip>
@@ -94,7 +94,7 @@ export function GamesAndChallenges() {
       {challenges.length === 0 ? (
         <Box sx={{ py: 6, px: 3, bgcolor: tokens.colors.background.elevated, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Typography sx={{ color: tokens.colors.text.secondary, fontSize: '0.95rem' }}>
-            You don't have active games or challenges.
+            No Die-Rector challenges available. Check back soon.
           </Typography>
         </Box>
       ) : viewMode === 'grid' ? (
@@ -380,7 +380,7 @@ function ChallengesTable({
       </TableContainer>
       <Box sx={{ py: 1.5, display: 'flex', justifyContent: 'center' }}>
         <Typography sx={{ color: tokens.colors.text.disabled, fontSize: '0.7rem' }}>
-          No more games or challenges in progress
+          One challenge per domain - beat the Die-Rectors!
         </Typography>
       </Box>
     </>

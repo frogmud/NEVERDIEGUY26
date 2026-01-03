@@ -1,9 +1,9 @@
 /**
- * LiveFeed - Mixed trailer & flume showcase with navigation links
+ * ChallengeFlume - Domain teleporter system with global hourly rotation
  *
- * Meta concept: In-universe broadcasts from the NEVER DIE GUY universe
- * Characters, flumes, and locations all exist in this connected world
- * Each clip links to a relevant part of the app (wiki, play, etc.)
+ * All players see the same domain each hour (community feel).
+ * Cycles through domains with enhanced difficulty and rewards.
+ * Reset allowed if first challenge incomplete, auto-resets after 3 hours.
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -30,160 +30,54 @@ interface FeedItem {
   linkType: 'wiki' | 'play' | 'leaderboard' | 'shop';
 }
 
-// Mixed feed: trailers + flumes, all linking to different app areas
+// Domain flumes only - link to /play for actual gameplay
 const feedItems: FeedItem[] = [
-  // Character trailers -> wiki
-  {
-    id: 'ndg',
-    title: 'Never Die Guy',
-    subtitle: 'Arena Dominance',
-    video: '/assets/videos/cursed/arena-dominance.mp4',
-    link: '/wiki/travelers/never-die-guy',
-    linkType: 'wiki',
-  },
-  {
-    id: 'mrkevin',
-    title: 'Mr. Kevin',
-    subtitle: 'Day-Saving Escapade',
-    video: '/assets/videos/cursed/heros-entrance.mp4',
-    link: '/wiki/travelers/mr-kevin',
-    linkType: 'wiki',
-  },
-  {
-    id: 'clausen',
-    title: 'Clausen',
-    subtitle: 'Wanderings Through the Void',
-    video: '/assets/videos/cursed/ambient-loop.mp4',
-    link: '/wiki/wanderers/clausen',
-    linkType: 'wiki',
-  },
-  {
-    id: 'the-general',
-    title: 'The General',
-    subtitle: 'Final Stand',
-    video: '/assets/videos/cursed/general-frank.mp4',
-    link: '/wiki/pantheon/the-general',
-    linkType: 'wiki',
-  },
-  {
-    id: 'keith-man',
-    title: 'Keith Man',
-    subtitle: 'The Enigma',
-    video: '/assets/videos/cursed/enigmatic-figure.mp4',
-    link: '/shop/keith-man',
-    linkType: 'shop',
-  },
-  {
-    id: 'mister-bones',
-    title: 'Mister Bones',
-    subtitle: 'Grand Entrance',
-    video: '/assets/videos/cursed/mister-bones.mp4',
-    link: '/wiki/shops/mr-bones-emporium',
-    linkType: 'wiki',
-  },
-  {
-    id: 'stitchup-girl',
-    title: 'Stitchup Girl',
-    subtitle: 'Chaotic Debut',
-    video: '/assets/videos/cursed/stitchup-girl.mp4',
-    link: '/wiki/wanderers/stitchup-girl',
-    linkType: 'wiki',
-  },
-  // Flumes -> wiki/play
   {
     id: 'flume-null',
-    title: 'Flume of Null',
-    subtitle: 'Visit The One',
+    title: 'Null Providence',
+    subtitle: 'Challenge The One',
     video: '/assets/flumes/cursed/flume-00001.mp4',
-    link: '/wiki/domains/null-providence',
-    linkType: 'wiki',
+    link: '/play?domain=null-providence',
+    linkType: 'play',
   },
   {
     id: 'flume-earth',
-    title: 'Flume of Earth',
-    subtitle: 'Visit John',
+    title: 'Earth',
+    subtitle: 'Challenge John',
     video: '/assets/flumes/cursed/flume-00002.mp4',
-    link: '/wiki/domains/earth',
-    linkType: 'wiki',
+    link: '/play?domain=earth',
+    linkType: 'play',
   },
   {
     id: 'flume-shadow',
-    title: 'Flume of Shadow',
-    subtitle: 'Visit Peter',
+    title: 'Shadow Keep',
+    subtitle: 'Challenge Peter',
     video: '/assets/flumes/cursed/flume-00003.mp4',
-    link: '/wiki/domains/shadow-keep',
-    linkType: 'wiki',
+    link: '/play?domain=shadow-keep',
+    linkType: 'play',
   },
   {
     id: 'flume-infernus',
-    title: 'Flume of Infernus',
-    subtitle: 'Visit Robert',
+    title: 'Infernus',
+    subtitle: 'Challenge Robert',
     video: '/assets/flumes/cursed/flume-00004.mp4',
-    link: '/wiki/domains/infernus',
-    linkType: 'wiki',
+    link: '/play?domain=infernus',
+    linkType: 'play',
   },
   {
     id: 'flume-frost',
-    title: 'Flume of Frost',
-    subtitle: 'Visit Alice',
+    title: 'Frost Reach',
+    subtitle: 'Challenge Alice',
     video: '/assets/flumes/cursed/flume-00005.mp4',
-    link: '/wiki/domains/frost-reach',
-    linkType: 'wiki',
+    link: '/play?domain=frost-reach',
+    linkType: 'play',
   },
   {
     id: 'flume-aberrant',
-    title: 'Flume of Aberrant',
-    subtitle: 'Visit Jane',
+    title: 'Aberrant',
+    subtitle: 'Challenge Jane',
     video: '/assets/flumes/cursed/flume-00006.mp4',
-    link: '/wiki/domains/aberrant',
-    linkType: 'wiki',
-  },
-  {
-    id: 'arena-preview',
-    title: 'Arena Mode',
-    subtitle: 'Enter the Gauntlet',
-    video: '/assets/flumes/cursed/flume-00007.mp4',
-    link: '/play/arena',
-    linkType: 'play',
-  },
-  {
-    id: 'vbots-preview',
-    title: 'VBots Challenge',
-    subtitle: 'Face the Die-rectors',
-    video: '/assets/flumes/cursed/flume-00008.mp4',
-    link: '/play/vbots',
-    linkType: 'play',
-  },
-  {
-    id: 'leaderboard-preview',
-    title: 'Leaderboards',
-    subtitle: 'Top Players',
-    video: '/assets/flumes/cursed/flume-00009.mp4',
-    link: '/leaderboard',
-    linkType: 'leaderboard',
-  },
-  {
-    id: 'flume-nexus',
-    title: 'Return to Nexus',
-    subtitle: 'The Hub Awaits',
-    video: '/assets/flumes/cursed/flume-00010.mp4',
-    link: '/wiki/domains/the-dying-saucer',
-    linkType: 'wiki',
-  },
-  {
-    id: 'flume-mystery-1',
-    title: 'Unknown Portal',
-    subtitle: '???',
-    video: '/assets/flumes/cursed/flume-00011.mp4',
-    link: '/wiki/domains',
-    linkType: 'wiki',
-  },
-  {
-    id: 'flume-mystery-2',
-    title: 'Unstable Rift',
-    subtitle: 'Danger Ahead',
-    video: '/assets/flumes/cursed/flume-00012.mp4',
-    link: '/play',
+    link: '/play?domain=aberrant',
     linkType: 'play',
   },
 ];
@@ -196,9 +90,16 @@ const linkTypeColors: Record<FeedItem['linkType'], string> = {
   shop: tokens.colors.rarity.rare,
 };
 
-export function LiveFeed() {
+// Calculate global hourly index - same for all players
+function getGlobalFlumeIndex(): number {
+  const hoursSinceEpoch = Math.floor(Date.now() / (60 * 60 * 1000));
+  return hoursSinceEpoch % feedItems.length;
+}
+
+export function ChallengeFlume() {
   const { videoFeedEnabled, setVideoFeedEnabled } = useSettings();
-  const [feedIndex, setFeedIndex] = useState(() => Math.floor(Math.random() * feedItems.length));
+  // Global rotation: all players see same domain each hour
+  const [feedIndex, setFeedIndex] = useState(getGlobalFlumeIndex);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -234,7 +135,7 @@ export function LiveFeed() {
   if (!videoFeedEnabled) {
     return (
       <Box sx={{ borderRadius: '30px', overflow: 'hidden', bgcolor: tokens.colors.background.paper }}>
-        <CardHeader title="Live Feed" infoTooltip="Broadcasts from the NEVER DIE GUY universe" />
+        <CardHeader title="Challenge Flume" infoTooltip="Domain teleporter - rotates hourly, same for all players" />
         <Box
           sx={{
             p: 4,
@@ -243,7 +144,7 @@ export function LiveFeed() {
           }}
         >
           <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 2 }}>
-            Video feed disabled
+            Challenge Flume disabled
           </Typography>
           <Typography
             component="button"
@@ -257,7 +158,7 @@ export function LiveFeed() {
               '&:hover': { textDecoration: 'underline' },
             }}
           >
-            Enable video
+            Enable flume
           </Typography>
         </Box>
       </Box>
@@ -268,10 +169,10 @@ export function LiveFeed() {
     <Box sx={{ borderRadius: '30px', overflow: 'hidden', bgcolor: tokens.colors.background.paper }}>
       {/* Header */}
       <CardHeader
-        title="Live Feed"
-        infoTooltip="Broadcasts from the NEVER DIE GUY universe"
+        title="Challenge Flume"
+        infoTooltip="Domain teleporter - rotates hourly, same for all players. Enhanced difficulty and rewards."
         action={
-          <Tooltip title="Next broadcast" arrow>
+          <Tooltip title="Next domain" arrow>
             <IconButton
               onClick={goToNext}
               size="small"
@@ -411,9 +312,12 @@ export function LiveFeed() {
             '&:hover': { color: tokens.colors.text.secondary },
           }}
         >
-          Disable video
+          Disable flume
         </Typography>
       </Box>
     </Box>
   );
 }
+
+// Keep LiveFeed export for backwards compatibility
+export { ChallengeFlume as LiveFeed };

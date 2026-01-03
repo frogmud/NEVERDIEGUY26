@@ -40,12 +40,16 @@ interface Settings {
   compactMode: boolean;
   colorblindMode: boolean;
   videoFeedEnabled: boolean;
+  darkMode: boolean;
 
   // Audio
   soundEnabled: boolean;
   musicEnabled: boolean;
   soundVolume: number;
   musicVolume: number;
+
+  // Notifications
+  notificationsEnabled: boolean;
 }
 
 // Default settings
@@ -58,10 +62,12 @@ const DEFAULT_SETTINGS: Settings = {
   compactMode: false,
   colorblindMode: false,
   videoFeedEnabled: true,
+  darkMode: true,
   soundEnabled: true,
   musicEnabled: true,
   soundVolume: 80,
   musicVolume: 60,
+  notificationsEnabled: true,
 };
 
 // Storage key
@@ -77,10 +83,12 @@ interface SettingsContextType extends Settings {
   setCompactMode: (enabled: boolean) => void;
   setColorblindMode: (enabled: boolean) => void;
   setVideoFeedEnabled: (enabled: boolean) => void;
+  setDarkMode: (enabled: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
   setMusicEnabled: (enabled: boolean) => void;
   setSoundVolume: (volume: number) => void;
   setMusicVolume: (volume: number) => void;
+  setNotificationsEnabled: (enabled: boolean) => void;
   // Bulk operations
   resetToDefaults: () => void;
 }
@@ -199,6 +207,10 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     setSettings(prev => ({ ...prev, videoFeedEnabled }));
   }, []);
 
+  const setDarkMode = useCallback((darkMode: boolean) => {
+    setSettings(prev => ({ ...prev, darkMode }));
+  }, []);
+
   const setSoundEnabled = useCallback((soundEnabled: boolean) => {
     setSettings(prev => ({ ...prev, soundEnabled }));
   }, []);
@@ -213,6 +225,10 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
 
   const setMusicVolume = useCallback((musicVolume: number) => {
     setSettings(prev => ({ ...prev, musicVolume: Math.max(0, Math.min(100, musicVolume)) }));
+  }, []);
+
+  const setNotificationsEnabled = useCallback((notificationsEnabled: boolean) => {
+    setSettings(prev => ({ ...prev, notificationsEnabled }));
   }, []);
 
   const resetToDefaults = useCallback(() => {
@@ -231,10 +247,12 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
         setCompactMode,
         setColorblindMode,
         setVideoFeedEnabled,
+        setDarkMode,
         setSoundEnabled,
         setMusicEnabled,
         setSoundVolume,
         setMusicVolume,
+        setNotificationsEnabled,
         resetToDefaults,
       }}
     >

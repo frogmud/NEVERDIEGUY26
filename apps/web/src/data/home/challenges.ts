@@ -1,52 +1,109 @@
 /**
- * Challenge Mock Data
+ * Die-Rector Challenge Data
  *
- * Sample challenges for Games & Challenges table.
- * User data is sourced from src/data/users.ts
+ * NPC-only challenges from Die-Rectors (pantheon members).
+ * One challenge per domain with specific score targets and taunts.
+ * No PvP challenges - community focus on beating NPC high scores.
  */
 
 import type { Challenge } from './types';
-import { getUser, getUserRecord } from '../users';
 
-// Helper to build challenge from user ID
-function buildPlayerChallenge(
-  id: number,
-  userId: number,
-  type: Challenge['type'],
-  status: Challenge['status'],
-  mode: string,
-  domain: string,
-  domainName: string,
-  time: string
-): Challenge {
-  const user = getUser(userId);
-  return {
-    id,
-    name: user?.name || `Player ${userId}`,
-    userId,
-    wikiCategory: null,
-    wikiSlug: null,
-    rating: user?.rating || 1000,
-    record: user ? getUserRecord(user) : '0 / 0 / 0',
-    type,
-    status,
-    mode,
-    domain,
-    domainName,
-    time,
-    taunt: null,
-  };
-}
-
+// Die-Rector challenges - 1 per domain, from pantheon members
 export const MOCK_CHALLENGES: Challenge[] = [
-  // Player challenges - userIds from centralized user database
-  buildPlayerChallenge(1, 100, 'Challenge Received', 'received', '1v1', 'earth', 'Earth', '2 hours ago'),
-  buildPlayerChallenge(2, 101, 'Challenge Sent', 'sent', '1v1', 'shadow-keep', 'Shadow Keep', '5 hours ago'),
-  buildPlayerChallenge(4, 102, 'Challenge Received', 'received', 'Arena', 'frost-reach', 'Frost Reach', '1 day ago'),
-  buildPlayerChallenge(5, 103, 'Challenge Suggested', 'suggested', '1v1', 'aberrant', 'Aberrant', 'Similar skill'),
-  buildPlayerChallenge(7, 104, 'Challenge Sent', 'sent', 'Arena', 'infernus', 'Infernus', '3 days ago'),
-  buildPlayerChallenge(8, 105, 'Challenge Suggested', 'suggested', '1v1', 'earth', 'Earth', 'Rematch?'),
-  // NPC challenges - Pantheon, Wanderers, Travelers (domain only, no locations)
-  { id: 3, name: 'John', userId: null, wikiCategory: 'pantheon', wikiSlug: 'john', rating: null, record: null, type: 'NPC Challenge', status: 'npc', mode: 'Bots', domain: 'earth', domainName: 'Earth', time: 'Available', taunt: 'Let me upgrade your understanding of pain.' },
-  { id: 6, name: 'Mr. Bones', userId: null, wikiCategory: 'wanderers', wikiSlug: 'mr-bones', rating: null, record: null, type: 'NPC Challenge', status: 'npc', mode: 'Bots', domain: 'frost-reach', domainName: 'Frost Reach', time: 'Ready', taunt: 'Your soul has depreciated. Time to collect.' },
+  {
+    id: 1,
+    name: 'The One',
+    userId: null,
+    wikiCategory: 'pantheon',
+    wikiSlug: 'the-one',
+    rating: null,
+    record: null,
+    type: 'Die-Rector Challenge',
+    status: 'npc',
+    mode: 'Arena',
+    domain: 'null-providence',
+    domainName: 'Null Providence',
+    time: 'Available',
+    taunt: 'Can you reach 10,000 in my domain? I think not.',
+  },
+  {
+    id: 2,
+    name: 'John',
+    userId: null,
+    wikiCategory: 'pantheon',
+    wikiSlug: 'john',
+    rating: null,
+    record: null,
+    type: 'Die-Rector Challenge',
+    status: 'npc',
+    mode: 'Arena',
+    domain: 'earth',
+    domainName: 'Earth',
+    time: 'Available',
+    taunt: 'Let me upgrade your understanding of pain. Beat 8,500.',
+  },
+  {
+    id: 3,
+    name: 'Peter',
+    userId: null,
+    wikiCategory: 'pantheon',
+    wikiSlug: 'peter',
+    rating: null,
+    record: null,
+    type: 'Die-Rector Challenge',
+    status: 'npc',
+    mode: 'Arena',
+    domain: 'shadow-keep',
+    domainName: 'Shadow Keep',
+    time: 'Available',
+    taunt: 'Shadows consume the weak. Prove you are strong - 9,000 points.',
+  },
+  {
+    id: 4,
+    name: 'Robert',
+    userId: null,
+    wikiCategory: 'pantheon',
+    wikiSlug: 'robert',
+    rating: null,
+    record: null,
+    type: 'Die-Rector Challenge',
+    status: 'npc',
+    mode: 'Arena',
+    domain: 'infernus',
+    domainName: 'Infernus',
+    time: 'Available',
+    taunt: 'Burn brightly or burn out. Target: 11,000.',
+  },
+  {
+    id: 5,
+    name: 'Alice',
+    userId: null,
+    wikiCategory: 'pantheon',
+    wikiSlug: 'alice',
+    rating: null,
+    record: null,
+    type: 'Die-Rector Challenge',
+    status: 'npc',
+    mode: 'Arena',
+    domain: 'frost-reach',
+    domainName: 'Frost Reach',
+    time: 'Available',
+    taunt: 'The cold reveals all weakness. Score 7,500 or freeze.',
+  },
+  {
+    id: 6,
+    name: 'Jane',
+    userId: null,
+    wikiCategory: 'pantheon',
+    wikiSlug: 'jane',
+    rating: null,
+    record: null,
+    type: 'Die-Rector Challenge',
+    status: 'npc',
+    mode: 'Arena',
+    domain: 'aberrant',
+    domainName: 'Aberrant',
+    time: 'Available',
+    taunt: 'Reality bends here. Can you reach 12,000 before it breaks you?',
+  },
 ];

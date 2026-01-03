@@ -1,19 +1,15 @@
 /**
- * ActionButtons - Primary action buttons with animated meta ad carousel
+ * ActionButtons - Primary action buttons with Boo-G Shop hero banner
  *
  * Shows Continue, New Game, Review buttons on the left,
- * and animated meta ad banners on the right.
- * Each ad animates through its frames; user manually switches between ads.
+ * and single Boo-G Shop hero banner on the right.
+ * Banner is 60% opacity by default, becomes fully opaque on hover
+ * and autoplays animation once. Links to /shop/barter (market).
  */
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Paper, Typography, IconButton } from '@mui/material';
-import {
-  ChevronRightSharp as ChevronRightIcon,
-  PauseSharp as PauseIcon,
-  PlayArrowSharp as PlayIcon,
-} from '@mui/icons-material';
+import { Box, Paper, Typography, Tooltip } from '@mui/material';
 import { tokens } from '../../../theme';
 import { AssetImage } from '../../../components/ds';
 
@@ -30,12 +26,14 @@ const ACTION_BUTTONS: ActionButton[] = [
   { id: 'review', label: 'Review', subtitle: 'Learn from mistakes', icon: '/illustrations/review.svg' },
 ];
 
-// Meta ads with frame animations (Boo G shop first as most important)
-const META_ADS = [
-  { id: 'shop', frameCount: 9, basePath: '/assets/meta-ads/shop/frame-', alt: "B's Hits - Boo G Shop", link: '/shop' },
-  { id: 'play', frameCount: 13, basePath: '/assets/meta-ads/play/frame-', alt: 'Play Never Die Guy', link: '/play' },
-  { id: 'wiki', frameCount: 1, basePath: '/assets/meta-ads/wiki/frame-', alt: 'Explore the Diepedia', link: '/wiki' },
-];
+// Single hero banner: Boo-G Shop only (links to barter market)
+const HERO_BANNER = {
+  id: 'shop',
+  frameCount: 9,
+  basePath: '/assets/meta-ads/shop/frame-',
+  alt: "B's Hits - Boo G Shop",
+  link: '/shop/barter',
+};
 
 // Generate frame path with zero-padded index
 const getFramePath = (basePath: string, frameIndex: number) => {
@@ -46,31 +44,38 @@ const getFramePath = (basePath: string, frameIndex: number) => {
 export function ActionButtons() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState('continue');
-  const [adIndex, setAdIndex] = useState(() => Math.floor(Math.random() * META_ADS.length));
   const [frameIndex, setFrameIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
-  const currentAd = META_ADS[adIndex];
-
-  // Auto-animate frames within current ad (1200ms per frame)
+  // Autoplay once on hover
   useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setFrameIndex((prev) => (prev + 1) % currentAd.frameCount);
-    }, 1200);
-    return () => clearInterval(interval);
-  }, [currentAd.frameCount, isPaused]);
+    if (!isHovered || hasPlayedOnce) return;
 
-  // Reset to frame 1 when switching ads
-  const handleAdChange = (newIndex: number) => {
-    setAdIndex(newIndex);
+    const interval = setInterval(() => {
+      setFrameIndex((prev) => {
+        const next = prev + 1;
+        if (next >= HERO_BANNER.frameCount) {
+          setHasPlayedOnce(true);
+          clearInterval(interval);
+          return HERO_BANNER.frameCount - 1; // Stay on last frame
+        }
+        return next;
+      });
+    }, 350); // Slower animation for single playthrough
+
+    return () => clearInterval(interval);
+  }, [isHovered, hasPlayedOnce]);
+
+  // Reset animation when hover ends
+  const handleMouseLeave = () => {
+    setIsHovered(false);
     setFrameIndex(0);
+    setHasPlayedOnce(false);
   };
 
-  const handleAdClick = () => {
-    if (currentAd.link) {
-      navigate(currentAd.link);
-    }
+  const handleBannerClick = () => {
+    navigate(HERO_BANNER.link);
   };
 
   return (
@@ -87,17 +92,13 @@ export function ActionButtons() {
         ))}
       </Box>
 
-      {/* Animated Meta Ad - manual navigation between ads */}
-      <AnimatedMetaAd
-        ad={currentAd}
+      {/* Single Hero Banner - Boo-G Shop */}
+      <HeroBanner
         frameIndex={frameIndex}
-        adIndex={adIndex}
-        totalAds={META_ADS.length}
-        isPaused={isPaused}
-        onTogglePause={() => setIsPaused(!isPaused)}
-        onPrev={() => handleAdChange((adIndex - 1 + META_ADS.length) % META_ADS.length)}
-        onNext={() => handleAdChange((adIndex + 1) % META_ADS.length)}
-        onClick={handleAdClick}
+        isHovered={isHovered}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleBannerClick}
       />
     </Box>
   );
@@ -166,113 +167,67 @@ function ActionButtonCard({
   );
 }
 
-/** Animated Meta Ad with frame-by-frame animation and manual ad switching */
-function AnimatedMetaAd({
-  ad,
+/** Hero Banner - Single Boo-G shop ad with 60% opacity, hover to activate */
+function HeroBanner({
   frameIndex,
-  adIndex,
-  totalAds,
-  isPaused,
-  onTogglePause,
-  onPrev,
-  onNext,
+  isHovered,
+  onMouseEnter,
+  onMouseLeave,
   onClick,
 }: {
-  ad: { id: string; frameCount: number; basePath: string; alt: string; link: string };
   frameIndex: number;
-  adIndex: number;
-  totalAds: number;
-  isPaused: boolean;
-  onTogglePause: () => void;
-  onPrev: () => void;
-  onNext: () => void;
+  isHovered: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
   onClick: () => void;
 }) {
-  const currentFramePath = getFramePath(ad.basePath, frameIndex);
+  const currentFramePath = getFramePath(HERO_BANNER.basePath, frameIndex);
 
   return (
-    <Paper
-      sx={{
-        flex: 1,
-        minWidth: 0,
-        bgcolor: tokens.colors.background.paper,
-        border: `1px solid ${tokens.colors.border}`,
-        borderRadius: '30px',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Box sx={{
-        flex: 1,
-        bgcolor: '#0a0a0a',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        minHeight: 180,
-        cursor: 'pointer',
-      }}>
-        {/* Animated frame - clickable */}
-        <Box
-          component="img"
-          src={currentFramePath}
-          alt={ad.alt}
-          onClick={onClick}
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            position: 'absolute',
-            inset: 0,
-          }}
-        />
-        {/* Pause/Play button - top right */}
-        <IconButton
-          onClick={(e) => { e.stopPropagation(); onTogglePause(); }}
-          size="small"
-          sx={{
-            position: 'absolute',
-            top: 12,
-            right: 16,
-            color: tokens.colors.text.primary,
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.3)' },
-          }}
-        >
-          {isPaused ? <PlayIcon sx={{ fontSize: 18 }} /> : <PauseIcon sx={{ fontSize: 18 }} />}
-        </IconButton>
-        {/* Navigation arrows */}
-        <IconButton
-          onClick={(e) => { e.stopPropagation(); onPrev(); }}
-          size="small"
-          sx={{
-            position: 'absolute',
-            left: 8,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: tokens.colors.text.primary,
-            bgcolor: 'rgba(0,0,0,0.5)',
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
-          }}
-        >
-          <ChevronRightIcon sx={{ fontSize: 20, transform: 'rotate(180deg)' }} />
-        </IconButton>
-        <IconButton
-          onClick={(e) => { e.stopPropagation(); onNext(); }}
-          size="small"
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: tokens.colors.text.primary,
-            bgcolor: 'rgba(0,0,0,0.5)',
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
-          }}
-        >
-          <ChevronRightIcon sx={{ fontSize: 20 }} />
-        </IconButton>
-      </Box>
-    </Paper>
+    <Tooltip title="Visit the market for B's Hits" arrow placement="bottom">
+      <Paper
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onClick={onClick}
+        sx={{
+          flex: 1,
+          minWidth: 0,
+          bgcolor: tokens.colors.background.paper,
+          border: `1px solid ${tokens.colors.border}`,
+          borderRadius: '30px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          cursor: 'pointer',
+          // 60% opacity default, full opacity on hover
+          opacity: isHovered ? 1 : 0.6,
+          transition: 'opacity 0.3s ease-in-out',
+        }}
+      >
+        <Box sx={{
+          flex: 1,
+          bgcolor: '#0a0a0a',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          minHeight: 180,
+        }}>
+          {/* Hero frame */}
+          <Box
+            component="img"
+            src={currentFramePath}
+            alt={HERO_BANNER.alt}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              position: 'absolute',
+              inset: 0,
+            }}
+          />
+        </Box>
+      </Paper>
+    </Tooltip>
   );
 }

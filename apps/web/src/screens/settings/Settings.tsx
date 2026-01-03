@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loadProfile, saveProfile, type ProfileData } from '../../data/player/storage';
+import { useSettings } from '../../contexts/SettingsContext';
 import {
   Box,
   Typography,
@@ -109,6 +110,7 @@ const languages = [
 
 export function Settings() {
   const navigate = useNavigate();
+  const { darkMode, setDarkMode, notificationsEnabled, setNotificationsEnabled } = useSettings();
 
   // Profile state
   const [profile, setProfile] = useState<ProfileData | null>(null);
@@ -117,12 +119,6 @@ export function Settings() {
   useEffect(() => {
     setProfile(loadProfile());
   }, []);
-
-  // Switch states
-  const [switches, setSwitches] = useState<Record<string, boolean>>({
-    'Theme': true,
-    'Notifications': true,
-  });
 
   // Dialog state
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -145,8 +141,17 @@ export function Settings() {
     }
   }, [profile]);
 
+  // Get switch value from context
+  const getSwitchValue = (name: string): boolean => {
+    if (name === 'Theme') return darkMode;
+    if (name === 'Notifications') return notificationsEnabled;
+    return false;
+  };
+
+  // Toggle switch using context setters
   const handleSwitchToggle = (name: string) => {
-    setSwitches(prev => ({ ...prev, [name]: !prev[name] }));
+    if (name === 'Theme') setDarkMode(!darkMode);
+    if (name === 'Notifications') setNotificationsEnabled(!notificationsEnabled);
   };
 
   const handleItemClick = (item: SettingsItem) => {
@@ -195,7 +200,7 @@ export function Settings() {
                 </Box>
                 {item.type === 'switch' ? (
                   <Switch
-                    checked={switches[item.name] || false}
+                    checked={getSwitchValue(item.name)}
                     onClick={(e) => e.stopPropagation()}
                     onChange={() => handleSwitchToggle(item.name)}
                   />

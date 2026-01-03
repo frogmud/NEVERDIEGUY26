@@ -29,12 +29,14 @@ import { useMarketChat } from '../../hooks/useMarketChat';
 import { usePlayerData } from '../../hooks/usePlayerData';
 import { AllItemsView } from './AllItemsView';
 import { MarketSquareView } from './MarketSquareView';
+import { MarketStripView } from './MarketStripView';
 import { MarketChatStream } from './MarketChatStream';
 import { GiftModal } from './GiftModal';
 import { TributeTab, SaucerTab } from './tabs';
 import type { Item } from '../../data/wiki/types';
 
 type BarterTab = 'market' | 'tribute' | 'saucer';
+type MarketViewMode = 'strip' | 'canvas';
 
 interface GiftTarget {
   slug: string;
@@ -47,6 +49,7 @@ export function ShopHome() {
   const { timeInfo } = useMarketAvailability();
   const { gold } = usePlayerData();
   const [activeTab, setActiveTab] = useState<BarterTab>('market');
+  const [viewMode, setViewMode] = useState<MarketViewMode>('strip');
   const marketChat = useMarketChat();
 
   // Gift modal state (for Market tab)
@@ -145,8 +148,9 @@ export function ShopHome() {
 
         {/* Right: Gold controls */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          {/* 3D Toggle */}
+          {/* View Mode Toggle */}
           <Box
+            onClick={() => setViewMode(viewMode === 'strip' ? 'canvas' : 'strip')}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -154,14 +158,15 @@ export function ShopHome() {
               px: 1.5,
               py: 0.75,
               borderRadius: '999px',
-              bgcolor: tokens.colors.background.elevated,
+              bgcolor: viewMode === 'canvas' ? `${tokens.colors.secondary}20` : tokens.colors.background.elevated,
               cursor: 'pointer',
-              '&:hover': { bgcolor: tokens.colors.background.paper },
+              border: viewMode === 'canvas' ? `1px solid ${tokens.colors.secondary}40` : '1px solid transparent',
+              '&:hover': { bgcolor: viewMode === 'canvas' ? `${tokens.colors.secondary}30` : tokens.colors.background.paper },
             }}
           >
-            <Toggle3DIcon sx={{ fontSize: '1rem', color: tokens.colors.text.secondary }} />
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary }}>
-              3D
+            <Toggle3DIcon sx={{ fontSize: '1rem', color: viewMode === 'canvas' ? tokens.colors.secondary : tokens.colors.text.secondary }} />
+            <Typography sx={{ fontSize: '0.75rem', color: viewMode === 'canvas' ? tokens.colors.secondary : tokens.colors.text.secondary }}>
+              {viewMode === 'strip' ? 'Strip' : 'Canvas'}
             </Typography>
           </Box>
 
@@ -250,39 +255,74 @@ export function ShopHome() {
               />
             </Box>
 
-            {/* Market Content - Two Column Layout */}
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', lg: '1fr 420px' },
-                gap: 3,
-                // Fill viewport minus chrome (56px), toolbar (56px), time indicator (~60px), padding
-                height: { lg: 'calc(100vh - 220px)' },
-              }}
-            >
-              {/* Left: Market Canvas with NPCs */}
-              <Box sx={{ minHeight: 0 }}>
-                <MarketSquareView
-                  onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
-                  onGiftClick={handleGiftClick}
-                />
-              </Box>
-
-              {/* Right: Chat Stream */}
+            {/* Market Content */}
+            {viewMode === 'strip' ? (
+              /* Strip View - Horizontal scrolling vendors */
               <Box
                 sx={{
-                  display: { xs: 'none', lg: 'flex' },
-                  flexDirection: 'column',
-                  minHeight: 0,
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', lg: '1fr 380px' },
+                  gap: 3,
+                  height: { lg: 'calc(100vh - 220px)' },
                 }}
               >
-                <MarketChatStream
-                  messages={marketChat.messages}
-                  availableNpcs={marketChat.availableNpcs}
-                  onSendMessage={marketChat.sendPlayerMessage}
-                />
+                {/* Left: Strip View */}
+                <Box sx={{ minHeight: 0 }}>
+                  <MarketStripView
+                    onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
+                    onGiftClick={handleGiftClick}
+                  />
+                </Box>
+
+                {/* Right: Chat Stream */}
+                <Box
+                  sx={{
+                    display: { xs: 'none', lg: 'flex' },
+                    flexDirection: 'column',
+                    minHeight: 0,
+                  }}
+                >
+                  <MarketChatStream
+                    messages={marketChat.messages}
+                    availableNpcs={marketChat.availableNpcs}
+                    onSendMessage={marketChat.sendPlayerMessage}
+                  />
+                </Box>
               </Box>
-            </Box>
+            ) : (
+              /* Canvas View - Space Jam style */
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', lg: '1fr 420px' },
+                  gap: 3,
+                  height: { lg: 'calc(100vh - 220px)' },
+                }}
+              >
+                {/* Left: Market Canvas with NPCs */}
+                <Box sx={{ minHeight: 0 }}>
+                  <MarketSquareView
+                    onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
+                    onGiftClick={handleGiftClick}
+                  />
+                </Box>
+
+                {/* Right: Chat Stream */}
+                <Box
+                  sx={{
+                    display: { xs: 'none', lg: 'flex' },
+                    flexDirection: 'column',
+                    minHeight: 0,
+                  }}
+                >
+                  <MarketChatStream
+                    messages={marketChat.messages}
+                    availableNpcs={marketChat.availableNpcs}
+                    onSendMessage={marketChat.sendPlayerMessage}
+                  />
+                </Box>
+              </Box>
+            )}
           </Box>
         )}
 

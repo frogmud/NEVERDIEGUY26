@@ -24,6 +24,12 @@ import {
   HeartBrokenSharp as DeathIcon,
   AccessTimeSharp as TimeIcon,
   StarSharp as RarityIcon,
+  TrendingUpSharp as TrendUpIcon,
+  TrendingDownSharp as TrendDownIcon,
+  RemoveSharp as TrendFlatIcon,
+  EmojiEventsSharp as TrophyIcon,
+  CasinoSharp as DiceIcon,
+  WhatshotSharp as StreakIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import { CardSection } from '../../components/CardSection';
@@ -37,7 +43,7 @@ const toSlug = (name: string) => name.toLowerCase().replace(/\s+/g, '-');
 // Types & Config
 // ============================================
 
-type HistorySection = 'overview' | 'items' | 'enemies' | 'milestones';
+type HistorySection = 'overview' | 'performance' | 'items' | 'enemies' | 'milestones';
 
 interface SectionConfig {
   id: HistorySection;
@@ -46,6 +52,7 @@ interface SectionConfig {
 
 const sections: SectionConfig[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'performance', label: 'Performance' },
   { id: 'items', label: 'Items' },
   { id: 'enemies', label: 'Enemies' },
   { id: 'milestones', label: 'Milestones' },
@@ -62,6 +69,35 @@ const overallStats = [
   { icon: DeathIcon, label: 'Total Deaths', value: '205', color: tokens.colors.text.secondary },
   { icon: TimeIcon, label: 'Time Played', value: '142h', color: tokens.colors.secondary },
   { icon: RarityIcon, label: 'Legendaries Found', value: '23', color: tokens.colors.rarity.legendary },
+];
+
+// Performance data (merged from Stats)
+const successMetrics = [
+  { label: 'Win Rate', value: '64%', trend: 'up', change: '+3%' },
+  { label: 'Avg Score', value: '12,450', trend: 'up', change: '+820' },
+  { label: 'Best Combo', value: '24x', trend: 'flat', change: '-' },
+  { label: 'Perfect Runs', value: '7', trend: 'up', change: '+2' },
+];
+
+const sessionStats = [
+  { icon: TimeIcon, label: 'Avg Run Duration', value: '18m 32s', color: tokens.colors.secondary },
+  { icon: ItemsIcon, label: 'Items Per Run', value: '14.2', color: tokens.colors.success },
+  { icon: DiceIcon, label: 'Throws Per Run', value: '47.8', color: tokens.colors.primary },
+  { icon: StreakIcon, label: 'Avg Heat Level', value: '3.2', color: tokens.colors.warning },
+];
+
+const weeklyComparison = [
+  { metric: 'Runs Completed', thisWeek: 23, lastWeek: 18, diff: '+5' },
+  { metric: 'Enemies Defeated', thisWeek: 1247, lastWeek: 1089, diff: '+158' },
+  { metric: 'Items Collected', thisWeek: 342, lastWeek: 298, diff: '+44' },
+  { metric: 'Deaths', thisWeek: 19, lastWeek: 16, diff: '+3' },
+  { metric: 'Gold Earned', thisWeek: 8420, lastWeek: 7150, diff: '+1,270' },
+];
+
+const bestRuns = [
+  { domain: 'Shadow Realm', score: 24850, date: 'Dec 28', combo: '24x' },
+  { domain: 'Inferno', score: 22100, date: 'Dec 27', combo: '18x' },
+  { domain: 'Frozen Wastes', score: 19750, date: 'Dec 25', combo: '16x' },
 ];
 
 const itemsByRarity = [
@@ -177,6 +213,166 @@ function OverviewSection() {
           );
         })}
       </Box>
+    </Box>
+  );
+}
+
+function PerformanceSection() {
+  const getTrendIcon = (trend: string) => {
+    switch (trend) {
+      case 'up': return <TrendUpIcon sx={{ fontSize: 16, color: tokens.colors.success }} />;
+      case 'down': return <TrendDownIcon sx={{ fontSize: 16, color: tokens.colors.error }} />;
+      default: return <TrendFlatIcon sx={{ fontSize: 16, color: tokens.colors.text.secondary }} />;
+    }
+  };
+
+  return (
+    <Box>
+      <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
+        Performance
+      </Typography>
+
+      {/* Success Metrics */}
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
+        {successMetrics.map((metric) => (
+          <CardSection key={metric.label} sx={{ p: 2, textAlign: 'center' }}>
+            <Typography variant="caption" sx={{ color: tokens.colors.text.secondary, display: 'block', mb: 0.5 }}>
+              {metric.label}
+            </Typography>
+            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.75rem', mb: 0.5 }}>
+              {metric.value}
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
+              {getTrendIcon(metric.trend)}
+              <Typography variant="caption" sx={{
+                color: metric.trend === 'up' ? tokens.colors.success :
+                       metric.trend === 'down' ? tokens.colors.error :
+                       tokens.colors.text.secondary
+              }}>
+                {metric.change}
+              </Typography>
+            </Box>
+          </CardSection>
+        ))}
+      </Box>
+
+      {/* Session Stats */}
+      <CardSection padding={0} sx={{ mb: 3 }}>
+        <CardHeader title="Session Averages" />
+        <Box sx={{ p: 3, display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 2 }}>
+          {sessionStats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <Box key={stat.label} sx={{ textAlign: 'center' }}>
+                <Icon sx={{ fontSize: 28, color: stat.color, mb: 1 }} />
+                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.25rem', mb: 0.5 }}>
+                  {stat.value}
+                </Typography>
+                <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
+                  {stat.label}
+                </Typography>
+              </Box>
+            );
+          })}
+        </Box>
+      </CardSection>
+
+      {/* Weekly Comparison */}
+      <CardSection padding={0} sx={{ mb: 3 }}>
+        <CardHeader title="This Week vs Last Week" />
+        <Box sx={{ p: 3 }}>
+          {weeklyComparison.map((item, i) => (
+            <Box
+              key={item.metric}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                py: 1.5,
+                borderBottom: i < weeklyComparison.length - 1 ? `1px solid ${tokens.colors.border}` : 'none',
+              }}
+            >
+              <Typography variant="body2" sx={{ flex: 1 }}>
+                {item.metric}
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, width: 60, textAlign: 'right' }}>
+                  {item.lastWeek.toLocaleString()}
+                </Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600, width: 60, textAlign: 'right' }}>
+                  {item.thisWeek.toLocaleString()}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    color: item.diff.startsWith('+') ? tokens.colors.success : tokens.colors.error,
+                    width: 60,
+                    textAlign: 'right',
+                  }}
+                >
+                  {item.diff}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </CardSection>
+
+      {/* Best Runs */}
+      <CardSection padding={0}>
+        <CardHeader title="Best Runs" action={<TrophyIcon sx={{ fontSize: 20, color: tokens.colors.rarity.legendary }} />} />
+        <Box sx={{ p: 3 }}>
+          {bestRuns.map((run, i) => (
+            <Box
+              key={run.domain}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                py: 1.5,
+                borderBottom: i < bestRuns.length - 1 ? `1px solid ${tokens.colors.border}` : 'none',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    bgcolor: i === 0 ? tokens.colors.rarity.legendary :
+                             i === 1 ? tokens.colors.text.secondary :
+                             tokens.colors.rarity.uncommon,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 700,
+                    fontSize: '0.75rem',
+                  }}
+                >
+                  {i + 1}
+                </Box>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                    {run.domain}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                    {run.date}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ textAlign: 'right' }}>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: tokens.colors.secondary }}>
+                  {run.score.toLocaleString()}
+                </Typography>
+                <Typography variant="caption" sx={{ color: tokens.colors.primary }}>
+                  {run.combo} combo
+                </Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </CardSection>
     </Box>
   );
 }
@@ -603,6 +799,8 @@ export function History() {
     switch (activeSection) {
       case 'overview':
         return <OverviewSection />;
+      case 'performance':
+        return <PerformanceSection />;
       case 'items':
         return <ItemsSection />;
       case 'enemies':
