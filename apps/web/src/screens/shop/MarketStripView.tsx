@@ -239,6 +239,11 @@ interface VendorCardProps {
 
 function VendorCard({ shop, isAvailable, onClick, onGiftClick }: VendorCardProps) {
   const rarityColor = RARITY_COLORS[shop.rarity as keyof typeof RARITY_COLORS] || tokens.colors.text.primary;
+  const [useSvg, setUseSvg] = useState(true);
+
+  // Get proprietor slug for SVG path (e.g., "willy" from shop.proprietor)
+  const proprietorSlug = shop.proprietor || shop.slug;
+  const svgPortrait = `/assets/market-svg/${proprietorSlug}/portrait.svg`;
 
   return (
     <Paper
@@ -283,16 +288,16 @@ function VendorCard({ shop, isAvailable, onClick, onGiftClick }: VendorCardProps
           }}
         />
 
-        {/* Portrait Image */}
+        {/* Portrait - SVG preferred, PNG fallback */}
         <Box
           component="img"
-          src={shop.portrait}
+          src={useSvg ? svgPortrait : shop.portrait}
           alt={shop.name}
+          onError={() => useSvg && setUseSvg(false)}
           sx={{
             height: '100%',
             width: 'auto',
             objectFit: 'contain',
-            imageRendering: 'pixelated',
             filter: isAvailable ? 'none' : 'grayscale(80%)',
           }}
         />

@@ -5,7 +5,7 @@
  * Uses static JSON data bundled at build time.
  */
 
-import type { TemplatePool, MoodType } from '@ndg/shared';
+import type { TemplatePool, MoodType } from '../../packages/shared/src/types';
 import { getNPCEntries, getRegisteredNPCs, getTotalEntryCount, type ChatbaseEntry } from './chatbase-data';
 
 // ============================================

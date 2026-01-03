@@ -5,7 +5,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { ChatRequest, ChatResponse, TemplatePool } from '@ndg/shared';
+import type { ChatRequest, ChatResponse, TemplatePool } from '../packages/shared/src/types';
 import { getLookupEngine } from './_lib/lookup';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

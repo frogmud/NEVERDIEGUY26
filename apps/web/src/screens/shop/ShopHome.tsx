@@ -223,18 +223,26 @@ export function ShopHome() {
       </Box>
 
       {/* Tab Content */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
         {/* Market Tab */}
         {activeTab === 'market' && (
-          <Box sx={{ p: padding }}>
-            {/* Time indicator */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              px: padding,
+            }}
+          >
+            {/* Time indicator - fixed at top */}
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 1,
-                mb: 3,
+                py: 2,
+                flexShrink: 0,
               }}
             >
               <TimeIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
@@ -255,7 +263,7 @@ export function ShopHome() {
               />
             </Box>
 
-            {/* Market Content */}
+            {/* Market Content - fills remaining height */}
             {viewMode === 'strip' ? (
               /* Strip View - Horizontal scrolling vendors */
               <Box
@@ -263,23 +271,28 @@ export function ShopHome() {
                   display: 'grid',
                   gridTemplateColumns: { xs: '1fr', lg: '1fr 380px' },
                   gap: 3,
-                  height: { lg: 'calc(100vh - 220px)' },
+                  flex: 1,
+                  minHeight: 0,
                 }}
               >
-                {/* Left: Strip View */}
-                <Box sx={{ minHeight: 0 }}>
+                {/* Left: Strip View - scrolls independently */}
+                <Box sx={{ minHeight: 0, overflow: 'auto' }}>
                   <MarketStripView
                     onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
                     onGiftClick={handleGiftClick}
                   />
                 </Box>
 
-                {/* Right: Chat Stream */}
+                {/* Right: Chat Stream - stays fixed in viewport */}
                 <Box
                   sx={{
                     display: { xs: 'none', lg: 'flex' },
                     flexDirection: 'column',
                     minHeight: 0,
+                    position: 'sticky',
+                    top: 0,
+                    alignSelf: 'start',
+                    maxHeight: '100%',
                   }}
                 >
                   <MarketChatStream
@@ -296,23 +309,28 @@ export function ShopHome() {
                   display: 'grid',
                   gridTemplateColumns: { xs: '1fr', lg: '1fr 420px' },
                   gap: 3,
-                  height: { lg: 'calc(100vh - 220px)' },
+                  flex: 1,
+                  minHeight: 0,
                 }}
               >
-                {/* Left: Market Canvas with NPCs */}
-                <Box sx={{ minHeight: 0 }}>
+                {/* Left: Market Canvas with NPCs - scrolls independently */}
+                <Box sx={{ minHeight: 0, overflow: 'auto' }}>
                   <MarketSquareView
                     onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
                     onGiftClick={handleGiftClick}
                   />
                 </Box>
 
-                {/* Right: Chat Stream */}
+                {/* Right: Chat Stream - stays fixed in viewport */}
                 <Box
                   sx={{
                     display: { xs: 'none', lg: 'flex' },
                     flexDirection: 'column',
                     minHeight: 0,
+                    position: 'sticky',
+                    top: 0,
+                    alignSelf: 'start',
+                    maxHeight: '100%',
                   }}
                 >
                   <MarketChatStream

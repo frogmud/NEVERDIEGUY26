@@ -5,27 +5,12 @@
  * - NPCs greet players when available
  * - Players can send messages to NPCs
  * - Purchases and gifts appear in the stream
- * - Uses the NPC chat system for responses
+ * - Uses the chatbase lookup system for responses
  */
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import {
-  selectResponse,
-  createFallbackResponse,
-  ALL_NPC_PERSONALITIES,
-  ALL_TEMPLATES,
-  createDefaultRelationship,
-  getOrCreateConversation,
-  loadNPCChatStorage,
-  saveNPCChatStorage,
-  addMessage as addStorageMessage,
-} from '../data/npc-chat';
-import type {
-  MoodType,
-  ResponseContext,
-  NPCConversation,
-  NPCChatStorage,
-} from '../data/npc-chat/types';
+import { useState, useCallback, useMemo } from 'react';
+import type { MoodType, TemplatePool } from '@ndg/shared';
+import { lookupDialogue, getRegisteredNPCs } from '../services/chatbase';
 import { shops } from '../data/wiki/entities/shops';
 import { travelers } from '../data/wiki/entities/travelers';
 import { wanderers } from '../data/wiki/entities/wanderers';
@@ -81,14 +66,10 @@ export interface MarketNpcInfo {
 
 export function useMarketChat() {
   const [messages, setMessages] = useState<MarketChatMessage[]>([]);
-  const [storage, setStorage] = useState<NPCChatStorage | null>(null);
   const [hasGreeted, setHasGreeted] = useState<Set<string>>(new Set());
 
-  // Load storage on mount
-  useEffect(() => {
-    const loaded = loadNPCChatStorage();
-    setStorage(loaded);
-  }, []);
+  // Get list of NPCs registered in chatbase
+  const registeredNPCs = useMemo(() => new Set(getRegisteredNPCs()), []);
 
   // Get all available NPCs in the market
   const availableNpcs = useMemo((): MarketNpcInfo[] => {
@@ -150,21 +131,16 @@ export function useMarketChat() {
     return availableNpcs.find((n) => n.slug === npcSlug);
   }, [availableNpcs]);
 
-  // Create response context for NPC chat system
-  const createContext = useCallback((npcSlug: string, playerMessage?: string): ResponseContext => {
+  // Create player context for chatbase lookup
+  const createPlayerContext = useCallback(() => {
+    // Could integrate with actual game state here
     return {
-      runSeed: `market-${Date.now()}`,
-      roomIndex: 0,
-      currentDomain: 'market',
-      playerGold: 1000,
-      playerIntegrity: 100,
-      playerLuckyNumber: 7,
-      heat: 0,
-      playerMessage,
-      relationship: storage?.relationships[npcSlug] || createDefaultRelationship(npcSlug),
-      isDirectConversation: !!playerMessage,
+      deaths: 0,
+      streak: 0,
+      domain: 'market',
+      ante: 1,
     };
-  }, [storage]);
+  }, []);
 
   // Add a message to the chat
   const addMessage = useCallback((message: Omit<MarketChatMessage, 'id' | 'timestamp'>) => {
@@ -198,10 +174,9 @@ export function useMarketChat() {
     const npcInfo = getNpcInfo(npcSlug);
     if (!npcInfo) return;
 
-    // Try to get personality and templates
-    const personality = ALL_NPC_PERSONALITIES.find((p) => p.slug === npcSlug);
-    if (!personality) {
-      // Fallback greeting for NPCs without full chat config
+    // Check if NPC is in the chatbase
+    if (!registeredNPCs.has(npcSlug)) {
+      // Fallback greeting for NPCs without chatbase entries
       addMessage({
         type: 'npc_greeting',
         content: `*${npcInfo.name} notices you*`,
@@ -214,43 +189,32 @@ export function useMarketChat() {
       return;
     }
 
-    const context = createContext(npcSlug);
-    const conversation: NPCConversation | undefined = storage
-      ? getOrCreateConversation(storage, npcSlug).conversation
-      : undefined;
+    // Try salesPitch first (for vendors), then greeting
+    const pools: TemplatePool[] = npcInfo.type === 'vendor'
+      ? ['salesPitch', 'greeting', 'idle']
+      : ['greeting', 'idle'];
 
-    const response = selectResponse(
-      npcSlug,
-      'shop_open',
-      context,
-      ALL_TEMPLATES,
-      personality,
-      conversation
-    );
-
-    if (response) {
-      addMessage({
-        type: 'npc_greeting',
-        content: response.text,
+    let response = null;
+    for (const pool of pools) {
+      response = lookupDialogue({
         npcSlug,
-        npcName: npcInfo.name,
-        npcAvatar: npcInfo.avatar,
-        mood: response.mood,
+        pool,
+        playerContext: createPlayerContext(),
       });
-    } else {
-      // Fallback
-      addMessage({
-        type: 'npc_greeting',
-        content: `*${npcInfo.name} waves*`,
-        npcSlug,
-        npcName: npcInfo.name,
-        npcAvatar: npcInfo.avatar,
-        mood: 'neutral',
-      });
+      if (response.source === 'chatbase') break;
     }
 
+    addMessage({
+      type: 'npc_greeting',
+      content: response?.text || `*${npcInfo.name} nods*`,
+      npcSlug,
+      npcName: npcInfo.name,
+      npcAvatar: npcInfo.avatar,
+      mood: response?.mood || 'neutral',
+    });
+
     setHasGreeted((prev) => new Set(prev).add(npcSlug));
-  }, [hasGreeted, getNpcInfo, createContext, storage, addMessage]);
+  }, [hasGreeted, getNpcInfo, registeredNPCs, createPlayerContext, addMessage]);
 
   // Send a player message and get NPC response
   const sendPlayerMessage = useCallback((content: string, targetNpcSlug: string) => {
@@ -260,66 +224,25 @@ export function useMarketChat() {
     // Add player message (associated with target NPC)
     addPlayerMessage(content, targetNpcSlug);
 
-    // Generate NPC response
-    const personality = ALL_NPC_PERSONALITIES.find((p) => p.slug === targetNpcSlug);
-    if (!personality) {
-      // Fallback response
-      setTimeout(() => {
-        addMessage({
-          type: 'npc_message',
-          content: `*${npcInfo.name} nods thoughtfully*`,
-          npcSlug: targetNpcSlug,
-          npcName: npcInfo.name,
-          npcAvatar: npcInfo.avatar,
-          mood: 'neutral',
-        });
-      }, 500);
-      return;
-    }
-
-    const context = createContext(targetNpcSlug, content);
-    const conversation: NPCConversation | undefined = storage
-      ? getOrCreateConversation(storage, targetNpcSlug).conversation
-      : undefined;
-
-    const response = selectResponse(
-      targetNpcSlug,
-      'playerMessage',
-      context,
-      ALL_TEMPLATES,
-      personality,
-      conversation
-    );
+    // Generate NPC response from chatbase
+    const response = lookupDialogue({
+      npcSlug: targetNpcSlug,
+      pool: 'reaction',
+      playerContext: createPlayerContext(),
+    });
 
     // Simulate typing delay
     setTimeout(() => {
-      if (response) {
-        addMessage({
-          type: 'npc_message',
-          content: response.text,
-          npcSlug: targetNpcSlug,
-          npcName: npcInfo.name,
-          npcAvatar: npcInfo.avatar,
-          mood: response.mood,
-        });
-      } else {
-        // Use fallback response system instead of "..."
-        const fallback = createFallbackResponse(
-          targetNpcSlug,
-          'neutral',
-          `fallback-${targetNpcSlug}-${Date.now()}`
-        );
-        addMessage({
-          type: 'npc_message',
-          content: fallback.text,
-          npcSlug: targetNpcSlug,
-          npcName: npcInfo.name,
-          npcAvatar: npcInfo.avatar,
-          mood: fallback.mood,
-        });
-      }
+      addMessage({
+        type: 'npc_message',
+        content: response.text,
+        npcSlug: targetNpcSlug,
+        npcName: npcInfo.name,
+        npcAvatar: npcInfo.avatar,
+        mood: response.mood,
+      });
     }, 600);
-  }, [getNpcInfo, createContext, storage, addMessage, addPlayerMessage]);
+  }, [getNpcInfo, createPlayerContext, addMessage, addPlayerMessage]);
 
   // Record a purchase in the chat
   const recordPurchase = useCallback((
@@ -336,26 +259,24 @@ export function useMarketChat() {
       npcName: shop.name,
     });
 
-    // NPC reaction
+    // NPC reaction from chatbase
     const npcSlug = shop.proprietor || shop.slug;
     const npcInfo = getNpcInfo(npcSlug);
     if (npcInfo) {
       setTimeout(() => {
-        const reactions = [
-          'Pleasure doing business!',
-          'A fine choice.',
-          '*counts the gold*',
-          'Come back soon!',
-          'This will serve you well.',
-        ];
-        const reaction = reactions[Math.floor(Math.random() * reactions.length)];
+        // Use positive mood context for purchase reactions
+        const response = lookupDialogue({
+          npcSlug,
+          pool: 'reaction',
+          playerContext: { deaths: 0, streak: 5, domain: 'market', ante: 1 },
+        });
         addMessage({
           type: 'npc_message',
-          content: reaction,
+          content: response.text,
           npcSlug,
           npcName: npcInfo.name,
           npcAvatar: npcInfo.avatar,
-          mood: 'pleased',
+          mood: response.mood,
         });
       }, 800);
     }
@@ -375,25 +296,22 @@ export function useMarketChat() {
       recipientName,
     });
 
-    // NPC reaction to gift
+    // NPC reaction from chatbase (grateful context)
     const npcInfo = getNpcInfo(recipientSlug);
     if (npcInfo) {
       setTimeout(() => {
-        const gratefulReactions = [
-          `*${recipientName} looks pleased* "How thoughtful..."`,
-          '"I shall treasure this."',
-          '*accepts the gift with a nod* "You have my thanks."',
-          '"A gift? For me? How... unexpected."',
-          '*examines the item carefully* "This is appreciated."',
-        ];
-        const reaction = gratefulReactions[Math.floor(Math.random() * gratefulReactions.length)];
+        const response = lookupDialogue({
+          npcSlug: recipientSlug,
+          pool: 'reaction',
+          playerContext: { deaths: 0, streak: 10, domain: 'market', ante: 1 },
+        });
         addMessage({
           type: 'npc_message',
-          content: reaction,
+          content: response.text,
           npcSlug: recipientSlug,
           npcName: npcInfo.name,
           npcAvatar: npcInfo.avatar,
-          mood: 'pleased',
+          mood: response.mood,
         });
       }, 800);
     }
@@ -427,24 +345,9 @@ export function useMarketChat() {
     });
   }, [availableNpcs, greetFromNpc]);
 
-  // Ambient NPC-to-NPC chatter phrases
-  const ambientChatter = useMemo(() => [
-    // General market banter
-    { line: 'Business been slow today...', response: 'The market ebbs and flows.' },
-    { line: 'Did you hear about the void incursion?', response: 'Best not to speak of it here.' },
-    { line: 'Got any new stock?', response: 'Always something interesting coming through.' },
-    { line: '*glances around suspiciously*', response: '*nods knowingly*' },
-    { line: 'The One has been quiet lately.', response: "That's usually when things get interesting." },
-    { line: 'Another day in the market...', response: 'Another gold piece earned.' },
-    { line: 'Watch yourself out there.', response: 'Always do.' },
-    { line: 'Travelers bring the strangest tales.', response: 'And stranger goods.' },
-    { line: 'The domains are restless.', response: "When aren't they?" },
-    { line: '*counts inventory*', response: '*adjusts wares*' },
-  ], []);
-
-  // Generate ambient NPC chatter between two random NPCs
+  // Generate ambient NPC chatter between two random NPCs using chatbase
   const generateAmbientChatter = useCallback(() => {
-    const available = availableNpcs.filter((n) => n.isAvailable);
+    const available = availableNpcs.filter((n) => n.isAvailable && registeredNPCs.has(n.slug));
     if (available.length < 2) return;
 
     // Pick two random different NPCs
@@ -452,41 +355,51 @@ export function useMarketChat() {
     const npc1 = shuffled[0];
     const npc2 = shuffled[1];
 
-    // Pick random chatter
-    const chatter = ambientChatter[Math.floor(Math.random() * ambientChatter.length)];
+    // Get idle/ambient dialogue from chatbase for first NPC
+    const response1 = lookupDialogue({
+      npcSlug: npc1.slug,
+      pool: 'idle',
+      playerContext: createPlayerContext(),
+    });
 
     // First NPC speaks
     const msg1: MarketChatMessage = {
       id: generateId(),
       type: 'npc_to_npc',
-      content: chatter.line,
+      content: response1.text,
       timestamp: Date.now(),
       npcSlug: npc1.slug,
       npcName: npc1.name,
       npcAvatar: npc1.avatar,
       targetNpcSlug: npc2.slug,
       targetNpcName: npc2.name,
-      mood: 'neutral',
+      mood: response1.mood,
     };
     setMessages((prev) => [...prev, msg1]);
 
-    // Second NPC responds after delay
+    // Second NPC responds after delay with their own idle dialogue
     setTimeout(() => {
+      const response2 = lookupDialogue({
+        npcSlug: npc2.slug,
+        pool: 'reaction',
+        playerContext: createPlayerContext(),
+      });
+
       const msg2: MarketChatMessage = {
         id: generateId(),
         type: 'npc_to_npc',
-        content: chatter.response,
+        content: response2.text,
         timestamp: Date.now(),
         npcSlug: npc2.slug,
         npcName: npc2.name,
         npcAvatar: npc2.avatar,
         targetNpcSlug: npc1.slug,
         targetNpcName: npc1.name,
-        mood: 'neutral',
+        mood: response2.mood,
       };
       setMessages((prev) => [...prev, msg2]);
     }, 1500 + Math.random() * 1000);
-  }, [availableNpcs, ambientChatter, generateId]);
+  }, [availableNpcs, registeredNPCs, createPlayerContext, generateId]);
 
   // Start ambient chatter loop
   const startAmbientChatter = useCallback(() => {

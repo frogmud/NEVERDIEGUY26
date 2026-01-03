@@ -1,5 +1,6 @@
 {
   "buildCommand": "pnpm build",
+  "devCommand": "cd apps/web && pnpm vite --port $PORT",
   "outputDirectory": "apps/web/dist",
   "installCommand": "pnpm install",
   "framework": "vite"

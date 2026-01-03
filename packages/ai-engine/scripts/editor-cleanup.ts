@@ -23,6 +23,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ============================================================
 // TYPES
@@ -56,60 +60,76 @@ type CleanupMode = 'auto' | 'manual' | 'report';
  * En dash patterns to replace
  * En dash (U+2013) should become hyphen or comma based on context
  */
-const EN_DASH_RULES: Array<{
+const DASH_RULES: Array<{
   pattern: RegExp;
   replacement: string;
   description: string;
 }> = [
   {
-    // Range notation: "1-10" not "1\u201310"
+    // Spaced hyphen used as dash: " - " -> ", "
+    // This is the most common pattern in the chatbase
+    pattern: /\s-\s/g,
+    replacement: ', ',
+    description: 'spaced hyphen -> comma',
+  },
+  {
+    // Range notation: "1-10" not "1–10"
     pattern: /(\d)\u2013(\d)/g,
     replacement: '$1-$2',
     description: 'en-dash in number range',
   },
   {
-    // Parenthetical interjection: use comma
+    // En dash as separator: use comma
     pattern: /\s\u2013\s/g,
     replacement: ', ',
     description: 'en-dash as separator',
   },
   {
-    // Em dash substitute: use comma or period
+    // Em dash with spaces: use comma
+    pattern: /\s\u2014\s/g,
+    replacement: ', ',
+    description: 'em-dash with spaces -> comma',
+  },
+  {
+    // Em dash without spaces (mid-sentence break): use comma
+    pattern: /\u2014/g,
+    replacement: ', ',
+    description: 'em-dash -> comma',
+  },
+  {
+    // Remaining en-dash: use hyphen
     pattern: /\u2013/g,
     replacement: '-',
-    description: 'remaining en-dash',
+    description: 'remaining en-dash -> hyphen',
+  },
+  {
+    // Double comma cleanup (from consecutive dashes)
+    pattern: /,\s*,/g,
+    replacement: ',',
+    description: 'double comma cleanup',
+  },
+  {
+    // Comma before period cleanup
+    pattern: /,\s*\./g,
+    replacement: '.',
+    description: 'comma before period cleanup',
   },
 ];
 
 /**
  * Past to present tense conversions
- * Focus on common dialogue patterns
+ * VERY conservative - only clear narrative "was/were" statements
+ * Most past tense in dialogue is intentional (describing events)
  */
 const TENSE_CONVERSIONS: Array<{
   pattern: RegExp;
   replacement: string;
   safe: boolean; // Can apply automatically
 }> = [
-  // Safe: clear past tense indicators
-  { pattern: /\bI was\b/g, replacement: 'I am', safe: true },
-  { pattern: /\bHe was\b/g, replacement: 'He is', safe: true },
-  { pattern: /\bShe was\b/g, replacement: 'She is', safe: true },
-  { pattern: /\bIt was\b/g, replacement: 'It is', safe: true },
-  { pattern: /\bThere was\b/g, replacement: 'There is', safe: true },
-  { pattern: /\bThey were\b/g, replacement: 'They are', safe: true },
-  { pattern: /\bWe were\b/g, replacement: 'We are', safe: true },
-
-  // Needs review: context-dependent
-  { pattern: /\bsaid\b/g, replacement: 'says', safe: false },
-  { pattern: /\bwalked\b/g, replacement: 'walks', safe: false },
-  { pattern: /\blooked\b/g, replacement: 'looks', safe: false },
-  { pattern: /\bturned\b/g, replacement: 'turns', safe: false },
-  { pattern: /\bmoved\b/g, replacement: 'moves', safe: false },
-  { pattern: /\bcame\b/g, replacement: 'comes', safe: false },
-  { pattern: /\bwent\b/g, replacement: 'goes', safe: false },
-  { pattern: /\btook\b/g, replacement: 'takes', safe: false },
-  { pattern: /\bgave\b/g, replacement: 'gives', safe: false },
-  { pattern: /\bfelt\b/g, replacement: 'feels', safe: false },
+  // These are almost never correct in dialogue - skip entirely
+  // "That beat you just took" is correct past tense
+  // "I thought I was" is correct past tense
+  // Only convert obvious narrative voice issues, not dialogue
 ];
 
 /**
@@ -176,11 +196,11 @@ const VERBOSE_PATTERNS: Array<{
 // CLEANUP FUNCTIONS
 // ============================================================
 
-function removeEnDashes(text: string): { result: string; count: number } {
+function removeDashes(text: string): { result: string; count: number } {
   let result = text;
   let count = 0;
 
-  for (const rule of EN_DASH_RULES) {
+  for (const rule of DASH_RULES) {
     const matches = result.match(rule.pattern);
     if (matches) {
       count += matches.length;
@@ -250,10 +270,10 @@ function cleanText(
   let result = text;
   let needsReview = false;
 
-  // 1. Remove en dashes
-  const dashResult = removeEnDashes(result);
+  // 1. Remove dashes (en and em)
+  const dashResult = removeDashes(result);
   if (dashResult.count > 0) {
-    changes.push(`Removed ${dashResult.count} en-dash(es)`);
+    changes.push(`Removed ${dashResult.count} dash(es)`);
     result = dashResult.result;
   }
 

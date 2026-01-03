@@ -11,3 +11,6 @@ export { usePlayerData } from './usePlayerData';
 export type { UsePlayerDataReturn } from './usePlayerData';
 
 export { useCharacterAnimation } from './useCharacterAnimation';
+
+export { useNPCChat, useDialogueLookup } from './useNPCChat';
+export type { UseNPCChatOptions, UseNPCChatResult, ChatResponse } from './useNPCChat';

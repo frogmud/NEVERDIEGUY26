@@ -36,7 +36,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { tokens } from '../../theme';
 import type { MarketChatMessage, MarketNpcInfo } from '../../hooks/useMarketChat';
-import type { MoodType } from '../../data/npc-chat/types';
+import type { MoodType } from '@ndg/shared';
 
 // ============================================
 // Types
@@ -61,6 +61,11 @@ const MOOD_COLORS: Record<MoodType, string> = {
   cryptic: '#a855f7',
   annoyed: tokens.colors.warning,
   threatening: tokens.colors.error,
+  fearful: tokens.colors.warning,
+  angry: tokens.colors.error,
+  scared: tokens.colors.warning,
+  sad: tokens.colors.text.secondary,
+  curious: '#a855f7',
 };
 
 // ============================================
