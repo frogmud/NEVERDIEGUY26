@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@ndg/shared": ["../packages/shared/src"],
+      "@ndg/shared/*": ["../packages/shared/src/*"],
+      "@ndg/ai-engine": ["../packages/ai-engine/src"],
+      "@ndg/ai-engine/*": ["../packages/ai-engine/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
