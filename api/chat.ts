@@ -5,8 +5,8 @@
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { ChatRequest, ChatResponse, TemplatePool } from '../packages/shared/src/types';
-import { getLookupEngine } from './_lib/lookup';
+import type { ChatRequest, ChatResponse, TemplatePool } from '../packages/shared/src/types/index.js';
+import { getLookupEngine } from './_lib/lookup.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers

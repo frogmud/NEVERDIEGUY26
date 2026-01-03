@@ -5,8 +5,8 @@
  * Uses static JSON data bundled at build time.
  */
 
-import type { TemplatePool, MoodType } from '../../packages/shared/src/types';
-import { getNPCEntries, getRegisteredNPCs, getTotalEntryCount, type ChatbaseEntry } from './chatbase-data';
+import type { TemplatePool, MoodType } from '../../packages/shared/src/types/index.js';
+import { getNPCEntries, getRegisteredNPCs, getTotalEntryCount, type ChatbaseEntry } from './chatbase-data.js';
 
 // ============================================
 // Types
