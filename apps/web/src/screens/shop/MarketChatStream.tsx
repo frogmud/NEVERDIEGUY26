@@ -29,9 +29,6 @@ import {
   CardGiftcardSharp as GiftIcon,
   ChatSharp as ChatIcon,
   CloseSharp as CloseIcon,
-  ChevronLeftSharp as ChevronLeftIcon,
-  ChevronRightSharp as ChevronRightIcon,
-  FlagSharp as ReportIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { tokens } from '../../theme';
@@ -338,53 +335,6 @@ export function MarketChatStream({
           ))
         )}
         <div ref={messagesEndRef} />
-      </Box>
-
-      {/* Highlight Banner */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          px: 2,
-          py: 1.5,
-          bgcolor: tokens.colors.background.paper,
-          borderTop: `1px solid ${tokens.colors.border}`,
-          borderBottom: `1px solid ${tokens.colors.border}`,
-        }}
-      >
-        <IconButton size="small" sx={{ color: tokens.colors.text.disabled }}>
-          <ChevronLeftIcon />
-        </IconButton>
-
-        <Box
-          sx={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2,
-            px: 2,
-          }}
-        >
-          <Avatar
-            sx={{
-              width: 40,
-              height: 40,
-              bgcolor: tokens.colors.warning,
-            }}
-          />
-          <Box>
-            <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
-              Today's Deal: <span style={{ color: tokens.colors.warning }}>Lucky Die Pack</span>
-            </Typography>
-            <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
-              20% off all dice until midnight!
-            </Typography>
-          </Box>
-        </Box>
-
-        <IconButton size="small" sx={{ color: tokens.colors.text.disabled }}>
-          <ChevronRightIcon />
-        </IconButton>
       </Box>
 
       {/* Input Area */}

@@ -780,7 +780,7 @@ export const weapons: Item[] = [
     rarity: 'Epic',
     itemType: 'Weapon',
     subtype: 'Sword',
-    image: '/assets/items/weapons/dimensional-blade.png',
+    image: '/assets/items/weapons/melee-shadowblade.svg',
     description: 'A blade that exists in multiple dimensions simultaneously. Each swing cuts through reality itself, dealing damage across parallel timelines.',
     value: 850,
     effects: [

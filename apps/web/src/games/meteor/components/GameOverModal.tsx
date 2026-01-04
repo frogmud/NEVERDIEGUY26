@@ -40,6 +40,8 @@ interface GameOverModalProps {
   onNewRun: () => void;
   onMainMenu: () => void;
   onClose?: () => void; // Optional: close when clicking outside the modal
+  /** If true, renders within parent container instead of fixed fullscreen */
+  contained?: boolean;
 }
 
 export function GameOverModal({
@@ -49,6 +51,7 @@ export function GameOverModal({
   onNewRun,
   onMainMenu,
   onClose,
+  contained = false,
 }: GameOverModalProps) {
   // Get a random quip (memoized so it doesn't change on re-renders)
   const quip = useMemo(() => getRandomQuip(isWin), [isWin]);
@@ -108,14 +111,15 @@ export function GameOverModal({
     <Box
       onClick={onClose}
       sx={{
-        position: 'fixed',
+        position: contained ? 'absolute' : 'fixed',
         inset: 0,
-        bgcolor: bgColor,
+        // When contained, parent handles the overlay; otherwise use our own
+        bgcolor: contained ? 'transparent' : bgColor,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 4,
-        zIndex: 1300,
+        zIndex: contained ? 100 : 1300,
         p: 3,
         cursor: onClose ? 'pointer' : 'default',
       }}

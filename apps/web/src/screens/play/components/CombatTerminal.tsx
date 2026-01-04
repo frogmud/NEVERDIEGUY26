@@ -357,10 +357,10 @@ export function CombatTerminal({
     feedRef.current = [];
     onFeedUpdate?.([]);
 
-    // Generate guardians based on tier/event type
+    // Generate guardians - random 0-3 per zone
     // Guardians have die types - you must throw matching dice to destroy them
     const dieTypes: Array<4 | 6 | 8 | 10 | 12 | 20> = [4, 6, 8, 10, 12, 20];
-    const numGuardians = eventType === 'boss' ? 4 : eventType === 'big' ? 3 : 2;
+    const numGuardians = Math.floor(Math.random() * 4); // 0, 1, 2, or 3
     const newGuardians: GuardianData[] = [];
 
     // Shuffle die types for variety
@@ -787,23 +787,15 @@ export function CombatTerminal({
           onDiceRoll(rollPayload);
         }
 
-        // Check if throws exhausted and add warning to feed
-        if (newState.throwsRemaining === 0) {
-          const entry: FeedEntry = {
-            id: `system-${Date.now()}`,
-            type: 'npc_chat',
-            timestamp: Date.now(),
-            npcSlug: 'system',
-            npcName: 'System',
-            text: 'No throws remaining - Trade dice or end turn',
-            mood: 'threatening',
-          };
-          feedRef.current = [entry, ...feedRef.current];
-          onFeedUpdate?.(feedRef.current);
+        // Check if throws exhausted - trigger game over if score not met
+        if (newState.throwsRemaining === 0 && newState.currentScore < newState.targetScore) {
+          // Fire defeat NPC commentary and trigger game over
+          onDefeat();
+          onLose();
         }
       }
     }, 100); // Small delay to let state update
-  }, [onDiceRoll, onFeedUpdate]);
+  }, [onDiceRoll, onFeedUpdate, onDefeat, onLose]);
 
   // Victory explosion callback - fires after explosion animation
   const handleVictoryExplosionComplete = useCallback(() => {
@@ -961,6 +953,7 @@ export function CombatTerminal({
         onEndTurn={handleEndCombatTurnWithFeed}
         isSmall={false}
         isDisabled={isLobby}
+        guardianDieTypes={guardians.map(g => g.dieType)}
       />
     </Box>
   );

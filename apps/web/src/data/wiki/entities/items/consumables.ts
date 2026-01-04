@@ -1049,7 +1049,7 @@ export const consumables: Item[] = [
     element: 'Fire',
     tier: 2,
     level: 10,
-    image: '/assets/items/consumables/fire-grenade.png',
+    image: '/assets/items/weapons/throwable-fire-grenade.svg',
     description: "An alchemical explosive that detonates on impact, spreading liquid fire across the target area. Dr. Maxwell's most popular export from The Burning Pages.",
     effects: [
       { name: 'Inferno Burst', description: 'Deals 75 fire damage in a 4m radius.' },
@@ -1082,7 +1082,7 @@ export const consumables: Item[] = [
     element: 'Neutral',
     tier: 3,
     level: 15,
-    image: '/assets/items/consumables/mystery-box-supreme.png',
+    image: '/assets/items/consumables/rare-candy.svg',
     description: "X-treme's premium mystery container. Could contain anything from legendary weapons to a single peanut. The thrill is in the uncertainty! EXTREME RESULTS GUARANTEED!",
     effects: [
       { name: 'EXTREME Unboxing', description: 'Contains 1-5 random items of varying rarity.' },
@@ -1116,7 +1116,7 @@ export const consumables: Item[] = [
     element: 'Neutral',
     tier: 2,
     level: 5,
-    image: '/assets/items/consumables/lucky-charm.png',
+    image: '/assets/items/consumables/lucky-clover.svg',
     description: "A small talisman imbued with probability-bending magic. X-treme swears by these for his gambling sessions. 'Lady Luck rides with the bold!'",
     effects: [
       { name: 'Fortune\'s Favor', description: 'Increases critical hit chance by 15% for 30 minutes.' },

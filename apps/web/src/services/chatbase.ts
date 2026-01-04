@@ -170,6 +170,17 @@ function isMoodCompatible(entryMood: MoodBucket, targetMood: MoodBucket): boolea
   return false;
 }
 
+/**
+ * Check if text is a complete sentence (ends with proper punctuation)
+ * Filters out truncated entries from extraction
+ */
+function isCompleteSentence(text: string): boolean {
+  const trimmed = text.trim();
+  // Valid endings: . ! ? * (for emotes like *rattles bones*)
+  // Also allow quotes at the end: ." !' ?"
+  return /[.!?*]['"]?$/.test(trimmed);
+}
+
 function findRelatedPoolEntries(entries: ChatbaseEntry[], pool: TemplatePool): ChatbaseEntry[] {
   const relatedPools: Record<string, string[]> = {
     greeting: ['idle', 'reaction'],
@@ -263,12 +274,20 @@ export function lookupDialogue(request: ChatRequest): ChatResponse {
     return fallbackResponse(request.npcSlug, request.pool);
   }
 
-  // Filter by pool
-  let poolEntries = entries.filter(e => e.pool === request.pool);
+  // Filter by pool AND complete sentences only (no truncated entries)
+  let poolEntries = entries.filter(e =>
+    e.pool === request.pool && isCompleteSentence(e.text)
+  );
 
   // Try related pools if no exact match
   if (poolEntries.length === 0) {
-    poolEntries = findRelatedPoolEntries(entries, request.pool);
+    const relatedEntries = findRelatedPoolEntries(entries, request.pool);
+    poolEntries = relatedEntries.filter(e => isCompleteSentence(e.text));
+  }
+
+  // Last resort: any complete sentence from this NPC
+  if (poolEntries.length === 0) {
+    poolEntries = entries.filter(e => isCompleteSentence(e.text));
   }
 
   if (poolEntries.length === 0) {

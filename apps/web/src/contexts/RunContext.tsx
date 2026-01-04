@@ -23,6 +23,7 @@ import {
   loadSavedRun,
   hasSavedRun,
   clearSavedRun,
+  addRunToHistory,
   type SavedRunState,
 } from '../data/player/storage';
 import {
@@ -216,13 +217,33 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
-    case 'END_RUN':
+    case 'END_RUN': {
+      // Save run to history
+      if (state.threadId) {
+        addRunToHistory({
+          threadId: state.threadId,
+          won: action.won,
+          totalScore: state.totalScore,
+          gold: state.gold,
+          domain: state.currentDomain,
+          roomsCleared: state.runStats.eventsCompleted,
+          stats: {
+            bestRoll: state.runStats.bestRoll || 0,
+            mostRolled: state.runStats.mostRolled || 'd20',
+            diceThrown: state.runStats.diceThrown,
+            npcsSquished: state.runStats.npcsSquished,
+            purchases: state.runStats.purchases,
+            killedBy: action.won ? undefined : state.runStats.killedBy,
+          },
+        });
+      }
       return {
         ...state,
         runEnded: true,
         gameWon: action.won,
         phase: 'game_over',
       };
+    }
 
     case 'RESET_RUN':
       clearSavedRun();
@@ -310,13 +331,33 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
-    case 'FAIL_ROOM':
+    case 'FAIL_ROOM': {
+      // Save run to history on failure
+      if (state.threadId) {
+        addRunToHistory({
+          threadId: state.threadId,
+          won: false,
+          totalScore: state.totalScore,
+          gold: state.gold,
+          domain: state.currentDomain,
+          roomsCleared: state.runStats.eventsCompleted,
+          stats: {
+            bestRoll: state.runStats.bestRoll || 0,
+            mostRolled: state.runStats.mostRolled || 'd20',
+            diceThrown: state.runStats.diceThrown,
+            npcsSquished: state.runStats.npcsSquished,
+            purchases: state.runStats.purchases,
+            killedBy: state.runStats.killedBy,
+          },
+        });
+      }
       return {
         ...state,
         runEnded: true,
         gameWon: false,
         phase: 'game_over',
       };
+    }
 
     case 'CONTINUE_FROM_SUMMARY':
       return {

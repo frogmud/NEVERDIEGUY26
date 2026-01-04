@@ -76,6 +76,8 @@ interface CombatHUDProps {
   onEndTurn: () => void;
   isSmall?: boolean;
   isDisabled?: boolean;
+  /** Die types of active guardians (for showing "Hits Guardian" feedback) */
+  guardianDieTypes?: number[];
 }
 
 /**
@@ -137,15 +139,23 @@ function HoldingToggle({
   onAll,
   onNone,
   isSmall,
+  heldCount,
+  totalCount,
 }: {
   onAll?: () => void;
   onNone?: () => void;
   isSmall?: boolean;
+  heldCount: number;
+  totalCount: number;
 }) {
+  // Determine which button is "active" based on held state
+  const allHeld = heldCount === totalCount;
+  const noneHeld = heldCount === 0;
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
       <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
-        holding
+        holding: {heldCount}/{totalCount}
       </Typography>
       <Box
         sx={{
@@ -170,6 +180,7 @@ function HoldingToggle({
             py: isSmall ? 0.5 : 0.75,
             cursor: 'pointer',
             transition: 'all 0.15s ease-out',
+            opacity: noneHeld ? 0.33 : 1,
             '&:hover': {
               bgcolor: 'rgba(255,255,255,0.15)',
               color: tokens.colors.text.primary,
@@ -192,6 +203,7 @@ function HoldingToggle({
             py: isSmall ? 0.5 : 0.75,
             cursor: 'pointer',
             transition: 'all 0.15s ease-out',
+            opacity: allHeld ? 0.33 : 1,
             '&:hover': {
               bgcolor: 'rgba(255,255,255,0.15)',
               color: tokens.colors.text.primary,
@@ -216,6 +228,7 @@ function DiceHandRow({
   isEmpty,
   isRolling,
   turnNumber = 1,
+  guardianDieTypes = [],
 }: {
   hand: Die[];
   onToggleHold: (dieId: string) => void;
@@ -224,7 +237,14 @@ function DiceHandRow({
   isEmpty?: boolean;
   isRolling?: boolean;
   turnNumber?: number;
+  guardianDieTypes?: number[];
 }) {
+  // Track which guardian types have been claimed by unheld dice (for "Hits Guardian" display)
+  const guardianTargetCounts: Record<number, number> = {};
+  for (const dt of guardianDieTypes) {
+    guardianTargetCounts[dt] = (guardianTargetCounts[dt] || 0) + 1;
+  }
+  const usedTargetCounts: Record<number, number> = {};
   const diceSize = isSmall ? 48 : 64;
 
   // Show empty state in lobby - darker rectangle with message
@@ -269,6 +289,17 @@ function DiceHandRow({
         const dieColor = baseDieColor;
         // Show lock icon only after turn 1
         const showLockIcon = isHeld && turnNumber > 1;
+
+        // Check if this unheld die targets a guardian
+        let hitsGuardian = false;
+        if (isSelected && guardianDieTypes.length > 0) {
+          const guardianCount = guardianTargetCounts[die.sides] || 0;
+          const usedCount = usedTargetCounts[die.sides] || 0;
+          if (usedCount < guardianCount) {
+            hitsGuardian = true;
+            usedTargetCounts[die.sides] = usedCount + 1;
+          }
+        }
 
         return (
           <Box
@@ -336,6 +367,34 @@ function DiceHandRow({
                 <LockIcon sx={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }} />
               </Box>
             )}
+            {/* "Hits Guardian" note - shown when this die will target a guardian */}
+            {hitsGuardian && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: -14,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  bgcolor: 'rgba(30,30,30,0.9)',
+                  borderRadius: '4px',
+                  px: 0.5,
+                  py: 0.25,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <Typography
+                  sx={{
+                    ...gamingFont,
+                    fontSize: '0.55rem',
+                    color: tokens.colors.warning,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  Hits Guardian
+                </Typography>
+              </Box>
+            )}
           </Box>
         );
       })}
@@ -357,6 +416,7 @@ export function CombatHUD({
   onEndTurn,
   isSmall = false,
   isDisabled: isDisabledProp = false,
+  guardianDieTypes = [],
 }: CombatHUDProps) {
   const {
     phase,
@@ -452,6 +512,7 @@ export function CombatHUD({
         isEmpty={isDisabledProp}
         isRolling={isRolling}
         turnNumber={turnNumber}
+        guardianDieTypes={guardianDieTypes}
       />
 
       {/* Action toolbar - Throw | Holding | Trade */}
@@ -478,6 +539,8 @@ export function CombatHUD({
             onAll={onHoldAll}
             onNone={onHoldNone}
             isSmall={isSmall}
+            heldCount={heldCount}
+            totalCount={hand.length}
           />
 
           {/* TRADE button - trades unheld dice for multiplier */}
@@ -491,28 +554,18 @@ export function CombatHUD({
         </Box>
       )}
 
-      {/* Holding status with info tooltip */}
+      {/* Info tooltip for holding dice */}
       {!isDisabledProp && (
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 0.5,
             mt: 1.5,
           }}
         >
-          <Typography
-            sx={{
-              ...gamingFont,
-              fontSize: '0.75rem',
-              color: tokens.colors.text.secondary,
-            }}
-          >
-            holding: {heldCount}/{hand.length}
-          </Typography>
           <Tooltip
-            title="Click dice to toggle. 'all' selects all dice for throwing. 'none' clears selection (holds all)."
+            title="Holding dice preserves them for the next hand. Select dice to toggle held status. 'All' and 'None' can be used to reselect and deselect the whole hand for actions."
             arrow
             placement="top"
           >
