@@ -632,6 +632,98 @@ export function getCurrentWeekDay(data: DailyRewardData): number {
 }
 
 // ============================================
+// Run History Persistence
+// ============================================
+
+const RUN_HISTORY_KEY = 'ndg_run_history';
+const MAX_HISTORY_ENTRIES = 100;
+
+export interface RunHistoryEntry {
+  id: string;
+  threadId: string;
+  won: boolean;
+  totalScore: number;
+  gold: number;
+  domain: number;
+  roomsCleared: number;
+  stats: {
+    bestRoll: number;
+    mostRolled: string;
+    diceThrown: number;
+    npcsSquished: number;
+    purchases: number;
+    killedBy?: string;
+  };
+  timestamp: number;
+  duration?: number; // milliseconds
+}
+
+export function loadRunHistory(): RunHistoryEntry[] {
+  try {
+    const stored = localStorage.getItem(RUN_HISTORY_KEY);
+    if (!stored) return [];
+    return JSON.parse(stored) as RunHistoryEntry[];
+  } catch (error) {
+    console.error('Failed to load run history:', error);
+    return [];
+  }
+}
+
+export function saveRunHistory(history: RunHistoryEntry[]): void {
+  try {
+    // Keep only the last MAX_HISTORY_ENTRIES
+    const trimmed = history.slice(-MAX_HISTORY_ENTRIES);
+    localStorage.setItem(RUN_HISTORY_KEY, JSON.stringify(trimmed));
+  } catch (error) {
+    console.error('Failed to save run history:', error);
+  }
+}
+
+export function addRunToHistory(entry: Omit<RunHistoryEntry, 'id' | 'timestamp'>): RunHistoryEntry {
+  const history = loadRunHistory();
+  const newEntry: RunHistoryEntry = {
+    ...entry,
+    id: crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
+    timestamp: Date.now(),
+  };
+  history.push(newEntry);
+  saveRunHistory(history);
+  return newEntry;
+}
+
+export function clearRunHistory(): void {
+  localStorage.removeItem(RUN_HISTORY_KEY);
+}
+
+export function getRunHistoryStats(): {
+  totalRuns: number;
+  wins: number;
+  losses: number;
+  bestScore: number;
+  avgScore: number;
+  totalGoldEarned: number;
+} {
+  const history = loadRunHistory();
+  if (history.length === 0) {
+    return { totalRuns: 0, wins: 0, losses: 0, bestScore: 0, avgScore: 0, totalGoldEarned: 0 };
+  }
+
+  const wins = history.filter(r => r.won).length;
+  const totalScore = history.reduce((sum, r) => sum + r.totalScore, 0);
+  const bestScore = Math.max(...history.map(r => r.totalScore));
+  const totalGold = history.reduce((sum, r) => sum + r.gold, 0);
+
+  return {
+    totalRuns: history.length,
+    wins,
+    losses: history.length - wins,
+    bestScore,
+    avgScore: Math.round(totalScore / history.length),
+    totalGoldEarned: totalGold,
+  };
+}
+
+// ============================================
 // Migration
 // ============================================
 

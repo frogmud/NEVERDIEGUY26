@@ -1,7 +1,7 @@
 /**
  * Ambient NPC Chat Hook - Fire NPC triggers during gameplay
  *
- * Wires the trigger system into the game loop for ambient commentary:
+ * Wires the chatbase lookup system into the game loop for ambient commentary:
  * - Domain enter greetings from Die-rectors
  * - Room clear reactions
  * - Dice roll commentary on special rolls
@@ -11,18 +11,16 @@
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { NPCTriggerEvent, ChatContext, RateLimitState, DiceRollEventPayload, ResponseContext } from '../data/npc-chat/types';
+import type { TemplatePool } from '@ndg/shared';
+import type { NPCTriggerEvent, ChatContext, RateLimitState, DiceRollEventPayload } from '../data/npc-chat/types';
 import {
-  TRIGGER_CONFIGS,
   createRateLimitState,
   evaluateTrigger,
   evaluateDiceRollTrigger,
   resetRoomLimits,
-  mapTriggerToPool,
   DEFAULT_DOMAIN_OWNERS,
 } from '../data/npc-chat/triggers';
-import { selectResponse, createFallbackResponse } from '../data/npc-chat/response-selector';
-import { getPersonality, getTemplatesForNPC } from '../data/npc-chat/npcs';
+import { lookupDialogue, getRegisteredNPCs } from '../services/chatbase';
 
 // Simple seeded RNG for trigger evaluation
 function createTriggerRng(seed: string) {
@@ -148,7 +146,31 @@ export function useAmbientChat({
     return 'transition';
   }, [inCombat, inShop]);
 
-  // Fire a trigger and get NPC response
+  // Map trigger events to chatbase pools
+  const triggerToPool = (event: NPCTriggerEvent, payload?: DiceRollEventPayload): TemplatePool => {
+    switch (event) {
+      case 'domain_enter':
+        return 'greeting';
+      case 'room_clear':
+        return 'reaction';
+      case 'dice_rolled':
+        if (payload?.rarity === 'triples' || payload?.rarity === 'straight') {
+          return 'gamblingBrag';
+        }
+        return 'gamblingTrashTalk';
+      case 'run_end':
+        return 'farewell';
+      case 'player_death':
+        return 'threat';
+      default:
+        return 'idle';
+    }
+  };
+
+  // Get registered NPCs for validation
+  const registeredNPCs = getRegisteredNPCs();
+
+  // Fire a trigger and get NPC response from chatbase
   const fireTrigger = useCallback((event: NPCTriggerEvent, payload?: DiceRollEventPayload) => {
     const chatContext = getContext();
     let result: { npcSlug: string | null; updatedState: RateLimitState };
@@ -172,48 +194,29 @@ export function useAmbientChat({
 
     if (!result.npcSlug) return;
 
-    // Get NPC personality and templates
-    const personality = getPersonality(result.npcSlug);
-    const templates = getTemplatesForNPC(result.npcSlug);
+    // Check if NPC is in chatbase
+    if (!registeredNPCs.includes(result.npcSlug)) return;
 
-    if (!personality || templates.length === 0) return;
-
-    // Build response context
-    const responseContext: ResponseContext = {
-      runSeed: threadId || `ambient-${Date.now()}`,
-      roomIndex: roomNumber,
-      currentDomain,
-      heat: playerStats.heat ?? 0,
-      playerIntegrity: playerStats.integrity ?? 100,
-      playerGold: playerStats.gold ?? 0,
-      playerLuckyNumber: 0,
-      isDirectConversation: false,
-    };
-
-    // Select a response
-    const response = selectResponse(
-      result.npcSlug,
-      event,
-      responseContext,
-      templates,
-      personality,
-      undefined // No conversation tracking for ambient messages
-    );
-
-    // Use fallback if no response
-    const finalResponse = response || createFallbackResponse(
-      result.npcSlug,
-      'neutral',
-      `fallback-${Date.now()}`
-    );
+    // Map event to pool and lookup dialogue
+    const pool = triggerToPool(event, payload);
+    const response = lookupDialogue({
+      npcSlug: result.npcSlug,
+      pool,
+      playerContext: {
+        deaths: 0,
+        streak: playerStats.heat ?? 0,
+        domain: currentDomain,
+        ante: roomNumber,
+      },
+    });
 
     // Create message
     const message: AmbientMessage = {
       id: `ambient-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       npcSlug: result.npcSlug,
-      npcName: personality.name || result.npcSlug,
-      text: finalResponse.text,
-      mood: finalResponse.mood,
+      npcName: result.npcSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+      text: response.text,
+      mood: response.mood,
       timestamp: Date.now(),
       context: chatContext,
       event,
@@ -229,7 +232,7 @@ export function useAmbientChat({
     setTimeout(() => {
       setCurrentMessage(prev => prev?.id === message.id ? null : prev);
     }, displayTime);
-  }, [currentDomain, roomNumber, rng, getContext, playerStats, onMessage, threadId]);
+  }, [currentDomain, roomNumber, rng, getContext, playerStats, onMessage, registeredNPCs]);
 
   // Convenience methods for specific triggers
   const onDomainEnter = useCallback((domainSlug: string) => {

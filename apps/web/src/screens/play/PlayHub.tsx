@@ -9,6 +9,7 @@
  */
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { tokens } from '../../theme';
 import { PlaySidebar } from './components';
@@ -21,7 +22,7 @@ import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteo
 import { useRun } from '../../contexts';
 import { GameOverModal } from '../../games/meteor/components';
 import { TransitionWipe } from '../../components/TransitionWipe';
-import { CombatTerminal, type FeedEntry } from './components/CombatTerminal';
+import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { TimeOfDay, ZoneInfo } from './components/tabs/GameTabLaunch';
 
 import type { ZoneMarker } from '../../types/zones';
@@ -66,6 +67,14 @@ export function PlayHub() {
     hasSavedRun,
   } = useRun();
 
+  const navigate = useNavigate();
+
+  // Handle Main Menu - navigate to app home
+  const handleMainMenu = useCallback(() => {
+    resetRun?.();
+    navigate('/');
+  }, [resetRun, navigate]);
+
   // Handle transition phases: exit → wipe → complete
   useEffect(() => {
     if (state.transitionPhase === 'exit') {
@@ -77,30 +86,15 @@ export function PlayHub() {
     }
   }, [state.transitionPhase, setTransitionPhase]);
 
-  // Balatro-style auto-launch: when run starts, auto-select first zone and launch instantly
-  useEffect(() => {
-    // Check if we just started a run (phase changed to 'playing', have zones, no zone selected yet)
-    if (
-      state.phase === 'playing' &&
-      state.centerPanel === 'globe' &&
-      state.domainState?.zones?.length &&
-      !state.selectedZone
-    ) {
-      // Auto-select first zone
-      const firstZone = state.domainState.zones[0];
-      selectZone(firstZone);
-
-      // Immediately launch into combat - no wipe animation, instant like Continue
-      setTimeout(() => {
-        setPanel('combat');
-      }, 100);
-    }
-  }, [state.phase, state.centerPanel, state.domainState?.zones, state.selectedZone, selectZone, setPanel]);
+  // After new run starts, show zone selection (user picks zone before combat)
+  // No auto-launch - let user choose their starting zone
 
   // Determine game phase for sidebar based on state.phase
   // Initial state has phase='event_select', after startRun it's 'playing'
   // 'event_select' -> lobby, 'playing' + globe -> zoneSelect, 'playing' + combat -> playing
-  const sidebarPhase = (state.phase === 'event_select' || state.phase === 'game_over') ? 'lobby'
+  // Keep 'playing' during game_over so player can see final stats in sidebar
+  const sidebarPhase = state.phase === 'event_select' ? 'lobby'
+    : state.phase === 'game_over' ? 'playing'
     : state.centerPanel === 'combat' ? 'playing'
     : 'zoneSelect';
 
@@ -115,35 +109,32 @@ export function PlayHub() {
     isIdle,
   } = useGlobeMeteorGame();
 
-  // Build game state for sidebar
-  // TODO: Wire up actual game state from combat system
+  // Combat game state (throws, trades, score) from CombatTerminal
+  const [combatGameState, setCombatGameState] = useState<GameStateUpdate | null>(null);
+
+  // Build game state for sidebar - uses live combat state when available
   const gameState = useMemo(() => ({
-    enemySprite: '/assets/enemies/shadow-knight.png', // TODO: from combat state
-    scoreToBeat: 1000, // TODO: from combat state
-    score: state.totalScore || 0,
-    multiplier: 1, // TODO: from combat state
-    goal: 1000, // TODO: from combat state
-    throws: 3, // TODO: from combat state
-    trades: 3, // TODO: from combat state
+    enemySprite: '/assets/enemies/shadow-knight.png',
+    scoreToBeat: combatGameState?.goal || 1000,
+    score: combatGameState?.score || state.totalScore || 0,
+    multiplier: combatGameState?.multiplier || 1,
+    goal: combatGameState?.goal || 1000,
+    throws: combatGameState?.throws ?? 3,
+    trades: combatGameState?.trades ?? 3,
     gold: state.gold || 0,
     domain: state.currentDomain || 1,
     totalDomains: 6,
     event: state.currentEvent || 1,
     totalEvents: 3,
-    rollHistory: [], // TODO: wire up roll history from combat
-  }), [state]);
+    rollHistory: [],
+  }), [state, combatGameState]);
 
-  // Handle New Run - Balatro style: immediately launch into first zone
+  // Handle New Run - starts run and shows zone selection
   const handleNewRun = () => {
     const threadId = generateThreadId();
     startRun(threadId);
-
-    // Auto-select first zone and launch immediately (no friction)
-    // The startRun will generate domainState with zones
-    // We need a slight delay for state to update, then auto-launch
-    setTimeout(() => {
-      // This will be handled by useEffect below
-    }, 0);
+    // After startRun, sidebar will show zone selection
+    // User picks zone, then clicks Launch to start combat
   };
 
   // Handle Continue - load saved run or start new
@@ -274,8 +265,22 @@ export function PlayHub() {
         height: '100%',
         minHeight: 0,
         bgcolor: tokens.colors.background.default,
+        position: 'relative',
       }}
     >
+      {/* Full-screen red overlay on game over */}
+      {state.runEnded && (
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            bgcolor: state.gameWon ? 'rgba(48, 209, 88, 0.25)' : 'rgba(233, 4, 65, 0.25)',
+            zIndex: 50,
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+
       {/* Center: Combat Terminal (always visible) */}
       <Box
         sx={{
@@ -295,9 +300,34 @@ export function PlayHub() {
           scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
           onWin={handleCombatWin}
           onLose={failRoom}
-          isLobby={state.phase === 'event_select'}
+          isLobby={state.phase === 'event_select' || !state.selectedZone}
           onFeedUpdate={setCombatFeed}
+          onGameStateChange={setCombatGameState}
         />
+
+        {/* Game Over Modal - contained within center area so sidebar stays visible */}
+        {state.runEnded && (
+          <GameOverModal
+            open={true}
+            isWin={state.gameWon}
+            stats={{
+              bestRoll: state.runStats?.bestRoll || 0,
+              mostRolled: state.runStats?.mostRolled || 'd20',
+              diceRolled: state.runStats?.diceThrown || 0,
+              domains: state.currentDomain || 1,
+              reloads: state.runStats?.reloads || 0,
+              rooms: state.roomNumber || 1,
+              purchases: state.runStats?.purchases || 0,
+              shopRemixes: state.runStats?.shopRemixes || 0,
+              discoveries: state.runStats?.discoveries || 0,
+              seed: state.threadId || 'RANDOM',
+              killedBy: state.runStats?.killedBy,
+            }}
+            onNewRun={resetRun}
+            onMainMenu={handleMainMenu}
+            contained
+          />
+        )}
       </Box>
 
       {/* Right: Sidebar (transforms based on game phase) */}
@@ -346,28 +376,6 @@ export function PlayHub() {
         gold={state.gold || 0}
       />
 
-      {/* Game Over Modal */}
-      {state.runEnded && (
-        <GameOverModal
-          open={true}
-          isWin={state.gameWon}
-          stats={{
-            bestRoll: state.runStats?.bestRoll || 0,
-            mostRolled: state.runStats?.mostRolled || 'd20',
-            diceRolled: state.runStats?.diceThrown || 0,
-            domains: state.currentDomain || 1,
-            reloads: state.runStats?.reloads || 0,
-            rooms: state.roomNumber || 1,
-            purchases: state.runStats?.purchases || 0,
-            shopRemixes: state.runStats?.shopRemixes || 0,
-            discoveries: state.runStats?.discoveries || 0,
-            seed: state.threadId || 'RANDOM',
-            killedBy: state.runStats?.killedBy,
-          }}
-          onNewRun={resetRun}
-          onMainMenu={resetRun}
-        />
-      )}
     </Box>
   );
 }

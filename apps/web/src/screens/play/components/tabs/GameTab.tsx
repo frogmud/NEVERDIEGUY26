@@ -87,7 +87,7 @@ export function GameTab({ hasSaveData = true, onNewRun, onContinue }: GameTabPro
         <QuickLink
           icon={<HistoryIcon sx={{ fontSize: 20 }} />}
           label="History"
-          onClick={() => navigate('/progress/history')}
+          onClick={() => navigate('/progress')}
         />
       </Box>
     </Box>

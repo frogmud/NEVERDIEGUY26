@@ -5,7 +5,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getLookupEngine } from './_lib/lookup';
+import { getLookupEngine } from './_lib/lookup.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers

@@ -14,9 +14,6 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
 } from '@mui/material';
 import {
   CloseSharp as CloseIcon,
@@ -29,7 +26,6 @@ import { CardSection } from '../../../components/CardSection';
 const accountItems = [
   { id: 'email', label: 'Email', value: 'user@example.com' },
   { id: 'password', label: 'Password', value: '********' },
-  { id: '2fa', label: 'Two-Factor Authentication', value: 'Disabled' },
 ];
 
 export function AccountSection() {
@@ -41,7 +37,6 @@ export function AccountSection() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [twoFactorMethod, setTwoFactorMethod] = useState('disabled');
 
   const handleItemClick = (id: string) => {
     setActiveItem(id);
@@ -116,22 +111,6 @@ export function AccountSection() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </form>
-        );
-      case '2fa':
-        return (
-          <>
-            <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 3 }}>
-              Add an extra layer of security to your account.
-            </Typography>
-            <RadioGroup
-              value={twoFactorMethod}
-              onChange={(e) => setTwoFactorMethod(e.target.value)}
-            >
-              <FormControlLabel value="disabled" control={<Radio />} label="Disabled" />
-              <FormControlLabel value="sms" control={<Radio />} label="SMS verification" />
-              <FormControlLabel value="app" control={<Radio />} label="Authenticator app" />
-            </RadioGroup>
-          </>
         );
       default:
         return null;

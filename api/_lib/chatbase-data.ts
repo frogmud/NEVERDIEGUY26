@@ -4,27 +4,27 @@
  * Bundles NPC chatbase JSON files at build time for edge-compatible serving.
  */
 
-import type { MoodType } from '@ndg/shared';
+import type { MoodType } from '../../packages/shared/src/types/index.js';
 
-// Import all NPC chatbase files statically
-import theOne from '@ndg/ai-engine/chatbase/npcs/the-one.json';
-import stitchUpGirl from '@ndg/ai-engine/chatbase/npcs/stitch-up-girl.json';
-import theGeneral from '@ndg/ai-engine/chatbase/npcs/the-general.json';
-import xtreme from '@ndg/ai-engine/chatbase/npcs/xtreme.json';
-import mrKevin from '@ndg/ai-engine/chatbase/npcs/mr-kevin.json';
-import bodyCount from '@ndg/ai-engine/chatbase/npcs/body-count.json';
-import clausen from '@ndg/ai-engine/chatbase/npcs/clausen.json';
-import drVoss from '@ndg/ai-engine/chatbase/npcs/dr-voss.json';
-import drMaxwell from '@ndg/ai-engine/chatbase/npcs/dr-maxwell.json';
-import booG from '@ndg/ai-engine/chatbase/npcs/boo-g.json';
-import kingJames from '@ndg/ai-engine/chatbase/npcs/king-james.json';
-import boots from '@ndg/ai-engine/chatbase/npcs/boots.json';
-import john from '@ndg/ai-engine/chatbase/npcs/john.json';
-import keithMan from '@ndg/ai-engine/chatbase/npcs/keith-man.json';
-import willy from '@ndg/ai-engine/chatbase/npcs/willy.json';
-import peter from '@ndg/ai-engine/chatbase/npcs/peter.json';
-import mrBones from '@ndg/ai-engine/chatbase/npcs/mr-bones.json';
-import willyOneEye from '@ndg/ai-engine/chatbase/npcs/willy-one-eye.json';
+// Import all NPC chatbase files statically (relative paths for Vercel runtime)
+import theOne from '../../packages/ai-engine/chatbase/npcs/the-one.json' with { type: 'json' };
+import stitchUpGirl from '../../packages/ai-engine/chatbase/npcs/stitch-up-girl.json' with { type: 'json' };
+import theGeneral from '../../packages/ai-engine/chatbase/npcs/the-general.json' with { type: 'json' };
+import xtreme from '../../packages/ai-engine/chatbase/npcs/xtreme.json' with { type: 'json' };
+import mrKevin from '../../packages/ai-engine/chatbase/npcs/mr-kevin.json' with { type: 'json' };
+import bodyCount from '../../packages/ai-engine/chatbase/npcs/body-count.json' with { type: 'json' };
+import clausen from '../../packages/ai-engine/chatbase/npcs/clausen.json' with { type: 'json' };
+import drVoss from '../../packages/ai-engine/chatbase/npcs/dr-voss.json' with { type: 'json' };
+import drMaxwell from '../../packages/ai-engine/chatbase/npcs/dr-maxwell.json' with { type: 'json' };
+import booG from '../../packages/ai-engine/chatbase/npcs/boo-g.json' with { type: 'json' };
+import kingJames from '../../packages/ai-engine/chatbase/npcs/king-james.json' with { type: 'json' };
+import boots from '../../packages/ai-engine/chatbase/npcs/boots.json' with { type: 'json' };
+import john from '../../packages/ai-engine/chatbase/npcs/john.json' with { type: 'json' };
+import keithMan from '../../packages/ai-engine/chatbase/npcs/keith-man.json' with { type: 'json' };
+import willy from '../../packages/ai-engine/chatbase/npcs/willy.json' with { type: 'json' };
+import peter from '../../packages/ai-engine/chatbase/npcs/peter.json' with { type: 'json' };
+import mrBones from '../../packages/ai-engine/chatbase/npcs/mr-bones.json' with { type: 'json' };
+import willyOneEye from '../../packages/ai-engine/chatbase/npcs/willy-one-eye.json' with { type: 'json' };
 
 export interface ChatbaseEntry {
   id: string;

@@ -10,17 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
-  Paper,
   Chip,
-  IconButton,
 } from '@mui/material';
 import {
-  StorefrontSharp as VendorIcon,
-  ChevronLeftSharp as LeftIcon,
-  ChevronRightSharp as RightIcon,
-  InventorySharp as InventoryIcon,
   AccessTimeSharp as TimeIcon,
-  CardGiftcardSharp as GiftIcon,
 } from '@mui/icons-material';
 import { tokens, RARITY_COLORS } from '../../theme';
 import { shops } from '../../data/wiki/entities/shops';
@@ -29,13 +22,11 @@ import type { Shop } from '../../data/wiki/types';
 
 interface MarketStripViewProps {
   onNpcClick?: (npcSlug: string) => void;
-  onGiftClick?: (npcSlug: string, npcName: string) => void;
 }
 
-export function MarketStripView({ onNpcClick, onGiftClick }: MarketStripViewProps) {
+export function MarketStripView({ onNpcClick }: MarketStripViewProps) {
   const navigate = useNavigate();
   const { timeInfo, isAvailable } = useMarketAvailability();
-  const [scrollPosition, setScrollPosition] = useState(0);
 
   // Get all shops with availability status
   const vendorData = useMemo(() => {
@@ -56,31 +47,10 @@ export function MarketStripView({ onNpcClick, onGiftClick }: MarketStripViewProp
     return { availableVendors: available, awayVendors: away };
   }, [vendorData]);
 
-  // Scroll handlers
-  const scrollLeft = () => {
-    const container = document.getElementById('vendor-strip');
-    if (container) {
-      container.scrollBy({ left: -320, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    const container = document.getElementById('vendor-strip');
-    if (container) {
-      container.scrollBy({ left: 320, behavior: 'smooth' });
-    }
-  };
-
   // Handle vendor card click
   const handleVendorClick = (shop: Shop) => {
     onNpcClick?.(shop.proprietor || shop.slug);
     navigate(`/shop/${shop.slug}`);
-  };
-
-  // Handle gift click
-  const handleGiftClick = (e: React.MouseEvent, shop: Shop) => {
-    e.stopPropagation();
-    onGiftClick?.(shop.proprietor || shop.slug, shop.name);
   };
 
   return (
@@ -90,57 +60,29 @@ export function MarketStripView({ onNpcClick, onGiftClick }: MarketStripViewProp
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          gap: 2,
           mb: 2,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '1.25rem',
-            }}
-          >
-            The Strip
-          </Typography>
-          <Chip
-            size="small"
-            icon={<TimeIcon sx={{ fontSize: 14 }} />}
-            label={TIME_LABELS[timeInfo.current]}
-            sx={{
-              bgcolor: `${tokens.colors.secondary}15`,
-              color: tokens.colors.secondary,
-              fontSize: '0.75rem',
-            }}
-          />
-        </Box>
-
-        {/* Scroll Controls */}
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <IconButton
-            onClick={scrollLeft}
-            size="small"
-            sx={{
-              bgcolor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-              '&:hover': { bgcolor: tokens.colors.background.elevated },
-            }}
-          >
-            <LeftIcon sx={{ fontSize: 20 }} />
-          </IconButton>
-          <IconButton
-            onClick={scrollRight}
-            size="small"
-            sx={{
-              bgcolor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-              '&:hover': { bgcolor: tokens.colors.background.elevated },
-            }}
-          >
-            <RightIcon sx={{ fontSize: 20 }} />
-          </IconButton>
-        </Box>
+        <Typography
+          variant="h6"
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '1.25rem',
+          }}
+        >
+          The Strip
+        </Typography>
+        <Chip
+          size="small"
+          icon={<TimeIcon sx={{ fontSize: 14 }} />}
+          label={TIME_LABELS[timeInfo.current]}
+          sx={{
+            bgcolor: `${tokens.colors.secondary}15`,
+            color: tokens.colors.secondary,
+            fontSize: '0.75rem',
+          }}
+        />
       </Box>
 
       {/* Vendor Count */}
@@ -155,19 +97,12 @@ export function MarketStripView({ onNpcClick, onGiftClick }: MarketStripViewProp
         {awayVendors.length > 0 && ` - ${awayVendors.length} closed`}
       </Typography>
 
-      {/* Horizontal Strip */}
+      {/* Vendor Card Grid */}
       <Box
-        id="vendor-strip"
         sx={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
           gap: 2,
-          overflowX: 'auto',
-          pb: 2,
-          scrollSnapType: 'x mandatory',
-          scrollBehavior: 'smooth',
-          // Hide scrollbar but keep functionality
-          scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
         {/* Available Vendors */}
@@ -177,30 +112,8 @@ export function MarketStripView({ onNpcClick, onGiftClick }: MarketStripViewProp
             shop={shop}
             isAvailable={true}
             onClick={() => handleVendorClick(shop)}
-            onGiftClick={(e) => handleGiftClick(e, shop)}
           />
         ))}
-
-        {/* Divider if there are away vendors */}
-        {awayVendors.length > 0 && availableVendors.length > 0 && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              px: 2,
-              flexShrink: 0,
-            }}
-          >
-            <Box
-              sx={{
-                width: 2,
-                height: 100,
-                bgcolor: tokens.colors.border,
-                borderRadius: 1,
-              }}
-            />
-          </Box>
-        )}
 
         {/* Away Vendors (grayed out) */}
         {awayVendors.map((shop) => (
@@ -208,23 +121,10 @@ export function MarketStripView({ onNpcClick, onGiftClick }: MarketStripViewProp
             key={shop.slug}
             shop={shop}
             isAvailable={false}
-            onClick={() => handleVendorClick(shop)}
-            onGiftClick={(e) => handleGiftClick(e, shop)}
+            onClick={() => {}}
           />
         ))}
       </Box>
-
-      {/* Hint Text */}
-      <Typography
-        sx={{
-          textAlign: 'center',
-          color: tokens.colors.text.disabled,
-          fontSize: '0.8rem',
-          mt: 2,
-        }}
-      >
-        Click a vendor to enter their shop
-      </Typography>
     </Box>
   );
 }
@@ -234,135 +134,97 @@ interface VendorCardProps {
   shop: Shop & { isAvailable: boolean; availabilityReason?: string };
   isAvailable: boolean;
   onClick: () => void;
-  onGiftClick: (e: React.MouseEvent) => void;
 }
 
-function VendorCard({ shop, isAvailable, onClick, onGiftClick }: VendorCardProps) {
+function VendorCard({ shop, isAvailable, onClick }: VendorCardProps) {
   const rarityColor = RARITY_COLORS[shop.rarity as keyof typeof RARITY_COLORS] || tokens.colors.text.primary;
+  const [useSvg, setUseSvg] = useState(true);
+
+  // Get proprietor slug for SVG path (e.g., "willy" from shop.proprietor)
+  const proprietorSlug = shop.proprietor || shop.slug;
+  const svgPortrait = `/assets/market-svg/${proprietorSlug}/portrait.svg`;
 
   return (
-    <Paper
-      onClick={onClick}
+    <Box
+      onClick={isAvailable ? onClick : undefined}
       sx={{
         position: 'relative',
         flexShrink: 0,
-        width: 200,
+        width: 140,
         scrollSnapAlign: 'start',
-        bgcolor: tokens.colors.background.paper,
-        border: `1px solid ${isAvailable ? tokens.colors.border : 'transparent'}`,
-        borderRadius: '20px',
-        overflow: 'hidden',
-        cursor: 'pointer',
-        opacity: isAvailable ? 1 : 0.5,
+        cursor: isAvailable ? 'pointer' : 'not-allowed',
+        opacity: isAvailable ? 1 : 0.4,
         transition: 'all 0.2s',
         '&:hover': {
-          transform: isAvailable ? 'translateY(-4px)' : 'none',
-          boxShadow: isAvailable ? '0 8px 24px rgba(0,0,0,0.3)' : 'none',
-          borderColor: isAvailable ? tokens.colors.warning : 'transparent',
+          transform: isAvailable ? 'translateY(-4px) scale(1.05)' : 'none',
         },
       }}
     >
-      {/* Portrait Area */}
+      {/* Portrait - transparent background */}
       <Box
         sx={{
           position: 'relative',
-          height: 140,
-          bgcolor: tokens.colors.background.elevated,
+          height: 120,
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           justifyContent: 'center',
-          overflow: 'hidden',
         }}
       >
-        {/* Background Gradient */}
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            background: `radial-gradient(circle at 50% 100%, ${rarityColor}20 0%, transparent 70%)`,
-          }}
-        />
-
-        {/* Portrait Image */}
         <Box
           component="img"
-          src={shop.portrait}
+          src={useSvg ? svgPortrait : shop.portrait}
           alt={shop.name}
+          onError={() => useSvg && setUseSvg(false)}
           sx={{
             height: '100%',
             width: 'auto',
             objectFit: 'contain',
-            imageRendering: 'pixelated',
             filter: isAvailable ? 'none' : 'grayscale(80%)',
           }}
         />
 
-        {/* Rarity Badge */}
-        <Chip
-          label={shop.rarity}
-          size="small"
-          sx={{
-            position: 'absolute',
-            top: 8,
-            right: 8,
-            height: 20,
-            fontSize: '0.65rem',
-            fontWeight: 600,
-            bgcolor: `${rarityColor}30`,
-            color: rarityColor,
-          }}
-        />
-
-        {/* Gift Button */}
+        {/* Open Indicator */}
         {isAvailable && (
-          <IconButton
-            onClick={onGiftClick}
-            size="small"
-            sx={{
-              position: 'absolute',
-              bottom: 8,
-              right: 8,
-              bgcolor: 'rgba(0,0,0,0.5)',
-              '&:hover': { bgcolor: tokens.colors.success + '40' },
-            }}
-          >
-            <GiftIcon sx={{ fontSize: 16, color: tokens.colors.success }} />
-          </IconButton>
-        )}
-
-        {/* Closed Overlay */}
-        {!isAvailable && (
           <Box
             sx={{
               position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: 'rgba(0,0,0,0.5)',
+              top: 0,
+              right: 0,
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              bgcolor: tokens.colors.success,
+              boxShadow: `0 0 8px ${tokens.colors.success}`,
             }}
-          >
-            <Chip
-              label="Closed"
-              size="small"
-              sx={{
-                bgcolor: 'rgba(0,0,0,0.8)',
-                color: tokens.colors.text.disabled,
-                fontSize: '0.7rem',
-              }}
-            />
-          </Box>
+          />
+        )}
+
+        {/* Closed Badge */}
+        {!isAvailable && (
+          <Chip
+            label="Closed"
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              bgcolor: 'rgba(0,0,0,0.8)',
+              color: tokens.colors.text.disabled,
+              fontSize: '0.6rem',
+              height: 18,
+            }}
+          />
         )}
       </Box>
 
-      {/* Info Area */}
-      <Box sx={{ p: 1.5 }}>
-        {/* Shop Name */}
+      {/* Simple Info - Name only */}
+      <Box sx={{ textAlign: 'center', mt: 1 }}>
         <Typography
           sx={{
             fontWeight: 600,
-            fontSize: '0.9rem',
-            mb: 0.5,
+            fontSize: '0.8rem',
+            color: isAvailable ? tokens.colors.text.primary : tokens.colors.text.disabled,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -370,45 +232,17 @@ function VendorCard({ shop, isAvailable, onClick, onGiftClick }: VendorCardProps
         >
           {shop.name}
         </Typography>
-
-        {/* Specialty */}
         <Typography
           sx={{
-            color: tokens.colors.text.secondary,
-            fontSize: '0.7rem',
-            mb: 1,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
+            fontSize: '0.65rem',
+            color: rarityColor,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
           }}
         >
-          {shop.specialty}
+          {shop.rarity}
         </Typography>
-
-        {/* Item Count */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <InventoryIcon sx={{ fontSize: 12, color: tokens.colors.text.disabled }} />
-          <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>
-            {shop.inventory?.length || 0} items
-          </Typography>
-        </Box>
       </Box>
-
-      {/* Open Indicator */}
-      {isAvailable && (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 8,
-            left: 8,
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            bgcolor: tokens.colors.success,
-            boxShadow: `0 0 8px ${tokens.colors.success}`,
-          }}
-        />
-      )}
-    </Paper>
+    </Box>
   );
 }

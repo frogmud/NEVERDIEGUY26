@@ -41,14 +41,14 @@ const DIE_SHAPES: Record<number, number> = {
   20: 8,   // Octagon (d20)
 };
 
-// Die type colors (from design system)
+// Die type colors (matching dice toolbar from theme.ts)
 const DIE_COLORS: Record<number, string> = {
-  4: '#E8663C',   // Orange - Void
-  6: '#8B5A2B',   // Brown - Earth
-  8: '#6B21A8',   // Purple - Death
-  10: '#DC2626', // Red - Fire
-  12: '#0EA5E9', // Cyan - Ice
-  20: '#22C55E', // Green - Wind
+  4: '#ff5722',   // Deep orange
+  6: '#4caf50',   // Green
+  8: '#2196f3',   // Blue
+  10: '#9c27b0',  // Purple
+  12: '#ff9800',  // Orange
+  20: '#e91e63',  // Pink
 };
 
 /**
@@ -107,24 +107,13 @@ export function Guardian({ guardian, onHit }: GuardianProps) {
           </mesh>
         )}
 
-        {/* Main shape - filled */}
+        {/* Main shape - filled only (no stroke) */}
         <mesh>
           <circleGeometry args={[size * 0.5, shapeVertices]} />
           <meshBasicMaterial
             color={guardian.isTargeted ? '#FF4444' : shapeColor}
             transparent
-            opacity={guardian.isTargeted ? 1 : 0.7}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-
-        {/* Border ring - bright red when targeted */}
-        <mesh position={[0, 0, 0.01]}>
-          <ringGeometry args={[size * 0.48, size * 0.58, shapeVertices]} />
-          <meshBasicMaterial
-            color={guardian.isTargeted ? '#FFFFFF' : shapeColor}
-            transparent
-            opacity={1}
+            opacity={guardian.isTargeted ? 1 : 0.9}
             side={THREE.DoubleSide}
           />
         </mesh>

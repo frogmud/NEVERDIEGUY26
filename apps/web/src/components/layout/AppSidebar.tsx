@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -18,9 +18,11 @@ import {
   KeyboardTabSharp as CollapseExpandIcon,
   SettingsSharp as SettingsIcon,
   HelpOutlineSharp as SupportIcon,
+  InfoSharp as AboutIcon,
 } from '@mui/icons-material';
 import { tokens, sxPatterns } from '../../theme';
 import { navItems, type NavItem, DRAWER_WIDTH_COLLAPSED, DRAWER_WIDTH_EXPANDED, HEADER_HEIGHT } from './navItems';
+import { useAuth } from '../../contexts';
 
 interface AppSidebarProps {
   expanded: boolean;
@@ -34,6 +36,12 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
   const navigate = useNavigate();
   const location = useLocation();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const { isAuthenticated } = useAuth();
+
+  // Filter nav items based on auth status - hide items that require auth when not authenticated
+  const filteredNavItems = useMemo(() => {
+    return navItems.filter(item => !item.requiresAuth || isAuthenticated);
+  }, [isAuthenticated]);
 
   const toggleMenu = (label: string) => {
     setExpandedMenus((prev) =>
@@ -99,7 +107,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         {/* Nav items */}
         <Box sx={{ overflow: 'auto', py: 1, flex: 1 }}>
           <List dense disablePadding>
-            {navItems.map((item) => {
+            {filteredNavItems.map((item) => {
               const isActive = isItemActive(item);
               return (
                 <ListItemButton
@@ -184,7 +192,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         }}
       >
         <List dense disablePadding>
-          {navItems.map((item) => {
+          {filteredNavItems.map((item) => {
             const isActive = isItemActive(item);
             const hasChildren = item.children && item.children.length > 0;
             const isMenuExpanded = expandedMenus.includes(item.label);
@@ -360,6 +368,32 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             </Box>
           </Tooltip>
         )}
+
+        {/* About */}
+        <Tooltip title={!expanded ? 'About' : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>
+          <Box
+            onClick={() => navigate('/about')}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: expanded ? 'flex-start' : 'center',
+              gap: 0.75,
+              mx: 0.5,
+              px: expanded ? 1.5 : 0,
+              py: 0.75,
+              borderRadius: 1,
+              cursor: 'pointer',
+              '&:hover': { bgcolor: tokens.colors.background.elevated },
+            }}
+          >
+            <AboutIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
+            {expanded && (
+              <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
+                About
+              </Typography>
+            )}
+          </Box>
+        </Tooltip>
 
         {/* Settings */}
         <Tooltip title={!expanded ? 'Settings' : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>

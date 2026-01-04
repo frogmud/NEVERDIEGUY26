@@ -7,7 +7,7 @@
  * - Saucer: Access the Dying Saucer hub
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Typography,
@@ -25,24 +25,13 @@ import { tokens } from '../../theme';
 import { GuestBlockModal } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
 import { useMarketAvailability } from '../../hooks/useMarketAvailability';
-import { useMarketChat } from '../../hooks/useMarketChat';
 import { usePlayerData } from '../../hooks/usePlayerData';
-import { AllItemsView } from './AllItemsView';
 import { MarketSquareView } from './MarketSquareView';
 import { MarketStripView } from './MarketStripView';
-import { MarketChatStream } from './MarketChatStream';
-import { GiftModal } from './GiftModal';
 import { TributeTab, SaucerTab } from './tabs';
-import type { Item } from '../../data/wiki/types';
 
 type BarterTab = 'market' | 'tribute' | 'saucer';
 type MarketViewMode = 'strip' | 'canvas';
-
-interface GiftTarget {
-  slug: string;
-  name: string;
-  avatar?: string;
-}
 
 export function ShopHome() {
   const { isAuthenticated } = useAuth();
@@ -50,39 +39,6 @@ export function ShopHome() {
   const { gold } = usePlayerData();
   const [activeTab, setActiveTab] = useState<BarterTab>('market');
   const [viewMode, setViewMode] = useState<MarketViewMode>('strip');
-  const marketChat = useMarketChat();
-
-  // Gift modal state (for Market tab)
-  const [giftTarget, setGiftTarget] = useState<GiftTarget | null>(null);
-  const giftModalOpen = giftTarget !== null;
-
-  // Handle gift click from market square
-  const handleGiftClick = (npcSlug: string, npcName: string) => {
-    const npcInfo = marketChat.getNpcInfo(npcSlug);
-    setGiftTarget({
-      slug: npcSlug,
-      name: npcName,
-      avatar: npcInfo?.avatar,
-    });
-  };
-
-  // Handle gift completion
-  const handleGift = (item: Item) => {
-    if (giftTarget) {
-      marketChat.recordGift(item, giftTarget.slug, giftTarget.name);
-    }
-    setGiftTarget(null);
-  };
-
-  // Trigger initial greetings when entering market tab
-  useEffect(() => {
-    if (activeTab === 'market') {
-      const timer = setTimeout(() => {
-        marketChat.triggerInitialGreetings();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [activeTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Responsive padding (match Home.tsx)
   const is1440 = useMediaQuery('(min-width: 1440px)');
@@ -102,7 +58,7 @@ export function ShopHome() {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%', overflow: 'hidden' }}>
       {/* Tab Bar - Rounded toolbar */}
       <Box
         sx={{
@@ -223,18 +179,27 @@ export function ShopHome() {
       </Box>
 
       {/* Tab Content */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
         {/* Market Tab */}
         {activeTab === 'market' && (
-          <Box sx={{ p: padding }}>
-            {/* Time indicator */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              px: padding,
+              overflow: 'hidden',
+            }}
+          >
+            {/* Time indicator - fixed at top */}
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 1,
-                mb: 3,
+                py: 2,
+                flexShrink: 0,
               }}
             >
               <TimeIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
@@ -255,74 +220,14 @@ export function ShopHome() {
               />
             </Box>
 
-            {/* Market Content */}
-            {viewMode === 'strip' ? (
-              /* Strip View - Horizontal scrolling vendors */
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', lg: '1fr 380px' },
-                  gap: 3,
-                  height: { lg: 'calc(100vh - 220px)' },
-                }}
-              >
-                {/* Left: Strip View */}
-                <Box sx={{ minHeight: 0 }}>
-                  <MarketStripView
-                    onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
-                    onGiftClick={handleGiftClick}
-                  />
-                </Box>
-
-                {/* Right: Chat Stream */}
-                <Box
-                  sx={{
-                    display: { xs: 'none', lg: 'flex' },
-                    flexDirection: 'column',
-                    minHeight: 0,
-                  }}
-                >
-                  <MarketChatStream
-                    messages={marketChat.messages}
-                    availableNpcs={marketChat.availableNpcs}
-                    onSendMessage={marketChat.sendPlayerMessage}
-                  />
-                </Box>
-              </Box>
-            ) : (
-              /* Canvas View - Space Jam style */
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', lg: '1fr 420px' },
-                  gap: 3,
-                  height: { lg: 'calc(100vh - 220px)' },
-                }}
-              >
-                {/* Left: Market Canvas with NPCs */}
-                <Box sx={{ minHeight: 0 }}>
-                  <MarketSquareView
-                    onNpcClick={(npcSlug) => marketChat.greetFromNpc(npcSlug)}
-                    onGiftClick={handleGiftClick}
-                  />
-                </Box>
-
-                {/* Right: Chat Stream */}
-                <Box
-                  sx={{
-                    display: { xs: 'none', lg: 'flex' },
-                    flexDirection: 'column',
-                    minHeight: 0,
-                  }}
-                >
-                  <MarketChatStream
-                    messages={marketChat.messages}
-                    availableNpcs={marketChat.availableNpcs}
-                    onSendMessage={marketChat.sendPlayerMessage}
-                  />
-                </Box>
-              </Box>
-            )}
+            {/* Market Content - fills remaining height */}
+            <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden' }}>
+              {viewMode === 'strip' ? (
+                <MarketStripView />
+              ) : (
+                <MarketSquareView />
+              )}
+            </Box>
           </Box>
         )}
 
@@ -332,18 +237,6 @@ export function ShopHome() {
         {/* Saucer Tab */}
         {activeTab === 'saucer' && <SaucerTab />}
       </Box>
-
-      {/* Gift Modal (for Market tab) */}
-      {giftTarget && (
-        <GiftModal
-          open={giftModalOpen}
-          onClose={() => setGiftTarget(null)}
-          recipientSlug={giftTarget.slug}
-          recipientName={giftTarget.name}
-          recipientAvatar={giftTarget.avatar}
-          onGift={handleGift}
-        />
-      )}
     </Box>
   );
 }

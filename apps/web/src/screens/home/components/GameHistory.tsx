@@ -87,6 +87,7 @@ export function GameHistory() {
         title={`Game History (${searchQuery ? `${sortedHistory.length} of ${MOCK_HISTORY.length}` : MOCK_HISTORY.length})`}
         action="external"
         actionTooltip="View All Games"
+        onActionClick={() => navigate('/progress')}
       >
         <SearchInput
           value={searchQuery}

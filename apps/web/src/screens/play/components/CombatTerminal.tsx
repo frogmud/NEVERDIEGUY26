@@ -227,6 +227,15 @@ export interface FeedEntry {
   multiplierGained?: number;
 }
 
+/** Game state exposed to parent for sidebar display */
+export interface GameStateUpdate {
+  throws: number;
+  trades: number;
+  score: number;
+  goal: number;
+  multiplier: number;
+}
+
 interface CombatTerminalProps {
   domain: number;
   eventType: EventType;
@@ -237,6 +246,8 @@ interface CombatTerminalProps {
   isLobby?: boolean;
   /** Callback when feed history updates */
   onFeedUpdate?: (feed: FeedEntry[]) => void;
+  /** Callback when game state changes (throws, trades, score) */
+  onGameStateChange?: (state: GameStateUpdate) => void;
 }
 
 // Map EventType to RoomType
@@ -255,6 +266,7 @@ export function CombatTerminal({
   onLose,
   isLobby = false,
   onFeedUpdate,
+  onGameStateChange,
 }: CombatTerminalProps) {
   // Combat engine ref
   const engineRef = useRef<CombatEngine | null>(null);
@@ -272,6 +284,19 @@ export function CombatTerminal({
   const [showVictoryExplosion, setShowVictoryExplosion] = useState(false);
   const processedMeteorsRef = useRef<Set<string>>(new Set());
   const prevPhaseRef = useRef<string | null>(null);
+
+  // Notify parent of game state changes
+  useEffect(() => {
+    if (engineState && onGameStateChange) {
+      onGameStateChange({
+        throws: engineState.throwsRemaining,
+        trades: engineState.turnsRemaining,
+        score: engineState.currentScore,
+        goal: engineState.targetScore,
+        multiplier: engineState.multiplier,
+      });
+    }
+  }, [engineState, onGameStateChange]);
 
   // Get domain slug for ambient chat
   const domainSlugs: Record<number, string> = {
@@ -357,10 +382,10 @@ export function CombatTerminal({
     feedRef.current = [];
     onFeedUpdate?.([]);
 
-    // Generate guardians based on tier/event type
+    // Generate guardians - random 0-3 per zone
     // Guardians have die types - you must throw matching dice to destroy them
     const dieTypes: Array<4 | 6 | 8 | 10 | 12 | 20> = [4, 6, 8, 10, 12, 20];
-    const numGuardians = eventType === 'boss' ? 4 : eventType === 'big' ? 3 : 2;
+    const numGuardians = Math.floor(Math.random() * 4); // 0, 1, 2, or 3
     const newGuardians: GuardianData[] = [];
 
     // Shuffle die types for variety
@@ -787,23 +812,15 @@ export function CombatTerminal({
           onDiceRoll(rollPayload);
         }
 
-        // Check if throws exhausted and add warning to feed
-        if (newState.throwsRemaining === 0) {
-          const entry: FeedEntry = {
-            id: `system-${Date.now()}`,
-            type: 'npc_chat',
-            timestamp: Date.now(),
-            npcSlug: 'system',
-            npcName: 'System',
-            text: 'No throws remaining - Trade dice or end turn',
-            mood: 'threatening',
-          };
-          feedRef.current = [entry, ...feedRef.current];
-          onFeedUpdate?.(feedRef.current);
+        // Check if throws exhausted - trigger game over if score not met
+        if (newState.throwsRemaining === 0 && newState.currentScore < newState.targetScore) {
+          // Fire defeat NPC commentary and trigger game over
+          onDefeat();
+          onLose();
         }
       }
     }, 100); // Small delay to let state update
-  }, [onDiceRoll, onFeedUpdate]);
+  }, [onDiceRoll, onFeedUpdate, onDefeat, onLose]);
 
   // Victory explosion callback - fires after explosion animation
   const handleVictoryExplosionComplete = useCallback(() => {
@@ -961,6 +978,7 @@ export function CombatTerminal({
         onEndTurn={handleEndCombatTurnWithFeed}
         isSmall={false}
         isDisabled={isLobby}
+        guardianDieTypes={guardians.map(g => g.dieType)}
       />
     </Box>
   );

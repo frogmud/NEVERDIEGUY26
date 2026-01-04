@@ -13,10 +13,12 @@ export const pantheon: Pantheon[] = [
     domain: 'null-providence',
     element: 'Void',
     role: 'Die-rector of Null Providence',
-    portrait: '/assets/characters/pantheon/the-one.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-theone-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-the-one-1.png',
-      '/assets/characters/pantheon/sprite-the-one-2.png',
+      '/assets/characters/pantheon/theone/pantheon-sprite-theone-idle01.svg',
+      '/assets/characters/pantheon/theone/pantheon-sprite-theone-idle02.svg',
+      '/assets/characters/pantheon/theone/pantheon-sprite-theone-idle03.svg',
+      '/assets/characters/pantheon/theone/pantheon-sprite-theone-idle04.svg',
     ],
     description: 'The One oversees Null Providence where existence itself becomes negotiable. As Die-rector of Door 1, represents the fundamental baseline—the one thing that must exist before anything else. Appears as reality questioning its own existence.',
     baseStats: {
@@ -61,10 +63,11 @@ export const pantheon: Pantheon[] = [
     domain: 'earth',
     element: 'Earth / Stone',
     role: 'Die-rector of Earth',
-    portrait: '/assets/characters/pantheon/john.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-john-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-john-1.png',
-      '/assets/characters/pantheon/sprite-john-2.png',
+      '/assets/characters/pantheon/john/pantheon-sprite-john-idle-01.svg',
+      '/assets/characters/pantheon/john/pantheon-sprite-john-idle-02.svg',
+      '/assets/characters/pantheon/john/pantheon-sprite-john-idle-03.svg',
     ],
     description: 'John controls Door 2 and Earth, a realm where organic meets mechanical. His Lucky Number 2 represents duality—flesh and metal, living and constructed. The master builder who never asks permission to upgrade reality.',
     baseStats: {
@@ -109,11 +112,10 @@ export const pantheon: Pantheon[] = [
     domain: 'shadow-keep',
     element: 'Life / Death',
     role: 'Die-rector of Shadow Keep',
-    portrait: '/assets/characters/pantheon/peter.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-peter-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-peter-1.png',
-      '/assets/characters/pantheon/sprite-peter-2.png',
-      '/assets/characters/pantheon/sprite-peter-3.png',
+      '/assets/characters/pantheon/peter/pantheon-sprite-peter-idle-01.svg',
+      '/assets/characters/pantheon/peter/pantheon-sprite-peter-idle-02.svg',
     ],
     description: 'Peter controls Door 3 and the Shadow Keep, where life and death exist in perpetual negotiation. His Lucky Number 3 represents the trinity of existence—birth, life, death—all domains he influences. Master of the threshold between being and oblivion.',
     baseStats: {
@@ -158,11 +160,10 @@ export const pantheon: Pantheon[] = [
     domain: 'infernus',
     element: 'Fire',
     role: 'Die-rector of Infernus',
-    portrait: '/assets/characters/pantheon/robert.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-robert-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-robert-1.png',
-      '/assets/characters/pantheon/sprite-robert-2.png',
-      '/assets/characters/pantheon/sprite-robert-3.png',
+      '/assets/characters/pantheon/robert/pantheon-sprite-robert-idle-01.svg',
+      '/assets/characters/pantheon/robert/pantheon-sprite-robert-idle-02.svg',
     ],
     description: 'Robert controls Door 4 and Infernus, the burning realm where passion and destruction merge. His Lucky Number 4 represents the four cardinal directions of flame—consuming all paths equally. The executive who handles hostile takeovers by making everything hostile.',
     baseStats: {
@@ -207,11 +208,9 @@ export const pantheon: Pantheon[] = [
     domain: 'frost-reach',
     element: 'Time / Ice',
     role: 'Die-rector of Frost Reach',
-    portrait: '/assets/characters/pantheon/alice.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-alice-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-alice-1.png',
-      '/assets/characters/pantheon/sprite-alice-2.png',
-      '/assets/characters/pantheon/sprite-alice-3.png',
+      '/assets/characters/pantheon/alice/pantheon-sprite-alice-idle-02.svg',
     ],
     description: 'Alice controls Door 5 and Frost Reach, where time itself freezes into crystalline permanence. Her Lucky Number 5 represents the fifth dimension—time—which she treats as a suggestion rather than a law. The scheduler who triple-books reality.',
     baseStats: {
@@ -256,11 +255,10 @@ export const pantheon: Pantheon[] = [
     domain: 'aberrant',
     element: 'Air / Wind',
     role: 'Die-rector of Aberrant',
-    portrait: '/assets/characters/pantheon/jane.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-jane-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-jane-1.png',
-      '/assets/characters/pantheon/sprite-jane-2.png',
-      '/assets/characters/pantheon/sprite-jane-3.png',
+      '/assets/characters/pantheon/jane/pantheon-sprite-jane-idle-01.svg',
+      '/assets/characters/pantheon/jane/pantheon-sprite-jane-idle-02.svg',
     ],
     description: 'Jane controls Door 6 and Aberrant, where normalcy becomes the true anomaly. Her Lucky Number 6 represents completion and perfection—the final door, the full circle. The operations manager who optimizes reality into beautiful chaos.',
     baseStats: {
@@ -304,12 +302,10 @@ export const pantheon: Pantheon[] = [
     // No domain - Rhea is an observer, not a domain ruler
     element: 'Void / Cosmic',
     role: 'Ancient Horror (Board Observer)',
-    portrait: '/assets/characters/pantheon/rhea.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-rhea-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-rhea-1.png',
-      '/assets/characters/pantheon/sprite-rhea-2.png',
-      '/assets/characters/pantheon/sprite-rhea-3.png',
-      '/assets/characters/pantheon/sprite-rhea-4.png',
+      '/assets/characters/oversized/frame-1/pantheon-sprite-rhea-idle-01.svg',
+      '/assets/characters/oversized/frame-1/pantheon-sprite-rhea-idle-02.svg',
     ],
     description: 'Rhea predates the Die-rectors, an Old One who observes board meetings with unsettling patience. No lucky number—she exists outside the system, evaluating whether reality deserves to continue. The cosmic horror who attends meetings to remind everyone what lurks beyond.',
     baseStats: {
@@ -353,12 +349,9 @@ export const pantheon: Pantheon[] = [
     // No domain - King James is board chair, not a domain ruler
     element: 'Death / Bureaucracy',
     role: 'Undying King (Board Chair)',
-    portrait: '/assets/characters/pantheon/king-james.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-immortal-king-james-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-king-james-1.png',
-      '/assets/characters/pantheon/sprite-king-james-2.png',
-      '/assets/characters/pantheon/sprite-king-james-3.png',
-      '/assets/characters/pantheon/sprite-king-james-4.png',
+      '/assets/characters/oversized/frame-1/pantheon-sprite-immortal-king-james-idle-01.svg',
     ],
     description: 'King James chairs the Die-rector board despite—or because of—being dead. No lucky number because luck answers to him, not the reverse. The undead executive who discovered that death is just a career transition, and paperwork is eternal.',
     baseStats: {
@@ -402,7 +395,7 @@ export const pantheon: Pantheon[] = [
     // No domain - Zero Chance manifests when probability breaks
     element: 'Probability / Chaos',
     role: 'Probability Void (Event Deity)',
-    portrait: '/assets/characters/pantheon/zero-chance.png',
+    portrait: '/assets/characters/portraits/120px/pantheon-portrait-zerochance-01.svg',
     sprites: [
       '/assets/characters/pantheon/sprite-zero-chance-1.png',
       '/assets/characters/pantheon/sprite-zero-chance-2.png',
@@ -451,10 +444,11 @@ export const pantheon: Pantheon[] = [
     // No domain - Alien Baby appears during reality's vulnerable moments
     element: 'Chaos / Growth',
     role: 'Larval Horror (Intern of Apocalypse)',
-    portrait: '/assets/characters/pantheon/alien-baby.png',
+    portrait: '/assets/characters/pantheon/alienbaby/pantheon-sprite-alienbaby-idle-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-alien-baby-2.png',
-      '/assets/characters/pantheon/sprite-alien-baby-1.png',
+      '/assets/characters/pantheon/alienbaby/pantheon-sprite-alienbaby-idle-01.svg',
+      '/assets/characters/pantheon/alienbaby/pantheon-sprite-alienbaby-walk-01.svg',
+      '/assets/characters/pantheon/alienbaby/pantheon-sprite-alienbaby-walk-02.svg',
     ],
     description: 'Alien Baby manifests during reality\'s vulnerable moments, when existence forgets to baby-proof itself. No lucky number—still learning to count past infinity, keeps getting distracted by destroying conceptual mathematics. The apocalypse intern who makes board meetings into playdate chaos.',
     baseStats: {
@@ -498,12 +492,12 @@ export const pantheon: Pantheon[] = [
     // No domain - Alien Old One is two horrors sharing one body
     element: 'Paradox / Tentacles',
     role: 'Merged Horror (Diversity Hire)',
-    portrait: '/assets/characters/pantheon/alien-old-one.png',
+    portrait: '/assets/characters/pantheon/alienoldone/pantheon-sprite-alienoldone-idle-01.svg',
     sprites: [
-      '/assets/characters/pantheon/sprite-alien-old-one-1.png',
-      '/assets/characters/pantheon/sprite-alien-old-one-2.png',
-      '/assets/characters/pantheon/sprite-alien-old-one-3.png',
-      '/assets/characters/pantheon/sprite-alien-old-one-4.png',
+      '/assets/characters/pantheon/alienoldone/pantheon-sprite-alienoldone-idle-01.svg',
+      '/assets/characters/pantheon/alienoldone/pantheon-sprite-alienoldone-idle-02.svg',
+      '/assets/characters/pantheon/alienoldone/pantheon-sprite-alienoldone-idle-03.svg',
+      '/assets/characters/pantheon/alienoldone/pantheon-sprite-alienoldone-idle-04.svg',
     ],
     description: 'Alien Old One manifests when cosmic horror gets company—two nightmares sharing one body, disagreeing on everything except making reality uncomfortable. No lucky number—can\'t agree on one, filed formal complaints about each other\'s suggestions.',
     baseStats: {

@@ -35,15 +35,13 @@ import { tokens } from '../../theme';
 import { CardSection } from '../../components/CardSection';
 import { CardHeader } from '../../components/ds';
 import { usePlayerData } from '../../hooks/usePlayerData';
-
-// Helper to create wiki slug from display name
-const toSlug = (name: string) => name.toLowerCase().replace(/\s+/g, '-');
+import { loadRunHistory, getRunHistoryStats } from '../../data/player/storage';
 
 // ============================================
 // Types & Config
 // ============================================
 
-type HistorySection = 'overview' | 'performance' | 'items' | 'enemies' | 'milestones';
+type HistorySection = 'overview' | 'runs' | 'performance' | 'items' | 'enemies' | 'milestones';
 
 interface SectionConfig {
   id: HistorySection;
@@ -52,6 +50,7 @@ interface SectionConfig {
 
 const sections: SectionConfig[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'runs', label: 'Recent Runs' },
   { id: 'performance', label: 'Performance' },
   { id: 'items', label: 'Items' },
   { id: 'enemies', label: 'Enemies' },
@@ -213,6 +212,136 @@ function OverviewSection() {
           );
         })}
       </Box>
+    </Box>
+  );
+}
+
+function RecentRunsSection() {
+  const history = loadRunHistory();
+  const stats = getRunHistoryStats();
+
+  // Sort by timestamp descending (most recent first)
+  const sortedHistory = [...history].sort((a, b) => b.timestamp - a.timestamp);
+
+  // Format relative time
+  const formatTime = (timestamp: number) => {
+    const diff = Date.now() - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    if (days < 7) return `${days}d ago`;
+    return new Date(timestamp).toLocaleDateString();
+  };
+
+  // Domain names
+  const domainNames: Record<number, string> = {
+    1: 'Verdant',
+    2: 'Frostreach',
+    3: 'Infernus',
+    4: 'Mechanarium',
+    5: 'Aberrant',
+    6: 'The Void',
+  };
+
+  return (
+    <Box>
+      <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
+        Recent Runs
+      </Typography>
+
+      {/* Quick Stats */}
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2, mb: 3 }}>
+        <CardSection padding={2} sx={{ textAlign: 'center' }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.5rem', color: tokens.colors.text.primary }}>
+            {stats.totalRuns}
+          </Typography>
+          <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>Total Runs</Typography>
+        </CardSection>
+        <CardSection padding={2} sx={{ textAlign: 'center' }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.5rem', color: tokens.colors.success }}>
+            {stats.wins}
+          </Typography>
+          <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>Wins</Typography>
+        </CardSection>
+        <CardSection padding={2} sx={{ textAlign: 'center' }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.5rem', color: tokens.colors.secondary }}>
+            {stats.bestScore.toLocaleString()}
+          </Typography>
+          <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>Best Score</Typography>
+        </CardSection>
+        <CardSection padding={2} sx={{ textAlign: 'center' }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.5rem', color: tokens.colors.warning }}>
+            {stats.totalRuns > 0 ? Math.round((stats.wins / stats.totalRuns) * 100) : 0}%
+          </Typography>
+          <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>Win Rate</Typography>
+        </CardSection>
+      </Box>
+
+      {/* Run History List */}
+      <CardSection padding={0}>
+        <CardHeader title={`Run History (${history.length})`} />
+        <Box sx={{ p: 2, maxHeight: 500, overflow: 'auto' }}>
+          {sortedHistory.length === 0 ? (
+            <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, textAlign: 'center', py: 4 }}>
+              No runs yet. Start playing to build your history!
+            </Typography>
+          ) : (
+            sortedHistory.map((run, i) => (
+              <Box
+                key={run.id}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                  py: 1.5,
+                  borderBottom: i < sortedHistory.length - 1 ? `1px solid ${tokens.colors.border}` : 'none',
+                }}
+              >
+                {/* Win/Loss indicator */}
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    bgcolor: run.won ? tokens.colors.success : tokens.colors.error,
+                    flexShrink: 0,
+                  }}
+                />
+
+                {/* Run info */}
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: run.won ? tokens.colors.success : tokens.colors.text.primary }}>
+                      {run.won ? 'Victory' : 'Defeat'}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                      #{run.threadId}
+                    </Typography>
+                  </Box>
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
+                    Domain {run.domain} ({domainNames[run.domain] || 'Unknown'}) - {run.roomsCleared} rooms
+                    {run.stats.killedBy && ` - Killed by ${run.stats.killedBy}`}
+                  </Typography>
+                </Box>
+
+                {/* Score */}
+                <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: tokens.colors.secondary }}>
+                    {run.totalScore.toLocaleString()}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                    {formatTime(run.timestamp)}
+                  </Typography>
+                </Box>
+              </Box>
+            ))
+          )}
+        </Box>
+      </CardSection>
     </Box>
   );
 }
@@ -799,6 +928,8 @@ export function History() {
     switch (activeSection) {
       case 'overview':
         return <OverviewSection />;
+      case 'runs':
+        return <RecentRunsSection />;
       case 'performance':
         return <PerformanceSection />;
       case 'items':

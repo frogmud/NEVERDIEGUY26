@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@vercel/node':
-        specifier: ^5.2.0
+        specifier: ^5.5.16
         version: 5.5.16(rollup@4.54.0)
       turbo:
         specifier: ^2.5.4
