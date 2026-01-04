@@ -148,10 +148,6 @@ function HoldingToggle({
   heldCount: number;
   totalCount: number;
 }) {
-  // Determine which button is "active" based on held state
-  const allHeld = heldCount === totalCount;
-  const noneHeld = heldCount === 0;
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
       <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
@@ -168,29 +164,6 @@ function HoldingToggle({
       >
         <Box
           component="button"
-          onClick={onAll}
-          sx={{
-            ...gamingFont,
-            fontSize: isSmall ? '0.75rem' : '0.85rem',
-            fontWeight: 600,
-            color: tokens.colors.text.secondary,
-            bgcolor: 'transparent',
-            border: 'none',
-            px: isSmall ? 1.5 : 2,
-            py: isSmall ? 0.5 : 0.75,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease-out',
-            opacity: noneHeld ? 0.33 : 1,
-            '&:hover': {
-              bgcolor: 'rgba(255,255,255,0.15)',
-              color: tokens.colors.text.primary,
-            },
-          }}
-        >
-          all
-        </Box>
-        <Box
-          component="button"
           onClick={onNone}
           sx={{
             ...gamingFont,
@@ -203,7 +176,6 @@ function HoldingToggle({
             py: isSmall ? 0.5 : 0.75,
             cursor: 'pointer',
             transition: 'all 0.15s ease-out',
-            opacity: allHeld ? 0.33 : 1,
             '&:hover': {
               bgcolor: 'rgba(255,255,255,0.15)',
               color: tokens.colors.text.primary,
@@ -211,6 +183,28 @@ function HoldingToggle({
           }}
         >
           none
+        </Box>
+        <Box
+          component="button"
+          onClick={onAll}
+          sx={{
+            ...gamingFont,
+            fontSize: isSmall ? '0.75rem' : '0.85rem',
+            fontWeight: 600,
+            color: tokens.colors.text.secondary,
+            bgcolor: 'transparent',
+            border: 'none',
+            px: isSmall ? 1.5 : 2,
+            py: isSmall ? 0.5 : 0.75,
+            cursor: 'pointer',
+            transition: 'all 0.15s ease-out',
+            '&:hover': {
+              bgcolor: 'rgba(255,255,255,0.15)',
+              color: tokens.colors.text.primary,
+            },
+          }}
+        >
+          all
         </Box>
       </Box>
     </Box>

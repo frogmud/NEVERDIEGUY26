@@ -23,7 +23,6 @@ interface ActionButton {
 const ACTION_BUTTONS: ActionButton[] = [
   { id: 'continue', label: 'Continue', subtitle: 'Domain 2 of 6', icon: '/illustrations/continue.svg' },
   { id: 'new', label: 'New Game', subtitle: null, icon: '/illustrations/newgame.svg' },
-  { id: 'review', label: 'Review', subtitle: 'Learn from mistakes', icon: '/illustrations/review.svg' },
 ];
 
 // Single hero banner: Boo-G Shop only (links to barter market)
@@ -32,7 +31,7 @@ const HERO_BANNER = {
   frameCount: 9,
   basePath: '/assets/meta-ads/shop/frame-',
   alt: "B's Hits - Boo G Shop",
-  link: '/shop/barter',
+  link: '/shop',
 };
 
 // Generate frame path with zero-padded index
@@ -87,7 +86,11 @@ export function ActionButtons() {
             key={btn.id}
             button={btn}
             isSelected={selected === btn.id}
-            onClick={() => setSelected(btn.id)}
+            onClick={() => {
+              setSelected(btn.id);
+              // Navigate to play - PlayHub handles continue vs new run logic
+              navigate('/play');
+            }}
           />
         ))}
       </Box>

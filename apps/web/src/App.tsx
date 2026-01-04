@@ -120,6 +120,7 @@ const OfflineState = lazy(() => import('./screens/errors/OfflineState').then(m =
 // Legal
 const Terms = lazy(() => import('./screens/legal/Terms').then(m => ({ default: m.Terms })));
 const Privacy = lazy(() => import('./screens/legal/Privacy').then(m => ({ default: m.Privacy })));
+const AboutUs = lazy(() => import('./screens/legal/AboutUs').then(m => ({ default: m.AboutUs })));
 
 // Design System (footer link)
 const DesignSystem = lazy(() => import('./screens/design-system/DesignSystem').then(m => ({ default: m.DesignSystem })));
@@ -211,6 +212,7 @@ function App() {
           {/* Legal */}
           <Route path="/terms" element={<Suspense fallback={<RouteLoader />}><Terms /></Suspense>} />
           <Route path="/privacy" element={<Suspense fallback={<RouteLoader />}><Privacy /></Suspense>} />
+          <Route path="/about" element={<Suspense fallback={<RouteLoader />}><AboutUs /></Suspense>} />
 
           {/* Design System */}
           <Route path="/design-system" element={<Suspense fallback={<RouteLoader />}><DesignSystem /></Suspense>} />

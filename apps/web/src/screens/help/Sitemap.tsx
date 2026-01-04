@@ -70,9 +70,6 @@ const sitemapData: SitemapSection[] = [
       { label: 'Reset Password', path: '/reset-password', status: 'active' },
       { label: 'Reset Success', path: '/reset-success', status: 'active' },
       { label: 'Logout', path: '/logout', status: 'active' },
-      // Planned for v2
-      { label: 'Email Verification', path: '/verify-email', status: 'planned' },
-      { label: '2FA Setup', path: '/2fa/setup', status: 'planned' },
     ],
   },
   {
@@ -93,8 +90,6 @@ const sitemapData: SitemapSection[] = [
       { label: 'Exit Summary', path: '/play/exit-summary', status: 'active' },
       { label: 'Inventory', path: '/inventory', status: 'active' },
       { label: 'Loot Drop', path: '/loot', status: 'active' },
-      // Planned
-      { label: 'Review', path: '/play/review', status: 'planned' },
     ],
   },
   {
@@ -145,9 +140,6 @@ const sitemapData: SitemapSection[] = [
       { label: 'Leaderboard', path: '/leaderboard', status: 'active' },
       { label: 'History', path: '/history', status: 'active' },
       { label: 'Daily Reward', path: '/rewards/daily', status: 'active' },
-      // Planned
-      { label: 'Season Pass', path: '/season-pass', status: 'planned' },
-      { label: 'Quest Log', path: '/quests', status: 'planned' },
     ],
   },
   {
@@ -157,9 +149,6 @@ const sitemapData: SitemapSection[] = [
       { label: 'My Profile', path: '/profile', status: 'active' },
       { label: 'Edit Profile', path: '/profile/edit', status: 'active' },
       { label: 'User Profile', path: '/user/:id', status: 'active' },
-      // Planned
-      { label: 'Match History', path: '/match-history', status: 'planned' },
-      { label: 'NPC Chat', path: '/npc/messages', status: 'planned' },
     ],
   },
   {
@@ -202,8 +191,7 @@ const sitemapData: SitemapSection[] = [
     links: [
       { label: 'Terms of Service', path: '/terms', status: 'active' },
       { label: 'Privacy Policy', path: '/privacy', status: 'active' },
-      // Planned
-      { label: 'About Us', path: '/about', status: 'planned' },
+      { label: 'About Us', path: '/about', status: 'active' },
     ],
   },
   {
@@ -222,7 +210,6 @@ const sitemapData: SitemapSection[] = [
     icon: <PaletteSharp />,
     links: [
       { label: 'Overview', path: '/design-system', status: 'active' },
-      { label: 'Component Detail', path: '/design-system/:componentId', status: 'active' },
     ],
   },
 ];

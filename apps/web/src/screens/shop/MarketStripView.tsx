@@ -11,11 +11,8 @@ import {
   Box,
   Typography,
   Chip,
-  IconButton,
 } from '@mui/material';
 import {
-  ChevronLeftSharp as LeftIcon,
-  ChevronRightSharp as RightIcon,
   AccessTimeSharp as TimeIcon,
 } from '@mui/icons-material';
 import { tokens, RARITY_COLORS } from '../../theme';
@@ -49,21 +46,6 @@ export function MarketStripView({ onNpcClick }: MarketStripViewProps) {
     const away = vendorData.filter((v) => !v.isAvailable);
     return { availableVendors: available, awayVendors: away };
   }, [vendorData]);
-
-  // Scroll handlers
-  const scrollLeft = () => {
-    const container = document.getElementById('vendor-strip');
-    if (container) {
-      container.scrollBy({ left: -320, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    const container = document.getElementById('vendor-strip');
-    if (container) {
-      container.scrollBy({ left: 320, behavior: 'smooth' });
-    }
-  };
 
   // Handle vendor card click
   const handleVendorClick = (shop: Shop) => {
@@ -115,19 +97,12 @@ export function MarketStripView({ onNpcClick }: MarketStripViewProps) {
         {awayVendors.length > 0 && ` - ${awayVendors.length} closed`}
       </Typography>
 
-      {/* Horizontal Strip */}
+      {/* Vendor Card Grid */}
       <Box
-        id="vendor-strip"
         sx={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
           gap: 2,
-          overflowX: 'auto',
-          pb: 2,
-          scrollSnapType: 'x mandatory',
-          scrollBehavior: 'smooth',
-          // Hide scrollbar but keep functionality
-          scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
         {/* Available Vendors */}
@@ -140,80 +115,15 @@ export function MarketStripView({ onNpcClick }: MarketStripViewProps) {
           />
         ))}
 
-        {/* Divider if there are away vendors */}
-        {awayVendors.length > 0 && availableVendors.length > 0 && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              px: 2,
-              flexShrink: 0,
-            }}
-          >
-            <Box
-              sx={{
-                width: 2,
-                height: 100,
-                bgcolor: tokens.colors.border,
-                borderRadius: 1,
-              }}
-            />
-          </Box>
-        )}
-
         {/* Away Vendors (grayed out) */}
         {awayVendors.map((shop) => (
           <VendorCard
             key={shop.slug}
             shop={shop}
             isAvailable={false}
-            onClick={() => handleVendorClick(shop)}
+            onClick={() => {}}
           />
         ))}
-      </Box>
-
-      {/* Scroll Controls + Hint Text */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-          mt: 2,
-        }}
-      >
-        <IconButton
-          onClick={scrollLeft}
-          size="small"
-          sx={{
-            bgcolor: tokens.colors.background.paper,
-            border: `1px solid ${tokens.colors.border}`,
-            '&:hover': { bgcolor: tokens.colors.background.elevated },
-          }}
-        >
-          <LeftIcon sx={{ fontSize: 20 }} />
-        </IconButton>
-
-        <Typography
-          sx={{
-            color: tokens.colors.text.disabled,
-            fontSize: '0.8rem',
-          }}
-        >
-          Scroll through vendors to see who is open for business
-        </Typography>
-
-        <IconButton
-          onClick={scrollRight}
-          size="small"
-          sx={{
-            bgcolor: tokens.colors.background.paper,
-            border: `1px solid ${tokens.colors.border}`,
-            '&:hover': { bgcolor: tokens.colors.background.elevated },
-          }}
-        >
-          <RightIcon sx={{ fontSize: 20 }} />
-        </IconButton>
       </Box>
     </Box>
   );

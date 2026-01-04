@@ -22,7 +22,7 @@ import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteo
 import { useRun } from '../../contexts';
 import { GameOverModal } from '../../games/meteor/components';
 import { TransitionWipe } from '../../components/TransitionWipe';
-import { CombatTerminal, type FeedEntry } from './components/CombatTerminal';
+import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { TimeOfDay, ZoneInfo } from './components/tabs/GameTabLaunch';
 
 import type { ZoneMarker } from '../../types/zones';
@@ -109,23 +109,25 @@ export function PlayHub() {
     isIdle,
   } = useGlobeMeteorGame();
 
-  // Build game state for sidebar
-  // TODO: Wire up actual game state from combat system
+  // Combat game state (throws, trades, score) from CombatTerminal
+  const [combatGameState, setCombatGameState] = useState<GameStateUpdate | null>(null);
+
+  // Build game state for sidebar - uses live combat state when available
   const gameState = useMemo(() => ({
-    enemySprite: '/assets/enemies/shadow-knight.png', // TODO: from combat state
-    scoreToBeat: 1000, // TODO: from combat state
-    score: state.totalScore || 0,
-    multiplier: 1, // TODO: from combat state
-    goal: 1000, // TODO: from combat state
-    throws: 3, // TODO: from combat state
-    trades: 3, // TODO: from combat state
+    enemySprite: '/assets/enemies/shadow-knight.png',
+    scoreToBeat: combatGameState?.goal || 1000,
+    score: combatGameState?.score || state.totalScore || 0,
+    multiplier: combatGameState?.multiplier || 1,
+    goal: combatGameState?.goal || 1000,
+    throws: combatGameState?.throws ?? 3,
+    trades: combatGameState?.trades ?? 3,
     gold: state.gold || 0,
     domain: state.currentDomain || 1,
     totalDomains: 6,
     event: state.currentEvent || 1,
     totalEvents: 3,
-    rollHistory: [], // TODO: wire up roll history from combat
-  }), [state]);
+    rollHistory: [],
+  }), [state, combatGameState]);
 
   // Handle New Run - starts run and shows zone selection
   const handleNewRun = () => {
@@ -298,8 +300,9 @@ export function PlayHub() {
           scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
           onWin={handleCombatWin}
           onLose={failRoom}
-          isLobby={state.phase === 'event_select'}
+          isLobby={state.phase === 'event_select' || !state.selectedZone}
           onFeedUpdate={setCombatFeed}
+          onGameStateChange={setCombatGameState}
         />
 
         {/* Game Over Modal - contained within center area so sidebar stays visible */}

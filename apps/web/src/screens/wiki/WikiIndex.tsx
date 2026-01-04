@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -137,11 +137,22 @@ const DICE_VARIANTS = [
 export function WikiIndex() {
   const navigate = useNavigate();
   const { category } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated } = useAuth();
+
+  // Page from URL (persists across navigation)
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const setPage = (newPage: number) => {
+    if (newPage === 1) {
+      searchParams.delete('page');
+    } else {
+      searchParams.set('page', String(newPage));
+    }
+    setSearchParams(searchParams, { replace: true });
+  };
 
   // State
   const [searchQuery, setSearchQuery] = useState('');
-  const [page, setPage] = useState(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'name', direction: 'asc' });
   const [filters, setFilters] = useState<Record<string, string | null>>({});
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
@@ -284,14 +295,21 @@ export function WikiIndex() {
 
   // Reset state when tab changes
   useEffect(() => {
-    setPage(1);
+    // Clear page from URL
+    if (searchParams.has('page')) {
+      searchParams.delete('page');
+      setSearchParams(searchParams, { replace: true });
+    }
     setFilters({});
     setSearchQuery('');
   }, [activeTab]);
 
   // Reset page when search or filters change
   useEffect(() => {
-    setPage(1);
+    if (searchParams.has('page')) {
+      searchParams.delete('page');
+      setSearchParams(searchParams, { replace: true });
+    }
   }, [searchQuery, filters]);
 
   // Handlers

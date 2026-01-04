@@ -346,12 +346,12 @@ export function MarketSquareView({ onNpcClick, onGiftClick }: MarketSquareViewPr
         </Tooltip>
       </Box>
 
-      {/* Space Jam Style Market Canvas */}
+      {/* Space Jam Style Market Canvas - wide and short */}
       <Paper
         sx={{
           position: 'relative',
           width: '100%',
-          aspectRatio: '16/9',
+          aspectRatio: '21/9',
           bgcolor: tokens.colors.background.elevated,
           borderRadius: '30px',
           overflow: 'hidden',

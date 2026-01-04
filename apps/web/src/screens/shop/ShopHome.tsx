@@ -58,7 +58,7 @@ export function ShopHome() {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%', overflow: 'hidden' }}>
       {/* Tab Bar - Rounded toolbar */}
       <Box
         sx={{
@@ -188,6 +188,7 @@ export function ShopHome() {
               flexDirection: 'column',
               height: '100%',
               px: padding,
+              overflow: 'hidden',
             }}
           >
             {/* Time indicator - fixed at top */}
@@ -220,7 +221,7 @@ export function ShopHome() {
             </Box>
 
             {/* Market Content - fills remaining height */}
-            <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+            <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden' }}>
               {viewMode === 'strip' ? (
                 <MarketStripView />
               ) : (

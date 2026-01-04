@@ -263,7 +263,7 @@ export const domains: Domain[] = [
     element: 'Neutral',
     difficulty: 'Easy',
     levelRange: '1-50',
-    image: '/assets/domains/the-dying-saucer.png',
+    image: '/assets/domains/the-dying-saucer.svg',
     description: 'The Dying Saucer serves as the central hub where every run begins and every death returns you. This crashed UFO apartment complex houses six numbered doors, each leading to a different domain. The saucer itself is a massive d6 - choosing a door triggers the cosmic dice roll that determines your divine favor.',
     npcs: ['willy', 'mr-bones', 'boo-g', 'king-james', 'dr-maxwell', 'the-general', 'dr-voss', 'xtreme'],
     connectedAreas: [
