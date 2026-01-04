@@ -6,12 +6,6 @@
 
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, Link } from '@mui/material';
-import {
-  CasinoSharp as DiceIcon,
-  SmartToySharp as BotIcon,
-  MenuBookSharp as WikiIcon,
-  EmojiEventsSharp as TrophyIcon,
-} from '@mui/icons-material';
 import { tokens } from '../../theme';
 
 // Feature section data
@@ -19,10 +13,9 @@ const SECTIONS = [
   {
     id: 'dice',
     title: 'Roll the Dice,\nDefy Death',
-    desc: 'Strategic dice-based combat with roguelike progression. Every roll matters.',
+    desc: 'Strategic dice-based combat with roguelike progression. Die. Never die. Die again.',
     cta: 'Start Playing',
     ctaPath: '/signup',
-    icon: DiceIcon,
     visual: 'dice',
   },
   {
@@ -31,7 +24,6 @@ const SECTIONS = [
     desc: 'Face off against Die-rectors with distinct personalities and playstyles.',
     cta: 'Meet the Bots',
     ctaPath: '/wiki/pantheon',
-    icon: BotIcon,
     visual: 'bots',
   },
   {
@@ -40,7 +32,6 @@ const SECTIONS = [
     desc: 'Compete against players worldwide. Track your stats and prove your worth.',
     cta: 'View Leaderboard',
     ctaPath: '/leaderboard',
-    icon: TrophyIcon,
     visual: 'leaderboard',
   },
   {
@@ -49,12 +40,137 @@ const SECTIONS = [
     desc: 'Discover hundreds of items, enemies, and secrets in our comprehensive wiki.',
     cta: 'Browse Wiki',
     ctaPath: '/wiki',
-    icon: WikiIcon,
     visual: 'wiki',
   },
 ];
 
-// Placeholder visual component
+// Pantheon portraits for bots section
+const BOT_PORTRAITS = [
+  'pantheon-portrait-john-01.svg',
+  'pantheon-portrait-peter-01.svg',
+  'pantheon-portrait-robert-01.svg',
+  'pantheon-portrait-alice-01.svg',
+  'pantheon-portrait-jane-01.svg',
+  'pantheon-portrait-theone-01.svg',
+  'pantheon-portrait-rhea-01.svg',
+  'pantheon-portrait-immortal-king-james-01.svg',
+  'pantheon-portrait-zerochance-01.svg',
+];
+
+// Video Visual Component
+function VideoVisual({ src }: { src: string }) {
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        maxWidth: 480,
+        aspectRatio: '16/9',
+        borderRadius: '20px',
+        bgcolor: tokens.colors.background.paper,
+        border: `1px solid ${tokens.colors.border}`,
+        overflow: 'hidden',
+        p: 1,
+      }}
+    >
+      <Box
+        component="video"
+        src={src}
+        autoPlay
+        loop
+        muted
+        playsInline
+        sx={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          borderRadius: '16px',
+        }}
+      />
+    </Box>
+  );
+}
+
+// Lo-fi Play Screen Visual
+function LofiPlayVisual() {
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        maxWidth: 480,
+        aspectRatio: '4/3',
+        borderRadius: '20px',
+        bgcolor: tokens.colors.background.paper,
+        border: `1px solid ${tokens.colors.border}`,
+        overflow: 'hidden',
+        display: 'flex',
+      }}
+    >
+      {/* Main area */}
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 2 }}>
+        {/* Dice toolbar skeleton */}
+        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <Box
+              key={i}
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: '6px',
+                bgcolor: tokens.colors.background.elevated,
+              }}
+            />
+          ))}
+        </Box>
+        {/* Globe placeholder */}
+        <Box
+          sx={{
+            width: 160,
+            height: 160,
+            borderRadius: '50%',
+            bgcolor: tokens.colors.background.elevated,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mx: 'auto',
+            my: 'auto',
+          }}
+        >
+          <Box
+            component="img"
+            src="/logos/ndg-skull-dome.svg"
+            alt="Globe"
+            sx={{ width: 60, height: 'auto', opacity: 0.4 }}
+          />
+        </Box>
+        {/* Bottom bar skeleton */}
+        <Box sx={{ display: 'flex', gap: 1, mt: 2, justifyContent: 'center' }}>
+          <Box sx={{ width: 80, height: 28, borderRadius: '14px', bgcolor: tokens.colors.background.elevated }} />
+          <Box sx={{ width: 80, height: 28, borderRadius: '14px', bgcolor: tokens.colors.background.elevated }} />
+        </Box>
+      </Box>
+      {/* Sidebar skeleton */}
+      <Box
+        sx={{
+          width: 120,
+          bgcolor: tokens.colors.background.elevated,
+          borderLeft: `1px solid ${tokens.colors.border}`,
+          p: 1.5,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+        }}
+      >
+        <Box sx={{ height: 12, width: '80%', bgcolor: tokens.colors.background.paper, borderRadius: 1 }} />
+        <Box sx={{ height: 8, width: '60%', bgcolor: tokens.colors.background.paper, borderRadius: 1 }} />
+        <Box sx={{ flex: 1 }} />
+        <Box sx={{ height: 24, bgcolor: tokens.colors.background.paper, borderRadius: '8px' }} />
+        <Box sx={{ height: 24, bgcolor: tokens.colors.background.paper, borderRadius: '8px' }} />
+      </Box>
+    </Box>
+  );
+}
+
+// Section visual components
 function SectionVisual({ type }: { type: string }) {
   const visualStyles = {
     width: '100%',
@@ -69,51 +185,43 @@ function SectionVisual({ type }: { type: string }) {
     overflow: 'hidden',
   };
 
-  // Different placeholder visuals based on type
+  // Lo-fi visual for dice section
   if (type === 'dice') {
-    return (
-      <Box sx={visualStyles}>
-        <Box
-          component="img"
-          src="/logos/ndg-skull-dome.svg"
-          alt="Dice"
-          sx={{ width: 160, height: 'auto', opacity: 0.6 }}
-        />
-      </Box>
-    );
+    return <LofiPlayVisual />;
   }
 
+  // Portrait grid for bots section
   if (type === 'bots') {
     return (
-      <Box sx={visualStyles}>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1.5, p: 3 }}>
-          {['john', 'mr-bones', 'xtreme', 'willy', 'voss', 'maxwell', 'bones', 'boo', 'thegeneral'].map((name) => (
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, maxWidth: 400 }}>
+        {BOT_PORTRAITS.map((portrait) => (
+          <Box
+            key={portrait}
+            sx={{
+              width: 100,
+              height: 100,
+              borderRadius: '16px',
+              bgcolor: tokens.colors.background.elevated,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+            }}
+          >
             <Box
-              key={name}
-              sx={{
-                width: 64,
-                height: 64,
-                borderRadius: '12px',
-                bgcolor: tokens.colors.background.elevated,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Box
-                component="img"
-                src={`/assets/characters/shops/${name}.png`}
-                alt={name}
-                sx={{ width: 48, height: 48, imageRendering: 'pixelated' }}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-              />
-            </Box>
-          ))}
-        </Box>
+              component="img"
+              src={`/assets/characters/portraits/120px/${portrait}`}
+              alt={portrait}
+              sx={{ width: 80, height: 80, objectFit: 'contain' }}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+          </Box>
+        ))}
       </Box>
     );
   }
 
+  // Lo-fi leaderboard
   if (type === 'leaderboard') {
     return (
       <Box sx={visualStyles}>
@@ -157,24 +265,9 @@ function SectionVisual({ type }: { type: string }) {
     );
   }
 
+  // Video for wiki/diepedia section
   if (type === 'wiki') {
-    return (
-      <Box sx={visualStyles}>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1.5, p: 3 }}>
-          {Array.from({ length: 12 }).map((_, i) => (
-            <Box
-              key={i}
-              sx={{
-                width: 56,
-                height: 56,
-                borderRadius: '8px',
-                bgcolor: tokens.colors.background.elevated,
-              }}
-            />
-          ))}
-        </Box>
-      </Box>
-    );
+    return <VideoVisual src="/assets/videos/explorediepedia.mp4" />;
   }
 
   return <Box sx={visualStyles} />;
@@ -207,7 +300,7 @@ export function MarketingLP() {
           gap: { xs: 4, md: 8 },
         }}
       >
-        {/* Hero Visual */}
+        {/* Hero Visual - Gameplay Video */}
         <Box
           sx={{
             flex: 1,
@@ -215,26 +308,7 @@ export function MarketingLP() {
             justifyContent: 'center',
           }}
         >
-          <Box
-            sx={{
-              width: '100%',
-              maxWidth: 400,
-              aspectRatio: '1',
-              borderRadius: '24px',
-              bgcolor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Box
-              component="img"
-              src="/logos/ndg-skull-dome.svg"
-              alt="Never Die Guy"
-              sx={{ width: '60%', height: 'auto' }}
-            />
-          </Box>
+          <VideoVisual src="/assets/videos/playing.mp4" />
         </Box>
 
         {/* Hero Text */}
@@ -263,7 +337,7 @@ export function MarketingLP() {
               maxWidth: { md: 400 },
             }}
           >
-            Enjoyable dice roguelike. Die. Never die. Die again.
+            Enjoyable dice roguelike.
           </Typography>
           <Button
             variant="contained"
@@ -282,89 +356,85 @@ export function MarketingLP() {
         </Box>
       </Box>
 
-      {/* Feature Sections - Alternating Layout */}
+      {/* Feature Sections - Alternating layout, no gray backgrounds */}
       {SECTIONS.map((section, index) => {
         const isReversed = index % 2 === 1;
-        const Icon = section.icon;
-
         return (
+        <Box
+          key={section.id}
+          sx={{
+            width: '100%',
+            py: { xs: 8, sm: 10, md: 12 },
+          }}
+        >
           <Box
-            key={section.id}
             sx={{
-              width: '100%',
-              py: { xs: 8, sm: 10, md: 12 },
-              bgcolor: index % 2 === 0 ? 'transparent' : tokens.colors.background.paper,
+              maxWidth: 1200,
+              mx: 'auto',
+              px: { xs: 3, sm: 4, md: 6 },
+              display: 'flex',
+              flexDirection: { xs: 'column', md: isReversed ? 'row-reverse' : 'row' },
+              alignItems: 'center',
+              gap: { xs: 4, md: 8 },
             }}
           >
+            {/* Text */}
             <Box
               sx={{
-                maxWidth: 1200,
-                mx: 'auto',
-                px: { xs: 3, sm: 4, md: 6 },
-                display: 'flex',
-                flexDirection: { xs: 'column', md: isReversed ? 'row-reverse' : 'row' },
-                alignItems: 'center',
-                gap: { xs: 4, md: 8 },
+                flex: 1,
+                textAlign: { xs: 'center', md: 'left' },
               }}
             >
-              {/* Visual */}
-              <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                <SectionVisual type={section.visual} />
-              </Box>
-
-              {/* Text */}
-              <Box
+              <Typography
                 sx={{
-                  flex: 1,
-                  textAlign: { xs: 'center', md: 'left' },
+                  fontWeight: 800,
+                  fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
+                  color: tokens.colors.text.primary,
+                  mb: 2,
+                  lineHeight: 1.2,
+                  whiteSpace: 'pre-line',
                 }}
               >
-                <Typography
-                  sx={{
-                    fontWeight: 800,
-                    fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
-                    color: tokens.colors.text.primary,
-                    mb: 2,
-                    lineHeight: 1.2,
-                    whiteSpace: 'pre-line',
-                  }}
-                >
-                  {section.title}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: { xs: '1rem', sm: '1.125rem' },
-                    color: tokens.colors.text.secondary,
-                    mb: 4,
-                    maxWidth: { md: 400 },
-                  }}
-                >
-                  {section.desc}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  onClick={() => navigate(section.ctaPath)}
-                  startIcon={<Icon />}
-                  sx={{
-                    px: 4,
-                    py: 1.5,
-                    fontSize: '1rem',
-                    fontWeight: 600,
-                    borderRadius: '12px',
-                    borderColor: tokens.colors.border,
-                    color: tokens.colors.text.primary,
-                    '&:hover': {
-                      borderColor: tokens.colors.text.secondary,
-                      bgcolor: 'transparent',
-                    },
-                  }}
-                >
-                  {section.cta}
-                </Button>
-              </Box>
+                {section.title}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { xs: '1rem', sm: '1.125rem' },
+                  color: tokens.colors.text.secondary,
+                  mb: 4,
+                  maxWidth: { md: 400 },
+                }}
+              >
+                {section.desc}
+              </Typography>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => navigate(section.ctaPath)}
+                sx={{
+                  px: 4,
+                  py: 1.5,
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  borderRadius: '12px',
+                  borderColor: tokens.colors.border,
+                  color: tokens.colors.text.primary,
+                  '&:hover': {
+                    borderColor: tokens.colors.text.secondary,
+                    bgcolor: 'transparent',
+                  },
+                }}
+              >
+                {section.cta}
+              </Button>
+            </Box>
+
+            {/* Visual */}
+            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+              <SectionVisual type={section.visual} />
             </Box>
           </Box>
+        </Box>
         );
       })}
 
