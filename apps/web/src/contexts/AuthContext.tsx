@@ -2,6 +2,7 @@
  * Auth Context
  *
  * Manages user authentication state throughout the app.
+ * Also handles traveler selection for non-authenticated users.
  *
  * Test Account:
  *   Username: Kevin
@@ -9,11 +10,30 @@
  *
  * Usage:
  *   import { useAuth } from '../contexts/AuthContext';
- *   const { user, isAuthenticated, signIn, signOut } = useAuth();
+ *   const { user, isAuthenticated, selectedTraveler, selectTraveler, signIn, signOut } = useAuth();
  */
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import { getUser, type User } from '../data/users';
+
+// Traveler type for character selection
+export interface TravelerOption {
+  slug: string;
+  name: string;
+  portrait: string;
+}
+
+// Available travelers for selection
+export const TRAVELER_OPTIONS: TravelerOption[] = [
+  { slug: 'never-die-guy', name: 'Never Die Guy', portrait: '/assets/characters/portraits/120px/traveler-portrait-neverdieguy-02.svg' },
+  { slug: 'stitch-up-girl', name: 'Stitch Up Girl', portrait: '/assets/characters/portraits/120px/traveler-portrait-stitchupgirl-01.svg' },
+  { slug: 'the-general', name: 'The General', portrait: '/assets/characters/portraits/120px/traveler-portrait-general-01.svg' },
+  { slug: 'body-count', name: 'Body Count', portrait: '/assets/characters/portraits/120px/traveler-portrait-bodycount-01.svg' },
+  { slug: 'boots', name: 'Boots', portrait: '/assets/characters/portraits/120px/traveler-portrait-boots-01.svg' },
+  { slug: 'clausen', name: 'Detective Clausen', portrait: '/assets/characters/portraits/120px/traveler-portrait-clausen-01.svg' },
+  { slug: 'keith-man', name: 'Keith Man', portrait: '/assets/characters/portraits/120px/traveler-portrait-keithman-01.svg' },
+  { slug: 'mr-kevin', name: 'Mr. Kevin', portrait: '/assets/characters/portraits/120px/traveler-portrait-mrkevin-01.svg' },
+];
 
 // Kevin's special account (always ID 1)
 const KEVIN_USER: User = {
@@ -54,6 +74,10 @@ interface AuthContextType {
   signIn: (username: string, password: string) => Promise<boolean>;
   signOut: () => void;
   clearError: () => void;
+  // Traveler selection (for non-authenticated users)
+  selectedTraveler: TravelerOption | null;
+  selectTraveler: (slug: string) => void;
+  clearTraveler: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -66,6 +90,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Check localStorage for persisted session
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem('ndg_auth_user');
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  });
+
+  // Check localStorage for selected traveler
+  const [selectedTraveler, setSelectedTraveler] = useState<TravelerOption | null>(() => {
+    const stored = localStorage.getItem('ndg_selected_traveler');
     if (stored) {
       try {
         return JSON.parse(stored);
@@ -122,6 +159,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setError(null);
   }, []);
 
+  const selectTraveler = useCallback((slug: string) => {
+    const traveler = TRAVELER_OPTIONS.find(t => t.slug === slug);
+    if (traveler) {
+      setSelectedTraveler(traveler);
+      localStorage.setItem('ndg_selected_traveler', JSON.stringify(traveler));
+    }
+  }, []);
+
+  const clearTraveler = useCallback(() => {
+    setSelectedTraveler(null);
+    localStorage.removeItem('ndg_selected_traveler');
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -132,6 +182,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         signOut,
         clearError,
+        selectedTraveler,
+        selectTraveler,
+        clearTraveler,
       }}
     >
       {children}

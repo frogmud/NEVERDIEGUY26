@@ -16,7 +16,7 @@ import { searchEntities, type AnyEntity } from '../../data/wiki';
 import { HEADER_HEIGHT } from './navItems';
 import { SearchPopover } from './SearchPopover';
 import { NotificationsMenu } from './NotificationsMenu';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth, TRAVELER_OPTIONS } from '../../contexts/AuthContext';
 
 interface AppTopbarProps {
   isMobile?: boolean;
@@ -25,7 +25,7 @@ interface AppTopbarProps {
 
 export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
   const navigate = useNavigate();
-  const { user, isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, signOut, selectedTraveler, selectTraveler, clearTraveler } = useAuth();
 
   // User menu state
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
@@ -200,7 +200,7 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
           title={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, py: 0.25 }}>
               <Typography sx={{ fontSize: '0.75rem', fontWeight: 600 }}>
-                @{isAuthenticated && user ? user.name : 'Guest'}
+                @{isAuthenticated && user ? user.name : selectedTraveler ? selectedTraveler.name : 'Guest'}
               </Typography>
               <CountryIcon sx={{ fontSize: 12 }} />
               {isAuthenticated && <StarIcon sx={{ fontSize: 12, color: tokens.colors.warning }} />}
@@ -211,17 +211,19 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
         >
           <Avatar
             onClick={(e) => setUserMenuAnchor(e.currentTarget)}
+            src={selectedTraveler && !isAuthenticated ? selectedTraveler.portrait : undefined}
             sx={{
               width: 32,
               height: 32,
-              bgcolor: isAuthenticated ? tokens.colors.primary : tokens.colors.background.elevated,
+              bgcolor: isAuthenticated ? tokens.colors.primary : selectedTraveler ? tokens.colors.background.paper : tokens.colors.background.elevated,
               fontSize: '0.75rem',
               fontWeight: 700,
               cursor: 'pointer',
+              border: selectedTraveler && !isAuthenticated ? `2px solid ${tokens.colors.primary}` : 'none',
               '&:hover': { opacity: 0.8 },
             }}
           >
-            {isAuthenticated && user ? user.name.charAt(0).toUpperCase() : 'G'}
+            {isAuthenticated && user ? user.name.charAt(0).toUpperCase() : !selectedTraveler ? 'G' : null}
           </Avatar>
         </Tooltip>
 
@@ -281,25 +283,54 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
                 Sign Out
               </MenuItem>,
             ] : [
-              <MenuItem
-                key="signin"
-                onClick={() => {
-                  setUserMenuAnchor(null);
-                  navigate('/login');
-                }}
-              >
-                Sign In
-              </MenuItem>,
-              <MenuItem
-                key="signup"
-                onClick={() => {
-                  setUserMenuAnchor(null);
-                  navigate('/signup');
-                }}
-              >
-                Create Account
-              </MenuItem>,
-            ]}
+              <Box key="traveler-header" sx={{ px: 2, py: 1.5 }}>
+                <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                  {selectedTraveler ? selectedTraveler.name : 'Choose Traveler'}
+                </Typography>
+                <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
+                  {selectedTraveler ? 'Playing as this character' : 'Select who you want to be'}
+                </Typography>
+              </Box>,
+              <Divider key="div-travelers" sx={{ borderColor: tokens.colors.border }} />,
+              <Box key="traveler-grid" sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, p: 1.5 }}>
+                {TRAVELER_OPTIONS.map((traveler) => (
+                  <Tooltip key={traveler.slug} title={traveler.name} arrow placement="top">
+                    <Avatar
+                      src={traveler.portrait}
+                      onClick={() => {
+                        selectTraveler(traveler.slug);
+                        setUserMenuAnchor(null);
+                      }}
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        cursor: 'pointer',
+                        border: selectedTraveler?.slug === traveler.slug ? `2px solid ${tokens.colors.primary}` : `2px solid transparent`,
+                        '&:hover': {
+                          border: `2px solid ${tokens.colors.text.secondary}`,
+                          transform: 'scale(1.1)',
+                        },
+                        transition: 'all 0.15s ease',
+                      }}
+                    />
+                  </Tooltip>
+                ))}
+              </Box>,
+              selectedTraveler && (
+                <Box key="guest-option">
+                  <Divider sx={{ borderColor: tokens.colors.border }} />
+                  <MenuItem
+                    onClick={() => {
+                      clearTraveler();
+                      setUserMenuAnchor(null);
+                    }}
+                    sx={{ justifyContent: 'center', color: tokens.colors.text.secondary }}
+                  >
+                    Play as Guest
+                  </MenuItem>
+                </Box>
+              ),
+            ].filter(Boolean)}
         </Menu>
 
         {/* Notifications dropdown */}
