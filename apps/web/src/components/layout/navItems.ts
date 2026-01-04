@@ -11,10 +11,10 @@ export type NavItem = {
 };
 
 // MVP Nav: 4 simple entries, no dropdowns
-// Play is accessible without auth; Wiki, Progress, Barter require auth
+// Play and Wiki accessible without auth; Progress, Barter require auth
 export const navItems: NavItem[] = [
   { label: 'Play', iconSrc: '/assets/nav/nav1-play.svg', path: '/play' },
-  { label: 'Wiki', iconSrc: '/assets/nav/nav2-wiki.svg', path: '/wiki', requiresAuth: true },
+  { label: 'Wiki', iconSrc: '/assets/nav/nav2-wiki.svg', path: '/wiki' },
   { label: 'Progress', iconSrc: '/assets/nav/nav3-progress.svg', path: '/progress', requiresAuth: true },
   { label: 'Barter', iconSrc: '/assets/nav/nav4-market.svg', path: '/shop', requiresAuth: true },
 ];
