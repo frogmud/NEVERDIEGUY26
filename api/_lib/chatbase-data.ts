@@ -7,41 +7,23 @@
 import type { MoodType } from '../../packages/shared/src/types/index.js';
 
 // Import all NPC chatbase files statically (relative paths for Vercel runtime)
-// @ts-expect-error JSON imports work at runtime
 import theOne from '../../packages/ai-engine/chatbase/npcs/the-one.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import stitchUpGirl from '../../packages/ai-engine/chatbase/npcs/stitch-up-girl.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import theGeneral from '../../packages/ai-engine/chatbase/npcs/the-general.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import xtreme from '../../packages/ai-engine/chatbase/npcs/xtreme.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import mrKevin from '../../packages/ai-engine/chatbase/npcs/mr-kevin.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import bodyCount from '../../packages/ai-engine/chatbase/npcs/body-count.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import clausen from '../../packages/ai-engine/chatbase/npcs/clausen.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import drVoss from '../../packages/ai-engine/chatbase/npcs/dr-voss.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import drMaxwell from '../../packages/ai-engine/chatbase/npcs/dr-maxwell.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import booG from '../../packages/ai-engine/chatbase/npcs/boo-g.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import kingJames from '../../packages/ai-engine/chatbase/npcs/king-james.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import boots from '../../packages/ai-engine/chatbase/npcs/boots.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import john from '../../packages/ai-engine/chatbase/npcs/john.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import keithMan from '../../packages/ai-engine/chatbase/npcs/keith-man.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import willy from '../../packages/ai-engine/chatbase/npcs/willy.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import peter from '../../packages/ai-engine/chatbase/npcs/peter.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import mrBones from '../../packages/ai-engine/chatbase/npcs/mr-bones.json' with { type: 'json' };
-// @ts-expect-error JSON imports work at runtime
 import willyOneEye from '../../packages/ai-engine/chatbase/npcs/willy-one-eye.json' with { type: 'json' };
 
 export interface ChatbaseEntry {
