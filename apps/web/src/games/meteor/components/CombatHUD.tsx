@@ -133,7 +133,7 @@ function ActionButton({
 }
 
 /**
- * Holding Toggle - Quick select all/none buttons
+ * Holding Toggle - Single button that switches between "hold all" and "use all"
  */
 function HoldingToggle({
   onAll,
@@ -148,64 +148,39 @@ function HoldingToggle({
   heldCount: number;
   totalCount: number;
 }) {
+  // If all are held, show "use all" (release). Otherwise show "hold all"
+  const allHeld = heldCount === totalCount && totalCount > 0;
+  const label = allHeld ? 'use all' : 'hold all';
+  const onClick = allHeld ? onNone : onAll;
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
       <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
         holding: {heldCount}/{totalCount}
       </Typography>
       <Box
+        component="button"
+        onClick={onClick}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
+          ...gamingFont,
+          fontSize: isSmall ? '0.75rem' : '0.85rem',
+          fontWeight: 600,
+          color: tokens.colors.text.secondary,
+          bgcolor: 'transparent',
           border: `1px solid ${BUTTON_COLORS.toggle.border}`,
           borderRadius: 2,
-          overflow: 'hidden',
+          px: isSmall ? 1.5 : 2,
+          py: isSmall ? 0.5 : 0.75,
+          cursor: 'pointer',
+          transition: 'all 0.15s ease-out',
+          minWidth: 80,
+          '&:hover': {
+            bgcolor: 'rgba(255,255,255,0.15)',
+            color: tokens.colors.text.primary,
+          },
         }}
       >
-        <Box
-          component="button"
-          onClick={onNone}
-          sx={{
-            ...gamingFont,
-            fontSize: isSmall ? '0.75rem' : '0.85rem',
-            fontWeight: 600,
-            color: tokens.colors.text.secondary,
-            bgcolor: 'transparent',
-            border: 'none',
-            px: isSmall ? 1.5 : 2,
-            py: isSmall ? 0.5 : 0.75,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease-out',
-            '&:hover': {
-              bgcolor: 'rgba(255,255,255,0.15)',
-              color: tokens.colors.text.primary,
-            },
-          }}
-        >
-          none
-        </Box>
-        <Box
-          component="button"
-          onClick={onAll}
-          sx={{
-            ...gamingFont,
-            fontSize: isSmall ? '0.75rem' : '0.85rem',
-            fontWeight: 600,
-            color: tokens.colors.text.secondary,
-            bgcolor: 'transparent',
-            border: 'none',
-            px: isSmall ? 1.5 : 2,
-            py: isSmall ? 0.5 : 0.75,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease-out',
-            '&:hover': {
-              bgcolor: 'rgba(255,255,255,0.15)',
-              color: tokens.colors.text.primary,
-            },
-          }}
-        >
-          all
-        </Box>
+        {label}
       </Box>
     </Box>
   );
@@ -318,7 +293,7 @@ function DiceHandRow({
               sides={die.sides as 4 | 6 | 8 | 10 | 12 | 20}
               size={diceSize}
               color={dieColor}
-              value={die.rollValue ?? die.sides}
+              value={die.rollValue ?? undefined}
             />
             {/* Roll value overlay with pop animation */}
             {die.rollValue !== null && (

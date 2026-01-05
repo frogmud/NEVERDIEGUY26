@@ -118,7 +118,7 @@ export function GameSidebar({
           <TokenIcon size={28} />
           <Typography
             sx={{
-              color: tokens.colors.error,
+              color: tokens.colors.primary,
               fontWeight: 700,
               fontSize: '2rem',
               ...gamingFont,
@@ -292,7 +292,7 @@ export function GameSidebar({
           <Box
             sx={{
               flex: 1,
-              bgcolor: '#3498db',
+              bgcolor: '#3366FF',
               py: 1,
               px: 2,
               borderRadius: 50,
@@ -314,7 +314,7 @@ export function GameSidebar({
             sx={{
               ...gamingFont,
               fontSize: '1.875rem',
-              color: tokens.colors.error,
+              color: tokens.colors.primary,
               fontWeight: 700,
             }}
           >
@@ -323,7 +323,7 @@ export function GameSidebar({
           <Box
             sx={{
               flex: 1,
-              bgcolor: tokens.colors.error,
+              bgcolor: tokens.colors.primary,
               py: 1,
               px: 2,
               borderRadius: 50,
@@ -351,8 +351,8 @@ export function GameSidebar({
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0.75 }}>
             {/* Summons & Tributes row */}
             <Box sx={{ display: 'flex', gap: 0.75 }}>
-              <StatBox label="Summons" value={summons} color="#3498db" />
-              <StatBox label="Tributes" value={tributes} color={tokens.colors.error} />
+              <StatBox label="Summons" value={summons} color="#3366FF" />
+              <StatBox label="Tributes" value={tributes} color={tokens.colors.primary} />
             </Box>
 
             {/* Gold row */}
@@ -368,7 +368,7 @@ export function GameSidebar({
                 justifyContent: 'center',
               }}
             >
-              <Typography sx={{ ...gamingFont, fontSize: '1.375rem', color: '#C4A000' }}>
+              <Typography sx={{ ...gamingFont, fontSize: '1.375rem', color: tokens.colors.warning }}>
                 ${gold}
               </Typography>
             </Box>
@@ -387,11 +387,12 @@ export function GameSidebar({
               onClick={onSettingsOpen}
               sx={{
                 flex: 1,
-                bgcolor: '#C4A000',
+                bgcolor: tokens.colors.warning,
+                color: '#000',
                 ...gamingFont,
                 fontSize: '0.95rem',
                 minHeight: 0,
-                '&:hover': { bgcolor: '#a08300' },
+                '&:hover': { bgcolor: '#d4b000' },
               }}
             >
               Options
@@ -400,11 +401,11 @@ export function GameSidebar({
               variant="contained"
               sx={{
                 flex: 1,
-                bgcolor: tokens.colors.error,
+                bgcolor: tokens.colors.primary,
                 ...gamingFont,
                 fontSize: '0.95rem',
                 minHeight: 0,
-                '&:hover': { bgcolor: '#c0392b' },
+                '&:hover': { bgcolor: '#c0033a' },
               }}
             >
               Info

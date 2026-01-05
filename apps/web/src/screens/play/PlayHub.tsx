@@ -300,7 +300,7 @@ export function PlayHub() {
           scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
           onWin={handleCombatWin}
           onLose={failRoom}
-          isLobby={state.phase === 'event_select' || !state.selectedZone}
+          isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat'}
           onFeedUpdate={setCombatFeed}
           onGameStateChange={setCombatGameState}
         />

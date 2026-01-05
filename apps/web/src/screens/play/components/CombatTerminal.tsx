@@ -284,6 +284,7 @@ export function CombatTerminal({
   const [showVictoryExplosion, setShowVictoryExplosion] = useState(false);
   const processedMeteorsRef = useRef<Set<string>>(new Set());
   const prevPhaseRef = useRef<string | null>(null);
+  const victoryFiredRef = useRef(false);
 
   // Notify parent of game state changes
   useEffect(() => {
@@ -377,6 +378,7 @@ export function CombatTerminal({
     setMeteors([]);
     setImpacts([]);
     processedMeteorsRef.current.clear();
+    victoryFiredRef.current = false;
 
     // Reset feed history
     feedRef.current = [];
@@ -811,29 +813,30 @@ export function CombatTerminal({
         if (rollPayload) {
           onDiceRoll(rollPayload);
         }
-
-        // Check if throws exhausted - trigger game over if score not met
-        if (newState.throwsRemaining === 0 && newState.currentScore < newState.targetScore) {
-          // Fire defeat NPC commentary and trigger game over
-          onDefeat();
-          onLose();
-        }
+        // Note: Defeat is handled by the engine via subscription when turnsRemaining hits 0
+        // Score is calculated immediately per throw in the engine
       }
     }, 100); // Small delay to let state update
-  }, [onDiceRoll, onFeedUpdate, onDefeat, onLose]);
+  }, [onDiceRoll]);
 
   // Victory explosion callback - fires after explosion animation
+  // Uses ref to prevent multiple firings and avoid stale closure issues
   const handleVictoryExplosionComplete = useCallback(() => {
-    if (engineState?.phase === 'victory') {
+    // Guard against multiple calls
+    if (victoryFiredRef.current) return;
+
+    const state = engineRef.current?.getState();
+    if (state?.phase === 'victory') {
+      victoryFiredRef.current = true;
       // Fire victory NPC commentary
       onVictory();
       // Then call the win callback
-      onWin(engineState.currentScore, {
-        npcsSquished: engineState.enemiesSquished,
-        diceThrown: engineState.turnNumber * 5,
+      onWin(state.currentScore, {
+        npcsSquished: state.enemiesSquished,
+        diceThrown: state.turnNumber * 5,
       });
     }
-  }, [engineState, onWin, onVictory]);
+  }, [onWin, onVictory]);
 
   // Fire defeat trigger when game is lost
   useEffect(() => {

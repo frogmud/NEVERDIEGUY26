@@ -163,15 +163,15 @@ export const METEOR_CONFIG = {
   color: '#ff1744', // Pinky red (NDG primary)
   glowColor: '#ff5722',
 
-  // Physics
-  speed: 0.5, // Units per frame
+  // Physics - faster for snappy tracer feel
+  speed: 0.5, // Base speed (modified by die type)
   impactRadius: 0.8, // Damage radius on globe surface
-  arcHeight: 5, // How high meteors arc before diving
+  arcHeight: 0, // No arc - straight shots
 
-  // Effects
-  explosionDuration: 1000, // ms
+  // Effects - faster for snappier feel
+  explosionDuration: 700, // ms (was 1000)
   shockwaveSpeed: 2,
-  cameraShakeIntensity: 0.1,
+  cameraShakeIntensity: 0.05, // Reduced shake
 };
 
 // Target reticle
@@ -204,7 +204,7 @@ export const DICE_EFFECTS: Record<number, {
   terrainDamage: number;     // 0-1, how much it scars terrain
   color: string;             // Meteor/impact color
   meteorScale: number;       // Visual size multiplier
-  speed: number;             // Flight speed multiplier
+  speed: number;             // Flight speed multiplier (higher = faster)
 }> = {
   4: {
     type: 'precision',
@@ -215,7 +215,7 @@ export const DICE_EFFECTS: Record<number, {
     terrainDamage: 0.8,
     color: '#9c27b0',    // Purple
     meteorScale: 0.6,
-    speed: 1.4,          // Fast
+    speed: 2.2,          // Fastest
   },
   6: {
     type: 'standard',
@@ -226,7 +226,7 @@ export const DICE_EFFECTS: Record<number, {
     terrainDamage: 0.3,
     color: '#4caf50',    // Green
     meteorScale: 1.0,
-    speed: 1.0,
+    speed: 1.8,
   },
   8: {
     type: 'piercing',
@@ -237,7 +237,7 @@ export const DICE_EFFECTS: Record<number, {
     terrainDamage: 0.4,
     color: '#f44336',    // Red
     meteorScale: 0.9,
-    speed: 1.2,
+    speed: 2.0,
   },
   10: {
     type: 'cluster',
@@ -248,7 +248,7 @@ export const DICE_EFFECTS: Record<number, {
     terrainDamage: 0.5,
     color: '#ff9800',    // Orange
     meteorScale: 1.1,
-    speed: 0.9,
+    speed: 1.6,
   },
   12: {
     type: 'heavy',
@@ -259,7 +259,7 @@ export const DICE_EFFECTS: Record<number, {
     terrainDamage: 0.6,
     color: '#2196f3',    // Blue
     meteorScale: 1.4,
-    speed: 0.8,          // Slower
+    speed: 1.4,
   },
   20: {
     type: 'cataclysm',
@@ -270,7 +270,7 @@ export const DICE_EFFECTS: Record<number, {
     terrainDamage: 0.2,
     color: '#e91e63',    // Pink
     meteorScale: 1.8,
-    speed: 0.6,          // Slowest but biggest
+    speed: 1.2,          // Slowest but biggest
   },
 };
 

@@ -239,6 +239,7 @@ export function GameOverModal({
           height: 240,
           flexShrink: 0,
           cursor: 'default',
+          alignSelf: 'flex-end', // Position at bottom so it doesn't cover vital info
         }}
       >
         {/* Confetti behind skull - stage 2 */}

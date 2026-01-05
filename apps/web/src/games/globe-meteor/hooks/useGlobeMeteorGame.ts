@@ -431,11 +431,15 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
         const meteorLng = lng + offsetLng;
         const meteorTargetPos = latLngToCartesian(meteorLat, meteorLng, GLOBE_CONFIG.radius);
 
-        // Start position: above the globe
+        // Start position: from camera direction (shooting into screen)
+        // Camera is at z=15, globe at origin with radius 5
+        // Start just in front of camera with slight spread toward target
+        const spreadX = (Math.random() - 0.5) * 0.5; // Slight horizontal spread
+        const spreadY = (Math.random() - 0.5) * 0.5; // Slight vertical spread
         const startPos: [number, number, number] = [
-          meteorTargetPos[0] * 2.5,
-          meteorTargetPos[1] * 2.5 + 5,
-          meteorTargetPos[2] * 2.5,
+          spreadX,
+          spreadY,
+          14,  // Just in front of camera (z=15)
         ];
 
         newMeteors.push({

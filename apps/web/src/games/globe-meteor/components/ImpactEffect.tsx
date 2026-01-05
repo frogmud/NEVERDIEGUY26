@@ -1,11 +1,11 @@
 /**
- * ImpactEffect - Explosion at meteor impact point
+ * ImpactEffect - Particle burst explosion at meteor impact point
  *
- * Enhanced with old satisfying feel:
- * - Central flash burst
- * - Multiple staggered expanding rings
+ * Simplified smoke/particle burst:
+ * - Colored particles exploding outward
+ * - Particles fade and slow down
  * - Floating damage number that rises and fades
- * - Camera shake on big impacts
+ * - Subtle camera shake
  *
  * NEVER DIE GUY
  */
@@ -24,18 +24,27 @@ interface ImpactEffectProps {
   isIdle?: boolean;
 }
 
+// Generate particle burst directions (pre-computed for performance)
+const PARTICLE_COUNT = 10;
+const particleDirections = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
+  const angle = (i / PARTICLE_COUNT) * Math.PI * 2 + Math.random() * 0.3;
+  const elevation = (Math.random() - 0.3) * 0.8; // Mostly outward, slight upward bias
+  return {
+    x: Math.cos(angle) * (0.8 + Math.random() * 0.4),
+    y: elevation,
+    z: Math.sin(angle) * (0.8 + Math.random() * 0.4),
+    size: 0.08 + Math.random() * 0.06,
+    speed: 0.8 + Math.random() * 0.4,
+  };
+});
+
 /**
- * ImpactEffect Component - Enhanced explosion with old satisfying feel
- *
- * Features:
- * - Central flash burst (300ms)
- * - 3 staggered expanding rings (400ms each, 100ms stagger)
- * - Floating damage number rising and fading (800ms)
- * - Camera shake proportional to die type
+ * ImpactEffect Component - Particle burst with damage number
  */
 export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffectProps) {
   const groupRef = useRef<THREE.Group>(null);
   const textRef = useRef<THREE.Group>(null);
+  const particlesRef = useRef<THREE.Group>(null);
   const [progress, setProgress] = useState(0);
   const shakeApplied = useRef(false);
 
@@ -43,7 +52,6 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
   const dieEffect = DICE_EFFECTS[impact.dieType] || DICE_EFFECTS[6];
   const impactColor = dieEffect.color;
-  const impactScale = dieEffect.aoeMultiplier;
 
   // Damage number based on die type (visual feedback)
   const damageNumber = impact.dieType;
@@ -59,7 +67,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     if (isIdle) return;
 
     const startTime = Date.now();
-    const duration = METEOR_CONFIG.explosionDuration;
+    const duration = METEOR_CONFIG.explosionDuration * 0.7; // Slightly faster
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -77,14 +85,14 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     return () => cancelAnimationFrame(frame);
   }, [impact.id, onComplete, isIdle]);
 
-  // Camera shake effect (subtle shake on impact)
+  // Camera shake effect (subtle)
   useEffect(() => {
     if (isIdle || shakeApplied.current) return;
     shakeApplied.current = true;
 
-    // Shake intensity based on die type (d20 = more shake)
-    const intensity = 0.02 + (impact.dieType / 20) * 0.03;
-    const duration = 100 + (impact.dieType / 20) * 50;
+    // Reduced shake intensity
+    const intensity = 0.01 + (impact.dieType / 20) * 0.02;
+    const duration = 80 + (impact.dieType / 20) * 40;
 
     const originalPosition = camera.position.clone();
     const startTime = Date.now();
@@ -119,17 +127,11 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     return new THREE.Euler().setFromQuaternion(quaternion);
   }, [normal]);
 
-  // Animate the group scale and floating text
+  // Animate particles and floating text
   useFrame(() => {
-    if (groupRef.current) {
-      // Flash expands 1 -> 3x
-      const flashScale = 1 + progress * 2;
-      groupRef.current.scale.setScalar(flashScale);
-    }
-
     if (textRef.current) {
       // Text rises upward and fades
-      const textRise = progress * 0.5;
+      const textRise = progress * 0.6;
       textRef.current.position.y = textRise;
     }
   });
@@ -146,66 +148,86 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     ];
   }, [impact.position]);
 
-  const scaledRadius = impact.radius * impactScale * 0.5;
+  // Text fade (stays visible longer)
+  const textOpacity = Math.max(0, 1 - progress * 1.1);
 
-  // Ring progress with stagger (each ring starts 0.1 later)
-  const ring1Progress = Math.min(Math.max(progress * 1.2, 0), 1);
-  const ring2Progress = Math.min(Math.max((progress - 0.1) * 1.2, 0), 1);
-  const ring3Progress = Math.min(Math.max((progress - 0.2) * 1.2, 0), 1);
-
-  // Text fade (stays visible longer than rings)
-  const textOpacity = Math.max(0, 1 - progress * 1.2);
+  // Easing for particles (fast start, slow end)
+  const easeOut = 1 - Math.pow(1 - progress, 3);
 
   return (
     <group position={surfacePosition}>
-      {/* Impact effects aligned to surface */}
+      {/* Particle burst aligned to surface */}
       <group ref={groupRef} rotation={rotation}>
-        {/* Central flash burst */}
-        <mesh>
-          <circleGeometry args={[scaledRadius, 12]} />
-          <meshBasicMaterial
-            color={impactColor}
-            transparent
-            opacity={(1 - progress) * 0.9}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-
-        {/* Ring 1 - fastest, largest */}
-        <mesh scale={[1 + ring1Progress * 2, 1 + ring1Progress * 2, 1]}>
-          <ringGeometry args={[scaledRadius * 0.8, scaledRadius * 1.0, 16]} />
-          <meshBasicMaterial
-            color={impactColor}
-            transparent
-            opacity={(1 - ring1Progress) * 0.7}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-
-        {/* Ring 2 - medium, staggered */}
-        {ring2Progress > 0 && (
-          <mesh scale={[1 + ring2Progress * 1.8, 1 + ring2Progress * 1.8, 1]}>
-            <ringGeometry args={[scaledRadius * 0.6, scaledRadius * 0.75, 16]} />
+        {/* Central flash - quick bright flash */}
+        {progress < 0.3 && (
+          <mesh>
+            <circleGeometry args={[0.15 + progress * 0.3, 8]} />
             <meshBasicMaterial
-              color="#ffffff"
+              color={impactColor}
               transparent
-              opacity={(1 - ring2Progress) * 0.5}
+              opacity={(1 - progress / 0.3) * 0.9}
               side={THREE.DoubleSide}
             />
           </mesh>
         )}
 
-        {/* Ring 3 - slowest, smallest */}
-        {ring3Progress > 0 && (
-          <mesh scale={[1 + ring3Progress * 1.5, 1 + ring3Progress * 1.5, 1]}>
-            <ringGeometry args={[scaledRadius * 0.4, scaledRadius * 0.55, 16]} />
-            <meshBasicMaterial
-              color={impactColor}
-              transparent
-              opacity={(1 - ring3Progress) * 0.4}
-              side={THREE.DoubleSide}
-            />
-          </mesh>
+        {/* Particle burst */}
+        <group ref={particlesRef}>
+          {particleDirections.map((particle, i) => {
+            // Particles expand outward and fade
+            const particleProgress = easeOut * particle.speed;
+            const distance = particleProgress * 0.5 * (1 + impact.dieType / 20); // Bigger dice = wider spread
+            const particleOpacity = Math.max(0, (1 - progress * 1.2) * 0.8);
+            const particleScale = particle.size * (1 - progress * 0.5);
+
+            return (
+              <mesh
+                key={i}
+                position={[
+                  particle.x * distance,
+                  particle.y * distance * 0.5, // Flatten the y spread
+                  particle.z * distance,
+                ]}
+              >
+                <sphereGeometry args={[particleScale, 6, 6]} />
+                <meshBasicMaterial
+                  color={impactColor}
+                  transparent
+                  opacity={particleOpacity}
+                />
+              </mesh>
+            );
+          })}
+        </group>
+
+        {/* Smoke wisps - larger, more transparent particles */}
+        {progress > 0.1 && progress < 0.8 && (
+          <group>
+            {[0, 1, 2, 3].map((i) => {
+              const angle = (i / 4) * Math.PI * 2 + progress * 2;
+              const smokeProgress = (progress - 0.1) / 0.7;
+              const smokeDistance = smokeProgress * 0.4;
+              const smokeOpacity = Math.max(0, (1 - smokeProgress) * 0.25);
+
+              return (
+                <mesh
+                  key={`smoke-${i}`}
+                  position={[
+                    Math.cos(angle) * smokeDistance,
+                    smokeProgress * 0.2,
+                    Math.sin(angle) * smokeDistance,
+                  ]}
+                >
+                  <sphereGeometry args={[0.08 + smokeProgress * 0.1, 6, 6]} />
+                  <meshBasicMaterial
+                    color="#ffffff"
+                    transparent
+                    opacity={smokeOpacity}
+                  />
+                </mesh>
+              );
+            })}
+          </group>
         )}
       </group>
 

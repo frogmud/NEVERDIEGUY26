@@ -1,26 +1,18 @@
 /**
- * MeteorShower - Animated meteor projectiles flying toward the globe
+ * MeteorShower - Tracer-style projectiles shooting from camera toward globe
  *
- * Each die type has a unique movement pattern:
- * - d4: Straight shot (fast, direct)
- * - d6: Wobble (side to side)
- * - d8: Star burst (spread from center)
- * - d10: Wave (sinusoidal)
- * - d12: Helix (corkscrew)
- * - d20: Spiral (wide spiral down)
- *
- * Enhanced with:
- * - 720 degree spin animation
- * - Glowing trails that fade
- * - Size shrink as approaching target
- * - Machine gun stagger timing
+ * Simplified 2D shooter feel:
+ * - Straight shots from camera POV through reticle
+ * - Colored streak/tracer lines (no spinning 3D geometry)
+ * - Colors based on die type
  *
  * NEVER DIE GUY
  */
 
 import { useMemo } from 'react';
+import * as THREE from 'three';
 
-import { MeteorProjectile, METEOR_CONFIG, DICE_EFFECTS } from '../config';
+import { MeteorProjectile, DICE_EFFECTS } from '../config';
 
 interface MeteorShowerProps {
   meteors: MeteorProjectile[];
@@ -28,109 +20,111 @@ interface MeteorShowerProps {
 }
 
 /**
- * Calculate position based on die type pattern
+ * Calculate position with linear interpolation (straight line)
  */
 function getMeteorPosition(meteor: MeteorProjectile): [number, number, number] {
-  const { startPosition, targetPosition, progress, dieType, id } = meteor;
+  const { startPosition, targetPosition, progress } = meteor;
+
+  // Linear interpolation - straight shot
   const t = progress;
-
-  // Base interpolation with acceleration
-  const easeT = t * t;
-  let x = startPosition[0] + (targetPosition[0] - startPosition[0]) * easeT;
-  let y = startPosition[1] + (targetPosition[1] - startPosition[1]) * easeT;
-  let z = startPosition[2] + (targetPosition[2] - startPosition[2]) * easeT;
-
-  // Get a stable offset from meteor id for variation
-  const idNum = parseInt(id.replace(/\D/g, ''), 10) || 0;
-  const phase = (idNum * 1.7) % (Math.PI * 2);
-
-  // Apply pattern based on die type
-  switch (dieType) {
-    case 4:
-      // d4: Straight shot - no modification, fastest
-      break;
-
-    case 6:
-      // d6: Wobble - side to side
-      const wobble = Math.sin(t * 8 + phase) * 0.3 * (1 - t);
-      x += wobble;
-      z += Math.cos(t * 8 + phase) * 0.2 * (1 - t);
-      break;
-
-    case 8:
-      // d8: Star burst - spread outward then converge
-      const spread = Math.sin(t * Math.PI) * 0.5;
-      x += Math.cos(phase) * spread;
-      z += Math.sin(phase) * spread;
-      break;
-
-    case 10:
-      // d10: Wave - sinusoidal path
-      const wave = Math.sin(t * 6 + phase) * 0.4 * (1 - t * 0.5);
-      x += wave;
-      break;
-
-    case 12:
-      // d12: Helix - corkscrew descent
-      const helixRadius = 0.4 * (1 - t);
-      const helixAngle = t * 10 + phase;
-      x += Math.cos(helixAngle) * helixRadius;
-      z += Math.sin(helixAngle) * helixRadius;
-      break;
-
-    case 20:
-      // d20: Spiral - wide spiral that tightens
-      const spiralRadius = 1.0 * (1 - t);
-      const spiralAngle = t * 8 + phase;
-      x += Math.cos(spiralAngle) * spiralRadius;
-      z += Math.sin(spiralAngle) * spiralRadius;
-      break;
-  }
+  const x = startPosition[0] + (targetPosition[0] - startPosition[0]) * t;
+  const y = startPosition[1] + (targetPosition[1] - startPosition[1]) * t;
+  const z = startPosition[2] + (targetPosition[2] - startPosition[2]) * t;
 
   return [x, y, z];
 }
 
 /**
- * Single meteor - spinning die with glowing trail
- *
- * Old feel: 720 degree rotation, shrinking as it approaches, trail particles
+ * Get the direction vector for orienting the streak
+ */
+function getDirection(meteor: MeteorProjectile): THREE.Vector3 {
+  const dir = new THREE.Vector3(
+    meteor.targetPosition[0] - meteor.startPosition[0],
+    meteor.targetPosition[1] - meteor.startPosition[1],
+    meteor.targetPosition[2] - meteor.startPosition[2]
+  );
+  return dir.normalize();
+}
+
+/**
+ * Single meteor - colored tracer streak
  */
 function Meteor({ meteor }: { meteor: MeteorProjectile }) {
   const dieEffect = DICE_EFFECTS[meteor.dieType] || DICE_EFFECTS[6];
   const meteorColor = dieEffect.color;
-  const baseSize = meteor.size || METEOR_CONFIG.size * dieEffect.meteorScale;
 
   const position = useMemo(
     () => getMeteorPosition(meteor),
-    [meteor.progress, meteor.startPosition, meteor.targetPosition, meteor.dieType, meteor.id]
+    [meteor.progress, meteor.startPosition, meteor.targetPosition]
   );
 
-  // Get a stable rotation offset from meteor id
-  const idNum = parseInt(meteor.id.replace(/\D/g, ''), 10) || 0;
-  const rotationOffset = (idNum * 1.3) % (Math.PI * 2);
+  const direction = useMemo(
+    () => getDirection(meteor),
+    [meteor.startPosition, meteor.targetPosition]
+  );
 
-  // 720 degree spin (2 full rotations) over flight duration
-  // Plus progressive shrink as it approaches
-  const rotation = meteor.progress * Math.PI * 4 + rotationOffset;
-  const scale = 1 - meteor.progress * 0.7; // Shrinks to 30% at impact
-  const opacity = 1 - meteor.progress * 0.3; // Slight fade
+  // Streak length based on progress (shorter near start and end)
+  const streakLength = 0.8 * Math.min(meteor.progress * 4, (1 - meteor.progress) * 4, 1);
+  const streakThickness = 0.04 + (meteor.dieType / 20) * 0.03; // Thicker for bigger dice
 
+  // Calculate rotation to align cylinder with direction
+  const rotation = useMemo(() => {
+    const up = new THREE.Vector3(0, 1, 0);
+    const quaternion = new THREE.Quaternion().setFromUnitVectors(up, direction);
+    return new THREE.Euler().setFromQuaternion(quaternion);
+  }, [direction]);
+
+  // Opacity fades slightly as it approaches target
+  const opacity = 1 - meteor.progress * 0.3;
 
   return (
-    <group>
-      {/* Trail particles - simple spheres along path */}
+    <group position={position} rotation={rotation}>
+      {/* Core streak - bright center */}
+      <mesh>
+        <cylinderGeometry args={[streakThickness, streakThickness, streakLength, 6]} />
+        <meshBasicMaterial color={meteorColor} />
+      </mesh>
+
+      {/* Glow around streak */}
+      <mesh>
+        <cylinderGeometry args={[streakThickness * 2.5, streakThickness * 2.5, streakLength * 0.9, 6]} />
+        <meshBasicMaterial
+          color={meteorColor}
+          transparent
+          opacity={0.4 * opacity}
+        />
+      </mesh>
+
+      {/* Outer glow - wider, softer */}
+      <mesh>
+        <cylinderGeometry args={[streakThickness * 5, streakThickness * 5, streakLength * 0.7, 8]} />
+        <meshBasicMaterial
+          color={meteorColor}
+          transparent
+          opacity={0.15 * opacity}
+        />
+      </mesh>
+
+      {/* Trail segments behind - 3 fading segments */}
       {meteor.progress > 0.1 && (
-        <group>
-          {[0.08, 0.16, 0.24, 0.32, 0.4].map((offset, i) => {
+        <>
+          {[0.12, 0.24, 0.36].map((offset, i) => {
             const trailProgress = Math.max(0, meteor.progress - offset);
             const trailMeteor = { ...meteor, progress: trailProgress };
             const trailPos = getMeteorPosition(trailMeteor);
-            const trailOpacity = (0.4 - i * 0.07) * (1 - meteor.progress);
-            const trailSize = baseSize * (0.8 - i * 0.12);
+            const trailOpacity = (0.3 - i * 0.08) * (1 - meteor.progress);
+            const trailLength = streakLength * (0.6 - i * 0.15);
+
+            // Convert to local offset from current position
+            const localOffset: [number, number, number] = [
+              trailPos[0] - position[0],
+              trailPos[1] - position[1],
+              trailPos[2] - position[2],
+            ];
 
             return (
-              <mesh key={i} position={trailPos}>
-                <sphereGeometry args={[trailSize, 4, 4]} />
+              <mesh key={i} position={localOffset}>
+                <cylinderGeometry args={[streakThickness * 1.5, streakThickness * 0.5, trailLength, 4]} />
                 <meshBasicMaterial
                   color={meteorColor}
                   transparent
@@ -139,41 +133,8 @@ function Meteor({ meteor }: { meteor: MeteorProjectile }) {
               </mesh>
             );
           })}
-        </group>
+        </>
       )}
-
-      {/* Main meteor with spin */}
-      <group
-        position={position}
-        rotation={[rotation * 0.7, rotation, rotation * 0.3]}
-        scale={[scale, scale, scale]}
-      >
-        {/* Core meteor - die-shaped */}
-        <mesh>
-          <icosahedronGeometry args={[baseSize, 0]} />
-          <meshBasicMaterial color={meteorColor} />
-        </mesh>
-
-        {/* Inner glow */}
-        <mesh>
-          <icosahedronGeometry args={[baseSize * 1.3, 0]} />
-          <meshBasicMaterial
-            color={meteorColor}
-            transparent
-            opacity={0.5 * opacity}
-          />
-        </mesh>
-
-        {/* Outer glow halo */}
-        <mesh>
-          <sphereGeometry args={[baseSize * 2, 8, 8]} />
-          <meshBasicMaterial
-            color={meteorColor}
-            transparent
-            opacity={0.2 * opacity}
-          />
-        </mesh>
-      </group>
     </group>
   );
 }
@@ -181,7 +142,7 @@ function Meteor({ meteor }: { meteor: MeteorProjectile }) {
 /**
  * MeteorShower Component
  *
- * Renders all active meteors with simple optimized geometry.
+ * Renders all active meteors as tracer streaks.
  */
 export function MeteorShower({ meteors }: MeteorShowerProps) {
   return (
