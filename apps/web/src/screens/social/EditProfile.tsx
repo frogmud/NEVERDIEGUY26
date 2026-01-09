@@ -59,6 +59,7 @@ export function EditProfile() {
   const [bio, setBio] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<'online' | 'away' | 'dnd' | 'invisible'>('online');
   const [selectedAvatar, setSelectedAvatar] = useState('skull');
+  const [playerNumber, setPlayerNumber] = useState(1);
 
   // Avatar picker dialog
   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
@@ -70,6 +71,7 @@ export function EditProfile() {
     setBio(profile.bio);
     setSelectedStatus(profile.status);
     setSelectedAvatar(profile.avatarId);
+    setPlayerNumber(profile.playerNumber);
   }, []);
 
   const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +87,7 @@ export function EditProfile() {
       bio,
       status: selectedStatus,
       avatarId: selectedAvatar,
+      playerNumber,
       updatedAt: Date.now(),
     });
     navigate('/profile');

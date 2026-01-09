@@ -20,6 +20,8 @@ import { CardSection } from '../../../components/CardSection';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
+import { useSoundContext } from '../../../contexts/SoundContext';
+import { useGameSettings } from '../../../contexts/GameSettingsContext';
 import type { DiceRollEventPayload, DiceRarity } from '../../../data/npc-chat/types';
 import { tokens } from '../../../theme';
 import {
@@ -34,7 +36,7 @@ import type { EventType } from '../../../games/meteor/gameConfig';
 import type { MeteorProjectile, ImpactZone } from '../../../games/globe-meteor/config';
 import type { GuardianData } from '../../../games/globe-meteor/components/Guardian';
 import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS } from '../../../games/globe-meteor/config';
-import { latLngToCartesian, randomSpherePoint } from '../../../games/globe-meteor/utils/sphereCoords';
+import { latLngToCartesian } from '../../../games/globe-meteor/utils/sphereCoords';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
@@ -207,6 +209,111 @@ function HUDReticle({ dice }: { dice: Array<{ sides: number; id: string }> }) {
   );
 }
 
+/**
+ * DamageFlash - Visual feedback when damage is dealt
+ * Shows a flash effect and floating damage numbers
+ */
+function DamageFlash({
+  impacts,
+  scoreGained
+}: {
+  impacts: Array<{ id: string; dieType: number; timestamp: number }>;
+  scoreGained: number;
+}) {
+  const [flashOpacity, setFlashOpacity] = useState(0);
+  const [damageNumbers, setDamageNumbers] = useState<Array<{ id: string; value: number; opacity: number; y: number }>>([]);
+  const lastImpactCount = useRef(0);
+
+  // Trigger flash and damage number on new impacts
+  useEffect(() => {
+    if (impacts.length > lastImpactCount.current && impacts.length > 0) {
+      // Subtle flash effect (reduced from 0.8 to 0.25 so planet stays visible)
+      setFlashOpacity(0.25);
+      const flashTimer = setTimeout(() => setFlashOpacity(0), 100);
+
+      // Add damage number for the score gained
+      if (scoreGained > 0) {
+        const newDamage = {
+          id: `dmg-${Date.now()}`,
+          value: scoreGained,
+          opacity: 1,
+          y: 0,
+        };
+        setDamageNumbers(prev => [...prev, newDamage]);
+
+        // Animate the damage number
+        let frame = 0;
+        const animateDamage = () => {
+          frame++;
+          setDamageNumbers(prev =>
+            prev.map(d =>
+              d.id === newDamage.id
+                ? { ...d, opacity: Math.max(0, 1 - frame / 30), y: frame * 2 }
+                : d
+            ).filter(d => d.opacity > 0)
+          );
+          if (frame < 30) {
+            requestAnimationFrame(animateDamage);
+          }
+        };
+        requestAnimationFrame(animateDamage);
+      }
+
+      return () => clearTimeout(flashTimer);
+    }
+    lastImpactCount.current = impacts.length;
+  }, [impacts.length, scoreGained]);
+
+  // Get primary color from latest impact
+  const latestImpact = impacts[impacts.length - 1];
+  const flashColor = latestImpact ? getDieColor(latestImpact.dieType) : tokens.colors.primary;
+
+  return (
+    <>
+      {/* Localized flash effect - centered circle at reticle position */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 120,
+          height: 120,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${flashColor}80 0%, ${flashColor}40 40%, transparent 70%)`,
+          opacity: flashOpacity,
+          transition: 'opacity 0.1s ease-out',
+          pointerEvents: 'none',
+          zIndex: 15,
+        }}
+      />
+
+      {/* Floating damage numbers */}
+      {damageNumbers.map(dmg => (
+        <Typography
+          key={dmg.id}
+          sx={{
+            position: 'absolute',
+            top: '40%',
+            left: '50%',
+            transform: `translate(-50%, -${dmg.y}px)`,
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '2rem',
+            fontWeight: 700,
+            color: tokens.colors.warning,
+            textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(255,193,7,0.5)',
+            opacity: dmg.opacity,
+            pointerEvents: 'none',
+            zIndex: 20,
+          }}
+        >
+          +{dmg.value.toLocaleString()}
+        </Typography>
+      ))}
+    </>
+  );
+}
+
 /** Feed entry types for sidebar history */
 export type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
 
@@ -244,6 +351,13 @@ interface CombatTerminalProps {
   onWin: (score: number, stats: { npcsSquished: number; diceThrown: number }) => void;
   onLose: () => void;
   isLobby?: boolean;
+  // Run progress for header display
+  currentDomain?: number;
+  totalDomains?: number;
+  currentRoom?: number;
+  totalRooms?: number;
+  totalScore?: number;
+  gold?: number;
   /** Callback when feed history updates */
   onFeedUpdate?: (feed: FeedEntry[]) => void;
   /** Callback when game state changes (throws, trades, score) */
@@ -265,9 +379,21 @@ export function CombatTerminal({
   onWin,
   onLose,
   isLobby = false,
+  currentDomain = 1,
+  totalDomains = 6,
+  currentRoom = 1,
+  totalRooms = 3,
+  totalScore = 0,
+  gold = 0,
   onFeedUpdate,
   onGameStateChange,
 }: CombatTerminalProps) {
+  // Sound effects
+  const { playDiceRoll, playImpact, playVictory, playDefeat } = useSoundContext();
+
+  // Game settings (speed affects animation timings)
+  const { adjustDelay, gameSpeed } = useGameSettings();
+
   // Combat engine ref
   const engineRef = useRef<CombatEngine | null>(null);
 
@@ -282,15 +408,18 @@ export function CombatTerminal({
   const [impacts, setImpacts] = useState<ImpactZone[]>([]);
   const [guardians, setGuardians] = useState<GuardianData[]>([]);
   const [showVictoryExplosion, setShowVictoryExplosion] = useState(false);
+  const [lastScoreGain, setLastScoreGain] = useState(0);
+  const prevScoreRef = useRef(0);
   const processedMeteorsRef = useRef<Set<string>>(new Set());
   const prevPhaseRef = useRef<string | null>(null);
+  const victoryFiredRef = useRef(false);
 
   // Notify parent of game state changes
   useEffect(() => {
     if (engineState && onGameStateChange) {
       onGameStateChange({
         throws: engineState.throwsRemaining,
-        trades: engineState.turnsRemaining,
+        trades: engineState.holdsRemaining,
         score: engineState.currentScore,
         goal: engineState.targetScore,
         multiplier: engineState.multiplier,
@@ -377,6 +506,7 @@ export function CombatTerminal({
     setMeteors([]);
     setImpacts([]);
     processedMeteorsRef.current.clear();
+    victoryFiredRef.current = false;
 
     // Reset feed history
     feedRef.current = [];
@@ -486,20 +616,10 @@ export function CombatTerminal({
     }));
   }, [isLobby, allUnheldDice, guardians.length]);
 
-  // Target position ref for meteor spawning (center of view)
-  const lastTargetRef = useRef<{ lat: number; lng: number } | null>(null);
-
-  // Generate stable target position per turn for meteor impacts
-  useEffect(() => {
-    if (isLobby || !engineState) {
-      lastTargetRef.current = null;
-      return;
-    }
-    // Generate new target at start of each turn (draw phase)
-    if (engineState.phase === 'draw' && !lastTargetRef.current) {
-      lastTargetRef.current = randomSpherePoint();
-    }
-  }, [isLobby, engineState?.phase, engineState?.turnNumber]);
+  // Target position - always center of visible globe (where camera looks)
+  // The HUD reticle is fixed at screen center, so meteors should hit there
+  // Using lat: 0, lng: 0 which is the front-center of the globe from default camera
+  const CENTER_TARGET = { lat: 0, lng: 0 };
 
   // Create meteors when THROW phase transitions
   // Also handles guardian destruction - matching dice destroy guardians instead of hitting planet
@@ -515,8 +635,8 @@ export function CombatTerminal({
       const now = Date.now();
       const newMeteors: MeteorProjectile[] = [];
 
-      // Use the last reticle position as center, or random if not available
-      const center = lastTargetRef.current || randomSpherePoint();
+      // Always target center of visible globe (where HUD reticle is shown)
+      const center = CENTER_TARGET;
 
       // Determine which dice target guardians vs planet
       // Count guardian die types
@@ -553,10 +673,11 @@ export function CombatTerminal({
           return;
         }
 
-        // This die targets the planet - spawn meteors
+        // This die targets the planet - spawn meteors at reticle center
         const dieEffect = DICE_EFFECTS[die.sides] || DICE_EFFECTS[6];
         const meteorCount = die.rollValue ?? Math.ceil(die.sides / 3);
-        const baseSpread = 15;
+        // Tight spread around reticle (was 15 - too scattered)
+        const baseSpread = 6;
 
         for (let i = 0; i < meteorCount; i++) {
           const offsetLat = (Math.random() - 0.5) * baseSpread * 2;
@@ -633,9 +754,17 @@ export function CombatTerminal({
           }
         });
 
-        // Add new impacts
+        // Add new impacts and track score gain
         if (newImpacts.length > 0) {
           setImpacts(prev => [...prev, ...newImpacts]);
+
+          // Calculate score gain from this impact batch
+          const currentScore = engineRef.current?.getState()?.currentScore || 0;
+          const scoreGain = currentScore - prevScoreRef.current;
+          if (scoreGain > 0) {
+            setLastScoreGain(scoreGain);
+            prevScoreRef.current = currentScore;
+          }
         }
 
         return updatedMeteors;
@@ -656,6 +785,31 @@ export function CombatTerminal({
     }, 500);
     return () => clearInterval(cleanup);
   }, []);
+
+  // Play impact sound when new impacts are added
+  const prevImpactCount = useRef(0);
+  useEffect(() => {
+    if (impacts.length > prevImpactCount.current) {
+      playImpact();
+    }
+    prevImpactCount.current = impacts.length;
+  }, [impacts.length, playImpact]);
+
+  // Play victory/defeat sounds
+  const soundPlayedRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!engineState) return;
+
+    if (engineState.phase === 'victory' && soundPlayedRef.current !== 'victory') {
+      soundPlayedRef.current = 'victory';
+      playVictory();
+    } else if (engineState.phase === 'defeat' && soundPlayedRef.current !== 'defeat') {
+      soundPlayedRef.current = 'defeat';
+      playDefeat();
+    } else if (engineState.phase !== 'victory' && engineState.phase !== 'defeat') {
+      soundPlayedRef.current = null;
+    }
+  }, [engineState?.phase, playVictory, playDefeat]);
 
   // Convert engine state to HUD state format
   const combatState: RunCombatState = engineState
@@ -797,7 +951,11 @@ export function CombatTerminal({
     const state = engineRef.current?.getState();
     engineRef.current?.dispatch({ type: 'THROW' });
 
+    // Play dice roll sound
+    playDiceRoll();
+
     // Get state AFTER throw to check values and throws remaining
+    // Delay adjusted by game speed setting
     setTimeout(() => {
       const newState = engineRef.current?.getState();
       if (newState) {
@@ -811,29 +969,30 @@ export function CombatTerminal({
         if (rollPayload) {
           onDiceRoll(rollPayload);
         }
-
-        // Check if throws exhausted - trigger game over if score not met
-        if (newState.throwsRemaining === 0 && newState.currentScore < newState.targetScore) {
-          // Fire defeat NPC commentary and trigger game over
-          onDefeat();
-          onLose();
-        }
+        // Note: Defeat is handled by the engine via subscription when turnsRemaining hits 0
+        // Score is calculated immediately per throw in the engine
       }
-    }, 100); // Small delay to let state update
-  }, [onDiceRoll, onFeedUpdate, onDefeat, onLose]);
+    }, adjustDelay(100));
+  }, [onDiceRoll, playDiceRoll, adjustDelay]);
 
   // Victory explosion callback - fires after explosion animation
+  // Uses ref to prevent multiple firings and avoid stale closure issues
   const handleVictoryExplosionComplete = useCallback(() => {
-    if (engineState?.phase === 'victory') {
+    // Guard against multiple calls
+    if (victoryFiredRef.current) return;
+
+    const state = engineRef.current?.getState();
+    if (state?.phase === 'victory') {
+      victoryFiredRef.current = true;
       // Fire victory NPC commentary
       onVictory();
       // Then call the win callback
-      onWin(engineState.currentScore, {
-        npcsSquished: engineState.enemiesSquished,
-        diceThrown: engineState.turnNumber * 5,
+      onWin(state.currentScore, {
+        npcsSquished: state.enemiesSquished,
+        diceThrown: state.turnNumber * 5,
       });
     }
-  }, [engineState, onWin, onVictory]);
+  }, [onWin, onVictory]);
 
   // Fire defeat trigger when game is lost
   useEffect(() => {
@@ -855,7 +1014,7 @@ export function CombatTerminal({
         gap: 1,
       }}
     >
-      {/* Top bar - Turn meter (or lobby message) */}
+      {/* Top bar - Run progress (lobby) or Turn meter (combat) */}
       <CardSection
         padding={1}
         sx={{
@@ -864,19 +1023,45 @@ export function CombatTerminal({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 2,
+          gap: 1,
           borderRadius: 2,
         }}
       >
         {isLobby ? (
           <>
-            <Typography sx={{ ...gamingFont, fontSize: '1rem', fontWeight: 700, color: tokens.colors.text.secondary }}>
-              Ready
-            </Typography>
-            <Typography sx={{ ...gamingFont, fontSize: '1rem', color: tokens.colors.text.secondary }}>
-              Click "New Run" to begin
-            </Typography>
-            <Box sx={{ width: 60 }} />
+            {/* Run Progress Stats */}
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+                Domain
+              </Typography>
+              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.secondary }}>
+                {currentDomain}/{totalDomains}
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+                Room
+              </Typography>
+              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.primary }}>
+                {currentRoom}/{totalRooms}
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+                Score
+              </Typography>
+              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.primary }}>
+                {totalScore.toLocaleString()}
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+                Gold
+              </Typography>
+              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.warning }}>
+                ${gold}
+              </Typography>
+            </Box>
           </>
         ) : (
           <>
@@ -930,6 +1115,11 @@ export function CombatTerminal({
             onVictoryExplosionComplete={handleVictoryExplosionComplete}
           />
         </Box>
+
+        {/* Damage visualization - flash and floating numbers */}
+        {!isLobby && (
+          <DamageFlash impacts={impacts} scoreGained={lastScoreGain} />
+        )}
 
         {/* Fixed HUD Reticle - centered on screen, stacked die shapes */}
         {!isLobby && reticleDice.length > 0 && (

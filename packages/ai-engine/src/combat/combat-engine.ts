@@ -330,45 +330,34 @@ export class CombatEngine {
     // Roll unheld dice only
     this.state.hand = rollHand(this.state.hand, this.rng);
     this.state.throwsRemaining--;
+
+    // Calculate score immediately from thrown dice (unheld ones only)
+    // This avoids double-counting held dice that were scored in previous throws
+    const thrownDice = this.state.hand.filter(d => !d.isHeld);
+    const throwTotal = thrownDice.reduce((sum, d) => sum + (d.rollValue || 0), 0);
+    const scoreGain = throwTotal * 10 * this.state.multiplier;
+    this.state.currentScore += scoreGain;
+
+    // Consume multiplier after use (resets to 1, like Balatro)
+    this.state.multiplier = 1;
+
     this.setPhase('throw');
 
-    // Brief delay for animation, then discard thrown dice and draw new ones
+    // Brief delay for animation, then check if more throws or end turn
     setTimeout(() => {
-      // Discard thrown (unheld) dice and draw new ones
-      const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);
-      this.state.hand = hand;
-      this.state.pool = pool;
-
-      // If pool is low, recycle exhausted
-      if (this.state.pool.available.length < MAX_HAND_SIZE) {
-        this.state.pool.available = this.rng.shuffle([
-          ...this.state.pool.available,
-          ...this.state.pool.exhausted,
-        ]);
-        this.state.pool.exhausted = [];
-      }
-
       if (this.state.throwsRemaining > 0) {
         // More throws available - go back to select
         this.setPhase('select');
       } else {
-        // No throws left - resolve the turn
-        this.resolveThrow();
+        // No throws left - end the turn
+        this.endTurn();
       }
     }, 500);
   }
 
-  private resolveThrow(): void {
+  private endTurn(): void {
     this.setPhase('resolve');
-
-    // Calculate score from dice
-    const rollTotal = getHandTotal(this.state.hand);
-
-    // Apply multiplier to score (base * 10 * multiplier)
-    const scoreGain = rollTotal * 10 * this.state.multiplier;
-    this.state.currentScore += scoreGain;
-
-    // Transition to enemy turn
+    // Transition to enemy turn (score was already calculated per-throw)
     this.processEnemyTurn();
   }
 
@@ -466,13 +455,19 @@ export class CombatEngine {
 
   private handleEndTurn(): void {
     // TRADE mechanic: swap unheld dice for new ones, add to multiplier
-    // Trading is always available - holdsRemaining is only for re-holding dice
+    // Limited by holdsRemaining (trades per room)
     // Can only trade in select/draw phase (before throwing)
     if (this.state.phase !== 'select' && this.state.phase !== 'draw') return;
+
+    // Check if trades remaining
+    if (this.state.holdsRemaining <= 0) return; // No trades left
 
     // Count unheld dice being traded
     const unheldCount = this.state.hand.filter(d => !d.isHeld).length;
     if (unheldCount === 0) return; // Nothing to trade
+
+    // Consume a trade
+    this.state.holdsRemaining--;
 
     // Discard unheld dice, draw new ones
     const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);

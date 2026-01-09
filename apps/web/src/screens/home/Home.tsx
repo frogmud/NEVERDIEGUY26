@@ -28,10 +28,10 @@ import { MarketingLP } from './MarketingLP';
 import { useAuth } from '../../contexts/AuthContext';
 
 export function Home() {
-  const { isAuthenticated } = useAuth();
+  const { hasStartedGame } = useAuth();
 
-  // Show marketing landing page for signed-out users
-  if (!isAuthenticated) {
+  // Show marketing landing page until user starts their first game
+  if (!hasStartedGame) {
     return <MarketingLP />;
   }
   // Breakpoints matching Figma

@@ -103,7 +103,7 @@ interface RunContextValue {
   completeTransition: () => void;
 
   // Run lifecycle
-  startRun: (threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string) => void;
+  startRun: (threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[]) => void;
   endRun: (won: boolean) => void;
   resetRun: () => void;
 
@@ -141,7 +141,7 @@ type RunAction =
   | { type: 'SET_TRANSITION_PHASE'; phase: TransitionPhase }
   | { type: 'TRANSITION_TO_PANEL'; panel: CenterPanel }
   | { type: 'COMPLETE_TRANSITION' }
-  | { type: 'START_RUN'; threadId: string; protocolRoll?: ProtocolRoll; selectedTraveler?: string }
+  | { type: 'START_RUN'; threadId: string; protocolRoll?: ProtocolRoll; selectedTraveler?: string; selectedLoadout?: string; startingItems?: string[] }
   | { type: 'END_RUN'; won: boolean }
   | { type: 'RESET_RUN' }
   | { type: 'SELECT_ZONE'; zone: ZoneMarker }
@@ -207,13 +207,19 @@ function runReducer(state: RunState, action: RunAction): RunState {
         action.protocolRoll,
         action.selectedTraveler
       );
+      const initialState = createInitialRunState();
       return {
-        ...createInitialRunState(),
+        ...initialState,
         centerPanel: 'globe',
         threadId: action.threadId,
         protocolRoll: action.protocolRoll,
         ledger: [threadStartEvent],
         phase: 'playing',
+        // Initialize inventory with loadout items
+        inventory: {
+          ...initialState.inventory,
+          powerups: action.startingItems || [],
+        },
       };
     }
 
@@ -596,8 +602,8 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'COMPLETE_TRANSITION' });
   }, []);
 
-  const startRun = useCallback((threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string) => {
-    dispatch({ type: 'START_RUN', threadId, protocolRoll, selectedTraveler });
+  const startRun = useCallback((threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[]) => {
+    dispatch({ type: 'START_RUN', threadId, protocolRoll, selectedTraveler, selectedLoadout, startingItems });
   }, []);
 
   const endRun = useCallback((won: boolean) => {

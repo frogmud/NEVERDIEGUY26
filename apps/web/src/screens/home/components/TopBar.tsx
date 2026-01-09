@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import { Box, Typography, Avatar, Tooltip } from '@mui/material';
+import { Box, Typography, Tooltip } from '@mui/material';
 import {
   PublicSharp as CountryIcon,
   StarSharp as StarIcon,
@@ -69,16 +69,18 @@ export function TopBar() {
 /** User avatar and name badge */
 function UserBadge() {
   const { user } = useAuth();
-  const displayName = user?.name || 'Guest';
-  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-      <Avatar sx={{ width: 56, height: 56, bgcolor: tokens.colors.primary, fontSize: '1.5rem', fontWeight: 700 }}>
-        {initial}
-      </Avatar>
+      <AssetImage
+        src={user.avatar || '/assets/characters/portraits/60px/traveler-portrait-neverdieguy-02.svg'}
+        alt={user.name}
+        width={56}
+        height={56}
+        fallback="hide"
+      />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-        <Typography variant="body1" sx={{ fontWeight: 500 }}>@{displayName}</Typography>
+        <Typography variant="body1" sx={{ fontWeight: 500 }}>@{user.name}</Typography>
         <CountryIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
         <StarIcon sx={{ fontSize: 18, color: tokens.colors.warning }} />
       </Box>

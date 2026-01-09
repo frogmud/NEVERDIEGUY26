@@ -24,12 +24,20 @@ export function VictoryExplosion({ active, onComplete }: VictoryExplosionProps) 
   const groupRef = useRef<THREE.Group>(null);
   const [progress, setProgress] = useState(0);
   const [frozen, setFrozen] = useState(false);
+  const completedRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+
+  // Keep onComplete ref up to date
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   // Animation
   useEffect(() => {
     if (!active) {
       setProgress(0);
       setFrozen(false);
+      completedRef.current = false; // Reset when deactivated
       return;
     }
 
@@ -49,13 +57,15 @@ export function VictoryExplosion({ active, onComplete }: VictoryExplosionProps) 
 
       if (newProgress < 1 && !frozen) {
         requestAnimationFrame(animate);
-      } else if (newProgress >= 1) {
-        onComplete?.();
+      } else if (newProgress >= 1 && !completedRef.current) {
+        // Fire onComplete only once per activation
+        completedRef.current = true;
+        onCompleteRef.current?.();
       }
     };
 
     requestAnimationFrame(animate);
-  }, [active, onComplete, frozen]);
+  }, [active, frozen]);
 
   // Scale animation
   useFrame(() => {

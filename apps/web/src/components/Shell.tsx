@@ -33,7 +33,17 @@ export function Shell() {
       />
 
       {/* Main content area */}
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          // Play routes need viewport height constraint
+          height: isPlayRoute ? '100vh' : 'auto',
+          maxHeight: isPlayRoute ? '100vh' : undefined,
+        }}
+      >
         {/* Top bar */}
         <AppTopbar
           isMobile={isMobile}
@@ -49,13 +59,12 @@ export function Shell() {
             backgroundColor: tokens.colors.background.default,
             overflow: isPlayRoute ? 'hidden' : 'auto',
             position: 'relative',
-            // PlayHub needs full height - don't constrain
-            minHeight: isPlayRoute ? 0 : undefined,
+            minHeight: 0,
           }}
         >
           {isPlayRoute ? (
             // Full-width, full-height for PlayHub canvas
-            <Box sx={{ width: '100%', height: '100%' }}>
+            <Box sx={{ width: '100%', height: '100%', minHeight: 0 }}>
               <Outlet />
             </Box>
           ) : (

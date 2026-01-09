@@ -137,11 +137,16 @@ interface RunState extends GameState {
 
 | CenterPanel | Phase | Sidebar Content |
 |-------------|-------|-----------------|
-| globe | event_select | New Run / Continue |
-| globe | playing | Zone list (GameTabLaunch) |
-| combat | playing | Score, summons, roll history |
+| globe | event_select | GameTab: New Run / Continue buttons |
+| globe | playing | GameTabLaunch: Zone list + Launch button |
+| combat | playing | GameTabPlaying: Score, throws, trades, combat feed |
 | summary | event_complete | (hidden - summary in center) |
 | shop | shop | (hidden - shop in center) |
+
+**Sidebar Tabs (always available):**
+- **Game** - Phase-specific content (see above)
+- **Bag** - Inventory, loadout selection (lobby only)
+- **Settings** - Sound, music, game speed, animations, Back to Menu
 
 ## Encounter Interrupts
 
@@ -168,9 +173,28 @@ State saved to localStorage at:
 - Entering `phase: 'playing'`
 - Entering `phase: 'shop'`
 
+## Global Contexts
+
+**RunContext** - Game state machine
+- Manages centerPanel, phase, transitions
+- Domain/zone tracking
+- Score, gold, run stats
+
+**SoundContext** - Audio system
+- `playDiceRoll()`, `playImpact()`, `playVictory()`, `playDefeat()`
+- `soundEnabled` toggle (persisted)
+
+**GameSettingsContext** - Persistent settings
+- `gameSpeed` (0.5x - 2x)
+- `animationsEnabled`, `musicEnabled`
+- `adjustDelay(ms)` - scales timing by game speed
+
 ## Files
 
 - `/apps/web/src/contexts/RunContext.tsx` - State machine implementation
-- `/apps/web/src/screens/play/PlayHub.tsx` - Panel switching
-- `/apps/web/src/utils/transitions.ts` - Transition timing
+- `/apps/web/src/contexts/SoundContext.tsx` - Audio system
+- `/apps/web/src/contexts/GameSettingsContext.tsx` - Persistent settings
+- `/apps/web/src/screens/play/PlayHub.tsx` - Panel switching, progress bar
+- `/apps/web/src/screens/play/components/PlaySidebar.tsx` - Sidebar tabs
+- `/apps/web/src/screens/play/components/CombatTerminal.tsx` - Combat UI
 - `/apps/web/src/types/zones.ts` - Zone/Domain types

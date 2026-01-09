@@ -105,7 +105,7 @@ export function GameTabPlaying({
   combatFeed = [],
 }: GameTabPlayingProps) {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Enemy + Score To Beat */}
       <Box
         sx={{
@@ -114,6 +114,7 @@ export function GameTabPlaying({
           alignItems: 'center',
           gap: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         {/* Enemy Sprite */}
@@ -171,7 +172,7 @@ export function GameTabPlaying({
               sx={{
                 fontFamily: '"Press Start 2P", monospace',
                 fontSize: '1.25rem',
-                color: tokens.colors.error,
+                color: tokens.colors.primary,
                 letterSpacing: '0.1em',
               }}
             >
@@ -267,6 +268,7 @@ export function GameTabPlaying({
         sx={{
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
@@ -300,7 +302,7 @@ export function GameTabPlaying({
               flex: 1,
               py: 1.5,
               borderRadius: 2,
-              bgcolor: '#3366FF', // Match Throw button blue
+              bgcolor: '#3366FF',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -339,7 +341,7 @@ export function GameTabPlaying({
               flex: 1,
               py: 1.5,
               borderRadius: 2,
-              bgcolor: tokens.colors.error, // Always red (multiplier box)
+              bgcolor: tokens.colors.primary,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -365,6 +367,7 @@ export function GameTabPlaying({
           gap: 1,
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         {/* Throws */}
@@ -420,12 +423,12 @@ export function GameTabPlaying({
           variant="contained"
           onClick={onOptions}
           sx={{
-            bgcolor: '#eab308',
+            bgcolor: tokens.colors.warning,
             color: '#000',
             fontFamily: tokens.fonts.gaming,
             fontSize: '0.85rem',
             minWidth: 80,
-            '&:hover': { bgcolor: '#ca8a04' },
+            '&:hover': { bgcolor: '#d4b000' },
           }}
         >
           Options
@@ -437,6 +440,7 @@ export function GameTabPlaying({
         sx={{
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         <Box
@@ -465,6 +469,7 @@ export function GameTabPlaying({
           display: 'flex',
           gap: 1,
           p: 2,
+          flexShrink: 0,
         }}
       >
         {/* Domain */}
@@ -520,12 +525,12 @@ export function GameTabPlaying({
           variant="contained"
           onClick={onInfo}
           sx={{
-            bgcolor: tokens.colors.error,
+            bgcolor: tokens.colors.primary,
             color: '#fff',
             fontFamily: tokens.fonts.gaming,
             fontSize: '0.85rem',
             minWidth: 80,
-            '&:hover': { bgcolor: '#b91c1c' },
+            '&:hover': { bgcolor: '#c0033a' },
           }}
         >
           Info

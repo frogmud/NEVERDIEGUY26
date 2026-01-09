@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -21,12 +21,16 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CasinoSharpIcon from '@mui/icons-material/CasinoSharp';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ShieldSharpIcon from '@mui/icons-material/ShieldSharp';
+import BoltSharpIcon from '@mui/icons-material/BoltSharp';
+import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
 import { tokens } from '../theme';
 import type { GameState, ProtocolRoll } from '../games/meteor/gameConfig';
 import type { GameConfig, GameMode } from '../games/meteor/components';
 import { getThreadSnapshot, type ThreadSnapshot } from '../state/threadSelectors';
 import { createSeededRng, generateThreadId } from '../data/pools';
 import { travelers } from '../data/wiki/entities/travelers';
+import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID, type LoadoutPreset } from '../data/loadouts';
 
 // Thread setup step - simplified: just pick traveler and go
 type ThreadSetupStep = 'select' | 'ready';
@@ -36,6 +40,8 @@ export interface ThreadConfig extends GameConfig {
   threadId: string;
   protocolRoll: ProtocolRoll;
   selectedTraveler: string;
+  selectedLoadout: string;
+  startingItems: string[];
 }
 
 interface SidebarSetupProps {
@@ -379,6 +385,140 @@ function TravelerCard({
   );
 }
 
+// Icon mapping for loadouts
+const LOADOUT_ICONS: Record<string, React.ReactNode> = {
+  ShieldSharp: <ShieldSharpIcon sx={{ fontSize: 18 }} />,
+  BoltSharp: <BoltSharpIcon sx={{ fontSize: 18 }} />,
+  AutoAwesomeSharp: <AutoAwesomeSharpIcon sx={{ fontSize: 18 }} />,
+  FavoriteSharp: <FavoriteSharpIcon sx={{ fontSize: 18 }} />,
+};
+
+// Loadout Selection Card
+function LoadoutCard({
+  loadout,
+  selected,
+  onClick,
+}: {
+  loadout: LoadoutPreset;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  const borderColor = selected ? tokens.colors.primary : tokens.colors.border;
+
+  return (
+    <Box
+      onClick={onClick}
+      sx={{
+        p: 1.5,
+        borderRadius: 1,
+        bgcolor: selected ? `${tokens.colors.primary}15` : tokens.colors.background.elevated,
+        border: `2px solid ${borderColor}`,
+        cursor: 'pointer',
+        transition: 'all 0.15s',
+        '&:hover': {
+          borderColor: tokens.colors.primary,
+          bgcolor: `${tokens.colors.primary}10`,
+        },
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        {/* Loadout icon */}
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: 1,
+            bgcolor: selected ? `${tokens.colors.primary}30` : `${tokens.colors.text.secondary}20`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: selected ? tokens.colors.primary : tokens.colors.text.secondary,
+            flexShrink: 0,
+          }}
+        >
+          {LOADOUT_ICONS[loadout.icon] || <ShieldSharpIcon sx={{ fontSize: 18 }} />}
+        </Box>
+
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                color: selected ? tokens.colors.primary : tokens.colors.text.primary,
+                ...gamingFont,
+              }}
+            >
+              {loadout.name}
+            </Typography>
+            {selected && (
+              <CheckCircleOutlineIcon sx={{ fontSize: 16, color: tokens.colors.primary }} />
+            )}
+          </Box>
+
+          {/* Playstyle tag */}
+          <Typography
+            sx={{
+              fontSize: '0.6rem',
+              color: tokens.colors.text.disabled,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+            }}
+          >
+            {loadout.playstyle}
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Description */}
+      <Typography
+        variant="caption"
+        sx={{
+          color: tokens.colors.text.secondary,
+          fontSize: '0.65rem',
+          display: 'block',
+          mt: 1,
+        }}
+      >
+        {loadout.description}
+      </Typography>
+
+      {/* Stat bonus chips */}
+      <Box sx={{ display: 'flex', gap: 0.5, mt: 1, flexWrap: 'wrap' }}>
+        {Object.entries(loadout.statBonus).map(([stat, value]) => (
+          <Chip
+            key={stat}
+            label={`+${value} ${stat}`}
+            size="small"
+            sx={{
+              height: 18,
+              fontSize: '0.5rem',
+              bgcolor: `${tokens.colors.secondary}20`,
+              color: tokens.colors.secondary,
+              border: `1px solid ${tokens.colors.secondary}30`,
+              textTransform: 'capitalize',
+              '& .MuiChip-label': { px: 0.5 },
+            }}
+          />
+        ))}
+      </Box>
+
+      {/* Starting items count */}
+      <Typography
+        variant="caption"
+        sx={{
+          color: tokens.colors.text.disabled,
+          fontSize: '0.5rem',
+          display: 'block',
+          mt: 0.75,
+        }}
+      >
+        {loadout.items.length} starting items
+      </Typography>
+    </Box>
+  );
+}
+
 // Run history item
 function RunHistoryItem({ run }: { run: typeof runHistory[0] }) {
   const isWin = run.result === 'win';
@@ -484,15 +624,20 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
   const [inventoryFilter, setInventoryFilter] = useState<string>('all');
   const [devDrawerOpen, setDevDrawerOpen] = useState(false);
 
-  // Simplified thread setup - just traveler selection
+  // Simplified thread setup - traveler and loadout selection
   const [selectedTraveler, setSelectedTraveler] = useState<string>('never-die-guy');
   const [showTravelerPicker, setShowTravelerPicker] = useState(false);
+  const [selectedLoadout, setSelectedLoadout] = useState<string>(DEFAULT_LOADOUT_ID);
+  const [showLoadoutPicker, setShowLoadoutPicker] = useState(false);
 
   // Get thread snapshot if game state is available
   const threadSnapshot = gameState ? getThreadSnapshot(gameState) : null;
 
   // Get selected traveler data
   const selectedTravelerData = travelers.find((t) => t.slug === selectedTraveler);
+
+  // Get selected loadout data
+  const selectedLoadoutData = LOADOUT_PRESETS.find((l) => l.id === selectedLoadout);
 
   // Start immediately - no Protocol Roll ceremony
   // Protocol will be derived from first combat dice selection
@@ -508,6 +653,7 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
       sponsor: rng.roll('protocol:sponsor', 6),
     };
 
+    const loadout = LOADOUT_PRESETS.find((l) => l.id === selectedLoadout);
     const config: ThreadConfig = {
       domain: roll.domain,
       mode: 'normal' as GameMode,
@@ -515,6 +661,8 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
       threadId,
       protocolRoll: roll,
       selectedTraveler,
+      selectedLoadout,
+      startingItems: loadout?.items || [],
     };
     onStart(config);
   };
@@ -575,7 +723,10 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {/* Selected Traveler Display */}
           <Box
-            onClick={() => setShowTravelerPicker(!showTravelerPicker)}
+            onClick={() => {
+              setShowTravelerPicker(!showTravelerPicker);
+              setShowLoadoutPicker(false);
+            }}
             sx={{
               p: 1.5,
               borderBottom: `1px solid ${tokens.colors.border}`,
@@ -663,8 +814,105 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
             </Box>
           </Collapse>
 
+          {/* Selected Loadout Display */}
+          <Box
+            onClick={() => {
+              setShowLoadoutPicker(!showLoadoutPicker);
+              setShowTravelerPicker(false);
+            }}
+            sx={{
+              p: 1.5,
+              borderBottom: `1px solid ${tokens.colors.border}`,
+              cursor: 'pointer',
+              bgcolor: showLoadoutPicker ? tokens.colors.background.elevated : 'transparent',
+              transition: 'all 0.15s',
+              '&:hover': {
+                bgcolor: tokens.colors.background.elevated,
+              },
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {/* Loadout icon */}
+                <Box
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 1,
+                    bgcolor: `${tokens.colors.secondary}20`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: `1px solid ${tokens.colors.secondary}40`,
+                    color: tokens.colors.secondary,
+                  }}
+                >
+                  {selectedLoadoutData && LOADOUT_ICONS[selectedLoadoutData.icon]}
+                </Box>
+                <Box>
+                  <Typography
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: '0.8rem',
+                      color: tokens.colors.text.primary,
+                    }}
+                  >
+                    {selectedLoadoutData?.name || 'Survivor'}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled }}>
+                      {selectedLoadoutData?.playstyle}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.5rem', color: tokens.colors.secondary }}>
+                      ({selectedLoadoutData?.items.length || 0} items)
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              <IconButton size="small" sx={{ p: 0.5 }}>
+                {showLoadoutPicker ? (
+                  <ExpandLessIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+                ) : (
+                  <ExpandMoreIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+                )}
+              </IconButton>
+            </Box>
+          </Box>
+
+          {/* Loadout Picker (collapsible) */}
+          <Collapse in={showLoadoutPicker}>
+            <Box sx={{ p: 1, maxHeight: 400, overflow: 'auto' }}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: tokens.colors.text.disabled,
+                  fontSize: '0.55rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  display: 'block',
+                  mb: 1,
+                }}
+              >
+                Choose Your Loadout
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                {LOADOUT_PRESETS.map((loadout) => (
+                  <LoadoutCard
+                    key={loadout.id}
+                    loadout={loadout}
+                    selected={selectedLoadout === loadout.id}
+                    onClick={() => {
+                      setSelectedLoadout(loadout.id);
+                      setShowLoadoutPicker(false);
+                    }}
+                  />
+                ))}
+              </Box>
+            </Box>
+          </Collapse>
+
           {/* Main content area - Ready to play */}
-          {!showTravelerPicker && (
+          {!showTravelerPicker && !showLoadoutPicker && (
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', p: 2 }}>
               <Box sx={{ textAlign: 'center', mb: 3 }}>
                 <CasinoSharpIcon sx={{ fontSize: 56, color: tokens.colors.primary, mb: 1.5 }} />

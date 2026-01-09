@@ -61,50 +61,83 @@ centerPanel: 'combat'
 ```
 
 **UI State:**
-- Phaser canvas: 3D sphere with NPCs
-- Controls: Dice selection, Summon, Tribute, Skip
-- Sidebar: Score, goal, summons remaining, roll history
+- CombatTerminal: 3D globe with guardians, HUD reticle
+- Top bar: Turn number, current score / target score, turns remaining
+- Progress bar: Domain/room/score/gold (at top of play area)
+- Controls: Dice hand, THROW button, TRADE button, hold all toggle
+- Sidebar: Score, multiplier, throws/trades remaining, combat feed
 
 **Core Mechanics:**
-- Select dice from inventory
-- **Summon**: Throw dice at sphere, damage NPCs
-- **Tribute**: Boost multiplier (costs dice)
-- Combo detection for bonus points
-- Win: Reach score goal
-- Lose: Exhaust all summons
+- 5 dice drawn each turn (d4, d6, d8, d10, d12, d20)
+- **THROW**: Throw unheld dice at globe, score points per die value
+- **TRADE**: Sacrifice unheld dice for multiplier boost (+1x per die)
+- **Guardians**: Orbital enemies that absorb matching dice types
+- Win: Reach target score before turns run out
+- Lose: Exhaust all turns without reaching target
 
-### Play/Hold Mechanic (New)
+### Throw/Trade Mechanic
 
-**Poker-Style Dice Holding:**
+**Balatro-Style Combat:**
 ```
 [Dice in hand: d4 d6 d8 d12 d20]
          |
-[Toggle which to hold]
+[Toggle which to hold (click dice)]
          |
-[THROW] -> Throw non-held dice
+[THROW] -> Throw unheld dice at globe
+         |    - Meteors spawn and hit reticle
+         |    - Score += sum of dice values * multiplier
+         |    - Matching dice destroy guardians instead
          |
-[Results shown]
+[TRADE] -> Sacrifice unheld dice for multiplier
+         |    - Multiplier += number of dice traded
+         |    - Dice removed from hand
          |
-[PLAY] -> Lock in score, end turn
-   or
-[HOLD] -> Keep selected dice, draw replacements
+[Turn ends] -> New dice drawn, repeat
 ```
 
-**State:**
+**State (CombatEngine):**
 ```typescript
-interface DiceHand {
-  dice: Die[];           // Current 5-die hand
-  held: boolean[];       // Toggle state per die
-  thrown: Die[];         // Results of last throw
-  throwsRemaining: number; // Limit per room (default 3)
+interface CombatState {
+  hand: Die[];              // Current 5-die hand
+  throwsRemaining: number;  // Per turn (default 3)
+  holdsRemaining: number;   // Trades available (default 3)
+  currentScore: number;     // Accumulated this room
+  targetScore: number;      // Goal to beat
+  multiplier: number;       // Score multiplier
+  turnsRemaining: number;   // Turns left in room
+  phase: 'draw' | 'select' | 'throw' | 'resolve' | 'victory' | 'defeat';
 }
 ```
 
 **Actions:**
-- `toggleHold(index)` - Mark die to keep
-- `throwDice()` - Throw non-held dice at sphere
-- `playHand()` - Lock in current score
-- `holdAndDraw()` - Keep held, draw new dice for rest
+- `TOGGLE_HOLD(dieId)` - Mark die to keep/throw
+- `HOLD_ALL` / `HOLD_NONE` - Bulk selection
+- `THROW` - Throw unheld dice, spawn meteors
+- `END_TURN` - Trade unheld dice for multiplier
+
+### Guardians
+
+Guardians are orbital enemies that protect the planet:
+- 0-3 guardians spawn per room
+- Each has a die type (d4, d6, d8, etc.)
+- Throwing a matching die destroys the guardian (no planet damage)
+- Unmatched dice hit the planet and score points
+- HUD shows which dice target guardians vs planet
+
+### Sound & Visual Feedback
+
+**Sound Effects (SoundContext):**
+- `playDiceRoll()` - On throw
+- `playImpact()` - On meteor hit
+- `playVictory()` - On room complete
+- `playDefeat()` - On game over
+
+**Visual Effects:**
+- Meteor trails with die-colored streaks
+- Impact explosions on globe
+- Damage flash at reticle (localized radial gradient)
+- Floating damage numbers (+score)
+- Victory explosion (nuclear effect)
 
 ### Summary Phase
 ```
@@ -183,8 +216,22 @@ Saved fields:
 
 ## Files
 
-- `/apps/web/src/contexts/RunContext.tsx` - State machine
-- `/apps/web/src/games/meteor/scenes/MeteorScene.ts` - Combat logic
-- `/apps/web/src/games/meteor/components/ControlsPanel.tsx` - Dice controls
+**State Management:**
+- `/apps/web/src/contexts/RunContext.tsx` - Game state machine
+- `/apps/web/src/contexts/SoundContext.tsx` - Audio system
+- `/apps/web/src/contexts/GameSettingsContext.tsx` - Persistent settings
+
+**Combat:**
+- `/apps/web/src/screens/play/components/CombatTerminal.tsx` - Main combat UI
+- `/packages/ai-engine/src/combat/combat-engine.ts` - Combat logic
+- `/apps/web/src/games/meteor/components/CombatHUD.tsx` - Dice controls
+
+**Globe & Visuals:**
+- `/apps/web/src/games/globe-meteor/GlobeScene.tsx` - 3D scene
+- `/apps/web/src/games/globe-meteor/components/MeteorShower.tsx` - Meteor rendering
+- `/apps/web/src/games/globe-meteor/components/Guardian.tsx` - Guardian enemies
+
+**Data:**
 - `/apps/web/src/data/domains.ts` - Domain configs
+- `/apps/web/src/data/npc-chat/triggers.ts` - NPC dialogue triggers
 - `/apps/web/src/games/meteor/gameConfig.ts` - Event templates

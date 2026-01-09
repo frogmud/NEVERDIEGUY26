@@ -145,7 +145,7 @@ export function generateWeightedPool(
 /**
  * Draw dice from pool to fill hand
  * Held dice stay, empty slots filled from pool
- * New dice start HELD - player must unhold to select for throwing
+ * New dice start UNHELD - ready to throw immediately
  */
 export function drawHand(
   pool: DicePool,
@@ -160,10 +160,10 @@ export function drawHand(
   const drawn = pool.available.slice(0, drawCount);
   const remaining = pool.available.slice(drawCount);
 
-  // New dice start HELD (player unholds to select for throwing)
+  // New dice start UNHELD (ready to throw immediately)
   const newDice = drawn.map((d) => ({
     ...d,
-    isHeld: true,
+    isHeld: false,
     rollValue: null,
   }));
 
@@ -233,10 +233,10 @@ export function discardAndDraw(
   const drawn = pool.available.slice(0, drawCount);
   const remaining = pool.available.slice(drawCount);
 
-  // New dice start HELD (player unholds to select for throwing)
+  // New dice start UNHELD (ready to throw immediately)
   const newDice = drawn.map((d) => ({
     ...d,
-    isHeld: true,
+    isHeld: false,
     rollValue: null,
   }));
 

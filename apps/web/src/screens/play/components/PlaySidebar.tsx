@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import { tokens } from '../../../theme';
 import { GameTab } from './tabs/GameTab';
@@ -6,6 +6,7 @@ import { GameTabLaunch, type ZoneInfo } from './tabs/GameTabLaunch';
 import { GameTabPlaying } from './tabs/GameTabPlaying';
 import { BagTab } from './tabs/BagTab';
 import { SettingsTab } from './tabs/SettingsTab';
+import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../../data/loadouts';
 
 interface RollHistoryEntry {
   id: number;
@@ -56,7 +57,7 @@ type GamePhase = 'lobby' | 'zoneSelect' | 'playing';
 interface PlaySidebarProps {
   phase?: GamePhase;
   width?: number;
-  onNewRun?: () => void;
+  onNewRun?: (loadoutId: string, startingItems: string[]) => void;
   onContinue?: () => void;
   onLaunch?: () => void;
   onBack?: () => void;
@@ -73,6 +74,13 @@ interface PlaySidebarProps {
   hasSavedRun?: boolean;
   // Combat feed history
   combatFeed?: FeedEntry[];
+  // Run progress (for zone select header)
+  currentDomain?: number;
+  totalDomains?: number;
+  currentRoom?: number;
+  totalRooms?: number;
+  totalScore?: number;
+  gold?: number;
 }
 
 type LobbyTabValue = 'game' | 'bag' | 'settings';
@@ -99,8 +107,21 @@ export function PlaySidebar({
   onInfo,
   hasSavedRun = false,
   combatFeed = [],
+  currentDomain = 1,
+  totalDomains = 6,
+  currentRoom = 1,
+  totalRooms = 3,
+  totalScore = 0,
+  gold = 0,
 }: PlaySidebarProps) {
   const [activeTab, setActiveTab] = useState<LobbyTabValue>('game');
+  const [selectedLoadout, setSelectedLoadout] = useState<string>(DEFAULT_LOADOUT_ID);
+
+  // Handle new run with selected loadout
+  const handleNewRun = useCallback(() => {
+    const loadout = LOADOUT_PRESETS.find((l) => l.id === selectedLoadout);
+    onNewRun?.(selectedLoadout, loadout?.items || []);
+  }, [selectedLoadout, onNewRun]);
 
   // Default game state for when playing but no state provided
   const defaultGameState: GameState = {
@@ -131,6 +152,9 @@ export function PlaySidebar({
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        maxHeight: '100%',
+        minHeight: 0,
+        overflow: 'hidden',
       }}
     >
       {/* Tab Navigation */}
@@ -175,7 +199,7 @@ export function PlaySidebar({
       </Box>
 
       {/* Tab Content */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
         {activeTab === 'game' && (
           phase === 'playing' ? (
             <GameTabPlaying
@@ -204,12 +228,24 @@ export function PlaySidebar({
               onLaunch={onLaunch}
               onBack={onBack}
               seedHash={seedHash}
+              currentDomain={currentDomain}
+              totalDomains={totalDomains}
+              currentRoom={currentRoom}
+              totalRooms={totalRooms}
+              totalScore={totalScore}
+              gold={gold}
             />
           ) : (
-            <GameTab onNewRun={onNewRun} onContinue={onContinue} hasSaveData={hasSavedRun} />
+            <GameTab onNewRun={handleNewRun} onContinue={onContinue} hasSaveData={hasSavedRun} />
           )
         )}
-        {activeTab === 'bag' && <BagTab />}
+        {activeTab === 'bag' && (
+          <BagTab
+            isLobby={phase === 'lobby'}
+            selectedLoadout={selectedLoadout}
+            onLoadoutSelect={setSelectedLoadout}
+          />
+        )}
         {activeTab === 'settings' && <SettingsTab />}
       </Box>
     </Box>

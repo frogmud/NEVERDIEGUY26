@@ -32,12 +32,6 @@ function RouteLoader() {
 }
 
 // ============ EAGER LOADED (Critical Path) ============
-import { Login } from './screens/auth/Login';
-import { Signup } from './screens/auth/Signup';
-import { ForgotPassword } from './screens/auth/ForgotPassword';
-import { ResetPassword } from './screens/auth/ResetPassword';
-import { ResetSuccess } from './screens/auth/ResetSuccess';
-import { Logout } from './screens/auth/Logout';
 import { Home } from './screens/home/Home';
 import { NotFound } from './screens/NotFound';
 import { NotFoundStandalone } from './screens/NotFoundStandalone';
@@ -131,13 +125,13 @@ function App() {
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <GlobalStyles styles={globalAnimations} />
       <Routes>
-        {/* Public routes without shell */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/reset-success" element={<ResetSuccess />} />
-        <Route path="/logout" element={<Logout />} />
+        {/* Auth routes redirect to home (MVP: no login required) */}
+        <Route path="/login" element={<Navigate to="/" replace />} />
+        <Route path="/signup" element={<Navigate to="/" replace />} />
+        <Route path="/forgot-password" element={<Navigate to="/" replace />} />
+        <Route path="/reset-password" element={<Navigate to="/" replace />} />
+        <Route path="/reset-success" element={<Navigate to="/" replace />} />
+        <Route path="/logout" element={<Navigate to="/" replace />} />
         <Route path="/404" element={<NotFoundStandalone />} />
 
         {/* Routes with shell */}

@@ -28,6 +28,13 @@ interface GameTabLaunchProps {
   onLaunch?: () => void;
   onBack?: () => void;
   seedHash?: string; // For display in zone IDs
+  // Run progress
+  currentDomain?: number;
+  totalDomains?: number;
+  currentRoom?: number;
+  totalRooms?: number;
+  totalScore?: number;
+  gold?: number;
 }
 
 // Time display config
@@ -44,6 +51,12 @@ export function GameTabLaunch({
   onLaunch,
   onBack,
   seedHash = '######',
+  currentDomain = 1,
+  totalDomains = 6,
+  currentRoom = 1,
+  totalRooms = 3,
+  totalScore = 0,
+  gold = 0,
 }: GameTabLaunchProps) {
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -84,7 +97,7 @@ export function GameTabLaunch({
           mb: 3,
         }}
       >
-        Click a zone on the globe to begin
+        Click a zone to begin
       </Typography>
 
       {/* Zone Cards */}
@@ -208,20 +221,6 @@ export function GameTabLaunch({
       >
         Launch
       </Button>
-
-      {/* Back Link */}
-      <ButtonBase
-        onClick={onBack}
-        sx={{
-          mt: 2,
-          py: 1,
-          color: tokens.colors.text.secondary,
-          fontSize: '0.875rem',
-          '&:hover': { color: tokens.colors.text.primary },
-        }}
-      >
-        Back to Menu
-      </ButtonBase>
     </Box>
   );
 }

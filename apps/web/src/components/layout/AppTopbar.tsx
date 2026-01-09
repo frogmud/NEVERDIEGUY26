@@ -9,14 +9,13 @@ import {
   StarSharp as StarIcon,
   PersonSharp as ProfileIcon,
   SettingsSharp as SettingsIcon,
-  LogoutSharp as LogoutIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import { searchEntities, type AnyEntity } from '../../data/wiki';
 import { HEADER_HEIGHT } from './navItems';
 import { SearchPopover } from './SearchPopover';
 import { NotificationsMenu } from './NotificationsMenu';
-import { useAuth, TRAVELER_OPTIONS } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface AppTopbarProps {
   isMobile?: boolean;
@@ -25,7 +24,7 @@ interface AppTopbarProps {
 
 export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
   const navigate = useNavigate();
-  const { user, isAuthenticated, signOut, selectedTraveler, selectTraveler, clearTraveler } = useAuth();
+  const { user } = useAuth();
 
   // User menu state
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
@@ -40,12 +39,6 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState<AnyEntity[]>([]);
   const searchOpen = Boolean(searchAnchor) && searchValue.length > 0;
-
-  const handleSignOut = () => {
-    setUserMenuAnchor(null);
-    signOut();
-    navigate('/');
-  };
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
@@ -200,10 +193,10 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
           title={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, py: 0.25 }}>
               <Typography sx={{ fontSize: '0.75rem', fontWeight: 600 }}>
-                @{isAuthenticated && user ? user.name : selectedTraveler ? selectedTraveler.name : 'Guest'}
+                @{user.name}
               </Typography>
               <CountryIcon sx={{ fontSize: 12 }} />
-              {isAuthenticated && <StarIcon sx={{ fontSize: 12, color: tokens.colors.warning }} />}
+              <StarIcon sx={{ fontSize: 12, color: tokens.colors.warning }} />
             </Box>
           }
           arrow
@@ -211,20 +204,15 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
         >
           <Avatar
             onClick={(e) => setUserMenuAnchor(e.currentTarget)}
-            src={selectedTraveler && !isAuthenticated ? selectedTraveler.portrait : undefined}
+            src={user.avatar || '/assets/characters/portraits/60px/traveler-portrait-neverdieguy-02.svg'}
             sx={{
               width: 32,
               height: 32,
-              bgcolor: isAuthenticated ? tokens.colors.primary : selectedTraveler ? tokens.colors.background.paper : tokens.colors.background.elevated,
-              fontSize: '0.75rem',
-              fontWeight: 700,
+              bgcolor: tokens.colors.background.paper,
               cursor: 'pointer',
-              border: selectedTraveler && !isAuthenticated ? `2px solid ${tokens.colors.primary}` : 'none',
               '&:hover': { opacity: 0.8 },
             }}
-          >
-            {isAuthenticated && user ? user.name.charAt(0).toUpperCase() : !selectedTraveler ? 'G' : null}
-          </Avatar>
+          />
         </Tooltip>
 
         {/* User dropdown menu */}
@@ -243,94 +231,35 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
             },
           }}
         >
-          {isAuthenticated && user ? [
-              <Box key="user-info" sx={{ px: 2, py: 1.5 }}>
-                <Typography sx={{ fontWeight: 600 }}>{user.name}</Typography>
-                <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
-                  Level {user.level} · {user.points.toLocaleString()} pts
-                </Typography>
-              </Box>,
-              <Divider key="div1" sx={{ borderColor: tokens.colors.border }} />,
-              <MenuItem
-                key="profile"
-                onClick={() => {
-                  setUserMenuAnchor(null);
-                  navigate('/profile');
-                }}
-              >
-                <ListItemIcon>
-                  <ProfileIcon fontSize="small" />
-                </ListItemIcon>
-                View Profile
-              </MenuItem>,
-              <MenuItem
-                key="settings"
-                onClick={() => {
-                  setUserMenuAnchor(null);
-                  navigate('/settings');
-                }}
-              >
-                <ListItemIcon>
-                  <SettingsIcon fontSize="small" />
-                </ListItemIcon>
-                Settings
-              </MenuItem>,
-              <Divider key="div2" sx={{ borderColor: tokens.colors.border }} />,
-              <MenuItem key="signout" onClick={handleSignOut} sx={{ color: tokens.colors.error }}>
-                <ListItemIcon>
-                  <LogoutIcon fontSize="small" sx={{ color: tokens.colors.error }} />
-                </ListItemIcon>
-                Sign Out
-              </MenuItem>,
-            ] : [
-              <Box key="traveler-header" sx={{ px: 2, py: 1.5 }}>
-                <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                  {selectedTraveler ? selectedTraveler.name : 'Choose Traveler'}
-                </Typography>
-                <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
-                  {selectedTraveler ? 'Playing as this character' : 'Select who you want to be'}
-                </Typography>
-              </Box>,
-              <Divider key="div-travelers" sx={{ borderColor: tokens.colors.border }} />,
-              <Box key="traveler-grid" sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, p: 1.5 }}>
-                {TRAVELER_OPTIONS.map((traveler) => (
-                  <Tooltip key={traveler.slug} title={traveler.name} arrow placement="top">
-                    <Avatar
-                      src={traveler.portrait}
-                      onClick={() => {
-                        selectTraveler(traveler.slug);
-                        setUserMenuAnchor(null);
-                      }}
-                      sx={{
-                        width: 40,
-                        height: 40,
-                        cursor: 'pointer',
-                        border: selectedTraveler?.slug === traveler.slug ? `2px solid ${tokens.colors.primary}` : `2px solid transparent`,
-                        '&:hover': {
-                          border: `2px solid ${tokens.colors.text.secondary}`,
-                          transform: 'scale(1.1)',
-                        },
-                        transition: 'all 0.15s ease',
-                      }}
-                    />
-                  </Tooltip>
-                ))}
-              </Box>,
-              selectedTraveler && (
-                <Box key="guest-option">
-                  <Divider sx={{ borderColor: tokens.colors.border }} />
-                  <MenuItem
-                    onClick={() => {
-                      clearTraveler();
-                      setUserMenuAnchor(null);
-                    }}
-                    sx={{ justifyContent: 'center', color: tokens.colors.text.secondary }}
-                  >
-                    Play as Guest
-                  </MenuItem>
-                </Box>
-              ),
-            ].filter(Boolean)}
+          <Box sx={{ px: 2, py: 1.5 }}>
+            <Typography sx={{ fontWeight: 600 }}>{user.name}</Typography>
+            <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
+              Level {user.level} · {user.points.toLocaleString()} pts
+            </Typography>
+          </Box>
+          <Divider sx={{ borderColor: tokens.colors.border }} />
+          <MenuItem
+            onClick={() => {
+              setUserMenuAnchor(null);
+              navigate('/profile');
+            }}
+          >
+            <ListItemIcon>
+              <ProfileIcon fontSize="small" />
+            </ListItemIcon>
+            View Profile
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setUserMenuAnchor(null);
+              navigate('/settings');
+            }}
+          >
+            <ListItemIcon>
+              <SettingsIcon fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
         </Menu>
 
         {/* Notifications dropdown */}
