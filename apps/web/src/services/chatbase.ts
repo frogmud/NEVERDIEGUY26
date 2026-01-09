@@ -184,6 +184,58 @@ function isCompleteSentence(text: string): boolean {
   return /[.!?*]['"]?$/.test(trimmed);
 }
 
+/**
+ * Character names that indicate dialogue meant for specific NPCs, not the player.
+ * These entries were extracted from narrative content where NPCs talk to each other.
+ */
+const NPC_CHARACTER_NAMES = [
+  // Player characters / NPCs
+  'xtreme', 'body count', 'bodycount', 'stitch-up', 'stitchup', 'stitch up',
+  'boo-g', 'boog', 'boo g', 'clausen', 'voss', 'maxwell',
+  'king james', 'kingjames', 'boots', 'keith-man', 'keithman', 'keith man',
+  'willy one-eye', 'willyoneeye', 'the general', 'thegeneral',
+  'mr. kevin', 'mr kevin', 'mrkevin',
+  // Group addresses (suggests talking to multiple NPCs, not player)
+  'gentlemen', 'ladies', 'my friends', 'colleagues', 'comrades',
+  // Die-rector names (shouldn't talk about each other)
+  'the one', 'theone', 'robert', 'alice', 'jane', 'peter',
+];
+
+/**
+ * Check if text is directed at the player (not at a specific NPC character)
+ * Filters out narrative content meant for NPC-to-NPC conversations
+ */
+function isPlayerDirected(text: string): boolean {
+  const lower = text.toLowerCase();
+
+  // Exclude if it mentions a specific character name
+  for (const name of NPC_CHARACTER_NAMES) {
+    if (lower.includes(name)) {
+      return false;
+    }
+  }
+
+  // Exclude if it uses third-person reference patterns suggesting NPC-to-NPC dialogue
+  // e.g., "Your reckless disregard" when talking about a named character
+  const thirdPersonPatterns = [
+    /\b(he|she|they)\s+(is|are|was|were|has|have|had)\b/i,
+    /\bthat one\b/i,
+    /\bthe fool\b/i,
+  ];
+
+  for (const pattern of thirdPersonPatterns) {
+    if (pattern.test(text)) {
+      // Only exclude if it's clearly about someone else, not general statements
+      // Check for pronouns near the start which suggest talking about someone
+      if (/^(he|she|they|that)\b/i.test(text.trim())) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 function findRelatedPoolEntries(entries: ChatbaseEntry[], pool: TemplatePool): ChatbaseEntry[] {
   const relatedPools: Record<string, string[]> = {
     greeting: ['idle', 'reaction'],
@@ -299,20 +351,20 @@ export function lookupDialogue(request: ChatRequest): ChatResponse {
     return fallbackResponse(request.npcSlug, request.pool);
   }
 
-  // Filter by pool AND complete sentences only (no truncated entries)
+  // Filter by pool, complete sentences, AND player-directed (not NPC-to-NPC dialogue)
   let poolEntries = entries.filter(e =>
-    e.pool === request.pool && isCompleteSentence(e.text)
+    e.pool === request.pool && isCompleteSentence(e.text) && isPlayerDirected(e.text)
   );
 
   // Try related pools if no exact match
   if (poolEntries.length === 0) {
     const relatedEntries = findRelatedPoolEntries(entries, request.pool);
-    poolEntries = relatedEntries.filter(e => isCompleteSentence(e.text));
+    poolEntries = relatedEntries.filter(e => isCompleteSentence(e.text) && isPlayerDirected(e.text));
   }
 
-  // Last resort: any complete sentence from this NPC
+  // Last resort: any complete sentence from this NPC that's player-directed
   if (poolEntries.length === 0) {
-    poolEntries = entries.filter(e => isCompleteSentence(e.text));
+    poolEntries = entries.filter(e => isCompleteSentence(e.text) && isPlayerDirected(e.text));
   }
 
   if (poolEntries.length === 0) {

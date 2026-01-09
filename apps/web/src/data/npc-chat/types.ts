@@ -22,7 +22,7 @@ export interface ContextConfig {
 export const CONTEXT_CONFIGS: Record<ChatContext, ContextConfig> = {
   combat: {
     context: 'combat',
-    maxInboundPerRoom: 1,
+    maxInboundPerRoom: 3, // Allow greeting + situational triggers
     allowOutbound: false,
     uiFormat: 'toast',
     typingDelay: 0,

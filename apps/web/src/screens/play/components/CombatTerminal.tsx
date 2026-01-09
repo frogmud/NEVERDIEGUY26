@@ -492,6 +492,7 @@ export function CombatTerminal({
     onFinalTurn,
     onBigRoll,
     onGuardianSlain,
+    clearMessage,
   } = useAmbientChat({
     threadId: `combat-${domain}-${tier}`,
     currentDomain: currentDomainSlug,
@@ -1038,6 +1039,12 @@ export function CombatTerminal({
     setTimeout(() => {
       const newState = engineRef.current?.getState();
       if (newState) {
+        // Don't fire triggers if game ended (victory/defeat)
+        if (newState.phase === 'victory' || newState.phase === 'defeat') {
+          clearMessage(); // Clear any active message before transition
+          return;
+        }
+
         // Get thrown dice (unheld ones that now have values)
         const thrownDice = newState.hand.filter(d => !d.isHeld && d.rollValue !== null);
         const values = thrownDice.map(d => d.rollValue!);
@@ -1071,7 +1078,7 @@ export function CombatTerminal({
         }
       }
     }, adjustDelay(100));
-  }, [onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay]);
+  }, [onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage]);
 
   // Victory explosion callback - fires after explosion animation
   // Uses ref to prevent multiple firings and avoid stale closure issues
@@ -1082,22 +1089,25 @@ export function CombatTerminal({
     const state = engineRef.current?.getState();
     if (state?.phase === 'victory') {
       victoryFiredRef.current = true;
-      // Fire victory NPC commentary
-      onVictory();
+      // Clear any lingering NPC messages before transition
+      clearMessage();
+      // Fire victory NPC commentary (disabled for now - messages disappear too fast)
+      // onVictory();
       // Then call the win callback
       onWin(state.currentScore, {
         npcsSquished: state.enemiesSquished,
         diceThrown: state.turnNumber * 5,
       });
     }
-  }, [onWin, onVictory]);
+  }, [onWin, clearMessage]);
 
   // Fire defeat trigger when game is lost
   useEffect(() => {
     if (engineState?.phase === 'defeat') {
+      clearMessage(); // Clear any lingering messages
       onDefeat();
     }
-  }, [engineState?.phase, onDefeat]);
+  }, [engineState?.phase, onDefeat, clearMessage]);
 
   return (
     <Box
