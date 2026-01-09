@@ -22,7 +22,7 @@ import { CombatHUD } from '../../../games/meteor/components';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
 import { useSoundContext } from '../../../contexts/SoundContext';
 import { useGameSettings } from '../../../contexts/GameSettingsContext';
-import type { DiceRollEventPayload, DiceRarity } from '../../../data/npc-chat/types';
+import type { DiceRollEventPayload, DiceRarity, CombatGameState } from '../../../data/npc-chat/types';
 import { tokens } from '../../../theme';
 import {
   CombatEngine,
@@ -452,8 +452,47 @@ export function CombatTerminal({
   };
   const currentDomainSlug = domainSlugs[domain] || 'earth';
 
+  // Build rich game state for context-aware NPC responses
+  const gameState = useMemo(() => {
+    if (!engineState) return undefined;
+    const maxTurns = eventType === 'boss' ? 8 : eventType === 'big' ? 6 : 5;
+    const scoreProgress = engineState.targetScore > 0
+      ? engineState.currentScore / engineState.targetScore
+      : 0;
+    const turnProgress = maxTurns > 0
+      ? (maxTurns - engineState.turnsRemaining) / maxTurns
+      : 0;
+
+    return {
+      currentScore: engineState.currentScore,
+      targetScore: engineState.targetScore,
+      scoreProgress,
+      turnsRemaining: engineState.turnsRemaining,
+      totalTurns: maxTurns,
+      turnProgress,
+      lastRollTotal: 0, // Updated on throw
+      lastDiceUsed: engineState.hand.filter(d => !d.isHeld).map(d => `d${d.sides}`),
+      isWinning: scoreProgress > turnProgress,
+      isComeback: scoreProgress > 0.3 && scoreProgress > turnProgress * 0.8,
+      isCrushingIt: scoreProgress > turnProgress * 1.5,
+      domain,
+      domainName: currentDomainSlug.replace(/-/g, ' '),
+      multiplier: engineState.multiplier,
+    };
+  }, [engineState, eventType, domain, currentDomainSlug]);
+
   // Ambient NPC chat - Die-rectors and NPCs comment during gameplay
-  const { currentMessage, onDomainEnter, onVictory, onDefeat, onDiceRoll } = useAmbientChat({
+  const {
+    currentMessage,
+    onDomainEnter,
+    onVictory,
+    onDefeat,
+    onDiceRoll,
+    onCloseToGoal,
+    onFinalTurn,
+    onBigRoll,
+    onGuardianSlain,
+  } = useAmbientChat({
     threadId: `combat-${domain}-${tier}`,
     currentDomain: currentDomainSlug,
     roomNumber: engineState?.turnNumber ?? 1,
@@ -462,6 +501,7 @@ export function CombatTerminal({
     playerStats: {
       heat: 0,
     },
+    gameState,
   });
 
   // Fire domain enter on mount (Die-rector greets player)
@@ -785,8 +825,15 @@ export function CombatTerminal({
         }
       });
 
-      // Destroy targeted guardians
+      // Destroy targeted guardians and fire NPC triggers
       if (guardiansToDestroy.length > 0) {
+        // Fire guardian slain trigger for each destroyed guardian
+        for (const guardianId of guardiansToDestroy) {
+          const guardian = guardians.find(g => g.id === guardianId);
+          if (guardian) {
+            onGuardianSlain(guardian.dieType);
+          }
+        }
         setGuardians(prev => prev.filter(g => !guardiansToDestroy.includes(g.id)));
       }
 
@@ -805,7 +852,7 @@ export function CombatTerminal({
         }, 100);
       }
     }
-  }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale]);
+  }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale, onGuardianSlain]);
 
   // Clear old impacts after explosion duration
   useEffect(() => {
@@ -995,17 +1042,36 @@ export function CombatTerminal({
         const thrownDice = newState.hand.filter(d => !d.isHeld && d.rollValue !== null);
         const values = thrownDice.map(d => d.rollValue!);
         const diceTypes = thrownDice.map(d => d.sides);
+        const rollTotal = values.reduce((a, b) => a + b, 0);
 
         // Detect roll pattern and fire NPC event
         const rollPayload = detectRollRarity(values, diceTypes);
         if (rollPayload) {
           onDiceRoll(rollPayload);
         }
-        // Note: Defeat is handled by the engine via subscription when turnsRemaining hits 0
-        // Score is calculated immediately per throw in the engine
+
+        // Fire situational triggers based on game state
+        const scoreProgress = newState.targetScore > 0
+          ? newState.currentScore / newState.targetScore
+          : 0;
+
+        // Big roll trigger (> 15 total)
+        if (rollTotal > 15) {
+          onBigRoll(rollTotal);
+        }
+
+        // Close to goal trigger (> 80% progress)
+        if (scoreProgress > 0.8 && scoreProgress < 1) {
+          onCloseToGoal();
+        }
+
+        // Final turn trigger (1-2 turns left)
+        if (newState.turnsRemaining <= 2 && newState.turnsRemaining > 0) {
+          onFinalTurn();
+        }
       }
     }, adjustDelay(100));
-  }, [onDiceRoll, playDiceRoll, adjustDelay]);
+  }, [onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay]);
 
   // Victory explosion callback - fires after explosion animation
   // Uses ref to prevent multiple firings and avoid stale closure issues

@@ -146,6 +146,13 @@ export function mapTriggerToPool(event: NPCTriggerEvent): TemplatePool {
     run_start: 'greeting',
     run_end: 'farewell',
     dice_rolled: 'reaction',
+    // Combat situational triggers
+    close_to_goal: 'reaction',
+    final_turn: 'challenge',
+    big_roll: 'reaction',
+    comeback: 'reaction',
+    crushing_it: 'reaction',
+    guardian_slain: 'reaction',
   };
   return mapping[event];
 }
@@ -415,6 +422,13 @@ export const TRIGGER_PRIORITY: Record<NPCTriggerEvent, number> = {
   domain_enter: 50,
   run_start: 45,
   high_heat: 40,
+  // Combat situational triggers (lower priority, fire after main events)
+  guardian_slain: 35,
+  big_roll: 30,
+  close_to_goal: 25,
+  final_turn: 20,
+  comeback: 15,
+  crushing_it: 12,
   room_clear: 10,
 };
 

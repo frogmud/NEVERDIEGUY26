@@ -12,7 +12,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { TemplatePool } from '@ndg/shared';
-import type { NPCTriggerEvent, ChatContext, RateLimitState, DiceRollEventPayload } from '../data/npc-chat/types';
+import type { NPCTriggerEvent, ChatContext, RateLimitState, DiceRollEventPayload, CombatGameState } from '../data/npc-chat/types';
 import {
   createRateLimitState,
   evaluateTrigger,
@@ -86,6 +86,8 @@ export interface UseAmbientChatOptions {
     heat?: number;
     gold?: number;
   };
+  /** Combat game state for context-aware responses */
+  gameState?: CombatGameState;
   /** Callback when message should display */
   onMessage?: (message: AmbientMessage) => void;
 }
@@ -109,6 +111,15 @@ export interface UseAmbientChatReturn {
   onDefeat: () => void;
   /** Clear current message */
   clearMessage: () => void;
+  // Situational triggers (context-aware)
+  /** Fire when score > 80% of target */
+  onCloseToGoal: () => void;
+  /** Fire when 1-2 turns remaining */
+  onFinalTurn: () => void;
+  /** Fire when single roll > 15 */
+  onBigRoll: (rollTotal: number) => void;
+  /** Fire when guardian is destroyed */
+  onGuardianSlain: (dieType: number) => void;
 }
 
 /**
@@ -121,6 +132,7 @@ export function useAmbientChat({
   inCombat,
   inShop,
   playerStats = {},
+  gameState,
   onMessage,
 }: UseAmbientChatOptions): UseAmbientChatReturn {
   const [currentMessage, setCurrentMessage] = useState<AmbientMessage | null>(null);
@@ -162,6 +174,19 @@ export function useAmbientChat({
         return 'farewell';
       case 'player_death':
         return 'threat';
+      // Situational combat triggers
+      case 'close_to_goal':
+        return 'gamblingBrag'; // Encouraging when close
+      case 'final_turn':
+        return 'challenge'; // Tension on final turn
+      case 'big_roll':
+        return 'gamblingBrag'; // Celebrate big rolls
+      case 'comeback':
+        return 'reaction'; // React to momentum shift
+      case 'crushing_it':
+        return 'gamblingBrag'; // Cocky when dominating
+      case 'guardian_slain':
+        return 'reaction'; // React to guardian kill
       default:
         return 'idle';
     }
@@ -204,10 +229,12 @@ export function useAmbientChat({
       pool,
       playerContext: {
         deaths: 0,
-        streak: playerStats.heat ?? 0,
+        streak: gameState?.isWinning ? 5 : gameState?.isComeback ? -2 : (playerStats.heat ?? 0),
         domain: currentDomain,
         ante: roomNumber,
       },
+      // Pass rich game state for template interpolation
+      gameState,
     });
 
     // Create message
@@ -259,6 +286,25 @@ export function useAmbientChat({
     setCurrentMessage(null);
   }, []);
 
+  // Situational combat triggers
+  const onCloseToGoal = useCallback(() => {
+    fireTrigger('close_to_goal');
+  }, [fireTrigger]);
+
+  const onFinalTurn = useCallback(() => {
+    fireTrigger('final_turn');
+  }, [fireTrigger]);
+
+  const onBigRoll = useCallback((rollTotal: number) => {
+    if (rollTotal > 15) {
+      fireTrigger('big_roll');
+    }
+  }, [fireTrigger]);
+
+  const onGuardianSlain = useCallback((dieType: number) => {
+    fireTrigger('guardian_slain');
+  }, [fireTrigger]);
+
   return {
     currentMessage,
     messageHistory,
@@ -269,6 +315,11 @@ export function useAmbientChat({
     onVictory,
     onDefeat,
     clearMessage,
+    // Situational triggers
+    onCloseToGoal,
+    onFinalTurn,
+    onBigRoll,
+    onGuardianSlain,
   };
 }
 

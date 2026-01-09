@@ -59,7 +59,14 @@ export type NPCTriggerEvent =
   | 'favor_threshold' // crossed +50 or -50
   | 'run_start'
   | 'run_end'
-  | 'dice_rolled'; // doubles/triples/straight - Die-rector commentary
+  | 'dice_rolled' // doubles/triples/straight - Die-rector commentary
+  // Combat situation triggers (context-aware)
+  | 'close_to_goal' // score > 80% of target
+  | 'final_turn' // 1-2 turns remaining
+  | 'big_roll' // single roll > 15
+  | 'comeback' // was losing badly, now catching up
+  | 'crushing_it' // score way ahead of pace
+  | 'guardian_slain'; // destroyed a guardian
 
 // ============================================
 // Dice Roll Event Payload
@@ -73,6 +80,38 @@ export interface DiceRollEventPayload {
   involvedDice: string[];       // Which dice types participated (e.g., ['d6', 'd6', 'd8'])
   primaryDie: string;           // Highest die used (determines which Die-rector comments)
   totalScore: number;           // Sum of all dice values
+}
+
+// ============================================
+// Combat Game State (Rich Context)
+// ============================================
+
+export interface CombatGameState {
+  // Score progress
+  currentScore: number;
+  targetScore: number;
+  scoreProgress: number;        // 0-1, currentScore/targetScore
+
+  // Turn pressure
+  turnsRemaining: number;
+  totalTurns: number;
+  turnProgress: number;         // 0-1, how far through combat
+
+  // Last action
+  lastRollTotal: number;
+  lastDiceUsed: string[];       // e.g., ['d6', 'd8', 'd12']
+
+  // Momentum
+  isWinning: boolean;           // on pace to win
+  isComeback: boolean;          // was behind, now catching up
+  isCrushingIt: boolean;        // way ahead of pace
+
+  // Domain info
+  domain: number;
+  domainName: string;
+
+  // Multiplier
+  multiplier: number;
 }
 
 export interface TriggerConfig {

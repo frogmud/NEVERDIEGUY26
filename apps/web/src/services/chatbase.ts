@@ -6,6 +6,7 @@
  */
 
 import type { MoodType, TemplatePool } from '@ndg/shared';
+import type { CombatGameState } from '../data/npc-chat/types';
 
 // Import all NPC chatbase files (bundled at build time)
 import theOne from '@ndg/ai-engine/chatbase/npcs/the-one.json';
@@ -67,6 +68,8 @@ export interface ChatRequest {
     domain: string;
     ante: number;
   };
+  /** Rich game state for template interpolation */
+  gameState?: CombatGameState;
 }
 
 export interface ChatResponse {
@@ -261,6 +264,28 @@ function fallbackResponse(npcSlug: string, pool: TemplatePool): ChatResponse {
 }
 
 // ============================================
+// Template Variable Interpolation
+// ============================================
+
+/**
+ * Replace template variables like {score}, {goal}, {dieType} with actual values
+ */
+function interpolateTemplate(text: string, gameState?: CombatGameState): string {
+  if (!gameState) return text;
+
+  return text
+    .replace(/\{score\}/gi, gameState.currentScore.toLocaleString())
+    .replace(/\{goal\}/gi, gameState.targetScore.toLocaleString())
+    .replace(/\{progress\}/gi, `${Math.round(gameState.scoreProgress * 100)}%`)
+    .replace(/\{turns\}/gi, String(gameState.turnsRemaining))
+    .replace(/\{turn\}/gi, String(gameState.totalTurns - gameState.turnsRemaining + 1))
+    .replace(/\{multiplier\}/gi, `${gameState.multiplier}x`)
+    .replace(/\{domain\}/gi, gameState.domainName)
+    .replace(/\{lastRoll\}/gi, String(gameState.lastRollTotal))
+    .replace(/\{dice\}/gi, gameState.lastDiceUsed.join(', '));
+}
+
+// ============================================
 // Public API
 // ============================================
 
@@ -296,8 +321,11 @@ export function lookupDialogue(request: ChatRequest): ChatResponse {
 
   const selected = selectEntry(poolEntries, request);
 
+  // Interpolate any template variables with game state
+  const finalText = interpolateTemplate(selected.text, request.gameState);
+
   return {
-    text: selected.text,
+    text: finalText,
     mood: selected.mood,
     source: 'chatbase',
     entryId: selected.id,
