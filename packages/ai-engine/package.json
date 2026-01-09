@@ -22,7 +22,11 @@
       "import": "./dist/search/chatbase-lookup.js",
       "types": "./dist/search/chatbase-lookup.d.ts"
     },
-    "./chatbase/npcs/*": "./chatbase/npcs/*"
+    "./chatbase/npcs/*": "./chatbase/npcs/*",
+    "./server/gambling": {
+      "import": "./dist/gambling/gambling-simulation.js",
+      "types": "./dist/gambling/gambling-simulation.d.ts"
+    }
   },
   "scripts": {
     "build": "tsc",
