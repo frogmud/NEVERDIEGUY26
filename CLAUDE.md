@@ -1,49 +1,80 @@
-# CLAUDE.md - PR Cleanup Worktree
+# CLAUDE.md - NEVER DIE GUY
 
-This worktree is for general maintenance, cleanup, and non-feature improvements. Keep changes small and focused.
+Project instructions for Claude Code when working in this repository.
 
-## Suggested Cleanup Tasks
+## Project Overview
 
-### Git Status Cleanup - DONE
-API migration completed in commit `b255703`. Files moved from `apps/web/api/` to root `api/` for Vercel serverless functions.
+NEVER DIE GUY is a roguelike dice game where you throw meteors at a 3D globe to score points. Balatro-style dice mechanics meet globe-smashing chaos.
 
-Current structure at `api/`:
-- `chat.ts` - NPC dialogue POST endpoint
-- `health.ts` - Health check GET endpoint
-- `stats.ts` - Lookup stats GET endpoint
-- `_lib/chatbase-data.ts` - Static NPC chatbase data loader
-- `_lib/lookup.ts` - Chatbase lookup engine
-- `tsconfig.json` - TypeScript config with monorepo paths
+**Current Focus:** Polishing the Arena game mode (solo roguelike, 6 domains x 3 rooms).
 
-### Code Hygiene - DONE
-Completed in commit `fcdf129`:
-- Removed debug console.log statements from ReportGameDialog, SidebarSetup, Contact, storage.ts
-- Prefixed unused function params with underscore for TypeScript compliance
-- No orphaned/backup files found
+## Architecture
 
-### Dependency Cleanup - DONE
-- Removed duplicate `@vercel/node` from apps/web (already exists in root for API)
+### Monorepo Structure
+```
+NEVERDIEGUY26/
+├── apps/web/          # React frontend (Vite, MUI 7)
+├── packages/ai-engine/  # Combat engine, NPC logic
+├── design-system/     # Brand assets, sprites
+├── api/               # Vercel serverless functions
+└── docs/              # UX documentation
+```
 
-### Project Structure
-- No orphaned files found
-- Folder organization is consistent
+### Key Contexts (React)
+- **RunContext** - Game state machine (phases, panels, scores)
+- **SoundContext** - Audio effects (dice roll, impact, victory, defeat)
+- **GameSettingsContext** - Persistent settings (speed, animations, music)
 
-## Branch Info
+### Key Components
+- **PlayHub** - Main game shell with progress bar + sidebar
+- **CombatTerminal** - 3D globe, HUD reticle, combat flow
+- **PlaySidebar** - Phase-aware tabs (Game, Bag, Settings)
+- **CombatHUD** - Dice hand, throw/trade buttons
 
-- Branch: `cleanup/general`
-- Base: `main`
+## Development Rules
 
-## Workflow
+### Do NOT:
+- Run npm/pnpm commands without asking the user first
+- Use emojis in code, docs, or UI (use Material-UI icons instead)
+- Add taglines (NEVER DIE GUY is the brand name and tagline)
+- Create backup or orphan files
 
-1. Pick a focused cleanup task
-2. Make minimal, targeted changes
-3. Commit with clear message: `chore: <description>`
-4. Create PR when ready
+### Do:
+- Use TypeScript strict mode
+- Follow existing patterns in the codebase
+- Keep changes focused and minimal
+- Update relevant docs when making significant changes
 
-## Rules
+## Common Tasks
 
-- Keep PRs small and reviewable
-- Do not mix cleanup with feature work
-- Do not run npm/pnpm commands without asking the user
-- No emojis in code/docs
-- NEVER DIE GUY is trademarked (no other taglines)
+### Running Dev Server
+Ask user to run: `pnpm dev`
+
+### Building
+Ask user to run: `pnpm build`
+
+### Creating PRs
+Use gh CLI to create PRs with clear descriptions.
+
+## Documentation
+
+- [Gameplay Loop](docs/ux/GAMEPLAY_LOOP.md) - Full run structure
+- [State Machine](docs/ux/STATE_MACHINE.md) - RunContext transitions
+- [Screen Inventory](docs/ux/SCREEN_INVENTORY.md) - Component registry
+- [Combat System](packages/ai-engine/COMBAT_SYSTEM.md) - Dice mechanics
+
+## Branch Naming
+
+- `feat/` - New features
+- `fix/` - Bug fixes
+- `chore/` - Maintenance, cleanup
+- `docs/` - Documentation updates
+
+## Recent Changes (January 2026)
+
+- Sound effects system (SoundContext)
+- Persistent game settings (GameSettingsContext)
+- Overall progress bar at top of play area
+- Meteor targeting fix (hits center reticle)
+- NPC domain-bound filtering
+- Damage visualization (flash + floating numbers)
