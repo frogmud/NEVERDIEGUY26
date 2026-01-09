@@ -17,6 +17,8 @@ interface DiceReticleProps {
   lat: number;
   lng: number;
   dieType: 4 | 6 | 8 | 10 | 12 | 20;
+  /** Raw 3D point from click - use directly for accurate positioning */
+  point3D?: [number, number, number];
 }
 
 // Die type to range radius (on globe surface)
@@ -47,7 +49,7 @@ function getDieSides(dieType: number): number {
  *
  * Renders a die-shaped pulsing reticle on the globe surface.
  */
-export function DiceReticle({ lat, lng, dieType }: DiceReticleProps) {
+export function DiceReticle({ lat, lng, dieType, point3D }: DiceReticleProps) {
   const groupRef = useRef<THREE.Group>(null);
   const innerMeshRef = useRef<THREE.Mesh>(null);
   const outerMeshRef = useRef<THREE.Mesh>(null);
@@ -58,16 +60,23 @@ export function DiceReticle({ lat, lng, dieType }: DiceReticleProps) {
   const baseRadius = DIE_RANGES[dieType] || 0.5;
   const sides = getDieSides(dieType);
 
-  // Calculate 3D position from lat/lng
+  // Use raw 3D point if available, otherwise calculate from lat/lng
   const position = useMemo((): [number, number, number] => {
+    if (point3D) {
+      // Nudge slightly above surface to prevent z-fighting
+      const len = Math.sqrt(point3D[0] ** 2 + point3D[1] ** 2 + point3D[2] ** 2);
+      const scale = (len + 0.02) / len;
+      return [point3D[0] * scale, point3D[1] * scale, point3D[2] * scale];
+    }
     const surfaceRadius = GLOBE_CONFIG.radius + 0.02;
     return latLngToCartesian(lat, lng, surfaceRadius);
-  }, [lat, lng]);
+  }, [lat, lng, point3D]);
 
-  // Get surface normal for orientation
-  const normal = useMemo(() => {
-    return getSurfaceNormal(lat, lng);
-  }, [lat, lng]);
+  // Get surface normal for orientation (from position)
+  const normal = useMemo((): [number, number, number] => {
+    const len = Math.sqrt(position[0] ** 2 + position[1] ** 2 + position[2] ** 2);
+    return [position[0] / len, position[1] / len, position[2] / len];
+  }, [position]);
 
   // Calculate rotation to align with surface
   const rotation = useMemo(() => {

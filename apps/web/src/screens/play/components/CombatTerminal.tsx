@@ -35,7 +35,7 @@ import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
 import type { MeteorProjectile, ImpactZone } from '../../../games/globe-meteor/config';
 import type { GuardianData } from '../../../games/globe-meteor/components/Guardian';
-import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS } from '../../../games/globe-meteor/config';
+import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS, DOMAIN_PLANET_CONFIG } from '../../../games/globe-meteor/config';
 import { latLngToCartesian } from '../../../games/globe-meteor/utils/sphereCoords';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
@@ -173,10 +173,28 @@ function DieReticleLayer({ dieType, baseSize }: { dieType: number; baseSize: num
 
 /**
  * HUDReticle - Fixed center-screen targeting reticle
- * Shows stacked die shapes for all unheld dice - subtle styling
+ * Shows stacked die shapes for all unheld dice - scales with zoom
  */
-function HUDReticle({ dice }: { dice: Array<{ sides: number; id: string }> }) {
-  const baseSize = 100; // Smaller base size
+function HUDReticle({
+  dice,
+  zoomScale = GLOBE_CONFIG.camera.initialDistance,
+  domainScale = 1
+}: {
+  dice: Array<{ sides: number; id: string }>;
+  zoomScale?: number;
+  domainScale?: number;
+}) {
+  // Base size at default zoom - represents the spread area on planet
+  const baseSize = 100;
+
+  // Scale inversely with distance (closer = bigger reticle, farther = smaller)
+  // Also scale with domain size (bigger planets = bigger spread area)
+  const defaultDistance = GLOBE_CONFIG.camera.initialDistance;
+  const zoomFactor = defaultDistance / Math.max(zoomScale, GLOBE_CONFIG.camera.minDistance);
+  const adjustedSize = baseSize * zoomFactor * domainScale;
+
+  // Clamp to reasonable bounds
+  const finalSize = Math.max(60, Math.min(200, adjustedSize));
 
   // Sort dice by size (largest first so they render behind)
   const sortedDice = [...dice].sort((a, b) => b.sides - a.sides);
@@ -185,10 +203,10 @@ function HUDReticle({ dice }: { dice: Array<{ sides: number; id: string }> }) {
   const primaryColor = sortedDice.length > 0 ? getDieColor(sortedDice[0].sides) : '#4488ff';
 
   return (
-    <Box sx={{ position: 'relative', width: baseSize, height: baseSize }}>
+    <Box sx={{ position: 'relative', width: finalSize, height: finalSize }}>
       {/* Stacked die shapes (largest in back) */}
       {sortedDice.map((die) => (
-        <DieReticleLayer key={die.id} dieType={die.sides} baseSize={baseSize} />
+        <DieReticleLayer key={die.id} dieType={die.sides} baseSize={finalSize} />
       ))}
 
       {/* Center dot - subtle */}
@@ -224,13 +242,9 @@ function DamageFlash({
   const [damageNumbers, setDamageNumbers] = useState<Array<{ id: string; value: number; opacity: number; y: number }>>([]);
   const lastImpactCount = useRef(0);
 
-  // Trigger flash and damage number on new impacts
+  // Trigger damage number on new impacts (flash removed for accessibility)
   useEffect(() => {
     if (impacts.length > lastImpactCount.current && impacts.length > 0) {
-      // Subtle flash effect (reduced from 0.8 to 0.25 so planet stays visible)
-      setFlashOpacity(0.25);
-      const flashTimer = setTimeout(() => setFlashOpacity(0), 100);
-
       // Add damage number for the score gained
       if (scoreGained > 0) {
         const newDamage = {
@@ -258,8 +272,6 @@ function DamageFlash({
         };
         requestAnimationFrame(animateDamage);
       }
-
-      return () => clearTimeout(flashTimer);
     }
     lastImpactCount.current = impacts.length;
   }, [impacts.length, scoreGained]);
@@ -409,6 +421,8 @@ export function CombatTerminal({
   const [guardians, setGuardians] = useState<GuardianData[]>([]);
   const [showVictoryExplosion, setShowVictoryExplosion] = useState(false);
   const [lastScoreGain, setLastScoreGain] = useState(0);
+  const [cameraDistance, setCameraDistance] = useState(GLOBE_CONFIG.camera.initialDistance);
+  const [centerTarget, setCenterTarget] = useState<{ lat: number; lng: number; point3D: [number, number, number] } | null>(null);
   const prevScoreRef = useRef(0);
   const processedMeteorsRef = useRef<Set<string>>(new Set());
   const prevPhaseRef = useRef<string | null>(null);
@@ -616,10 +630,11 @@ export function CombatTerminal({
     }));
   }, [isLobby, allUnheldDice, guardians.length]);
 
-  // Target position - always center of visible globe (where camera looks)
-  // The HUD reticle is fixed at screen center, so meteors should hit there
-  // Using lat: 0, lng: 0 which is the front-center of the globe from default camera
-  const CENTER_TARGET = { lat: 0, lng: 0 };
+  // Domain scale for reticle sizing
+  const domainScale = DOMAIN_PLANET_CONFIG[domain]?.scale || 1;
+
+  // Default target when camera hasn't reported yet (front of globe)
+  const DEFAULT_TARGET = { lat: 0, lng: 0 };
 
   // Create meteors when THROW phase transitions
   // Also handles guardian destruction - matching dice destroy guardians instead of hitting planet
@@ -633,10 +648,11 @@ export function CombatTerminal({
     // Only spawn meteors on transition TO throw phase
     if (currentPhase === 'throw' && previousPhase !== 'throw' && previousPhase !== null) {
       const now = Date.now();
-      const newMeteors: MeteorProjectile[] = [];
+      const newImpacts: ImpactZone[] = [];
 
-      // Always target center of visible globe (where HUD reticle is shown)
-      const center = CENTER_TARGET;
+      // Target the point on the planet that's under the HUD reticle (camera center)
+      // Falls back to front of globe if camera hasn't reported yet
+      const center = centerTarget ?? DEFAULT_TARGET;
 
       // Determine which dice target guardians vs planet
       // Count guardian die types
@@ -676,33 +692,94 @@ export function CombatTerminal({
         // This die targets the planet - spawn meteors at reticle center
         const dieEffect = DICE_EFFECTS[die.sides] || DICE_EFFECTS[6];
         const meteorCount = die.rollValue ?? Math.ceil(die.sides / 3);
-        // Tight spread around reticle (was 15 - too scattered)
-        const baseSpread = 6;
+
+        // Spread scales with die type - smaller dice are more precise
+        // d4=0.05, d6=0.08, d8=0.1, d10=0.12, d12=0.15, d20=0.2 (3D units)
+        const spreadByDie: Record<number, number> = {
+          4: 0.05, 6: 0.08, 8: 0.1, 10: 0.12, 12: 0.15, 20: 0.2
+        };
+        const baseSpread = spreadByDie[die.sides] || 0.1;
+
+        // Use domain-scaled radius
+        const scaledRadius = GLOBE_CONFIG.radius * domainScale;
 
         for (let i = 0; i < meteorCount; i++) {
-          const offsetLat = (Math.random() - 0.5) * baseSpread * 2;
-          const offsetLng = (Math.random() - 0.5) * baseSpread * 2;
-          const meteorLat = Math.max(-85, Math.min(85, center.lat + offsetLat));
-          let meteorLng = center.lng + offsetLng;
-          if (meteorLng > 180) meteorLng -= 360;
-          if (meteorLng < -180) meteorLng += 360;
+          let impactPos: [number, number, number];
+          let impactLat: number;
+          let impactLng: number;
 
-          const targetPos = latLngToCartesian(meteorLat, meteorLng, GLOBE_CONFIG.radius);
-          const startPos: [number, number, number] = [
-            targetPos[0] + (Math.random() - 0.5) * 0.5,
-            8 + Math.random() * 2,
-            targetPos[2] + (Math.random() - 0.5) * 0.5,
-          ];
+          // Use point3D directly if available (from raycast)
+          if (centerTarget?.point3D) {
+            const [cx, cy, cz] = centerTarget.point3D;
 
-          newMeteors.push({
-            id: `meteor-${now}-${index}-${i}`,
-            startPosition: startPos,
-            targetPosition: targetPos,
-            targetLat: meteorLat,
-            targetLng: meteorLng,
-            progress: 0,
-            size: METEOR_CONFIG.size * dieEffect.meteorScale,
-            launchTime: now + (index * 100) + (i * 30),
+            // Create random offset in tangent plane
+            // Get surface normal at center point
+            const len = Math.sqrt(cx * cx + cy * cy + cz * cz);
+            const nx = cx / len;
+            const ny = cy / len;
+            const nz = cz / len;
+
+            // Create two tangent vectors
+            // Use cross product with up vector (or right if parallel)
+            let tx: number, ty: number, tz: number;
+            if (Math.abs(ny) < 0.9) {
+              // Cross with up vector (0, 1, 0)
+              tx = nz;
+              ty = 0;
+              tz = -nx;
+            } else {
+              // Cross with right vector (1, 0, 0)
+              tx = 0;
+              ty = -nz;
+              tz = ny;
+            }
+            const tLen = Math.sqrt(tx * tx + ty * ty + tz * tz);
+            tx /= tLen; ty /= tLen; tz /= tLen;
+
+            // Second tangent (cross normal with first tangent)
+            const t2x = ny * tz - nz * ty;
+            const t2y = nz * tx - nx * tz;
+            const t2z = nx * ty - ny * tx;
+
+            // Random offset in tangent plane
+            const r1 = (Math.random() - 0.5) * 2 * baseSpread;
+            const r2 = (Math.random() - 0.5) * 2 * baseSpread;
+
+            // Offset point
+            const ox = cx + tx * r1 + t2x * r2;
+            const oy = cy + ty * r1 + t2y * r2;
+            const oz = cz + tz * r1 + t2z * r2;
+
+            // Project back onto sphere surface
+            const oLen = Math.sqrt(ox * ox + oy * oy + oz * oz);
+            impactPos = [
+              (ox / oLen) * scaledRadius,
+              (oy / oLen) * scaledRadius,
+              (oz / oLen) * scaledRadius
+            ];
+
+            // Calculate lat/lng for the impact record
+            impactLat = Math.asin(impactPos[1] / scaledRadius) * (180 / Math.PI);
+            impactLng = Math.atan2(impactPos[0], impactPos[2]) * (180 / Math.PI);
+          } else {
+            // Fallback to lat/lng method
+            const offsetLat = (Math.random() - 0.5) * baseSpread * 40; // Convert to degrees
+            const offsetLng = (Math.random() - 0.5) * baseSpread * 40;
+            impactLat = Math.max(-85, Math.min(85, center.lat + offsetLat));
+            impactLng = center.lng + offsetLng;
+            if (impactLng > 180) impactLng -= 360;
+            if (impactLng < -180) impactLng += 360;
+            impactPos = latLngToCartesian(impactLat, impactLng, scaledRadius);
+          }
+
+          // Create impact directly (skip meteor flight animation)
+          newImpacts.push({
+            id: `impact-${now}-${index}-${i}`,
+            position: impactPos,
+            lat: impactLat,
+            lng: impactLng,
+            radius: METEOR_CONFIG.impactRadius * dieEffect.impactRadius,
+            timestamp: now + (i * 50), // Slight stagger for visual variety
             dieType: die.sides,
           });
         }
@@ -713,67 +790,22 @@ export function CombatTerminal({
         setGuardians(prev => prev.filter(g => !guardiansToDestroy.includes(g.id)));
       }
 
-      // Spawn meteors for planet-targeting dice
-      if (newMeteors.length > 0) {
-        setMeteors(prev => [...prev, ...newMeteors]);
-      }
-    }
-  }, [engineState?.phase, isLobby, guardians]);
+      // Add impacts directly (no meteor flight)
+      if (newImpacts.length > 0) {
+        setImpacts(prev => [...prev, ...newImpacts]);
 
-  // Meteor animation loop
-  useEffect(() => {
-    if (meteors.length === 0) return;
-
-    const updateMeteors = () => {
-      const now = Date.now();
-
-      setMeteors(prevMeteors => {
-        const updatedMeteors: MeteorProjectile[] = [];
-        const newImpacts: ImpactZone[] = [];
-
-        prevMeteors.forEach(meteor => {
-          const dieEffect = DICE_EFFECTS[meteor.dieType] || DICE_EFFECTS[6];
-          const elapsed = now - meteor.launchTime;
-          const duration = 800 / dieEffect.speed;
-          const progress = Math.min(elapsed / duration, 1);
-
-          if (progress < 1) {
-            updatedMeteors.push({ ...meteor, progress });
-          } else if (!processedMeteorsRef.current.has(meteor.id)) {
-            // Meteor has landed - create impact
-            processedMeteorsRef.current.add(meteor.id);
-            newImpacts.push({
-              id: `impact-${meteor.id}`,
-              position: meteor.targetPosition,
-              lat: meteor.targetLat,
-              lng: meteor.targetLng,
-              radius: METEOR_CONFIG.impactRadius * dieEffect.impactRadius,
-              timestamp: now,
-              dieType: meteor.dieType,
-            });
-          }
-        });
-
-        // Add new impacts and track score gain
-        if (newImpacts.length > 0) {
-          setImpacts(prev => [...prev, ...newImpacts]);
-
-          // Calculate score gain from this impact batch
+        // Track score gain
+        setTimeout(() => {
           const currentScore = engineRef.current?.getState()?.currentScore || 0;
           const scoreGain = currentScore - prevScoreRef.current;
           if (scoreGain > 0) {
             setLastScoreGain(scoreGain);
             prevScoreRef.current = currentScore;
           }
-        }
-
-        return updatedMeteors;
-      });
-    };
-
-    const interval = setInterval(updateMeteors, 16); // ~60fps
-    return () => clearInterval(interval);
-  }, [meteors.length]);
+        }, 100);
+      }
+    }
+  }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale]);
 
   // Clear old impacts after explosion duration
   useEffect(() => {
@@ -1102,7 +1134,7 @@ export function CombatTerminal({
         <Box sx={{ position: 'absolute', inset: 0 }}>
           <GlobeScene
             npcs={[]}
-            meteors={meteors}
+            meteors={[]}
             impacts={impacts}
             guardians={isLobby ? [] : guardians}
             onGlobeClick={() => {}}
@@ -1113,6 +1145,8 @@ export function CombatTerminal({
             domainId={domain}
             showVictoryExplosion={showVictoryExplosion}
             onVictoryExplosionComplete={handleVictoryExplosionComplete}
+            onCameraChange={setCameraDistance}
+            onCenterTargetChange={setCenterTarget}
           />
         </Box>
 
@@ -1121,7 +1155,7 @@ export function CombatTerminal({
           <DamageFlash impacts={impacts} scoreGained={lastScoreGain} />
         )}
 
-        {/* Fixed HUD Reticle - centered on screen, stacked die shapes */}
+        {/* Fixed HUD Reticle - scales with zoom to match impact area on planet */}
         {!isLobby && reticleDice.length > 0 && (
           <Box
             sx={{
@@ -1133,7 +1167,7 @@ export function CombatTerminal({
               zIndex: 10,
             }}
           >
-            <HUDReticle dice={reticleDice} />
+            <HUDReticle dice={reticleDice} zoomScale={cameraDistance} domainScale={domainScale} />
           </Box>
         )}
 

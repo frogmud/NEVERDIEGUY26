@@ -62,7 +62,7 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
   const [npcs, setNpcs] = useState<GlobeNPC[]>(() => generateNPCs(initialNpcCount));
   const [meteors, setMeteors] = useState<MeteorProjectile[]>([]);
   const [impacts, setImpacts] = useState<ImpactZone[]>([]);
-  const [targetPosition, setTargetPosition] = useState<{ lat: number; lng: number } | null>(null);
+  const [targetPosition, setTargetPosition] = useState<{ lat: number; lng: number; point3D?: [number, number, number] } | null>(null);
 
   // Multi-dice selection (up to 3)
   const [selectedDice, setSelectedDice] = useState<DiceType[]>([]);
@@ -374,17 +374,18 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
 
   // Handle globe click - simplified: sets target directly if dice selected
   const handleGlobeClick = useCallback(
-    (lat: number, lng: number) => {
+    (lat: number, lng: number, point3D?: [number, number, number]) => {
       setLastInteraction(Date.now());
       if (selectedDice.length > 0) {
-        setTargetPosition({ lat, lng });
+        setTargetPosition({ lat, lng, point3D });
       }
     },
     [selectedDice.length]
   );
 
   // Launch meteors at specific coordinates (rolls all selected dice)
-  const launchMeteorsAt = useCallback((lat: number, lng: number) => {
+  // point3D is the raw clicked position - use for accurate first hit
+  const launchMeteorsAt = useCallback((lat: number, lng: number, point3D?: [number, number, number]) => {
     if (selectedDice.length === 0 || stats.summonsLeft <= 0) return null;
 
     setLastInteraction(Date.now());
@@ -425,22 +426,27 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
       const dieEffect = DICE_EFFECTS[die.sides] || DICE_EFFECTS[6];
 
       for (let i = 0; i < roll; i++) {
-        const offsetLat = (Math.random() - 0.5) * spread * 2;
-        const offsetLng = (Math.random() - 0.5) * spread * 2;
-        const meteorLat = lat + offsetLat;
-        const meteorLng = lng + offsetLng;
-        const meteorTargetPos = latLngToCartesian(meteorLat, meteorLng, GLOBE_CONFIG.radius);
+        // First meteor uses raw 3D point for exact hit, subsequent ones spread
+        const isFirstMeteor = meteorIndex === 0;
 
-        // Start position: from camera direction (shooting into screen)
-        // Camera is at z=15, globe at origin with radius 5
-        // Start just in front of camera with slight spread toward target
-        const spreadX = (Math.random() - 0.5) * 0.5; // Slight horizontal spread
-        const spreadY = (Math.random() - 0.5) * 0.5; // Slight vertical spread
-        const startPos: [number, number, number] = [
-          spreadX,
-          spreadY,
-          14,  // Just in front of camera (z=15)
-        ];
+        let meteorTargetPos: [number, number, number];
+        let meteorLat = lat;
+        let meteorLng = lng;
+
+        if (isFirstMeteor && point3D) {
+          // Use the exact clicked point for first meteor
+          meteorTargetPos = point3D;
+        } else {
+          // Spread subsequent meteors around the target
+          const offsetLat = isFirstMeteor ? 0 : (Math.random() - 0.5) * spread * 0.5;
+          const offsetLng = isFirstMeteor ? 0 : (Math.random() - 0.5) * spread * 0.5;
+          meteorLat = lat + offsetLat;
+          meteorLng = lng + offsetLng;
+          meteorTargetPos = latLngToCartesian(meteorLat, meteorLng, GLOBE_CONFIG.radius);
+        }
+
+        // startPos is ignored now - MeteorShower uses camera position directly
+        const startPos: [number, number, number] = [0, 0, 0];
 
         newMeteors.push({
           id: `meteor-${now}-${meteorIndex}`,
@@ -474,8 +480,8 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
   const launchMeteors = useCallback(() => {
     if (selectedDice.length === 0 || !targetPosition || stats.summonsLeft <= 0) return null;
 
-    // Delegate to launchMeteorsAt with stored position
-    const result = launchMeteorsAt(targetPosition.lat, targetPosition.lng);
+    // Delegate to launchMeteorsAt with stored position AND raw 3D point
+    const result = launchMeteorsAt(targetPosition.lat, targetPosition.lng, targetPosition.point3D);
 
     // Clear target after launching
     setTargetPosition(null);

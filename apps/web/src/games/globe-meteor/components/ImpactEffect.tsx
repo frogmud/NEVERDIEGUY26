@@ -85,37 +85,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     return () => cancelAnimationFrame(frame);
   }, [impact.id, onComplete, isIdle]);
 
-  // Camera shake effect (subtle)
-  useEffect(() => {
-    if (isIdle || shakeApplied.current) return;
-    shakeApplied.current = true;
-
-    // Reduced shake intensity
-    const intensity = 0.01 + (impact.dieType / 20) * 0.02;
-    const duration = 80 + (impact.dieType / 20) * 40;
-
-    const originalPosition = camera.position.clone();
-    const startTime = Date.now();
-
-    const shake = () => {
-      const elapsed = Date.now() - startTime;
-      if (elapsed > duration) {
-        camera.position.copy(originalPosition);
-        return;
-      }
-
-      const decay = 1 - elapsed / duration;
-      const offsetX = (Math.random() - 0.5) * intensity * decay;
-      const offsetY = (Math.random() - 0.5) * intensity * decay;
-
-      camera.position.x = originalPosition.x + offsetX;
-      camera.position.y = originalPosition.y + offsetY;
-
-      requestAnimationFrame(shake);
-    };
-
-    shake();
-  }, [camera, isIdle, impact.dieType]);
+  // Camera shake removed for accessibility (epilepsy concerns)
 
   // Calculate rotation to align with surface
   const rotation = useMemo(() => {
@@ -136,16 +106,13 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     }
   });
 
-  // Position slightly above surface
+  // Position slightly above surface - use raw position, just nudge outward slightly
   const surfacePosition = useMemo((): [number, number, number] => {
     const [x, y, z] = impact.position;
     const length = Math.sqrt(x * x + y * y + z * z);
-    const normalizedRadius = GLOBE_CONFIG.radius + 0.05;
-    return [
-      (x / length) * normalizedRadius,
-      (y / length) * normalizedRadius,
-      (z / length) * normalizedRadius,
-    ];
+    // Nudge 0.05 units above surface in the same direction (preserves domain scaling)
+    const scale = (length + 0.05) / length;
+    return [x * scale, y * scale, z * scale];
   }, [impact.position]);
 
   // Text fade (stays visible longer)

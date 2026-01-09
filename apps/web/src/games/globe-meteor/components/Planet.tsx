@@ -16,7 +16,7 @@ import { cartesianToLatLng } from '../utils/sphereCoords';
 interface PlanetProps {
   radius?: number;
   style?: 'lowPoly' | 'neonWireframe' | 'realistic' | 'retro';
-  onClick?: (lat: number, lng: number) => void;
+  onClick?: (lat: number, lng: number, point3D: [number, number, number]) => void;
   autoRotate?: boolean;
   /** Domain ID (1-6) to use domain-specific size and color */
   domainId?: number;
@@ -59,7 +59,8 @@ export function Planet({
         event.point.y,
         event.point.z
       );
-      onClick(lat, lng);
+      // Pass both lat/lng AND the raw 3D point for accurate targeting
+      onClick(lat, lng, [event.point.x, event.point.y, event.point.z]);
     }
   };
 
@@ -114,6 +115,7 @@ export function Planet({
       ref={meshRef}
       args={[effectiveRadius, styleConfig.segments, styleConfig.segments]}
       onClick={handleClick}
+      name="planet"
     >
       {material}
     </Sphere>

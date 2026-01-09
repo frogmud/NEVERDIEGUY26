@@ -5,10 +5,11 @@
  * NEVER DIE GUY
  */
 
-import { useRef, Suspense } from 'react';
+import { useRef, Suspense, useEffect } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, PerspectiveCamera } from '@react-three/drei';
+import * as THREE from 'three';
 
 import { GLOBE_CONFIG, GlobeNPC, MeteorProjectile, ImpactZone } from './config';
 import { Planet } from './components/Planet';
@@ -27,8 +28,8 @@ interface GlobeSceneProps {
   meteors: MeteorProjectile[];
   impacts: ImpactZone[];
   onNPCHit?: (npcId: string, impactId: string) => void;
-  onGlobeClick?: (lat: number, lng: number) => void;
-  targetPosition?: { lat: number; lng: number } | null;
+  onGlobeClick?: (lat: number, lng: number, point3D?: [number, number, number]) => void;
+  targetPosition?: { lat: number; lng: number; point3D?: [number, number, number] } | null;
   /** Die type for dice-shaped reticle (4, 6, 8, 10, 12, or 20) */
   reticleDieType?: 4 | 6 | 8 | 10 | 12 | 20 | null;
   style?: 'lowPoly' | 'neonWireframe' | 'realistic' | 'retro';
@@ -47,6 +48,84 @@ interface GlobeSceneProps {
   /** Show victory explosion effect */
   showVictoryExplosion?: boolean;
   onVictoryExplosionComplete?: () => void;
+  /** Callback when camera distance changes (for zoom-aware UI) */
+  onCameraChange?: (distance: number) => void;
+  /** Callback when center target changes (point on planet under reticle) */
+  onCenterTargetChange?: (target: { lat: number; lng: number; point3D: [number, number, number] } | null) => void;
+}
+
+/**
+ * CameraTracker - Reports camera distance and center target for zoom-aware UI
+ * Raycasts from camera through screen center to find the point on the planet under the reticle
+ */
+function CameraTracker({
+  onDistanceChange,
+  onCenterTargetChange,
+  domainId,
+}: {
+  onDistanceChange?: (distance: number) => void;
+  onCenterTargetChange?: (target: { lat: number; lng: number; point3D: [number, number, number] } | null) => void;
+  domainId?: number;
+}) {
+  const { camera, scene } = useThree();
+  const lastDistance = useRef(0);
+  const lastTarget = useRef<{ lat: number; lng: number } | null>(null);
+  const raycaster = useRef(new THREE.Raycaster());
+
+  useFrame(() => {
+    // Report distance changes
+    if (onDistanceChange) {
+      const distance = camera.position.length();
+      if (Math.abs(distance - lastDistance.current) > 0.1) {
+        lastDistance.current = distance;
+        onDistanceChange(distance);
+      }
+    }
+
+    // Raycast from camera through screen center to find planet intersection
+    if (onCenterTargetChange) {
+      // Screen center is (0, 0) in normalized device coordinates
+      raycaster.current.setFromCamera(new THREE.Vector2(0, 0), camera);
+
+      // Find all intersections with the scene
+      const intersects = raycaster.current.intersectObjects(scene.children, true);
+
+      // Find the planet specifically by name
+      const planetHit = intersects.find(
+        (hit) => hit.object.name === 'planet'
+      );
+
+      if (planetHit) {
+        const point = planetHit.point;
+        // Convert 3D point to lat/lng
+        const len = Math.sqrt(point.x ** 2 + point.y ** 2 + point.z ** 2);
+        const lat = Math.asin(point.y / len) * (180 / Math.PI);
+        const lng = Math.atan2(point.x, point.z) * (180 / Math.PI);
+
+        // Only update if changed significantly
+        if (
+          !lastTarget.current ||
+          Math.abs(lat - lastTarget.current.lat) > 0.5 ||
+          Math.abs(lng - lastTarget.current.lng) > 0.5
+        ) {
+          lastTarget.current = { lat, lng };
+          onCenterTargetChange({
+            lat,
+            lng,
+            point3D: [point.x, point.y, point.z],
+          });
+        }
+      } else {
+        // Camera not looking at planet
+        if (lastTarget.current !== null) {
+          lastTarget.current = null;
+          onCenterTargetChange(null);
+        }
+      }
+    }
+  });
+
+  return null;
 }
 
 /**
@@ -94,6 +173,8 @@ export function GlobeScene({
   onGuardianHit,
   showVictoryExplosion = false,
   onVictoryExplosionComplete,
+  onCameraChange,
+  onCenterTargetChange,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -106,6 +187,13 @@ export function GlobeScene({
     >
       <Canvas shadows>
         <Suspense fallback={null}>
+          {/* Track camera distance and center target for zoom-aware UI */}
+          <CameraTracker
+            onDistanceChange={onCameraChange}
+            onCenterTargetChange={onCenterTargetChange}
+            domainId={domainId}
+          />
+
           {/* Camera with orbit controls */}
           <PerspectiveCamera
             makeDefault
@@ -184,7 +272,12 @@ export function GlobeScene({
 
           {/* Target reticle - dice-shaped when die type provided */}
           {targetPosition && reticleDieType && (
-            <DiceReticle lat={targetPosition.lat} lng={targetPosition.lng} dieType={reticleDieType} />
+            <DiceReticle
+              lat={targetPosition.lat}
+              lng={targetPosition.lng}
+              dieType={reticleDieType}
+              point3D={targetPosition.point3D}
+            />
           )}
           {targetPosition && !reticleDieType && (
             <TargetReticle lat={targetPosition.lat} lng={targetPosition.lng} />

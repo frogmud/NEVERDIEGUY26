@@ -10,6 +10,7 @@
  */
 
 import { useMemo } from 'react';
+import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { MeteorProjectile, DICE_EFFECTS } from '../config';
@@ -21,15 +22,24 @@ interface MeteorShowerProps {
 
 /**
  * Calculate position with linear interpolation (straight line)
+ * Uses camera position as actual start point for true "firing from camera" feel
  */
-function getMeteorPosition(meteor: MeteorProjectile): [number, number, number] {
-  const { startPosition, targetPosition, progress } = meteor;
+function getMeteorPosition(
+  meteor: MeteorProjectile,
+  cameraPos: THREE.Vector3
+): [number, number, number] {
+  const { targetPosition, progress } = meteor;
 
-  // Linear interpolation - straight shot
+  // Use camera position as start (fire from where player is looking)
+  const startX = cameraPos.x;
+  const startY = cameraPos.y;
+  const startZ = cameraPos.z;
+
+  // Linear interpolation - straight shot from camera to target
   const t = progress;
-  const x = startPosition[0] + (targetPosition[0] - startPosition[0]) * t;
-  const y = startPosition[1] + (targetPosition[1] - startPosition[1]) * t;
-  const z = startPosition[2] + (targetPosition[2] - startPosition[2]) * t;
+  const x = startX + (targetPosition[0] - startX) * t;
+  const y = startY + (targetPosition[1] - startY) * t;
+  const z = startZ + (targetPosition[2] - startZ) * t;
 
   return [x, y, z];
 }
@@ -37,11 +47,11 @@ function getMeteorPosition(meteor: MeteorProjectile): [number, number, number] {
 /**
  * Get the direction vector for orienting the streak
  */
-function getDirection(meteor: MeteorProjectile): THREE.Vector3 {
+function getDirection(meteor: MeteorProjectile, cameraPos: THREE.Vector3): THREE.Vector3 {
   const dir = new THREE.Vector3(
-    meteor.targetPosition[0] - meteor.startPosition[0],
-    meteor.targetPosition[1] - meteor.startPosition[1],
-    meteor.targetPosition[2] - meteor.startPosition[2]
+    meteor.targetPosition[0] - cameraPos.x,
+    meteor.targetPosition[1] - cameraPos.y,
+    meteor.targetPosition[2] - cameraPos.z
   );
   return dir.normalize();
 }
@@ -49,18 +59,18 @@ function getDirection(meteor: MeteorProjectile): THREE.Vector3 {
 /**
  * Single meteor - colored tracer streak
  */
-function Meteor({ meteor }: { meteor: MeteorProjectile }) {
+function Meteor({ meteor, cameraPos }: { meteor: MeteorProjectile; cameraPos: THREE.Vector3 }) {
   const dieEffect = DICE_EFFECTS[meteor.dieType] || DICE_EFFECTS[6];
   const meteorColor = dieEffect.color;
 
   const position = useMemo(
-    () => getMeteorPosition(meteor),
-    [meteor.progress, meteor.startPosition, meteor.targetPosition]
+    () => getMeteorPosition(meteor, cameraPos),
+    [meteor.progress, meteor.targetPosition, cameraPos]
   );
 
   const direction = useMemo(
-    () => getDirection(meteor),
-    [meteor.startPosition, meteor.targetPosition]
+    () => getDirection(meteor, cameraPos),
+    [meteor.targetPosition, cameraPos]
   );
 
   // Streak length based on progress (shorter near start and end)
@@ -111,7 +121,7 @@ function Meteor({ meteor }: { meteor: MeteorProjectile }) {
           {[0.12, 0.24, 0.36].map((offset, i) => {
             const trailProgress = Math.max(0, meteor.progress - offset);
             const trailMeteor = { ...meteor, progress: trailProgress };
-            const trailPos = getMeteorPosition(trailMeteor);
+            const trailPos = getMeteorPosition(trailMeteor, cameraPos);
             const trailOpacity = (0.3 - i * 0.08) * (1 - meteor.progress);
             const trailLength = streakLength * (0.6 - i * 0.15);
 
@@ -143,12 +153,15 @@ function Meteor({ meteor }: { meteor: MeteorProjectile }) {
  * MeteorShower Component
  *
  * Renders all active meteors as tracer streaks.
+ * Gets camera position to fire meteors FROM the player's viewpoint.
  */
 export function MeteorShower({ meteors }: MeteorShowerProps) {
+  const { camera } = useThree();
+
   return (
     <group>
       {meteors.map((meteor) => (
-        <Meteor key={meteor.id} meteor={meteor} />
+        <Meteor key={meteor.id} meteor={meteor} cameraPos={camera.position} />
       ))}
     </group>
   );
