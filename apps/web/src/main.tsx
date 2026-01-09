@@ -8,6 +8,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { SettingsProvider } from './contexts/SettingsContext';
+import { SoundProvider } from './contexts/SoundContext';
+import { GameSettingsProvider } from './contexts/GameSettingsContext';
 
 const globalStyles = (
   <GlobalStyles
@@ -83,13 +85,17 @@ createRoot(document.getElementById('root')!).render(
       {globalStyles}
       <BrowserRouter>
         <SettingsProvider>
-          <AuthProvider>
-            <NotificationProvider>
-              <CartProvider>
-                <App />
-              </CartProvider>
-            </NotificationProvider>
-          </AuthProvider>
+          <SoundProvider>
+            <GameSettingsProvider>
+              <AuthProvider>
+                <NotificationProvider>
+                  <CartProvider>
+                    <App />
+                  </CartProvider>
+                </NotificationProvider>
+              </AuthProvider>
+            </GameSettingsProvider>
+          </SoundProvider>
         </SettingsProvider>
       </BrowserRouter>
     </ThemeProvider>

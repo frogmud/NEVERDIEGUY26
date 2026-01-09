@@ -10,7 +10,7 @@
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 import { PlaySidebar } from './components';
 import { RunSummary } from './components/RunSummary';
@@ -20,12 +20,14 @@ import { Shop } from './Shop';
 import { GlobeScene } from '../../games/globe-meteor/GlobeScene';
 import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteorGame';
 import { useRun } from '../../contexts';
+import { useAuth } from '../../contexts/AuthContext';
 import { GameOverModal } from '../../games/meteor/components';
 import { TransitionWipe } from '../../components/TransitionWipe';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { TimeOfDay, ZoneInfo } from './components/tabs/GameTabLaunch';
 
 import type { ZoneMarker } from '../../types/zones';
+import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
 
 // Layout constants
 const SIDEBAR_WIDTH = 320;
@@ -67,7 +69,13 @@ export function PlayHub() {
     hasSavedRun,
   } = useRun();
 
+  const { markGameStarted } = useAuth();
   const navigate = useNavigate();
+
+  // Mark that user has started a game (transforms home page from marketing LP)
+  useEffect(() => {
+    markGameStarted();
+  }, [markGameStarted]);
 
   // Handle Main Menu - navigate to app home
   const handleMainMenu = useCallback(() => {
@@ -113,26 +121,37 @@ export function PlayHub() {
   const [combatGameState, setCombatGameState] = useState<GameStateUpdate | null>(null);
 
   // Build game state for sidebar - uses live combat state when available
+  // Use granular dependencies to ensure score updates trigger re-renders
   const gameState = useMemo(() => ({
     enemySprite: '/assets/enemies/shadow-knight.png',
     scoreToBeat: combatGameState?.goal || 1000,
-    score: combatGameState?.score || state.totalScore || 0,
-    multiplier: combatGameState?.multiplier || 1,
-    goal: combatGameState?.goal || 1000,
+    score: combatGameState?.score ?? state.totalScore ?? 0,
+    multiplier: combatGameState?.multiplier ?? 1,
+    goal: combatGameState?.goal ?? 1000,
     throws: combatGameState?.throws ?? 3,
     trades: combatGameState?.trades ?? 3,
-    gold: state.gold || 0,
-    domain: state.currentDomain || 1,
+    gold: state.gold ?? 0,
+    domain: state.currentDomain ?? 1,
     totalDomains: 6,
-    event: state.currentEvent || 1,
+    event: state.currentEvent ?? 1,
     totalEvents: 3,
     rollHistory: [],
-  }), [state, combatGameState]);
+  }), [
+    combatGameState?.score,
+    combatGameState?.goal,
+    combatGameState?.throws,
+    combatGameState?.trades,
+    combatGameState?.multiplier,
+    state.totalScore,
+    state.gold,
+    state.currentDomain,
+    state.currentEvent,
+  ]);
 
   // Handle New Run - starts run and shows zone selection
-  const handleNewRun = () => {
+  const handleNewRun = (loadoutId: string, startingItems: string[]) => {
     const threadId = generateThreadId();
-    startRun(threadId);
+    startRun(threadId, undefined, undefined, loadoutId, startingItems);
     // After startRun, sidebar will show zone selection
     // User picks zone, then clicks Launch to start combat
   };
@@ -141,9 +160,10 @@ export function PlayHub() {
   const handleContinue = () => {
     const loaded = loadRun();
     if (!loaded) {
-      // No saved run, start fresh
+      // No saved run, start fresh with default loadout
       const threadId = generateThreadId();
-      startRun(threadId);
+      const defaultLoadout = LOADOUT_PRESETS.find(l => l.id === DEFAULT_LOADOUT_ID);
+      startRun(threadId, undefined, undefined, DEFAULT_LOADOUT_ID, defaultLoadout?.items || []);
     }
   };
 
@@ -264,8 +284,10 @@ export function PlayHub() {
         display: 'flex',
         height: '100%',
         minHeight: 0,
+        maxHeight: '100%',
         bgcolor: tokens.colors.background.default,
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
       {/* Full-screen red overlay on game over */}
@@ -281,18 +303,137 @@ export function PlayHub() {
         />
       )}
 
-      {/* Center: Combat Terminal (always visible) */}
+      {/* Center: Main content area with progress bar and combat */}
       <Box
         sx={{
           flex: 1,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          flexDirection: 'column',
           minWidth: 0,
+          minHeight: 0,
           position: 'relative',
           overflow: 'hidden',
         }}
       >
+        {/* Overall Run Progress Bar - top of main area */}
+        {state.phase !== 'event_select' && (
+          <Box
+            sx={{
+              px: 3,
+              pt: 2,
+              pb: 1,
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                p: 1.5,
+                px: 2.5,
+                bgcolor: tokens.colors.background.paper,
+                border: `1px solid ${tokens.colors.border}`,
+                borderRadius: '30px',
+              }}
+            >
+              {/* Domain indicator */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box
+                  component="img"
+                  src="/logos/ndg-skull-dome.svg"
+                  alt=""
+                  sx={{ width: 20, height: 22, opacity: 0.8 }}
+                />
+                <Typography
+                  sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '0.8rem',
+                    color: tokens.colors.text.secondary,
+                  }}
+                >
+                  Domain {state.currentDomain || 1}
+                </Typography>
+              </Box>
+
+              {/* Progress bar */}
+              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box
+                  sx={{
+                    flex: 1,
+                    height: 6,
+                    bgcolor: 'rgba(255,255,255,0.1)',
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      height: '100%',
+                      width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.roomNumber || 1) / 3 / 6) * 100}%`,
+                      bgcolor: tokens.colors.primary,
+                      borderRadius: 3,
+                      transition: 'width 0.3s ease',
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '0.75rem',
+                    color: tokens.colors.text.disabled,
+                    minWidth: 60,
+                  }}
+                >
+                  {state.currentDomain || 1}/6 - {state.roomNumber || 1}/3
+                </Typography>
+              </Box>
+
+              {/* Score */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Typography
+                  sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '0.9rem',
+                    color: tokens.colors.primary,
+                    fontWeight: 700,
+                  }}
+                >
+                  {(state.totalScore || 0).toLocaleString()}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.7rem',
+                    color: tokens.colors.text.disabled,
+                  }}
+                >
+                  pts
+                </Typography>
+              </Box>
+
+              {/* Gold */}
+              <Typography
+                sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '0.85rem',
+                  color: tokens.colors.warning,
+                }}
+              >
+                ${state.gold || 0}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+
+        {/* Combat Terminal */}
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: 0,
+          }}
+        >
         <CombatTerminal
           domain={state.currentDomain || 1}
           eventType={state.selectedZone?.eventType || 'small'}
@@ -301,6 +442,12 @@ export function PlayHub() {
           onWin={handleCombatWin}
           onLose={failRoom}
           isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat'}
+          currentDomain={state.currentDomain || 1}
+          totalDomains={6}
+          currentRoom={state.roomNumber || 1}
+          totalRooms={3}
+          totalScore={state.totalScore || 0}
+          gold={state.gold || 0}
           onFeedUpdate={setCombatFeed}
           onGameStateChange={setCombatGameState}
         />
@@ -328,6 +475,7 @@ export function PlayHub() {
             contained
           />
         )}
+        </Box>
       </Box>
 
       {/* Right: Sidebar (transforms based on game phase) */}
@@ -347,6 +495,12 @@ export function PlayHub() {
         onInfo={handleInfo}
         hasSavedRun={hasSavedRun()}
         combatFeed={combatFeed}
+        currentDomain={state.currentDomain || 1}
+        totalDomains={6}
+        currentRoom={state.roomNumber || 1}
+        totalRooms={3}
+        totalScore={state.totalScore || 0}
+        gold={state.gold || 0}
       />
 
       {/* Transition Wipe */}

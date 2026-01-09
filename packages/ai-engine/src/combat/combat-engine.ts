@@ -338,6 +338,9 @@ export class CombatEngine {
     const scoreGain = throwTotal * 10 * this.state.multiplier;
     this.state.currentScore += scoreGain;
 
+    // Consume multiplier after use (resets to 1, like Balatro)
+    this.state.multiplier = 1;
+
     this.setPhase('throw');
 
     // Brief delay for animation, then check if more throws or end turn
@@ -452,13 +455,19 @@ export class CombatEngine {
 
   private handleEndTurn(): void {
     // TRADE mechanic: swap unheld dice for new ones, add to multiplier
-    // Trading is always available - holdsRemaining is only for re-holding dice
+    // Limited by holdsRemaining (trades per room)
     // Can only trade in select/draw phase (before throwing)
     if (this.state.phase !== 'select' && this.state.phase !== 'draw') return;
+
+    // Check if trades remaining
+    if (this.state.holdsRemaining <= 0) return; // No trades left
 
     // Count unheld dice being traded
     const unheldCount = this.state.hand.filter(d => !d.isHeld).length;
     if (unheldCount === 0) return; // Nothing to trade
+
+    // Consume a trade
+    this.state.holdsRemaining--;
 
     // Discard unheld dice, draw new ones
     const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);

@@ -105,7 +105,7 @@ export function GameTabPlaying({
   combatFeed = [],
 }: GameTabPlayingProps) {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Enemy + Score To Beat */}
       <Box
         sx={{
@@ -114,6 +114,7 @@ export function GameTabPlaying({
           alignItems: 'center',
           gap: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         {/* Enemy Sprite */}
@@ -267,6 +268,7 @@ export function GameTabPlaying({
         sx={{
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
@@ -365,6 +367,7 @@ export function GameTabPlaying({
           gap: 1,
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         {/* Throws */}
@@ -437,6 +440,7 @@ export function GameTabPlaying({
         sx={{
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
         }}
       >
         <Box
@@ -465,6 +469,7 @@ export function GameTabPlaying({
           display: 'flex',
           gap: 1,
           p: 2,
+          flexShrink: 0,
         }}
       >
         {/* Domain */}

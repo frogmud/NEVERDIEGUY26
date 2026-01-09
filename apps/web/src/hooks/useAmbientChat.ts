@@ -177,7 +177,7 @@ export function useAmbientChat({
 
     // Use special evaluation for dice rolls
     if (event === 'dice_rolled' && payload) {
-      result = evaluateDiceRollTrigger(payload, roomNumber, rng, rateLimitRef.current);
+      result = evaluateDiceRollTrigger(payload, roomNumber, rng, rateLimitRef.current, currentDomain);
     } else {
       result = evaluateTrigger(
         event,

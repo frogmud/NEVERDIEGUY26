@@ -55,6 +55,7 @@ export function ProfileSection() {
   const [bio, setBio] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<'online' | 'away' | 'dnd' | 'invisible'>('online');
   const [selectedAvatar, setSelectedAvatar] = useState('skull');
+  const [playerNumber, setPlayerNumber] = useState(1);
 
   // Avatar picker dialog
   const [avatarDialogOpen, setAvatarDialogOpen] = useState(false);
@@ -66,6 +67,7 @@ export function ProfileSection() {
     setBio(profile.bio);
     setSelectedStatus(profile.status);
     setSelectedAvatar(profile.avatarId);
+    setPlayerNumber(profile.playerNumber);
   }, []);
 
   // Auto-save profile on changes (debounced effect)
@@ -79,6 +81,7 @@ export function ProfileSection() {
         bio,
         status: selectedStatus,
         avatarId: selectedAvatar,
+        playerNumber,
         updatedAt: Date.now(),
       });
     }, 500); // Debounce 500ms

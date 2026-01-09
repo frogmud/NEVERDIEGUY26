@@ -1,26 +1,33 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Switch, Slider, ButtonBase } from '@mui/material';
 import {
-  SettingsSharp as SettingsIcon,
   VolumeUpSharp as SoundIcon,
   MusicNoteSharp as MusicIcon,
   SpeedSharp as SpeedIcon,
   Brightness6Sharp as ThemeIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
+import { useSoundContext } from '../../../../contexts/SoundContext';
+import { useGameSettings } from '../../../../contexts/GameSettingsContext';
 
 export function SettingsTab() {
   const navigate = useNavigate();
 
-  // Local state for quick settings
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [musicEnabled, setMusicEnabled] = useState(true);
-  const [gameSpeed, setGameSpeed] = useState(1);
-  const [animationsEnabled, setAnimationsEnabled] = useState(true);
+  // Sound from global context (persisted)
+  const { soundEnabled, setSoundEnabled, playUIClick } = useSoundContext();
+
+  // Game settings from global context (persisted)
+  const {
+    gameSpeed,
+    setGameSpeed,
+    animationsEnabled,
+    setAnimationsEnabled,
+    musicEnabled,
+    setMusicEnabled,
+  } = useGameSettings();
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}>
       {/* Header */}
       <Box
         sx={{
@@ -34,7 +41,10 @@ export function SettingsTab() {
           Quick Settings
         </Typography>
         <ButtonBase
-          onClick={() => navigate('/settings')}
+          onClick={() => {
+            playUIClick();
+            navigate('/settings');
+          }}
           sx={{
             fontSize: '0.75rem',
             color: tokens.colors.secondary,
@@ -134,32 +144,24 @@ export function SettingsTab() {
         }
       />
 
-      {/* Full Settings Link */}
+      {/* Spacer */}
+      <Box sx={{ flex: 1 }} />
+
+      {/* Back to Menu */}
       <ButtonBase
-        onClick={() => navigate('/settings')}
+        onClick={() => {
+          playUIClick();
+          navigate('/');
+        }}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 1,
           py: 1.5,
-          mt: 1,
-          borderRadius: 2,
-          bgcolor: tokens.colors.background.elevated,
-          border: `1px solid ${tokens.colors.border}`,
           color: tokens.colors.text.secondary,
-          transition: 'all 0.15s ease',
-          '&:hover': {
-            bgcolor: tokens.colors.background.paper,
-            color: tokens.colors.text.primary,
-            borderColor: tokens.colors.text.secondary,
-          },
+          fontSize: '0.875rem',
+          borderRadius: 1,
+          '&:hover': { color: tokens.colors.text.primary, bgcolor: 'rgba(255,255,255,0.05)' },
         }}
       >
-        <SettingsIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
-          All Settings
-        </Typography>
+        Back to Menu
       </ButtonBase>
     </Box>
   );

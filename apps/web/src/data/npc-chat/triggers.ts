@@ -272,13 +272,15 @@ export function evaluateTrigger(
   // Get eligible NPCs
   let eligibleNPCs = [...config.eligibleNPCs];
 
-  // For domain_enter, prioritize domain owner
-  if (event === 'domain_enter') {
-    const domainOwner = domainOwners[currentDomain];
-    if (domainOwner) {
-      // Domain owner gets priority
-      eligibleNPCs = [domainOwner, ...eligibleNPCs.filter((n) => n !== domainOwner)];
-    }
+  // Domain owner for current domain
+  const domainOwner = domainOwners[currentDomain];
+
+  // For domain-bound events, only the domain owner speaks
+  // This prevents NPCs from appearing in domains they don't own
+  const domainBoundEvents: NPCTriggerEvent[] = ['domain_enter', 'room_clear', 'dice_rolled', 'boss_sighted'];
+  if (domainBoundEvents.includes(event) && domainOwner) {
+    // Only domain owner can speak in their domain
+    eligibleNPCs = eligibleNPCs.includes(domainOwner) ? [domainOwner] : [];
   }
 
   // Pick an NPC
@@ -326,13 +328,14 @@ export const DIE_TO_DIRECTOR: Record<string, string> = {
 /**
  * Evaluate whether a dice roll should trigger Die-rector commentary.
  * Only fires for non-common rolls (doubles, triples, straights).
- * Picks the Die-rector based on the primary die used.
+ * Now uses domain owner for commentary (NPCs only speak in their own domain).
  */
 export function evaluateDiceRollTrigger(
   payload: DiceRollEventPayload,
   currentRoom: number,
   rng: { chance: (ns: string, pct: number) => boolean },
-  state: RateLimitState
+  state: RateLimitState,
+  currentDomain?: string
 ): { npcSlug: string | null; updatedState: RateLimitState } {
   // Only trigger for non-common rolls
   if (payload.rarity === 'common') {
@@ -365,8 +368,8 @@ export function evaluateDiceRollTrigger(
     return { npcSlug: null, updatedState: state };
   }
 
-  // Pick Die-rector based on primary die
-  const selectedNPC = DIE_TO_DIRECTOR[payload.primaryDie] || 'the-one';
+  // Use domain owner for commentary (NPCs only speak in their own domain)
+  const selectedNPC = currentDomain ? (DEFAULT_DOMAIN_OWNERS[currentDomain] || 'the-one') : 'the-one';
 
   // Update state
   const updatedState = recordTriggerFired('dice_rolled', state, currentRoom);

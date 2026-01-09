@@ -55,7 +55,8 @@ export function Profile() {
 
   const avatarColor = AVATAR_COLORS[profile?.avatarId || 'skull'] || tokens.colors.primary;
   const statusColor = STATUS_COLORS[profile?.status || 'online'] || PRESENCE_COLORS.online;
-  const displayName = profile?.displayName || 'Player';
+  const playerNumber = profile?.playerNumber || 1;
+  const displayName = `NEVER DIE GUY #${playerNumber}`;
 
   return (
     <Box>

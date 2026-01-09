@@ -489,15 +489,40 @@ export interface ProfileData {
   bio: string;
   status: 'online' | 'away' | 'dnd' | 'invisible';
   avatarId: string;
+  playerNumber: number;  // Unique player number (NEVER DIE GUY #)
   updatedAt: number;
+}
+
+// Key for storing the global player number counter
+const PLAYER_NUMBER_KEY = 'ndg_player_number';
+
+/**
+ * Get or generate a unique player number for this browser/device.
+ * Numbers are assigned sequentially starting from 1.
+ */
+function getOrCreatePlayerNumber(): number {
+  const stored = localStorage.getItem(PLAYER_NUMBER_KEY);
+  if (stored) {
+    return parseInt(stored, 10);
+  }
+
+  // Generate new player number
+  // Use timestamp + random to create a unique-ish number
+  // In a real system this would be server-assigned, but for MVP
+  // we'll use a simple approach that creates reasonably unique numbers
+  const playerNumber = Math.floor(Date.now() / 1000) % 1000000 + Math.floor(Math.random() * 1000);
+  localStorage.setItem(PLAYER_NUMBER_KEY, String(playerNumber));
+  console.log(`Welcome, NEVER DIE GUY #${playerNumber}!`);
+  return playerNumber;
 }
 
 export function createDefaultProfile(): ProfileData {
   return {
-    displayName: 'Player',
+    displayName: 'NEVER DIE GUY',
     bio: '',
     status: 'online',
     avatarId: 'skull',
+    playerNumber: getOrCreatePlayerNumber(),
     updatedAt: Date.now(),
   };
 }
@@ -508,7 +533,15 @@ export function loadProfile(): ProfileData {
     if (!stored) {
       return createDefaultProfile();
     }
-    return JSON.parse(stored) as ProfileData;
+    const parsed = JSON.parse(stored) as ProfileData;
+
+    // Migrate: ensure player number exists
+    if (!parsed.playerNumber) {
+      parsed.playerNumber = getOrCreatePlayerNumber();
+      saveProfile(parsed);
+    }
+
+    return parsed;
   } catch (error) {
     console.error('Failed to load profile:', error);
     return createDefaultProfile();
