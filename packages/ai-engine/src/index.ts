@@ -329,7 +329,9 @@ export { DEFAULT_SEARCH_CONFIG, DEFAULT_AUTONOMOUS_CONFIG } from './search/searc
 // Chatbase Lookup
 // ============================================
 
-export { ChatbaseLookupEngine, createChatbaseLookup } from './search/chatbase-lookup';
+// NOTE: ChatbaseLookupEngine and createChatbaseLookup use Node.js fs/path
+// Import from '@ndg/ai-engine/chatbase' for server-side use only
+
 export type {
   ChatbaseEntry,
   ChatbaseContextKey,
@@ -640,17 +642,15 @@ export type {
 // Gambling System (NPC Cee-lo Simulation)
 // ============================================
 
+// NOTE: GamblingSimulation, runCeeloBatch, runStartupSimulation use Node.js fs/path
+// Import from '@ndg/ai-engine/gambling' for server-side simulation use only
+
 export {
-  // Simulation
-  GamblingSimulation,
-  runCeeloBatch,
-  runStartupSimulation,
-  DEFAULT_SIMULATION_CONFIG,
-  // Templates
+  // Templates (browser-safe)
   ALL_GAMBLING_TEMPLATES,
   getGamblingTemplates,
   getGamblingTemplatesByMood,
-  // Mood mapping
+  // Mood mapping (browser-safe)
   MOOD_TRANSITIONS,
   ARCHETYPE_MOOD_MODIFIERS,
   findApplicableTransitions,
@@ -658,20 +658,18 @@ export {
   getTrashTalkProbability,
   getQuitThreshold,
   getRivalryIntensityMod,
-  // Quit mechanics
+  // Quit mechanics (browser-safe)
   QuitStateManager,
   evaluateQuitDecision,
   evaluateReturn,
   DEFAULT_QUIT_CONFIG,
-  // Rivalry
+  // Rivalry (browser-safe)
   RivalryManager,
   DEFAULT_RIVALRY_CONFIG,
-  // Event dispatcher
+  // Event dispatcher (browser-safe)
   GamblingEventDispatcher,
 } from './gambling';
 export type {
-  // Simulation config
-  FullSimulationConfig,
   // Mood mapping
   MoodTransition,
   MoodCondition,

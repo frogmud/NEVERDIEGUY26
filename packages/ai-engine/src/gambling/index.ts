@@ -101,16 +101,11 @@ export {
 } from './event-dispatcher';
 
 // ============================================
-// Simulation Exports
+// Simulation Exports (Server-only)
 // ============================================
 
-export {
-  GamblingSimulation,
-  runCeeloBatch,
-  runStartupSimulation,
-  DEFAULT_SIMULATION_CONFIG,
-  type FullSimulationConfig,
-} from './gambling-simulation';
+// NOTE: GamblingSimulation, runCeeloBatch, runStartupSimulation use Node.js fs/path
+// Import directly from '@ndg/ai-engine/server/gambling' for server-side scripts
 
 // ============================================
 // Player Ceelo Challenge Exports
