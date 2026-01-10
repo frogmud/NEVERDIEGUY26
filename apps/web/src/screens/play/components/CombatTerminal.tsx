@@ -15,8 +15,13 @@
  */
 
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography, IconButton } from '@mui/material';
+import {
+  FlagSharp as FlagIcon,
+  FullscreenSharp as FullscreenIcon,
+} from '@mui/icons-material';
 import { CardSection } from '../../../components/CardSection';
+import { ReportGameDialog } from '../../../components/ReportGameDialog';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
@@ -426,8 +431,10 @@ export function CombatTerminal({
   const [lastScoreGain, setLastScoreGain] = useState(0);
   const [cameraDistance, setCameraDistance] = useState(GLOBE_CONFIG.camera.initialDistance);
   const [centerTarget, setCenterTarget] = useState<{ lat: number; lng: number; point3D: [number, number, number] } | null>(null);
+  const [reportOpen, setReportOpen] = useState(false);
   const prevScoreRef = useRef(0);
   const processedMeteorsRef = useRef<Set<string>>(new Set());
+  const globeContainerRef = useRef<HTMLDivElement>(null);
   const prevPhaseRef = useRef<string | null>(null);
   const victoryFiredRef = useRef(false);
 
@@ -1260,6 +1267,7 @@ export function CombatTerminal({
 
       {/* Globe canvas */}
       <Paper
+        ref={globeContainerRef}
         sx={{
           width: '100%',
           maxWidth: 480,
@@ -1331,6 +1339,42 @@ export function CombatTerminal({
           </Box>
         )}
 
+        {/* Report and Fullscreen buttons */}
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 8,
+            right: 8,
+            display: 'flex',
+            gap: 1,
+            zIndex: 20,
+          }}
+        >
+          <IconButton
+            size="small"
+            onClick={() => setReportOpen(true)}
+            sx={{ bgcolor: tokens.colors.background.elevated, '&:hover': { bgcolor: tokens.colors.background.paper } }}
+          >
+            <FlagIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={() => {
+              const container = globeContainerRef.current;
+              if (!container) return;
+
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              } else {
+                container.requestFullscreen();
+              }
+            }}
+            sx={{ bgcolor: tokens.colors.background.elevated, '&:hover': { bgcolor: tokens.colors.background.paper } }}
+          >
+            <FullscreenIcon fontSize="small" />
+          </IconButton>
+        </Box>
+
       </Paper>
 
       {/* Combat HUD */}
@@ -1344,6 +1388,12 @@ export function CombatTerminal({
         isSmall={false}
         isDisabled={isLobby}
         guardianDieTypes={guardians.map(g => g.dieType)}
+      />
+
+      {/* Report Dialog */}
+      <ReportGameDialog
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
       />
     </Box>
   );
