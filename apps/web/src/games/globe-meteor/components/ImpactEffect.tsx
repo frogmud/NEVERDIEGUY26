@@ -25,16 +25,17 @@ interface ImpactEffectProps {
 }
 
 // Generate particle burst directions (pre-computed for performance)
-const PARTICLE_COUNT = 10;
+// Reduced count for better performance
+const PARTICLE_COUNT = 12;
 const particleDirections = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
-  const angle = (i / PARTICLE_COUNT) * Math.PI * 2 + Math.random() * 0.3;
-  const elevation = (Math.random() - 0.3) * 0.8; // Mostly outward, slight upward bias
+  const angle = (i / PARTICLE_COUNT) * Math.PI * 2 + Math.random() * 0.4;
+  const elevation = (Math.random() - 0.2) * 1.0;
   return {
     x: Math.cos(angle) * (0.8 + Math.random() * 0.4),
     y: elevation,
     z: Math.sin(angle) * (0.8 + Math.random() * 0.4),
-    size: 0.08 + Math.random() * 0.06,
-    speed: 0.8 + Math.random() * 0.4,
+    size: 0.1 + Math.random() * 0.08,
+    speed: 0.9 + Math.random() * 0.5,
   };
 });
 
@@ -53,8 +54,13 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
   const dieEffect = DICE_EFFECTS[impact.dieType] || DICE_EFFECTS[6];
   const impactColor = dieEffect.color;
 
-  // Damage number based on die type (visual feedback)
-  const damageNumber = impact.dieType;
+  // Roll value for scaling (1 = min roll, dieType = max roll)
+  const rollValue = impact.rollValue ?? Math.ceil(impact.dieType / 2);
+  // Intensity scales from 0.5 (rolled 1) to 1.5 (rolled max)
+  const intensity = 0.5 + (rollValue / impact.dieType);
+
+  // Damage number shows the roll value
+  const damageNumber = rollValue;
 
   const { lat, lng } = useMemo(() => {
     return cartesianToLatLng(impact.position[0], impact.position[1], impact.position[2]);
@@ -123,40 +129,86 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
   return (
     <group position={surfacePosition}>
-      {/* Particle burst aligned to surface */}
+      {/* Particle burst aligned to surface - ALL sizes scale with intensity */}
       <group ref={groupRef} rotation={rotation}>
-        {/* Central flash - quick bright flash */}
-        {progress < 0.3 && (
+        {/* Central flash - scales with roll */}
+        {progress < 0.4 && (
           <mesh>
-            <circleGeometry args={[0.15 + progress * 0.3, 8]} />
+            <circleGeometry args={[(0.2 + progress * 0.6) * intensity, 12]} />
             <meshBasicMaterial
               color={impactColor}
               transparent
-              opacity={(1 - progress / 0.3) * 0.9}
+              opacity={(1 - progress / 0.4) * Math.min(1, intensity)}
               side={THREE.DoubleSide}
             />
           </mesh>
         )}
 
-        {/* Particle burst */}
+        {/* Inner bright core - only on good rolls */}
+        {progress < 0.25 && intensity > 0.8 && (
+          <mesh>
+            <circleGeometry args={[(0.1 + progress * 0.2) * intensity, 8]} />
+            <meshBasicMaterial
+              color="#ffffff"
+              transparent
+              opacity={(1 - progress / 0.25) * 0.8}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        )}
+
+        {/* Expanding shockwave ring - scales with intensity */}
+        {progress > 0.05 && progress < 0.6 && (
+          <mesh>
+            <ringGeometry args={[
+              (0.15 + progress * 1.0) * intensity,
+              (0.2 + progress * 1.1) * intensity,
+              24
+            ]} />
+            <meshBasicMaterial
+              color={impactColor}
+              transparent
+              opacity={Math.max(0, (1 - progress / 0.6) * 0.6 * intensity)}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        )}
+
+        {/* Second shockwave - only on high rolls */}
+        {intensity > 1.0 && progress > 0.1 && progress < 0.7 && (
+          <mesh>
+            <ringGeometry args={[
+              (0.08 + (progress - 0.1) * 0.8) * intensity,
+              (0.12 + (progress - 0.1) * 0.9) * intensity,
+              20
+            ]} />
+            <meshBasicMaterial
+              color="#ffffff"
+              transparent
+              opacity={Math.max(0, (1 - (progress - 0.1) / 0.6) * 0.3)}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        )}
+
+        {/* Particle burst - scales with intensity */}
         <group ref={particlesRef}>
           {particleDirections.map((particle, i) => {
-            // Particles expand outward and fade
             const particleProgress = easeOut * particle.speed;
-            const distance = particleProgress * 0.5 * (1 + impact.dieType / 20); // Bigger dice = wider spread
-            const particleOpacity = Math.max(0, (1 - progress * 1.2) * 0.8);
-            const particleScale = particle.size * (1 - progress * 0.5);
+            const distance = particleProgress * 0.6 * intensity * (1 + impact.dieType / 15);
+            const particleOpacity = Math.max(0, (1 - progress * 1.2) * 0.85);
+            const particleScale = particle.size * intensity * (1 - progress * 0.5);
 
             return (
               <mesh
                 key={i}
                 position={[
                   particle.x * distance,
-                  particle.y * distance * 0.5, // Flatten the y spread
+                  particle.y * distance * 0.5,
                   particle.z * distance,
                 ]}
               >
-                <sphereGeometry args={[particleScale, 6, 6]} />
+                <sphereGeometry args={[particleScale, 4, 4]} />
                 <meshBasicMaterial
                   color={impactColor}
                   transparent
@@ -167,13 +219,43 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
           })}
         </group>
 
-        {/* Smoke wisps - larger, more transparent particles */}
-        {progress > 0.1 && progress < 0.8 && (
+        {/* Hot embers - only on good rolls, fewer for performance */}
+        {intensity > 0.9 && progress > 0.2 && (
           <group>
             {[0, 1, 2, 3].map((i) => {
-              const angle = (i / 4) * Math.PI * 2 + progress * 2;
-              const smokeProgress = (progress - 0.1) / 0.7;
-              const smokeDistance = smokeProgress * 0.4;
+              const emberAngle = (i / 4) * Math.PI * 2 + i * 0.7;
+              const emberProgress = (progress - 0.2) / 0.8;
+              const emberDistance = (0.15 + emberProgress * 0.4) * intensity;
+              const emberOpacity = Math.max(0, (1 - emberProgress) * 0.7);
+
+              return (
+                <mesh
+                  key={`ember-${i}`}
+                  position={[
+                    Math.cos(emberAngle) * emberDistance,
+                    emberProgress * 0.3 * intensity,
+                    Math.sin(emberAngle) * emberDistance,
+                  ]}
+                >
+                  <sphereGeometry args={[0.03 * intensity, 4, 4]} />
+                  <meshBasicMaterial
+                    color="#ffaa00"
+                    transparent
+                    opacity={emberOpacity}
+                  />
+                </mesh>
+              );
+            })}
+          </group>
+        )}
+
+        {/* Smoke - fewer, only on bigger hits */}
+        {intensity > 0.7 && progress > 0.15 && progress < 0.85 && (
+          <group>
+            {[0, 1, 2].map((i) => {
+              const angle = (i / 3) * Math.PI * 2 + progress;
+              const smokeProgress = (progress - 0.15) / 0.7;
+              const smokeDistance = smokeProgress * 0.5 * intensity;
               const smokeOpacity = Math.max(0, (1 - smokeProgress) * 0.25);
 
               return (
@@ -181,13 +263,13 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
                   key={`smoke-${i}`}
                   position={[
                     Math.cos(angle) * smokeDistance,
-                    smokeProgress * 0.2,
+                    smokeProgress * 0.25 * intensity,
                     Math.sin(angle) * smokeDistance,
                   ]}
                 >
-                  <sphereGeometry args={[0.08 + smokeProgress * 0.1, 6, 6]} />
+                  <sphereGeometry args={[0.08 * intensity, 4, 4]} />
                   <meshBasicMaterial
-                    color="#ffffff"
+                    color="#666666"
                     transparent
                     opacity={smokeOpacity}
                   />

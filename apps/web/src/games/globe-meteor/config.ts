@@ -165,7 +165,7 @@ export const METEOR_CONFIG = {
 
   // Physics - faster for snappy tracer feel
   speed: 0.5, // Base speed (modified by die type)
-  impactRadius: 0.8, // Damage radius on globe surface
+  impactRadius: 1.6, // Damage radius on globe surface (2x for visibility)
   arcHeight: 0, // No arc - straight shots
 
   // Effects - faster for snappier feel
@@ -343,6 +343,8 @@ export interface ImpactZone {
   timestamp: number;
   // Die type info for effect differentiation
   dieType: number;
+  // Roll value for scaling effect intensity
+  rollValue?: number;
 }
 
 // Roll result for feedback display

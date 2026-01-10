@@ -115,8 +115,8 @@ function ActionButton({
         py: isSmall ? 1.5 : 2,
         minWidth: isSmall ? 100 : 140,
         cursor: disabled ? 'default' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        transition: 'all 0.15s ease-out',
+        opacity: disabled ? 0.4 : 1,
+        transition: 'all 0.2s ease-out',
         boxShadow: disabled ? 'none' : `0 4px 16px ${color}66`,
         '&:hover:not(:disabled)': {
           transform: 'translateY(-2px)',
@@ -244,10 +244,12 @@ function DiceHandRow({
         display: 'flex',
         flexWrap: 'nowrap',
         justifyContent: 'center',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         gap: isSmall ? 1 : 2,
-        mb: 2,
-        py: 1,
+        mb: 1,
+        py: 0.5,
+        // Fixed height to prevent layout shifts during roll animation
+        minHeight: diceSize + 20,
       }}
     >
       {hand.map((die, index) => {
@@ -420,7 +422,8 @@ export function CombatHUD({
     prevPhaseRef.current = phase;
   }, [phase]);
 
-  const isDisabled = isDisabledProp || phase === 'resolve' || phase === 'victory' || phase === 'defeat';
+  // Disable actions during throw/resolve phases and rolling animation to prevent multiple clicks
+  const isDisabled = isDisabledProp || phase === 'throw' || phase === 'resolve' || phase === 'victory' || phase === 'defeat' || isRolling;
   const allRolled = hand.every((d) => d.rollValue !== null);
 
   // Victory/Defeat overlay

@@ -185,7 +185,7 @@ function HUDReticle({
   domainScale?: number;
 }) {
   // Base size at default zoom - represents the spread area on planet
-  const baseSize = 100;
+  const baseSize = 200; // 2x larger for better visibility
 
   // Scale inversely with distance (closer = bigger reticle, farther = smaller)
   // Also scale with domain size (bigger planets = bigger spread area)
@@ -412,6 +412,9 @@ export function CombatTerminal({
   // Combat state from engine
   const [engineState, setEngineState] = useState<CombatState | null>(null);
 
+  // Processing state to prevent multiple throws before state updates
+  const [isProcessing, setIsProcessing] = useState(false);
+
   // Feed history (persists across the combat)
   const feedRef = useRef<FeedEntry[]>([]);
 
@@ -560,6 +563,7 @@ export function CombatTerminal({
     // Reset visual state on new combat
     setMeteors([]);
     setImpacts([]);
+    setIsProcessing(false);
     processedMeteorsRef.current.clear();
     victoryFiredRef.current = false;
 
@@ -782,9 +786,64 @@ export function CombatTerminal({
             const t2y = nz * tx - nx * tz;
             const t2z = nx * ty - ny * tx;
 
-            // Random offset in tangent plane
-            const r1 = (Math.random() - 0.5) * 2 * baseSpread;
-            const r2 = (Math.random() - 0.5) * 2 * baseSpread;
+            // Fun patterns based on die type!
+            // Each die creates a unique impact shape
+            let r1: number, r2: number;
+            // Random rotation per throw so patterns don't always align with camera
+            const randomRotation = Math.random() * Math.PI * 2;
+            const patternAngle = (i / meteorCount) * Math.PI * 2 + randomRotation;
+            const patternRadius = baseSpread * (0.3 + Math.random() * 0.7);
+
+            switch (die.sides) {
+              case 4: // Triangle burst - 3 points
+                {
+                  const triAngle = patternAngle + (Math.floor(i % 3) * (Math.PI * 2 / 3));
+                  r1 = Math.cos(triAngle) * patternRadius;
+                  r2 = Math.sin(triAngle) * patternRadius;
+                }
+                break;
+              case 6: // Diamond/cross pattern
+                {
+                  const crossAngle = (Math.floor(i % 4) * (Math.PI / 2)) + (Math.random() * 0.3);
+                  r1 = Math.cos(crossAngle) * patternRadius;
+                  r2 = Math.sin(crossAngle) * patternRadius;
+                }
+                break;
+              case 8: // Star burst - 8 points
+                {
+                  const starAngle = patternAngle + (Math.floor(i % 8) * (Math.PI / 4));
+                  const starRadius = patternRadius * (i % 2 === 0 ? 1 : 0.5);
+                  r1 = Math.cos(starAngle) * starRadius;
+                  r2 = Math.sin(starAngle) * starRadius;
+                }
+                break;
+              case 10: // Pentagon flower
+                {
+                  const pentAngle = patternAngle + (Math.floor(i % 5) * (Math.PI * 2 / 5));
+                  r1 = Math.cos(pentAngle) * patternRadius;
+                  r2 = Math.sin(pentAngle) * patternRadius;
+                }
+                break;
+              case 12: // Spiral outward
+                {
+                  const spiralAngle = i * 0.8 + patternAngle;
+                  const spiralRadius = patternRadius * (0.2 + (i / meteorCount) * 0.8);
+                  r1 = Math.cos(spiralAngle) * spiralRadius;
+                  r2 = Math.sin(spiralAngle) * spiralRadius;
+                }
+                break;
+              case 20: // Chaotic explosion - double spiral
+                {
+                  const chaosAngle = i * 1.2 + patternAngle;
+                  const chaosRadius = patternRadius * (0.3 + Math.sin(i * 0.5) * 0.4 + Math.random() * 0.3);
+                  r1 = Math.cos(chaosAngle) * chaosRadius;
+                  r2 = Math.sin(chaosAngle) * chaosRadius;
+                }
+                break;
+              default: // Random scatter fallback
+                r1 = (Math.random() - 0.5) * 2 * baseSpread;
+                r2 = (Math.random() - 0.5) * 2 * baseSpread;
+            }
 
             // Offset point
             const ox = cx + tx * r1 + t2x * r2;
@@ -822,6 +881,7 @@ export function CombatTerminal({
             radius: METEOR_CONFIG.impactRadius * dieEffect.impactRadius,
             timestamp: now + (i * 50), // Slight stagger for visual variety
             dieType: die.sides,
+            rollValue: die.rollValue ?? 1, // Scale effect by roll value
           });
         }
       });
@@ -1028,7 +1088,10 @@ export function CombatTerminal({
   }, []);
 
   const handleThrowDice = useCallback(() => {
-    const state = engineRef.current?.getState();
+    // Prevent multiple throws while processing
+    if (isProcessing) return;
+    setIsProcessing(true);
+
     engineRef.current?.dispatch({ type: 'THROW' });
 
     // Play dice roll sound
@@ -1038,6 +1101,8 @@ export function CombatTerminal({
     // Delay adjusted by game speed setting
     setTimeout(() => {
       const newState = engineRef.current?.getState();
+      setIsProcessing(false); // Re-enable after processing
+
       if (newState) {
         // Don't fire triggers if game ended (victory/defeat)
         if (newState.phase === 'victory' || newState.phase === 'defeat') {
@@ -1078,7 +1143,7 @@ export function CombatTerminal({
         }
       }
     }, adjustDelay(100));
-  }, [onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage]);
+  }, [isProcessing, onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage]);
 
   // Victory explosion callback - fires after explosion animation
   // Uses ref to prevent multiple firings and avoid stale closure issues
