@@ -89,7 +89,7 @@ importers:
         specifier: ^0.182.0
         version: 0.182.0
       '@vercel/node':
-        specifier: ^5.2.0
+        specifier: ^5.5.16
         version: 5.5.16(rollup@4.54.0)
       '@vitejs/plugin-react':
         specifier: ^4.5.0
