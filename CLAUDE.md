@@ -78,3 +78,7 @@ Use gh CLI to create PRs with clear descriptions.
 - Meteor targeting fix (hits center reticle)
 - NPC domain-bound filtering
 - Damage visualization (flash + floating numbers)
+- Context-aware NPC chat with character name filtering
+- Roll-value-scaled explosion effects (intensity varies by roll)
+- Die-type-specific impact patterns (triangle, diamond, star, etc.)
+- Throw button debouncing (disabled during throw/resolve phases)

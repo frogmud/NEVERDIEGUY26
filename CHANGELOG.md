@@ -1,5 +1,44 @@
 # NEVER DIE GUY - Changelog
 
+## [0.2.0] - 2026-01-09
+
+### Combat Polish & NPC Chat
+
+Visual feedback improvements and NPC dialogue quality.
+
+#### Added
+
+**Context-Aware NPC Chat**
+- Situational triggers based on game state (low health, high score, combos)
+- Template interpolation with game variables ({score}, {goal}, {multiplier})
+- Pool-based dialogue selection weighted by interest score
+
+**Roll-Scaled Explosions**
+- Explosion intensity scales with roll value (0.5x for roll of 1, 1.5x for max roll)
+- High rolls trigger bonus effects (embers, double shockwave, more smoke)
+- Low rolls produce subtle, minimal effects
+
+**Die-Type Impact Patterns**
+- d4: Triangle burst (3 meteors)
+- d6: Diamond pattern (4 meteors)
+- d8: Star pattern (8 meteors)
+- d10: Spiral pattern
+- d12: Pentagon pattern (5 meteors)
+- d20: Chaotic scatter
+- Random rotation prevents camera-aligned lines
+
+#### Changed
+- Doubled reticle and explosion sizes for better visibility
+- Reduced particle count (20->12) for better performance
+- Conditional effects based on roll intensity
+
+#### Fixed
+- Throw button spam exploit (disabled during throw/resolve phases)
+- NPC dialogue no longer addresses other NPCs by name (filters "Xtreme", "Maxwell", etc.)
+- Dice row layout padding reduced for cleaner appearance
+
+---
+
 ## [0.1.0] - 2026-01-02
 
 ### Major Milestone: Balatro-Style Combat System

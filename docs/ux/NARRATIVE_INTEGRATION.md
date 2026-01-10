@@ -121,14 +121,31 @@ Die-Rector dialogue appears at:
 3. **Victory** - Praise or acknowledgment
 4. **Defeat** - Taunt or consequence warning
 
-### Future: NPC Chat System
+### NPC Chat System (Implemented)
 
-Integration with `ndg26x_adaptive_ai_chat_system`:
+Client-side chatbase lookup at `apps/web/src/services/chatbase.ts`:
 
-- NPCs have knowledge of app lore
+**Features:**
+- Pool-based dialogue selection (greeting, idle, threat, gamblingTrashTalk, etc.)
+- Interest-score weighted random selection
+- Mood compatibility filtering based on player context
+- Template interpolation with game state ({score}, {goal}, {multiplier}, {turns})
+
+**Character Filtering:**
+- Filters out NPC-to-NPC dialogue (addresses to "Xtreme", "Maxwell", etc.)
+- Excludes group addresses ("gentlemen", "ladies", "colleagues")
+- Ensures dialogue is player-directed
+
+**Situational Triggers:**
+- Low health warnings
+- High score celebrations
+- Combo acknowledgments
+- Trade confirmations
+
+**Future:**
 - Trade/barter affects player stats
 - Dialogue choices influence meters
-- Deterministic templates with variation
+- Adaptive response based on player behavior
 
 ## Future Systems
 

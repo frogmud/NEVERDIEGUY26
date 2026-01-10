@@ -171,9 +171,14 @@ Inline combat view that connects:
 
 ### Visual Feedback
 
-- **Reticle**: Pulsing target on globe during draw/select
-- **Meteors**: Projectiles shower down on throw
-- **Impacts**: Explosions with shockwaves on hit
+- **Reticle**: Pulsing target on globe during draw/select (doubled size for visibility)
+- **Meteors**: Projectiles shower down on throw in die-type-specific patterns
+  - d4: Triangle burst | d6: Diamond | d8: Star | d10: Spiral | d12: Pentagon | d20: Chaos
+  - Random rotation prevents patterns from aligning with camera
+- **Impacts**: Roll-scaled explosions with shockwaves
+  - Intensity scales 0.5x (rolled 1) to 1.5x (rolled max)
+  - High rolls trigger embers, double shockwave, extra smoke
+  - Optimized particle count (12) for performance
 - **Dice animations**: Staggered pop-in (150ms apart)
 
 ---
@@ -245,7 +250,7 @@ private handleThrow(): void {
 - [ ] Grid-based targeting (aim at specific cells)
 - [ ] Entity damage from dice rolls
 - [ ] Bless/Curse modifiers
-- [ ] Visual feedback for hits on globe
+- [x] Visual feedback for hits on globe (roll-scaled explosions added)
 - [ ] Angle-based attack bonuses (rotate globe for advantage)
 
 ---
@@ -268,4 +273,4 @@ Verify:
 
 ---
 
-*NEVER DIE GUY - Data is eternal*
+*NEVER DIE GUY*
