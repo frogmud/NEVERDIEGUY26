@@ -11,6 +11,7 @@
 
 import { Box, Typography, Button } from '@mui/material';
 import { tokens } from '../../../../theme';
+import { TokenIcon } from '../../../../components/TokenIcon';
 
 interface RollHistoryEntry {
   id: number;
@@ -106,79 +107,31 @@ export function GameTabPlaying({
 }: GameTabPlayingProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-      {/* Enemy + Score To Beat */}
+      {/* Score To Beat - clean centered layout */}
       <Box
         sx={{
           p: 2,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          gap: 2,
+          justifyContent: 'center',
           borderBottom: `1px solid ${tokens.colors.border}`,
           flexShrink: 0,
         }}
       >
-        {/* Enemy Sprite */}
-        <Box
-          sx={{
-            width: 64,
-            height: 64,
-            bgcolor: tokens.colors.background.elevated,
-            borderRadius: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-          }}
-        >
-          <Box
-            component="img"
-            src={enemySprite}
-            alt="Enemy"
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              imageRendering: 'pixelated',
-            }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-        </Box>
-
-        {/* Score To Beat */}
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <TokenIcon size={32} />
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: '1rem',
-              color: tokens.colors.text.primary,
-              mb: 0.5,
+              fontSize: '2rem',
+              color: tokens.colors.primary,
+              fontWeight: 700,
+              letterSpacing: '0.05em',
             }}
           >
-            Score To Beat
+            {scoreToBeat.toLocaleString()}
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box
-              component="img"
-              src="/assets/ui/icons/skull-score.png"
-              alt=""
-              sx={{ width: 20, height: 20 }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
-            />
-            <Typography
-              sx={{
-                fontFamily: '"Press Start 2P", monospace',
-                fontSize: '1.25rem',
-                color: tokens.colors.primary,
-                letterSpacing: '0.1em',
-              }}
-            >
-              {String(scoreToBeat).padStart(5, '0')}
-            </Typography>
-          </Box>
         </Box>
       </Box>
 
@@ -192,7 +145,7 @@ export function GameTabPlaying({
       >
         {combatFeed.length === 0 ? (
           <Box sx={{ p: 2, color: tokens.colors.text.disabled, textAlign: 'center' }}>
-            <Typography variant="body2">No activity yet</Typography>
+            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.95rem' }}>No rolls yet</Typography>
           </Box>
         ) : (
           combatFeed.map((entry) => (
@@ -263,95 +216,91 @@ export function GameTabPlaying({
         )}
       </Box>
 
-      {/* Score Display */}
+      {/* Score Display - matches GameSidebar style */}
       <Box
         sx={{
-          p: 2,
+          p: 1.5,
           borderBottom: `1px solid ${tokens.colors.border}`,
           flexShrink: 0,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-          <Typography sx={{ fontSize: '0.85rem', color: tokens.colors.text.secondary }}>
-            Score
-          </Typography>
-          <Box
-            component="img"
-            src="/assets/ui/icons/skull-score.png"
-            alt=""
-            sx={{ width: 16, height: 16 }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-          <Typography
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '1rem',
-              color: tokens.colors.text.primary,
-            }}
-          >
-            {score.toLocaleString()}
-          </Typography>
-        </Box>
-
-        {/* Multiplier Row: [blue] X [red] */}
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1 }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1rem' }}>Score</Typography>
           <Box
             sx={{
               flex: 1,
-              py: 1.5,
-              borderRadius: 2,
-              bgcolor: '#3366FF',
+              bgcolor: tokens.colors.background.elevated,
+              borderRadius: 1,
+              px: 1.5,
+              py: 0.75,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              gap: 0.75,
+            }}
+          >
+            <TokenIcon size={24} />
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontWeight: 700,
+                fontSize: '1.375rem',
+                letterSpacing: '0.05em',
+              }}
+            >
+              {score.toLocaleString()}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Multiplier Row: [blue] X [red] - pill style */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+          <Box
+            sx={{
+              flex: 1,
+              bgcolor: '#3366FF',
+              py: 1,
+              px: 2,
+              borderRadius: 50,
+              textAlign: 'center',
             }}
           >
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
-                fontSize: '1.25rem',
                 color: '#fff',
+                fontWeight: 700,
+                fontSize: '1.375rem',
               }}
             >
               {multiplier}
             </Typography>
           </Box>
-          <Box
+          <Typography
             sx={{
-              width: 40,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.875rem',
+              color: tokens.colors.primary,
+              fontWeight: 700,
             }}
           >
-            <Typography
-              sx={{
-                fontFamily: tokens.fonts.gaming,
-                fontSize: '1.25rem',
-                color: tokens.colors.text.secondary,
-              }}
-            >
-              X
-            </Typography>
-          </Box>
+            X
+          </Typography>
           <Box
             sx={{
               flex: 1,
-              py: 1.5,
-              borderRadius: 2,
               bgcolor: tokens.colors.primary,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              py: 1,
+              px: 2,
+              borderRadius: 50,
+              textAlign: 'center',
             }}
           >
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
-                fontSize: '1.25rem',
                 color: '#fff',
+                fontWeight: 700,
+                fontSize: '1.375rem',
               }}
             >
               {goal}
