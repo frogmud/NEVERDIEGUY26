@@ -81,7 +81,6 @@ const Stats = lazy(() => import('./screens/progress/Stats').then(m => ({ default
 const PlayHub = lazy(() => import('./screens/play/PlayHub').then(m => ({ default: m.PlayHub })));
 const PlayResults = lazy(() => import('./screens/play/PlayResults').then(m => ({ default: m.PlayResults })));
 const DiceMeteor = lazy(() => import('./screens/play/DiceMeteor').then(m => ({ default: m.DiceMeteor })));
-const MeteorGame = lazy(() => import('./screens/play/MeteorGame').then(m => ({ default: m.MeteorGame })));
 const ReplayList = lazy(() => import('./screens/play/ReplayList').then(m => ({ default: m.ReplayList })));
 const MatchReplay = lazy(() => import('./screens/play/MatchReplay').then(m => ({ default: m.MatchReplay })));
 const SpectateMode = lazy(() => import('./screens/play/SpectateMode').then(m => ({ default: m.SpectateMode })));
@@ -142,7 +141,6 @@ function App() {
 
           {/* Play - 3D Phaser Games */}
           <Route path="/play" element={<Suspense fallback={<RouteLoader />}><RunProvider><PlayHub /></RunProvider></Suspense>} />
-          <Route path="/play/game" element={<Suspense fallback={<RouteLoader />}><MeteorGame /></Suspense>} />
           <Route path="/play/results" element={<Suspense fallback={<RouteLoader />}><PlayResults /></Suspense>} />
                     <Route path="/play/meteor" element={<Suspense fallback={<RouteLoader />}><DiceMeteor /></Suspense>} />
           <Route path="/play/replays" element={<Suspense fallback={<RouteLoader />}><ReplayList /></Suspense>} />

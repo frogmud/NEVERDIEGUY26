@@ -77,7 +77,6 @@ const sitemapData: SitemapSection[] = [
     icon: <SportsEsportsSharp />,
     links: [
       { label: 'Play Hub', path: '/play', status: 'active' },
-      { label: 'Active Game', path: '/play/game', status: 'active' },
       { label: 'Match Results', path: '/play/results', status: 'active' },
       { label: 'Meteor Mode', path: '/play/meteor', status: 'active' },
       { label: 'Globe View', path: '/play/globe', status: 'active' },

@@ -38,7 +38,7 @@ export function SaucerTab() {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
         {/* Continue */}
         <Paper
-          onClick={() => navigate('/play/game')}
+          onClick={() => navigate('/play')}
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -80,7 +80,7 @@ export function SaucerTab() {
 
         {/* New Game */}
         <Paper
-          onClick={() => navigate('/play/game', { state: { mode: 'new' } })}
+          onClick={() => navigate('/play', { state: { mode: 'new' } })}
           sx={{
             display: 'flex',
             alignItems: 'center',
