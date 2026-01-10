@@ -119,6 +119,16 @@ export function GameTabPlaying({
           flexShrink: 0,
         }}
       >
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.875rem',
+            color: tokens.colors.text.secondary,
+            mb: 0.5,
+          }}
+        >
+          Score to Beat
+        </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <TokenIcon size={32} />
           <Typography
@@ -216,11 +226,10 @@ export function GameTabPlaying({
         )}
       </Box>
 
-      {/* Score Display - matches GameSidebar style */}
+      {/* Current Score Display - matches GameSidebar style */}
       <Box
         sx={{
           p: 1.5,
-          borderBottom: `1px solid ${tokens.colors.border}`,
           flexShrink: 0,
         }}
       >
@@ -251,8 +260,19 @@ export function GameTabPlaying({
             </Typography>
           </Box>
         </Box>
+      </Box>
 
-        {/* Multiplier Row: [blue] X [red] - pill style */}
+      {/* Full-width Divider */}
+      <Box sx={{ borderTop: `1px solid ${tokens.colors.border}` }} />
+
+      {/* Multiplier Row: [blue] X [red] - pill style */}
+      <Box
+        sx={{
+          p: 1.5,
+          borderBottom: `1px solid ${tokens.colors.border}`,
+          flexShrink: 0,
+        }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
           <Box
             sx={{
