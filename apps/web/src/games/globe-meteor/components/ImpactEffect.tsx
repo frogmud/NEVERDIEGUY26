@@ -56,8 +56,9 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
   // Roll value for scaling (1 = min roll, dieType = max roll)
   const rollValue = impact.rollValue ?? Math.ceil(impact.dieType / 2);
-  // Intensity scales from 0.5 (rolled 1) to 1.5 (rolled max)
-  const intensity = 0.5 + (rollValue / impact.dieType);
+  // Crater size scales dramatically with roll - small rolls = tiny, big rolls = massive
+  // Range: 0.3 (rolled 1) to 2.0 (rolled max on d20)
+  const intensity = 0.3 + (rollValue / 12);
 
   // Damage number shows the roll value
   const damageNumber = rollValue;
@@ -68,12 +69,12 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
   const normal = useMemo(() => getSurfaceNormal(lat, lng), [lat, lng]);
 
-  // Animation progress
+  // Animation progress - particles animate, but crater stays
   useEffect(() => {
     if (isIdle) return;
 
     const startTime = Date.now();
-    const duration = METEOR_CONFIG.explosionDuration * 0.7; // Slightly faster
+    const duration = METEOR_CONFIG.explosionDuration * 1.5; // Slower for more drama
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -82,14 +83,13 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
       if (newProgress < 1) {
         requestAnimationFrame(animate);
-      } else {
-        onComplete?.(impact.id);
       }
+      // Don't call onComplete - let craters persist!
     };
 
     const frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [impact.id, onComplete, isIdle]);
+  }, [impact.id, isIdle]);
 
   // Camera shake removed for accessibility (epilepsy concerns)
 
@@ -131,14 +131,35 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     <group position={surfacePosition}>
       {/* Particle burst aligned to surface - ALL sizes scale with intensity */}
       <group ref={groupRef} rotation={rotation}>
+        {/* PERSISTENT BLACK CRATER - stackable destruction! */}
+        <mesh>
+          <circleGeometry args={[0.25 * intensity, 16]} />
+          <meshBasicMaterial
+            color="#000000"
+            transparent
+            opacity={0.7}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+        {/* Darker center for depth */}
+        <mesh position={[0, 0, 0.001]}>
+          <circleGeometry args={[0.12 * intensity, 12]} />
+          <meshBasicMaterial
+            color="#000000"
+            transparent
+            opacity={0.9}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+
         {/* Central flash - scales with roll */}
-        {progress < 0.4 && (
+        {progress < 0.5 && (
           <mesh>
-            <circleGeometry args={[(0.2 + progress * 0.6) * intensity, 12]} />
+            <circleGeometry args={[(0.3 + progress * 0.8) * intensity, 16]} />
             <meshBasicMaterial
               color={impactColor}
               transparent
-              opacity={(1 - progress / 0.4) * Math.min(1, intensity)}
+              opacity={(1 - progress / 0.5) * Math.min(1, intensity) * 1.2}
               side={THREE.DoubleSide}
             />
           </mesh>
@@ -157,18 +178,18 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
           </mesh>
         )}
 
-        {/* Expanding shockwave ring - scales with intensity */}
-        {progress > 0.05 && progress < 0.6 && (
+        {/* Expanding shockwave ring - MORE EXTREME */}
+        {progress > 0.02 && progress < 0.8 && (
           <mesh>
             <ringGeometry args={[
-              (0.15 + progress * 1.0) * intensity,
-              (0.2 + progress * 1.1) * intensity,
-              24
+              (0.2 + progress * 1.5) * intensity,
+              (0.28 + progress * 1.6) * intensity,
+              32
             ]} />
             <meshBasicMaterial
               color={impactColor}
               transparent
-              opacity={Math.max(0, (1 - progress / 0.6) * 0.6 * intensity)}
+              opacity={Math.max(0, (1 - progress / 0.8) * 0.8 * intensity)}
               side={THREE.DoubleSide}
             />
           </mesh>

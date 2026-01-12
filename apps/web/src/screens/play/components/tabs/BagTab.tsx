@@ -34,7 +34,7 @@ export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect }: Ba
           letterSpacing: '0.05em',
         }}
       >
-        {isLobby ? 'Choose Starter Class' : 'Current Loadout'}
+        {isLobby ? 'Select' : 'Current'} <Box component="span" sx={{ color: tokens.colors.primary }}>Loadout</Box>
       </Typography>
 
       {/* Class Cards */}

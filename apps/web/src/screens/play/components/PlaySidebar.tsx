@@ -241,7 +241,7 @@ export function PlaySidebar({
         )}
         {activeTab === 'bag' && (
           <BagTab
-            isLobby={phase === 'lobby'}
+            isLobby={phase === 'lobby' || phase === 'zoneSelect'}
             selectedLoadout={selectedLoadout}
             onLoadoutSelect={setSelectedLoadout}
           />

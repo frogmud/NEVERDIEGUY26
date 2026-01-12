@@ -130,7 +130,6 @@ function DraggableDie({
           scale(${isSelected ? 1.12 : 1})
         `,
         opacity: isDragging ? 0.3 : (!canSelect && !isSelected ? 0.4 : 1),
-        filter: isSelected ? `drop-shadow(0 0 10px ${dice.color})` : 'none',
         '&:hover': canSelect
           ? {
               transform: `
@@ -138,7 +137,6 @@ function DraggableDie({
                 translateY(${isSelected ? -22 - verticalOffset : -6 + verticalOffset}px)
                 scale(${isSelected ? 1.18 : 1.08})
               `,
-              filter: `drop-shadow(0 0 14px ${dice.color}80)`,
               cursor: 'grab',
             }
           : {},
@@ -149,33 +147,26 @@ function DraggableDie({
         zIndex: isSelected ? 10 : 1,
       }}
     >
-      <svg width="55" height="55" viewBox={viewBox}>
-        {isSelected && (
-          <defs>
-            <filter id={`glow-${dice.sides}`} x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-        )}
+      <svg width="55" height="55" viewBox={viewBox} style={{ overflow: 'visible' }}>
+        <defs>
+          <filter id={`shadow-${dice.label}`} x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="1" floodColor="#000" floodOpacity="0.4" />
+          </filter>
+        </defs>
         <path
           d={path}
-          fill={isSelected ? dice.color : '#1a1a1a'}
-          stroke={dice.color}
-          strokeWidth="4"
-          filter={isSelected ? `url(#glow-${dice.sides})` : undefined}
+          fill={dice.color}
+          filter={`url(#shadow-${dice.label})`}
         />
         <text
           x="50"
-          y="58"
+          y="56"
           textAnchor="middle"
-          fill={isSelected ? '#000' : '#fff'}
-          fontSize="26"
-          fontWeight="bold"
-          fontFamily="Inter, sans-serif"
+          dominantBaseline="middle"
+          fill="#fff"
+          fontSize="22"
+          fontWeight="700"
+          fontFamily="m6x11plus, monospace"
         >
           {dice.sides}
         </text>
@@ -192,7 +183,7 @@ function DraggableDie({
             height: 3,
             borderRadius: 1.5,
             bgcolor: '#00e5ff',
-            boxShadow: '0 0 6px #00e5ff',
+            boxShadow: '0 0 3px #00e5ff',
           }}
         />
       )}

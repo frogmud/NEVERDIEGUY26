@@ -258,5 +258,12 @@ export const theme = createTheme({
         },
       },
     },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          alignItems: 'center',
+        },
+      },
+    },
   },
 });

@@ -130,16 +130,17 @@ export function GameTabLaunch({
                   },
                 }}
               >
-                {/* Zone ID */}
+                {/* Zone Name */}
                 <Typography
                   sx={{
                     fontFamily: tokens.fonts.gaming,
-                    fontSize: '0.9rem',
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
                     color: tokens.colors.text.primary,
                     mb: 1,
                   }}
                 >
-                  zone-1-{index + 1}-seed{seedHash}
+                  Room {index + 1}
                 </Typography>
 
                 {/* Tier + Time Row */}

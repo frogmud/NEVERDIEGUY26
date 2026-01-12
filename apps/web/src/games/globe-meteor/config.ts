@@ -40,51 +40,52 @@ export const DOMAIN_PLANET_CONFIG: Record<
     name: string;
   }
 > = {
+  // Ordered by game progression (Normal → Hard → Extreme)
   1: {
-    scale: 0.6,
-    color: '#1a1a2e',
-    glowColor: '#4a4a6e',
-    element: 'Void',
-    die: 4,
-    name: 'Null Providence',
-  },
-  2: {
     scale: 0.8,
-    color: '#4a6741',
-    glowColor: '#7a9771',
+    color: '#8b7355',     // Brown/tan (Earth - starter)
+    glowColor: '#a89078',
     element: 'Earth',
     die: 6,
     name: 'Earth',
   },
-  3: {
-    scale: 0.9,
-    color: '#2d2d44',
-    glowColor: '#5d5d74',
-    element: 'Death',
-    die: 8,
-    name: 'Shadow Keep',
-  },
-  4: {
+  2: {
     scale: 1.0,
-    color: '#8b2500',
-    glowColor: '#bb5530',
-    element: 'Fire',
-    die: 10,
-    name: 'Infernus',
-  },
-  5: {
-    scale: 1.2,
-    color: '#4a90a4',
-    glowColor: '#7ac0d4',
+    color: '#81d4fa',     // Light ice blue (Frost Reach)
+    glowColor: '#b3e5fc',
     element: 'Ice',
     die: 12,
     name: 'Frost Reach',
   },
+  3: {
+    scale: 1.0,
+    color: '#d84315',     // Orange (Infernus)
+    glowColor: '#ff6e40',
+    element: 'Fire',
+    die: 10,
+    name: 'Infernus',
+  },
+  4: {
+    scale: 0.9,
+    color: '#4a3860',     // Dark purple (Shadow Keep)
+    glowColor: '#6a5880',
+    element: 'Death',
+    die: 8,
+    name: 'Shadow Keep',
+  },
+  5: {
+    scale: 0.7,
+    color: '#e8e8e8',     // White/pale (Null Providence)
+    glowColor: '#ffffff',
+    element: 'Void',
+    die: 4,
+    name: 'Null Providence',
+  },
   6: {
-    scale: 1.4,
-    color: '#6b5b95',
-    glowColor: '#9b8bc5',
-    element: 'Wind',
+    scale: 1.2,
+    color: '#1a4a4a',     // Dark teal (Aberrant)
+    glowColor: '#2a6a6a',
+    element: 'Chaos',
     die: 20,
     name: 'Aberrant',
   },

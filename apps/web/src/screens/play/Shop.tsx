@@ -3,7 +3,6 @@ import { Box, Typography, Button, Paper, Chip, Dialog, DialogTitle, DialogConten
 import {
   ShoppingCartSharp as CartIcon,
   ArrowForwardSharp as ContinueIcon,
-  AutoAwesomeSharp as SparkleIcon,
   FavoriteSharp as FavorIcon,
   CheckCircleSharp as CheckIcon,
 } from '@mui/icons-material';
@@ -306,21 +305,36 @@ export function Shop({
               >
                 {/* Item Header */}
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
-                  <Box
-                    sx={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 1,
-                      bgcolor: `${rarityColor}20`,
-                      border: `1px solid ${rarityColor}40`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <SparkleIcon sx={{ fontSize: 18, color: rarityColor }} />
-                  </Box>
+                  {item.image && (
+                    <Box
+                      sx={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 1,
+                        bgcolor: `${rarityColor}10`,
+                        border: `1px solid ${rarityColor}30`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Box
+                        component="img"
+                        src={item.image}
+                        alt={item.name}
+                        sx={{
+                          width: 28,
+                          height: 28,
+                          objectFit: 'contain',
+                        }}
+                        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    </Box>
+                  )}
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography
                       sx={{

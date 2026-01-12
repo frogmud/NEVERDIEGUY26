@@ -315,110 +315,51 @@ export function PlayHub() {
           overflow: 'hidden',
         }}
       >
-        {/* Overall Run Progress Bar - top of main area */}
+        {/* Overall Run Progress Bar - minimal, just shows domain progress */}
         {state.phase !== 'event_select' && (
-          <Box
-            sx={{
-              px: 3,
-              pt: 2,
-              pb: 1,
-            }}
-          >
+          <Box sx={{ px: 3, pt: 2, pb: 1 }}>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 2,
-                p: 1.5,
-                px: 2.5,
+                p: 1,
+                px: 2,
                 bgcolor: tokens.colors.background.paper,
                 border: `1px solid ${tokens.colors.border}`,
-                borderRadius: '30px',
+                borderRadius: '20px',
               }}
             >
-              {/* Domain indicator */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {/* Progress bar - full width */}
+              <Box
+                sx={{
+                  flex: 1,
+                  height: 4,
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  borderRadius: 2,
+                  overflow: 'hidden',
+                }}
+              >
                 <Box
-                  component="img"
-                  src="/logos/ndg-skull-dome.svg"
-                  alt=""
-                  sx={{ width: 20, height: 22, opacity: 0.8 }}
+                  sx={{
+                    height: '100%',
+                    width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.roomNumber || 1) / 3 / 6) * 100}%`,
+                    bgcolor: tokens.colors.primary,
+                    borderRadius: 2,
+                    transition: 'width 0.5s ease',
+                  }}
                 />
-                <Typography
-                  sx={{
-                    fontFamily: tokens.fonts.gaming,
-                    fontSize: '0.8rem',
-                    color: tokens.colors.text.secondary,
-                  }}
-                >
-                  Domain {state.currentDomain || 1}
-                </Typography>
               </Box>
-
-              {/* Progress bar */}
-              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Box
-                  sx={{
-                    flex: 1,
-                    height: 6,
-                    bgcolor: 'rgba(255,255,255,0.1)',
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      height: '100%',
-                      width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.roomNumber || 1) / 3 / 6) * 100}%`,
-                      bgcolor: tokens.colors.primary,
-                      borderRadius: 3,
-                      transition: 'width 0.3s ease',
-                    }}
-                  />
-                </Box>
-                <Typography
-                  sx={{
-                    fontFamily: tokens.fonts.gaming,
-                    fontSize: '0.75rem',
-                    color: tokens.colors.text.disabled,
-                    minWidth: 60,
-                  }}
-                >
-                  {state.currentDomain || 1}/6 - {state.roomNumber || 1}/3
-                </Typography>
-              </Box>
-
-              {/* Score */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Typography
-                  sx={{
-                    fontFamily: tokens.fonts.gaming,
-                    fontSize: '0.9rem',
-                    color: tokens.colors.primary,
-                    fontWeight: 700,
-                  }}
-                >
-                  {(state.totalScore || 0).toLocaleString()}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: '0.7rem',
-                    color: tokens.colors.text.disabled,
-                  }}
-                >
-                  pts
-                </Typography>
-              </Box>
-
-              {/* Gold */}
+              {/* Compact label */}
               <Typography
                 sx={{
                   fontFamily: tokens.fonts.gaming,
-                  fontSize: '0.85rem',
-                  color: tokens.colors.warning,
+                  fontSize: '0.7rem',
+                  color: tokens.colors.text.disabled,
+                  whiteSpace: 'nowrap',
                 }}
               >
-                ${state.gold || 0}
+                {state.currentDomain || 1}-{state.roomNumber || 1}
               </Typography>
             </Box>
           </Box>

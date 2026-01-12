@@ -22,6 +22,7 @@ import {
 } from '@mui/icons-material';
 import { CardSection } from '../../../components/CardSection';
 import { ReportGameDialog } from '../../../components/ReportGameDialog';
+import { TokenIcon } from '../../../components/TokenIcon';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
@@ -922,14 +923,12 @@ export function CombatTerminal({
     }
   }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale, onGuardianSlain]);
 
-  // Clear old impacts after explosion duration
+  // Keep impacts for the duration of combat (clear only on new zone)
+  // Limit to last 100 impacts - let the destruction stack!
   useEffect(() => {
     const cleanup = setInterval(() => {
-      const now = Date.now();
-      setImpacts(prev =>
-        prev.filter(impact => now - impact.timestamp < METEOR_CONFIG.explosionDuration)
-      );
-    }, 500);
+      setImpacts(prev => prev.length > 100 ? prev.slice(-100) : prev);
+    }, 3000);
     return () => clearInterval(cleanup);
   }, []);
 
@@ -1208,60 +1207,16 @@ export function CombatTerminal({
         }}
       >
         {isLobby ? (
-          <>
-            {/* Run Progress Stats */}
-            <Box sx={{ textAlign: 'center', flex: 1 }}>
-              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
-                Domain
-              </Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.secondary }}>
-                {currentDomain}/{totalDomains}
-              </Typography>
-            </Box>
-            <Box sx={{ textAlign: 'center', flex: 1 }}>
-              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
-                Room
-              </Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.primary }}>
-                {currentRoom}/{totalRooms}
-              </Typography>
-            </Box>
-            <Box sx={{ textAlign: 'center', flex: 1 }}>
-              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
-                Score
-              </Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.primary }}>
-                {totalScore.toLocaleString()}
-              </Typography>
-            </Box>
-            <Box sx={{ textAlign: 'center', flex: 1 }}>
-              <Typography sx={{ fontSize: '0.55rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
-                Gold
-              </Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.warning }}>
-                ${gold}
-              </Typography>
-            </Box>
-          </>
+          <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.disabled, textAlign: 'center', width: '100%' }}>
+            Select a zone to begin
+          </Typography>
         ) : (
-          <>
-            <Typography sx={{ ...gamingFont, fontSize: '1rem', fontWeight: 700 }}>
-              Turn {combatState.turnNumber}
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, width: '100%' }}>
+            <TokenIcon size={20} />
+            <Typography sx={{ ...gamingFont, fontSize: '1.2rem', fontWeight: 700, color: tokens.colors.text.primary }}>
+              {(totalScore + combatState.currentScore).toLocaleString()}
             </Typography>
-
-            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
-              <Typography sx={{ ...gamingFont, fontSize: '1.2rem', fontWeight: 700, color: tokens.colors.primary }}>
-                {combatState.currentScore.toLocaleString()}
-              </Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.secondary }}>
-                / {combatState.targetScore.toLocaleString()}
-              </Typography>
-            </Box>
-
-            <Typography sx={{ ...gamingFont, fontSize: '1rem', color: tokens.colors.warning }}>
-              {combatState.turnsRemaining} left
-            </Typography>
-          </>
+          </Box>
         )}
       </CardSection>
 
@@ -1320,21 +1275,21 @@ export function CombatTerminal({
           </Box>
         )}
 
-        {/* Grid overlay - show enemy count when in combat */}
-        {!isLobby && engineState && (
+        {/* Domain name overlay */}
+        {!isLobby && (
           <Box
             sx={{
               position: 'absolute',
               bottom: 8,
               left: 8,
               bgcolor: 'rgba(0,0,0,0.7)',
-              px: 1,
+              px: 1.5,
               py: 0.5,
               borderRadius: 1,
             }}
           >
-            <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: tokens.colors.text.secondary }}>
-              Enemies: {Array.from(engineState.entities.values()).filter(e => e.type === 'enemy' && e.isAlive).length}
+            <Typography sx={{ ...gamingFont, fontSize: '0.8rem', color: tokens.colors.text.primary }}>
+              {DOMAIN_PLANET_CONFIG[domain]?.name || 'Unknown'}
             </Typography>
           </Box>
         )}
