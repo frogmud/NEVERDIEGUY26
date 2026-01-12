@@ -2,7 +2,6 @@
  * NDG AI Engine
  *
  * Zero-dependency adaptive AI chat engine for NPC interactions.
- * Uses Monte Carlo Tree Search (MCTS) for strategic response selection.
  */
 
 // ============================================
@@ -103,14 +102,10 @@ export {
   createUsageState,
   markTemplateUsed,
   resetUsageState,
-  selectStrategicResponse,
-  explainSearchDecision,
 } from './core/response-selector';
 export type {
   SelectionInput,
   SelectionResult,
-  StrategicSelectionInput,
-  StrategicSelectionResult,
 } from './core/response-selector';
 
 // ============================================
@@ -292,139 +287,6 @@ export type {
   ThreadSummary,
   TopicResponseHint,
 } from './social/conversation-threading';
-
-// ============================================
-// Search Types
-// ============================================
-
-export type {
-  SearchConfig,
-  SimulationSnapshot,
-  MemorySnapshot,
-  ConversationNode,
-  ConversationMove,
-  GoalType,
-  NPCGoal,
-  GoalCondition,
-  NPCObjectives,
-  EvaluationScore,
-  EvaluationContext,
-  SearchResult,
-  SearchStats,
-  AlternativePath,
-  MythStatus,
-  PlayerMyth,
-  PlayerTheory,
-  AutonomousConfig,
-  InterestingEvent,
-  InterestEventType,
-  Storyline,
-  StorylineType,
-  BehaviorAnomaly,
-  AnomalyType,
-} from './search/search-types';
-export { DEFAULT_SEARCH_CONFIG, DEFAULT_AUTONOMOUS_CONFIG } from './search/search-types';
-
-// ============================================
-// Chatbase Lookup
-// ============================================
-
-// NOTE: ChatbaseLookupEngine and createChatbaseLookup use Node.js fs/path
-// Import from '@ndg/ai-engine/chatbase' for server-side use only
-
-export type {
-  ChatbaseEntry,
-  ChatbaseContextKey,
-  ChatbaseLookupResult,
-  ChatbaseLookupConfig,
-  ChatbaseManifest,
-  ChatbaseNPCFile,
-  ChatbaseMetrics,
-  ChatbaseMetadata,
-  ChatbaseTriggers,
-  MoodBucket,
-  RelationshipBucket,
-  TrustBucket,
-  FamiliarityBucket,
-  TensionBucket,
-} from './search/chatbase-types';
-export {
-  DEFAULT_CHATBASE_CONFIG,
-  computeChatbaseKey,
-  quantizeMood,
-  quantizeRelationship,
-  quantizeTrust,
-  quantizeFamiliarity,
-  quantizeTopicDepth,
-  quantizeTension,
-  hashContent,
-  classifyPool,
-  inferMood,
-  POOL_KEYWORDS,
-  MOOD_KEYWORDS,
-} from './search/chatbase-types';
-
-// ============================================
-// NPC Goals
-// ============================================
-
-export {
-  getDefaultObjectives,
-  createObjectives,
-  isGoalActive,
-  isGoalCompleted,
-  evaluateGoalProgress,
-  evaluateState,
-  getObjectivesForNPC,
-  NPC_GOAL_PROFILES,
-} from './search/npc-goals';
-
-// ============================================
-// Simulation Utilities
-// ============================================
-
-export {
-  cloneSnapshot,
-  simulateSingleTurn,
-  getNextSpeaker,
-  getNextPool,
-  isTerminal,
-  isInterestingState,
-  hashState,
-  fastHash,
-  generateCandidateMoves,
-  createSnapshotFromEngineState,
-  createNodeRng,
-  estimateStateComplexity,
-} from './search/simulation-utils';
-
-// ============================================
-// Conversation Search (MCTS Engine)
-// ============================================
-
-export {
-  ConversationSearchEngine,
-  searchForBestResponse,
-  shouldUseSearch,
-  createSearchEngine,
-  formatSearchStats,
-  dumpSearchTree,
-} from './search/conversation-search';
-
-// ============================================
-// Autonomous Simulation
-// ============================================
-
-export {
-  AutonomousSimulation,
-  createAutonomousSimulation,
-  runSimulationBatch,
-  summarizeBatch,
-} from './search/autonomous-simulation';
-export type {
-  SimulatedTurn,
-  BatchResult,
-} from './search/autonomous-simulation';
 
 // ============================================
 // Player Mythology
@@ -639,60 +501,6 @@ export type {
 } from './games/ceelo';
 
 // ============================================
-// Gambling System (NPC Cee-lo Simulation)
-// ============================================
-
-// NOTE: GamblingSimulation, runCeeloBatch, runStartupSimulation use Node.js fs/path
-// Import from '@ndg/ai-engine/gambling' for server-side simulation use only
-
-export {
-  // Templates (browser-safe)
-  ALL_GAMBLING_TEMPLATES,
-  getGamblingTemplates,
-  getGamblingTemplatesByMood,
-  // Mood mapping (browser-safe)
-  MOOD_TRANSITIONS,
-  ARCHETYPE_MOOD_MODIFIERS,
-  findApplicableTransitions,
-  calculateNewMood,
-  getTrashTalkProbability,
-  getQuitThreshold,
-  getRivalryIntensityMod,
-  // Quit mechanics (browser-safe)
-  QuitStateManager,
-  evaluateQuitDecision,
-  evaluateReturn,
-  DEFAULT_QUIT_CONFIG,
-  // Rivalry (browser-safe)
-  RivalryManager,
-  DEFAULT_RIVALRY_CONFIG,
-  // Event dispatcher (browser-safe)
-  GamblingEventDispatcher,
-} from './gambling';
-export type {
-  // Mood mapping
-  MoodTransition,
-  MoodCondition,
-  GamblingMoodContext,
-  ArchetypeMoodModifiers,
-  // Quit mechanics
-  QuitState,
-  QuitReason,
-  QuitDecision,
-  QuitConfig,
-  QuitContext,
-  // Rivalry
-  RivalryState,
-  RivalryOrigin,
-  RivalryEvent,
-  RivalryConfig,
-  // Event dispatcher
-  EventHandlerContext,
-  EventHandlerResult,
-  GamblingEventHandler,
-} from './gambling';
-
-// ============================================
 // Utilities
 // ============================================
 
@@ -701,24 +509,11 @@ export {
   getGlobalChatLogger,
   resetGlobalChatLogger,
   DEFAULT_LOGGER_CONFIG,
-  SimulationPersistenceManager,
-  getGlobalPersistence,
-  resetGlobalPersistence,
-  getStorageAdapter,
-  calculateCatchUpMatches,
-  DEFAULT_PERSISTENCE_CONFIG,
 } from './utils';
 export type {
   ChatLogEntry,
   ChatLogSession,
   ChatLoggerConfig,
-  SimulationPersistence,
-  StatisticsPersistence,
-  RivalriesPersistence,
-  QuitStatesPersistence,
-  ChatLogsPersistence,
-  PersistenceConfig,
-  StorageAdapter,
 } from './utils';
 
 // ============================================
@@ -844,32 +639,6 @@ export type {
   NPCEconomyState,
   EconomySnapshot,
 } from './economy/npc-economy';
-
-// ============================================
-// Player Ceelo Challenge System
-// ============================================
-
-export {
-  canChallenge,
-  createChallenge,
-  startRound as startCeeloRound,
-  playerReroll,
-  npcReroll,
-  resolveChallenge,
-  quickCeeloMatch,
-  applyLuckyNumberBonus,
-  applyChallengeToEconomy,
-  applyChallengeToDebt,
-  DEFAULT_CEELO_CHALLENGE_CONFIG,
-} from './gambling/ceelo-challenge';
-export type {
-  CeeloChallengeConfig,
-  SideBetType,
-  SideBet,
-  CeeloRoundState,
-  CeeloChallengeState,
-  ChallengeResult,
-} from './gambling/ceelo-challenge';
 
 // ============================================
 // Combat System (Grid-Based Turn Combat)

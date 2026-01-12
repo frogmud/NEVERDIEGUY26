@@ -2,7 +2,9 @@
  * Auth Context
  *
  * MVP: Everyone plays as "Never Die Guy" - no login required.
- * Each player gets a unique number (NEVER DIE GUY #1, #2, etc.)
+ * Each session gets a fresh random player number (NEVER DIE GUY #12345)
+ * The number is "retired" when the session ends (browser close/refresh)
+ *
  * Tracks whether user has started their first game to transform the home page.
  *
  * Usage:
@@ -10,15 +12,20 @@
  *   const { user, playerNumber, hasStartedGame, markGameStarted } = useAuth();
  */
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import { type User } from '../data/users';
-import { loadProfile } from '../data/player/storage';
+
+// Generate random 6-digit player number
+function generatePlayerNumber(): number {
+  return Math.floor(100000 + Math.random() * 900000);
+}
 
 // Create user with player number
 function createNeverDieGuy(playerNumber: number): User {
   return {
     id: playerNumber,
-    name: `NEVER DIE GUY #${playerNumber}`,
+    name: `NDG`,
+    playerNumber,
     rating: 1000,
     rank: 0,
     level: 1,
@@ -37,8 +44,21 @@ function createNeverDieGuy(playerNumber: number): User {
   };
 }
 
-// localStorage key for game started flag
+// Session storage key for player number (survives refresh, clears on close)
+const SESSION_PLAYER_KEY = 'ndg_session_player';
+// localStorage key for game started flag (persists across sessions)
 const HAS_STARTED_GAME_KEY = 'ndg_has_started_game';
+
+// Get or create session player number
+function getSessionPlayerNumber(): number {
+  const stored = sessionStorage.getItem(SESSION_PLAYER_KEY);
+  if (stored) {
+    return parseInt(stored, 10);
+  }
+  const newNumber = generatePlayerNumber();
+  sessionStorage.setItem(SESSION_PLAYER_KEY, newNumber.toString());
+  return newNumber;
+}
 
 interface AuthContextType {
   user: User;
@@ -55,18 +75,11 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  // Load player number from profile
-  const [playerNumber, setPlayerNumber] = useState<number>(1);
-  const [user, setUser] = useState<User>(() => createNeverDieGuy(1));
+  // Generate session-based player number (survives refresh, gone on close)
+  const [playerNumber] = useState<number>(() => getSessionPlayerNumber());
+  const [user] = useState<User>(() => createNeverDieGuy(playerNumber));
 
-  // Load profile on mount to get player number
-  useEffect(() => {
-    const profile = loadProfile();
-    setPlayerNumber(profile.playerNumber);
-    setUser(createNeverDieGuy(profile.playerNumber));
-  }, []);
-
-  // Check localStorage for game started flag
+  // Check localStorage for game started flag (persists across sessions)
   const [hasStartedGame, setHasStartedGame] = useState<boolean>(() => {
     return localStorage.getItem(HAS_STARTED_GAME_KEY) === 'true';
   });

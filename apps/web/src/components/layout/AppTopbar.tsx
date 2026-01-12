@@ -7,7 +7,6 @@ import {
   MenuSharp as MenuIcon,
   PublicSharp as CountryIcon,
   StarSharp as StarIcon,
-  PersonSharp as ProfileIcon,
   SettingsSharp as SettingsIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
@@ -232,23 +231,14 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
           }}
         >
           <Box sx={{ px: 2, py: 1.5 }}>
-            <Typography sx={{ fontWeight: 600 }}>{user.name}</Typography>
+            <Typography sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming, fontSize: '0.9rem' }}>
+              NEVER DIE GUY
+            </Typography>
             <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
-              Level {user.level} · {user.points.toLocaleString()} pts
+              #{user.playerNumber || '000000'}
             </Typography>
           </Box>
           <Divider sx={{ borderColor: tokens.colors.border }} />
-          <MenuItem
-            onClick={() => {
-              setUserMenuAnchor(null);
-              navigate('/profile');
-            }}
-          >
-            <ListItemIcon>
-              <ProfileIcon fontSize="small" />
-            </ListItemIcon>
-            View Profile
-          </MenuItem>
           <MenuItem
             onClick={() => {
               setUserMenuAnchor(null);

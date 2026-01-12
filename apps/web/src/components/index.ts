@@ -31,7 +31,6 @@ export { StatRow } from './StatRow';
 
 // Dice & Game
 export { DiceShape, DiceMini } from './DiceShapes';
-export { LuckyNumberPicker } from './LuckyNumberPicker';
 
 // Sprites
 export { CharacterSprite, getCharacterSpriteSize, isLargeSprite } from './CharacterSprite';

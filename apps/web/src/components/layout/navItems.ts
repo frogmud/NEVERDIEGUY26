@@ -10,13 +10,10 @@ export type NavItem = {
   requiresAuth?: boolean; // If true, hide when not authenticated
 };
 
-// MVP Nav: 4 simple entries, no dropdowns
-// Play and Wiki accessible without auth; Progress, Barter require auth
+// MVP Nav: 2 simple entries
 export const navItems: NavItem[] = [
   { label: 'Play', iconSrc: '/assets/nav/nav1-play.svg', path: '/play' },
   { label: 'Wiki', iconSrc: '/assets/nav/nav2-wiki.svg', path: '/wiki' },
-  { label: 'Progress', iconSrc: '/assets/nav/nav3-progress.svg', path: '/progress', requiresAuth: true },
-  { label: 'Barter', iconSrc: '/assets/nav/nav4-market.svg', path: '/shop', requiresAuth: true },
 ];
 
 export const DRAWER_WIDTH_COLLAPSED = 58;

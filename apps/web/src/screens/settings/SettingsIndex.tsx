@@ -1,15 +1,10 @@
 /**
  * SettingsIndex - Settings hub with right-side sections nav (Wiki pattern)
  *
- * Categories:
+ * MVP Categories:
  * - Board & Pieces: Dice themes and colors
- * - Gameplay: Die-rector patron, dice rolling options
- * - Profile: Link to edit profile
- * - Interface: Theme, language
- * - Social: Status, who can message
+ * - Gameplay: Dice rolling options
  * - Notifications: Push/email preferences
- * - Account: Email, password, 2FA
- * - Membership: Subscription status
  * - Accessibility: Reduced motion, colorblind mode
  */
 
@@ -22,12 +17,7 @@ import { tokens } from '../../theme';
 // Section components
 import { BoardAndPiecesSection } from './sections/BoardAndPieces';
 import { GameplaySection } from './sections/Gameplay';
-import { ProfileSection } from './sections/Profile';
-import { InterfaceSection } from './sections/Interface';
-import { SocialSection } from './sections/Social';
 import { NotificationsSection } from './sections/Notifications';
-import { AccountSection } from './sections/Account';
-import { MembershipSection } from './sections/Membership';
 import { AccessibilitySection } from './sections/Accessibility';
 
 // ============================================
@@ -37,12 +27,7 @@ import { AccessibilitySection } from './sections/Accessibility';
 type SettingsCategory =
   | 'board'
   | 'gameplay'
-  | 'profile'
-  | 'interface'
-  | 'social'
   | 'notifications'
-  | 'account'
-  | 'membership'
   | 'accessibility';
 
 interface CategoryConfig {
@@ -57,12 +42,7 @@ interface CategoryConfig {
 const categories: CategoryConfig[] = [
   { id: 'board', label: 'Board & Pieces' },
   { id: 'gameplay', label: 'Gameplay' },
-  { id: 'profile', label: 'Profile' },
-  { id: 'interface', label: 'Interface' },
-  { id: 'social', label: 'Social' },
   { id: 'notifications', label: 'Notifications' },
-  { id: 'account', label: 'Account' },
-  { id: 'membership', label: 'Membership' },
   { id: 'accessibility', label: 'Accessibility' },
 ];
 
@@ -89,18 +69,8 @@ export function SettingsIndex() {
         return <BoardAndPiecesSection />;
       case 'gameplay':
         return <GameplaySection />;
-      case 'profile':
-        return <ProfileSection />;
-      case 'interface':
-        return <InterfaceSection />;
-      case 'social':
-        return <SocialSection />;
       case 'notifications':
         return <NotificationsSection />;
-      case 'account':
-        return <AccountSection />;
-      case 'membership':
-        return <MembershipSection />;
       case 'accessibility':
         return <AccessibilitySection />;
       default:

@@ -98,6 +98,7 @@ const LAST_ONLINE = [
 export interface User {
   id: number;
   name: string;
+  playerNumber?: number; // Session-based "NEVER DIE GUY #" number
   rating: number;
   rank: number;
   level: number;

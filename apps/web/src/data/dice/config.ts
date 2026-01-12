@@ -1,9 +1,25 @@
 // Dice Configuration - Links dice types to Die-rector alliances
 import type { LuckyDie, LuckyNumber, Element, DieSides } from '../wiki/types';
-import { getLuckyDieColor, luckyDieToNumber } from '../lucky-die';
 
 // Re-export DieSides for convenience
 export type { DieSides } from '../wiki/types';
+
+// Die colors by type
+const DIE_COLORS: Record<LuckyDie, string> = {
+  none: '#666666',
+  d4: '#9c27b0',   // Purple (The One - Void)
+  d6: '#8b7355',   // Brown (John - Earth)
+  d8: '#424242',   // Dark gray (Peter - Death)
+  d10: '#d84315',  // Orange (Robert - Fire)
+  d12: '#81d4fa',  // Ice blue (Alice - Ice)
+  d20: '#26a69a',  // Teal (Jane - Wind)
+  all: '#ffd700',  // Gold (All)
+};
+
+// Get color for a die type
+function getLuckyDieColor(die: LuckyDie): string {
+  return DIE_COLORS[die] || DIE_COLORS.none;
+}
 
 // Dice configuration with Die-rector mappings and roguelike properties
 export interface DiceConfig {
@@ -23,7 +39,7 @@ export interface DiceConfig {
 }
 
 // Core dice types mapped to Die-rectors
-// Element wheel: Void → Earth → Death → Fire → Ice → Wind → Void
+// Element wheel: Void -> Earth -> Death -> Fire -> Ice -> Wind -> Void
 export const DICE_CONFIG: DiceConfig[] = [
   {
     sides: 4, label: 'd4', luckyDie: 'd4', luckyNumber: 1,
