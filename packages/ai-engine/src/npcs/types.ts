@@ -9,7 +9,16 @@ import type { NPCIdentity, NPCCategory, MoodType, TemplatePool, ResponseTemplate
 import type { BehavioralArchetype } from '../personality/behavioral-patterns';
 import type { TopicAffinity } from '../social/conversation-threading';
 import type { Quirk, EmotionalTrigger } from '../personality/personality-dynamics';
-import type { NPCGoal } from '../search/search-types';
+
+// Stub type for removed search modules (MVP cleanup)
+export interface NPCGoal {
+  type: string;
+  priority: number;
+  target?: string;
+  description?: string;
+  targetMood?: string;
+  conditions?: Array<{ type: string; comparison: string; value: number }>;
+}
 
 // ============================================
 // Enhanced NPC Configuration

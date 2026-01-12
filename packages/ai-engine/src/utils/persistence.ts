@@ -11,9 +11,20 @@
  */
 
 import type { PlayerCareerStats, LeaderboardEntry } from '../games/ceelo/types';
-import type { RivalryState } from '../gambling/rivalry-system';
-import type { QuitState } from '../gambling/quit-mechanics';
 import type { ChatLogSession } from './chat-logger';
+
+// Stub types for removed gambling modules (MVP cleanup)
+interface RivalryState {
+  rivalNPC: string;
+  intensity: number;
+  history: unknown[];
+}
+
+interface QuitState {
+  npcSlug: string;
+  cooldownUntil: number;
+  reason: string;
+}
 
 // ============================================
 // Types

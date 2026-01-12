@@ -1,32 +1,12 @@
 /**
  * Client-side Chatbase Lookup Service
  *
- * Bundles NPC dialogue data at build time for instant in-browser lookups.
- * No server required - all lookups happen client-side.
+ * MVP: Returns fallback responses only.
+ * Full chatbase JSON data can be re-added post-MVP.
  */
 
 import type { MoodType, TemplatePool } from '@ndg/shared';
 import type { CombatGameState } from '../data/npc-chat/types';
-
-// Import all NPC chatbase files (bundled at build time)
-import theOne from '@ndg/ai-engine/chatbase/npcs/the-one.json';
-import stitchUpGirl from '@ndg/ai-engine/chatbase/npcs/stitch-up-girl.json';
-import theGeneral from '@ndg/ai-engine/chatbase/npcs/the-general.json';
-import xtreme from '@ndg/ai-engine/chatbase/npcs/xtreme.json';
-import mrKevin from '@ndg/ai-engine/chatbase/npcs/mr-kevin.json';
-import bodyCount from '@ndg/ai-engine/chatbase/npcs/body-count.json';
-import clausen from '@ndg/ai-engine/chatbase/npcs/clausen.json';
-import drVoss from '@ndg/ai-engine/chatbase/npcs/dr-voss.json';
-import drMaxwell from '@ndg/ai-engine/chatbase/npcs/dr-maxwell.json';
-import booG from '@ndg/ai-engine/chatbase/npcs/boo-g.json';
-import kingJames from '@ndg/ai-engine/chatbase/npcs/king-james.json';
-import boots from '@ndg/ai-engine/chatbase/npcs/boots.json';
-import john from '@ndg/ai-engine/chatbase/npcs/john.json';
-import keithMan from '@ndg/ai-engine/chatbase/npcs/keith-man.json';
-import willy from '@ndg/ai-engine/chatbase/npcs/willy.json';
-import peter from '@ndg/ai-engine/chatbase/npcs/peter.json';
-import mrBones from '@ndg/ai-engine/chatbase/npcs/mr-bones.json';
-import willyOneEye from '@ndg/ai-engine/chatbase/npcs/willy-one-eye.json';
 
 // ============================================
 // Types
@@ -50,15 +30,6 @@ export interface ChatbaseEntry {
   };
 }
 
-interface ChatbaseFile {
-  npc: {
-    slug: string;
-    name: string;
-    category: string;
-  };
-  entries: ChatbaseEntry[];
-}
-
 export interface ChatRequest {
   npcSlug: string;
   pool: TemplatePool;
@@ -80,214 +51,9 @@ export interface ChatResponse {
   confidence: number;
 }
 
-type MoodBucket = 'hostile' | 'negative' | 'neutral' | 'positive' | 'generous';
-
 // ============================================
-// Registry
+// Fallback Responses
 // ============================================
-
-const chatbaseRegistry: Map<string, ChatbaseEntry[]> = new Map();
-
-function registerNPC(data: ChatbaseFile) {
-  if (data?.npc?.slug && Array.isArray(data.entries)) {
-    chatbaseRegistry.set(data.npc.slug, data.entries);
-  }
-}
-
-// Register all NPCs at module load
-registerNPC(theOne as ChatbaseFile);
-registerNPC(stitchUpGirl as ChatbaseFile);
-registerNPC(theGeneral as ChatbaseFile);
-registerNPC(xtreme as ChatbaseFile);
-registerNPC(mrKevin as ChatbaseFile);
-registerNPC(bodyCount as ChatbaseFile);
-registerNPC(clausen as ChatbaseFile);
-registerNPC(drVoss as ChatbaseFile);
-registerNPC(drMaxwell as ChatbaseFile);
-registerNPC(booG as ChatbaseFile);
-registerNPC(kingJames as ChatbaseFile);
-registerNPC(boots as ChatbaseFile);
-registerNPC(john as ChatbaseFile);
-registerNPC(keithMan as ChatbaseFile);
-registerNPC(willy as ChatbaseFile);
-registerNPC(peter as ChatbaseFile);
-registerNPC(mrBones as ChatbaseFile);
-registerNPC(willyOneEye as ChatbaseFile);
-
-// ============================================
-// Lookup Logic
-// ============================================
-
-function quantizeMood(mood: MoodType): MoodBucket {
-  switch (mood) {
-    case 'threatening':
-    case 'angry':
-      return 'hostile';
-    case 'annoyed':
-    case 'fearful':
-    case 'scared':
-    case 'sad':
-      return 'negative';
-    case 'neutral':
-    case 'curious':
-    case 'cryptic':
-      return 'neutral';
-    case 'pleased':
-    case 'amused':
-      return 'positive';
-    case 'generous':
-      return 'generous';
-    default:
-      return 'neutral';
-  }
-}
-
-function inferMoodBucket(ctx?: ChatRequest['playerContext']): MoodBucket {
-  if (!ctx) return 'neutral';
-
-  // High death count = more hostile NPCs
-  if (ctx.deaths > 100) return 'hostile';
-  if (ctx.deaths > 50) return 'negative';
-
-  // Win streak = positive
-  if (ctx.streak > 10) return 'generous';
-  if (ctx.streak > 5) return 'positive';
-
-  // Loss streak = hostile
-  if (ctx.streak < -5) return 'hostile';
-  if (ctx.streak < -3) return 'negative';
-
-  return 'neutral';
-}
-
-function isMoodCompatible(entryMood: MoodBucket, targetMood: MoodBucket): boolean {
-  if (entryMood === targetMood) return true;
-  if (entryMood === 'neutral' || targetMood === 'neutral') return true;
-
-  const negativeGroup = ['hostile', 'negative'];
-  const positiveGroup = ['positive', 'generous'];
-
-  if (negativeGroup.includes(entryMood) && negativeGroup.includes(targetMood)) return true;
-  if (positiveGroup.includes(entryMood) && positiveGroup.includes(targetMood)) return true;
-
-  return false;
-}
-
-/**
- * Check if text is a complete sentence (ends with proper punctuation)
- * Filters out truncated entries from extraction
- */
-function isCompleteSentence(text: string): boolean {
-  const trimmed = text.trim();
-  // Valid endings: . ! ? * (for emotes like *rattles bones*)
-  // Also allow quotes at the end: ." !' ?"
-  return /[.!?*]['"]?$/.test(trimmed);
-}
-
-/**
- * Character names that indicate dialogue meant for specific NPCs, not the player.
- * These entries were extracted from narrative content where NPCs talk to each other.
- */
-const NPC_CHARACTER_NAMES = [
-  // Player characters / NPCs
-  'xtreme', 'body count', 'bodycount', 'stitch-up', 'stitchup', 'stitch up',
-  'boo-g', 'boog', 'boo g', 'clausen', 'voss', 'maxwell',
-  'king james', 'kingjames', 'boots', 'keith-man', 'keithman', 'keith man',
-  'willy one-eye', 'willyoneeye', 'the general', 'thegeneral',
-  'mr. kevin', 'mr kevin', 'mrkevin',
-  // Group addresses (suggests talking to multiple NPCs, not player)
-  'gentlemen', 'ladies', 'my friends', 'colleagues', 'comrades',
-  // Die-rector names (shouldn't talk about each other)
-  'the one', 'theone', 'robert', 'alice', 'jane', 'peter',
-];
-
-/**
- * Check if text is directed at the player (not at a specific NPC character)
- * Filters out narrative content meant for NPC-to-NPC conversations
- */
-function isPlayerDirected(text: string): boolean {
-  const lower = text.toLowerCase();
-
-  // Exclude if it mentions a specific character name
-  for (const name of NPC_CHARACTER_NAMES) {
-    if (lower.includes(name)) {
-      return false;
-    }
-  }
-
-  // Exclude if it uses third-person reference patterns suggesting NPC-to-NPC dialogue
-  // e.g., "Your reckless disregard" when talking about a named character
-  const thirdPersonPatterns = [
-    /\b(he|she|they)\s+(is|are|was|were|has|have|had)\b/i,
-    /\bthat one\b/i,
-    /\bthe fool\b/i,
-  ];
-
-  for (const pattern of thirdPersonPatterns) {
-    if (pattern.test(text)) {
-      // Only exclude if it's clearly about someone else, not general statements
-      // Check for pronouns near the start which suggest talking about someone
-      if (/^(he|she|they|that)\b/i.test(text.trim())) {
-        return false;
-      }
-    }
-  }
-
-  return true;
-}
-
-function findRelatedPoolEntries(entries: ChatbaseEntry[], pool: TemplatePool): ChatbaseEntry[] {
-  const relatedPools: Record<string, string[]> = {
-    greeting: ['idle', 'reaction'],
-    farewell: ['idle', 'reaction'],
-    idle: ['greeting', 'reaction'],
-    salesPitch: ['greeting', 'idle'],
-    threat: ['challenge', 'reaction'],
-    challenge: ['threat', 'gamblingTrashTalk'],
-    gamblingTrashTalk: ['challenge', 'threat'],
-    gamblingBrag: ['gamblingTrashTalk', 'reaction'],
-    gamblingFrustration: ['threat', 'reaction'],
-    hint: ['lore', 'reaction'],
-    lore: ['hint', 'reaction'],
-    reaction: ['idle', 'greeting'],
-  };
-
-  const related = relatedPools[pool] || ['reaction', 'idle'];
-
-  for (const relatedPool of related) {
-    const found = entries.filter(e => e.pool === relatedPool);
-    if (found.length > 0) return found;
-  }
-
-  return [];
-}
-
-function selectEntry(entries: ChatbaseEntry[], request: ChatRequest): ChatbaseEntry {
-  let candidates = entries;
-
-  if (request.playerContext) {
-    const moodBucket = inferMoodBucket(request.playerContext);
-    const moodFiltered = entries.filter(e =>
-      isMoodCompatible(quantizeMood(e.mood), moodBucket)
-    );
-    if (moodFiltered.length > 0) {
-      candidates = moodFiltered;
-    }
-  }
-
-  // Weighted random selection by interest score
-  const totalWeight = candidates.reduce((sum, e) => sum + e.metrics.interestScore, 0);
-  let roll = Math.random() * totalWeight;
-
-  for (const entry of candidates) {
-    roll -= entry.metrics.interestScore;
-    if (roll <= 0) {
-      return entry;
-    }
-  }
-
-  return candidates[Math.floor(Math.random() * candidates.length)];
-}
 
 function fallbackResponse(npcSlug: string, pool: TemplatePool): ChatResponse {
   const fallbacks: Record<string, { text: string; mood: MoodType }> = {
@@ -316,108 +82,40 @@ function fallbackResponse(npcSlug: string, pool: TemplatePool): ChatResponse {
 }
 
 // ============================================
-// Template Variable Interpolation
-// ============================================
-
-/**
- * Replace template variables like {score}, {goal}, {dieType} with actual values
- */
-function interpolateTemplate(text: string, gameState?: CombatGameState): string {
-  if (!gameState) return text;
-
-  return text
-    .replace(/\{score\}/gi, gameState.currentScore.toLocaleString())
-    .replace(/\{goal\}/gi, gameState.targetScore.toLocaleString())
-    .replace(/\{progress\}/gi, `${Math.round(gameState.scoreProgress * 100)}%`)
-    .replace(/\{turns\}/gi, String(gameState.turnsRemaining))
-    .replace(/\{turn\}/gi, String(gameState.totalTurns - gameState.turnsRemaining + 1))
-    .replace(/\{multiplier\}/gi, `${gameState.multiplier}x`)
-    .replace(/\{domain\}/gi, gameState.domainName)
-    .replace(/\{lastRoll\}/gi, String(gameState.lastRollTotal))
-    .replace(/\{dice\}/gi, gameState.lastDiceUsed.join(', '));
-}
-
-// ============================================
 // Public API
 // ============================================
 
 /**
- * Look up dialogue for an NPC
+ * Look up dialogue for an NPC (MVP: returns fallbacks only)
  */
 export function lookupDialogue(request: ChatRequest): ChatResponse {
-  const entries = chatbaseRegistry.get(request.npcSlug) || [];
-
-  if (entries.length === 0) {
-    return fallbackResponse(request.npcSlug, request.pool);
-  }
-
-  // Filter by pool, complete sentences, AND player-directed (not NPC-to-NPC dialogue)
-  let poolEntries = entries.filter(e =>
-    e.pool === request.pool && isCompleteSentence(e.text) && isPlayerDirected(e.text)
-  );
-
-  // Try related pools if no exact match
-  if (poolEntries.length === 0) {
-    const relatedEntries = findRelatedPoolEntries(entries, request.pool);
-    poolEntries = relatedEntries.filter(e => isCompleteSentence(e.text) && isPlayerDirected(e.text));
-  }
-
-  // Last resort: any complete sentence from this NPC that's player-directed
-  if (poolEntries.length === 0) {
-    poolEntries = entries.filter(e => isCompleteSentence(e.text) && isPlayerDirected(e.text));
-  }
-
-  if (poolEntries.length === 0) {
-    return fallbackResponse(request.npcSlug, request.pool);
-  }
-
-  const selected = selectEntry(poolEntries, request);
-
-  // Interpolate any template variables with game state
-  const finalText = interpolateTemplate(selected.text, request.gameState);
-
-  return {
-    text: finalText,
-    mood: selected.mood,
-    source: 'chatbase',
-    entryId: selected.id,
-    confidence: selected.metrics.interestScore / 100,
-  };
+  return fallbackResponse(request.npcSlug, request.pool);
 }
 
 /**
- * Get all registered NPC slugs
+ * Get all registered NPC slugs (MVP: empty)
  */
 export function getRegisteredNPCs(): string[] {
-  return Array.from(chatbaseRegistry.keys());
+  return [];
 }
 
 /**
- * Get entry count for an NPC
+ * Get entry count for an NPC (MVP: 0)
  */
-export function getNPCEntryCount(slug: string): number {
-  return chatbaseRegistry.get(slug)?.length || 0;
+export function getNPCEntryCount(_slug: string): number {
+  return 0;
 }
 
 /**
- * Get total entries across all NPCs
+ * Get total entries across all NPCs (MVP: 0)
  */
 export function getTotalEntryCount(): number {
-  let count = 0;
-  for (const entries of chatbaseRegistry.values()) {
-    count += entries.length;
-  }
-  return count;
+  return 0;
 }
 
 /**
- * Get available pools for an NPC
+ * Get available pools for an NPC (MVP: empty)
  */
-export function getNPCPools(slug: string): string[] {
-  const entries = chatbaseRegistry.get(slug) || [];
-  const pools = new Set<string>();
-  for (const entry of entries) {
-    pools.add(entry.pool);
-  }
-  return Array.from(pools);
+export function getNPCPools(_slug: string): string[] {
+  return [];
 }

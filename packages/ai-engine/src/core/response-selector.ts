@@ -24,17 +24,46 @@ import type {
 import { createSeededRng, type SeededRng } from './seeded-rng';
 import { deriveMoodFromRelationship } from './relationship';
 import { getOpinion, hasTraumaBond, hasRecentConflict } from './memory';
-import type {
-  SearchConfig,
-  SimulationSnapshot,
-  SearchResult,
-  NPCObjectives,
-  MemorySnapshot,
-} from '../search/search-types';
 import type { NPCBehaviorState } from '../personality/behavioral-patterns';
 import type { ConversationThread } from '../social/conversation-threading';
-import type { ChatbaseLookupEngine } from '../search/chatbase-lookup';
-import type { ChatbaseLookupResult } from '../search/chatbase-types';
+
+// Stub types for removed search modules (MVP cleanup)
+type SearchConfig = Record<string, unknown>;
+type MemorySnapshot = Record<string, unknown>;
+
+// Minimal stub for chatbase lookup (disabled in MVP)
+interface ChatbaseLookupEngine {
+  isEnabled(): boolean;
+  lookup(snapshot: SimulationSnapshot, npcSlug: string, pool: TemplatePool): ChatbaseLookupResult;
+  recordHit(id: string): void;
+}
+
+interface ChatbaseLookupResult {
+  source: 'chatbase' | 'template';
+  entry?: {
+    id: string;
+    text: string;
+    mood: MoodType;
+    target?: { slug: string } | string;
+  };
+  key?: string;
+  fuzzyMatch?: boolean;
+  alternatives?: unknown[];
+  confidence?: number;
+}
+
+interface SimulationSnapshot {
+  relationships: Map<string, Map<string, RelationshipStats>>;
+  memories: Map<string, MemorySnapshot>;
+  behaviorStates: Map<string, NPCBehaviorState>;
+  thread: ConversationThread;
+  context: SimulationContext;
+  activeNPCs: string[];
+  moods: Map<string, { current: MoodType; intensity: number }>;
+  usedTemplates: Map<string, Set<string>>;
+  seed: string;
+  turnOffset: number;
+}
 
 // ============================================
 // Condition Evaluation
@@ -460,7 +489,7 @@ export function selectStrategicResponse(
         id: `msg_chatbase_${Date.now()}`,
         sender: { type: 'npc', slug: npcSlug },
         targetAudience: entry.target
-          ? ('slug' in entry.target ? entry.target.slug : 'player')
+          ? (typeof entry.target === 'object' && 'slug' in entry.target ? entry.target.slug : 'player')
           : (context.playerPresent ? 'player' : 'all'),
         content: entry.text,
         timestamp: Date.now(),

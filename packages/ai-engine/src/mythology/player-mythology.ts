@@ -7,13 +7,30 @@
 
 import type { MoodType, RelationshipStats } from '../core/types';
 import type { BehavioralArchetype } from '../personality/behavioral-patterns';
-import type {
-  PlayerMyth,
-  PlayerTheory,
-  MythStatus,
-  SimulationSnapshot,
-} from '../search/search-types';
 import { createSeededRng } from '../core/seeded-rng';
+
+// Stub types for removed search modules (MVP cleanup)
+export type MythStatus = 'unknown' | 'rumored' | 'legend' | 'prophecy';
+
+export interface PlayerTheory {
+  originNPC: string;
+  content: string;
+  shortForm: string;
+  sentiment: 'positive' | 'negative' | 'neutral';
+  confidence: number;
+  believers: string[];
+  doubters: string[];
+  spreadTurn: number;
+}
+
+interface PlayerMyth {
+  status: MythStatus;
+  theories: PlayerTheory[];
+  expectations: Map<string, number>;
+  rumorSources: Map<string, string[]>;
+  knownFacts: string[];
+  suspectedTraits: string[];
+}
 
 // ============================================
 // Player Mythology Manager
