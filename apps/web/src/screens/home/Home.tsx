@@ -8,7 +8,7 @@
 
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { SportsEsportsSharp, AutoStoriesSharp } from '@mui/icons-material';
+import { SportsEsportsSharp, AutoStoriesSharp, BoltSharp } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import { MarketingLP } from './MarketingLP';
 import { useAuth } from '../../contexts/AuthContext';
@@ -55,23 +55,23 @@ export function Home() {
         </Typography>
       </Box>
 
-      {/* Two Big Buttons */}
+      {/* Main Buttons */}
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          gap: 3,
+          flexDirection: 'column',
+          gap: 2,
           width: '100%',
-          maxWidth: 500,
+          maxWidth: 400,
         }}
       >
+        {/* Primary: Battle Now - jump straight into combat */}
         <Button
           variant="contained"
           size="large"
-          startIcon={<SportsEsportsSharp />}
-          onClick={() => navigate('/play')}
+          startIcon={<BoltSharp />}
+          onClick={() => navigate('/play', { state: { practiceMode: true } })}
           sx={{
-            flex: 1,
             py: 3,
             fontSize: '1.25rem',
             fontWeight: 700,
@@ -79,31 +79,57 @@ export function Home() {
             textTransform: 'none',
           }}
         >
-          Play Game
+          Battle Now
         </Button>
 
-        <Button
-          variant="outlined"
-          size="large"
-          startIcon={<AutoStoriesSharp />}
-          onClick={() => navigate('/wiki')}
-          sx={{
-            flex: 1,
-            py: 3,
-            fontSize: '1.25rem',
-            fontWeight: 700,
-            borderRadius: '16px',
-            textTransform: 'none',
-            borderColor: tokens.colors.border,
-            color: tokens.colors.text.primary,
-            '&:hover': {
-              borderColor: tokens.colors.primary,
-              bgcolor: `${tokens.colors.primary}10`,
-            },
-          }}
-        >
-          Explore Wiki
-        </Button>
+        {/* Secondary row */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            variant="outlined"
+            size="large"
+            startIcon={<SportsEsportsSharp />}
+            onClick={() => navigate('/play')}
+            sx={{
+              flex: 1,
+              py: 2,
+              fontSize: '1rem',
+              fontWeight: 600,
+              borderRadius: '12px',
+              textTransform: 'none',
+              borderColor: tokens.colors.border,
+              color: tokens.colors.text.primary,
+              '&:hover': {
+                borderColor: tokens.colors.primary,
+                bgcolor: `${tokens.colors.primary}10`,
+              },
+            }}
+          >
+            Full Run
+          </Button>
+
+          <Button
+            variant="outlined"
+            size="large"
+            startIcon={<AutoStoriesSharp />}
+            onClick={() => navigate('/wiki')}
+            sx={{
+              flex: 1,
+              py: 2,
+              fontSize: '1rem',
+              fontWeight: 600,
+              borderRadius: '12px',
+              textTransform: 'none',
+              borderColor: tokens.colors.border,
+              color: tokens.colors.text.primary,
+              '&:hover': {
+                borderColor: tokens.colors.primary,
+                bgcolor: `${tokens.colors.primary}10`,
+              },
+            }}
+          >
+            Wiki
+          </Button>
+        </Box>
       </Box>
 
       {/* Quick Links */}

@@ -9,7 +9,7 @@
  */
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 import { PlaySidebar } from './components';
@@ -56,6 +56,8 @@ export function PlayHub() {
     selectZone,
     resetRun,
     startRun,
+    startPractice,
+    endRun,
     setPanel,
     transitionToPanel,
     setTransitionPhase,
@@ -71,11 +73,22 @@ export function PlayHub() {
 
   const { markGameStarted } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const navState = location.state as { practiceMode?: boolean } | null;
 
   // Mark that user has started a game (transforms home page from marketing LP)
   useEffect(() => {
     markGameStarted();
   }, [markGameStarted]);
+
+  // Auto-start practice mode if navigated with practiceMode flag
+  useEffect(() => {
+    if (navState?.practiceMode && state.phase === 'event_select') {
+      startPractice();
+      // Clear the navigation state so refresh doesn't restart
+      navigate('/play', { replace: true, state: null });
+    }
+  }, [navState?.practiceMode, state.phase, startPractice, navigate]);
 
   // Handle Main Menu - navigate to app home
   const handleMainMenu = useCallback(() => {
@@ -94,8 +107,28 @@ export function PlayHub() {
     }
   }, [state.transitionPhase, setTransitionPhase]);
 
-  // After new run starts, show zone selection (user picks zone before combat)
-  // No auto-launch - let user choose their starting zone
+  // MVP: Auto-select random zone and launch immediately when new run starts
+  // Skip zone selection step for faster gameplay
+  useEffect(() => {
+    if (
+      state.phase === 'playing' &&
+      state.domainState?.zones &&
+      state.domainState.zones.length > 0 &&
+      !state.selectedZone &&
+      state.centerPanel === 'globe' &&
+      state.transitionPhase === 'idle'
+    ) {
+      // Pick random uncleared zone
+      const unclearedZones = state.domainState.zones.filter(z => !z.cleared);
+      const zones = unclearedZones.length > 0 ? unclearedZones : state.domainState.zones;
+      const randomZone = zones[Math.floor(Math.random() * zones.length)];
+      selectZone(randomZone);
+      // Launch into combat after zone selection
+      setTimeout(() => {
+        transitionToPanel('combat');
+      }, 50);
+    }
+  }, [state.phase, state.domainState?.zones, state.selectedZone, state.centerPanel, state.transitionPhase, selectZone, transitionToPanel]);
 
   // Determine game phase for sidebar based on state.phase
   // Initial state has phase='event_select', after startRun it's 'playing'
@@ -234,12 +267,17 @@ export function PlayHub() {
 
   // Handle combat win - trigger skull wipe then complete room
   const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }) => {
-    // Calculate gold reward based on score and zone tier
+    // Practice mode: end immediately with win (no summary/shop)
+    if (state.practiceMode) {
+      endRun(true);
+      return;
+    }
+    // Full run: calculate gold and go to summary
     const goldEarned = Math.floor(score / 10) + (state.selectedZone?.tier || 1) * 10;
     // Store pending victory data and trigger transition wipe
     setPendingVictory({ score, gold: goldEarned, stats });
     transitionToPanel('summary');
-  }, [transitionToPanel, state.selectedZone?.tier]);
+  }, [transitionToPanel, state.selectedZone?.tier, state.practiceMode, endRun]);
 
   // Render RunSummary after combat completes
   if (state.centerPanel === 'summary') {

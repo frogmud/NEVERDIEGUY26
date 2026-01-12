@@ -85,6 +85,8 @@ export interface RunState extends GameState {
   runEnded: boolean;
   // Combat integration
   combatState: RunCombatState | null;
+  // Practice mode (Battle Now) - single combat, no progression
+  practiceMode: boolean;
 }
 
 // Run context value
@@ -104,6 +106,7 @@ interface RunContextValue {
 
   // Run lifecycle
   startRun: (threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[]) => void;
+  startPractice: () => void;
   endRun: (won: boolean) => void;
   resetRun: () => void;
 
@@ -142,6 +145,7 @@ type RunAction =
   | { type: 'TRANSITION_TO_PANEL'; panel: CenterPanel }
   | { type: 'COMPLETE_TRANSITION' }
   | { type: 'START_RUN'; threadId: string; protocolRoll?: ProtocolRoll; selectedTraveler?: string; selectedLoadout?: string; startingItems?: string[] }
+  | { type: 'START_PRACTICE' }
   | { type: 'END_RUN'; won: boolean }
   | { type: 'RESET_RUN' }
   | { type: 'SELECT_ZONE'; zone: ZoneMarker }
@@ -172,6 +176,7 @@ function createInitialRunState(): RunState {
     lastRoomGold: 0,
     runEnded: false,
     combatState: null,
+    practiceMode: false,
   };
 }
 
@@ -223,9 +228,25 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
+    case 'START_PRACTICE': {
+      // Practice mode: random domain, single combat, no progression
+      const randomDomainId = Math.floor(Math.random() * 6) + 1;
+      const initialState = createInitialRunState();
+      const threadId = `PRACTICE-${Math.random().toString(16).slice(2, 8).toUpperCase()}`;
+      return {
+        ...initialState,
+        centerPanel: 'globe',
+        threadId,
+        phase: 'playing',
+        practiceMode: true,
+        currentDomain: randomDomainId,
+        domainState: generateDomain(randomDomainId),
+      };
+    }
+
     case 'END_RUN': {
-      // Save run to history
-      if (state.threadId) {
+      // Save run to history (skip for practice mode)
+      if (state.threadId && !state.practiceMode) {
         addRunToHistory({
           threadId: state.threadId,
           won: action.won,
@@ -606,6 +627,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'START_RUN', threadId, protocolRoll, selectedTraveler, selectedLoadout, startingItems });
   }, []);
 
+  const startPractice = useCallback(() => {
+    dispatch({ type: 'START_PRACTICE' });
+  }, []);
+
   const endRun = useCallback((won: boolean) => {
     dispatch({ type: 'END_RUN', won });
   }, []);
@@ -733,6 +758,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     setTransitionPhase,
     completeTransition,
     startRun,
+    startPractice,
     endRun,
     resetRun,
     selectZone,
@@ -757,6 +783,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     setTransitionPhase,
     completeTransition,
     startRun,
+    startPractice,
     endRun,
     resetRun,
     selectZone,
