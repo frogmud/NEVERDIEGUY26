@@ -78,6 +78,8 @@ interface CombatHUDProps {
   isDisabled?: boolean;
   /** Die types of active guardians (for showing "Hits Guardian" feedback) */
   guardianDieTypes?: number[];
+  /** True if this is the last zone in the domain */
+  isDomainClear?: boolean;
 }
 
 /**
@@ -388,18 +390,15 @@ export function CombatHUD({
   isSmall = false,
   isDisabled: isDisabledProp = false,
   guardianDieTypes = [],
+  isDomainClear = false,
 }: CombatHUDProps) {
   const {
     phase,
     hand,
-    holdsRemaining,
     throwsRemaining,
-    turnsRemaining,
     turnNumber,
     targetScore,
     currentScore,
-    enemiesSquished,
-    friendlyHits,
   } = combatState;
 
   // Count held/unheld dice
@@ -428,6 +427,7 @@ export function CombatHUD({
 
   // Victory/Defeat overlay
   if (phase === 'victory' || phase === 'defeat') {
+    const victoryText = isDomainClear ? 'DOMAIN CLEAR' : 'VICTORY';
     return (
       <Paper
         sx={{
@@ -451,13 +451,10 @@ export function CombatHUD({
             mb: 1,
           }}
         >
-          {phase === 'victory' ? 'VICTORY' : 'DEFEAT'}
+          {phase === 'victory' ? victoryText : 'DEFEAT'}
         </Typography>
-        <Typography sx={{ ...gamingFont, mb: 2 }}>
+        <Typography sx={{ ...gamingFont }}>
           Score: {currentScore.toLocaleString()} / {targetScore.toLocaleString()}
-        </Typography>
-        <Typography sx={{ fontSize: '0.85rem', color: tokens.colors.text.secondary }}>
-          Enemies squished: {enemiesSquished} | Friendly hits: {friendlyHits}
         </Typography>
       </Paper>
     );

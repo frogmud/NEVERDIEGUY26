@@ -8,19 +8,10 @@
 
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { SportsEsportsSharp, AutoStoriesSharp, BoltSharp } from '@mui/icons-material';
 import { tokens } from '../../theme';
-import { MarketingLP } from './MarketingLP';
-import { useAuth } from '../../contexts/AuthContext';
 
 export function Home() {
-  const { hasStartedGame } = useAuth();
   const navigate = useNavigate();
-
-  // Show marketing landing page until user starts their first game
-  if (!hasStartedGame) {
-    return <MarketingLP />;
-  }
 
   return (
     <Box
@@ -29,9 +20,10 @@ export function Home() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: 6,
-        p: 4,
+        justifyContent: 'flex-start',
+        gap: 4,
+        pt: { xs: 12, sm: 16 },
+        px: 4,
         bgcolor: tokens.colors.background.default,
       }}
     >
@@ -55,113 +47,48 @@ export function Home() {
         </Typography>
       </Box>
 
-      {/* Main Buttons */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          width: '100%',
-          maxWidth: 400,
-        }}
-      >
-        {/* Primary: Battle Now - jump straight into combat */}
+      {/* Two Buttons */}
+      <Box sx={{ display: 'flex', gap: 2, width: '100%', maxWidth: 360 }}>
         <Button
           variant="contained"
           size="large"
-          startIcon={<BoltSharp />}
           onClick={() => navigate('/play', { state: { practiceMode: true } })}
           sx={{
-            py: 3,
-            fontSize: '1.25rem',
+            flex: 1,
+            py: 2.5,
+            fontSize: '1.1rem',
             fontWeight: 700,
-            borderRadius: '16px',
+            borderRadius: '12px',
             textTransform: 'none',
+            gap: 1.5,
           }}
         >
-          Battle Now
+          <Box component="img" src="/assets/nav/nav1-play.svg" sx={{ width: 24, height: 24 }} />
+          Play
         </Button>
-
-        {/* Secondary row */}
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button
-            variant="outlined"
-            size="large"
-            startIcon={<SportsEsportsSharp />}
-            onClick={() => navigate('/play')}
-            sx={{
-              flex: 1,
-              py: 2,
-              fontSize: '1rem',
-              fontWeight: 600,
-              borderRadius: '12px',
-              textTransform: 'none',
-              borderColor: tokens.colors.border,
-              color: tokens.colors.text.primary,
-              '&:hover': {
-                borderColor: tokens.colors.primary,
-                bgcolor: `${tokens.colors.primary}10`,
-              },
-            }}
-          >
-            Full Run
-          </Button>
-
-          <Button
-            variant="outlined"
-            size="large"
-            startIcon={<AutoStoriesSharp />}
-            onClick={() => navigate('/wiki')}
-            sx={{
-              flex: 1,
-              py: 2,
-              fontSize: '1rem',
-              fontWeight: 600,
-              borderRadius: '12px',
-              textTransform: 'none',
-              borderColor: tokens.colors.border,
-              color: tokens.colors.text.primary,
-              '&:hover': {
-                borderColor: tokens.colors.primary,
-                bgcolor: `${tokens.colors.primary}10`,
-              },
-            }}
-          >
-            Wiki
-          </Button>
-        </Box>
-      </Box>
-
-      {/* Quick Links */}
-      <Box sx={{ display: 'flex', gap: 3, mt: 2 }}>
-        <Typography
-          component="button"
-          onClick={() => navigate('/settings')}
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={() => navigate('/wiki')}
           sx={{
-            background: 'none',
-            border: 'none',
-            color: tokens.colors.text.secondary,
-            fontSize: '0.875rem',
-            cursor: 'pointer',
-            '&:hover': { color: tokens.colors.text.primary },
+            flex: 1,
+            py: 2.5,
+            fontSize: '1.1rem',
+            fontWeight: 700,
+            borderRadius: '12px',
+            textTransform: 'none',
+            gap: 1.5,
+            borderColor: tokens.colors.border,
+            color: tokens.colors.text.primary,
+            '&:hover': {
+              borderColor: tokens.colors.primary,
+              bgcolor: `${tokens.colors.primary}10`,
+            },
           }}
         >
-          Settings
-        </Typography>
-        <Typography
-          component="button"
-          onClick={() => navigate('/help')}
-          sx={{
-            background: 'none',
-            border: 'none',
-            color: tokens.colors.text.secondary,
-            fontSize: '0.875rem',
-            cursor: 'pointer',
-            '&:hover': { color: tokens.colors.text.primary },
-          }}
-        >
-          Help
-        </Typography>
+          <Box component="img" src="/assets/nav/nav2-wiki.svg" sx={{ width: 24, height: 24 }} />
+          Wiki
+        </Button>
       </Box>
     </Box>
   );

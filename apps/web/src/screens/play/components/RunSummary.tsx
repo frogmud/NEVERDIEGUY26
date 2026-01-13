@@ -6,12 +6,7 @@
  */
 
 import { Box, Typography, Button, Fade } from '@mui/material';
-import {
-  CheckCircleSharp as CheckIcon,
-  AttachMoneySharp as GoldIcon,
-  StarSharp as ScoreIcon,
-  TrendingUpSharp as ProgressIcon,
-} from '@mui/icons-material';
+import { CheckCircleSharp as CheckIcon } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 
 interface RunSummaryProps {
@@ -86,7 +81,7 @@ export function RunSummary({
         <Box
           sx={{
             display: 'flex',
-            gap: 4,
+            gap: 6,
             p: 3,
             bgcolor: tokens.colors.background.paper,
             borderRadius: 3,
@@ -94,42 +89,33 @@ export function RunSummary({
           }}
         >
           {/* Score gained */}
-          <Box sx={{ textAlign: 'center', minWidth: 120 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-              <ScoreIcon sx={{ color: tokens.colors.primary, fontSize: 28 }} />
-              <Typography
-                sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '2rem',
-                  color: tokens.colors.primary,
-                }}
-              >
-                +{score.toLocaleString()}
-              </Typography>
-            </Box>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase' }}>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '2.5rem',
+                color: tokens.colors.primary,
+              }}
+            >
+              +{score.toLocaleString()}
+            </Typography>
+            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase', letterSpacing: 2 }}>
               Score
             </Typography>
           </Box>
 
-          {/* Divider */}
-          <Box sx={{ width: 1, bgcolor: tokens.colors.border }} />
-
           {/* Gold earned */}
-          <Box sx={{ textAlign: 'center', minWidth: 120 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-              <GoldIcon sx={{ color: '#ffd700', fontSize: 28 }} />
-              <Typography
-                sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '2rem',
-                  color: '#ffd700',
-                }}
-              >
-                +{gold}
-              </Typography>
-            </Box>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase' }}>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '2.5rem',
+                color: '#ffd700',
+              }}
+            >
+              +{gold}
+            </Typography>
+            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase', letterSpacing: 2 }}>
               Gold
             </Typography>
           </Box>
@@ -137,12 +123,9 @@ export function RunSummary({
 
         {/* Domain progress */}
         {domainName && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <ProgressIcon sx={{ color: tokens.colors.text.secondary }} />
-            <Typography sx={{ color: tokens.colors.text.secondary }}>
-              {domainName}: {domainProgress.cleared}/{domainProgress.total} zones cleared
-            </Typography>
-          </Box>
+          <Typography sx={{ color: tokens.colors.text.secondary }}>
+            {domainName}: {domainProgress.cleared}/{domainProgress.total} zones cleared
+          </Typography>
         )}
 
         {/* Totals */}

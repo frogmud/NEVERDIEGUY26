@@ -517,6 +517,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           startIcon={isTraveler ? <PlayIcon /> : <BattleIcon />}
           onClick={() => navigate('/play', {
             state: {
+              practiceMode: true,
               selectedEntity: {
                 slug: entity.slug,
                 name: entity.name,

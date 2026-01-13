@@ -8,7 +8,7 @@
  * The globe IS the game board - dice are thrown at it via reticle
  */
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { tokens } from '../../theme';
@@ -110,6 +110,8 @@ export function PlayHub() {
   // MVP: Auto-select random zone and launch immediately when new run starts
   // Skip zone selection step for faster gameplay
   useEffect(() => {
+    let transitionTimeout: ReturnType<typeof setTimeout> | null = null;
+
     if (
       state.phase === 'playing' &&
       state.domainState?.zones &&
@@ -124,10 +126,16 @@ export function PlayHub() {
       const randomZone = zones[Math.floor(Math.random() * zones.length)];
       selectZone(randomZone);
       // Launch into combat after zone selection
-      setTimeout(() => {
+      transitionTimeout = setTimeout(() => {
         transitionToPanel('combat');
       }, 50);
     }
+
+    return () => {
+      if (transitionTimeout) {
+        clearTimeout(transitionTimeout);
+      }
+    };
   }, [state.phase, state.domainState?.zones, state.selectedZone, state.centerPanel, state.transitionPhase, selectZone, transitionToPanel]);
 
   // Determine game phase for sidebar based on state.phase
@@ -265,19 +273,33 @@ export function PlayHub() {
     }
   }, [state.domainState?.zones, selectZone]);
 
+  // Track selected zone tier in a ref to avoid callback reference changes
+  // This prevents the combat engine from reinitializing when zones change
+  const selectedZoneTierRef = useRef<number>(1);
+  useEffect(() => {
+    selectedZoneTierRef.current = state.selectedZone?.tier || 1;
+  }, [state.selectedZone?.tier]);
+
+  // Track practice mode in a ref for stable callback
+  const practiceModeRef = useRef(false);
+  useEffect(() => {
+    practiceModeRef.current = state.practiceMode;
+  }, [state.practiceMode]);
+
   // Handle combat win - trigger skull wipe then complete room
+  // Uses refs instead of state to keep callback reference stable
   const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }) => {
     // Practice mode: end immediately with win (no summary/shop)
-    if (state.practiceMode) {
+    if (practiceModeRef.current) {
       endRun(true);
       return;
     }
     // Full run: calculate gold and go to summary
-    const goldEarned = Math.floor(score / 10) + (state.selectedZone?.tier || 1) * 10;
+    const goldEarned = Math.floor(score / 10) + selectedZoneTierRef.current * 10;
     // Store pending victory data and trigger transition wipe
     setPendingVictory({ score, gold: goldEarned, stats });
     transitionToPanel('summary');
-  }, [transitionToPanel, state.selectedZone?.tier, state.practiceMode, endRun]);
+  }, [transitionToPanel, endRun]);
 
   // Render RunSummary after combat completes
   if (state.centerPanel === 'summary') {
@@ -427,8 +449,10 @@ export function PlayHub() {
           totalRooms={3}
           totalScore={state.totalScore || 0}
           gold={state.gold || 0}
+          inventoryItems={state.inventory?.powerups || []}
           onFeedUpdate={setCombatFeed}
           onGameStateChange={setCombatGameState}
+          isDomainClear={state.domainState ? state.domainState.clearedCount + 1 >= state.domainState.totalZones : false}
         />
 
         {/* Game Over Modal - contained within center area so sidebar stays visible */}
