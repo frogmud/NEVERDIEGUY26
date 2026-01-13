@@ -111,10 +111,10 @@ export function DomainInfoModal({
             </Box>
           </Box>
 
-          {/* Room Progress */}
+          {/* Event Progress */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
-              Room Progress:
+              Event Progress:
             </Typography>
             <Box sx={{ display: 'flex', gap: 0.5 }}>
               {[1, 2, 3].map((room) => (

@@ -244,7 +244,7 @@ export function SpectateMode() {
               <Box sx={{ textAlign: 'center' }}>
                 <Typography sx={{ fontSize: '1rem' }}>{stats.domain}</Typography>
                 <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
-                  Room {stats.room}/3
+                  Event {stats.room}/3
                 </Typography>
               </Box>
               <Divider orientation="vertical" flexItem />

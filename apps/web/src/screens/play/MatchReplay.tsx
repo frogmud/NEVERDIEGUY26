@@ -55,7 +55,7 @@ const EVENT_ICONS: Record<string, React.ReactElement> = {
 
 const EVENT_LABELS: Record<string, string> = {
   THREAD_START: 'Thread Start',
-  ROOM_CLEAR: 'Room Clear',
+  ROOM_CLEAR: 'Event Clear',
   SHOP_BUY: 'Shop Purchase',
   DOOR_PICK: 'Door Pick',
   WANDERER_CHOICE: 'Wanderer',

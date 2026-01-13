@@ -18,8 +18,11 @@ export interface HomeGreeter {
   id: string;
   name: string;
   portrait: string;
+  sprite?: string; // Full-body sprite frame 1
+  sprite2?: string; // Full-body sprite frame 2 (for animation)
   wikiSlug: string; // Link to character's wiki page
   greetings: string[];
+  ambient: string[]; // Character-specific idle chatter
   farewells: {
     play: string[];  // Shepherding to game
     wiki: string[];  // Shepherding to wiki
@@ -38,7 +41,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'stitch-up-girl',
     name: 'Stitch Up Girl',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-stitchupgirl-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-stitchupgirl-idle-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-stitchupgirl-idle-02.svg',
     wikiSlug: 'characters/stitch-up-girl',
+    ambient: [
+      'Shadow Keep taught me that healing is just damage in reverse.',
+      'Being related to someone who cannot die gives you perspective.',
+      'My scissors can cut more than flesh. They can sever curses.',
+      'Medical advice: survive the first wave, then strike.',
+      'I patched up the last Guy. He did okay.',
+    ],
     greetings: [
       'There you are! Let me take a look at you. Any new holes I should know about?',
       'Back in one piece! Well, mostly one piece. I can fix the rest.',
@@ -76,7 +88,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'keith-man',
     name: 'Keith Man',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-keithman-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-keithman-idle-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-keithman-idle-02.svg',
     wikiSlug: 'characters/keith-man',
+    ambient: [
+      'Time is just... suggestion? Frost Reach taught me that!',
+      'I already scouted ahead! And behind! And sideways!',
+      'Do not think about paradoxes! Just RUN!',
+      'The universe respawned you! How exciting!',
+      'Second chances at SPEED!',
+    ],
     greetings: [
       'Hey-hi-hello! Good-to-see-you! Been-waiting! Well-not-waiting-exactly-time-is-relative!',
       '*appears in blur* Oh! There you are! I checked six rooms while waiting for you to blink!',
@@ -111,7 +132,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'mr-kevin',
     name: 'Mr. Kevin',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-mrkevin-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-mrkevin-idle-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-mrkevin-idle-02.svg',
     wikiSlug: 'characters/mr-kevin',
+    ambient: [
+      'The code is very readable today.',
+      'Your save state loaded correctly. No corruption.',
+      'The void whispered your arrival. Very chatty today.',
+      'Reality renders you correctly. More than most.',
+      'All bugs inherited from previous Guys.',
+    ],
     greetings: [
       'Ah. You are here. The probability matrix suggested you would be. It was correct. As usual.',
       '*adjusts transparent glasses* I see you. I see everything. The code is very readable today.',
@@ -147,7 +177,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'clausen',
     name: 'Clausen',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-clausen-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-clausen-idle-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-clausen-walk-01.svg',
     wikiSlug: 'characters/clausen',
+    ambient: [
+      '*takes long drag* Story writes itself.',
+      'Everyone is new in town. Town keeps resetting.',
+      'Seen your type before. Determined. Doomed.',
+      'I solve problems. You look like a problem.',
+      'You still have hope in your eyes.',
+    ],
     greetings: [
       '*lights cigarette* Another case. Another Guy. Same old chaos.',
       'You look like trouble. Good. I specialize in trouble.',
@@ -183,7 +222,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'body-count',
     name: 'Body Count',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-bodycount-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-bodycount-idle-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-bodycount-idle-02.svg',
     wikiSlug: 'characters/body-count',
+    ambient: [
+      '*tallies something* The count is... high.',
+      'I remember every Guy. You remember nothing.',
+      'Each Guy is unique. Each Guy is replaceable.',
+      'The body count never stops.',
+      '*looks up from notes* Statistics.',
+    ],
     greetings: [
       'New Guy? I keep track of the old ones. The count is... high.',
       '*tallies something* You are number... does not matter. Welcome.',
@@ -218,7 +266,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'boots',
     name: 'Boots',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-boots-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-boots-idle-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-boots-idle-02.svg',
     wikiSlug: 'characters/boots',
+    ambient: [
+      '*bounces* Waiting is like... standing! But with MORE energy!',
+      'I once kicked a meteor back into space. True story. Mostly.',
+      'Your footwear matters. Trust me. I AM footwear.',
+      'The void? Kicked my way out. TWICE.',
+      '*excited stomping* Take your time! I can stomp in place!',
+    ],
     greetings: [
       '*stomps excitedly* NEW GUY! I like your energy! Very... vertical!',
       'Welcome welcome! I am Boots! I kick things! You will see!',
@@ -257,7 +314,16 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'willy',
     name: 'Willy',
     portrait: '/assets/characters/portraits/240px/shop-portrait-willy-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-willy-01.svg',
+    sprite2: '/assets/characters/sprites/frame-1/shop-sprite-willy-02.svg',
     wikiSlug: 'characters/willy',
+    ambient: [
+      '*rattles happily* The bones are good today. Very good.',
+      'I was alive once. Then I was dead. Now I am retail.',
+      'Everything has a price! Even friendship! Just kidding! ...mostly!',
+      'The void took my flesh but not my customer service skills!',
+      '*adjusts merchandise* Best deals this side of existence!',
+    ],
     greetings: [
       'Oh! A customer! I mean, a friend! I mean, a customer-friend! Welcome, welcome!',
       'Hello there, traveler! Do not mind the bones, they are all mine. Friendly merchant, at your service!',
@@ -294,7 +360,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'boo-g',
     name: 'Boo G',
     portrait: '/assets/characters/portraits/240px/shop-portrait-boog-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-boo-01.svg',
     wikiSlug: 'characters/boo-g',
+    ambient: [
+      '*spectral beatboxing* The beat never dies. Like me.',
+      'Death gave me REVERB. Best thing that ever happened.',
+      'The afterlife has GREAT acoustics. Trust me.',
+      '*ghost DJ scratching* Just warming up. Always warming up.',
+      'My flow is eternal. Literally. Ghost perks.',
+    ],
     greetings: [
       'Yo yo YO! Welcome to existence! Where the beats are spectral and the bass drops through dimensions!',
       'BOO! *laughs* Gets em every time! That is my name AND what I do! Double meaning, baby!',
@@ -330,7 +404,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'the-general',
     name: 'The General',
     portrait: '/assets/characters/portraits/240px/shop-portrait-general-02.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-general-01.svg',
     wikiSlug: 'characters/the-general',
+    ambient: [
+      '*checks clipboard* The roster is... acceptable.',
+      'Victory requires preparation. And ammunition.',
+      'Every Guy I trained is either a hero or a statistic.',
+      'The enemy does not rest. Neither should you.',
+      '*nods curtly* Discipline wins wars.',
+    ],
     greetings: [
       '*evaluates you* Hmm. Potential. Raw, but potential. State your business.',
       'Another recruit. The void keeps sending them. Some survive.',
@@ -366,7 +448,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'dr-maxwell',
     name: 'Dr. Maxwell',
     portrait: '/assets/characters/portraits/240px/shop-portrait-maxwell-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-maxwell-01.svg',
     wikiSlug: 'characters/dr-maxwell',
+    ambient: [
+      '*adjusts flaming spectacles* Knowledge is combustible.',
+      'The Burning Pages contain everything. Briefly.',
+      'Read faster. The books are catching fire.',
+      'Enlightenment. Literally. Always literally.',
+      '*pages smolder* The curriculum adapts. Or burns.',
+    ],
     greetings: [
       'Welcome to The Burning Pages. Read fast or wear fireproof gloves.',
       'Another seeker of knowledge. How refreshing. Most just want the weapons.',
@@ -403,7 +493,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'xtreme',
     name: 'X-treme',
     portrait: '/assets/characters/portraits/240px/shop-portrait-xtreme-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-xtreme-01.svg',
     wikiSlug: 'characters/xtreme',
+    ambient: [
+      '*shakes dice* The odds are CALCULATING!',
+      'CHAOS is just MATH with ATTITUDE!',
+      'Every moment is a GAMBLE! Even THIS one!',
+      '*rattles excitedly* The RNG favors the BOLD!',
+      'Life is RANDOM! That is the BEST part!',
+    ],
     greetings: [
       'WELCOME TO X-TREME EXISTENCE! Where EVERYTHING is a gamble! Including being ALIVE!',
       'HEY HEY HEY! A new Guy! Fresh odds! UNROLLED DICE! Let us FIX that!',
@@ -440,7 +538,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'mr-bones',
     name: 'Mr. Bones',
     portrait: '/assets/characters/portraits/240px/shop-portrait-mrbones-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-mrbones-01.svg',
     wikiSlug: 'characters/mr-bones',
+    ambient: [
+      '*rattles thoughtfully* The bones remember.',
+      'Time passes. The bones remain. Perspective.',
+      'I was something else once. Now I am this. Progress.',
+      '*bone sounds* The universe is patient. So am I.',
+      'Existence is temporary. Bones are longer.',
+    ],
     greetings: [
       '*rattles thoughtfully* Ah. Another one. Welcome to the ossuary.',
       'New Guy. Old bones. We all end up the same. Eventually.',
@@ -477,7 +583,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'dr-voss',
     name: 'Dr. Voss',
     portrait: '/assets/characters/portraits/240px/shop-portrait-voss-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-voss-02.svg',
     wikiSlug: 'characters/dr-voss',
+    ambient: [
+      '*takes notes* Fascinating baseline readings.',
+      'The experiments are proceeding. Always proceeding.',
+      'Enhancement is not optional. It is inevitable.',
+      '*adjusts goggles* Your potential is... measurable.',
+      'Science waits for no one. Neither do I.',
+    ],
     greetings: [
       'Fascinating. Another specimen walks in. I mean, customer. Welcome.',
       'New incarnation? Your biological data is... refreshingly uncorrupted.',
@@ -514,7 +628,15 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'king-james',
     name: 'King James',
     portrait: '/assets/characters/portraits/240px/shop-portrait-kingjames-01.svg',
+    sprite: '/assets/characters/sprites/frame-1/shop-sprite-kingjames-01.svg',
     wikiSlug: 'characters/king-james',
+    ambient: [
+      '*adjusts crown* The realm persists. As do I.',
+      'Royalty is patient. Also immortal. Convenient.',
+      'Every Guy serves the crown. Eventually.',
+      '*royal gesture* The kingdom remembers all.',
+      'Taxes are eternal. So is the throne.',
+    ],
     greetings: [
       'A subject approaches. Kneel. Or do not. I am feeling generous.',
       'New Guy. The crown has seen many. The crown remembers few.',

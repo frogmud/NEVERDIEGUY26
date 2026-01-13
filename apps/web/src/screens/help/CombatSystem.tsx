@@ -1,12 +1,11 @@
 /**
- * CombatSystem - Guide to combat mechanics
+ * CombatSystem - Guide to core mechanics
  */
 
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Typography, Paper, Breadcrumbs, Link as MuiLink } from '@mui/material';
 import { NavigateNextSharp as NextIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
-import { AssetImage } from '../../components/ds';
 
 export function CombatSystem() {
   return (
@@ -31,36 +30,34 @@ export function CombatSystem() {
           Help
         </MuiLink>
         <Typography color="text.primary" sx={{ fontSize: '0.875rem' }}>
-          Combat System
+          Scoring System
         </Typography>
       </Breadcrumbs>
 
       {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-        <AssetImage src="/illustrations/combat.svg" alt="Combat System" width={64} height={64} fallback="hide" />
-        <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
-            Combat System
-          </Typography>
-          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>
-            How battles work
-          </Typography>
-        </Box>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700 }}>
+          Scoring System
+        </Typography>
+        <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>
+          How damage and points work
+        </Typography>
       </Box>
 
       {/* Overview */}
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', p: 3, mb: 3 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-          Combat Overview
+          Overview
         </Typography>
         <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 2, lineHeight: 1.7 }}>
-          Combat in Never Die Guy revolves around throwing dice at a planet where enemies roam.
-          Each throw deals damage based on the dice result, modified by your items and active
-          effects. The goal is to defeat all enemies before they overwhelm you.
+          In NEVER DIE GUY, you throw dice meteors at a planet to deal damage and score points.
+          Each throw is calculated based on your dice roll, modified by items and triggered effects.
+          Hit score goals to clear events and progress through domains.
         </Typography>
         <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, lineHeight: 1.7 }}>
-          Battles are turn-based at their core, but the throwing mechanic adds real-time skill
-          elements. Where your dice lands matters, and chaining hits builds powerful combos.
+          The game uses a Balatro-inspired approach where item synergies and triggered effects
+          ("procs") create satisfying chains of bonuses. Part of the fun is discovering which
+          combinations work well together.
         </Typography>
       </Paper>
 
@@ -68,21 +65,21 @@ export function CombatSystem() {
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden', mb: 3 }}>
         <Box sx={{ px: 3, py: 2.25, borderBottom: `1px solid ${tokens.colors.border}` }}>
           <Typography sx={{ fontWeight: 600, fontSize: '1.125rem' }}>
-            Damage Calculation
+            Score Calculation
           </Typography>
         </Box>
         <Box sx={{ p: 3 }}>
           <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 2, lineHeight: 1.7 }}>
-            When you throw a die, damage is calculated in this order:
+            When you throw a die, your score is calculated in phases:
           </Typography>
 
           {[
             { step: 'Base Roll', desc: 'The die face value (e.g., rolling 5 on a D6)' },
-            { step: 'Weapon Bonus', desc: 'Flat damage added by equipped weapons' },
-            { step: 'Combo Multiplier', desc: 'Bonus from consecutive successful hits' },
-            { step: 'Critical Check', desc: 'Max roll triggers critical for 2x damage' },
-            { step: 'Enemy Weakness', desc: 'Some enemies take extra damage from certain dice' },
-            { step: 'Final Damage', desc: 'Total applied to enemy health' },
+            { step: 'Flat Bonuses', desc: 'Items that add flat damage to your roll' },
+            { step: 'Multipliers', desc: 'Items and effects that multiply your total' },
+            { step: 'Critical Check', desc: 'Rolling max triggers critical for bonus damage' },
+            { step: 'Procs', desc: 'Triggered effects from items activate in sequence' },
+            { step: 'Final Score', desc: 'Total points added to your event score' },
           ].map((item, i, arr) => (
             <Box
               key={item.step}
@@ -112,70 +109,24 @@ export function CombatSystem() {
         </Box>
       </Paper>
 
-      {/* Combos */}
+      {/* Procs and Effects */}
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden', mb: 3 }}>
         <Box sx={{ px: 3, py: 2.25, borderBottom: `1px solid ${tokens.colors.border}` }}>
           <Typography sx={{ fontWeight: 600, fontSize: '1.125rem' }}>
-            Combo System
+            Procs and Effects
           </Typography>
         </Box>
         <Box sx={{ p: 3 }}>
           <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 2, lineHeight: 1.7 }}>
-            Consecutive hits build your combo meter. The higher your combo, the more damage
-            each subsequent hit deals. Missing a throw or taking damage resets your combo.
-          </Typography>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, mb: 2 }}>
-            {[
-              { combo: 'x1', mult: '1.0x', color: tokens.colors.text.secondary },
-              { combo: 'x3', mult: '1.2x', color: tokens.colors.rarity.uncommon },
-              { combo: 'x5', mult: '1.5x', color: tokens.colors.rarity.rare },
-              { combo: 'x10', mult: '2.0x', color: tokens.colors.rarity.legendary },
-            ].map((item) => (
-              <Box
-                key={item.combo}
-                sx={{
-                  bgcolor: tokens.colors.background.elevated,
-                  borderRadius: 2,
-                  p: 1.5,
-                  textAlign: 'center',
-                }}
-              >
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: item.color, mb: 0.5 }}>
-                  {item.combo}
-                </Typography>
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  {item.mult}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-
-          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, lineHeight: 1.7 }}>
-            Pro tip: Use fast D4s to build combos quickly, then switch to high-damage dice
-            like D12 or D20 to capitalize on the multiplier.
-          </Typography>
-        </Box>
-      </Paper>
-
-      {/* Enemy Patterns */}
-      <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden', mb: 3 }}>
-        <Box sx={{ px: 3, py: 2.25, borderBottom: `1px solid ${tokens.colors.border}` }}>
-          <Typography sx={{ fontWeight: 600, fontSize: '1.125rem' }}>
-            Enemy Patterns
-          </Typography>
-        </Box>
-        <Box sx={{ p: 3 }}>
-          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 2, lineHeight: 1.7 }}>
-            Enemies on the planet move in predictable patterns. Learning these patterns helps
-            you land hits more consistently. Each enemy type has unique behaviors:
+            Items can trigger special effects ("procs") based on certain conditions. These appear
+            beat-by-beat as your score builds up, so you can see exactly what contributed to your total.
           </Typography>
 
           {[
-            { type: 'Roamers', desc: 'Move slowly across the planet surface. Easy targets.' },
-            { type: 'Lurkers', desc: 'Stay in one spot until provoked, then dash away.' },
-            { type: 'Swarmer', desc: 'Travel in groups. Hit one to scatter the rest.' },
-            { type: 'Bosses', desc: 'Have multiple phases with different attack patterns.' },
+            { type: 'On Roll', desc: 'Triggers when you roll certain values (e.g., "On 6+")' },
+            { type: 'On Crit', desc: 'Triggers when you roll the maximum value on a die' },
+            { type: 'On Throw', desc: 'Triggers every time you throw, regardless of roll' },
+            { type: 'Conditional', desc: 'Triggers based on game state (e.g., "If Gold > 100")' },
           ].map((item, i, arr) => (
             <Box
               key={item.type}
@@ -196,6 +147,50 @@ export function CombatSystem() {
         </Box>
       </Paper>
 
+      {/* Dice Strategy */}
+      <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden', mb: 3 }}>
+        <Box sx={{ px: 3, py: 2.25, borderBottom: `1px solid ${tokens.colors.border}` }}>
+          <Typography sx={{ fontWeight: 600, fontSize: '1.125rem' }}>
+            Dice Strategy
+          </Typography>
+        </Box>
+        <Box sx={{ p: 3 }}>
+          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 2, lineHeight: 1.7 }}>
+            Each die type has different strengths. Mix and match to find your style:
+          </Typography>
+
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, mb: 2 }}>
+            {[
+              { die: 'D4-D6', trait: 'Consistent', color: tokens.colors.rarity.common },
+              { die: 'D8-D12', trait: 'Balanced', color: tokens.colors.rarity.uncommon },
+              { die: 'D20', trait: 'High Risk/Reward', color: tokens.colors.rarity.legendary },
+            ].map((item) => (
+              <Box
+                key={item.die}
+                sx={{
+                  bgcolor: tokens.colors.background.elevated,
+                  borderRadius: 2,
+                  p: 1.5,
+                  textAlign: 'center',
+                }}
+              >
+                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: item.color, mb: 0.5 }}>
+                  {item.die}
+                </Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.7rem' }}>
+                  {item.trait}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+
+          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, lineHeight: 1.7 }}>
+            Pro tip: Some items synergize with specific dice. Check item descriptions for bonuses
+            like "D20 throws deal +5 damage" or "D4 throws have 20% crit chance."
+          </Typography>
+        </Box>
+      </Paper>
+
       {/* Related */}
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden' }}>
         <Box sx={{ px: 3, py: 2.25, borderBottom: `1px solid ${tokens.colors.border}` }}>
@@ -205,8 +200,8 @@ export function CombatSystem() {
         </Box>
         {[
           { title: 'Dice Types', desc: 'Understanding your weapons', path: '/help/guide/dice' },
-          { title: 'Enemies', desc: 'Full bestiary in the Diepedia', path: '/wiki/enemies' },
-          { title: 'Items', desc: 'Gear to enhance your combat power', path: '/wiki/items' },
+          { title: 'Items', desc: 'Gear to enhance your scoring power', path: '/wiki/items' },
+          { title: 'Domains', desc: 'The worlds you explore', path: '/wiki/domains' },
         ].map((item, i, arr) => (
           <Box
             key={item.title}

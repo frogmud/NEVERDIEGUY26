@@ -20,32 +20,32 @@ const faqData = [
   {
     category: 'About NEVER DIE GUY',
     questions: [
-      { q: 'What is NEVER DIE GUY?', a: 'NEVER DIE GUY is a roguelike dice game where you explore procedurally generated domains, battle enemies, and collect loot. Each run is unique thanks to the Die-rector favor system and random encounters. The game combines strategic dice rolling with RPG progression.' },
-      { q: 'How is this a roguelike?', a: 'Like classic roguelikes, NEVER DIE GUY features permadeath (your run ends when you die), procedural generation (domains and encounters are randomized), and turn-based combat using dice. When you die, you start fresh but keep permanent progression through the meta-game like unlocked patrons and achievements.' },
-      { q: 'Is this free to play?', a: 'Yes! The core game is completely free. Premium membership unlocks cosmetic items like dice themes, additional Die-rector patrons, and quality-of-life features like stat tracking. Premium provides no gameplay advantages - it\'s purely optional support.' },
+      { q: 'What is NEVER DIE GUY?', a: 'NEVER DIE GUY is a roguelike dice game where you throw meteors at planets to score points and progress through domains. Each run is unique thanks to item combinations and event variety. The game combines dice rolling with Balatro-inspired scoring chains.' },
+      { q: 'How is this a roguelike?', a: 'Like classic roguelikes, NEVER DIE GUY features permadeath (your run ends when you lose), procedural generation (events and items are randomized), and strategic choices. When you lose, you start fresh - part of the fun is learning from each attempt.' },
+      { q: 'Is this free to play?', a: 'Yes! The game is completely free to play in your browser. No downloads required.' },
     ],
   },
   {
     category: 'Getting Started',
     questions: [
-      { q: 'What do I get with a profile?', a: 'Creating a profile saves your progress across sessions, unlocks the leaderboard so you can compete globally, lets you add friends and view their stats, and syncs your data across devices. You can also customize your avatar and display name.' },
-      { q: 'How do I choose a Die-rector patron?', a: 'Go to Settings > Gameplay and select your Die-rector patron. Each Die-rector is associated with a specific die (d4, d6, d8, d10, d12, or d20) and grants favor bonuses when you roll their number. Favor affects drop rates, NPC relationships, and special encounters.' },
-      { q: 'How do I start playing?', a: 'From the home screen, tap "Play" to begin a new run. You\'ll choose your starting loadout and domain, then battle through encounters using dice rolls. The wiki (Diepedia) has guides on enemies, items, and strategies if you want to learn more.' },
+      { q: 'How do I start playing?', a: 'Click "Play" on the home screen to begin a new run. You\'ll throw dice at planets, hit score goals to clear events, and collect items along the way. Check the wiki for more info on items and strategies.' },
+      { q: 'What are domains?', a: 'Domains are themed worlds you progress through. Each domain has 3 events to clear. Complete all 6 domains to finish a run. Each domain has unique visual themes and NPCs.' },
+      { q: 'How does scoring work?', a: 'Roll dice and throw them at the planet. Your base roll gets modified by items and effects. Hit the score goal to clear the event. The wiki has detailed info on scoring mechanics.' },
+    ],
+  },
+  {
+    category: 'Gameplay',
+    questions: [
+      { q: 'What dice can I use?', a: 'You have a hand of different dice types: D4, D6, D8, D10, D12, and D20. Each has trade-offs between consistency and maximum damage. Build your strategy around your item synergies.' },
+      { q: 'How do items work?', a: 'Items modify your dice rolls with flat bonuses, multipliers, and triggered effects. Finding synergies between items is key to high scores. Check item descriptions for proc conditions.' },
+      { q: 'Can I practice without risking my run?', a: 'The game automatically starts in practice mode from the home page. You can also access practice through character pages in the wiki.' },
     ],
   },
   {
     category: 'Future Plans',
     questions: [
-      { q: 'What features are coming next?', a: 'We\'re actively developing multiplayer duels, guild systems, seasonal events with exclusive rewards, and new domains. The Play section will expand with tournament modes and spectating. Check the Progress page for development updates.' },
-      { q: 'Will there be mobile apps?', a: 'Native iOS and Android apps are planned for 2025. The web version is fully responsive and works great on mobile browsers in the meantime - just add it to your home screen for an app-like experience.' },
-    ],
-  },
-  {
-    category: 'Account & Subscription',
-    questions: [
-      { q: 'How do I cancel my subscription?', a: 'Go to Settings > Membership > Manage Subscription. You can cancel anytime and keep premium features until your billing period ends. We don\'t do sneaky auto-renewals without clear notice.' },
-      { q: 'Can I delete my account?', a: 'Yes. Go to Settings > Account > Delete Account. This action is permanent and removes all your data including progress, achievements, and purchase history. We recommend exporting your data first.' },
-      { q: 'What payment methods do you accept?', a: 'We accept all major credit cards and PayPal. Regional payment methods vary by location. All payments are securely processed and we never store your full card details.' },
+      { q: 'What features are coming next?', a: 'We\'re working on more items, domains, and NPCs. Multiplayer modes and leaderboards are planned for future updates.' },
+      { q: 'Will there be mobile apps?', a: 'Native iOS and Android apps are planned for 2026. The web version works great on mobile browsers in the meantime - just add it to your home screen for an app-like experience.' },
     ],
   },
 ];

@@ -15,10 +15,8 @@ import {
 import {
   ExpandMoreSharp as ExpandIcon,
   ExpandLessSharp as CollapseIcon,
-  KeyboardTabSharp as CollapseExpandIcon,
-  SettingsSharp as SettingsIcon,
-  HelpOutlineSharp as SupportIcon,
-  InfoSharp as AboutIcon,
+  ChevronLeftSharp as CollapseLeftIcon,
+  ChevronRightSharp as ExpandRightIcon,
 } from '@mui/icons-material';
 import { tokens, sxPatterns } from '../../theme';
 import { navItems, type NavItem, DRAWER_WIDTH_COLLAPSED, DRAWER_WIDTH_EXPANDED, HEADER_HEIGHT } from './navItems';
@@ -334,119 +332,23 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         </List>
       </Box>
 
-      {/* Bottom actions: Collapse, Settings, Support */}
-      <Box sx={{ borderTop: `1px solid ${tokens.colors.border}`, pt: 2, pb: 2 }}>
-        {/* Collapse/Expand toggle */}
-        {onToggleExpand && (
-          <Tooltip title={!expanded ? 'Expand' : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>
-            <Box
+      {/* Bottom actions: Collapse toggle only */}
+      {onToggleExpand && (
+        <Box sx={{ borderTop: `1px solid ${tokens.colors.border}`, py: 2, display: 'flex', justifyContent: 'center' }}>
+          <Tooltip title={expanded ? 'Collapse' : 'Expand'} placement="right" arrow enterDelay={300} enterNextDelay={300}>
+            <IconButton
               onClick={onToggleExpand}
+              size="small"
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: expanded ? 'flex-start' : 'center',
-                gap: 0.75,
-                mx: 0.5,
-                px: expanded ? 1.5 : 0,
-                py: 0.75,
-                borderRadius: 1,
-                cursor: 'pointer',
+                color: tokens.colors.text.secondary,
                 '&:hover': { bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <CollapseExpandIcon sx={{
-                fontSize: 18,
-                color: tokens.colors.text.secondary,
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s',
-              }} />
-              {expanded && (
-                <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
-                  Collapse
-                </Typography>
-              )}
-            </Box>
+              {expanded ? <CollapseLeftIcon sx={{ fontSize: 18 }} /> : <ExpandRightIcon sx={{ fontSize: 18 }} />}
+            </IconButton>
           </Tooltip>
-        )}
-
-        {/* About */}
-        <Tooltip title={!expanded ? 'About' : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>
-          <Box
-            onClick={() => navigate('/about')}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: expanded ? 'flex-start' : 'center',
-              gap: 0.75,
-              mx: 0.5,
-              px: expanded ? 1.5 : 0,
-              py: 0.75,
-              borderRadius: 1,
-              cursor: 'pointer',
-              '&:hover': { bgcolor: tokens.colors.background.elevated },
-            }}
-          >
-            <AboutIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
-            {expanded && (
-              <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
-                About
-              </Typography>
-            )}
-          </Box>
-        </Tooltip>
-
-        {/* Settings */}
-        <Tooltip title={!expanded ? 'Settings' : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>
-          <Box
-            onClick={() => navigate('/settings')}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: expanded ? 'flex-start' : 'center',
-              gap: 0.75,
-              mx: 0.5,
-              px: expanded ? 1.5 : 0,
-              py: 0.75,
-              borderRadius: 1,
-              cursor: 'pointer',
-              '&:hover': { bgcolor: tokens.colors.background.elevated },
-            }}
-          >
-            <SettingsIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
-            {expanded && (
-              <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
-                Settings
-              </Typography>
-            )}
-          </Box>
-        </Tooltip>
-
-        {/* Help */}
-        <Tooltip title={!expanded ? 'Help' : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>
-          <Box
-            onClick={() => navigate('/help')}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: expanded ? 'flex-start' : 'center',
-              gap: 0.75,
-              mx: 0.5,
-              px: expanded ? 1.5 : 0,
-              py: 0.75,
-              borderRadius: 1,
-              cursor: 'pointer',
-              '&:hover': { bgcolor: tokens.colors.background.elevated },
-            }}
-          >
-            <SupportIcon sx={{ fontSize: 18, color: tokens.colors.text.secondary }} />
-            {expanded && (
-              <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
-                Help
-              </Typography>
-            )}
-          </Box>
-        </Tooltip>
-      </Box>
+        </Box>
+      )}
     </Drawer>
   );
 }

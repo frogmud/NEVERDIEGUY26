@@ -7,7 +7,6 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Box, Typography, Paper, useMediaQuery, useTheme, Drawer, IconButton, Breadcrumbs, Link as MuiLink } from '@mui/material';
 import { MenuSharp as MenuIcon, ChevronLeftSharp as BackIcon, NavigateNextSharp as NextIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
-import { AssetImage } from '../../components/ds';
 
 // ============================================
 // Types & Config
@@ -42,10 +41,10 @@ function GameGuideSection() {
 
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden', mb: 3 }}>
         {[
-          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/basics' },
+          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/getting-started' },
           { title: 'Dice Types', desc: 'D4, D6, D8, D10, D12, D20 explained', path: '/help/guide/dice' },
           { title: 'Combat System', desc: 'How battles work', path: '/help/guide/combat' },
-          { title: 'Domains', desc: 'Explore the 8 realms', path: '/wiki/domains' },
+          { title: 'Domains', desc: 'Explore the 6 realms', path: '/wiki/domains' },
           { title: 'Items & Equipment', desc: 'Gear up for battle', path: '/wiki/items' },
         ].map((item, i, arr) => (
           <Box
@@ -79,11 +78,11 @@ function FAQSection() {
 
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden' }}>
         {[
-          { q: 'How do I start a new game?', a: 'Click "New Game" from the homepage or Saucer tab in Barter.' },
-          { q: 'What happens when I die?', a: 'You lose your current run but keep permanent unlocks and achievements.' },
-          { q: 'How do dice rarities work?', a: 'Common (gray), Uncommon (green), Rare (blue), Epic (purple), Legendary (orange).' },
-          { q: 'Can I trade with other players?', a: 'Yes! Visit the Market tab in Barter to browse player listings.' },
-          { q: 'How do I unlock new dice?', a: 'Complete runs, defeat bosses, and find them in chests throughout domains.' },
+          { q: 'How do I start a new game?', a: 'Click "Play" from the homepage to start a new run.' },
+          { q: 'What happens when I lose?', a: 'Your run ends and you start fresh. Part of the roguelike fun!' },
+          { q: 'How do dice types work?', a: 'D4 is consistent but low damage, D20 is high risk/reward. Mix and match.' },
+          { q: 'What are domains?', a: 'Domains are themed worlds. Clear 3 events per domain, 6 domains total.' },
+          { q: 'How do items work?', a: 'Items modify your dice with bonuses and triggered effects. Check the wiki!' },
         ].map((item, i, arr) => (
           <Box
             key={i}

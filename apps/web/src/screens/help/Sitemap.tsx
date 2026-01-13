@@ -19,18 +19,10 @@ import {
   ExpandMoreSharp,
   SportsEsportsSharp,
   AutoStoriesSharp,
-  ShoppingCartSharp,
   LeaderboardSharp,
-  PeopleSharp,
-  NotificationsSharp,
   SettingsSharp,
   HelpSharp,
   GavelSharp,
-  LoginSharp,
-  SearchSharp,
-  ErrorSharp,
-  PaletteSharp,
-  MapSharp,
   HomeSharp,
   NavigateNextSharp as NextIcon,
   MenuSharp as MenuIcon,
@@ -50,7 +42,7 @@ interface SitemapSection {
   links: SitemapLink[];
 }
 
-// ACTUAL ROUTES - Updated Dec 30, 2024
+// ACTUAL ROUTES - Updated Jan 2026
 // Status: active = implemented, planned = for future, deprecated = removed from MVP
 const sitemapData: SitemapSection[] = [
   {
@@ -61,109 +53,26 @@ const sitemapData: SitemapSection[] = [
     ],
   },
   {
-    title: 'Authentication',
-    icon: <LoginSharp />,
-    links: [
-      { label: 'Login', path: '/login', status: 'active' },
-      { label: 'Sign Up', path: '/signup', status: 'active' },
-      { label: 'Forgot Password', path: '/forgot-password', status: 'active' },
-      { label: 'Reset Password', path: '/reset-password', status: 'active' },
-      { label: 'Reset Success', path: '/reset-success', status: 'active' },
-      { label: 'Logout', path: '/logout', status: 'active' },
-    ],
-  },
-  {
     title: 'Play',
     icon: <SportsEsportsSharp />,
     links: [
-      { label: 'Play Hub', path: '/play', status: 'active' },
-      { label: 'Match Results', path: '/play/results', status: 'active' },
-      { label: 'Meteor Mode', path: '/play/meteor', status: 'active' },
-      { label: 'Globe View', path: '/play/globe', status: 'active' },
-      { label: 'Replays', path: '/play/replays', status: 'active' },
-      { label: 'Watch Replay', path: '/play/replay/:threadId', status: 'active' },
-      { label: 'Spectate', path: '/play/spectate/:matchId', status: 'active' },
-      { label: 'Tournament', path: '/play/tournament', status: 'active' },
-      { label: 'Match Stats', path: '/play/stats/:threadId', status: 'active' },
-      { label: 'Exit Confirm', path: '/play/exit-confirm', status: 'active' },
-      { label: 'Exit Summary', path: '/play/exit-summary', status: 'active' },
-      { label: 'Inventory', path: '/inventory', status: 'active' },
-      { label: 'Loot Drop', path: '/loot', status: 'active' },
+      { label: 'Play', path: '/play', status: 'active' },
     ],
   },
   {
-    title: 'Game',
-    icon: <MapSharp />,
-    links: [
-      { label: 'Location Selector', path: '/game/location', status: 'active' },
-      { label: 'Fast Travel', path: '/game/fast-travel', status: 'active' },
-    ],
-  },
-  {
-    title: 'Wiki (Diepedia)',
+    title: 'Wiki',
     icon: <AutoStoriesSharp />,
     links: [
       { label: 'Wiki Index', path: '/wiki', status: 'active' },
       { label: 'Enemies', path: '/wiki/enemies', status: 'active' },
       { label: 'Domains', path: '/wiki/domains', status: 'active' },
       { label: 'Items', path: '/wiki/items', status: 'active' },
-      { label: 'Trophies', path: '/wiki/trophies', status: 'active' },
       { label: 'Travelers', path: '/wiki/travelers', status: 'active' },
       { label: 'Wanderers', path: '/wiki/wanderers', status: 'active' },
       { label: 'Pantheon', path: '/wiki/pantheon', status: 'active' },
       { label: 'Shops', path: '/wiki/shops', status: 'active' },
-      { label: 'Soundtrack', path: '/wiki/soundtrack', status: 'active' },
-      { label: 'Sound Effects', path: '/wiki/sfx', status: 'active' },
-      { label: 'Posters', path: '/wiki/posters', status: 'active' },
-      { label: 'Entity Detail', path: '/wiki/:category/:id', status: 'active' },
-      { label: 'Faction Lore', path: '/wiki/faction/:id', status: 'active' },
-    ],
-  },
-  {
-    title: 'Barter (Shops)',
-    icon: <ShoppingCartSharp />,
-    links: [
-      { label: 'Barter Hub', path: '/shop', status: 'active' },
-      { label: 'Shop Detail', path: '/shop/:slug', status: 'active' },
-      { label: 'Receipt', path: '/shop/receipt', status: 'active' },
-      // P2P marketplace removed from MVP
-      { label: 'Player Marketplace', path: '/shop/market', status: 'deprecated' },
-      { label: 'Trade Offers', path: '/shop/trade', status: 'deprecated' },
-    ],
-  },
-  {
-    title: 'Progress',
-    icon: <LeaderboardSharp />,
-    links: [
-      { label: 'Progress Hub', path: '/progress', status: 'active' },
-      { label: 'Leaderboard', path: '/leaderboard', status: 'active' },
-      { label: 'History', path: '/history', status: 'active' },
-      { label: 'Daily Reward', path: '/rewards/daily', status: 'active' },
-    ],
-  },
-  {
-    title: 'Profile',
-    icon: <PeopleSharp />,
-    links: [
-      { label: 'My Profile', path: '/profile', status: 'active' },
-      { label: 'Edit Profile', path: '/profile/edit', status: 'active' },
-      { label: 'User Profile', path: '/user/:id', status: 'active' },
-    ],
-  },
-  {
-    title: 'Search',
-    icon: <SearchSharp />,
-    links: [
-      { label: 'Search', path: '/search', status: 'active' },
-      { label: 'Advanced Search', path: '/search/advanced', status: 'active' },
-    ],
-  },
-  {
-    title: 'Notifications',
-    icon: <NotificationsSharp />,
-    links: [
-      { label: 'Notification Center', path: '/notifications', status: 'active' },
-      { label: 'Level Up', path: '/notifications/level-up', status: 'active' },
+      { label: 'Factions', path: '/wiki/factions', status: 'active' },
+      { label: 'Entity Detail', path: '/wiki/:category/:slug', status: 'active' },
     ],
   },
   {
@@ -171,7 +80,6 @@ const sitemapData: SitemapSection[] = [
     icon: <SettingsSharp />,
     links: [
       { label: 'Settings', path: '/settings', status: 'active' },
-      // All sections are in single page now (Board, Gameplay, Profile, Interface, Social, Notifications, Account, Membership, Accessibility)
     ],
   },
   {
@@ -179,6 +87,9 @@ const sitemapData: SitemapSection[] = [
     icon: <HelpSharp />,
     links: [
       { label: 'Help Center', path: '/help', status: 'active' },
+      { label: 'Getting Started', path: '/help/guide/getting-started', status: 'active' },
+      { label: 'Scoring System', path: '/help/guide/combat', status: 'active' },
+      { label: 'Dice Types', path: '/help/guide/dice', status: 'active' },
       { label: 'FAQ', path: '/help/faq', status: 'active' },
       { label: 'Contact', path: '/help/contact', status: 'active' },
       { label: 'Sitemap', path: '/help/sitemap', status: 'active' },
@@ -190,25 +101,17 @@ const sitemapData: SitemapSection[] = [
     links: [
       { label: 'Terms of Service', path: '/terms', status: 'active' },
       { label: 'Privacy Policy', path: '/privacy', status: 'active' },
-      { label: 'About Us', path: '/about', status: 'active' },
+      { label: 'About', path: '/about', status: 'active' },
     ],
   },
   {
-    title: 'Errors',
-    icon: <ErrorSharp />,
+    title: 'Future',
+    icon: <LeaderboardSharp />,
     links: [
-      { label: '404 Not Found', path: '/404', status: 'active' },
-      { label: 'Network Error', path: '/errors/network', status: 'active' },
-      { label: 'Maintenance Mode', path: '/maintenance', status: 'active' },
-      { label: 'Server Error (500)', path: '/error/500', status: 'active' },
-      { label: 'Offline State', path: '/offline', status: 'active' },
-    ],
-  },
-  {
-    title: 'Design System',
-    icon: <PaletteSharp />,
-    links: [
-      { label: 'Overview', path: '/design-system', status: 'active' },
+      { label: 'Accounts', path: '/login', status: 'planned' },
+      { label: 'Leaderboards', path: '/leaderboard', status: 'planned' },
+      { label: 'Multiplayer', path: '/play/multiplayer', status: 'planned' },
+      { label: 'Replays', path: '/play/replays', status: 'planned' },
     ],
   },
 ];

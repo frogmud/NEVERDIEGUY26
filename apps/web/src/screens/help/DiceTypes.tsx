@@ -6,14 +6,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Typography, Paper, Breadcrumbs, Link as MuiLink } from '@mui/material';
 import { NavigateNextSharp as NextIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
-import { AssetImage } from '../../components/ds';
 
 interface DiceInfo {
   name: string;
   sides: number;
   damage: string;
   description: string;
-  sprite: string;
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 }
 
@@ -23,7 +21,6 @@ const diceTypes: DiceInfo[] = [
     sides: 4,
     damage: '1-4',
     description: 'The humble pyramid. Low damage but fast throws. Great for building combos.',
-    sprite: '/assets/dice/d4.png',
     rarity: 'common',
   },
   {
@@ -31,7 +28,6 @@ const diceTypes: DiceInfo[] = [
     sides: 6,
     damage: '1-6',
     description: 'The classic cube. Balanced damage and throw speed. Your reliable workhorse.',
-    sprite: '/assets/dice/d6.png',
     rarity: 'common',
   },
   {
@@ -39,7 +35,6 @@ const diceTypes: DiceInfo[] = [
     sides: 8,
     damage: '1-8',
     description: 'The octahedron. Solid mid-range damage. Popular choice for consistent runs.',
-    sprite: '/assets/dice/d8.png',
     rarity: 'uncommon',
   },
   {
@@ -47,7 +42,6 @@ const diceTypes: DiceInfo[] = [
     sides: 10,
     damage: '1-10',
     description: 'The decahedron. Higher variance but strong potential. Favored by risk-takers.',
-    sprite: '/assets/dice/d10.png',
     rarity: 'rare',
   },
   {
@@ -55,7 +49,6 @@ const diceTypes: DiceInfo[] = [
     sides: 12,
     damage: '1-12',
     description: 'The dodecahedron. Hefty damage with moderate speed. For the ambitious.',
-    sprite: '/assets/dice/d12.png',
     rarity: 'epic',
   },
   {
@@ -63,7 +56,6 @@ const diceTypes: DiceInfo[] = [
     sides: 20,
     damage: '1-20',
     description: 'The icosahedron. Maximum damage potential but slow throws. The ultimate die.',
-    sprite: '/assets/dice/d20.png',
     rarity: 'legendary',
   },
 ];
@@ -104,16 +96,13 @@ export function DiceTypes() {
       </Breadcrumbs>
 
       {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-        <AssetImage src="/illustrations/dice.svg" alt="Dice Types" width={64} height={64} fallback="hide" />
-        <Box>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
-            Dice Types
-          </Typography>
-          <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>
-            D4, D6, D8, D10, D12, D20 explained
-          </Typography>
-        </Box>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700 }}>
+          Dice Types
+        </Typography>
+        <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>
+          D4, D6, D8, D10, D12, D20 explained
+        </Typography>
       </Box>
 
       {/* Introduction */}
@@ -148,7 +137,6 @@ export function DiceTypes() {
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <AssetImage src={die.sprite} alt={die.name} width={32} height={32} fallback="hide" />
                 <Typography sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
                   {die.name}
                 </Typography>
@@ -229,7 +217,7 @@ export function DiceTypes() {
           </Typography>
         </Box>
         {[
-          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/basics' },
+          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/getting-started' },
           { title: 'Combat System', desc: 'Master throws, combos, and specials', path: '/help/guide/combat' },
           { title: 'Items & Equipment', desc: 'Gear that enhances your dice', path: '/wiki/items' },
         ].map((item, i, arr) => (

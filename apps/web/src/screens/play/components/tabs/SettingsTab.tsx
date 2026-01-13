@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Switch, Slider, ButtonBase } from '@mui/material';
+import { Box, Typography, Switch, Slider } from '@mui/material';
 import {
   VolumeUpSharp as SoundIcon,
   MusicNoteSharp as MusicIcon,
@@ -11,8 +10,6 @@ import { useSoundContext } from '../../../../contexts/SoundContext';
 import { useGameSettings } from '../../../../contexts/GameSettingsContext';
 
 export function SettingsTab() {
-  const navigate = useNavigate();
-
   // Sound from global context (persisted)
   const { soundEnabled, setSoundEnabled, playUIClick } = useSoundContext();
 
@@ -29,37 +26,9 @@ export function SettingsTab() {
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}>
       {/* Header */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          mb: 1,
-        }}
-      >
-        <Typography sx={{ fontWeight: 600, fontSize: '1rem' }}>
-          Quick Settings
-        </Typography>
-        <ButtonBase
-          onClick={() => {
-            playUIClick();
-            navigate('/settings');
-          }}
-          sx={{
-            fontSize: '0.75rem',
-            color: tokens.colors.secondary,
-            px: 1,
-            py: 0.5,
-            borderRadius: 1,
-            transition: 'all 0.15s ease',
-            '&:hover': {
-              bgcolor: 'rgba(255, 255, 255, 0.05)',
-            },
-          }}
-        >
-          All Settings
-        </ButtonBase>
-      </Box>
+      <Typography sx={{ fontWeight: 600, fontSize: '1rem', mb: 1 }}>
+        Quick Settings
+      </Typography>
 
       {/* Sound Toggle */}
       <SettingRow
@@ -143,26 +112,6 @@ export function SettingsTab() {
           />
         }
       />
-
-      {/* Spacer */}
-      <Box sx={{ flex: 1 }} />
-
-      {/* Back to Menu */}
-      <ButtonBase
-        onClick={() => {
-          playUIClick();
-          navigate('/');
-        }}
-        sx={{
-          py: 1.5,
-          color: tokens.colors.text.secondary,
-          fontSize: '0.875rem',
-          borderRadius: 1,
-          '&:hover': { color: tokens.colors.text.primary, bgcolor: 'rgba(255,255,255,0.05)' },
-        }}
-      >
-        Back to Menu
-      </ButtonBase>
     </Box>
   );
 }

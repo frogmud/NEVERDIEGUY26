@@ -82,7 +82,7 @@ export function ExitGameConfirm() {
           End Run?
         </Typography>
         <Typography sx={{ color: tokens.colors.text.secondary }}>
-          {progress.domain} | Room {progress.currentRoom}/{progress.totalRooms}
+          {progress.domain} | Event {progress.currentRoom}/{progress.totalRooms}
         </Typography>
       </Paper>
 

@@ -6,8 +6,7 @@ const footerLinks = [
   { label: 'Terms', path: '/terms' },
   { label: 'Privacy', path: '/privacy' },
   { label: 'Help', path: '/help' },
-  { label: 'Sitemap', path: '/help/sitemap' },
-  { label: 'Design System', path: '/design-system' },
+  { label: 'Bones', path: '/design-system' },
 ];
 
 export function AppFooter() {
