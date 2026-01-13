@@ -14,10 +14,6 @@ const sections = [
     content: `You may use the Service only for lawful purposes and in accordance with these Terms. You agree not to: (a) use the Service in any way that violates applicable laws or regulations; (b) use the Service to transmit harmful, offensive, or unauthorized content; (c) attempt to gain unauthorized access to any part of the Service; (d) interfere with or disrupt the Service or servers or networks connected to the Service; (e) use any automated means to access the Service without our express permission.`,
   },
   {
-    title: 'User Accounts',
-    content: `When you create an account with us, you must provide accurate, complete, and current information. You are responsible for safeguarding your account credentials and for any activities or actions under your account. You agree to notify us immediately of any unauthorized access to or use of your account. We reserve the right to disable any user account at any time for any reason we deem appropriate.`,
-  },
-  {
     title: 'Virtual Items & Currency',
     content: `The Service may include virtual currency, items, or other content ("Virtual Items"). Virtual Items have no real-world value and cannot be exchanged for real money. You are granted a limited, revocable license to use Virtual Items within the Service. We reserve the right to modify, remove, or discontinue Virtual Items at any time without liability. All purchases of Virtual Items are final and non-refundable except where required by applicable law.`,
   },
@@ -47,7 +43,7 @@ const sections = [
   },
   {
     title: 'Contact Us',
-    content: `If you have any questions about these Terms, please contact us at support@neverdieguy.com.`,
+    content: `If you have any questions about these Terms, please contact us at kevin@neverdieguy.com.`,
   },
 ];
 
@@ -75,7 +71,7 @@ export function Terms() {
         Terms of Service
       </Typography>
       <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 4 }}>
-        Last updated: December 30, 2024
+        Last updated: January 2026
       </Typography>
 
       <CardSection padding={4}>

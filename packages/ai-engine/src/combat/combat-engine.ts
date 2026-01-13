@@ -7,7 +7,6 @@
 
 import type { SeededRng } from '../core/seeded-rng';
 import type { GridState, GridCell } from './grid-generator';
-import type { Die, DicePool, DiceHand, Element } from './dice-hand';
 import {
   generateGrid,
   getCellsByType,
@@ -22,7 +21,37 @@ import {
   getHandTotal,
   DEFAULT_HOLDS_PER_ROOM,
   MAX_HAND_SIZE,
+  DIE_ELEMENTS,
+  type Die,
+  type DicePool,
+  type DiceHand,
+  type Element,
+  type DieSides,
 } from './dice-hand';
+
+// ============================================
+// Domain Element Mapping
+// ============================================
+
+const DOMAIN_ELEMENTS: Record<number, Element> = {
+  1: 'Earth',  // Earth
+  2: 'Ice',    // Frost Reach
+  3: 'Fire',   // Infernus
+  4: 'Death',  // Shadow Keep
+  5: 'Void',   // Null Providence
+  6: 'Wind',   // Aberrant
+};
+
+/**
+ * Get element bonus multiplier for a die in a domain
+ * - Matching element: +50% (1.5x)
+ * - Neutral: 1.0x
+ */
+function getElementBonus(dieElement: Element, domainId: number): number {
+  const domainElement = DOMAIN_ELEMENTS[domainId];
+  if (!domainElement) return 1.0;
+  return dieElement === domainElement ? 1.5 : 1.0;
+}
 
 // ============================================
 // Combat Phase Types
@@ -69,8 +98,8 @@ export interface CombatState {
   // Dice system
   pool: DicePool;
   hand: Die[];
-  holdsRemaining: number;   // "Trades" - swap dice for multiplier bonus
-  throwsRemaining: number;  // Throws left this turn (2 per turn)
+  holdsRemaining: number;   // "Trades" - swap dice for multiplier bonus (2 per combat)
+  throwsRemaining: number;  // Throws left for entire combat (3 total, no reset)
 
   // Scoring
   targetScore: number;
@@ -86,6 +115,7 @@ export interface CombatState {
 
   // Config
   domainId: number;
+  domainElement: Element;
   roomType: 'normal' | 'elite' | 'boss';
 }
 
@@ -112,11 +142,20 @@ export interface CombatConfig {
   maxTurns: number;
   poolSize?: number;
   holdsPerRoom?: number;
+  // Item bonuses (from inventory)
+  bonusThrows?: number;       // Extra throws from items (default 0)
+  bonusTrades?: number;       // Extra trades from items (default 0)
+  scoreMultiplier?: number;   // Score multiplier from items (default 1.0)
+  startingScore?: number;     // Starting score from items (default 0)
 }
 
 const DEFAULT_CONFIG: Partial<CombatConfig> = {
   poolSize: 15,
   holdsPerRoom: DEFAULT_HOLDS_PER_ROOM,
+  bonusThrows: 0,
+  bonusTrades: 0,
+  scoreMultiplier: 1.0,
+  startingScore: 0,
 };
 
 // ============================================
@@ -220,23 +259,32 @@ export class CombatEngine {
     const targetScore = config.targetScore || calculateTargetScore(config.domainId, config.roomType);
     const maxTurns = config.maxTurns || calculateMaxTurns(config.roomType);
 
+    // Apply item bonuses
+    const baseThrows = 3;
+    const baseTrades = 2;
+    const bonusThrows = fullConfig.bonusThrows || 0;
+    const bonusTrades = fullConfig.bonusTrades || 0;
+    const startingScore = fullConfig.startingScore || 0;
+    const baseMultiplier = fullConfig.scoreMultiplier || 1.0;
+
     this.state = {
       phase: 'draw',
       grid,
       entities,
       pool: updatedPool,
       hand,
-      holdsRemaining: 2,              // "Trades" per room (not per turn)
-      throwsRemaining: 3,             // 3 throws per turn
+      holdsRemaining: baseTrades + bonusTrades,   // 2 base + item bonus
+      throwsRemaining: baseThrows + bonusThrows,  // 3 base + item bonus
       targetScore,
-      currentScore: 0,
-      multiplier: 1,                  // Score multiplier (increases via trades)
+      currentScore: startingScore,                // Start with bonus score
+      multiplier: baseMultiplier,                 // Item score multiplier
       turnsRemaining: maxTurns,
       turnNumber: 1,
       collateralDamage: 0,
       friendlyHits: 0,
       enemiesSquished: 0,
       domainId: config.domainId,
+      domainElement: DOMAIN_ELEMENTS[config.domainId] || 'Earth',
       roomType: config.roomType,
     };
   }
@@ -331,11 +379,16 @@ export class CombatEngine {
     this.state.hand = rollHand(this.state.hand, this.rng);
     this.state.throwsRemaining--;
 
-    // Calculate score immediately from thrown dice (unheld ones only)
-    // This avoids double-counting held dice that were scored in previous throws
+    // Calculate score with element bonuses
+    // Matching domain element = +50% for that die
     const thrownDice = this.state.hand.filter(d => !d.isHeld);
-    const throwTotal = thrownDice.reduce((sum, d) => sum + (d.rollValue || 0), 0);
-    const scoreGain = throwTotal * 10 * this.state.multiplier;
+    let scoreGain = 0;
+    for (const die of thrownDice) {
+      const rollValue = die.rollValue || 0;
+      const elementBonus = getElementBonus(die.element, this.state.domainId);
+      scoreGain += Math.round(rollValue * 10 * elementBonus);
+    }
+    scoreGain = Math.round(scoreGain * this.state.multiplier);
     this.state.currentScore += scoreGain;
 
     // Consume multiplier after use (resets to 1, like Balatro)
@@ -424,20 +477,20 @@ export class CombatEngine {
       return;
     }
 
-    // Defeat: no turns remaining
-    this.state.turnsRemaining--;
-    if (this.state.turnsRemaining <= 0) {
+    // Defeat: out of throws AND trades
+    if (this.state.throwsRemaining <= 0 && this.state.holdsRemaining <= 0) {
       this.setPhase('defeat');
       return;
     }
 
     // Continue: discard played dice, draw new hand
+    this.state.turnsRemaining--;
     this.startNewTurn();
   }
 
   private startNewTurn(): void {
     this.state.turnNumber++;
-    this.state.throwsRemaining = 3; // Reset throws for new turn (3 per turn)
+    // Note: throwsRemaining is NOT reset - it's a finite pool for the entire combat (3 total)
 
     // Discard and draw
     const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);

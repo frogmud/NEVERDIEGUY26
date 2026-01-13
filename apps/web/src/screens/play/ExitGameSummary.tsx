@@ -81,7 +81,7 @@ export function ExitGameSummary() {
           Run Complete
         </Typography>
         <Typography sx={{ color: tokens.colors.text.secondary }}>
-          {stats.domain} | {stats.roomsCleared}/{stats.totalRooms} rooms
+          {stats.domain} | {stats.roomsCleared}/{stats.totalRooms} events
         </Typography>
       </Paper>
 

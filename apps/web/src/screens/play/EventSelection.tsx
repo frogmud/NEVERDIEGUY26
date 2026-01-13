@@ -513,7 +513,7 @@ export function EventSelection({
           ))}
         </Box>
 
-        {/* Room Progress */}
+        {/* Event Progress */}
         <Box sx={{ mt: 4, display: 'flex', gap: 1 }}>
           {[0, 1, 2].map((i) => (
             <Box

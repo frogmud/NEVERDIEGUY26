@@ -6,7 +6,6 @@ import {
   Chip,
   LinearProgress,
   Grid,
-  Button,
 } from '@mui/material';
 import {
   FavoriteSharp as HealthIcon,
@@ -24,8 +23,6 @@ import {
   StorefrontSharp as ServicesIcon,
   AutoAwesomeSharp as FavorIcon,
   WarningAmberSharp as CorruptionIcon,
-  PlayArrowSharp as PlayIcon,
-  SportsKabaddiSharp as BattleIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 import { PageHeader, TextBlock } from '../../../components/Placeholder';
@@ -509,40 +506,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         </Box>
       </Paper>
 
-      {/* Play CTA - Travelers get "Play As", Enemies get "Battle Now" */}
-      {(isTraveler || isEnemy) && entity && (
-        <Button
-          variant="contained"
-          fullWidth
-          startIcon={isTraveler ? <PlayIcon /> : <BattleIcon />}
-          onClick={() => navigate('/play', {
-            state: {
-              selectedEntity: {
-                slug: entity.slug,
-                name: entity.name,
-                category: entity.category,
-                domain: enemyData?.domain,
-                hp: enemyData?.hp,
-                defense: enemyData?.defense,
-              },
-              entityType: isTraveler ? 'traveler' : 'enemy',
-              sourceWiki: `/wiki/${entity.category}/${entity.slug}`,
-            },
-          })}
-          sx={{
-            mt: 2,
-            py: 1.5,
-            fontWeight: 600,
-            backgroundColor: isTraveler ? tokens.colors.primary : tokens.colors.error,
-            '&:hover': {
-              backgroundColor: isTraveler ? tokens.colors.primary : tokens.colors.error,
-              filter: 'brightness(1.1)',
-            },
-          }}
-        >
-          {isTraveler ? 'Play As' : 'Battle Now'}
-        </Button>
-      )}
     </Box>
   );
 

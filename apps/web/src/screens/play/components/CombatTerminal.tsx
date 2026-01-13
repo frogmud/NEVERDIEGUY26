@@ -43,6 +43,7 @@ import type { MeteorProjectile, ImpactZone } from '../../../games/globe-meteor/c
 import type { GuardianData } from '../../../games/globe-meteor/components/Guardian';
 import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS, DOMAIN_PLANET_CONFIG } from '../../../games/globe-meteor/config';
 import { latLngToCartesian } from '../../../games/globe-meteor/utils/sphereCoords';
+import { getBonusesFromInventory } from '../../../data/items/combat-effects';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
@@ -376,10 +377,14 @@ interface CombatTerminalProps {
   totalRooms?: number;
   totalScore?: number;
   gold?: number;
+  /** Inventory item slugs for combat bonuses */
+  inventoryItems?: string[];
   /** Callback when feed history updates */
   onFeedUpdate?: (feed: FeedEntry[]) => void;
   /** Callback when game state changes (throws, trades, score) */
   onGameStateChange?: (state: GameStateUpdate) => void;
+  /** True if this is the last zone in the domain (shows "DOMAIN CLEAR" on victory) */
+  isDomainClear?: boolean;
 }
 
 // Map EventType to RoomType
@@ -403,6 +408,8 @@ export function CombatTerminal({
   totalRooms = 3,
   totalScore = 0,
   gold = 0,
+  inventoryItems = [],
+  isDomainClear = false,
   onFeedUpdate,
   onGameStateChange,
 }: CombatTerminalProps) {
@@ -540,12 +547,19 @@ export function CombatTerminal({
     const seed = `combat-${domain}-${tier}-${Date.now()}`;
     const rng = createSeededRng(seed);
 
-    // Configure combat
+    // Calculate item bonuses from inventory
+    const itemBonuses = getBonusesFromInventory(inventoryItems);
+
+    // Configure combat with item bonuses
     const config: CombatConfig = {
       domainId: domain,
       roomType: eventTypeToRoomType(eventType),
       targetScore: scoreGoal,
       maxTurns: eventType === 'boss' ? 8 : eventType === 'big' ? 6 : 5,
+      bonusThrows: itemBonuses.bonusThrows,
+      bonusTrades: itemBonuses.bonusTrades,
+      scoreMultiplier: itemBonuses.scoreMultiplier,
+      startingScore: itemBonuses.startingScore,
     };
 
     // Create engine
@@ -574,6 +588,8 @@ export function CombatTerminal({
     setIsProcessing(false);
     processedMeteorsRef.current.clear();
     victoryFiredRef.current = false;
+    prevScoreRef.current = 0;
+    prevPhaseRef.current = null;
 
     // Reset feed history
     feedRef.current = [];
@@ -1343,6 +1359,7 @@ export function CombatTerminal({
         isSmall={false}
         isDisabled={isLobby}
         guardianDieTypes={guardians.map(g => g.dieType)}
+        isDomainClear={isDomainClear}
       />
 
       {/* Report Dialog */}

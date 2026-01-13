@@ -2,7 +2,7 @@
  * BoardAndPieces - Dice visual customization
  *
  * Clean design inspired by Chess.com settings:
- * - Hero dice preview with live 2D/3D toggle
+ * - Hero dice preview
  * - Simplified theme selection
  * - Toggle sections for effects
  */
@@ -13,7 +13,6 @@ import { tokens } from '../../../theme';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { CardSection } from '../../../components/CardSection';
 import { DiceShape } from '../../../components/DiceShapes';
-import { ZdogDice } from '../../../components/ZdogDice';
 import { DICE_CONFIG, getDiceColor } from '../../../data/dice';
 import { loadBoardSettings, saveBoardSettings, type BoardSettingsData } from '../../../data/player/storage';
 
@@ -128,7 +127,7 @@ export function BoardAndPiecesSection() {
   }, [settings]);
 
   // Destructure for convenience
-  const { theme, size, use3D, showRollAnimation, showCritEffects, hapticFeedback } = settings;
+  const { theme, size, showRollAnimation, showCritEffects, hapticFeedback } = settings;
 
   // Update helpers
   const updateSetting = <K extends keyof BoardSettingsData>(key: K, value: BoardSettingsData[K]) => {
@@ -153,52 +152,9 @@ export function BoardAndPiecesSection() {
 
       {/* Hero Dice Preview */}
       <CardSection sx={{ mb: 3 }}>
-        {/* 2D/3D Toggle Header */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            mb: 3,
-          }}
-        >
-          <Typography variant="body1" sx={{ fontWeight: 600 }}>
-            Your Dice Set
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography
-              variant="caption"
-              sx={{
-                color: !use3D ? tokens.colors.text.primary : tokens.colors.text.disabled,
-                fontWeight: !use3D ? 600 : 400,
-              }}
-            >
-              2D
-            </Typography>
-            <Switch
-              checked={use3D}
-              onChange={() => updateSetting('use3D', !use3D)}
-              size="small"
-              sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': {
-                  color: tokens.colors.primary,
-                },
-                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                  backgroundColor: tokens.colors.primary,
-                },
-              }}
-            />
-            <Typography
-              variant="caption"
-              sx={{
-                color: use3D ? tokens.colors.text.primary : tokens.colors.text.disabled,
-                fontWeight: use3D ? 600 : 400,
-              }}
-            >
-              3D
-            </Typography>
-          </Box>
-        </Box>
+        <Typography variant="body1" sx={{ fontWeight: 600, mb: 3 }}>
+          Your Dice Set
+        </Typography>
 
         {/* Dice Display */}
         <Box
@@ -217,20 +173,6 @@ export function BoardAndPiecesSection() {
           {DICE_CONFIG.map((config) => {
             const color = getColor(config.sides);
             const isSelected = selectedDice === config.sides;
-
-            if (use3D) {
-              return (
-                <ZdogDice
-                  key={config.sides}
-                  sides={config.sides}
-                  size={currentSize * 1.4}
-                  color={color}
-                  glowColor={`${color}60`}
-                  selected={isSelected}
-                  onClick={() => setSelectedDice(isSelected ? null : config.sides)}
-                />
-              );
-            }
 
             return (
               <BalatroCard

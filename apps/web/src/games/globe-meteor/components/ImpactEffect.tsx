@@ -131,26 +131,19 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     <group position={surfacePosition}>
       {/* Particle burst aligned to surface - ALL sizes scale with intensity */}
       <group ref={groupRef} rotation={rotation}>
-        {/* PERSISTENT BLACK CRATER - stackable destruction! */}
-        <mesh>
-          <circleGeometry args={[0.25 * intensity, 16]} />
-          <meshBasicMaterial
-            color="#000000"
-            transparent
-            opacity={0.7}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-        {/* Darker center for depth */}
-        <mesh position={[0, 0, 0.001]}>
-          <circleGeometry args={[0.12 * intensity, 12]} />
-          <meshBasicMaterial
-            color="#000000"
-            transparent
-            opacity={0.9}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
+        {/* Crater burn mark - fades over time instead of persistent black */}
+        {progress < 0.95 && (
+          <mesh>
+            <circleGeometry args={[0.2 * intensity, 16]} />
+            <meshBasicMaterial
+              color="#1a1a1a"
+              transparent
+              opacity={Math.max(0, 0.5 * (1 - progress * 0.8))}
+              side={THREE.FrontSide}
+              depthWrite={false}
+            />
+          </mesh>
+        )}
 
         {/* Central flash - scales with roll */}
         {progress < 0.5 && (

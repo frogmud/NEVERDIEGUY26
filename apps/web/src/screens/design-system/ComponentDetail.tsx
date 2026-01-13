@@ -2282,7 +2282,7 @@ export function ComponentDetail() {
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Alert severity="error">Component not found</Alert>
         <Button startIcon={<BackIcon />} onClick={() => navigate('/design-system')} sx={{ mt: 2 }}>
-          Back to Design System
+          Back to Bones
         </Button>
       </Container>
     );
@@ -2296,7 +2296,7 @@ export function ComponentDetail() {
         onClick={() => navigate('/design-system')}
         sx={{ mb: 3, color: tokens.colors.text.secondary }}
       >
-        Design System
+        Bones
       </Button>
 
       {/* Header */}

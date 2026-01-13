@@ -81,7 +81,7 @@ export function PlayOptionsModal({
                   fontFamily: 'monospace',
                 }}
               >
-                Seed: {seedHash} | Domain {domain} | Room {roomNumber}
+                Seed: {seedHash} | Domain {domain} | Event {roomNumber}
               </Typography>
             )}
           </Box>

@@ -4,7 +4,6 @@
  * MVP Categories:
  * - Board & Pieces: Dice themes and colors
  * - Gameplay: Dice rolling options
- * - Notifications: Push/email preferences
  * - Accessibility: Reduced motion, colorblind mode
  */
 
@@ -17,7 +16,6 @@ import { tokens } from '../../theme';
 // Section components
 import { BoardAndPiecesSection } from './sections/BoardAndPieces';
 import { GameplaySection } from './sections/Gameplay';
-import { NotificationsSection } from './sections/Notifications';
 import { AccessibilitySection } from './sections/Accessibility';
 
 // ============================================
@@ -27,7 +25,6 @@ import { AccessibilitySection } from './sections/Accessibility';
 type SettingsCategory =
   | 'board'
   | 'gameplay'
-  | 'notifications'
   | 'accessibility';
 
 interface CategoryConfig {
@@ -42,7 +39,6 @@ interface CategoryConfig {
 const categories: CategoryConfig[] = [
   { id: 'board', label: 'Board & Pieces' },
   { id: 'gameplay', label: 'Gameplay' },
-  { id: 'notifications', label: 'Notifications' },
   { id: 'accessibility', label: 'Accessibility' },
 ];
 
@@ -69,8 +65,6 @@ export function SettingsIndex() {
         return <BoardAndPiecesSection />;
       case 'gameplay':
         return <GameplaySection />;
-      case 'notifications':
-        return <NotificationsSection />;
       case 'accessibility':
         return <AccessibilitySection />;
       default:

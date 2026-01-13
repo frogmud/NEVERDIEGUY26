@@ -1,20 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, AppBar, Toolbar, InputBase, IconButton, Badge, Tooltip, Typography, Avatar, Menu, MenuItem, ListItemIcon, Divider } from '@mui/material';
+import { Box, AppBar, Toolbar, InputBase, IconButton, Tooltip, Typography } from '@mui/material';
 import {
   SearchSharp as SearchIcon,
-  InboxSharp as InboxIcon,
   MenuSharp as MenuIcon,
-  PublicSharp as CountryIcon,
-  StarSharp as StarIcon,
   SettingsSharp as SettingsIcon,
+  HelpOutlineSharp as HelpIcon,
+  InfoSharp as AboutIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import { searchEntities, type AnyEntity } from '../../data/wiki';
 import { HEADER_HEIGHT } from './navItems';
 import { SearchPopover } from './SearchPopover';
-import { NotificationsMenu } from './NotificationsMenu';
-import { useAuth } from '../../contexts/AuthContext';
 
 interface AppTopbarProps {
   isMobile?: boolean;
@@ -23,15 +20,6 @@ interface AppTopbarProps {
 
 export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
   const navigate = useNavigate();
-  const { user } = useAuth();
-
-  // User menu state
-  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
-  const userMenuOpen = Boolean(userMenuAnchor);
-
-  // Notification menu state
-  const [notifAnchor, setNotifAnchor] = useState<null | HTMLElement>(null);
-  const notifOpen = Boolean(notifAnchor);
 
   // Search popover state
   const [searchAnchor, setSearchAnchor] = useState<null | HTMLElement>(null);
@@ -156,112 +144,50 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
           onViewAll={handleSearchSubmit}
         />
 
-        {/* Actions - Notifications, Avatar */}
-        <Tooltip title="Notifications" arrow>
-          <IconButton
-            onClick={(e) => setNotifAnchor(e.currentTarget)}
-            sx={{
-              width: 36,
-              height: 36,
-              color: tokens.colors.text.secondary,
-              '&:hover': { color: tokens.colors.text.primary },
-            }}
-          >
-            <Badge
-              badgeContent={99}
-              max={99}
+        {/* Actions - Help, Settings, About */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Tooltip title="Help" arrow>
+            <IconButton
+              onClick={() => navigate('/help')}
               sx={{
-                '& .MuiBadge-badge': {
-                  backgroundColor: tokens.colors.primary,
-                  color: 'white',
-                  fontSize: '0.5625rem',
-                  fontWeight: 600,
-                  minWidth: 16,
-                  height: 16,
-                  padding: '0 4px',
-                },
+                width: 32,
+                height: 32,
+                color: tokens.colors.text.secondary,
+                '&:hover': { color: tokens.colors.text.primary },
               }}
             >
-              <InboxIcon sx={{ fontSize: '1.25rem' }} />
-            </Badge>
-          </IconButton>
-        </Tooltip>
+              <HelpIcon sx={{ fontSize: '1.1rem' }} />
+            </IconButton>
+          </Tooltip>
 
-        {/* Profile Avatar with menu */}
-        <Tooltip
-          title={
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, py: 0.25 }}>
-              <Typography sx={{ fontSize: '0.75rem', fontWeight: 600 }}>
-                @{user.name}
-              </Typography>
-              <CountryIcon sx={{ fontSize: 12 }} />
-              <StarIcon sx={{ fontSize: 12, color: tokens.colors.warning }} />
-            </Box>
-          }
-          arrow
-          placement="bottom-end"
-        >
-          <Avatar
-            onClick={(e) => setUserMenuAnchor(e.currentTarget)}
-            src={user.avatar || '/assets/characters/portraits/60px/traveler-portrait-neverdieguy-02.svg'}
-            sx={{
-              width: 32,
-              height: 32,
-              bgcolor: tokens.colors.background.paper,
-              cursor: 'pointer',
-              '&:hover': { opacity: 0.8 },
-            }}
-          />
-        </Tooltip>
+          <Tooltip title="Settings" arrow>
+            <IconButton
+              onClick={() => navigate('/settings')}
+              sx={{
+                width: 32,
+                height: 32,
+                color: tokens.colors.text.secondary,
+                '&:hover': { color: tokens.colors.text.primary },
+              }}
+            >
+              <SettingsIcon sx={{ fontSize: '1.1rem' }} />
+            </IconButton>
+          </Tooltip>
 
-        {/* User dropdown menu */}
-        <Menu
-          anchorEl={userMenuAnchor}
-          open={userMenuOpen}
-          onClose={() => setUserMenuAnchor(null)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          PaperProps={{
-            sx: {
-              mt: 1,
-              minWidth: 180,
-              bgcolor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-            },
-          }}
-        >
-          <Box sx={{ px: 2, py: 1.5 }}>
-            <Typography sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming, fontSize: '0.9rem' }}>
-              NEVER DIE GUY
-            </Typography>
-            <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
-              #{user.playerNumber || '000000'}
-            </Typography>
-          </Box>
-          <Divider sx={{ borderColor: tokens.colors.border }} />
-          <MenuItem
-            onClick={() => {
-              setUserMenuAnchor(null);
-              navigate('/settings');
-            }}
-          >
-            <ListItemIcon>
-              <SettingsIcon fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-        </Menu>
-
-        {/* Notifications dropdown */}
-        <NotificationsMenu
-          anchorEl={notifAnchor}
-          open={notifOpen}
-          onClose={() => setNotifAnchor(null)}
-          onViewAll={() => {
-            setNotifAnchor(null);
-            navigate('/notifications');
-          }}
-        />
+          <Tooltip title="About" arrow>
+            <IconButton
+              onClick={() => navigate('/about')}
+              sx={{
+                width: 32,
+                height: 32,
+                color: tokens.colors.text.secondary,
+                '&:hover': { color: tokens.colors.text.primary },
+              }}
+            >
+              <AboutIcon sx={{ fontSize: '1.1rem' }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Toolbar>
     </AppBar>
   );

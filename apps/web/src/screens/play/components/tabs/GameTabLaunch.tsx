@@ -140,7 +140,7 @@ export function GameTabLaunch({
                     mb: 1,
                   }}
                 >
-                  Room {index + 1}
+                  Event {index + 1}
                 </Typography>
 
                 {/* Tier + Time Row */}
