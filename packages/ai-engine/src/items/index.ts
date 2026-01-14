@@ -20,3 +20,20 @@ export {
   generateStatBlock,
   mergeItemStats,
 } from './item-schema';
+
+export {
+  // Types
+  type WikiItemEntry,
+  // Constants
+  STAT_DISPLAY_MAP,
+  TRIGGER_DISPLAY,
+  STARTER_ITEMS,
+  // Functions
+  generateWikiStatBlock,
+  toWikiEntry,
+  getItemBySlug,
+  getItemsByElement,
+  getItemsForTier,
+  getItemsByCategory,
+  getItemsByTag,
+} from './wiki-bridge';

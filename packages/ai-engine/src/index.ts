@@ -756,6 +756,17 @@ export {
   validateItem,
   generateStatBlock,
   mergeItemStats,
+  // Wiki Bridge
+  STAT_DISPLAY_MAP,
+  TRIGGER_DISPLAY,
+  STARTER_ITEMS,
+  generateWikiStatBlock,
+  toWikiEntry,
+  getItemBySlug,
+  getItemsByElement,
+  getItemsForTier,
+  getItemsByCategory,
+  getItemsByTag,
 } from './items';
 export type {
   ItemCategory,
@@ -766,4 +777,5 @@ export type {
   ItemEffect,
   ItemDefinition,
   RarityConfig,
+  WikiItemEntry,
 } from './items';
