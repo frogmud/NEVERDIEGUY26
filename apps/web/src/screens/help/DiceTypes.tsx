@@ -217,7 +217,7 @@ export function DiceTypes() {
           </Typography>
         </Box>
         {[
-          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/getting-started' },
+          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/basics' },
           { title: 'Combat System', desc: 'Master throws, combos, and specials', path: '/help/guide/combat' },
           { title: 'Items & Equipment', desc: 'Gear that enhances your dice', path: '/wiki/items' },
         ].map((item, i, arr) => (

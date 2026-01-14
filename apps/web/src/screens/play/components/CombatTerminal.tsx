@@ -26,6 +26,7 @@ import { TokenIcon } from '../../../components/TokenIcon';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
+import { useKeyboardShortcuts } from '../../../hooks/useKeyboardShortcuts';
 import { useSoundContext } from '../../../contexts/SoundContext';
 import { useGameSettings } from '../../../contexts/GameSettingsContext';
 import type { DiceRollEventPayload, DiceRarity, CombatGameState } from '../../../data/npc-chat/types';
@@ -414,7 +415,7 @@ export function CombatTerminal({
   onGameStateChange,
 }: CombatTerminalProps) {
   // Sound effects
-  const { playDiceRoll, playImpact, playVictory, playDefeat } = useSoundContext();
+  const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion } = useSoundContext();
 
   // Game settings (speed affects animation timings)
   const { adjustDelay, gameSpeed } = useGameSettings();
@@ -965,13 +966,14 @@ export function CombatTerminal({
     if (engineState.phase === 'victory' && soundPlayedRef.current !== 'victory') {
       soundPlayedRef.current = 'victory';
       playVictory();
+      playExplosion(); // Planet explosion sound
     } else if (engineState.phase === 'defeat' && soundPlayedRef.current !== 'defeat') {
       soundPlayedRef.current = 'defeat';
       playDefeat();
     } else if (engineState.phase !== 'victory' && engineState.phase !== 'defeat') {
       soundPlayedRef.current = null;
     }
-  }, [engineState?.phase, playVictory, playDefeat]);
+  }, [engineState?.phase, playVictory, playDefeat, playExplosion]);
 
   // Convert engine state to HUD state format
   const combatState: RunCombatState = engineState
@@ -1196,6 +1198,23 @@ export function CombatTerminal({
     }
   }, [engineState?.phase, onDefeat, clearMessage]);
 
+  // Toggle die hold by index (for keyboard shortcuts)
+  const handleToggleDieByIndex = useCallback((index: number) => {
+    const die = engineState?.hand[index];
+    if (die) {
+      handleToggleHold(die.id);
+    }
+  }, [engineState?.hand, handleToggleHold]);
+
+  // Keyboard shortcuts (Space=throw, R=reset, 1-6=toggle die, Esc=pause)
+  useKeyboardShortcuts({
+    onThrow: handleThrowDice,
+    onReset: handleHoldNone,
+    onToggleDie: handleToggleDieByIndex,
+    onPause: () => setReportOpen(true), // Reuse report dialog for now
+    enabled: !isLobby && engineState?.phase !== 'victory' && engineState?.phase !== 'defeat',
+  });
+
   return (
     <Box
       sx={{
@@ -1224,7 +1243,7 @@ export function CombatTerminal({
       >
         {isLobby ? (
           <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.disabled, textAlign: 'center', width: '100%' }}>
-            Select a zone to begin
+            Select an event to begin
           </Typography>
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, width: '100%' }}>

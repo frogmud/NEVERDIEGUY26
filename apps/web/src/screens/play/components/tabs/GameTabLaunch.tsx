@@ -97,7 +97,7 @@ export function GameTabLaunch({
           mb: 3,
         }}
       >
-        Click a zone to begin
+        Click an event to begin
       </Typography>
 
       {/* Zone Cards */}

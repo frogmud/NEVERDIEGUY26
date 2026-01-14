@@ -83,7 +83,7 @@ interface PlaySidebarProps {
   gold?: number;
 }
 
-type LobbyTabValue = 'game' | 'bag' | 'settings';
+type LobbyTabValue = 'game' | 'bag' | 'options';
 
 /**
  * State-aware sidebar for the Play screen.
@@ -194,7 +194,7 @@ export function PlaySidebar({
         >
           <Tab value="game" label="Game" />
           <Tab value="bag" label="Bag" />
-          <Tab value="settings" label="Settings" />
+          <Tab value="options" label="Options" />
         </Tabs>
       </Box>
 
@@ -246,7 +246,7 @@ export function PlaySidebar({
             onLoadoutSelect={setSelectedLoadout}
           />
         )}
-        {activeTab === 'settings' && <SettingsTab />}
+        {activeTab === 'options' && <SettingsTab />}
       </Box>
     </Box>
   );

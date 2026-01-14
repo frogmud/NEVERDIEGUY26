@@ -41,7 +41,7 @@ function GameGuideSection() {
 
       <Paper sx={{ bgcolor: tokens.colors.background.paper, borderRadius: '20px', overflow: 'hidden', mb: 3 }}>
         {[
-          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/getting-started' },
+          { title: 'Getting Started', desc: 'Learn the basics of dice combat', path: '/help/guide/basics' },
           { title: 'Dice Types', desc: 'D4, D6, D8, D10, D12, D20 explained', path: '/help/guide/dice' },
           { title: 'Combat System', desc: 'How battles work', path: '/help/guide/combat' },
           { title: 'Domains', desc: 'Explore the 6 realms', path: '/wiki/domains' },

@@ -13,6 +13,13 @@ import {
   TILE_TYPES,
 } from './grid-generator';
 import {
+  TIMER_CONFIG,
+  SCORE_CONFIG,
+  calculateDecayedMultiplier,
+  getSecondsUntilDecay,
+  calculateTargetScore as calcTargetScore,
+} from './balance-config';
+import {
   generateDicePool,
   drawHand,
   rollHand,
@@ -104,9 +111,15 @@ export interface CombatState {
   // Scoring
   targetScore: number;
   currentScore: number;
-  multiplier: number;       // Score multiplier (1 base, increases via trades)
+  multiplier: number;       // Base multiplier (pre-decay, built via trades)
   turnsRemaining: number;
   turnNumber: number;
+
+  // Timer-based decay (multiplier decays over time to reward fast play)
+  timerStarted: boolean;
+  timerStartTime: number;      // Timestamp when timer began (first throw)
+  timerPausedTime: number;     // Accumulated pause time (during animations)
+  animating: boolean;          // True during throw/resolve animations
 
   // Tracking
   collateralDamage: number;
@@ -162,12 +175,9 @@ const DEFAULT_CONFIG: Partial<CombatConfig> = {
 // Score Goals by Domain/Room
 // ============================================
 
+// Use centralized config from balance-config.ts
 function calculateTargetScore(domainId: number, roomType: 'normal' | 'elite' | 'boss'): number {
-  const baseScore = 1000;
-  const domainMultiplier = Math.pow(1.5, domainId - 1);
-  const roomMultipliers = { normal: 1.0, elite: 1.5, boss: 2.0 };
-
-  return Math.round(baseScore * domainMultiplier * roomMultipliers[roomType]);
+  return calcTargetScore(domainId, roomType);
 }
 
 function calculateMaxTurns(roomType: 'normal' | 'elite' | 'boss'): number {
@@ -277,9 +287,15 @@ export class CombatEngine {
       throwsRemaining: baseThrows + bonusThrows,  // 3 base + item bonus
       targetScore,
       currentScore: startingScore,                // Start with bonus score
-      multiplier: baseMultiplier,                 // Item score multiplier
+      multiplier: baseMultiplier,                 // Base multiplier (decays via timer)
       turnsRemaining: maxTurns,
       turnNumber: 1,
+      // Timer state (starts on first throw)
+      timerStarted: false,
+      timerStartTime: 0,
+      timerPausedTime: 0,
+      animating: false,
+      // Tracking
       collateralDamage: 0,
       friendlyHits: 0,
       enemiesSquished: 0,
@@ -295,6 +311,26 @@ export class CombatEngine {
 
   getState(): CombatState {
     return { ...this.state };
+  }
+
+  /**
+   * Get timer info for UI display (decay countdown, effective multiplier)
+   */
+  getTimerInfo(): {
+    started: boolean;
+    elapsedSeconds: number;
+    effectiveMultiplier: number;
+    secondsUntilDecay: number;
+    baseMultiplier: number;
+  } {
+    const elapsed = this.getElapsedSeconds();
+    return {
+      started: this.state.timerStarted,
+      elapsedSeconds: elapsed,
+      effectiveMultiplier: this.getEffectiveMultiplier(),
+      secondsUntilDecay: getSecondsUntilDecay(elapsed),
+      baseMultiplier: this.state.multiplier,
+    };
   }
 
   subscribe(listener: (state: CombatState) => void): () => void {
@@ -315,6 +351,53 @@ export class CombatEngine {
   private setPhase(phase: CombatPhase): void {
     this.state.phase = phase;
     this.notify();
+  }
+
+  // ============================================
+  // Timer Management (Multiplier Decay)
+  // ============================================
+
+  /**
+   * Start the decay timer (called on first throw)
+   */
+  private startTimer(): void {
+    if (this.state.timerStarted) return;
+    this.state.timerStarted = true;
+    this.state.timerStartTime = Date.now();
+    this.state.timerPausedTime = 0;
+  }
+
+  /**
+   * Get elapsed seconds since timer started (excluding paused time)
+   */
+  private getElapsedSeconds(): number {
+    if (!this.state.timerStarted) return 0;
+    const totalElapsed = Date.now() - this.state.timerStartTime;
+    const activeTime = totalElapsed - this.state.timerPausedTime;
+    return Math.max(0, activeTime / 1000);
+  }
+
+  /**
+   * Get effective multiplier after decay
+   */
+  private getEffectiveMultiplier(): number {
+    if (!this.state.timerStarted) return this.state.multiplier;
+    return calculateDecayedMultiplier(this.state.multiplier, this.getElapsedSeconds());
+  }
+
+  /**
+   * Pause timer during animations
+   */
+  private pauseTimer(): void {
+    this.state.animating = true;
+  }
+
+  /**
+   * Resume timer after animations, adding pause duration to offset
+   */
+  private resumeTimer(pauseDuration: number): void {
+    this.state.animating = false;
+    this.state.timerPausedTime += pauseDuration;
   }
 
   // ============================================
@@ -375,6 +458,9 @@ export class CombatEngine {
     if (this.state.phase !== 'select' && this.state.phase !== 'draw') return;
     if (this.state.throwsRemaining <= 0) return; // No throws left
 
+    // Start decay timer on first throw
+    this.startTimer();
+
     // Roll unheld dice only
     this.state.hand = rollHand(this.state.hand, this.rng);
     this.state.throwsRemaining--;
@@ -388,16 +474,29 @@ export class CombatEngine {
       const elementBonus = getElementBonus(die.element, this.state.domainId);
       scoreGain += Math.round(rollValue * 10 * elementBonus);
     }
-    scoreGain = Math.round(scoreGain * this.state.multiplier);
+
+    // Use effective multiplier (accounts for timer decay)
+    const effectiveMultiplier = this.getEffectiveMultiplier();
+    scoreGain = Math.round(scoreGain * effectiveMultiplier);
     this.state.currentScore += scoreGain;
 
-    // Consume multiplier after use (resets to 1, like Balatro)
-    this.state.multiplier = 1;
+    // NOTE: Multiplier persists and decays via timer - no reset!
 
     this.setPhase('throw');
+    this.pauseTimer(); // Pause during animation
 
-    // Brief delay for animation, then check if more throws or end turn
+    // Brief delay for animation, then check victory/continue
+    const animationStart = Date.now();
     setTimeout(() => {
+      const animationDuration = Date.now() - animationStart;
+      this.resumeTimer(animationDuration); // Resume timer, accounting for pause
+
+      // Check for immediate victory (reached target score)
+      if (this.state.currentScore >= this.state.targetScore) {
+        this.setPhase('victory');
+        return;
+      }
+
       if (this.state.throwsRemaining > 0) {
         // More throws available - go back to select
         this.setPhase('select');
@@ -405,7 +504,7 @@ export class CombatEngine {
         // No throws left - end the turn
         this.endTurn();
       }
-    }, 500);
+    }, TIMER_CONFIG.animationDuration);
   }
 
   private endTurn(): void {
@@ -477,8 +576,8 @@ export class CombatEngine {
       return;
     }
 
-    // Defeat: out of throws AND trades
-    if (this.state.throwsRemaining <= 0 && this.state.holdsRemaining <= 0) {
+    // Defeat: out of throws (trades can't help - only throws add score)
+    if (this.state.throwsRemaining <= 0) {
       this.setPhase('defeat');
       return;
     }
@@ -537,6 +636,17 @@ export class CombatEngine {
         ...this.state.pool.exhausted,
       ]);
       this.state.pool.exhausted = [];
+    }
+
+    // Check if player is out of throws (trades can't help score)
+    if (this.state.throwsRemaining <= 0) {
+      // No throws left - check if we won or lost
+      if (this.state.currentScore >= this.state.targetScore) {
+        this.setPhase('victory');
+      } else {
+        this.setPhase('defeat');
+      }
+      return;
     }
 
     // Back to draw phase with new dice

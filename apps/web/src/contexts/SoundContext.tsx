@@ -43,12 +43,20 @@ const SOUND_CONFIG = {
   },
 };
 
+// Explosion audio files
+const EXPLOSION_SOUNDS = [
+  '/sfx/explosion-01.wav',
+  '/sfx/explosion-02.wav',
+  '/sfx/explosion-03.wav',
+];
+
 interface SoundContextValue {
   playDiceRoll: () => void;
   playImpact: () => void;
   playUIClick: () => void;
   playVictory: () => void;
   playDefeat: () => void;
+  playExplosion: () => void;
   soundEnabled: boolean;
   setSoundEnabled: (enabled: boolean) => void;
 }
@@ -197,6 +205,18 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     });
   }, [soundEnabled, playTone]);
 
+  // Explosion sound (random from pool)
+  const playExplosion = useCallback(() => {
+    if (!soundEnabled) return;
+
+    const randomIndex = Math.floor(Math.random() * EXPLOSION_SOUNDS.length);
+    const audio = new Audio(EXPLOSION_SOUNDS[randomIndex]);
+    audio.volume = SOUND_CONFIG.masterVolume * 0.5; // Slightly quieter for explosions
+    audio.play().catch(() => {
+      // Ignore autoplay restrictions
+    });
+  }, [soundEnabled]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -214,6 +234,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
         playUIClick,
         playVictory,
         playDefeat,
+        playExplosion,
         soundEnabled,
         setSoundEnabled,
       }}

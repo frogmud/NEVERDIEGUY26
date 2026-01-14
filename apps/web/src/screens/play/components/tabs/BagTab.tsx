@@ -1,4 +1,4 @@
-import { Box, Typography, ButtonBase, Chip } from '@mui/material';
+import { Box, Typography, ButtonBase, Chip, Tooltip } from '@mui/material';
 import {
   ShieldSharp as ShieldIcon,
   BoltSharp as BoltIcon,
@@ -16,15 +16,112 @@ const LOADOUT_ICONS: Record<string, React.ReactNode> = {
   FavoriteSharp: <FavoriteIcon sx={{ fontSize: 24 }} />,
 };
 
+// Player stats configuration
+const PLAYER_STATS = [
+  { id: 'fury', name: 'Fury', icon: '/icons/stat-fury.svg', color: '#ef4444', description: 'Increases damage dealt per throw' },
+  { id: 'grit', name: 'Grit', icon: '/icons/stat-grit.svg', color: '#22c55e', description: 'Bonus starting throws' },
+  { id: 'resilience', name: 'Resilience', icon: '/icons/stat-resilience.svg', color: '#3b82f6', description: 'Reduces target score requirements' },
+  { id: 'essence', name: 'Essence', icon: '/icons/stat-essence.svg', color: '#f59e0b', description: 'Increases gold rewards' },
+];
+
 interface BagTabProps {
   isLobby?: boolean;
   selectedLoadout?: string;
   onLoadoutSelect?: (loadoutId: string) => void;
+  /** Player stats from the selected loadout */
+  playerStats?: Record<string, number>;
 }
 
-export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect }: BagTabProps) {
+export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect, playerStats }: BagTabProps) {
+  // Get stats from selected loadout
+  const selectedLoadoutData = LOADOUT_PRESETS.find(l => l.id === selectedLoadout);
+  const stats = playerStats || selectedLoadoutData?.statBonus || {};
+
   return (
-    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* Player Profile - compact stat display */}
+      {!isLobby && (
+        <Box
+          sx={{
+            p: 1.5,
+            bgcolor: tokens.colors.background.elevated,
+            borderRadius: '12px',
+            border: `1px solid ${tokens.colors.border}`,
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: '0.65rem',
+              color: tokens.colors.text.disabled,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              mb: 1,
+            }}
+          >
+            Profile
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 1 }}>
+            {PLAYER_STATS.map((stat) => {
+              const value = stats[stat.id] || 0;
+              return (
+                <Tooltip
+                  key={stat.id}
+                  title={stat.description}
+                  arrow
+                  placement="top"
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.75,
+                      p: 0.75,
+                      bgcolor: 'rgba(255,255,255,0.03)',
+                      borderRadius: '8px',
+                      cursor: 'help',
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={stat.icon}
+                      alt={stat.name}
+                      sx={{
+                        width: 20,
+                        height: 20,
+                        filter: 'brightness(0) invert(1)',
+                        opacity: value > 0 ? 1 : 0.4,
+                      }}
+                    />
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography
+                        sx={{
+                          fontSize: '0.65rem',
+                          color: tokens.colors.text.disabled,
+                          lineHeight: 1,
+                        }}
+                      >
+                        {stat.name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.85rem',
+                        color: value > 0 ? stat.color : tokens.colors.text.disabled,
+                        fontWeight: 600,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {value}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Tooltip>
+              );
+            })}
+          </Box>
+        </Box>
+      )}
+
       {/* Header */}
       <Typography
         sx={{
@@ -34,7 +131,7 @@ export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect }: Ba
           letterSpacing: '0.05em',
         }}
       >
-        {isLobby ? 'Select' : 'Current'} <Box component="span" sx={{ color: tokens.colors.primary }}>Loadout</Box>
+        {isLobby ? 'Select' : 'Current'} <Box component="span" sx={{ color: tokens.colors.text.primary, fontWeight: 600 }}>Loadout</Box>
       </Typography>
 
       {/* Class Cards */}
@@ -121,7 +218,7 @@ function LoadoutCard({ loadout, selected, expanded, onClick, isLobby }: LoadoutC
               fontFamily: tokens.fonts.gaming,
               fontWeight: 700,
               fontSize: '1rem',
-              color: selected ? tokens.colors.primary : tokens.colors.text.primary,
+              color: tokens.colors.text.primary,
               mb: 0.25,
             }}
           >
@@ -146,8 +243,8 @@ function LoadoutCard({ loadout, selected, expanded, onClick, isLobby }: LoadoutC
                 sx={{
                   height: 18,
                   fontSize: '0.6rem',
-                  bgcolor: selected ? `${tokens.colors.primary}20` : `${tokens.colors.text.secondary}15`,
-                  color: selected ? tokens.colors.primary : tokens.colors.text.secondary,
+                  bgcolor: selected ? `${tokens.colors.success}20` : `${tokens.colors.text.secondary}15`,
+                  color: selected ? tokens.colors.success : tokens.colors.text.secondary,
                   textTransform: 'capitalize',
                   '& .MuiChip-label': { px: 0.75 },
                 }}

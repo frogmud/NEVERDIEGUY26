@@ -88,7 +88,7 @@ export function DomainInfoModal({
           {/* Zone Progress */}
           <Box sx={{ mb: 2 }}>
             <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled, mb: 1, letterSpacing: '0.05em' }}>
-              ZONES ({clearedCount}/{totalZones})
+              EVENTS ({clearedCount}/{totalZones})
             </Typography>
             <Box sx={{ display: 'flex', gap: 1 }}>
               {zones.map((zone, i) => (

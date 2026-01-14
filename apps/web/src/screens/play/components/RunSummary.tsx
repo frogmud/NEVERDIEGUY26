@@ -30,9 +30,22 @@ export function RunSummary({
   eventType = 'small',
   onContinue,
 }: RunSummaryProps) {
-  // Title based on event type
-  const title = eventType === 'boss' ? 'BOSS DEFEATED' : eventType === 'big' ? 'ELITE CLEARED' : 'ROOM CLEARED';
-  const titleColor = eventType === 'boss' ? '#ff9800' : eventType === 'big' ? tokens.colors.secondary : tokens.colors.success;
+  // Title based on event type and domain completion
+  const isDomainClear = domainProgress.cleared === domainProgress.total;
+  const title = isDomainClear
+    ? 'DOMAIN CLEAR'
+    : eventType === 'boss'
+      ? 'BOSS DEFEATED'
+      : eventType === 'big'
+        ? 'ELITE CLEARED'
+        : 'ROOM CLEARED';
+  const titleColor = isDomainClear
+    ? '#00ffff' // Cyan for domain clear
+    : eventType === 'boss'
+      ? '#ff9800'
+      : eventType === 'big'
+        ? tokens.colors.secondary
+        : tokens.colors.success;
 
   return (
     <Fade in={true} timeout={300}>
@@ -124,7 +137,7 @@ export function RunSummary({
         {/* Domain progress */}
         {domainName && (
           <Typography sx={{ color: tokens.colors.text.secondary }}>
-            {domainName}: {domainProgress.cleared}/{domainProgress.total} zones cleared
+            {domainName}: {domainProgress.cleared}/{domainProgress.total} events cleared
           </Typography>
         )}
 

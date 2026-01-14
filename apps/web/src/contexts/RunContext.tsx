@@ -39,7 +39,15 @@ import {
 } from '../games/meteor/gameConfig';
 import type { DoorPreview } from '../data/pools';
 import type { ZoneMarker, DomainState } from '../types/zones';
-import { generateDomain, getNextDomain } from '../data/domains';
+import { generateDomain, getNextDomain, DOMAIN_CONFIGS } from '../data/domains';
+import {
+  logRunStart,
+  logRoomClear,
+  logDomainClear,
+  logShopPurchase,
+  logRunEnd,
+  logDefeat,
+} from '../utils/telemetry';
 
 // Combat system types from ai-engine
 import type {
@@ -439,6 +447,32 @@ function runReducer(state: RunState, action: RunAction): RunState {
         : state.currentDomain < 6 ? state.currentDomain + 1 : null;
 
       if (!nextDomainId) {
+        // Final victory! Save run to history
+        if (state.threadId && !state.practiceMode) {
+          addRunToHistory({
+            threadId: state.threadId,
+            won: true,
+            totalScore: state.totalScore,
+            gold: state.gold,
+            domain: state.currentDomain,
+            roomsCleared: state.runStats.eventsCompleted,
+            stats: {
+              bestRoll: state.runStats.bestRoll || 0,
+              mostRolled: state.runStats.mostRolled || 'd20',
+              diceThrown: state.runStats.diceThrown,
+              npcsSquished: state.runStats.npcsSquished,
+              purchases: state.runStats.purchases,
+            },
+          });
+        }
+        // Log final victory
+        logRunEnd(
+          true,
+          state.totalScore,
+          state.gold,
+          state.currentDomain || 6,
+          state.runStats.eventsCompleted
+        );
         return {
           ...state,
           runEnded: true,
@@ -624,6 +658,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const startRun = useCallback((threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[]) => {
+    logRunStart(selectedLoadout || 'default', threadId);
     dispatch({ type: 'START_RUN', threadId, protocolRoll, selectedTraveler, selectedLoadout, startingItems });
   }, []);
 
@@ -632,8 +667,15 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const endRun = useCallback((won: boolean) => {
+    logRunEnd(
+      won,
+      state.totalScore,
+      state.gold,
+      state.currentDomain || 1,
+      state.runStats.eventsCompleted
+    );
     dispatch({ type: 'END_RUN', won });
-  }, []);
+  }, [state.totalScore, state.gold, state.currentDomain, state.runStats.eventsCompleted]);
 
   const resetRun = useCallback(() => {
     dispatch({ type: 'RESET_RUN' });
@@ -644,12 +686,40 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const completeRoom = useCallback((score: number, gold: number, stats: { npcsSquished: number; diceThrown: number }) => {
+    // Log room clear
+    const domain = state.currentDomain || 1;
+    const room = state.roomNumber || 1;
+    const targetScore = (state.selectedZone?.tier || 1) * 1000;
+    logRoomClear(domain, room, score, targetScore, gold, stats.diceThrown);
+
+    // Check if this completes the domain (3/3 zones)
+    const clearedAfter = (state.domainState?.clearedCount || 0) + 1;
+    if (clearedAfter >= (state.domainState?.totalZones || 3)) {
+      const domainName = DOMAIN_CONFIGS[domain]?.name || `Domain ${domain}`;
+      logDomainClear(domain, domainName, state.totalScore + score, state.gold + gold);
+    }
+
     dispatch({ type: 'COMPLETE_ROOM', score, gold, stats });
-  }, []);
+  }, [state.currentDomain, state.roomNumber, state.selectedZone?.tier, state.domainState, state.totalScore, state.gold]);
 
   const failRoom = useCallback(() => {
+    // Log defeat
+    const targetScore = (state.selectedZone?.tier || 1) * 1000;
+    logDefeat(
+      state.combatState?.currentScore || 0,
+      targetScore,
+      state.currentDomain || 1,
+      state.roomNumber || 1
+    );
+    logRunEnd(
+      false,
+      state.totalScore,
+      state.gold,
+      state.currentDomain || 1,
+      state.runStats.eventsCompleted
+    );
     dispatch({ type: 'FAIL_ROOM' });
-  }, []);
+  }, [state.selectedZone?.tier, state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.totalScore, state.gold, state.runStats.eventsCompleted]);
 
   // Combat actions
   const initCombat = useCallback(() => {
@@ -684,8 +754,9 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const purchase = useCallback((cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => {
+    logShopPurchase(itemId, cost, state.gold - cost);
     dispatch({ type: 'PURCHASE', cost, itemId, category });
-  }, []);
+  }, [state.gold]);
 
   const continueFromShop = useCallback(() => {
     dispatch({ type: 'CONTINUE_FROM_SHOP' });
