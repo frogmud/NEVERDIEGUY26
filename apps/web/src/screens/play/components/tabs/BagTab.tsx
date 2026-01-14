@@ -62,7 +62,7 @@ export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect, play
           </Typography>
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 1 }}>
             {PLAYER_STATS.map((stat) => {
-              const value = stats[stat.id] || 0;
+              const value = (stats as Record<string, number>)[stat.id] || 0;
               return (
                 <Tooltip
                   key={stat.id}
