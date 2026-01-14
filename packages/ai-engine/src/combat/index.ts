@@ -86,3 +86,21 @@ export {
   getSecondsUntilDecay,
   calculateTargetScore as calculateBalancedTargetScore,
 } from './balance-config';
+
+// Item System (re-export from items package)
+export {
+  type ItemCategory,
+  type ItemRarity,
+  type ItemElement,
+  type CombatStats,
+  type EffectTrigger,
+  type ItemEffect,
+  type ItemDefinition,
+  type RarityConfig,
+  DEFAULT_COMBAT_STATS,
+  RARITY_CONFIG,
+  calculateShopPrice,
+  validateItem,
+  generateStatBlock,
+  mergeItemStats,
+} from '../items';
