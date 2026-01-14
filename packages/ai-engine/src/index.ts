@@ -744,3 +744,26 @@ export {
 export type {
   DebtTension,
 } from './player/debt-tension';
+
+// ============================================
+// Item System
+// ============================================
+
+export {
+  DEFAULT_COMBAT_STATS,
+  RARITY_CONFIG,
+  calculateShopPrice,
+  validateItem,
+  generateStatBlock,
+  mergeItemStats,
+} from './items';
+export type {
+  ItemCategory,
+  ItemRarity,
+  ItemElement,
+  CombatStats,
+  EffectTrigger,
+  ItemEffect,
+  ItemDefinition,
+  RarityConfig,
+} from './items';
