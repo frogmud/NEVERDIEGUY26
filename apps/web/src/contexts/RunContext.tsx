@@ -447,6 +447,32 @@ function runReducer(state: RunState, action: RunAction): RunState {
         : state.currentDomain < 6 ? state.currentDomain + 1 : null;
 
       if (!nextDomainId) {
+        // Final victory! Save run to history
+        if (state.threadId && !state.practiceMode) {
+          addRunToHistory({
+            threadId: state.threadId,
+            won: true,
+            totalScore: state.totalScore,
+            gold: state.gold,
+            domain: state.currentDomain,
+            roomsCleared: state.runStats.eventsCompleted,
+            stats: {
+              bestRoll: state.runStats.bestRoll || 0,
+              mostRolled: state.runStats.mostRolled || 'd20',
+              diceThrown: state.runStats.diceThrown,
+              npcsSquished: state.runStats.npcsSquished,
+              purchases: state.runStats.purchases,
+            },
+          });
+        }
+        // Log final victory
+        logRunEnd(
+          true,
+          state.totalScore,
+          state.gold,
+          state.currentDomain || 6,
+          state.runStats.eventsCompleted
+        );
         return {
           ...state,
           runEnded: true,

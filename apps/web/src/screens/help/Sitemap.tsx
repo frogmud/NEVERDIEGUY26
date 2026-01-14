@@ -87,7 +87,7 @@ const sitemapData: SitemapSection[] = [
     icon: <HelpSharp />,
     links: [
       { label: 'Help Center', path: '/help', status: 'active' },
-      { label: 'Getting Started', path: '/help/guide/getting-started', status: 'active' },
+      { label: 'Getting Started', path: '/help/guide/basics', status: 'active' },
       { label: 'Scoring System', path: '/help/guide/combat', status: 'active' },
       { label: 'Dice Types', path: '/help/guide/dice', status: 'active' },
       { label: 'FAQ', path: '/help/faq', status: 'active' },

@@ -77,3 +77,12 @@ export {
   calculateTargetScore,
   calculateGoldReward,
 } from './scoring';
+
+// Balance Configuration (Timer Decay, Score Tuning)
+export {
+  TIMER_CONFIG,
+  SCORE_CONFIG,
+  calculateDecayedMultiplier,
+  getSecondsUntilDecay,
+  calculateTargetScore as calculateBalancedTargetScore,
+} from './balance-config';
