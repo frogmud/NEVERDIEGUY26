@@ -1224,7 +1224,7 @@ export function CombatTerminal({
       >
         {isLobby ? (
           <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.disabled, textAlign: 'center', width: '100%' }}>
-            Select a zone to begin
+            Select an event to begin
           </Typography>
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, width: '100%' }}>

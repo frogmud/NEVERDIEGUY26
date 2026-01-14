@@ -123,7 +123,7 @@ export function Shop({
         {
           tier,
           domain: domainSlug,
-          count: 6,
+          count: 4, // Hades-style limited inventory
           includeOverride: isAuditPrep,
         },
         rng,
@@ -265,15 +265,17 @@ export function Shop({
         </Typography>
       </Paper>
 
-      {/* Wiki Items Grid (tier-filtered from pool generators) */}
+      {/* Wiki Items Row (Hades-style limited inventory) */}
       {useWikiItems ? (
         <Box
           sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+            display: 'flex',
+            flexDirection: 'row',
             gap: 2,
+            justifyContent: 'center',
+            flexWrap: 'wrap',
             width: '100%',
-            maxWidth: 800,
+            maxWidth: 900,
             mb: 4,
           }}
         >
@@ -296,10 +298,13 @@ export function Shop({
                   p: 1.5,
                   display: 'flex',
                   flexDirection: 'column',
+                  width: 180,
+                  flexShrink: 0,
                   opacity: isPurchased ? 0.6 : 1,
                   transition: 'all 0.2s',
                   '&:hover': {
                     borderColor: isPurchased ? tokens.colors.success : rarityColor,
+                    transform: 'translateY(-2px)',
                   },
                 }}
               >

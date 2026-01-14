@@ -34,7 +34,7 @@ export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect }: Ba
           letterSpacing: '0.05em',
         }}
       >
-        {isLobby ? 'Select' : 'Current'} <Box component="span" sx={{ color: tokens.colors.primary }}>Loadout</Box>
+        {isLobby ? 'Select' : 'Current'} <Box component="span" sx={{ color: tokens.colors.text.primary, fontWeight: 600 }}>Loadout</Box>
       </Typography>
 
       {/* Class Cards */}
@@ -121,7 +121,7 @@ function LoadoutCard({ loadout, selected, expanded, onClick, isLobby }: LoadoutC
               fontFamily: tokens.fonts.gaming,
               fontWeight: 700,
               fontSize: '1rem',
-              color: selected ? tokens.colors.primary : tokens.colors.text.primary,
+              color: tokens.colors.text.primary,
               mb: 0.25,
             }}
           >
@@ -146,8 +146,8 @@ function LoadoutCard({ loadout, selected, expanded, onClick, isLobby }: LoadoutC
                 sx={{
                   height: 18,
                   fontSize: '0.6rem',
-                  bgcolor: selected ? `${tokens.colors.primary}20` : `${tokens.colors.text.secondary}15`,
-                  color: selected ? tokens.colors.primary : tokens.colors.text.secondary,
+                  bgcolor: selected ? `${tokens.colors.success}20` : `${tokens.colors.text.secondary}15`,
+                  color: selected ? tokens.colors.success : tokens.colors.text.secondary,
                   textTransform: 'capitalize',
                   '& .MuiChip-label': { px: 0.75 },
                 }}

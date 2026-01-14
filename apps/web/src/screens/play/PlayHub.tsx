@@ -350,19 +350,6 @@ export function PlayHub() {
         overflow: 'hidden',
       }}
     >
-      {/* Full-screen red overlay on game over */}
-      {state.runEnded && (
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            bgcolor: state.gameWon ? 'rgba(48, 209, 88, 0.25)' : 'rgba(233, 4, 65, 0.25)',
-            zIndex: 50,
-            pointerEvents: 'none',
-          }}
-        />
-      )}
-
       {/* Center: Main content area with progress bar and combat */}
       <Box
         sx={{
@@ -433,8 +420,21 @@ export function PlayHub() {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: 0,
+            position: 'relative', // Required for GameOverModal absolute positioning
           }}
         >
+        {/* Tinted overlay on game over - covers center area only, sidebar stays visible */}
+        {state.runEnded && (
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              bgcolor: state.gameWon ? 'rgba(48, 209, 88, 0.35)' : 'rgba(233, 4, 65, 0.35)',
+              zIndex: 90,
+              pointerEvents: 'none',
+            }}
+          />
+        )}
         <CombatTerminal
           domain={state.currentDomain || 1}
           eventType={state.selectedZone?.eventType || 'small'}

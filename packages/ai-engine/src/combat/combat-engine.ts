@@ -396,8 +396,14 @@ export class CombatEngine {
 
     this.setPhase('throw');
 
-    // Brief delay for animation, then check if more throws or end turn
+    // Brief delay for animation, then check victory/continue
     setTimeout(() => {
+      // Check for immediate victory (reached target score)
+      if (this.state.currentScore >= this.state.targetScore) {
+        this.setPhase('victory');
+        return;
+      }
+
       if (this.state.throwsRemaining > 0) {
         // More throws available - go back to select
         this.setPhase('select');
@@ -477,8 +483,8 @@ export class CombatEngine {
       return;
     }
 
-    // Defeat: out of throws AND trades
-    if (this.state.throwsRemaining <= 0 && this.state.holdsRemaining <= 0) {
+    // Defeat: out of throws (trades can't help - only throws add score)
+    if (this.state.throwsRemaining <= 0) {
       this.setPhase('defeat');
       return;
     }
@@ -537,6 +543,17 @@ export class CombatEngine {
         ...this.state.pool.exhausted,
       ]);
       this.state.pool.exhausted = [];
+    }
+
+    // Check if player is out of throws (trades can't help score)
+    if (this.state.throwsRemaining <= 0) {
+      // No throws left - check if we won or lost
+      if (this.state.currentScore >= this.state.targetScore) {
+        this.setPhase('victory');
+      } else {
+        this.setPhase('defeat');
+      }
+      return;
     }
 
     // Back to draw phase with new dice

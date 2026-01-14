@@ -425,39 +425,9 @@ export function CombatHUD({
   const isDisabled = isDisabledProp || phase === 'throw' || phase === 'resolve' || phase === 'victory' || phase === 'defeat' || isRolling;
   const allRolled = hand.every((d) => d.rollValue !== null);
 
-  // Victory/Defeat overlay
+  // Victory/Defeat: Hide HUD - GameOverModal in PlayHub handles the overlay
   if (phase === 'victory' || phase === 'defeat') {
-    const victoryText = isDomainClear ? 'DOMAIN CLEAR' : 'VICTORY';
-    return (
-      <Paper
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          p: 3,
-          textAlign: 'center',
-          bgcolor: tokens.colors.background.paper,
-          border: `2px solid ${phase === 'victory' ? tokens.colors.success : tokens.colors.error}`,
-          borderRadius: 2,
-          zIndex: 1000,
-        }}
-      >
-        <Typography
-          variant="h4"
-          sx={{
-            ...gamingFont,
-            color: phase === 'victory' ? tokens.colors.success : tokens.colors.error,
-            mb: 1,
-          }}
-        >
-          {phase === 'victory' ? victoryText : 'DEFEAT'}
-        </Typography>
-        <Typography sx={{ ...gamingFont }}>
-          Score: {currentScore.toLocaleString()} / {targetScore.toLocaleString()}
-        </Typography>
-      </Paper>
-    );
+    return null;
   }
 
   return (
@@ -536,7 +506,12 @@ export function CombatHUD({
           <Tooltip
             title="Holding dice preserves them for the next hand. Select dice to toggle held status. 'All' and 'None' can be used to reselect and deselect the whole hand for actions."
             arrow
-            placement="top"
+            placement="bottom"
+            slotProps={{
+              tooltip: {
+                sx: { maxWidth: 280 },
+              },
+            }}
           >
             <InfoOutlinedIcon
               sx={{

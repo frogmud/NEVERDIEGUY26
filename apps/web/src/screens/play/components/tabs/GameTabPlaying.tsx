@@ -387,7 +387,7 @@ export function GameTabPlaying({
           </Typography>
         </Box>
 
-        {/* Options */}
+        {/* Pause */}
         <Button
           variant="contained"
           onClick={onOptions}
@@ -400,7 +400,7 @@ export function GameTabPlaying({
             '&:hover': { bgcolor: '#d4b000' },
           }}
         >
-          Options
+          Pause
         </Button>
       </Box>
 
