@@ -48,6 +48,7 @@ import {
   logRunEnd,
   logDefeat,
 } from '../utils/telemetry';
+import { getBonusesFromInventory } from '../data/items/combat-effects';
 
 // Combat system types from ai-engine
 import type {
@@ -725,21 +726,31 @@ export function RunProvider({ children }: { children: ReactNode }) {
   const initCombat = useCallback(() => {
     // Initialize combat state when entering combat
     // This sets up the initial hand, score targets, etc.
+
+    // Get item bonuses from inventory (powerups + upgrades)
+    const allItems = [...(state.inventory?.powerups || []), ...(state.inventory?.upgrades || [])];
+    const bonuses = getBonusesFromInventory(allItems);
+
+    // Base values + item bonuses
+    const baseThrows = 3;
+    const baseTrades = 2;
+    const baseMultiplier = 1;
+
     const combatState: RunCombatState = {
       phase: 'draw',
       hand: [], // Will be populated by DiceMeteor component
-      holdsRemaining: 2,    // "Trades" - swap dice for multiplier (2 per room)
-      throwsRemaining: 3,   // 3 throws per turn
+      holdsRemaining: baseTrades + bonuses.bonusTrades,      // 2 base + item bonuses
+      throwsRemaining: baseThrows + bonuses.bonusThrows,     // 3 base + item bonuses
       targetScore: (state.selectedZone?.tier || 1) * 1000,
-      currentScore: 0,
-      multiplier: 1,        // Score multiplier (increases via trades)
+      currentScore: bonuses.startingScore,                    // Start with bonus score
+      multiplier: baseMultiplier * bonuses.scoreMultiplier,   // Base multiplier * item bonus
       turnsRemaining: state.selectedZone?.eventType === 'boss' ? 8 : state.selectedZone?.eventType === 'big' ? 6 : 5,
       turnNumber: 1,
       enemiesSquished: 0,
       friendlyHits: 0,
     };
     dispatch({ type: 'INIT_COMBAT', combatState });
-  }, [state.selectedZone]);
+  }, [state.selectedZone, state.inventory]);
 
   const toggleHoldDie = useCallback((dieId: string) => {
     dispatch({ type: 'TOGGLE_HOLD_DIE', dieId });
