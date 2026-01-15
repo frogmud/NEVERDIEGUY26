@@ -60,7 +60,7 @@ export function Contact() {
     // Open mailto link with form data
     const mailtoSubject = encodeURIComponent(`[NDG] ${subject}`);
     const mailtoBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
-    window.open(`mailto:neverdieguy@neverdieguy.com?subject=${mailtoSubject}&body=${mailtoBody}`);
+    window.open(`mailto:kevin@neverdieguy.com?subject=${mailtoSubject}&body=${mailtoBody}`);
     setSubmitted(true);
   };
 
