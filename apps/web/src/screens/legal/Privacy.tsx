@@ -27,7 +27,7 @@ const sections = [
   },
   {
     title: 'Your Rights',
-    content: `Depending on your location, you may have certain rights regarding your personal information, including the right to access, correct, or delete your data, the right to data portability, and the right to opt out of certain processing. To exercise these rights, please contact us at privacy@neverdieguy.com. We will respond to your request within a reasonable timeframe.`,
+    content: `Depending on your location, you may have certain rights regarding your personal information, including the right to access, correct, or delete your data, the right to data portability, and the right to opt out of certain processing. To exercise these rights, please contact us at kevin@neverdieguy.com. We will respond to your request within a reasonable timeframe.`,
   },
   {
     title: 'Cookies & Tracking',
@@ -47,7 +47,7 @@ const sections = [
   },
   {
     title: 'Contact Us',
-    content: `If you have any questions about this Privacy Policy, please contact us at privacy@neverdieguy.com.`,
+    content: `If you have any questions about this Privacy Policy, please contact us at kevin@neverdieguy.com.`,
   },
 ];
 

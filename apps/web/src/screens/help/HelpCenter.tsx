@@ -121,7 +121,7 @@ function ContactSection() {
           <Box>
             <Typography variant="subtitle2" sx={{ mb: 0.5 }}>Email</Typography>
             <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>
-              support@neverdieguy.com
+              kevin@neverdieguy.com
             </Typography>
           </Box>
           <Box>
