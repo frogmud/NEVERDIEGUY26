@@ -301,6 +301,8 @@ export function HomeChatter() {
             display: 'flex',
             gap: 2,
             flexWrap: 'wrap',
+            alignItems: 'center',
+            maxWidth: '95%',
             opacity: showButtons ? 1 : 0,
             transition: 'opacity 300ms ease-out',
           }}
@@ -337,23 +339,24 @@ export function HomeChatter() {
           >
             Explore Wiki
           </Button>
+          {/* Tertiary button - right aligned */}
           <Button
-            variant="outlined"
+            variant="text"
             onClick={() => handleChoice('about')}
             sx={{
+              ml: 'auto',
               fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '1.1rem', sm: '1.25rem' },
-              px: 4,
-              py: 1.5,
-              borderColor: tokens.colors.border,
-              color: tokens.colors.text.secondary,
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+              px: 2,
+              py: 1,
+              color: tokens.colors.text.disabled,
               '&:hover': {
-                borderColor: tokens.colors.text.secondary,
-                bgcolor: 'rgba(255,255,255,0.05)',
+                color: tokens.colors.text.secondary,
+                bgcolor: 'transparent',
               },
             }}
           >
-            Learn More
+            What is NEVER DIE GUY?
           </Button>
         </Box>
       </Box>
