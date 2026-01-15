@@ -3,12 +3,9 @@ import {
   Box,
   Button,
   Chip,
-  Typography,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Tabs,
-  Tab,
 } from '@mui/material';
 import { ExpandMoreSharp as ExpandMoreIcon } from '@mui/icons-material';
 import { CardSection } from '../../../components/CardSection';
@@ -49,7 +46,6 @@ export function ControlsPanel({
   controlsRef,
 }: ControlsPanelProps) {
   const [accordionExpanded, setAccordionExpanded] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState(0);
 
   return (
     <CardSection
@@ -237,45 +233,8 @@ export function ControlsPanel({
         />
 
         <AccordionDetails sx={{ p: 0 }}>
-          {/* Tabs for History / Inventory */}
-          <Tabs
-            value={activeTab}
-            onChange={(_, v) => setActiveTab(v)}
-            sx={{
-              borderBottom: `1px solid ${tokens.colors.border}`,
-              minHeight: 32,
-            }}
-          >
-            <Tab
-              label="History"
-              sx={{ ...gamingFont, fontSize: '0.8rem', minHeight: 32, py: 0.5 }}
-            />
-            <Tab
-              label="Inventory"
-              sx={{ ...gamingFont, fontSize: '0.8rem', minHeight: 32, py: 0.5 }}
-            />
-          </Tabs>
-
-          {/* Tab Content */}
           <Box sx={{ maxHeight: 200, overflow: 'hidden' }}>
-            {activeTab === 0 && (
-              // History Tab - Chess.com style notation
-              <RollHistory history={history} maxVisible={6} />
-            )}
-
-            {activeTab === 1 && (
-              // Inventory Tab (placeholder)
-              <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: tokens.colors.text.disabled,
-                  }}
-                >
-                  Dice inventory coming soon
-                </Typography>
-              </Box>
-            )}
+            <RollHistory history={history} maxVisible={6} />
           </Box>
         </AccordionDetails>
       </Accordion>

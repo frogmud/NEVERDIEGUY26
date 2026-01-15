@@ -57,7 +57,10 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Send to backend (name, email, subject, message)
+    // Open mailto link with form data
+    const mailtoSubject = encodeURIComponent(`[NDG] ${subject}`);
+    const mailtoBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
+    window.open(`mailto:neverdieguy@neverdieguy.com?subject=${mailtoSubject}&body=${mailtoBody}`);
     setSubmitted(true);
   };
 

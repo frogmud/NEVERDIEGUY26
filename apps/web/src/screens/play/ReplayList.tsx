@@ -110,9 +110,9 @@ export function ReplayList() {
     navigator.clipboard.writeText(`ndg://replay/${threadId}`);
   };
 
-  const handleDelete = (e: React.MouseEvent, id: string) => {
+  const handleDelete = (e: React.MouseEvent, _id: string) => {
     e.stopPropagation();
-    console.log('Delete replay:', id);
+    // Delete functionality not yet implemented
   };
 
   const filteredReplays = MOCK_REPLAYS.filter((replay) => {

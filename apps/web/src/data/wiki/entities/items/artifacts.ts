@@ -1101,4 +1101,343 @@ export const artifacts: Item[] = [
       { trigger: 'onMax', die: 10, effect: 'Arcane Surge: Next spell costs no mana', value: 1 },
     ],
   },
+
+  // ============================================
+  // LOADOUT STARTER ITEMS
+  // ============================================
+
+  {
+    slug: 'worn-dice-bag',
+    name: 'Worn Dice Bag',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 7,
+    rarity: 'Common',
+    value: 50,
+    element: 'Neutral',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/accessory/worn-dice-bag.svg',
+    description: 'A well-used leather pouch for carrying dice. The fabric is soft from years of handling. Grants an extra throw per combat.',
+    effects: [
+      { name: 'Extra Throw', description: '+1 throw per combat.' },
+    ],
+    obtainMethods: [
+      { type: 'starter', source: 'Warrior Loadout', rate: 'Starting Item' },
+    ],
+    seeAlso: ['never-die-guy'],
+  },
+
+  {
+    slug: 'traders-coin',
+    name: "Trader's Coin",
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 5,
+    rarity: 'Common',
+    value: 50,
+    element: 'Neutral',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/accessory/traders-coin.svg',
+    description: 'A lucky coin carried by traveling merchants. Flipping it brings good fortune in trades. Grants an extra trade per combat.',
+    effects: [
+      { name: 'Extra Trade', description: '+1 trade per combat.' },
+    ],
+    obtainMethods: [
+      { type: 'starter', source: 'Rogue Loadout', rate: 'Starting Item' },
+    ],
+    seeAlso: ['willy'],
+  },
+
+  {
+    slug: 'fire-ember',
+    name: 'Fire Ember',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 4,
+    rarity: 'Common',
+    value: 75,
+    element: 'Fire',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/materials/fire-ember.svg',
+    description: 'A perpetually smoldering ember from the depths of Infernus. Warm to the touch but never burns the holder.',
+    effects: [
+      { name: 'Fire Attunement', description: '+25% Fire damage.' },
+    ],
+    obtainMethods: [
+      { type: 'starter', source: 'Warrior Loadout', rate: 'Starting Item' },
+      { type: 'drop', source: 'Infernus enemies', rate: 'Common' },
+    ],
+    seeAlso: ['robert', 'infernus'],
+  },
+
+  {
+    slug: 'wind-feather',
+    name: 'Wind Feather',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 6,
+    rarity: 'Common',
+    value: 75,
+    element: 'Wind',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/materials/wind-feather.svg',
+    description: 'A feather that constantly floats and drifts, pulled by unseen currents from the Aberrant reaches.',
+    effects: [
+      { name: 'Wind Attunement', description: '+25% Wind damage.' },
+    ],
+    obtainMethods: [
+      { type: 'starter', source: 'Rogue Loadout', rate: 'Starting Item' },
+      { type: 'drop', source: 'Aberrant enemies', rate: 'Common' },
+    ],
+    seeAlso: ['jane', 'aberrant'],
+  },
+
+  {
+    slug: 'earth-stone',
+    name: 'Earth Stone',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 2,
+    rarity: 'Common',
+    value: 75,
+    element: 'Earth',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/materials/earth-stone.svg',
+    description: 'A dense, perfectly smooth stone from the mechanical forges of Earth. Hums with latent energy.',
+    effects: [
+      { name: 'Earth Attunement', description: '+25% Earth damage.' },
+    ],
+    obtainMethods: [
+      { type: 'drop', source: 'Earth enemies', rate: 'Common' },
+    ],
+    seeAlso: ['john', 'earth'],
+  },
+
+  {
+    slug: 'death-sigil',
+    name: 'Death Sigil',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 3,
+    rarity: 'Common',
+    value: 75,
+    element: 'Death',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/materials/death-sigil.svg',
+    description: 'A small medallion bearing the mark of Shadow Keep. Cold to the touch, it resonates with necrotic energy.',
+    effects: [
+      { name: 'Death Attunement', description: '+25% Death damage.' },
+    ],
+    obtainMethods: [
+      { type: 'drop', source: 'Shadow Keep enemies', rate: 'Common' },
+    ],
+    seeAlso: ['peter', 'shadow-keep'],
+  },
+
+  {
+    slug: 'ice-shard',
+    name: 'Ice Shard',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 5,
+    rarity: 'Common',
+    value: 75,
+    element: 'Ice',
+    tier: 1,
+    level: 1,
+    image: '/assets/items/materials/ice-shard.svg',
+    description: 'A crystal shard from Frost Reach that never melts. Emanates a constant chill.',
+    effects: [
+      { name: 'Ice Attunement', description: '+25% Ice damage.' },
+    ],
+    obtainMethods: [
+      { type: 'drop', source: 'Frost Reach enemies', rate: 'Common' },
+    ],
+    seeAlso: ['alice', 'frost-reach'],
+  },
+
+  // ============================================
+  // SHOP GAMEPLAY ITEMS
+  // ============================================
+
+  {
+    slug: 'extra-throw',
+    name: 'Extra Throw Token',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 7,
+    rarity: 'Uncommon',
+    value: 100,
+    element: 'Neutral',
+    tier: 2,
+    level: 5,
+    image: '/assets/items/accessory/extra-throw.svg',
+    description: 'A mystical token that grants the holder one additional throw per combat.',
+    effects: [
+      { name: 'Bonus Throw', description: '+1 throw per combat.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Any Wanderer Shop', rate: 'Common Stock' },
+    ],
+  },
+
+  {
+    slug: 'extra-trade',
+    name: 'Extra Trade Token',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 5,
+    rarity: 'Uncommon',
+    value: 100,
+    element: 'Neutral',
+    tier: 2,
+    level: 5,
+    image: '/assets/items/accessory/extra-trade.svg',
+    description: 'A mystical token that grants the holder one additional trade per combat.',
+    effects: [
+      { name: 'Bonus Trade', description: '+1 trade per combat.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Any Wanderer Shop', rate: 'Common Stock' },
+    ],
+  },
+
+  {
+    slug: 'score-booster',
+    name: 'Score Booster',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 7,
+    rarity: 'Uncommon',
+    value: 150,
+    element: 'Neutral',
+    tier: 2,
+    level: 10,
+    image: '/assets/items/accessory/score-booster.svg',
+    description: 'An enchanted talisman that amplifies the value of successful dice rolls.',
+    effects: [
+      { name: 'Score Boost', description: '+20% base score multiplier.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Any Wanderer Shop', rate: 'Uncommon Stock' },
+    ],
+  },
+
+  {
+    slug: 'gold-magnet',
+    name: 'Gold Magnet',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 5,
+    rarity: 'Uncommon',
+    value: 125,
+    element: 'Neutral',
+    tier: 2,
+    level: 8,
+    image: '/assets/items/accessory/gold-magnet.svg',
+    description: 'A peculiar device that attracts gold coins from defeated enemies.',
+    effects: [
+      { name: 'Gold Attraction', description: '+25% gold from combat.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Willy', rate: 'Rare Stock' },
+    ],
+    seeAlso: ['willy'],
+  },
+
+  {
+    slug: 'elemental-prism',
+    name: 'Elemental Prism',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 6,
+    rarity: 'Rare',
+    value: 300,
+    element: 'Neutral',
+    tier: 3,
+    level: 15,
+    image: '/assets/items/accessory/elemental-prism.svg',
+    description: 'A crystalline prism that refracts elemental energy, boosting all damage types equally.',
+    effects: [
+      { name: 'Prismatic Boost', description: '+10% damage for all elements.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Dr. Maxwell', rate: 'Rare Stock' },
+    ],
+    seeAlso: ['dr-maxwell'],
+  },
+
+  {
+    slug: 'head-start',
+    name: 'Head Start Badge',
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 1,
+    rarity: 'Rare',
+    value: 250,
+    element: 'Neutral',
+    tier: 3,
+    level: 12,
+    image: '/assets/items/accessory/head-start.svg',
+    description: 'A badge that grants an immediate score bonus at the start of combat.',
+    effects: [
+      { name: 'Head Start', description: 'Start combat with 500 score.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Any Wanderer Shop', rate: 'Rare Stock' },
+    ],
+  },
+
+  {
+    slug: 'dice-masters-gloves',
+    name: "Dice Master's Gloves",
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 7,
+    rarity: 'Epic',
+    value: 500,
+    element: 'Neutral',
+    tier: 4,
+    level: 25,
+    image: '/assets/items/accessory/dice-masters-gloves.svg',
+    description: 'Legendary gloves worn by master dice throwers. Greatly enhances throw capability and score potential.',
+    effects: [
+      { name: 'Master Throws', description: '+2 throws per combat.' },
+      { name: 'Precision Grip', description: '+10% base score multiplier.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Willy', rate: 'Legendary Stock' },
+      { type: 'drop', source: 'Boss enemies', rate: 'Very Rare' },
+    ],
+    seeAlso: ['willy', 'king-james'],
+  },
+
+  {
+    slug: 'merchants-blessing',
+    name: "Merchant's Blessing",
+    category: 'items',
+    itemType: 'Artifact',
+    luckyNumber: 5,
+    rarity: 'Epic',
+    value: 450,
+    element: 'Neutral',
+    tier: 4,
+    level: 20,
+    image: '/assets/items/accessory/merchants-blessing.svg',
+    description: 'A blessing bestowed by the wandering merchants guild. Greatly enhances trading and gold acquisition.',
+    effects: [
+      { name: 'Trade Mastery', description: '+2 trades per combat.' },
+      { name: 'Golden Touch', description: '+50% gold from combat.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'Willy', rate: 'Legendary Stock' },
+    ],
+    seeAlso: ['willy'],
+  },
 ];

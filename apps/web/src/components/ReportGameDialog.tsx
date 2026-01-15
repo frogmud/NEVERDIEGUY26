@@ -31,8 +31,11 @@ export function ReportGameDialog({
   onClose,
   onBackToHome,
 }: ReportGameDialogProps) {
-  const handleSubmit = (_reason: string, _details?: string) => {
-    // TODO: Send to backend
+  const handleSubmit = (reason: string, details?: string) => {
+    // Store report locally for now
+    const reports = JSON.parse(localStorage.getItem('ndg-game-reports') || '[]');
+    reports.push({ reason, details, timestamp: Date.now() });
+    localStorage.setItem('ndg-game-reports', JSON.stringify(reports.slice(-50)));
   };
 
   const handleBackToHome = () => {

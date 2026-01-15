@@ -29,27 +29,16 @@ import {
   getVisibleNotifications,
   getThreads,
 } from '../data/notifications/storage';
-import { createMockNotificationStorage } from '../data/notifications/mock';
 
 const NotificationContext = createContext<NotificationContextValue | null>(null);
 
 interface NotificationProviderProps {
   children: ReactNode;
-  useMockData?: boolean;
 }
 
-export function NotificationProvider({ children, useMockData = true }: NotificationProviderProps) {
+export function NotificationProvider({ children }: NotificationProviderProps) {
   // Load storage on mount
-  const [storage, setStorage] = useState(() => {
-    const loaded = loadNotificationStorage();
-    // If empty and useMockData, use mock data
-    if (useMockData && loaded.notifications.length === 0) {
-      const mockStorage = createMockNotificationStorage();
-      saveNotificationStorage(mockStorage);
-      return mockStorage;
-    }
-    return loaded;
-  });
+  const [storage, setStorage] = useState(() => loadNotificationStorage());
 
   // Persist storage changes
   useEffect(() => {

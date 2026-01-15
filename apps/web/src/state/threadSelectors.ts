@@ -187,15 +187,6 @@ export function isFreshThread(state: GameState): boolean {
 }
 
 /**
- * Get next door choices summary
- */
-export function getNextDoorChoices(state: GameState): string[] {
-  // This will be populated by the door selector component
-  // For now, return placeholder
-  return ['Stable Corridor', 'High Heat Sector', 'Anomaly Node'];
-}
-
-/**
  * Thread snapshot for dev drawer
  */
 export interface ThreadSnapshot {

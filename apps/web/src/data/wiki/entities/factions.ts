@@ -95,7 +95,7 @@ export const factions: Faction[] = [
     homeBase: 'infernus',
     element: 'Fire',
     description: 'Pyromancers, berserkers, and those who believe destruction is the purest form of creation. The Flame Wardens embrace chaos and the purifying nature of fire.',
-    members: [],
+    members: ['xtreme', 'willy'],
     rivals: ['frost-heralds'],
     allies: ['iron-collective'],
     bonuses: [
@@ -120,7 +120,7 @@ export const factions: Faction[] = [
     homeBase: 'frost-reach',
     element: 'Ice',
     description: 'Masters of patience and precision, the Frost Heralds believe in calculated strikes and the wisdom of waiting. They freeze their enemies not just physically, but strategically.',
-    members: [],
+    members: ['dr-voss', 'clausen'],
     rivals: ['flame-wardens'],
     allies: ['verdant-order'],
     bonuses: [
@@ -145,7 +145,7 @@ export const factions: Faction[] = [
     homeBase: 'aberrant',
     element: 'Wind',
     description: 'Druids, healers, and those who honor the cycle of growth and decay. The Verdant Order sees themselves as gardeners of reality, tending to the natural order.',
-    members: [],
+    members: ['stitch-up-girl', 'body-count'],
     rivals: ['iron-collective', 'shadow-court'],
     allies: ['frost-heralds'],
     bonuses: [
@@ -171,7 +171,7 @@ export const factions: Faction[] = [
     element: 'Neutral',
     description: 'An elite faction that transcends the six doors. The Board Room serves all Die-rectors equally and has access to powers from every domain. Membership is by invitation only.',
     members: ['mr-kevin'],
-    rivals: [],
+    rivals: ['wandering-stars'],
     allies: ['void-seekers', 'iron-collective', 'shadow-court', 'flame-wardens', 'frost-heralds', 'verdant-order'],
     bonuses: [
       'Lucky Number 7 counts as any number rolled',
@@ -194,8 +194,8 @@ export const factions: Faction[] = [
     founder: 'never-die-guy',
     element: 'Neutral',
     description: 'Those who refuse to pledge allegiance to any Die-rector. The Wandering Stars believe in freedom above all else, traveling between domains without obligation.',
-    members: ['never-die-guy', 'boots'],
-    rivals: [],
+    members: ['never-die-guy', 'boots', 'keith-man', 'the-general'],
+    rivals: ['board-room'],
     allies: [],
     bonuses: [
       '+10% movement speed',

@@ -97,8 +97,7 @@ export function CircleIcon({
   );
 }
 
-// Re-export with legacy names for backwards compatibility
-// TODO: Migrate all usages to CircleIcon and remove these
+// Legacy aliases for backwards compatibility
 /** @deprecated Use CircleIcon instead */
 export const IconBadge = CircleIcon;
 /** @deprecated Use CircleIcon instead */

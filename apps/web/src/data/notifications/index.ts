@@ -1,9 +1,8 @@
 /**
  * Notifications Data Module
  *
- * Exports all notification-related types, storage, and mock data.
+ * Exports all notification-related types and storage.
  */
 
 export * from './types';
 export * from './storage';
-export * from './mock';

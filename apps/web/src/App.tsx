@@ -65,8 +65,6 @@ const PlayHub = lazy(() => import('./screens/play/PlayHub').then(m => ({ default
 const PlayResults = lazy(() => import('./screens/play/PlayResults').then(m => ({ default: m.PlayResults })));
 const DiceMeteor = lazy(() => import('./screens/play/DiceMeteor').then(m => ({ default: m.DiceMeteor })));
 const ReplayList = lazy(() => import('./screens/play/ReplayList').then(m => ({ default: m.ReplayList })));
-const MatchReplay = lazy(() => import('./screens/play/MatchReplay').then(m => ({ default: m.MatchReplay })));
-const SpectateMode = lazy(() => import('./screens/play/SpectateMode').then(m => ({ default: m.SpectateMode })));
 const TournamentBracket = lazy(() => import('./screens/play/TournamentBracket').then(m => ({ default: m.TournamentBracket })));
 const ExitGameConfirm = lazy(() => import('./screens/play/ExitGameConfirm').then(m => ({ default: m.ExitGameConfirm })));
 const ExitGameSummary = lazy(() => import('./screens/play/ExitGameSummary').then(m => ({ default: m.ExitGameSummary })));
@@ -135,8 +133,6 @@ function App() {
           <Route path="/play/results" element={<Suspense fallback={<RouteLoader />}><PlayResults /></Suspense>} />
           <Route path="/play/meteor" element={<Suspense fallback={<RouteLoader />}><DiceMeteor /></Suspense>} />
           <Route path="/play/replays" element={<Suspense fallback={<RouteLoader />}><ReplayList /></Suspense>} />
-          <Route path="/play/replay/:threadId" element={<Suspense fallback={<RouteLoader />}><MatchReplay /></Suspense>} />
-          <Route path="/play/spectate/:matchId" element={<Suspense fallback={<RouteLoader />}><SpectateMode /></Suspense>} />
           <Route path="/play/tournament" element={<Suspense fallback={<RouteLoader />}><TournamentBracket /></Suspense>} />
           <Route path="/play/globe" element={<Suspense fallback={<RouteLoader />}><Globe3D /></Suspense>} />
           <Route path="/play/stats/:threadId" element={<Suspense fallback={<RouteLoader />}><MatchStats /></Suspense>} />
