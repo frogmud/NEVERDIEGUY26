@@ -1,7 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
-import { Box, Typography, Button, Paper, Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { Box, Typography, Button, Paper, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes } from '@mui/material';
 import {
-  ShoppingCartSharp as CartIcon,
   ArrowForwardSharp as ContinueIcon,
   FavoriteSharp as FavorIcon,
   CheckCircleSharp as CheckIcon,
@@ -14,6 +13,61 @@ import type { Item, Rarity } from '../../data/wiki/types';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
+// Vendor animation
+const slideIn = keyframes`
+  0% { opacity: 0; transform: translateX(-30px); }
+  100% { opacity: 1; transform: translateX(0); }
+`;
+
+// Domain-specific shop vendors
+interface ShopVendor {
+  name: string;
+  sprite: string;
+  sprite2?: string;
+  greeting: string;
+  wikiSlug: string;
+}
+
+const DOMAIN_VENDORS: Record<number, ShopVendor> = {
+  1: {
+    name: 'Stitch-up Girl',
+    sprite: '/assets/market-svg/stitch-up-girl/shop-01.svg',
+    sprite2: '/assets/market-svg/stitch-up-girl/shop-02.svg',
+    greeting: 'Patch yourself up before the next fight.',
+    wikiSlug: 'travelers/stitch-up-girl',
+  },
+  2: {
+    name: 'Mr. Bones',
+    sprite: '/assets/market-svg/mr-bones/shop-01.svg',
+    greeting: 'Death and taxes. I handle both.',
+    wikiSlug: 'wanderers/mr-bones',
+  },
+  3: {
+    name: 'X-treme',
+    sprite: '/assets/market-svg/xtreme/shop-01.svg',
+    greeting: 'EXTREME deals! Roll the dice!',
+    wikiSlug: 'wanderers/xtreme',
+  },
+  4: {
+    name: 'The General',
+    sprite: '/assets/market-svg/the-general/shop-01.svg',
+    greeting: 'Military precision. Fair prices.',
+    wikiSlug: 'wanderers/the-general',
+  },
+  5: {
+    name: 'Dr. Voss',
+    sprite: '/assets/market-svg/dr-voss/shop-01.svg',
+    greeting: 'Reality is negotiable. So are prices.',
+    wikiSlug: 'wanderers/dr-voss',
+  },
+  6: {
+    name: 'Willy One Eye',
+    sprite: '/assets/market-svg/willy/shop-01.svg',
+    greeting: 'One eye sees more than two ever could.',
+    wikiSlug: 'wanderers/willy',
+  },
+};
+
 // Rarity colors
 const RARITY_COLORS: Record<Rarity, string> = {
   Common: tokens.colors.text.secondary,
@@ -24,14 +78,14 @@ const RARITY_COLORS: Record<Rarity, string> = {
   Unique: tokens.colors.error,
 };
 
-// Base prices by rarity
+// Base prices by rarity (balanced against ~50-100g per room)
 const BASE_PRICE_BY_RARITY: Record<Rarity, number> = {
-  Common: 25,
-  Uncommon: 50,
-  Rare: 100,
-  Epic: 200,
-  Legendary: 400,
-  Unique: 600,
+  Common: 75,
+  Uncommon: 150,
+  Rare: 300,
+  Epic: 500,
+  Legendary: 800,
+  Unique: 1200,
 };
 
 // Calculate item cost based on rarity and tier (base price before discounts)
@@ -57,15 +111,15 @@ interface LegacyShopItem {
 }
 
 const LEGACY_SHOP_ITEMS: LegacyShopItem[] = [
-  { id: 'd4', name: 'Extra D4', description: '+1 D4 die to your loadout', cost: 30, rarity: 'Common' },
-  { id: 'd6', name: 'Extra D6', description: '+1 D6 die to your loadout', cost: 40, rarity: 'Common' },
-  { id: 'd8', name: 'Extra D8', description: '+1 D8 die to your loadout', cost: 50, rarity: 'Uncommon' },
-  { id: 'd10', name: 'Extra D10', description: '+1 D10 die to your loadout', cost: 60, rarity: 'Uncommon' },
-  { id: 'd12', name: 'Extra D12', description: '+1 D12 die to your loadout', cost: 75, rarity: 'Rare' },
-  { id: 'd20', name: 'Extra D20', description: '+1 D20 die to your loadout', cost: 100, rarity: 'Rare' },
-  { id: 'summon', name: '+1 Summon', description: 'Gain an extra summon this domain', cost: 80, rarity: 'Uncommon' },
-  { id: 'tribute', name: '+1 Tribute', description: 'Gain an extra tribute this domain', cost: 60, rarity: 'Common' },
-  { id: 'double', name: '2x Next Combo', description: 'Double your next combo multiplier', cost: 120, rarity: 'Rare' },
+  { id: 'd4', name: 'Extra D4', description: '+1 D4 die to your loadout', cost: 75, rarity: 'Common' },
+  { id: 'd6', name: 'Extra D6', description: '+1 D6 die to your loadout', cost: 100, rarity: 'Common' },
+  { id: 'd8', name: 'Extra D8', description: '+1 D8 die to your loadout', cost: 150, rarity: 'Uncommon' },
+  { id: 'd10', name: 'Extra D10', description: '+1 D10 die to your loadout', cost: 200, rarity: 'Uncommon' },
+  { id: 'd12', name: 'Extra D12', description: '+1 D12 die to your loadout', cost: 300, rarity: 'Rare' },
+  { id: 'd20', name: 'Extra D20', description: '+1 D20 die to your loadout', cost: 400, rarity: 'Rare' },
+  { id: 'summon', name: '+1 Summon', description: 'Gain an extra summon this domain', cost: 250, rarity: 'Uncommon' },
+  { id: 'tribute', name: '+1 Tribute', description: 'Gain an extra tribute this domain', cost: 150, rarity: 'Common' },
+  { id: 'double', name: '2x Next Combo', description: 'Double your next combo multiplier', cost: 350, rarity: 'Rare' },
 ];
 
 interface ShopProps {
@@ -100,6 +154,27 @@ export function Shop({
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
   const [purchasingItem, setPurchasingItem] = useState<string | null>(null);
   const [confirmItem, setConfirmItem] = useState<Item | null>(null);
+
+  // Vendor sprite animation
+  const vendor = DOMAIN_VENDORS[domainId] || DOMAIN_VENDORS[1];
+  const [spriteFrame, setSpriteFrame] = useState(1);
+  const [showVendor, setShowVendor] = useState(false);
+
+  // Animate vendor on mount
+  useEffect(() => {
+    const timer = setTimeout(() => setShowVendor(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Sprite twitch animation
+  useEffect(() => {
+    if (!vendor.sprite2) return;
+    const interval = setInterval(() => {
+      setSpriteFrame(2);
+      setTimeout(() => setSpriteFrame(1), 150);
+    }, 2500 + Math.random() * 1500);
+    return () => clearInterval(interval);
+  }, [vendor.sprite2]);
 
   // Threshold for confirmation dialog (Epic+ items or cost > 50% of gold)
   const requiresConfirmation = useCallback(
@@ -197,56 +272,114 @@ export function Shop({
         p: 3,
       }}
     >
-      {/* Header */}
-      <Box sx={{ textAlign: 'center', mb: 3 }}>
-        <Typography
+      {/* Vendor + Header */}
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 3 }}>
+        {/* Vendor Sprite */}
+        <Box
           sx={{
-            ...gamingFont,
-            fontSize: '0.75rem',
-            color: tokens.colors.text.disabled,
-            letterSpacing: '0.1em',
-            mb: 0.5,
+            opacity: showVendor ? 1 : 0,
+            animation: showVendor ? `${slideIn} 400ms ease-out` : 'none',
+            flexShrink: 0,
           }}
         >
-          REQUISITION
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-          <CartIcon sx={{ fontSize: 24, color: '#c4a000' }} />
-          <Typography sx={{ ...gamingFont, fontSize: '1.5rem', color: tokens.colors.text.primary }}>
-            Tier {tier} Issuance
+          <Box
+            component="img"
+            src={spriteFrame === 2 && vendor.sprite2 ? vendor.sprite2 : vendor.sprite}
+            alt={vendor.name}
+            sx={{
+              width: 80,
+              height: 'auto',
+              maxHeight: 100,
+              objectFit: 'contain',
+              imageRendering: 'pixelated',
+            }}
+          />
+          <Typography
+            sx={{
+              ...gamingFont,
+              fontSize: '0.65rem',
+              color: tokens.colors.text.disabled,
+              textAlign: 'center',
+              mt: 0.5,
+            }}
+          >
+            {vendor.name}
           </Typography>
         </Box>
-        {isAuditPrep && (
-          <Chip
-            label="AUDIT PREP"
-            size="small"
+
+        {/* Header text + greeting */}
+        <Box sx={{ textAlign: 'left', pt: 1 }}>
+          {/* Vendor greeting */}
+          <Paper
             sx={{
-              mt: 1,
-              height: 20,
-              fontSize: '0.625rem',
-              bgcolor: `${tokens.colors.error}20`,
-              color: tokens.colors.error,
-              border: `1px solid ${tokens.colors.error}40`,
+              bgcolor: '#1a1a1a',
+              border: '2px solid #333',
+              borderRadius: '8px',
+              px: 2,
+              py: 1,
+              mb: 2,
+              maxWidth: 280,
             }}
-          />
-        )}
-        {hasDiscount && (
-          <Chip
-            icon={<FavorIcon sx={{ fontSize: 12 }} />}
-            label={`${discountPercent}% OFF`}
-            size="small"
+          >
+            <Typography
+              sx={{
+                ...gamingFont,
+                fontSize: '0.9rem',
+                color: tokens.colors.text.primary,
+                lineHeight: 1.4,
+              }}
+            >
+              {vendor.greeting}
+            </Typography>
+          </Paper>
+
+          {/* Tier label */}
+          <Typography
             sx={{
-              mt: 1,
-              ml: isAuditPrep ? 1 : 0,
-              height: 20,
-              fontSize: '0.625rem',
-              bgcolor: `${tokens.colors.success}20`,
-              color: tokens.colors.success,
-              border: `1px solid ${tokens.colors.success}40`,
-              '& .MuiChip-icon': { color: tokens.colors.success },
+              ...gamingFont,
+              fontSize: '0.7rem',
+              color: tokens.colors.text.disabled,
+              letterSpacing: '0.1em',
+              mb: 0.25,
             }}
-          />
-        )}
+          >
+            REQUISITION
+          </Typography>
+          <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: tokens.colors.text.primary }}>
+            Tier {tier} Issuance
+          </Typography>
+          {isAuditPrep && (
+            <Chip
+              label="AUDIT PREP"
+              size="small"
+              sx={{
+                mt: 1,
+                height: 20,
+                fontSize: '0.625rem',
+                bgcolor: `${tokens.colors.error}20`,
+                color: tokens.colors.error,
+                border: `1px solid ${tokens.colors.error}40`,
+              }}
+            />
+          )}
+          {hasDiscount && (
+            <Chip
+              icon={<FavorIcon sx={{ fontSize: 12 }} />}
+              label={`${discountPercent}% OFF`}
+              size="small"
+              sx={{
+                mt: 1,
+                ml: isAuditPrep ? 1 : 0,
+                height: 20,
+                fontSize: '0.625rem',
+                bgcolor: `${tokens.colors.success}20`,
+                color: tokens.colors.success,
+                border: `1px solid ${tokens.colors.success}40`,
+                '& .MuiChip-icon': { color: tokens.colors.success },
+              }}
+            />
+          )}
+        </Box>
       </Box>
 
       {/* Gold display */}

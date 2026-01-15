@@ -64,6 +64,8 @@ import { XTREME_PERSONALITY, XTREME_TEMPLATES } from './xtreme';
 import { RHEA_PERSONALITY, RHEA_TEMPLATES } from './rhea';
 import { ALIEN_BABY_PERSONALITY, ALIEN_BABY_TEMPLATES } from './alien-baby';
 import { ZERO_CHANCE_PERSONALITY, ZERO_CHANCE_TEMPLATES } from './zero-chance';
+import { ALL_EXPANDED_TEMPLATES } from './dialogue-expansion';
+import { ALL_CHATBASE_EXTRACTED } from './chatbase-extracted';
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
 
 /**
@@ -132,6 +134,10 @@ export const ALL_TEMPLATES: ResponseTemplate[] = [
   ...RHEA_TEMPLATES,
   ...ALIEN_BABY_TEMPLATES,
   ...ZERO_CHANCE_TEMPLATES,
+  // Expanded Dialogue Pool (450+ additional lines)
+  ...ALL_EXPANDED_TEMPLATES,
+  // Chatbase-Extracted Dialogue (85+ Claude-generated lines)
+  ...ALL_CHATBASE_EXTRACTED,
 ];
 
 /**

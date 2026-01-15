@@ -6,7 +6,6 @@ import {
   Paper,
   Chip,
   Grid,
-  Button,
 } from '@mui/material';
 import {
   PlaceSharp as LocationIcon,
@@ -17,8 +16,6 @@ import {
   PestControlSharp as EnemyIcon,
   Inventory2Sharp as ItemIcon,
   ArrowForwardSharp as ArrowIcon,
-  DirectionsWalkSharp as TravelIcon,
-  PlayArrowSharp as PlayIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 import { PageHeader } from '../../../components/Placeholder';
@@ -321,17 +318,20 @@ export function WikiLocation({ entity }: WikiLocationProps) {
                 alt={locationInfo.name}
                 category={(entity?.category || 'domains') as 'domains' | 'shops'}
                 width="100%"
-                height={180}
+                height={isShop ? 220 : 180}
                 fallback="placeholder"
               />
             </Box>
           </Box>
         )}
-        <Box sx={{ p: 3 }}>
-          <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-            Click to view full map
-          </Typography>
-        </Box>
+        {/* Only show "view full map" for domains, not shops */}
+        {isDomain && (
+          <Box sx={{ pb: 2 }}>
+            <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+              Click to view full map
+            </Typography>
+          </Box>
+        )}
       </Paper>
 
       {/* Location Info */}
@@ -395,103 +395,6 @@ export function WikiLocation({ entity }: WikiLocationProps) {
         </Paper>
       )}
 
-      {/* Flume Portal - Domains with flume data */}
-      {isDomain && domainData?.flume && (
-        <Paper
-          sx={{
-            mt: 2,
-            backgroundColor: tokens.colors.background.paper,
-            border: `1px solid ${tokens.colors.border}`,
-            borderRadius: '30px',
-            overflow: 'hidden',
-          }}
-        >
-          <CardHeader title="Flume Portal" />
-          <Box sx={{ p: 2 }}>
-            {domainData.flume.video && (
-              <Box sx={{
-                backgroundColor: tokens.colors.background.elevated,
-                borderRadius: '16px',
-                overflow: 'hidden',
-                aspectRatio: '16/9',
-                mb: 2,
-              }}>
-                <video
-                  loop
-                  muted
-                  playsInline
-                  controls
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                >
-                  <source src={domainData.flume.video} type="video/mp4" />
-                </video>
-              </Box>
-            )}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-              <TravelIcon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
-              <Box>
-                <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, display: 'block' }}>
-                  Travel Cost
-                </Typography>
-                <Typography variant="body2" sx={{ color: tokens.colors.text.primary }}>
-                  {domainData.flume.cost || 'Free'}
-                </Typography>
-              </Box>
-            </Box>
-            {domainData.flume.requirements && domainData.flume.requirements.length > 0 && (
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                <RequirementIcon sx={{ fontSize: 18, color: tokens.colors.text.disabled, mt: 0.25 }} />
-                <Box>
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, display: 'block' }}>
-                    Requirements
-                  </Typography>
-                  {domainData.flume.requirements.map((req, i) => (
-                    <Typography key={i} variant="body2" sx={{ color: tokens.colors.text.primary }}>
-                      {req}
-                    </Typography>
-                  ))}
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </Paper>
-      )}
-
-      {/* Play CTA - Domains only */}
-      {isDomain && entity && (
-        <Button
-          variant="contained"
-          fullWidth
-          startIcon={<PlayIcon />}
-          onClick={() => navigate('/play', {
-            state: {
-              selectedEntity: {
-                slug: entity.slug,
-                name: entity.name,
-                category: entity.category,
-              },
-              entityType: 'domain',
-              sourceWiki: `/wiki/${entity.category}/${entity.slug}`,
-            },
-          })}
-          sx={{
-            mt: 2,
-            py: 1.5,
-            fontWeight: 600,
-            backgroundColor: tokens.colors.primary,
-            '&:hover': {
-              backgroundColor: tokens.colors.primary,
-              filter: 'brightness(1.1)',
-            },
-          }}
-        >
-          Enter Domain
-        </Button>
-      )}
     </Box>
   );
 

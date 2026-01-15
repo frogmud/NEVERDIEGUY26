@@ -67,7 +67,7 @@ export const trophies: Trophy[] = [
       current: 0,
       target: 100000,
     },
-    seeAlso: ['shadow-keep', 'peter', 'void-blade'],
+    seeAlso: ['shadow-keep', 'peter', 'void-axe'],
   },
   {
     slug: 'precision-gear',
