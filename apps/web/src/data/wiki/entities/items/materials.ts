@@ -32,7 +32,7 @@ export const materials: Item[] = [
       { type: 'shop', source: 'banco-de-bones', rate: 'Special Order' },
       { type: 'enemy', source: 'void-lord', location: 'null-providence', rate: '25%' },
     ],
-    seeAlso: ['dr-voss', 'null-providence', 'void-essence'],
+    seeAlso: ['dr-voss', 'null-providence', 'essence-of-void'],
     element: 'Void',
     preferredDice: 4,
     level: 30,
@@ -62,7 +62,7 @@ export const materials: Item[] = [
     ],
     obtainMethods: [
       { type: 'enemy', source: 'shadow-fiend', location: 'shadow-keep', rate: '25%' },
-      { type: 'enemy', source: 'skeleton-mage', location: 'shadow-keep', rate: '15%' },
+      { type: 'enemy', source: 'skeleton-knight', location: 'shadow-keep', rate: '15%' },
       { type: 'shop', source: 'banco-de-bones', rate: 'In Stock' },
     ],
     seeAlso: ['peter', 'shadow-keep'],
@@ -863,7 +863,7 @@ export const materials: Item[] = [
     ],
     obtainMethods: [
       { type: 'shop', source: 'the-wandering-market', rate: 'Special Arrangement' },
-      { type: 'enemy', source: 'skeleton-mage', location: 'shadow-keep', rate: '5%' },
+      { type: 'enemy', source: 'skeleton-knight', location: 'shadow-keep', rate: '5%' },
     ],
     seeAlso: ['willy', 'peter', 'shadow-keep', 'dimensional-blade', 'death-shard', 'mr-bones'],
     diceEffects: [
@@ -923,8 +923,8 @@ export const materials: Item[] = [
       { label: 'Curse Power', value: 45, max: 100 },
     ],
     obtainMethods: [
-      { type: 'enemy', source: 'skeleton-mage', location: 'shadow-keep', rate: '15%' },
+      { type: 'enemy', source: 'skeleton-knight', location: 'shadow-keep', rate: '15%' },
     ],
-    seeAlso: ['peter', 'shadow-keep', 'skeleton-mage'],
+    seeAlso: ['peter', 'shadow-keep', 'skeleton-knight'],
   },
 ];

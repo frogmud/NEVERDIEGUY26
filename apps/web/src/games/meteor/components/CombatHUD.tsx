@@ -454,76 +454,79 @@ export function CombatHUD({
         guardianDieTypes={guardianDieTypes}
       />
 
-      {/* Action toolbar - Throw | Holding | Trade */}
-      {!isDisabledProp && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: isSmall ? 1.5 : 2.5,
+      {/* Action toolbar - Throw | Holding | Trade - always reserve space for consistent height */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: isSmall ? 1.5 : 2.5,
+          minHeight: isSmall ? 44 : 52,
+          opacity: isDisabledProp ? 0 : 1,
+          visibility: isDisabledProp ? 'hidden' : 'visible',
+          transition: 'opacity 0.2s ease',
+        }}
+      >
+        {/* THROW button */}
+        <ActionButton
+          label="Throw"
+          color={BUTTON_COLORS.roll}
+          onClick={onThrow}
+          disabled={isDisabled || unheldCount === 0 || throwsRemaining <= 0}
+          isSmall={isSmall}
+        />
+
+        {/* Holding toggle - all/none quick select */}
+        <HoldingToggle
+          onAll={onHoldAll}
+          onNone={onHoldNone}
+          isSmall={isSmall}
+          heldCount={heldCount}
+          totalCount={hand.length}
+        />
+
+        {/* TRADE button - trades unheld dice for multiplier */}
+        <ActionButton
+          label="Trade"
+          color={BUTTON_COLORS.hold}
+          onClick={onEndTurn}
+          disabled={isDisabled || unheldCount === 0}
+          isSmall={isSmall}
+        />
+      </Box>
+
+      {/* Info tooltip for holding dice - always reserve space */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mt: 1.5,
+          minHeight: 20,
+          opacity: isDisabledProp ? 0 : 1,
+          visibility: isDisabledProp ? 'hidden' : 'visible',
+        }}
+      >
+        <Tooltip
+          title="Holding dice preserves them for the next hand. Select dice to toggle held status. 'All' and 'None' can be used to reselect and deselect the whole hand for actions."
+          arrow
+          placement="bottom"
+          slotProps={{
+            tooltip: {
+              sx: { maxWidth: 280 },
+            },
           }}
         >
-          {/* THROW button */}
-          <ActionButton
-            label="Throw"
-            color={BUTTON_COLORS.roll}
-            onClick={onThrow}
-            disabled={isDisabled || unheldCount === 0 || throwsRemaining <= 0}
-            isSmall={isSmall}
-          />
-
-          {/* Holding toggle - all/none quick select */}
-          <HoldingToggle
-            onAll={onHoldAll}
-            onNone={onHoldNone}
-            isSmall={isSmall}
-            heldCount={heldCount}
-            totalCount={hand.length}
-          />
-
-          {/* TRADE button - trades unheld dice for multiplier */}
-          <ActionButton
-            label="Trade"
-            color={BUTTON_COLORS.hold}
-            onClick={onEndTurn}
-            disabled={isDisabled || unheldCount === 0}
-            isSmall={isSmall}
-          />
-        </Box>
-      )}
-
-      {/* Info tooltip for holding dice */}
-      {!isDisabledProp && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            mt: 1.5,
-          }}
-        >
-          <Tooltip
-            title="Holding dice preserves them for the next hand. Select dice to toggle held status. 'All' and 'None' can be used to reselect and deselect the whole hand for actions."
-            arrow
-            placement="bottom"
-            slotProps={{
-              tooltip: {
-                sx: { maxWidth: 280 },
-              },
+          <InfoOutlinedIcon
+            sx={{
+              fontSize: 14,
+              color: tokens.colors.text.disabled,
+              cursor: 'help',
+              '&:hover': { color: tokens.colors.text.secondary },
             }}
-          >
-            <InfoOutlinedIcon
-              sx={{
-                fontSize: 14,
-                color: tokens.colors.text.disabled,
-                cursor: 'help',
-                '&:hover': { color: tokens.colors.text.secondary },
-              }}
-            />
-          </Tooltip>
-        </Box>
-      )}
+          />
+        </Tooltip>
+      </Box>
     </CardSection>
   );
 }

@@ -28,6 +28,7 @@ import type { TimeOfDay, ZoneInfo } from './components/tabs/GameTabLaunch';
 
 import type { ZoneMarker } from '../../types/zones';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
+import { calculateGoldReward } from '../../data/balance-config';
 
 // Layout constants
 const SIDEBAR_WIDTH = 320;
@@ -140,11 +141,13 @@ export function PlayHub() {
 
   // Determine game phase for sidebar based on state.phase
   // Initial state has phase='event_select', after startRun it's 'playing'
-  // 'event_select' -> lobby, 'playing' + globe -> zoneSelect, 'playing' + combat -> playing
-  // Keep 'playing' during game_over so player can see final stats in sidebar
+  // 'event_select' -> lobby, 'playing' + globe -> zoneSelect, 'playing' + combat/summary/shop -> playing
+  // Keep 'playing' during game_over, summary and shop so player can see their stats in sidebar
   const sidebarPhase = state.phase === 'event_select' ? 'lobby'
     : state.phase === 'game_over' ? 'playing'
     : state.centerPanel === 'combat' ? 'playing'
+    : state.centerPanel === 'summary' ? 'playing'
+    : state.centerPanel === 'shop' ? 'playing'
     : 'zoneSelect';
 
   // 3D Globe game state
@@ -280,6 +283,12 @@ export function PlayHub() {
     selectedZoneTierRef.current = state.selectedZone?.tier || 1;
   }, [state.selectedZone?.tier]);
 
+  // Track current domain in a ref for stable gold calculation
+  const currentDomainRef = useRef<number>(1);
+  useEffect(() => {
+    currentDomainRef.current = state.currentDomain || 1;
+  }, [state.currentDomain]);
+
   // Track practice mode in a ref for stable callback
   const practiceModeRef = useRef(false);
   useEffect(() => {
@@ -294,49 +303,16 @@ export function PlayHub() {
       endRun(true);
       return;
     }
-    // Full run: calculate gold and go to summary
-    const goldEarned = Math.floor(score / 10) + selectedZoneTierRef.current * 10;
+    // Full run: calculate gold using balance config (tier-based, domain-scaled)
+    const goldEarned = calculateGoldReward(selectedZoneTierRef.current, currentDomainRef.current);
     // Store pending victory data and trigger transition wipe
     setPendingVictory({ score, gold: goldEarned, stats });
     transitionToPanel('summary');
   }, [transitionToPanel, endRun]);
 
-  // Render RunSummary after combat completes
-  if (state.centerPanel === 'summary') {
-    return (
-      <Box sx={{ height: '100%', bgcolor: tokens.colors.background.default }}>
-        <RunSummary
-          score={state.lastRoomScore}
-          gold={state.lastRoomGold}
-          totalScore={state.totalScore}
-          totalGold={state.gold}
-          domainName={state.domainState?.name}
-          domainProgress={{
-            cleared: state.domainState?.clearedCount || 0,
-            total: state.domainState?.totalZones || 3,
-          }}
-          eventType="small"
-          onContinue={continueFromSummary}
-        />
-      </Box>
-    );
-  }
-
-  // Render Shop after summary
-  if (state.centerPanel === 'shop') {
-    return (
-      <Box sx={{ height: '100%', bgcolor: tokens.colors.background.default, overflow: 'auto' }}>
-        <Shop
-          gold={state.gold}
-          domainId={state.currentDomain || 1}
-          onPurchase={purchase}
-          onContinue={continueFromShop}
-          threadId={state.threadId}
-          tier={state.tier || 1}
-        />
-      </Box>
-    );
-  }
+  // Check if we're in summary or shop mode (rendered in center area, not as early return)
+  const isInSummary = state.centerPanel === 'summary' && !state.runEnded;
+  const isInShop = state.centerPanel === 'shop' && !state.runEnded;
 
   return (
     <Box
@@ -362,7 +338,7 @@ export function PlayHub() {
           overflow: 'hidden',
         }}
       >
-        {/* Overall Run Progress Bar - minimal, just shows domain progress */}
+        {/* Overall Run Progress Bar - shows domain and event progress with checkpoints */}
         {state.phase !== 'event_select' && (
           <Box sx={{ px: 3, pt: 2, pb: 1 }}>
             <Box
@@ -377,25 +353,66 @@ export function PlayHub() {
                 borderRadius: '20px',
               }}
             >
-              {/* Progress bar - full width */}
+              {/* Progress bar with checkpoints */}
               <Box
                 sx={{
                   flex: 1,
                   height: 4,
                   bgcolor: 'rgba(255,255,255,0.1)',
                   borderRadius: 2,
-                  overflow: 'hidden',
+                  position: 'relative',
                 }}
               >
+                {/* Progress fill - uses clearedCount for accurate event tracking */}
                 <Box
                   sx={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
                     height: '100%',
-                    width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.roomNumber || 1) / 3 / 6) * 100}%`,
+                    width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.domainState?.clearedCount || 0) / 3 / 6) * 100}%`,
                     bgcolor: tokens.colors.primary,
                     borderRadius: 2,
                     transition: 'width 0.5s ease',
                   }}
                 />
+                {/* Checkpoint markers - 6 domains x 3 events = 18 total checkpoints */}
+                {Array.from({ length: 6 }).map((_, domainIdx) =>
+                  Array.from({ length: 3 }).map((_, eventIdx) => {
+                    const totalEvents = domainIdx * 3 + eventIdx;
+                    const position = ((totalEvents + 1) / 18) * 100;
+                    const isBoss = eventIdx === 2;
+                    const currentDomain = state.currentDomain || 1;
+                    const clearedInCurrentDomain = state.domainState?.clearedCount || 0;
+                    const totalCleared = (currentDomain - 1) * 3 + clearedInCurrentDomain;
+                    const isCleared = totalEvents < totalCleared;
+                    const isCurrent = totalEvents === totalCleared;
+
+                    return (
+                      <Box
+                        key={`${domainIdx}-${eventIdx}`}
+                        sx={{
+                          position: 'absolute',
+                          left: `${position}%`,
+                          top: '50%',
+                          transform: isBoss
+                            ? 'translate(-50%, -50%) rotate(45deg)'
+                            : 'translate(-50%, -50%)',
+                          width: isBoss ? 6 : 6,
+                          height: isBoss ? 6 : 6,
+                          borderRadius: isBoss ? 1 : '50%',
+                          bgcolor: isCleared
+                            ? tokens.colors.primary
+                            : isCurrent
+                            ? tokens.colors.warning
+                            : 'rgba(255,255,255,0.2)',
+                          border: isCurrent ? `1px solid ${tokens.colors.warning}` : 'none',
+                          transition: 'background-color 0.3s ease',
+                        }}
+                      />
+                    );
+                  })
+                )}
               </Box>
               {/* Compact label */}
               <Typography
@@ -406,13 +423,13 @@ export function PlayHub() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {state.currentDomain || 1}-{state.roomNumber || 1}
+                {state.currentDomain || 1}-{(state.domainState?.clearedCount || 0) + 1}
               </Typography>
             </Box>
           </Box>
         )}
 
-        {/* Combat Terminal */}
+        {/* Center Content: Summary, Shop, or Combat Terminal */}
         <Box
           sx={{
             flex: 1,
@@ -420,63 +437,95 @@ export function PlayHub() {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: 0,
-            position: 'relative', // Required for GameOverModal absolute positioning
+            position: 'relative',
+            overflow: isInShop || isInSummary ? 'auto' : 'hidden',
           }}
         >
-        {/* Tinted overlay on game over - covers center area only, sidebar stays visible */}
-        {state.runEnded && (
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              bgcolor: state.gameWon ? 'rgba(48, 209, 88, 0.35)' : 'rgba(233, 4, 65, 0.35)',
-              zIndex: 90,
-              pointerEvents: 'none',
+        {isInSummary ? (
+          /* Room Clear Summary */
+          <RunSummary
+            score={state.lastRoomScore}
+            gold={state.lastRoomGold}
+            totalScore={state.totalScore}
+            totalGold={state.gold}
+            domainName={state.domainState?.name}
+            domainProgress={{
+              cleared: state.domainState?.clearedCount || 0,
+              total: state.domainState?.totalZones || 3,
             }}
+            eventType="small"
+            onContinue={continueFromSummary}
           />
-        )}
-        <CombatTerminal
-          domain={state.currentDomain || 1}
-          eventType={state.selectedZone?.eventType || 'small'}
-          tier={state.selectedZone?.tier || 1}
-          scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
-          onWin={handleCombatWin}
-          onLose={failRoom}
-          isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat'}
-          currentDomain={state.currentDomain || 1}
-          totalDomains={6}
-          currentRoom={state.roomNumber || 1}
-          totalRooms={3}
-          totalScore={state.totalScore || 0}
-          gold={state.gold || 0}
-          inventoryItems={state.inventory?.powerups || []}
-          onFeedUpdate={setCombatFeed}
-          onGameStateChange={setCombatGameState}
-          isDomainClear={state.domainState ? state.domainState.clearedCount + 1 >= state.domainState.totalZones : false}
-        />
+        ) : isInShop ? (
+          /* Shop Screen */
+          <Box sx={{ width: '100%', height: '100%', overflow: 'auto', py: 4 }}>
+            <Shop
+              gold={state.gold}
+              domainId={state.currentDomain || 1}
+              onPurchase={purchase}
+              onContinue={continueFromShop}
+              threadId={state.threadId}
+              tier={state.tier || 1}
+            />
+          </Box>
+        ) : (
+          <>
+            {/* Tinted overlay on game over - covers center area only, sidebar stays visible */}
+            {state.runEnded && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  bgcolor: state.gameWon ? 'rgba(48, 209, 88, 0.35)' : 'rgba(233, 4, 65, 0.35)',
+                  zIndex: 90,
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
+            <CombatTerminal
+              domain={state.currentDomain || 1}
+              eventType={state.selectedZone?.eventType || 'small'}
+              tier={state.selectedZone?.tier || 1}
+              scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
+              onWin={handleCombatWin}
+              onLose={failRoom}
+              isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat'}
+              currentDomain={state.currentDomain || 1}
+              totalDomains={6}
+              currentRoom={state.roomNumber || 1}
+              totalRooms={3}
+              totalScore={state.totalScore || 0}
+              gold={state.gold || 0}
+              inventoryItems={state.inventory?.powerups || []}
+              onFeedUpdate={setCombatFeed}
+              onGameStateChange={setCombatGameState}
+              isDomainClear={state.domainState ? state.domainState.clearedCount + 1 >= state.domainState.totalZones : false}
+            />
 
-        {/* Game Over Modal - contained within center area so sidebar stays visible */}
-        {state.runEnded && (
-          <GameOverModal
-            open={true}
-            isWin={state.gameWon}
-            stats={{
-              bestRoll: state.runStats?.bestRoll || 0,
-              mostRolled: state.runStats?.mostRolled || 'd20',
-              diceRolled: state.runStats?.diceThrown || 0,
-              domains: state.currentDomain || 1,
-              reloads: state.runStats?.reloads || 0,
-              rooms: state.roomNumber || 1,
-              purchases: state.runStats?.purchases || 0,
-              shopRemixes: state.runStats?.shopRemixes || 0,
-              discoveries: state.runStats?.discoveries || 0,
-              seed: state.threadId || 'RANDOM',
-              killedBy: state.runStats?.killedBy,
-            }}
-            onNewRun={resetRun}
-            onMainMenu={handleMainMenu}
-            contained
-          />
+            {/* Game Over Modal - contained within center area so sidebar stays visible */}
+            {state.runEnded && (
+              <GameOverModal
+                open={true}
+                isWin={state.gameWon}
+                stats={{
+                  bestRoll: state.runStats?.bestRoll || 0,
+                  mostRolled: state.runStats?.mostRolled || 'd20',
+                  diceRolled: state.runStats?.diceThrown || 0,
+                  domains: state.currentDomain || 1,
+                  reloads: state.runStats?.reloads || 0,
+                  rooms: state.roomNumber || 1,
+                  purchases: state.runStats?.purchases || 0,
+                  shopRemixes: state.runStats?.shopRemixes || 0,
+                  discoveries: state.runStats?.discoveries || 0,
+                  seed: state.threadId || 'RANDOM',
+                  killedBy: state.runStats?.killedBy,
+                }}
+                onNewRun={resetRun}
+                onMainMenu={handleMainMenu}
+                contained
+              />
+            )}
+          </>
         )}
         </Box>
       </Box>

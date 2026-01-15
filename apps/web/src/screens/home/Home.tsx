@@ -37,9 +37,9 @@ export function Home() {
       <Typography
         sx={{
           fontFamily: tokens.fonts.gaming,
-          fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
+          fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.1rem' },
           color: tokens.colors.text.secondary,
-          mb: 3,
+          mb: 4,
           letterSpacing: '0.05em',
         }}
       >

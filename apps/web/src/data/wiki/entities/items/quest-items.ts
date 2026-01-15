@@ -98,7 +98,7 @@ export const questItems: Item[] = [
       { name: 'Death Gate', description: "Opens the path to Peter's throne room." },
     ],
     obtainMethods: [
-      { type: 'enemy', source: 'skeleton-mage', location: 'shadow-keep', rate: '3%' },
+      { type: 'enemy', source: 'skeleton-knight', location: 'shadow-keep', rate: '3%' },
     ],
     seeAlso: ['peter', 'shadow-keep'],
     diceEffects: [
@@ -361,7 +361,7 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'shop', source: 'the-burning-pages', rate: 'In Stock' },
     ],
-    seeAlso: ['pantheon'],
+    seeAlso: ['the-one'],
     diceEffects: [
       { trigger: 'onRoll', die: 6, effect: 'Divine Passage: Reveal lore fragment on high roll' },
     ],
@@ -626,7 +626,7 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'nexus-explorer', rate: '100%' },
     ],
-    seeAlso: ['nexus'],
+    seeAlso: ['the-dying-saucer'],
     diceEffects: [
       { trigger: 'onMax', die: 6, effect: 'Master Navigator: Unlock secret portal' },
     ],
@@ -677,7 +677,7 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'courier-jobs', rate: '100%' },
     ],
-    seeAlso: ['nexus'],
+    seeAlso: ['the-dying-saucer'],
     diceEffects: [
       { trigger: 'onMax', die: 6, effect: 'Express Delivery: Double delivery reward' },
     ],
@@ -720,7 +720,7 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'messenger-jobs', rate: '100%' },
     ],
-    seeAlso: ['nexus'],
+    seeAlso: ['the-dying-saucer'],
     diceEffects: [
       { trigger: 'onRoll', die: 6, effect: 'Peek Inside: Glimpse letter content on high roll' },
     ],

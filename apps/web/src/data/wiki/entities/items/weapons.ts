@@ -43,7 +43,7 @@ export const weapons: Item[] = [
       { type: 'shop', source: 'null-throne-emporium', rate: 'In Stock' },
       { type: 'shop', source: 'void-research-lab', rate: 'Beta Testing' },
     ],
-    seeAlso: ['king-james', 'null-providence', 'void-blade'],
+    seeAlso: ['king-james', 'null-providence', 'void-shard'],
     element: 'Void',
     preferredDice: 4,
     level: 35,

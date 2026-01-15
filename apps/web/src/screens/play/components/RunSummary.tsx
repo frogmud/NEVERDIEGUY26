@@ -94,41 +94,46 @@ export function RunSummary({
         <Box
           sx={{
             display: 'flex',
-            gap: 6,
-            p: 3,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 8,
+            px: 6,
+            py: 3,
             bgcolor: tokens.colors.background.paper,
             borderRadius: 3,
             border: `1px solid ${tokens.colors.border}`,
           }}
         >
           {/* Score gained */}
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 120 }}>
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
                 fontSize: '2.5rem',
                 color: tokens.colors.primary,
+                lineHeight: 1,
               }}
             >
               +{score.toLocaleString()}
             </Typography>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase', letterSpacing: 2 }}>
+            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase', letterSpacing: 2, mt: 1 }}>
               Score
             </Typography>
           </Box>
 
           {/* Gold earned */}
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 120 }}>
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
                 fontSize: '2.5rem',
                 color: '#ffd700',
+                lineHeight: 1,
               }}
             >
               +{gold}
             </Typography>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase', letterSpacing: 2 }}>
+            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, textTransform: 'uppercase', letterSpacing: 2, mt: 1 }}>
               Gold
             </Typography>
           </Box>
@@ -136,13 +141,13 @@ export function RunSummary({
 
         {/* Domain progress */}
         {domainName && (
-          <Typography sx={{ color: tokens.colors.text.secondary }}>
+          <Typography sx={{ color: tokens.colors.text.secondary, textAlign: 'center' }}>
             {domainName}: {domainProgress.cleared}/{domainProgress.total} events cleared
           </Typography>
         )}
 
         {/* Totals */}
-        <Box sx={{ display: 'flex', gap: 4, opacity: 0.7 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4, opacity: 0.7 }}>
           <Typography sx={{ fontSize: '0.875rem', color: tokens.colors.text.secondary }}>
             Total Score: <span style={{ color: tokens.colors.primary }}>{totalScore.toLocaleString()}</span>
           </Typography>

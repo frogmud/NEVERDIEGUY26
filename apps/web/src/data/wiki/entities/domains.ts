@@ -16,7 +16,7 @@ export const domains: Domain[] = [
     image: '/assets/domains/null-providence.png',
     description: 'Null Providence manifests when Door 1 opens, revealing The One\'s void domain. The imprisoned god rules this paradoxical realm where nothingness achieved form and absence became aggressive. Divine favor determines whether you harness the void or join the collection of things that used to exist.',
     enemies: ['void-spawn', 'time-elemental', 'time-scavenger', 'time-wraith', 'clock-sentinel', 'shadow-fiend', 'recurceror', 'tentacle-beast', 'void-lord'],
-    items: ['void-essence', 'void-blade', 'void-crystal', 'null-sphere'],
+    items: ['essence-of-void', 'void-shard', 'void-crystal', 'void-orb'],
     npcs: ['king-james', 'dr-voss'],
     connectedAreas: [
       { area: 'shadow-keep', direction: 'South', levelRange: '25-35' },

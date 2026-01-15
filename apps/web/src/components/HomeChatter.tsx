@@ -159,18 +159,18 @@ export function HomeChatter() {
     <Box
       sx={{
         width: '100%',
-        maxWidth: 900,
-        minHeight: 360,
+        maxWidth: 1200,
+        minHeight: 480,
         display: 'flex',
-        gap: { xs: 2, sm: 3 },
-        px: { xs: 2, sm: 3 },
-        py: 3,
+        gap: { xs: 3, sm: 4 },
+        px: { xs: 3, sm: 4 },
+        py: 4,
       }}
     >
-      {/* Sprite - fixed on left, smaller */}
+      {/* Sprite - fixed on left */}
       <Box
         sx={{
-          width: { xs: 64, sm: 80, md: 100 },
+          width: { xs: 96, sm: 120, md: 150 },
           flexShrink: 0,
           opacity: showSprite ? 1 : 0,
           animation: showSprite ? `${slideInSprite} 500ms ease-out` : 'none',
@@ -183,17 +183,17 @@ export function HomeChatter() {
           sx={{
             width: '100%',
             height: 'auto',
-            maxHeight: { xs: 100, sm: 120, md: 140 },
+            maxHeight: { xs: 150, sm: 180, md: 210 },
             objectFit: 'contain',
             imageRendering: 'pixelated',
           }}
         />
         {/* Name + wiki link below sprite */}
-        <Box sx={{ mt: 1, textAlign: 'center' }}>
+        <Box sx={{ mt: 1.5, textAlign: 'center' }}>
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.65rem', sm: '0.7rem' },
+              fontSize: { xs: '0.9rem', sm: '1rem' },
               color: tokens.colors.text.primary,
             }}
           >
@@ -204,7 +204,7 @@ export function HomeChatter() {
             to={`/wiki/${greeter.wikiSlug}`}
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: '0.6rem',
+              fontSize: '0.8rem',
               color: tokens.colors.text.disabled,
               textDecoration: 'none',
               '&:hover': { color: tokens.colors.secondary },
@@ -230,9 +230,9 @@ export function HomeChatter() {
             flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            gap: 1.5,
-            mb: 2,
-            maxHeight: 220,
+            gap: 2,
+            mb: 3,
+            maxHeight: 300,
             overflowY: 'auto',
             pr: 1,
             // Hide scrollbar
@@ -246,9 +246,9 @@ export function HomeChatter() {
               sx={{
                 bgcolor: '#1a1a1a',
                 border: '2px solid #333',
-                borderRadius: '8px',
-                px: 2.5,
-                py: 1.5,
+                borderRadius: '12px',
+                px: 3,
+                py: 2,
                 maxWidth: '95%',
                 animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
               }}
@@ -256,7 +256,7 @@ export function HomeChatter() {
               <Typography
                 sx={{
                   fontFamily: tokens.fonts.gaming,
-                  fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                  fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
                   color: tokens.colors.text.primary,
                   lineHeight: 1.5,
                 }}
@@ -272,16 +272,16 @@ export function HomeChatter() {
               sx={{
                 bgcolor: '#1a1a1a',
                 border: '2px solid #333',
-                borderRadius: '8px',
-                px: 2.5,
-                py: 1.5,
+                borderRadius: '12px',
+                px: 3,
+                py: 2,
                 width: 'fit-content',
               }}
             >
               <Typography
                 sx={{
                   fontFamily: tokens.fonts.gaming,
-                  fontSize: '1.2rem',
+                  fontSize: '1.6rem',
                   color: tokens.colors.text.secondary,
                   animation: `${pulse} 1s ease-in-out infinite`,
                   letterSpacing: '0.2em',
@@ -299,7 +299,7 @@ export function HomeChatter() {
         <Box
           sx={{
             display: 'flex',
-            gap: 1.5,
+            gap: 2,
             flexWrap: 'wrap',
             opacity: showButtons ? 1 : 0,
             transition: 'opacity 300ms ease-out',
@@ -310,9 +310,9 @@ export function HomeChatter() {
             onClick={() => handleChoice('play')}
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.85rem', sm: '0.95rem' },
-              px: 3,
-              py: 1,
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              px: 4,
+              py: 1.5,
               bgcolor: tokens.colors.primary,
               '&:hover': { bgcolor: '#c7033a' },
             }}
@@ -324,9 +324,9 @@ export function HomeChatter() {
             onClick={() => handleChoice('wiki')}
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.85rem', sm: '0.95rem' },
-              px: 3,
-              py: 1,
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              px: 4,
+              py: 1.5,
               borderColor: tokens.colors.border,
               color: tokens.colors.text.primary,
               '&:hover': {
@@ -342,9 +342,9 @@ export function HomeChatter() {
             onClick={() => handleChoice('about')}
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.85rem', sm: '0.95rem' },
-              px: 3,
-              py: 1,
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              px: 4,
+              py: 1.5,
               borderColor: tokens.colors.border,
               color: tokens.colors.text.secondary,
               '&:hover': {

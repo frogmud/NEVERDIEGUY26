@@ -512,7 +512,7 @@ export const artifacts: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'pantheon-pilgrimage', rate: '100%' },
     ],
-    seeAlso: ['pantheon', 'shadow-keep'],
+    seeAlso: ['the-one', 'shadow-keep'],
     diceEffects: [
       { trigger: 'onMax', die: 6, effect: 'Divine Intervention: Full HP restored once per day' },
     ],
@@ -637,7 +637,7 @@ export const artifacts: Item[] = [
       { name: 'Paranoia', description: 'Sometimes shows threats that are not real.' },
     ],
     obtainMethods: [
-      { type: 'enemy', source: 'skeleton-mage', location: 'shadow-keep', rate: '8%' },
+      { type: 'enemy', source: 'skeleton-knight', location: 'shadow-keep', rate: '8%' },
     ],
     seeAlso: ['peter', 'shadow-keep'],
     diceEffects: [
@@ -758,7 +758,7 @@ export const artifacts: Item[] = [
       { name: 'Death Lure', description: 'Can be used to draw undead away from an area.' },
     ],
     obtainMethods: [
-      { type: 'enemy', source: 'skeleton-mage', location: 'shadow-keep', rate: '7%' },
+      { type: 'enemy', source: 'skeleton-knight', location: 'shadow-keep', rate: '7%' },
     ],
     seeAlso: ['peter', 'shadow-keep'],
     diceEffects: [

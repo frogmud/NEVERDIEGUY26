@@ -1,22 +1,24 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, ButtonBase } from '@mui/material';
-import { HistorySharp as HistoryIcon } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
 
 interface GameTabProps {
   hasSaveData?: boolean;
+  savedProgress?: {
+    domain: number;
+    room: number;
+  };
   onNewRun?: () => void;
   onContinue?: () => void;
 }
 
-export function GameTab({ hasSaveData = true, onNewRun, onContinue }: GameTabProps) {
+export function GameTab({ hasSaveData = false, savedProgress, onNewRun, onContinue }: GameTabProps) {
   const navigate = useNavigate();
 
   const handleNewRun = () => {
     if (onNewRun) {
       onNewRun();
     } else {
-      // Default: navigate to 3D globe game
       navigate('/play/globe');
     }
   };
@@ -25,10 +27,14 @@ export function GameTab({ hasSaveData = true, onNewRun, onContinue }: GameTabPro
     if (onContinue) {
       onContinue();
     } else {
-      // Default: navigate to 3D globe game (continue)
       navigate('/play/globe');
     }
   };
+
+  // Format progress subtitle
+  const progressText = savedProgress
+    ? `Domain ${savedProgress.domain}, Room ${savedProgress.room}`
+    : undefined;
 
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -39,19 +45,19 @@ export function GameTab({ hasSaveData = true, onNewRun, onContinue }: GameTabPro
           alignItems: 'center',
           justifyContent: 'center',
           gap: 1.5,
-          mb: 1,
+          mb: 2,
         }}
       >
         <Box
           component="img"
           src="/logos/ndg-skull-dome.svg"
           alt="NEVERDIEGUY"
-          sx={{ width: 32, height: 36 }}
+          sx={{ width: 40, height: 44 }}
         />
         <Typography
           sx={{
             fontFamily: tokens.fonts.gaming,
-            fontSize: '1rem',
+            fontSize: '1.1rem',
             letterSpacing: '0.05em',
             color: tokens.colors.text.primary,
           }}
@@ -60,142 +66,81 @@ export function GameTab({ hasSaveData = true, onNewRun, onContinue }: GameTabPro
         </Typography>
       </Box>
 
-      {/* New Run Card */}
-      <ActionCard
-        sprite="/assets/ui/dice/d20-01.png"
+      {/* New Run Button */}
+      <ActionButton
         label="New Run"
         onClick={handleNewRun}
+        primary
       />
 
-      {/* Continue Card */}
-      <ActionCard
-        sprite="/assets/ui/dice/d20-03.png"
+      {/* Continue Button */}
+      <ActionButton
         label="Continue"
+        subtitle={progressText}
         onClick={handleContinue}
         disabled={!hasSaveData}
       />
-
-      {/* Quick Links Row */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 4,
-          mt: 1,
-        }}
-      >
-        <QuickLink
-          icon={<HistoryIcon sx={{ fontSize: 20 }} />}
-          label="History"
-          onClick={() => navigate('/progress')}
-        />
-      </Box>
     </Box>
   );
 }
 
-// Action Card Component
-interface ActionCardProps {
-  sprite: string;
+// Action Button Component
+interface ActionButtonProps {
   label: string;
+  subtitle?: string;
   onClick?: () => void;
   disabled?: boolean;
+  primary?: boolean;
 }
 
-function ActionCard({ sprite, label, onClick, disabled = false }: ActionCardProps) {
+function ActionButton({ label, subtitle, onClick, disabled = false, primary = false }: ActionButtonProps) {
   return (
     <ButtonBase
       onClick={onClick}
       disabled={disabled}
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        gap: 2,
-        p: 2,
-        borderRadius: '16px',
-        bgcolor: tokens.colors.background.elevated,
-        border: `1px solid ${tokens.colors.border}`,
+        justifyContent: 'center',
+        minHeight: 80,
+        py: 2,
+        px: 3,
+        borderRadius: '12px',
+        bgcolor: primary ? tokens.colors.primary : tokens.colors.background.elevated,
+        border: `2px solid ${primary ? tokens.colors.primary : tokens.colors.border}`,
         transition: 'all 0.15s ease',
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? 0.4 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
         '&:hover': !disabled
           ? {
-              bgcolor: tokens.colors.background.paper,
-              borderColor: tokens.colors.text.secondary,
+              bgcolor: primary ? '#c7033a' : tokens.colors.background.paper,
+              borderColor: primary ? '#c7033a' : tokens.colors.text.secondary,
+              transform: 'scale(1.02)',
             }
           : {},
       }}
     >
-      {/* Sprite */}
-      <Box
-        sx={{
-          width: 64,
-          height: 64,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-        }}
-      >
-        <Box
-          component="img"
-          src={sprite}
-          alt={label}
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            imageRendering: 'pixelated',
-          }}
-        />
-      </Box>
-
-      {/* Label */}
       <Typography
         sx={{
           fontFamily: tokens.fonts.gaming,
-          fontSize: '1.25rem',
-          color: tokens.colors.text.primary,
-          flex: 1,
-          textAlign: 'left',
+          fontSize: '1.4rem',
+          color: primary ? '#fff' : tokens.colors.text.primary,
         }}
       >
         {label}
       </Typography>
-    </ButtonBase>
-  );
-}
-
-// Quick Link Component
-interface QuickLinkProps {
-  icon: React.ReactNode;
-  label: string;
-  onClick?: () => void;
-}
-
-function QuickLink({ icon, label, onClick }: QuickLinkProps) {
-  return (
-    <ButtonBase
-      onClick={onClick}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 0.75,
-        px: 1.5,
-        py: 1,
-        borderRadius: 2,
-        color: tokens.colors.text.secondary,
-        transition: 'all 0.15s ease',
-        '&:hover': {
-          color: tokens.colors.text.primary,
-          bgcolor: tokens.colors.background.elevated,
-        },
-      }}
-    >
-      {icon}
-      <Typography sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
-        {label}
-      </Typography>
+      {subtitle && (
+        <Typography
+          sx={{
+            fontSize: '0.85rem',
+            color: primary ? 'rgba(255,255,255,0.8)' : tokens.colors.text.secondary,
+            mt: 0.5,
+          }}
+        >
+          {subtitle}
+        </Typography>
+      )}
     </ButtonBase>
   );
 }

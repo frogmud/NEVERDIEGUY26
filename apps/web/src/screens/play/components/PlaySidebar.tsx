@@ -236,7 +236,12 @@ export function PlaySidebar({
               gold={gold}
             />
           ) : (
-            <GameTab onNewRun={handleNewRun} onContinue={onContinue} hasSaveData={hasSavedRun} />
+            <GameTab
+              onNewRun={handleNewRun}
+              onContinue={onContinue}
+              hasSaveData={hasSavedRun}
+              savedProgress={hasSavedRun && currentDomain ? { domain: currentDomain, room: currentRoom || 1 } : undefined}
+            />
           )
         )}
         {activeTab === 'bag' && (

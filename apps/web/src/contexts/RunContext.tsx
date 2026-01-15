@@ -476,6 +476,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
         );
         return {
           ...state,
+          centerPanel: 'globe', // Reset panel so PlayHub shows victory overlay
           runEnded: true,
           gameWon: true,
           phase: 'game_over',
