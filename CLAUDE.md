@@ -73,7 +73,12 @@ Use gh CLI to create PRs with clear descriptions.
 ## Recent Changes (January 2026)
 
 - Homepage character chatter with animated sprites and ambient dialogue
-- Welcome message with random player ID (neverdieguy#####)
+- Custom NPC/domain welcome headlines (e.g., "Mr. Bones contemplates Frost Reach")
+- Domain/seed picker dropdown (click headline to change domain or edit seed)
+- Player reactions: grunt, hmph, ignore (with NPC personality-based responses)
+- Wiki base stat tooltips on hover (explains each stat)
+- Wiki sprite zoom on hover (1.4x) and click (full modal view)
+- Skeleton loaders for homepage on load/refresh
 - Chrome cleanup: Help/Settings/About in top bar, removed notifications/avatar
 - Footer cleanup: removed sitemap, renamed Design System to "Bones"
 - Fixed meteor crater black artifacts (ImpactEffect)
@@ -88,23 +93,26 @@ Use gh CLI to create PRs with clear descriptions.
 - Roll-value-scaled explosion effects (intensity varies by roll)
 - Die-type-specific impact patterns (triangle, diamond, star, etc.)
 - Throw button debouncing (disabled during throw/resolve phases)
+- Dice reticle colors match toolbar dice colors
 
 ## Next Steps (Deployment Prep)
 
 ### Priority 1: Final Polish
-- [ ] Merge PR #11 (homepage polish and chrome cleanup)
+- [x] Homepage polish (headlines, reactions, skeletons)
+- [x] Wiki improvements (stat tooltips, sprite zoom)
 - [ ] Test full Arena run end-to-end (6 domains, 3 rooms each)
 - [ ] Verify all wiki pages load without broken images
 - [ ] Mobile responsiveness pass on key screens (Home, Play, Wiki)
 
 ### Priority 2: Deployment
-- [ ] Run `pnpm build` and fix any TypeScript errors
-- [ ] Configure Vercel deployment settings
-- [ ] Set up environment variables for production
-- [ ] Domain setup (if applicable)
+- [x] TypeScript build passing
+- [x] Vercel deployment configured (auto-deploys on push to main)
+- [ ] Custom domain setup (if applicable)
+- [ ] Production environment variables audit
 
 ### Priority 3: Nice-to-Have
-- [ ] Add more NPC ambient dialogue variety
+- [x] Add more NPC ambient dialogue variety
 - [ ] Leaderboard/high score persistence
 - [ ] Sound effects volume controls in settings
 - [ ] Tutorial/onboarding flow for new players
+- [ ] Market/barter system with NPC negotiations
