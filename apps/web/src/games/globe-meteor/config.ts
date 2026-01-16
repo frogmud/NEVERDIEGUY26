@@ -196,6 +196,16 @@ export const DICE_METEOR_MAP = {
 // Dice effect differentiation - each die type has unique meteor behavior
 export type DieEffectType = 'precision' | 'standard' | 'piercing' | 'cluster' | 'heavy' | 'cataclysm';
 
+// Dice colors - matches tokens.colors.game.dice in theme.ts
+const DICE_COLORS = {
+  d4: '#ff5722',   // deep orange
+  d6: '#4caf50',   // green
+  d8: '#2196f3',   // blue
+  d10: '#9c27b0',  // purple
+  d12: '#ff9800',  // orange
+  d20: '#e91e63',  // pink
+};
+
 export const DICE_EFFECTS: Record<number, {
   type: DieEffectType;
   impactRadius: number;      // Base impact radius multiplier
@@ -214,9 +224,9 @@ export const DICE_EFFECTS: Record<number, {
     aoeMultiplier: 0.5,
     knockback: 0,
     terrainDamage: 0.8,
-    color: '#9c27b0',    // Purple
+    color: DICE_COLORS.d4,   // Deep orange (matches toolbar)
     meteorScale: 0.6,
-    speed: 2.2,          // Fastest
+    speed: 2.2,              // Fastest
   },
   6: {
     type: 'standard',
@@ -225,7 +235,7 @@ export const DICE_EFFECTS: Record<number, {
     aoeMultiplier: 1.0,
     knockback: 2,
     terrainDamage: 0.3,
-    color: '#4caf50',    // Green
+    color: DICE_COLORS.d6,   // Green (matches toolbar)
     meteorScale: 1.0,
     speed: 1.8,
   },
@@ -236,7 +246,7 @@ export const DICE_EFFECTS: Record<number, {
     aoeMultiplier: 1.2,
     knockback: 3,
     terrainDamage: 0.4,
-    color: '#f44336',    // Red
+    color: DICE_COLORS.d8,   // Blue (matches toolbar)
     meteorScale: 0.9,
     speed: 2.0,
   },
@@ -247,7 +257,7 @@ export const DICE_EFFECTS: Record<number, {
     aoeMultiplier: 1.5,
     knockback: 4,
     terrainDamage: 0.5,
-    color: '#ff9800',    // Orange
+    color: DICE_COLORS.d10,  // Purple (matches toolbar)
     meteorScale: 1.1,
     speed: 1.6,
   },
@@ -258,7 +268,7 @@ export const DICE_EFFECTS: Record<number, {
     aoeMultiplier: 1.8,
     knockback: 8,
     terrainDamage: 0.6,
-    color: '#2196f3',    // Blue
+    color: DICE_COLORS.d12,  // Orange (matches toolbar)
     meteorScale: 1.4,
     speed: 1.4,
   },
@@ -269,9 +279,9 @@ export const DICE_EFFECTS: Record<number, {
     aoeMultiplier: 3.0,
     knockback: 15,
     terrainDamage: 0.2,
-    color: '#e91e63',    // Pink
+    color: DICE_COLORS.d20,  // Pink (matches toolbar)
     meteorScale: 1.8,
-    speed: 1.2,          // Slowest but biggest
+    speed: 1.2,              // Slowest but biggest
   },
 };
 
