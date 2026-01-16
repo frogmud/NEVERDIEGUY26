@@ -12,9 +12,10 @@ import { Box, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 import { HomeChatter } from '../../components/HomeChatter';
 
-// Generate a random 5-digit player number
+// Generate a random 9-digit player number (zero-padded)
 function generatePlayerNumber(): string {
-  return String(Math.floor(10000 + Math.random() * 90000));
+  const num = Math.floor(1 + Math.random() * 999999999);
+  return String(num).padStart(9, '0');
 }
 
 export function Home() {
