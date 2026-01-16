@@ -1,24 +1,20 @@
 /**
- * GameTabLaunch - Zone selection / launch screen
+ * GameTabLaunch - Event selection / launch screen
  *
- * Shows all 3 zones in the domain with Tier + Time.
- * Player clicks a zone to select, then launches.
- * Time shifts based on attack order (1st=Afternoon, 2nd=Night, 3rd=Dawn)
+ * Shows 3 event options with different risk/reward profiles.
+ * Player picks one event per domain: Swift (easy), Standard, or Grueling (hard).
  */
 
 import { Box, Typography, Button, ButtonBase } from '@mui/material';
 import { PlayArrowSharp as PlayIcon } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
-
-// Time of day based on attack order
-export type TimeOfDay = 'afternoon' | 'night' | 'dawn';
+import { EVENT_VARIANTS, type EventVariant } from '../../../../types/zones';
+import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
 
 export interface ZoneInfo {
   id: string;
   tier: number;
-  timeOfDay: TimeOfDay;
-  isBoss?: boolean;
-  bossModifier?: number; // e.g., 1.4 = +40% if skipping
+  eventVariant: EventVariant;
 }
 
 interface GameTabLaunchProps {
@@ -27,36 +23,17 @@ interface GameTabLaunchProps {
   onZoneSelect?: (zoneId: string) => void;
   onLaunch?: () => void;
   onBack?: () => void;
-  seedHash?: string; // For display in zone IDs
   // Run progress
   currentDomain?: number;
   totalDomains?: number;
-  currentRoom?: number;
-  totalRooms?: number;
-  totalScore?: number;
-  gold?: number;
 }
-
-// Time display config
-const TIME_CONFIG: Record<TimeOfDay, { label: string; color: string }> = {
-  afternoon: { label: 'Afternoon', color: '#f59e0b' }, // Amber
-  night: { label: 'Night', color: '#6366f1' },         // Indigo
-  dawn: { label: 'Dawn', color: '#f97316' },           // Orange
-};
 
 export function GameTabLaunch({
   zones,
   selectedZoneId,
   onZoneSelect,
   onLaunch,
-  onBack,
-  seedHash = '######',
   currentDomain = 1,
-  totalDomains = 6,
-  currentRoom = 1,
-  totalRooms = 3,
-  totalScore = 0,
-  gold = 0,
 }: GameTabLaunchProps) {
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -84,27 +61,32 @@ export function GameTabLaunch({
             color: tokens.colors.text.primary,
           }}
         >
-          SELECT ZONE
+          CHOOSE EVENT
         </Typography>
       </Box>
 
       {/* Instructions */}
       <Typography
         sx={{
-          fontSize: '0.875rem',
+          fontSize: '0.8rem',
           color: tokens.colors.text.secondary,
           textAlign: 'center',
-          mb: 3,
+          mb: 2,
         }}
       >
-        Click an event to begin
+        Pick your challenge for Domain {currentDomain}
       </Typography>
 
-      {/* Zone Cards */}
+      {/* Event Option Cards */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 3 }}>
-        {zones.map((zone, index) => {
+        {zones.map((zone) => {
           const isSelected = zone.id === selectedZoneId;
-          const timeConfig = TIME_CONFIG[zone.timeOfDay];
+          const variant = EVENT_VARIANTS[zone.eventVariant];
+          const baseGoal = getFlatScoreGoal(currentDomain);
+          const baseGold = getFlatGoldReward(currentDomain);
+          const adjustedGoal = Math.round(baseGoal * variant.goalMultiplier);
+          const adjustedGold = Math.round(baseGold * variant.goldMultiplier);
+          const timerSecs = Math.round(45 * variant.timerMultiplier);
 
           return (
             <ButtonBase
@@ -119,77 +101,84 @@ export function GameTabLaunch({
               <Box
                 sx={{
                   p: 2,
-                  borderRadius: '16px',
+                  borderRadius: '12px',
                   bgcolor: tokens.colors.background.elevated,
                   border: isSelected
-                    ? `2px solid ${tokens.colors.text.primary}`
+                    ? `2px solid ${variant.color}`
                     : `1px solid ${tokens.colors.border}`,
                   transition: 'border-color 0.15s, background-color 0.15s',
                   '&:hover': {
                     bgcolor: tokens.colors.background.paper,
+                    borderColor: variant.color,
                   },
                 }}
               >
-                {/* Zone Name */}
-                <Typography
-                  sx={{
-                    fontFamily: tokens.fonts.gaming,
-                    fontSize: '1.1rem',
-                    fontWeight: 700,
-                    color: tokens.colors.text.primary,
-                    mb: 1,
-                  }}
-                >
-                  Event {index + 1}
-                </Typography>
+                {/* Variant Name + Description */}
+                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, mb: 1.5 }}>
+                  <Typography
+                    sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '1.1rem',
+                      fontWeight: 700,
+                      color: variant.color,
+                    }}
+                  >
+                    {variant.label}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.75rem',
+                      color: tokens.colors.text.disabled,
+                    }}
+                  >
+                    {variant.description}
+                  </Typography>
+                </Box>
 
-                {/* Tier + Time Row */}
-                <Box sx={{ display: 'flex', gap: 3 }}>
+                {/* Stats Row: Goal, Timer, Gold */}
+                <Box sx={{ display: 'flex', gap: 2.5 }}>
                   <Box>
-                    <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
-                      Tier
+                    <Typography sx={{ fontSize: '0.6rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
+                      Goal
                     </Typography>
                     <Typography
                       sx={{
                         fontFamily: tokens.fonts.gaming,
-                        fontSize: '1rem',
-                        color: tokens.colors.secondary,
+                        fontSize: '0.95rem',
+                        color: tokens.colors.text.primary,
                       }}
                     >
-                      {zone.tier}
+                      {adjustedGoal.toLocaleString()}
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
-                      Time
+                    <Typography sx={{ fontSize: '0.6rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
+                      Timer
                     </Typography>
                     <Typography
                       sx={{
                         fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.85rem',
-                        color: timeConfig.color,
+                        fontSize: '0.95rem',
+                        color: tokens.colors.text.primary,
                       }}
                     >
-                      {timeConfig.label}
+                      {timerSecs}s
                     </Typography>
                   </Box>
-                  {/* Boss modifier if skipping */}
-                  {zone.isBoss && zone.bossModifier && zone.bossModifier > 1 && (
-                    <Box sx={{ ml: 'auto' }}>
-                      <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
-                        Boss
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontFamily: tokens.fonts.gaming,
-                          fontSize: '0.85rem',
-                          color: tokens.colors.error,
-                        }}
-                      >
-                        +{Math.round((zone.bossModifier - 1) * 100)}%
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ ml: 'auto' }}>
+                    <Typography sx={{ fontSize: '0.6rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
+                      Gold
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.95rem',
+                        color: '#c4a000',
+                      }}
+                    >
+                      {adjustedGold}g
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </ButtonBase>

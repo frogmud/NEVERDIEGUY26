@@ -24,11 +24,12 @@ import { useAuth } from '../../contexts/AuthContext';
 import { GameOverModal } from '../../games/meteor/components';
 import { TransitionWipe } from '../../components/TransitionWipe';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
-import type { TimeOfDay, ZoneInfo } from './components/tabs/GameTabLaunch';
+import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
-import type { ZoneMarker } from '../../types/zones';
+import { EVENT_VARIANTS, type ZoneMarker } from '../../types/zones';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
 import { calculateGoldReward } from '../../data/balance-config';
+import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
 
 // Layout constants
 const SIDEBAR_WIDTH = 320;
@@ -36,19 +37,16 @@ const SIDEBAR_WIDTH = 320;
 // Generate a random 6-char hex thread ID
 const generateThreadId = () => Math.random().toString(16).slice(2, 8).toUpperCase();
 
-// Time of day based on predicted attack order (1st=Afternoon, 2nd=Night, 3rd=Dawn)
-const TIMES_BY_ORDER: TimeOfDay[] = ['afternoon', 'night', 'dawn'];
-const getTimeOfDay = (index: number): TimeOfDay => TIMES_BY_ORDER[index] || 'afternoon';
 
 // Preview parking spots for lobby (shows available landing zones)
 // These are static positions that hint at the game structure
 const LOBBY_PREVIEW_ZONES: ZoneMarker[] = [
-  { id: 'preview-1', lat: 30, lng: -60, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
-  { id: 'preview-2', lat: 45, lng: 30, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
-  { id: 'preview-3', lat: -20, lng: 120, tier: 3, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 200, goldMax: 400, lootTier: 3 } },
-  { id: 'preview-4', lat: -45, lng: -120, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
-  { id: 'preview-5', lat: 10, lng: 170, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
-  { id: 'preview-6', lat: -60, lng: 60, tier: 4, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 300, goldMax: 600, lootTier: 4 } },
+  { id: 'preview-1', lat: 30, lng: -60, tier: 1, type: 'stable', eventType: 'small', eventVariant: 'swift', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
+  { id: 'preview-2', lat: 45, lng: 30, tier: 2, type: 'elite', eventType: 'big', eventVariant: 'standard', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
+  { id: 'preview-3', lat: -20, lng: 120, tier: 3, type: 'anomaly', eventType: 'boss', eventVariant: 'grueling', cleared: false, rewards: { goldMin: 200, goldMax: 400, lootTier: 3 } },
+  { id: 'preview-4', lat: -45, lng: -120, tier: 1, type: 'stable', eventType: 'small', eventVariant: 'swift', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
+  { id: 'preview-5', lat: 10, lng: 170, tier: 2, type: 'elite', eventType: 'big', eventVariant: 'standard', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
+  { id: 'preview-6', lat: -60, lng: 60, tier: 4, type: 'anomaly', eventType: 'boss', eventVariant: 'grueling', cleared: false, rewards: { goldMin: 300, goldMax: 600, lootTier: 4 } },
 ];
 
 export function PlayHub() {
@@ -92,6 +90,9 @@ export function PlayHub() {
     }
   }, [navState?.practiceMode, state.phase, startPractice, navigate]);
 
+  // Track quick launch mode (skip zone selection)
+  const quickLaunchRef = useRef(false);
+
   // Auto-start run with homepage loadout if available
   useEffect(() => {
     if (state.phase === 'event_select') {
@@ -101,6 +102,8 @@ export function PlayHub() {
           const loadout = JSON.parse(storedLoadout);
           // Clear immediately so refresh doesn't restart
           sessionStorage.removeItem('ndg-starting-loadout');
+          // Check for quick launch mode
+          quickLaunchRef.current = loadout.quickLaunch === true;
           // Start run with NPC-offered items
           const threadId = loadout.seed || generateThreadId();
           const items = loadout.items || [];
@@ -131,8 +134,9 @@ export function PlayHub() {
     }
   }, [state.transitionPhase, setTransitionPhase]);
 
-  // MVP: Auto-select random zone and launch immediately when new run starts
-  // Skip zone selection step for faster gameplay
+  // Auto-select zone and launch when new run starts
+  // Quick launch: pick 'standard' variant and go straight to combat
+  // Normal: still auto-launches but could show zone select briefly
   useEffect(() => {
     let transitionTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -144,12 +148,23 @@ export function PlayHub() {
       state.centerPanel === 'globe' &&
       state.transitionPhase === 'idle'
     ) {
-      // Pick random uncleared zone
+      // Quick launch mode: pick 'standard' variant zone
+      // Normal mode: pick random uncleared zone
       const unclearedZones = state.domainState.zones.filter(z => !z.cleared);
       const zones = unclearedZones.length > 0 ? unclearedZones : state.domainState.zones;
-      const randomZone = zones[Math.floor(Math.random() * zones.length)];
-      selectZone(randomZone);
-      // Launch into combat after zone selection
+
+      let selectedZoneForLaunch;
+      if (quickLaunchRef.current) {
+        // Quick launch: prefer 'standard' variant for balanced gameplay
+        selectedZoneForLaunch = zones.find(z => z.eventVariant === 'standard') || zones[0];
+        quickLaunchRef.current = false; // Reset for future runs
+      } else {
+        // Normal: random zone
+        selectedZoneForLaunch = zones[Math.floor(Math.random() * zones.length)];
+      }
+
+      selectZone(selectedZoneForLaunch);
+      // Launch into combat immediately
       transitionTimeout = setTimeout(() => {
         transitionToPanel('combat');
       }, 50);
@@ -205,6 +220,7 @@ export function PlayHub() {
     event: currentEvent,
     totalEvents: state.domainState?.totalZones ?? 3,
     rollHistory: [],
+    eventVariant: state.selectedZone?.eventVariant,
   }), [
     combatGameState?.score,
     combatGameState?.goal,
@@ -216,6 +232,7 @@ export function PlayHub() {
     state.currentDomain,
     currentEvent,
     state.domainState?.totalZones,
+    state.selectedZone?.eventVariant,
   ]);
 
   // Handle New Run - starts run and shows zone selection
@@ -264,19 +281,16 @@ export function PlayHub() {
     setInfoOpen(true);
   };
 
-  // Build zones list for sidebar with time-of-day
-  // Time is predicted based on order (zones listed top-to-bottom = Afternoon, Night, Dawn)
+  // Build zones list for sidebar with event variants
+  // 3 options: swift (easy), standard, grueling (hard)
   const zonesForSidebar: ZoneInfo[] = useMemo(() => {
     const domainZones = state.domainState?.zones || [];
-    return domainZones.map((zone, index) => ({
+    return domainZones.map((zone) => ({
       id: zone.id,
       tier: zone.tier,
-      timeOfDay: getTimeOfDay(index),
-      isBoss: zone.eventType === 'boss',
-      // Boss gets buff if you skip zones (each uncleared zone before boss = +20%)
-      bossModifier: zone.eventType === 'boss' ? 1 + (index * 0.2) : undefined,
+      eventVariant: zone.eventVariant,
     }));
-  }, [state.domainState?.zones, sidebarPhase]);
+  }, [state.domainState?.zones]);
 
   // Handle zone selection from sidebar (find zone by id and call selectZone)
   const handleZoneSelectFromSidebar = useCallback((zoneId: string) => {
@@ -299,6 +313,12 @@ export function PlayHub() {
     currentDomainRef.current = state.currentDomain || 1;
   }, [state.currentDomain]);
 
+  // Track event variant in a ref for stable gold calculation
+  const eventVariantRef = useRef<'swift' | 'standard' | 'grueling'>('standard');
+  useEffect(() => {
+    eventVariantRef.current = state.selectedZone?.eventVariant || 'standard';
+  }, [state.selectedZone?.eventVariant]);
+
   // Track practice mode in a ref for stable callback
   const practiceModeRef = useRef(false);
   useEffect(() => {
@@ -308,17 +328,26 @@ export function PlayHub() {
   // Handle combat win - trigger skull wipe then complete room
   // Uses refs instead of state to keep callback reference stable
   // Victory data is stored in context and applied atomically when transition completes
-  const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number) => {
+  const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number, bestThrowScore?: number) => {
     // Practice mode: end immediately with win (no summary/shop)
     if (practiceModeRef.current) {
       endRun(true);
       return;
     }
-    // Full run: calculate gold using balance config (tier-based, domain-scaled)
-    const goldEarned = calculateGoldReward(selectedZoneTierRef.current, currentDomainRef.current);
+    // Full run: calculate gold using flat domain-based rewards with variant multiplier
+    const baseGold = getFlatGoldReward(currentDomainRef.current);
+    const variantMultiplier = EVENT_VARIANTS[eventVariantRef.current].goldMultiplier;
+    const goldEarned = Math.round(baseGold * variantMultiplier);
     // Store pending victory in context - will be applied atomically when transition completes
     // turnsRemaining is used for early finish bonus calculation
-    setPendingVictory({ score, gold: goldEarned, stats, turnsRemaining });
+    setPendingVictory({
+      score,
+      gold: goldEarned,
+      stats,
+      turnsRemaining,
+      eventVariant: eventVariantRef.current,
+      bestThrowScore,
+    });
     transitionToPanel('summary');
   }, [transitionToPanel, endRun, setPendingVictory]);
 
@@ -350,94 +379,44 @@ export function PlayHub() {
           overflow: 'hidden',
         }}
       >
-        {/* Overall Run Progress Bar - shows domain and event progress with checkpoints */}
-        {/* Positioned with high z-index so it stays above game over overlay */}
+        {/* Minimal progress strip - thin bar at top edge */}
         {state.phase !== 'event_select' && (
-          <Box sx={{ px: 3, pt: 2, pb: 1, position: 'relative', zIndex: 200, flexShrink: 0 }}>
+          <Box sx={{ position: 'relative', zIndex: 200, flexShrink: 0 }}>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-                p: 1,
-                px: 2,
-                bgcolor: tokens.colors.background.paper,
-                border: `1px solid ${tokens.colors.border}`,
-                borderRadius: '20px',
+                height: 3,
+                bgcolor: 'rgba(255,255,255,0.08)',
+                position: 'relative',
               }}
             >
-              {/* Progress bar with checkpoints */}
+              {/* Progress fill */}
               <Box
                 sx={{
-                  flex: 1,
-                  height: 4,
-                  bgcolor: 'rgba(255,255,255,0.1)',
-                  borderRadius: 2,
-                  position: 'relative',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  height: '100%',
+                  width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.domainState?.clearedCount || 0) / 3 / 6) * 100}%`,
+                  bgcolor: tokens.colors.primary,
+                  transition: 'width 0.5s ease',
                 }}
-              >
-                {/* Progress fill - uses clearedCount for accurate event tracking */}
+              />
+              {/* Domain end markers - tick marks that extend below */}
+              {Array.from({ length: 5 }).map((_, i) => (
                 <Box
+                  key={i}
                   sx={{
                     position: 'absolute',
-                    left: 0,
+                    left: `${((i + 1) / 6) * 100}%`,
                     top: 0,
-                    height: '100%',
-                    width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.domainState?.clearedCount || 0) / 3 / 6) * 100}%`,
-                    bgcolor: tokens.colors.primary,
-                    borderRadius: 2,
-                    transition: 'width 0.5s ease',
+                    width: 2,
+                    height: 8,
+                    bgcolor: 'rgba(255,255,255,0.3)',
+                    transform: 'translateX(-1px)',
+                    borderRadius: '0 0 1px 1px',
                   }}
                 />
-                {/* Checkpoint markers - 6 domains x 3 events = 18 total checkpoints */}
-                {Array.from({ length: 6 }).map((_, domainIdx) =>
-                  Array.from({ length: 3 }).map((_, eventIdx) => {
-                    const totalEvents = domainIdx * 3 + eventIdx;
-                    const position = ((totalEvents + 1) / 18) * 100;
-                    const isBoss = eventIdx === 2;
-                    const currentDomain = state.currentDomain || 1;
-                    const clearedInCurrentDomain = state.domainState?.clearedCount || 0;
-                    const totalCleared = (currentDomain - 1) * 3 + clearedInCurrentDomain;
-                    const isCleared = totalEvents < totalCleared;
-                    const isCurrent = totalEvents === totalCleared;
-
-                    return (
-                      <Box
-                        key={`${domainIdx}-${eventIdx}`}
-                        sx={{
-                          position: 'absolute',
-                          left: `${position}%`,
-                          top: '50%',
-                          transform: isBoss
-                            ? 'translate(-50%, -50%) rotate(45deg)'
-                            : 'translate(-50%, -50%)',
-                          width: isBoss ? 6 : 6,
-                          height: isBoss ? 6 : 6,
-                          borderRadius: isBoss ? 1 : '50%',
-                          bgcolor: isCleared
-                            ? tokens.colors.primary
-                            : isCurrent
-                            ? tokens.colors.warning
-                            : 'rgba(255,255,255,0.2)',
-                          border: isCurrent ? `1px solid ${tokens.colors.warning}` : 'none',
-                          transition: 'background-color 0.3s ease',
-                        }}
-                      />
-                    );
-                  })
-                )}
-              </Box>
-              {/* Compact label */}
-              <Typography
-                sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '0.7rem',
-                  color: tokens.colors.text.disabled,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {state.currentDomain || 1}-{(state.domainState?.clearedCount || 0) + 1}
-              </Typography>
+              ))}
             </Box>
           </Box>
         )}
@@ -497,9 +476,9 @@ export function PlayHub() {
             )}
             <CombatTerminal
               domain={state.currentDomain || 1}
-              eventType={state.selectedZone?.eventType || 'small'}
+              eventType={state.selectedZone?.eventType || 'big'}
               tier={state.selectedZone?.tier || 1}
-              scoreGoal={state.selectedZone ? 1000 * state.selectedZone.tier : 1000}
+              scoreGoal={getFlatScoreGoal(state.currentDomain || 1)}
               onWin={handleCombatWin}
               onLose={failRoom}
               isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat'}
@@ -514,6 +493,8 @@ export function PlayHub() {
               onFeedUpdate={setCombatFeed}
               onGameStateChange={setCombatGameState}
               isDomainClear={state.domainState ? state.domainState.clearedCount + 1 >= state.domainState.totalZones : false}
+              loadoutStats={state.loadoutStats}
+              eventVariant={state.selectedZone?.eventVariant || 'standard'}
             />
 
             {/* Game Over Modal - contained within center area so sidebar stays visible */}
@@ -522,15 +503,25 @@ export function PlayHub() {
                 open={true}
                 isWin={state.gameWon}
                 stats={{
+                  // Combat stats
                   bestRoll: state.runStats?.bestRoll || 0,
                   mostRolled: state.runStats?.mostRolled || 'd20',
                   diceRolled: state.runStats?.diceThrown || 0,
+                  totalScore: state.totalScore || 0,
+                  // Progress stats
                   domains: state.currentDomain || 1,
-                  reloads: state.runStats?.reloads || 0,
-                  rooms: state.roomNumber || 1,
+                  rooms: state.runStats?.eventsCompleted || 1,
+                  // Economy stats
                   purchases: state.runStats?.purchases || 0,
                   shopRemixes: state.runStats?.shopRemixes || 0,
-                  discoveries: state.runStats?.discoveries || 0,
+                  goldEarned: state.gold || 0,
+                  // Performance stats (placeholder until tracking added)
+                  totalTimeMs: state.runStats?.totalTimeMs || 0,
+                  avgEventTimeMs: state.runStats?.avgEventTimeMs || 0,
+                  fastestEventMs: state.runStats?.fastestEventMs || 0,
+                  // Variant breakdown (placeholder until tracking added)
+                  variantCounts: state.runStats?.variantCounts || { swift: 0, standard: 0, grueling: 0 },
+                  // Meta
                   seed: state.threadId || 'RANDOM',
                   killedBy: state.runStats?.killedBy,
                 }}
@@ -595,6 +586,9 @@ export function PlayHub() {
         roomNumber={state.roomNumber || 1}
         totalScore={state.totalScore || 0}
         gold={state.gold || 0}
+        eventVariant={state.selectedZone?.eventVariant || 'standard'}
+        loadoutStats={state.loadoutStats}
+        inventoryItems={state.inventory?.powerups || []}
       />
 
 

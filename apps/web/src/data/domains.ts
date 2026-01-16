@@ -66,7 +66,9 @@ export const DOMAIN_CONFIGS: Record<number, DomainConfig> = {
 };
 
 // Generate a domain state with zones
-export function generateDomain(domainId: number, zoneCount = 3): DomainState {
+// Flat structure: 1 zone per domain (default)
+// Legacy structure: 3 zones per domain (small/big/boss)
+export function generateDomain(domainId: number, zoneCount = 1): DomainState {
   const config = DOMAIN_CONFIGS[domainId];
   if (!config) {
     throw new Error(`Unknown domain: ${domainId}`);

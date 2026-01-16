@@ -203,10 +203,14 @@ export function HomeChatter() {
     setCurrentLoadout(generateLoadout(newNpcId, newDomain));
   };
 
-  // Navigate to play with loadout pre-loaded
+  // Navigate to play with loadout pre-loaded (quick launch - skip zone selection)
   const handleStartLoadout = () => {
     // Store loadout in sessionStorage for PlayHub to read
-    sessionStorage.setItem('ndg-starting-loadout', JSON.stringify(currentLoadout));
+    // quickLaunch=true skips zone selection and goes straight to combat with 'standard' variant
+    sessionStorage.setItem('ndg-starting-loadout', JSON.stringify({
+      ...currentLoadout,
+      quickLaunch: true,
+    }));
     navigate('/play');
   };
 

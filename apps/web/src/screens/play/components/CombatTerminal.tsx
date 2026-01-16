@@ -15,7 +15,7 @@
  */
 
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { Box, Paper, Typography, IconButton } from '@mui/material';
+import { Box, Paper, Typography, IconButton, LinearProgress } from '@mui/material';
 import {
   FlagSharp as FlagIcon,
   FullscreenSharp as FullscreenIcon,
@@ -37,9 +37,14 @@ import {
   type CombatState,
   type CombatConfig,
   createSeededRng,
+  FLAT_EVENT_CONFIG,
+  calculateDecayRate,
+  calculateStatEffects,
+  type LoadoutStats,
 } from '@ndg/ai-engine';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
+import { EVENT_VARIANTS, type EventVariant } from '../../../types/zones';
 import type { MeteorProjectile, ImpactZone } from '../../../games/globe-meteor/config';
 import type { GuardianData } from '../../../games/globe-meteor/components/Guardian';
 import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS, DOMAIN_PLANET_CONFIG } from '../../../games/globe-meteor/config';
@@ -336,6 +341,89 @@ function DamageFlash({
   );
 }
 
+/**
+ * EventTimer - Countdown timer with visual states
+ * Shows 45s countdown with color escalation and grace period indicator
+ */
+function EventTimer({
+  timeRemainingMs,
+  isGracePeriod,
+  isPaused,
+}: {
+  timeRemainingMs: number;
+  isGracePeriod: boolean;
+  isPaused: boolean;
+}) {
+  const { eventDurationMs, gracePeriodMs } = FLAT_EVENT_CONFIG;
+  const progress = (timeRemainingMs / eventDurationMs) * 100;
+  const seconds = Math.ceil(timeRemainingMs / 1000);
+
+  // Color thresholds (from TIMER_BALANCE_SPEC)
+  // 45-30s: Green, 30-15s: Yellow, 15-5s: Orange, 5-0s: Red
+  const getTimerColor = () => {
+    if (isGracePeriod) return '#2196F3'; // Blue during grace
+    if (seconds > 30) return tokens.colors.success; // Green
+    if (seconds > 15) return tokens.colors.warning; // Yellow
+    if (seconds > 5) return '#FF9800'; // Orange
+    return tokens.colors.error; // Red
+  };
+
+  const color = getTimerColor();
+
+  return (
+    <Box sx={{ width: '100%', position: 'relative' }}>
+      {/* Timer bar */}
+      <LinearProgress
+        variant="determinate"
+        value={progress}
+        sx={{
+          height: 6,
+          borderRadius: 1,
+          bgcolor: 'rgba(255,255,255,0.1)',
+          '& .MuiLinearProgress-bar': {
+            bgcolor: color,
+            transition: isPaused ? 'none' : 'transform 0.1s linear',
+          },
+        }}
+      />
+      {/* Grace period marker */}
+      <Box
+        sx={{
+          position: 'absolute',
+          right: `${(gracePeriodMs / eventDurationMs) * 100}%`,
+          top: 0,
+          width: 2,
+          height: 6,
+          bgcolor: 'rgba(255,255,255,0.4)',
+        }}
+      />
+      {/* Time display */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 0.5 }}>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.7rem',
+            color: isGracePeriod ? '#2196F3' : tokens.colors.text.secondary,
+          }}
+        >
+          {isGracePeriod ? 'GRACE' : seconds <= 5 ? 'HURRY!' : 'TIME'}
+        </Typography>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.85rem',
+            fontWeight: 700,
+            color,
+            textShadow: seconds <= 5 ? `0 0 8px ${color}` : 'none',
+          }}
+        >
+          {seconds}s
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 /** Feed entry types for sidebar history */
 export type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
 
@@ -370,7 +458,7 @@ interface CombatTerminalProps {
   eventType: EventType;
   tier: number;
   scoreGoal: number;
-  onWin: (score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number) => void;
+  onWin: (score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number, bestThrowScore?: number) => void;
   onLose: () => void;
   isLobby?: boolean;
   // Run progress for header display
@@ -390,6 +478,10 @@ interface CombatTerminalProps {
   onGameStateChange?: (state: GameStateUpdate) => void;
   /** True if this is the last zone in the domain (shows "DOMAIN CLEAR" on victory) */
   isDomainClear?: boolean;
+  /** Loadout stats for combat effects (fury, resilience, swiftness, essence) */
+  loadoutStats?: LoadoutStats;
+  /** Event variant for difficulty/reward scaling */
+  eventVariant?: EventVariant;
 }
 
 // Map EventType to RoomType
@@ -418,7 +510,14 @@ export function CombatTerminal({
   isDomainClear = false,
   onFeedUpdate,
   onGameStateChange,
+  loadoutStats = {},
+  eventVariant = 'standard',
 }: CombatTerminalProps) {
+  // Calculate stat effects from loadout
+  const statEffects = useMemo(() => calculateStatEffects(loadoutStats), [loadoutStats]);
+
+  // Get variant config for goal/timer multipliers
+  const variantConfig = EVENT_VARIANTS[eventVariant];
   // Sound effects
   const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion } = useSoundContext();
 
@@ -445,19 +544,30 @@ export function CombatTerminal({
   const [lastScoreGain, setLastScoreGain] = useState(0);
   const [bossIsHit, setBossIsHit] = useState(false);
 
-  // Boss detection - zone 3 is boss zone
-  const boss: BossDefinition | null = useMemo(() => {
-    if (isLobby) return null;
-    return getBossForZone(domain, eventNumber);
-  }, [domain, eventNumber, isLobby]);
+  // Event timer state (45s countdown)
+  const [timeRemainingMs, setTimeRemainingMs] = useState<number>(FLAT_EVENT_CONFIG.eventDurationMs);
+  const [isTimerPaused, setIsTimerPaused] = useState(false);
+  const timerStartRef = useRef<number | null>(null);
+  const pausedTimeRef = useRef<number>(0);
 
-  // Calculate actual score goal (use boss HP if boss zone)
+  // Decay state (Model B - escalating decay)
+  const [accumulatedDecay, setAccumulatedDecay] = useState(0);
+  const lastDecayTickRef = useRef<number>(0);
+
+  // Boss detection - zone 3 is boss zone
+  // DISABLED FOR MVP - boss system felt too heavy, keeping for later
+  const boss: BossDefinition | null = null;
+  // const boss: BossDefinition | null = useMemo(() => {
+  //   if (isLobby) return null;
+  //   return getBossForZone(domain, eventNumber);
+  // }, [domain, eventNumber, isLobby]);
+
+  // Calculate actual score goal (use boss HP if boss zone, apply variant multiplier)
   const actualScoreGoal = useMemo(() => {
-    if (boss) {
-      return getBossTargetScore(boss);
-    }
-    return scoreGoal;
-  }, [boss, scoreGoal]);
+    const baseGoal = boss ? getBossTargetScore(boss) : scoreGoal;
+    // Apply variant multiplier (swift = 0.75, standard = 1.0, grueling = 1.4)
+    return Math.round(baseGoal * variantConfig.goalMultiplier);
+  }, [boss, scoreGoal, variantConfig.goalMultiplier]);
   const [cameraDistance, setCameraDistance] = useState(GLOBE_CONFIG.camera.initialDistance);
   const [centerTarget, setCenterTarget] = useState<{ lat: number; lng: number; point3D: [number, number, number] } | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
@@ -466,6 +576,7 @@ export function CombatTerminal({
   const globeContainerRef = useRef<HTMLDivElement>(null);
   const prevPhaseRef = useRef<string | null>(null);
   const victoryFiredRef = useRef(false);
+  const bestThrowScoreRef = useRef(0);  // Track best single throw score for stats
 
   // Notify parent of game state changes
   useEffect(() => {
@@ -572,12 +683,11 @@ export function CombatTerminal({
     const itemBonuses = getBonusesFromInventory(inventoryItems);
 
     // Configure combat with item bonuses
-    // Use boss HP for zone 3, otherwise use scoreGoal
-    const zoneScoreGoal = eventNumber === 3 && boss ? getBossTargetScore(boss) : scoreGoal;
+    // Use actualScoreGoal which already includes boss HP and variant multiplier
     const config: CombatConfig = {
       domainId: domain,
       roomType: eventTypeToRoomType(eventType),
-      targetScore: zoneScoreGoal,
+      targetScore: actualScoreGoal,
       maxTurns: eventType === 'boss' ? 8 : eventType === 'big' ? 6 : 5,
       bonusThrows: itemBonuses.bonusThrows,
       bonusTrades: itemBonuses.bonusTrades,
@@ -613,6 +723,7 @@ export function CombatTerminal({
     victoryFiredRef.current = false;
     prevScoreRef.current = 0;
     prevPhaseRef.current = null;
+    bestThrowScoreRef.current = 0;  // Reset best throw tracking
 
     // Reset feed history
     feedRef.current = [];
@@ -646,7 +757,125 @@ export function CombatTerminal({
       unsubscribe();
       engineRef.current = null;
     };
-  }, [isLobby, domain, eventType, tier, scoreGoal, onWin, onLose, eventNumber, boss]);
+  }, [isLobby, domain, eventType, tier, actualScoreGoal, onWin, onLose, eventNumber, boss]);
+
+  // Timer countdown effect (includes swiftness bonus and variant multiplier)
+  const baseTimerMs = Math.round(FLAT_EVENT_CONFIG.eventDurationMs * variantConfig.timerMultiplier);
+  const totalTimerMs = baseTimerMs + statEffects.timerBonusMs;
+  useEffect(() => {
+    if (isLobby) {
+      setTimeRemainingMs(totalTimerMs);
+      timerStartRef.current = null;
+      pausedTimeRef.current = 0;
+      return;
+    }
+
+    // Reset timer on new combat
+    setTimeRemainingMs(totalTimerMs);
+    timerStartRef.current = Date.now();
+    pausedTimeRef.current = 0;
+
+    const timerInterval = setInterval(() => {
+      if (isTimerPaused || !timerStartRef.current) return;
+
+      const elapsed = Date.now() - timerStartRef.current - pausedTimeRef.current;
+      const remaining = Math.max(0, totalTimerMs - elapsed);
+      setTimeRemainingMs(remaining);
+
+      // Hard fail at 0
+      if (remaining === 0 && engineRef.current) {
+        const state = engineRef.current.getState();
+        if (state.phase !== 'victory' && state.phase !== 'defeat') {
+          // Timer expired - force defeat
+          onLose();
+        }
+      }
+    }, 100);
+
+    return () => clearInterval(timerInterval);
+  }, [isLobby, onLose, totalTimerMs]);
+
+  // Pause timer during throw animations
+  const pauseStartRef = useRef<number | null>(null);
+  useEffect(() => {
+    const phase = engineState?.phase;
+    const shouldPause = phase === 'throw' || phase === 'victory' || phase === 'defeat';
+
+    if (shouldPause && !isTimerPaused) {
+      setIsTimerPaused(true);
+      pauseStartRef.current = Date.now();
+    } else if (!shouldPause && isTimerPaused) {
+      setIsTimerPaused(false);
+      if (pauseStartRef.current) {
+        pausedTimeRef.current += Date.now() - pauseStartRef.current;
+        pauseStartRef.current = null;
+      }
+    }
+  }, [engineState?.phase, isTimerPaused]);
+
+  // Check if in grace period (first 5 seconds - accounts for swiftness bonus in total timer)
+  const isInGracePeriod = timeRemainingMs > (totalTimerMs - FLAT_EVENT_CONFIG.gracePeriodMs);
+
+  // Decay calculation effect (runs with timer, reduced by resilience)
+  useEffect(() => {
+    if (isLobby || isTimerPaused || !timerStartRef.current) {
+      return;
+    }
+
+    const decayInterval = setInterval(() => {
+      const now = Date.now();
+      const elapsedMs = now - timerStartRef.current! - pausedTimeRef.current;
+      const targetScore = engineRef.current?.getState()?.targetScore || actualScoreGoal;
+
+      // Calculate current decay rate (per second) and apply resilience reduction
+      const baseDecayPerSecond = calculateDecayRate(elapsedMs, targetScore);
+      const decayPerSecond = baseDecayPerSecond * (1 - statEffects.decayReduction);
+      const timeSinceLastTick = (now - lastDecayTickRef.current) / 1000;
+
+      if (timeSinceLastTick > 0 && decayPerSecond > 0) {
+        const decayThisTick = decayPerSecond * timeSinceLastTick;
+        setAccumulatedDecay(prev => prev + decayThisTick);
+      }
+
+      lastDecayTickRef.current = now;
+    }, 100);
+
+    return () => clearInterval(decayInterval);
+  }, [isLobby, isTimerPaused, actualScoreGoal, totalTimerMs, statEffects.decayReduction]);
+
+  // Reset decay on new combat
+  useEffect(() => {
+    if (!isLobby) {
+      setAccumulatedDecay(0);
+      lastDecayTickRef.current = Date.now();
+    }
+  }, [isLobby, domain, tier]);
+
+  // Calculate effective score (raw score * fury multiplier - decay, floored at 0)
+  const rawScore = engineState?.currentScore || 0;
+  const furyBoostedScore = rawScore * statEffects.scoreMultiplier;
+  const effectiveScore = Math.max(0, Math.floor(furyBoostedScore - accumulatedDecay));
+
+  // Victory lock: when effective score >= goal, win immediately (decay stops)
+  // This overrides the engine's raw score check
+  const effectiveVictoryRef = useRef(false);
+  useEffect(() => {
+    if (isLobby || !engineState || effectiveVictoryRef.current) return;
+
+    const targetScore = engineState.targetScore;
+    if (effectiveScore >= targetScore && engineState.phase !== 'victory' && engineState.phase !== 'defeat') {
+      // Effective score reached goal - trigger victory!
+      effectiveVictoryRef.current = true;
+      setShowVictoryExplosion(true);
+    }
+  }, [isLobby, effectiveScore, engineState?.targetScore, engineState?.phase]);
+
+  // Reset effective victory flag on new combat
+  useEffect(() => {
+    if (!isLobby) {
+      effectiveVictoryRef.current = false;
+    }
+  }, [isLobby, domain, tier]);
 
   // Create a key that changes when any die's held state changes
   const handHeldKey = engineState?.hand.map(d => `${d.id}:${d.isHeld}`).join(',') ?? '';
@@ -957,6 +1186,11 @@ export function CombatTerminal({
             setLastScoreGain(scoreGain);
             prevScoreRef.current = currentScore;
 
+            // Track best throw score for stats
+            if (scoreGain > bestThrowScoreRef.current) {
+              bestThrowScoreRef.current = scoreGain;
+            }
+
             // Trigger boss hit animation if in boss zone
             if (boss) {
               setBossIsHit(true);
@@ -1029,7 +1263,7 @@ export function CombatTerminal({
         hand: [],
         holdsRemaining: 2,
         throwsRemaining: 3,
-        targetScore: scoreGoal,
+        targetScore: actualScoreGoal,
         currentScore: 0,
         multiplier: 1,
         turnsRemaining: 5,
@@ -1209,19 +1443,21 @@ export function CombatTerminal({
     if (victoryFiredRef.current) return;
 
     const state = engineRef.current?.getState();
-    if (state?.phase === 'victory') {
+    // Check for engine victory OR effective victory (score - decay >= goal)
+    const isEffectiveWin = state && effectiveScore >= state.targetScore;
+    if (state?.phase === 'victory' || isEffectiveWin) {
       victoryFiredRef.current = true;
       // Clear any lingering NPC messages before transition
       clearMessage();
       // Fire victory NPC commentary (disabled for now - messages disappear too fast)
       // onVictory();
-      // Then call the win callback
-      onWin(state.currentScore, {
-        npcsSquished: state.enemiesSquished,
-        diceThrown: state.turnNumber * 5,
-      }, state.turnsRemaining);
+      // Then call the win callback - use effective score
+      onWin(effectiveScore, {
+        npcsSquished: state?.enemiesSquished || 0,
+        diceThrown: (state?.turnNumber || 1) * 5,
+      }, state?.turnsRemaining || 0, bestThrowScoreRef.current);
     }
-  }, [onWin, clearMessage]);
+  }, [onWin, clearMessage, effectiveScore]);
 
   // Fire defeat trigger when game is lost
   useEffect(() => {
@@ -1279,11 +1515,31 @@ export function CombatTerminal({
             Select an event to begin
           </Typography>
         ) : (
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, width: '100%' }}>
-            <TokenIcon size={20} />
-            <Typography sx={{ ...gamingFont, fontSize: '1.2rem', fontWeight: 700, color: tokens.colors.text.primary }}>
-              {(totalScore + combatState.currentScore).toLocaleString()}
-            </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
+            {/* Score display with decay indicator */}
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <TokenIcon size={20} />
+                <Typography sx={{ ...gamingFont, fontSize: '1.2rem', fontWeight: 700, color: tokens.colors.text.primary }}>
+                  {effectiveScore.toLocaleString()}
+                </Typography>
+                {/* Decay indicator - shows when decay is active */}
+                {accumulatedDecay > 0 && (
+                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: tokens.colors.error, opacity: 0.8 }}>
+                    (-{Math.floor(accumulatedDecay)})
+                  </Typography>
+                )}
+              </Box>
+              <Typography sx={{ ...gamingFont, fontSize: '0.9rem', color: tokens.colors.text.secondary }}>
+                / {combatState.targetScore.toLocaleString()}
+              </Typography>
+            </Box>
+            {/* Event Timer */}
+            <EventTimer
+              timeRemainingMs={timeRemainingMs}
+              isGracePeriod={isInGracePeriod}
+              isPaused={isTimerPaused}
+            />
           </Box>
         )}
       </CardSection>

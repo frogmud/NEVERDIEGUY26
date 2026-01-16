@@ -83,13 +83,21 @@ export {
   TIMER_CONFIG,
   TIMER_CONFIG_BY_ROOM,
   SCORE_CONFIG,
+  FLAT_EVENT_CONFIG,
+  COMBAT_CAPS,
   type TimerConfig,
   type RoomType as BalanceRoomType,
+  type StatKey,
+  type LoadoutStats,
   getTimerConfigForRoom,
   getTimePressureMultiplier,
   getEarlyFinishBonus,
   isInGracePeriod,
   calculateTargetScore as calculateBalancedTargetScore,
+  getFlatScoreGoal,
+  getFlatGoldReward,
+  calculateDecayRate,
+  calculateStatEffects,
 } from './balance-config';
 
 // Item System (re-export from items package)

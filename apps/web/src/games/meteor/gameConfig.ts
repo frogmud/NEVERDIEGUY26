@@ -249,6 +249,12 @@ export interface GameState {
     shopRemixes: number;
     discoveries: number;
     killedBy?: string;
+    // Speedrun stats
+    totalTimeMs: number;
+    avgEventTimeMs: number;
+    fastestEventMs: number;
+    eventTimesMs: number[];  // Track individual event times
+    variantCounts: { swift: number; standard: number; grueling: number };
   };
 
   // Thread Identity (Round 28)
@@ -327,6 +333,12 @@ export function createInitialGameState(): GameState {
       purchases: 0,
       shopRemixes: 0,
       discoveries: 0,
+      // Speedrun stats
+      totalTimeMs: 0,
+      avgEventTimeMs: 0,
+      fastestEventMs: 0,
+      eventTimesMs: [],
+      variantCounts: { swift: 0, standard: 0, grueling: 0 },
     },
     // Thread Identity (Round 28)
     threadId: '',              // Set when thread is started

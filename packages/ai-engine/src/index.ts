@@ -682,7 +682,15 @@ export {
   calculateTurnSummary,
   calculateTargetScore as calculateCombatTargetScore,
   calculateGoldReward,
+  // Flat event config (6 events per run)
+  FLAT_EVENT_CONFIG,
+  COMBAT_CAPS,
+  getFlatScoreGoal,
+  getFlatGoldReward,
+  calculateDecayRate,
+  calculateStatEffects,
 } from './combat';
+export type { StatKey, LoadoutStats } from './combat';
 export type {
   // Grid types
   TileType,

@@ -50,6 +50,8 @@ import {
 } from '../utils/telemetry';
 import { getBonusesFromInventory, filterPersistentItems } from '../data/items/combat-effects';
 import { getEarlyFinishBonus } from '../data/balance-config';
+import { getFlatScoreGoal, getFlatGoldReward, type LoadoutStats } from '@ndg/ai-engine';
+import { getLoadoutById, LOADOUT_PRESETS } from '../data/loadouts';
 
 // Combat system types from ai-engine
 import type {
@@ -92,6 +94,8 @@ export interface PendingVictory {
   gold: number;
   turnsRemaining: number;  // For early finish bonus calculation
   stats: { npcsSquished: number; diceThrown: number };
+  eventVariant?: 'swift' | 'standard' | 'grueling';  // Track variant for stats
+  bestThrowScore?: number;  // Best single throw score this event
 }
 
 // Early finish bonus info (for victory screen)
@@ -120,6 +124,15 @@ export interface RunState extends GameState {
   // Flume transition (domain-to-domain)
   showingFlume: boolean;
   flumeToDomain: number | null;  // Target domain for flume
+  // Scar/Crater HP system (flat structure: 4 scars = game over)
+  scars: number;  // 0-4, failed events add 1 scar, 4 = planet destroyed
+  // Loadout stats for combat effects (fury, resilience, grit, etc.)
+  loadoutStats: LoadoutStats;
+  // Track if grit immunity has been used this run
+  gritImmunityUsed: boolean;
+  // Timing tracking for speedrun stats
+  runStartTime: number;    // Timestamp when run started
+  eventStartTime: number;  // Timestamp when current event started
 }
 
 // Run context value
@@ -221,6 +234,11 @@ function createInitialRunState(): RunState {
     practiceMode: false,
     showingFlume: false,
     flumeToDomain: null,
+    scars: 0,  // Start with no scars, 4 = game over
+    loadoutStats: {},  // Set when run starts with selected loadout
+    gritImmunityUsed: false,
+    runStartTime: 0,
+    eventStartTime: 0,
   };
 }
 
@@ -278,6 +296,28 @@ function runReducer(state: RunState, action: RunAction): RunState {
           bonusGold,
         } : null;
 
+        // Calculate event time for performance stats
+        const eventTimeMs = state.eventStartTime > 0 ? Date.now() - state.eventStartTime : 0;
+        const newEventTimes = [...(state.runStats.eventTimesMs || []), eventTimeMs];
+        const avgEventTimeMs = newEventTimes.length > 0
+          ? Math.round(newEventTimes.reduce((a, b) => a + b, 0) / newEventTimes.length)
+          : 0;
+        const fastestEventMs = newEventTimes.length > 0
+          ? Math.min(...newEventTimes.filter(t => t > 0))
+          : 0;
+
+        // Update variant counts
+        const variant = state.pendingVictory.eventVariant || state.selectedZone?.eventVariant || 'standard';
+        const prevVariantCounts = state.runStats.variantCounts || { swift: 0, standard: 0, grueling: 0 };
+        const newVariantCounts = {
+          ...prevVariantCounts,
+          [variant]: (prevVariantCounts[variant] || 0) + 1,
+        };
+
+        // Update best roll if this event had a better one
+        const bestThrowScore = state.pendingVictory.bestThrowScore || 0;
+        const newBestRoll = Math.max(state.runStats.bestRoll || 0, bestThrowScore);
+
         return {
           ...newState,
           domainState: updatedDomainState,
@@ -293,6 +333,15 @@ function runReducer(state: RunState, action: RunAction): RunState {
             npcsSquished: state.runStats.npcsSquished + state.pendingVictory.stats.npcsSquished,
             diceThrown: state.runStats.diceThrown + state.pendingVictory.stats.diceThrown,
             eventsCompleted: state.runStats.eventsCompleted + 1,
+            // Timing stats
+            totalTimeMs: state.runStartTime > 0 ? Date.now() - state.runStartTime : 0,
+            avgEventTimeMs,
+            fastestEventMs: fastestEventMs > 0 ? fastestEventMs : 0,
+            eventTimesMs: newEventTimes,
+            // Variant counts
+            variantCounts: newVariantCounts,
+            // Best roll
+            bestRoll: newBestRoll,
           },
         };
       }
@@ -309,6 +358,9 @@ function runReducer(state: RunState, action: RunAction): RunState {
       const initialState = createInitialRunState();
       // Use starting domain from homepage NPC or default to 1
       const domainId = action.startingDomain || 1;
+      // Get loadout stats from selected loadout
+      const loadout = getLoadoutById(action.selectedLoadout || 'survivor');
+      const loadoutStats: LoadoutStats = loadout?.statBonus || {};
       return {
         ...initialState,
         centerPanel: 'globe',
@@ -324,6 +376,11 @@ function runReducer(state: RunState, action: RunAction): RunState {
           ...initialState.inventory,
           powerups: action.startingItems || [],
         },
+        // Set loadout stats for combat effects
+        loadoutStats,
+        gritImmunityUsed: false,
+        runStartTime: Date.now(),
+        eventStartTime: 0,
       };
     }
 
@@ -410,6 +467,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
           ...createInitialRunState().runStats,
           ...saved.runStats,
         },
+        scars: saved.scars ?? 0,  // Restore scar count (default 0 for old saves)
       };
     }
 
@@ -419,6 +477,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
         ...state,
         selectedZone: action.zone,
         phase: 'playing',
+        eventStartTime: Date.now(),  // Track when event starts for timing stats
       };
 
     case 'COMPLETE_ROOM': {
@@ -458,30 +517,62 @@ function runReducer(state: RunState, action: RunAction): RunState {
     }
 
     case 'FAIL_ROOM': {
-      // Save run to history on failure
-      if (state.threadId) {
-        addRunToHistory({
-          threadId: state.threadId,
-          won: false,
-          totalScore: state.totalScore,
-          gold: state.gold,
-          domain: state.currentDomain,
-          roomsCleared: state.runStats.eventsCompleted,
-          stats: {
-            bestRoll: state.runStats.bestRoll || 0,
-            mostRolled: state.runStats.mostRolled || 'd20',
-            diceThrown: state.runStats.diceThrown,
-            npcsSquished: state.runStats.npcsSquished,
-            purchases: state.runStats.purchases,
-            killedBy: state.runStats.killedBy,
-          },
-        });
+      // Check for grit immunity (20+ grit = first fail blocked)
+      const grit = state.loadoutStats.grit || 0;
+      const hasGritImmunity = grit >= 20 && !state.gritImmunityUsed;
+
+      if (hasGritImmunity) {
+        // Grit immunity activated - no scar, but immunity is consumed
+        return {
+          ...state,
+          gritImmunityUsed: true,
+          selectedZone: null,
+          centerPanel: 'globe',  // Back to zone selection
+          combatState: null,     // Clear combat state
+        };
       }
+
+      // Scar system: failed event adds 1 scar, 4 scars = game over
+      const newScars = state.scars + 1;
+      const isGameOver = newScars >= 4;
+
+      if (isGameOver) {
+        // 4 scars = planet destroyed = game over
+        if (state.threadId) {
+          addRunToHistory({
+            threadId: state.threadId,
+            won: false,
+            totalScore: state.totalScore,
+            gold: state.gold,
+            domain: state.currentDomain,
+            roomsCleared: state.runStats.eventsCompleted,
+            stats: {
+              bestRoll: state.runStats.bestRoll || 0,
+              mostRolled: state.runStats.mostRolled || 'd20',
+              diceThrown: state.runStats.diceThrown,
+              npcsSquished: state.runStats.npcsSquished,
+              purchases: state.runStats.purchases,
+              killedBy: state.runStats.killedBy,
+            },
+          });
+        }
+        return {
+          ...state,
+          scars: newScars,
+          runEnded: true,
+          gameWon: false,
+          phase: 'game_over',
+        };
+      }
+
+      // Less than 4 scars - add scar and return to zone selection
+      // Clear selected zone so player can try again or pick different zone
       return {
         ...state,
-        runEnded: true,
-        gameWon: false,
-        phase: 'game_over',
+        scars: newScars,
+        selectedZone: null,
+        centerPanel: 'globe',  // Back to zone selection
+        combatState: null,     // Clear combat state
       };
     }
 
@@ -579,7 +670,12 @@ function runReducer(state: RunState, action: RunAction): RunState {
       const persistentPowerups = filterPersistentItems(state.inventory.powerups);
 
       // Log domain clear
-      logDomainClear(state.currentDomain || 1, state.totalScore);
+      logDomainClear(
+        state.currentDomain || 1,
+        state.domainState?.name || 'Unknown',
+        state.totalScore,
+        state.gold || 0
+      );
 
       // Next domain - advance with filtered inventory
       return {
@@ -804,7 +900,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     // Log room clear
     const domain = state.currentDomain || 1;
     const room = state.roomNumber || 1;
-    const targetScore = (state.selectedZone?.tier || 1) * 1000;
+    const targetScore = getFlatScoreGoal(domain);
     logRoomClear(domain, room, score, targetScore, gold, stats.diceThrown);
 
     // Check if this completes the domain (3/3 zones)
@@ -819,11 +915,12 @@ export function RunProvider({ children }: { children: ReactNode }) {
 
   const failRoom = useCallback(() => {
     // Log defeat
-    const targetScore = (state.selectedZone?.tier || 1) * 1000;
+    const domain = state.currentDomain || 1;
+    const targetScore = getFlatScoreGoal(domain);
     logDefeat(
       state.combatState?.currentScore || 0,
       targetScore,
-      state.currentDomain || 1,
+      domain,
       state.roomNumber || 1
     );
     logRunEnd(
@@ -834,7 +931,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
       state.runStats.eventsCompleted
     );
     dispatch({ type: 'FAIL_ROOM' });
-  }, [state.selectedZone?.tier, state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.totalScore, state.gold, state.runStats.eventsCompleted]);
+  }, [state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.totalScore, state.gold, state.runStats.eventsCompleted]);
 
   // Combat actions
   const initCombat = useCallback(() => {
@@ -850,21 +947,24 @@ export function RunProvider({ children }: { children: ReactNode }) {
     const baseTrades = 2;
     const baseMultiplier = 1;
 
+    // Use flat structure: domain-based score goals, 5 throws always
+    const domain = state.currentDomain || 1;
+
     const combatState: RunCombatState = {
       phase: 'draw',
       hand: [], // Will be populated by DiceMeteor component
       holdsRemaining: baseTrades + bonuses.bonusTrades,      // 2 base + item bonuses
       throwsRemaining: baseThrows + bonuses.bonusThrows,     // 3 base + item bonuses
-      targetScore: (state.selectedZone?.tier || 1) * 1000,
+      targetScore: getFlatScoreGoal(domain),                  // Domain-based goals (800-4000)
       currentScore: bonuses.startingScore,                    // Start with bonus score
       multiplier: baseMultiplier * bonuses.scoreMultiplier,   // Base multiplier * item bonus
-      turnsRemaining: state.selectedZone?.eventType === 'boss' ? 8 : state.selectedZone?.eventType === 'big' ? 6 : 5,
+      turnsRemaining: 5,                                      // Flat structure: always 5 throws
       turnNumber: 1,
       enemiesSquished: 0,
       friendlyHits: 0,
     };
     dispatch({ type: 'INIT_COMBAT', combatState });
-  }, [state.selectedZone, state.inventory]);
+  }, [state.currentDomain, state.inventory]);
 
   const toggleHoldDie = useCallback((dieId: string) => {
     dispatch({ type: 'TOGGLE_HOLD_DIE', dieId });
@@ -943,11 +1043,12 @@ export function RunProvider({ children }: { children: ReactNode }) {
         eventsCompleted: state.runStats.eventsCompleted,
         purchases: state.runStats.purchases,
       },
+      scars: state.scars,
       savedAt: Date.now(),
     };
 
     saveRunState(runState);
-  }, [state.phase, state.threadId, state.currentDomain, state.roomNumber, state.gold, state.totalScore, state.tier, state.centerPanel, state.domainState, state.selectedZone, state.inventory, state.runStats]);
+  }, [state.phase, state.threadId, state.currentDomain, state.roomNumber, state.gold, state.totalScore, state.tier, state.centerPanel, state.domainState, state.selectedZone, state.inventory, state.runStats, state.scars]);
 
   const value = useMemo<RunContextValue>(() => ({
     state,

@@ -329,7 +329,7 @@ export function Shop({
           </Typography>
         </Box>
 
-        {/* Speech bubble - larger like homepage */}
+        {/* Speech bubble - no pointer triangle */}
         <Box
           sx={{
             bgcolor: '#1a1a1a',
@@ -338,32 +338,6 @@ export function Shop({
             px: 4,
             py: 2.5,
             maxWidth: 400,
-            position: 'relative',
-            // Triangle pointer
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              left: -14,
-              top: '50%',
-              marginTop: -10,
-              width: 0,
-              height: 0,
-              borderTop: '10px solid transparent',
-              borderBottom: '10px solid transparent',
-              borderRight: '14px solid #333',
-            },
-            '&::after': {
-              content: '""',
-              position: 'absolute',
-              left: -8,
-              top: '50%',
-              marginTop: -8,
-              width: 0,
-              height: 0,
-              borderTop: '8px solid transparent',
-              borderBottom: '8px solid transparent',
-              borderRight: '12px solid #1a1a1a',
-            },
           }}
         >
           <Typography
@@ -379,20 +353,29 @@ export function Shop({
         </Box>
       </Box>
 
-      {/* Items Row - simplified: price, big sprite, name, rarity tag */}
+      {/* Items Container */}
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: { xs: 2, sm: 3, md: 4 },
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          flexWrap: 'wrap',
-          width: '100%',
-          maxWidth: 1000,
+          bgcolor: 'rgba(0,0,0,0.3)',
+          border: `1px solid ${tokens.colors.border}`,
+          borderRadius: 2,
+          p: { xs: 2, sm: 3 },
           mb: 4,
         }}
       >
+        {/* Items Row - simplified: price, big sprite, name, rarity tag */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: { xs: 2, sm: 3, md: 4 },
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            flexWrap: 'wrap',
+            width: '100%',
+            maxWidth: 1000,
+          }}
+        >
         {/* Display first 3 items */}
         {displayItems.slice(0, 3).map((item) => {
           const isPurchased = purchasedItems.includes(item.slug);
@@ -550,6 +533,7 @@ export function Shop({
 
           {/* Empty space for alignment with item names + tags */}
           <Box sx={{ height: { xs: 44, sm: 48 } }} />
+        </Box>
         </Box>
       </Box>
 

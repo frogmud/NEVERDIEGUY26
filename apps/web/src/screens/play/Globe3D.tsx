@@ -26,6 +26,7 @@ import {
   GamePhase,
 } from '../../types/zones';
 import { generateDomain, getNextDomain, DOMAIN_CONFIGS } from '../../data/domains';
+import { getFlatScoreGoal } from '@ndg/ai-engine';
 
 const SIDEBAR_WIDTH = 320;
 
@@ -147,7 +148,7 @@ export function Globe3D() {
         domain={currentDomain.id}
         eventType={selectedZone.eventType}
         tier={selectedZone.tier}
-        scoreGoal={1000 * selectedZone.tier}
+        scoreGoal={getFlatScoreGoal(currentDomain.id)}
         initialSummons={3}
         initialTributes={3}
         gold={runStats.gold}

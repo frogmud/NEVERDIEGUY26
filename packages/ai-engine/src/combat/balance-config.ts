@@ -96,7 +96,100 @@ export function isInGracePeriod(
 }
 
 // ============================================
-// SCORE CONFIGURATION
+// FLAT EVENT CONFIG (6 events, 1 per domain)
+// ============================================
+
+export const FLAT_EVENT_CONFIG = {
+  /** Score goals by domain (1-indexed) - scaled for 3 throws */
+  goals: [0, 500, 750, 1100, 1500, 2000, 2500],
+
+  /** Gold rewards by domain (1-indexed) */
+  goldRewards: [0, 75, 125, 175, 250, 350, 500],
+
+  /** Throws per event (bullet mode: 3 instead of 5) */
+  throwsPerEvent: 3,
+
+  /** Trades per event (bullet mode: 1 instead of 2) */
+  tradesPerEvent: 1,
+
+  /** Event duration in ms (bullet mode: 20s instead of 45s) */
+  eventDurationMs: 20000,
+
+  /** Grace period before decay starts (bullet mode: 3s instead of 5s) */
+  gracePeriodMs: 3000,
+
+  /** Decay config (Model B - Escalating) */
+  decay: {
+    /** Base decay rate (% of goal per second) */
+    baseRate: 0.003,
+    /** Decay acceleration over time */
+    acceleration: 1.5,
+    /** Score floor (can't go negative) */
+    scoreFloor: 0,
+  },
+} as const;
+
+/**
+ * Get score goal for a domain (flat structure)
+ */
+export function getFlatScoreGoal(domainId: number): number {
+  return FLAT_EVENT_CONFIG.goals[domainId] || 800;
+}
+
+/**
+ * Get gold reward for a domain (flat structure)
+ */
+export function getFlatGoldReward(domainId: number): number {
+  return FLAT_EVENT_CONFIG.goldRewards[domainId] || 75;
+}
+
+/**
+ * Calculate decay rate at a given time (Model B - Escalating)
+ * @param elapsedMs - Time elapsed since event start
+ * @param targetScore - Score goal for this event
+ * @returns Decay per second at this moment
+ */
+export function calculateDecayRate(
+  elapsedMs: number,
+  targetScore: number
+): number {
+  const { gracePeriodMs, eventDurationMs, decay } = FLAT_EVENT_CONFIG;
+
+  // No decay during grace period
+  if (elapsedMs < gracePeriodMs) {
+    return 0;
+  }
+
+  // Quadratic acceleration after grace period
+  const adjustedTime = elapsedMs - gracePeriodMs;
+  const adjustedDuration = eventDurationMs - gracePeriodMs;
+  const timeRatio = adjustedTime / adjustedDuration;
+
+  const acceleratedRate = decay.baseRate * Math.pow(1 + timeRatio, decay.acceleration);
+  return targetScore * acceleratedRate;
+}
+
+// ============================================
+// COMBAT CAPS (Prevent Abuse)
+// ============================================
+
+export const COMBAT_CAPS = {
+  /** Max throws per event (base 5 + 2 from items) */
+  maxThrows: 7,
+  /** Max trades per event (base 2 + 2 from items) */
+  maxTrades: 4,
+  /** Max multiplier including trade stacking */
+  maxMultiplier: 10,
+  /** Max element bonus from items (+100% = 2x) */
+  maxElementBonus: 1.0,
+  /** Max crit chance */
+  maxCritChance: 0.25,
+  /** Max starting score from items */
+  maxStartingScore: 500,
+} as const;
+
+// ============================================
+// LEGACY SCORE CONFIG (for backwards compatibility)
 // ============================================
 
 export const SCORE_CONFIG = {
@@ -115,7 +208,8 @@ export const SCORE_CONFIG = {
 } as const;
 
 /**
- * Calculate target score for a room
+ * Calculate target score for a room (legacy 3-room-per-domain structure)
+ * @deprecated Use getFlatScoreGoal for new flat structure
  */
 export function calculateTargetScore(
   domainId: number,
@@ -127,13 +221,70 @@ export function calculateTargetScore(
 }
 
 // ============================================
-// TARGET SCORE REFERENCE
+// LOADOUT STAT EFFECTS
 // ============================================
-// Domain | Normal | Elite  | Boss
-// -------|--------|--------|------
-// 1      | 1,000  | 1,500  | 2,000
-// 2      | 1,250  | 1,875  | 2,500
-// 3      | 1,563  | 2,344  | 3,125
-// 4      | 1,953  | 2,930  | 3,906
-// 5      | 2,441  | 3,662  | 4,883
-// 6      | 3,052  | 4,578  | 6,104
+
+export type StatKey = 'fury' | 'resilience' | 'grit' | 'swiftness' | 'shadow' | 'essence';
+
+export interface LoadoutStats {
+  fury?: number;
+  resilience?: number;
+  grit?: number;
+  swiftness?: number;
+  shadow?: number;
+  essence?: number;
+}
+
+/**
+ * Calculate stat effects for combat
+ * - Fury: +1% score per point
+ * - Resilience: -0.5% decay per point (reduces decay rate)
+ * - Grit: Auto-scar-immunity at 20+ (first fail doesn't add scar)
+ * - Swiftness: +2s timer per 10 points
+ * - Shadow: Only applies to base trades (multiplayer only)
+ * - Essence: +2% element bonus per point
+ */
+export function calculateStatEffects(stats: LoadoutStats): {
+  scoreMultiplier: number;
+  decayReduction: number;
+  hasGritImmunity: boolean;
+  timerBonusMs: number;
+  elementBonusMultiplier: number;
+} {
+  const fury = stats.fury || 0;
+  const resilience = stats.resilience || 0;
+  const grit = stats.grit || 0;
+  const swiftness = stats.swiftness || 0;
+  const essence = stats.essence || 0;
+
+  return {
+    // Fury: +1% score per point
+    scoreMultiplier: 1 + (fury * 0.01),
+
+    // Resilience: -0.5% decay per point (capped at 50% reduction)
+    decayReduction: Math.min(0.5, resilience * 0.005),
+
+    // Grit: Auto-scar-immunity at 20+
+    hasGritImmunity: grit >= 20,
+
+    // Swiftness: +2s per 10 points
+    timerBonusMs: Math.floor(swiftness / 10) * 2000,
+
+    // Essence: +2% element bonus per point
+    elementBonusMultiplier: 1 + (essence * 0.02),
+  };
+}
+
+// ============================================
+// FLAT STRUCTURE REFERENCE (BULLET MODE: 3 throws, 20s timer)
+// ============================================
+// Domain | Goal  | Gold | Avg Throw | 3 Throws | Notes
+// -------|-------|------|-----------|----------|-------
+// 1      |   500 |  75g |    200    |  600     | Clearable (20% margin)
+// 2      |   750 | 125g |    200    |  600     | Needs 1.25x mult
+// 3      | 1,100 | 175g |    200    |  600     | Needs 1.8x mult
+// 4      | 1,500 | 250g |    200    |  600     | Needs 2.5x mult
+// 5      | 2,000 | 350g |    200    |  600     | Needs 3.3x mult
+// 6      | 2,500 | 500g |    200    |  600     | Needs 4.2x mult
+//
+// Total run time target: 2-5 minutes (6 events x 20s = 2 min timers)

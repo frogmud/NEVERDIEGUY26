@@ -4,10 +4,13 @@
  * Simple bonuses that items provide during combat.
  * Applied at combat start from inventory.
  * Roguelike: items are lost at end of run.
+ *
+ * All bonuses are capped per COMBAT_CAPS to prevent abuse.
  */
 
 import type { Element, Item } from '../wiki/types';
 import { getEntity } from '../wiki';
+import { COMBAT_CAPS, FLAT_EVENT_CONFIG } from '@ndg/ai-engine';
 
 // Combat effect types
 export type CombatEffectType =
@@ -51,6 +54,7 @@ export const DEFAULT_COMBAT_BONUSES: CombatBonuses = {
 
 /**
  * Calculate combat bonuses from a list of item effects
+ * All values are capped per COMBAT_CAPS to prevent abuse
  */
 export function calculateCombatBonuses(effects: CombatEffect[]): CombatBonuses {
   const bonuses: CombatBonuses = { ...DEFAULT_COMBAT_BONUSES, elementBonuses: {} };
@@ -90,6 +94,32 @@ export function calculateCombatBonuses(effects: CombatEffect[]): CombatBonuses {
         break;
     }
   }
+
+  // Apply caps to prevent abuse (per COMBAT_CAPS)
+  // Max bonus throws = maxThrows - base throws
+  const maxBonusThrows = COMBAT_CAPS.maxThrows - FLAT_EVENT_CONFIG.throwsPerEvent;
+  bonuses.bonusThrows = Math.min(bonuses.bonusThrows, maxBonusThrows);
+
+  // Max bonus trades = maxTrades - base trades
+  const maxBonusTrades = COMBAT_CAPS.maxTrades - FLAT_EVENT_CONFIG.tradesPerEvent;
+  bonuses.bonusTrades = Math.min(bonuses.bonusTrades, maxBonusTrades);
+
+  // Cap score multiplier
+  bonuses.scoreMultiplier = Math.min(bonuses.scoreMultiplier, COMBAT_CAPS.maxMultiplier);
+
+  // Cap element bonuses
+  for (const el of Object.keys(bonuses.elementBonuses) as Element[]) {
+    bonuses.elementBonuses[el] = Math.min(
+      bonuses.elementBonuses[el] || 0,
+      COMBAT_CAPS.maxElementBonus
+    );
+  }
+
+  // Cap crit chance
+  bonuses.critChance = Math.min(bonuses.critChance, COMBAT_CAPS.maxCritChance);
+
+  // Cap starting score
+  bonuses.startingScore = Math.min(bonuses.startingScore, COMBAT_CAPS.maxStartingScore);
 
   return bonuses;
 }

@@ -8,6 +8,7 @@ import { BagTab } from './tabs/BagTab';
 import { SettingsTab } from './tabs/SettingsTab';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../../data/loadouts';
 import { useRun } from '../../../contexts/RunContext';
+import { EventVariant } from '../../../types/zones';
 
 interface RollHistoryEntry {
   id: number;
@@ -51,6 +52,7 @@ interface GameState {
   event: number;
   totalEvents: number;
   rollHistory: RollHistoryEntry[];
+  eventVariant?: EventVariant;
 }
 
 type GamePhase = 'lobby' | 'zoneSelect' | 'playing';
@@ -224,6 +226,7 @@ export function PlaySidebar({
               totalDomains={state.totalDomains}
               event={state.event}
               totalEvents={state.totalEvents}
+              eventVariant={state.eventVariant}
               rollHistory={state.rollHistory}
               onOptions={onOptions}
               onInfo={onInfo}
@@ -231,18 +234,11 @@ export function PlaySidebar({
             />
           ) : phase === 'zoneSelect' ? (
             <GameTabLaunch
-              zones={zones}
+              zones={zones || []}
               selectedZoneId={selectedZoneId}
               onZoneSelect={onZoneSelect}
               onLaunch={onLaunch}
-              onBack={onBack}
-              seedHash={seedHash}
               currentDomain={currentDomain}
-              totalDomains={totalDomains}
-              currentRoom={currentRoom}
-              totalRooms={totalRooms}
-              totalScore={totalScore}
-              gold={gold}
             />
           ) : (
             <GameTab
