@@ -64,8 +64,9 @@ const SettingsIndex = lazy(() => import('./screens/settings/SettingsIndex').then
 const PlayHub = lazy(() => import('./screens/play/PlayHub').then(m => ({ default: m.PlayHub })));
 const PlayResults = lazy(() => import('./screens/play/PlayResults').then(m => ({ default: m.PlayResults })));
 const DiceMeteor = lazy(() => import('./screens/play/DiceMeteor').then(m => ({ default: m.DiceMeteor })));
-const ReplayList = lazy(() => import('./screens/play/ReplayList').then(m => ({ default: m.ReplayList })));
-const TournamentBracket = lazy(() => import('./screens/play/TournamentBracket').then(m => ({ default: m.TournamentBracket })));
+// MVP: Multiplayer features hidden until backend ready
+// const ReplayList = lazy(() => import('./screens/play/ReplayList').then(m => ({ default: m.ReplayList })));
+// const TournamentBracket = lazy(() => import('./screens/play/TournamentBracket').then(m => ({ default: m.TournamentBracket })));
 const ExitGameConfirm = lazy(() => import('./screens/play/ExitGameConfirm').then(m => ({ default: m.ExitGameConfirm })));
 const ExitGameSummary = lazy(() => import('./screens/play/ExitGameSummary').then(m => ({ default: m.ExitGameSummary })));
 const Inventory = lazy(() => import('./screens/play/Inventory').then(m => ({ default: m.Inventory })));
@@ -132,8 +133,9 @@ function App() {
           <Route path="/play" element={<Suspense fallback={<RouteLoader />}><RunProvider><PlayHub /></RunProvider></Suspense>} />
           <Route path="/play/results" element={<Suspense fallback={<RouteLoader />}><PlayResults /></Suspense>} />
           <Route path="/play/meteor" element={<Suspense fallback={<RouteLoader />}><DiceMeteor /></Suspense>} />
-          <Route path="/play/replays" element={<Suspense fallback={<RouteLoader />}><ReplayList /></Suspense>} />
-          <Route path="/play/tournament" element={<Suspense fallback={<RouteLoader />}><TournamentBracket /></Suspense>} />
+          {/* MVP: Multiplayer routes hidden until backend ready */}
+          {/* <Route path="/play/replays" element={<Suspense fallback={<RouteLoader />}><ReplayList /></Suspense>} /> */}
+          {/* <Route path="/play/tournament" element={<Suspense fallback={<RouteLoader />}><TournamentBracket /></Suspense>} /> */}
           <Route path="/play/globe" element={<Suspense fallback={<RouteLoader />}><Globe3D /></Suspense>} />
           <Route path="/play/stats/:threadId" element={<Suspense fallback={<RouteLoader />}><MatchStats /></Suspense>} />
           <Route path="/play/exit-confirm" element={<Suspense fallback={<RouteLoader />}><ExitGameConfirm /></Suspense>} />

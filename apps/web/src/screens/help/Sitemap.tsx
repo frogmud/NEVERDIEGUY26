@@ -110,8 +110,6 @@ const sitemapData: SitemapSection[] = [
     links: [
       { label: 'Accounts', path: '/login', status: 'planned' },
       { label: 'Leaderboards', path: '/leaderboard', status: 'planned' },
-      { label: 'Multiplayer', path: '/play/multiplayer', status: 'planned' },
-      { label: 'Replays', path: '/play/replays', status: 'planned' },
     ],
   },
 ];

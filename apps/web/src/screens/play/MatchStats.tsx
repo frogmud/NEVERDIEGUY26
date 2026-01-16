@@ -141,9 +141,10 @@ export function MatchStats() {
         <IconButton>
           <ShareIcon />
         </IconButton>
-        <IconButton onClick={() => navigate(`/play/replay/${threadId}`)}>
+        {/* MVP: Replay hidden until backend ready */}
+        {/* <IconButton onClick={() => navigate(`/play/replay/${threadId}`)}>
           <ReplayIcon />
-        </IconButton>
+        </IconButton> */}
       </Box>
 
       {/* Quick Summary */}
