@@ -330,6 +330,8 @@ export interface GlobeNPC {
   velocityLat: number;
   velocityLng: number;
   lastDirectionChange: number;
+  // Spawn animation
+  spawnTime?: number; // Timestamp when NPC was spawned (for fade-in animation)
 }
 
 export interface MeteorProjectile {

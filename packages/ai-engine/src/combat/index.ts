@@ -98,6 +98,23 @@ export {
   getFlatGoldReward,
   calculateDecayRate,
   calculateStatEffects,
+  // Population Density System
+  POPULATION_CONFIG,
+  type DensityTier,
+  getDensityTier,
+  getDensityTierConfig,
+  // Die-Density Efficiency Matrix
+  DIE_DENSITY_EFFICIENCY,
+  type DieDensityConfig,
+  type DieSides as BalanceDieSides,
+  getDensityEfficiency,
+  getDieIdentity,
+  // Die-Specific Decay Modifiers
+  DIE_DECAY_MODIFIERS,
+  type DieDecayConfig,
+  getDieDecayModifier,
+  calculateWeightedDecay,
+  getEffectiveGracePeriod,
 } from './balance-config';
 
 // Item System (re-export from items package)

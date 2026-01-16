@@ -38,10 +38,12 @@ import {
   type CombatConfig,
   createSeededRng,
   FLAT_EVENT_CONFIG,
+  POPULATION_CONFIG,
   calculateDecayRate,
   calculateStatEffects,
   type LoadoutStats,
 } from '@ndg/ai-engine';
+import { DensityMeter } from '../../../components/DensityMeter';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
 import { EVENT_VARIANTS, type EventVariant } from '../../../types/zones';
@@ -554,6 +556,9 @@ export function CombatTerminal({
   const [accumulatedDecay, setAccumulatedDecay] = useState(0);
   const lastDecayTickRef = useRef<number>(0);
 
+  // Population density state (simulated based on time elapsed)
+  const [populationCount, setPopulationCount] = useState<number>(POPULATION_CONFIG.initialCount);
+
   // Boss detection - zone 3 is boss zone
   // DISABLED FOR MVP - boss system felt too heavy, keeping for later
   const boss: BossDefinition | null = null;
@@ -848,6 +853,48 @@ export function CombatTerminal({
     if (!isLobby) {
       setAccumulatedDecay(0);
       lastDecayTickRef.current = Date.now();
+    }
+  }, [isLobby, domain, tier]);
+
+  // Population growth effect (simulates NPCs spawning over time)
+  const populationBurstsFiredRef = useRef<number[]>([]);
+  useEffect(() => {
+    if (isLobby || isTimerPaused || !timerStartRef.current) {
+      return;
+    }
+
+    // Reset on new combat
+    setPopulationCount(POPULATION_CONFIG.initialCount);
+    populationBurstsFiredRef.current = [];
+
+    const popInterval = setInterval(() => {
+      const elapsedMs = Date.now() - timerStartRef.current! - pausedTimeRef.current;
+
+      setPopulationCount((prev) => {
+        // Linear growth: spawnRate per second
+        const baseGrowth = Math.floor((elapsedMs / 1000) * POPULATION_CONFIG.spawnRate);
+        let newCount = POPULATION_CONFIG.initialCount + baseGrowth;
+
+        // Burst spawns
+        for (const burstTime of POPULATION_CONFIG.burstIntervals) {
+          if (elapsedMs >= burstTime && !populationBurstsFiredRef.current.includes(burstTime)) {
+            populationBurstsFiredRef.current.push(burstTime);
+            newCount += POPULATION_CONFIG.burstSize;
+          }
+        }
+
+        return Math.min(newCount, POPULATION_CONFIG.maxPopulation);
+      });
+    }, 500);
+
+    return () => clearInterval(popInterval);
+  }, [isLobby, isTimerPaused]);
+
+  // Reset population on new combat
+  useEffect(() => {
+    if (!isLobby) {
+      setPopulationCount(POPULATION_CONFIG.initialCount);
+      populationBurstsFiredRef.current = [];
     }
   }, [isLobby, domain, tier]);
 
@@ -1596,6 +1643,20 @@ export function CombatTerminal({
           />
         )}
 
+        {/* Population Density Meter - shows current population tier */}
+        {!isLobby && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 8,
+              left: 8,
+              zIndex: 10,
+            }}
+          >
+            <DensityMeter npcCount={populationCount} compact />
+          </Box>
+        )}
+
         {/* Fixed HUD Reticle - scales with zoom to match impact area on planet */}
         {!isLobby && reticleDice.length > 0 && (
           <Box
@@ -1681,6 +1742,7 @@ export function CombatTerminal({
         isDisabled={isLobby}
         guardianDieTypes={guardians.map(g => g.dieType)}
         isDomainClear={isDomainClear}
+        npcCount={populationCount}
       />
 
       {/* Report Dialog */}

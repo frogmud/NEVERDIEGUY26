@@ -26,6 +26,14 @@ import {
   latLngToCartesian,
   isWithinImpactRadius,
 } from '../utils/sphereCoords';
+import {
+  POPULATION_CONFIG,
+  getDensityTier,
+  getDensityTierConfig,
+  getDensityEfficiency,
+  type DensityTier,
+  type BalanceDieSides,
+} from '@ndg/ai-engine';
 
 export interface DiceType {
   sides: number;
@@ -47,6 +55,15 @@ interface GameStats {
   summonsLeft: number;
 }
 
+// Density state for population tracking
+interface DensityState {
+  npcCount: number;
+  tier: DensityTier;
+  tierConfig: ReturnType<typeof getDensityTierConfig>;
+  eventStartTime: number;
+  burstsFired: number[];  // Track which burst intervals have fired
+}
+
 // Increased movement speeds for more visible wandering
 const MOVEMENT_SPEEDS = {
   common: 3.0,      // degrees per second (was 0.3)
@@ -56,10 +73,10 @@ const MOVEMENT_SPEEDS = {
 };
 
 export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
-  const { initialNpcCount = 25, initialSummons = 10, maxDice = 3 } = options;
+  const { initialNpcCount = POPULATION_CONFIG.initialCount, initialSummons = 10, maxDice = 3 } = options;
 
-  // Game state
-  const [npcs, setNpcs] = useState<GlobeNPC[]>(() => generateNPCs(initialNpcCount));
+  // Game state - start with population config initial count
+  const [npcs, setNpcs] = useState<GlobeNPC[]>(() => generateNPCs(POPULATION_CONFIG.initialCount));
   const [meteors, setMeteors] = useState<MeteorProjectile[]>([]);
   const [impacts, setImpacts] = useState<ImpactZone[]>([]);
   const [targetPosition, setTargetPosition] = useState<{ lat: number; lng: number; point3D?: [number, number, number] } | null>(null);
@@ -87,6 +104,15 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
     comboType: null,
   });
 
+  // Population density state
+  const [densityState, setDensityState] = useState<DensityState>(() => ({
+    npcCount: initialNpcCount,
+    tier: getDensityTier(initialNpcCount),
+    tierConfig: getDensityTierConfig(initialNpcCount),
+    eventStartTime: Date.now(),
+    burstsFired: [],
+  }));
+
   // Game phase for turn-based flow
   const [gamePhase, setGamePhase] = useState<GamePhase>('select');
 
@@ -108,6 +134,63 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
     }, 1000);
     return () => clearInterval(idleCheck);
   }, [lastInteraction]);
+
+  // Population density spawn loop
+  useEffect(() => {
+    const spawnInterval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = now - densityState.eventStartTime;
+
+      setNpcs((prev) => {
+        // Don't spawn if at max
+        if (prev.length >= POPULATION_CONFIG.maxPopulation) return prev;
+
+        // Calculate linear spawn (spawnRate NPCs per second)
+        const toSpawn = POPULATION_CONFIG.spawnRate;
+
+        // Generate new NPCs
+        const newNpcs = generateSpawnedNPCs(toSpawn, prev.length);
+        const updated = [...prev, ...newNpcs];
+
+        // Update density state
+        const newCount = updated.length;
+        setDensityState((ds) => ({
+          ...ds,
+          npcCount: newCount,
+          tier: getDensityTier(newCount),
+          tierConfig: getDensityTierConfig(newCount),
+        }));
+
+        return updated;
+      });
+
+      // Check for burst spawns
+      setDensityState((ds) => {
+        const newBurstsFired = [...ds.burstsFired];
+        let shouldBurst = false;
+
+        for (const interval of POPULATION_CONFIG.burstIntervals) {
+          if (elapsed >= interval && !ds.burstsFired.includes(interval)) {
+            newBurstsFired.push(interval);
+            shouldBurst = true;
+          }
+        }
+
+        if (shouldBurst) {
+          // Trigger burst spawn
+          setNpcs((prev) => {
+            if (prev.length >= POPULATION_CONFIG.maxPopulation) return prev;
+            const burstNpcs = generateSpawnedNPCs(POPULATION_CONFIG.burstSize, prev.length);
+            return [...prev, ...burstNpcs];
+          });
+        }
+
+        return { ...ds, burstsFired: newBurstsFired };
+      });
+    }, 1000); // Every second
+
+    return () => clearInterval(spawnInterval);
+  }, [densityState.eventStartTime]);
 
   // NPC movement loop - FASTER movement
   useEffect(() => {
@@ -239,7 +322,8 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
   const processImpacts = useCallback(
     (newImpacts: ImpactZone[]) => {
       const now = Date.now();
-      const hitNpcs: GlobeNPC[] = [];
+      // Track both the hit NPC and which die type killed it
+      const hitNpcsWithDie: { npc: GlobeNPC; dieType: number }[] = [];
 
       setNpcs((prevNpcs) => {
         const remaining = prevNpcs.filter((npc) => {
@@ -253,7 +337,7 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
                 METEOR_CONFIG.impactRadius * 12 // Slightly larger hit radius
               )
             ) {
-              hitNpcs.push(npc);
+              hitNpcsWithDie.push({ npc, dieType: impact.dieType });
               return false;
             }
           }
@@ -261,6 +345,9 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
         });
         return remaining;
       });
+
+      // Extract just the NPCs for combo tracking
+      const hitNpcs = hitNpcsWithDie.map((h) => h.npc);
 
       // Update combo state and score
       if (hitNpcs.length > 0) {
@@ -296,10 +383,32 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
           };
         });
 
-        // Calculate score
+        // Update density state when NPCs are squished
+        setDensityState((prev) => {
+          const newCount = prev.npcCount - hitNpcs.length;
+          return {
+            ...prev,
+            npcCount: Math.max(0, newCount),
+            tier: getDensityTier(Math.max(0, newCount)),
+            tierConfig: getDensityTierConfig(Math.max(0, newCount)),
+          };
+        });
+
+        // Calculate score with density efficiency
         let points = 0;
-        hitNpcs.forEach((npc) => {
-          points += NPC_CONFIG.scoreMultiplier[npc.rarity];
+        const currentNpcCount = densityState.npcCount;
+
+        hitNpcsWithDie.forEach(({ npc, dieType }) => {
+          const basePoints = NPC_CONFIG.scoreMultiplier[npc.rarity];
+
+          // Apply density efficiency for this die type
+          // Die types are 4, 6, 8, 10, 12, 20
+          const validDieType = [4, 6, 8, 10, 12, 20].includes(dieType)
+            ? (dieType as BalanceDieSides)
+            : (6 as BalanceDieSides);
+          const densityEff = getDensityEfficiency(validDieType, currentNpcCount);
+
+          points += Math.floor(basePoints * densityEff);
         });
 
         // Apply combo multiplier
@@ -319,7 +428,7 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
         });
       }
     },
-    [comboState]
+    [comboState, densityState.npcCount]
   );
 
   // Clear old impacts
@@ -494,7 +603,8 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
 
   // Reset game
   const resetGame = useCallback(
-    (npcCount = initialNpcCount) => {
+    (npcCount = POPULATION_CONFIG.initialCount) => {
+      const now = Date.now();
       setNpcs(generateNPCs(npcCount));
       setMeteors([]);
       setImpacts([]);
@@ -514,11 +624,19 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
         lastHitTime: 0,
         comboType: null,
       });
+      // Reset density state with fresh event start time
+      setDensityState({
+        npcCount,
+        tier: getDensityTier(npcCount),
+        tierConfig: getDensityTierConfig(npcCount),
+        eventStartTime: now,
+        burstsFired: [],
+      });
       setGamePhase('select');
       setLastRollResult(null);
-      setLastInteraction(Date.now());
+      setLastInteraction(now);
     },
-    [initialNpcCount, initialSummons]
+    [initialSummons]
   );
 
   return {
@@ -535,6 +653,11 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
     maxDice,
     gamePhase,
     lastRollResult,
+    // Density state
+    densityState,
+    npcCount: npcs.length,
+    densityTier: densityState.tier,
+    densityTierConfig: densityState.tierConfig,
 
     // Actions
     toggleDice,
@@ -581,6 +704,49 @@ function generateNPCs(count: number): GlobeNPC[] {
       lastDirectionChange: now,
     };
   });
+}
+
+// Helper to spawn additional NPCs during gameplay (for density system)
+function generateSpawnedNPCs(count: number, existingCount: number): GlobeNPC[] {
+  const now = Date.now();
+  const npcs: GlobeNPC[] = [];
+
+  for (let i = 0; i < count; i++) {
+    // Random position on globe
+    const lat = (Math.random() - 0.5) * 170; // -85 to 85
+    const lng = (Math.random() - 0.5) * 360; // -180 to 180
+
+    // Random rarity based on weights
+    const roll = Math.random();
+    let rarity: NPCRarity = 'common';
+    let cumulative = 0;
+    for (const [r, weight] of Object.entries(NPC_CONFIG.rarityWeights)) {
+      cumulative += weight;
+      if (roll < cumulative) {
+        rarity = r as NPCRarity;
+        break;
+      }
+    }
+
+    const speed = MOVEMENT_SPEEDS[rarity];
+    const angle = Math.random() * Math.PI * 2;
+
+    npcs.push({
+      id: `npc-spawn-${now}-${existingCount + i}`,
+      lat,
+      lng,
+      rarity,
+      health: rarity === 'legendary' ? 3 : 1,
+      spawnLat: lat,
+      spawnLng: lng,
+      velocityLat: Math.cos(angle) * speed,
+      velocityLng: Math.sin(angle) * speed,
+      lastDirectionChange: now,
+      spawnTime: now, // For spawn animation
+    });
+  }
+
+  return npcs;
 }
 
 export default useGlobeMeteorGame;

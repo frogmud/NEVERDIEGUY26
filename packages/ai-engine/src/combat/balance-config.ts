@@ -276,6 +276,195 @@ export function calculateStatEffects(stats: LoadoutStats): {
 }
 
 // ============================================
+// POPULATION DENSITY SYSTEM
+// ============================================
+
+export type DensityTier = 'sparse' | 'scattered' | 'populated' | 'crowded' | 'swarming';
+
+export const POPULATION_CONFIG = {
+  /** Initial NPC count at event start */
+  initialCount: 12,
+  /** NPCs spawned per second */
+  spawnRate: 3,
+  /** Burst spawn times (ms from start) */
+  burstIntervals: [6000, 10000] as const,
+  /** NPCs per burst spawn */
+  burstSize: 5,
+  /** Max NPCs (performance cap) */
+  maxPopulation: 60,
+
+  /** Density tier definitions */
+  tiers: {
+    sparse:    { min: 0,  max: 20, color: '#4caf50', label: 'Sparse' },
+    scattered: { min: 20, max: 35, color: '#8bc34a', label: 'Scattered' },
+    populated: { min: 35, max: 45, color: '#ffeb3b', label: 'Populated' },
+    crowded:   { min: 45, max: 55, color: '#ff9800', label: 'Crowded' },
+    swarming:  { min: 55, max: 60, color: '#f44336', label: 'Swarming' },
+  } as const,
+} as const;
+
+/**
+ * Get current density tier based on NPC count
+ */
+export function getDensityTier(npcCount: number): DensityTier {
+  const { tiers } = POPULATION_CONFIG;
+  if (npcCount >= tiers.swarming.min) return 'swarming';
+  if (npcCount >= tiers.crowded.min) return 'crowded';
+  if (npcCount >= tiers.populated.min) return 'populated';
+  if (npcCount >= tiers.scattered.min) return 'scattered';
+  return 'sparse';
+}
+
+/**
+ * Get tier config for current density
+ */
+export function getDensityTierConfig(npcCount: number) {
+  const tier = getDensityTier(npcCount);
+  return { tier, ...POPULATION_CONFIG.tiers[tier] };
+}
+
+// ============================================
+// DIE-DENSITY EFFICIENCY MATRIX
+// ============================================
+
+export type DieSides = 4 | 6 | 8 | 10 | 12 | 20;
+
+export interface DieDensityConfig {
+  sparse: number;
+  scattered: number;
+  populated: number;
+  crowded: number;
+  swarming: number;
+  identity: string;
+  loreQuote: string;
+}
+
+/**
+ * Die efficiency by density tier
+ * d4 excels at sparse, d20 excels at swarming
+ */
+export const DIE_DENSITY_EFFICIENCY: Record<DieSides, DieDensityConfig> = {
+  4: {  // "The Surgeon" - Void - The One
+    sparse: 1.5, scattered: 1.3, populated: 1.0, crowded: 0.8, swarming: 0.6,
+    identity: 'The Surgeon',
+    loreQuote: 'The One rewards patience. In stillness, see the one target that matters.',
+  },
+  6: {  // "The Builder" - Earth - John
+    sparse: 0.9, scattered: 1.0, populated: 1.1, crowded: 1.1, swarming: 1.0,
+    identity: 'The Builder',
+    loreQuote: 'John builds upon what exists. Neither flood nor drought moves the earth.',
+  },
+  8: {  // "The Reaper" - Death - Peter
+    sparse: 0.7, scattered: 0.9, populated: 1.2, crowded: 1.4, swarming: 1.2,
+    identity: 'The Reaper',
+    loreQuote: 'Peter counts the living. More souls, greater harvest.',
+  },
+  10: { // "The Inferno" - Fire - Robert
+    sparse: 0.6, scattered: 0.8, populated: 1.1, crowded: 1.3, swarming: 1.5,
+    identity: 'The Inferno',
+    loreQuote: 'Robert\'s fire hungers. Give it fuel, and it consumes all.',
+  },
+  12: { // "The Glacier" - Ice - Alice
+    sparse: 1.0, scattered: 1.1, populated: 1.2, crowded: 1.25, swarming: 1.3,
+    identity: 'The Glacier',
+    loreQuote: 'Alice freezes opportunity. The longer you wait, the more she preserves.',
+  },
+  20: { // "The Storm" - Wind - Jane (REBALANCED)
+    sparse: 0.4, scattered: 0.6, populated: 0.9, crowded: 1.1, swarming: 1.3,
+    identity: 'The Storm',
+    loreQuote: 'Jane\'s wind scatters. In emptiness, it finds nothing. In crowds, everyone.',
+  },
+};
+
+/**
+ * Get density efficiency for a die at current NPC count
+ */
+export function getDensityEfficiency(dieSides: DieSides, npcCount: number): number {
+  const tier = getDensityTier(npcCount);
+  return DIE_DENSITY_EFFICIENCY[dieSides][tier];
+}
+
+/**
+ * Get die identity and lore
+ */
+export function getDieIdentity(dieSides: DieSides): { identity: string; loreQuote: string } {
+  const { identity, loreQuote } = DIE_DENSITY_EFFICIENCY[dieSides];
+  return { identity, loreQuote };
+}
+
+// ============================================
+// DIE-SPECIFIC DECAY MODIFIERS
+// ============================================
+
+export interface DieDecayConfig {
+  /** Multiplier applied to base decay rate */
+  decayMultiplier: number;
+  /** Multiplier for grace period duration */
+  graceMultiplier: number;
+  /** Lore reason for the modifier */
+  loreReason: string;
+}
+
+/**
+ * Decay modifiers by die type
+ * d4/d12 preserve score (slow decay), d10/d20 bleed fast
+ */
+export const DIE_DECAY_MODIFIERS: Record<DieSides, DieDecayConfig> = {
+  4:  { decayMultiplier: 0.5,  graceMultiplier: 1.5, loreReason: 'The Void preserves.' },
+  6:  { decayMultiplier: 0.8,  graceMultiplier: 1.2, loreReason: 'Earth endures.' },
+  8:  { decayMultiplier: 0.6,  graceMultiplier: 1.0, loreReason: 'Death is permanent.' },
+  10: { decayMultiplier: 1.5,  graceMultiplier: 0.7, loreReason: 'Fire burns fast.' },
+  12: { decayMultiplier: 0.3,  graceMultiplier: 2.0, loreReason: 'Ice freezes time.' },
+  20: { decayMultiplier: 1.3,  graceMultiplier: 0.8, loreReason: 'Wind carries away.' },
+};
+
+/**
+ * Get decay modifier for a die type
+ */
+export function getDieDecayModifier(dieSides: DieSides): DieDecayConfig {
+  return DIE_DECAY_MODIFIERS[dieSides];
+}
+
+/**
+ * Calculate weighted decay based on dice thrown this event
+ * @param elapsedMs - Time elapsed since event start
+ * @param targetScore - Score goal for this event
+ * @param thrownDice - Array of die types thrown so far
+ * @returns Decay per second at this moment
+ */
+export function calculateWeightedDecay(
+  elapsedMs: number,
+  targetScore: number,
+  thrownDice: DieSides[]
+): number {
+  const baseDecay = calculateDecayRate(elapsedMs, targetScore);
+
+  if (thrownDice.length === 0) return baseDecay;
+
+  // Average decay modifier from thrown dice
+  const avgDecayMod = thrownDice.reduce((sum, die) =>
+    sum + DIE_DECAY_MODIFIERS[die].decayMultiplier, 0
+  ) / thrownDice.length;
+
+  return baseDecay * avgDecayMod;
+}
+
+/**
+ * Get effective grace period based on thrown dice
+ * @param thrownDice - Array of die types thrown so far
+ * @returns Adjusted grace period in ms
+ */
+export function getEffectiveGracePeriod(thrownDice: DieSides[]): number {
+  if (thrownDice.length === 0) return FLAT_EVENT_CONFIG.gracePeriodMs;
+
+  const avgGraceMod = thrownDice.reduce((sum, die) =>
+    sum + DIE_DECAY_MODIFIERS[die].graceMultiplier, 0
+  ) / thrownDice.length;
+
+  return Math.round(FLAT_EVENT_CONFIG.gracePeriodMs * avgGraceMod);
+}
+
+// ============================================
 // FLAT STRUCTURE REFERENCE (BULLET MODE: 3 throws, 20s timer)
 // ============================================
 // Domain | Goal  | Gold | Avg Throw | 3 Throws | Notes
@@ -288,3 +477,13 @@ export function calculateStatEffects(stats: LoadoutStats): {
 // 6      | 2,500 | 500g |    200    |  600     | Needs 4.2x mult
 //
 // Total run time target: 2-5 minutes (6 events x 20s = 2 min timers)
+//
+// DENSITY EFFICIENCY REFERENCE
+// ============================================
+// Time | Pop | d4 Eff | d6 Eff | d20 Eff | Best Die
+// -----|-----|--------|--------|---------|----------
+// 0s   | 12  | 1.5x   | 0.9x   | 0.4x    | d4
+// 4s   | 24  | 1.3x   | 1.0x   | 0.6x    | d4
+// 8s   | 36  | 1.0x   | 1.1x   | 0.9x    | d8 (1.2x)
+// 12s  | 48  | 0.8x   | 1.1x   | 1.1x    | d8 (1.4x)
+// 16s  | 58  | 0.6x   | 1.0x   | 1.3x    | d10/d20

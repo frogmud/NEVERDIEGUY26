@@ -25,6 +25,12 @@ import { DiceShape } from '../../../components/DiceShapes';
 import { tokens } from '../../../theme';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { Die } from '@ndg/ai-engine';
+import {
+  getDensityEfficiency,
+  getDensityTier,
+  getDieIdentity,
+  type BalanceDieSides,
+} from '@ndg/ai-engine';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
@@ -80,6 +86,8 @@ interface CombatHUDProps {
   guardianDieTypes?: number[];
   /** True if this is the last zone in the domain */
   isDomainClear?: boolean;
+  /** Current NPC count for density efficiency display */
+  npcCount?: number;
 }
 
 /**
@@ -200,6 +208,7 @@ function DiceHandRow({
   isRolling,
   turnNumber = 1,
   guardianDieTypes = [],
+  npcCount = 0,
 }: {
   hand: Die[];
   onToggleHold: (dieId: string) => void;
@@ -209,6 +218,7 @@ function DiceHandRow({
   isRolling?: boolean;
   turnNumber?: number;
   guardianDieTypes?: number[];
+  npcCount?: number;
 }) {
   // Track which guardian types have been claimed by unheld dice (for "Hits Guardian" display)
   const guardianTargetCounts: Record<number, number> = {};
@@ -274,9 +284,37 @@ function DiceHandRow({
           }
         }
 
+        // Calculate density efficiency for this die
+        const validDie = [4, 6, 8, 10, 12, 20].includes(die.sides)
+          ? (die.sides as BalanceDieSides)
+          : (6 as BalanceDieSides);
+        const efficiency = npcCount > 0 ? getDensityEfficiency(validDie, npcCount) : 1.0;
+        const { identity: dieIdentity } = getDieIdentity(validDie);
+        const densityTier = npcCount > 0 ? getDensityTier(npcCount) : 'sparse';
+        const effPercent = Math.round(efficiency * 100);
+        const effColor = efficiency >= 1.2 ? '#4caf50' : efficiency >= 1.0 ? '#ffeb3b' : efficiency >= 0.7 ? '#ff9800' : '#f44336';
+
+        // Efficiency tooltip content
+        const tooltipContent = npcCount > 0 ? (
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography sx={{ ...gamingFont, fontSize: '0.7rem', fontWeight: 600, color: effColor }}>
+              {effPercent}% Efficiency
+            </Typography>
+            <Typography sx={{ ...gamingFont, fontSize: '0.6rem', color: 'text.secondary' }}>
+              {dieIdentity} @ {densityTier}
+            </Typography>
+          </Box>
+        ) : null;
+
         return (
-          <Box
+          <Tooltip
             key={die.id}
+            title={tooltipContent || ''}
+            placement="top"
+            arrow
+            disableHoverListener={!npcCount}
+          >
+          <Box
             onClick={() => !disabled && onToggleHold(die.id)}
             sx={{
               cursor: disabled ? 'default' : 'pointer',
@@ -369,6 +407,7 @@ function DiceHandRow({
               </Box>
             )}
           </Box>
+          </Tooltip>
         );
       })}
     </Box>
@@ -391,6 +430,7 @@ export function CombatHUD({
   isDisabled: isDisabledProp = false,
   guardianDieTypes = [],
   isDomainClear = false,
+  npcCount = 0,
 }: CombatHUDProps) {
   const {
     phase,
@@ -451,6 +491,7 @@ export function CombatHUD({
         isRolling={isRolling}
         turnNumber={turnNumber}
         guardianDieTypes={guardianDieTypes}
+        npcCount={npcCount}
       />
 
       {/* Action toolbar - Throw | Holding | Trade - always reserve space for consistent height */}

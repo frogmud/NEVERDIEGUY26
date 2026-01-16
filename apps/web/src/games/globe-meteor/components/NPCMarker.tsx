@@ -2,16 +2,20 @@
  * NPCMarker - 3D representation of an NPC on the globe surface
  *
  * Positioned using lat/lng coordinates, sized/colored by rarity.
+ * Includes spawn animation for density system visual feedback.
  * NEVER DIE GUY
  */
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Cone, Billboard } from '@react-three/drei';
 import * as THREE from 'three';
 
 import { GlobeNPC, NPC_CONFIG, GLOBE_CONFIG } from '../config';
 import { latLngToCartesian, getSurfaceNormal } from '../utils/sphereCoords';
+
+// Spawn animation duration in ms
+const SPAWN_ANIMATION_DURATION = 500;
 
 interface NPCMarkerProps {
   npc: GlobeNPC;
@@ -48,11 +52,29 @@ export function NPCMarker({
   const size = NPC_CONFIG.markerSize[npc.rarity];
   const color = NPC_CONFIG.colors[npc.rarity];
 
-  // Gentle hover animation
+  // Track spawn animation progress
+  const [spawnScale, setSpawnScale] = useState(() => {
+    // If spawned recently, start small
+    if (npc.spawnTime && Date.now() - npc.spawnTime < SPAWN_ANIMATION_DURATION) {
+      return 0;
+    }
+    return 1;
+  });
+
+  // Gentle hover animation + spawn scale-up
   useFrame((state) => {
     if (meshRef.current) {
       const offset = Math.sin(state.clock.elapsedTime * 2 + npc.id.charCodeAt(0)) * 0.02;
       meshRef.current.position.y = offset;
+
+      // Spawn animation - scale up from 0 to 1
+      if (npc.spawnTime && spawnScale < 1) {
+        const elapsed = Date.now() - npc.spawnTime;
+        const progress = Math.min(elapsed / SPAWN_ANIMATION_DURATION, 1);
+        // Ease-out bounce effect
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setSpawnScale(eased);
+      }
     }
   });
 
@@ -68,7 +90,7 @@ export function NPCMarker({
   }, [normal]);
 
   return (
-    <group position={position} rotation={lookAtCenter}>
+    <group position={position} rotation={lookAtCenter} scale={[spawnScale, spawnScale, spawnScale]}>
       {/* Main marker body */}
       <Cone
         ref={meshRef}

@@ -689,8 +689,21 @@ export {
   getFlatGoldReward,
   calculateDecayRate,
   calculateStatEffects,
+  // Population Density System
+  POPULATION_CONFIG,
+  getDensityTier,
+  getDensityTierConfig,
+  // Die-Density Efficiency Matrix
+  DIE_DENSITY_EFFICIENCY,
+  getDensityEfficiency,
+  getDieIdentity,
+  // Die-Specific Decay Modifiers
+  DIE_DECAY_MODIFIERS,
+  getDieDecayModifier,
+  calculateWeightedDecay,
+  getEffectiveGracePeriod,
 } from './combat';
-export type { StatKey, LoadoutStats } from './combat';
+export type { StatKey, LoadoutStats, DensityTier, DieDensityConfig, DieDecayConfig, BalanceDieSides } from './combat';
 export type {
   // Grid types
   TileType,
