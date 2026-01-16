@@ -297,7 +297,7 @@ export function HomeChatter() {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
       {/* Welcome message with domain */}
       <Typography
         sx={{
@@ -421,7 +421,7 @@ export function HomeChatter() {
                   fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
                   color: tokens.colors.text.primary,
                   lineHeight: 1.5,
-                  textWrap: 'pretty', // Prevent widows/orphans
+                  wordBreak: 'break-word',
                 }}
               >
                 {msg}

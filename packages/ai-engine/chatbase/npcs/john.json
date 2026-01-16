@@ -1,0 +1,631 @@
+{
+  "npc": {
+    "slug": "john",
+    "name": "John",
+    "category": "pantheon"
+  },
+  "entryCount": 18,
+  "pools": {
+    "alliance": 1,
+    "lore": 3,
+    "ceelo_lose": 1,
+    "gossip": 2,
+    "challenge": 1,
+    "ceelo": 1,
+    "reaction": 6,
+    "threat": 1,
+    "ceelo_win": 2
+  },
+  "moods": {
+    "neutral": 13,
+    "threatening": 3,
+    "grateful": 1,
+    "cryptic": 1
+  },
+  "entries": [
+    {
+      "id": "cb-john-51lakv",
+      "text": "Maybe we should stick together. Strength in numbers.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "alliance",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "alliance",
+        "trust_shift",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 95,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 7,
+        "extractedAt": "2026-01-03T02:58:23.133Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-mkqicg",
+      "text": "They say the pantheon created this place as a test. Or a punishment.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "lore",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "lore",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 65,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 31,
+        "extractedAt": "2026-01-03T02:58:23.133Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-l681zp",
+      "text": "Every death feeds the sphere. That's the real game.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "lore",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "lore",
+        "secret",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 105,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 67,
+        "extractedAt": "2026-01-03T02:58:23.133Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-c9q4jp",
+      "text": "I'll get it back. I always get it back.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "ceelo_lose",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_lose",
+        "pantheon_speaks",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 75,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 134,
+        "extractedAt": "2026-01-03T02:58:23.133Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-john-smsizg",
+      "text": "Stitch-Up Girl's been busy. Too many injuries lately.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "gossip",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 60,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-04-23-834Z/conversations.json",
+        "extractedTurn": 176,
+        "extractedAt": "2026-01-03T02:58:23.133Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-h5z6vo",
+      "text": "The rules exist for a reason, Maxwell. Your fixation on the technicalities blinds you to the true purpose of this contest, to prove one's worthiness before the pantheon. Dice are not mere playthings to be dissected, but sacred implements that demand respect and discipline. I expected more from one who seeks to understand the divine order.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "challenge",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 26,
+        "extractedAt": "2026-01-03T02:58:23.134Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-ejjtwi",
+      "text": "Another one bites the dust. Next victim?",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "ceelo",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_smack",
+        "pantheon_speaks",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 75,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 43,
+        "extractedAt": "2026-01-03T02:58:23.135Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-john-mgr0pk",
+      "text": "The rules exist for a reason, young Xtreme. Your reckless antics are a blight upon the order we strive to uphold. I expected more from one who would tempt fate so brazenly. The old ways are not to be trifled with, your worthiness has yet",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 53,
+        "extractedAt": "2026-01-03T02:58:23.135Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "triggers": {
+        "playerArchetype": "aggressive"
+      }
+    },
+    {
+      "id": "cb-john-67dibw",
+      "text": "The rules exist for a reason, Xtreme. Your reckless disregard for order is noted. I expected more from one who would tempt fate so brazenly. The old ways are not to be trifled with, your worthiness hangs by a thread.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-37-24-920Z/conversations.json",
+        "extractedTurn": 59,
+        "extractedAt": "2026-01-03T02:58:23.135Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "triggers": {
+        "playerArchetype": "aggressive"
+      }
+    },
+    {
+      "id": "cb-john-1ngri1",
+      "text": "I expected more.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_pantheon"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 8,
+        "extractedAt": "2026-01-03T02:58:23.136Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "the-one",
+        "name": "The One",
+        "category": "pantheon"
+      }
+    },
+    {
+      "id": "cb-john-96xz7p",
+      "text": "The rules exist for a reason, Dr. Voss. I expected more discipline and respect from those who would dare step into this hallowed sphere. Worthiness is earned, not taken, perhaps it is time you all reacquainted yourselves with the old ways.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 20,
+        "extractedAt": "2026-01-03T02:58:23.137Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "triggers": {
+        "debtTension": "minor"
+      }
+    },
+    {
+      "id": "cb-john-37qin7",
+      "text": "Your royal favor means nothing if the foundation is not soun",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 37,
+        "extractedAt": "2026-01-03T02:58:23.137Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-b8etg6",
+      "text": "Too easy. Who else wants some?",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "ceelo_win",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_win",
+        "pantheon_speaks",
+        "cross_category",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 40,
+        "extractedAt": "2026-01-03T02:58:23.137Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-rciwco",
+      "text": "Thanks for the donation.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "ceelo_win",
+      "mood": "grateful",
+      "moodIntensity": 0,
+      "contextTags": [
+        "ceelo_win",
+        "pantheon_speaks",
+        "cross_category"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-39-11-475Z/conversations.json",
+        "extractedTurn": 55,
+        "extractedAt": "2026-01-03T02:58:23.137Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "willy-one-eye",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-p8413v",
+      "text": "Word is, someone cheated at cee-lo last night. Typical.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "gossip",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "gossip",
+        "pantheon_speaks",
+        "cross_category",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 60,
+        "source": "chatter_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 20,
+        "extractedAt": "2026-01-03T02:58:23.141Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-john-y3jvub",
+      "text": "I expected more.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 45,
+        "extractedAt": "2026-01-03T02:58:23.142Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      }
+    },
+    {
+      "id": "cb-john-dx96t4",
+      "text": "The rules exist for a reason, Mr. Bones. I expected more from one who claims to see the grand design. Your riddles and death puns are hardly worthy of our pantheon. Now, if you'll excuse me, I must ensure order is maintained for today's matches.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "lore",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_wanderers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 86,
+        "extractedAt": "2026-01-03T02:58:23.142Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      }
+    },
+    {
+      "id": "cb-john-6mbix3",
+      "text": "The rules exist for a reason, gentlemen. I expected more from this so-called \"tactical operation\". Gambling and lawlessness will only lead to ruin. Perhaps it is time for a refresher on the old ways, order and discipline are the foundations upon which true worth is built.",
+      "speaker": {
+        "slug": "john",
+        "name": "John",
+        "category": "pantheon"
+      },
+      "pool": "reaction",
+      "mood": "cryptic",
+      "moodIntensity": 0,
+      "contextTags": [
+        "claude_generated",
+        "pantheon_speaks",
+        "target_travelers"
+      ],
+      "metrics": {
+        "interestScore": 100,
+        "source": "chatter_sim",
+        "originalPool": "claude_generated"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/atlas-t/NEVERDIEGUY26/packages/ai-engine/logs/chatter-2026-01-02T08-45-05-393Z/conversations.json",
+        "extractedTurn": 153,
+        "extractedAt": "2026-01-03T02:58:23.144Z",
+        "version": 1
+      },
+      "target": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      }
+    }
+  ]
+}
