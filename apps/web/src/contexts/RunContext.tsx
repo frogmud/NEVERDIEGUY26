@@ -48,7 +48,7 @@ import {
   logRunEnd,
   logDefeat,
 } from '../utils/telemetry';
-import { getBonusesFromInventory } from '../data/items/combat-effects';
+import { getBonusesFromInventory, filterPersistentItems } from '../data/items/combat-effects';
 import { getEarlyFinishBonus } from '../data/balance-config';
 
 // Combat system types from ai-engine
@@ -138,7 +138,7 @@ interface RunContextValue {
   completeTransition: () => void;
 
   // Run lifecycle
-  startRun: (threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[]) => void;
+  startRun: (threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[], startingDomain?: number) => void;
   startPractice: () => void;
   endRun: (won: boolean) => void;
   resetRun: () => void;
@@ -181,7 +181,7 @@ type RunAction =
   | { type: 'SET_TRANSITION_PHASE'; phase: TransitionPhase }
   | { type: 'TRANSITION_TO_PANEL'; panel: CenterPanel }
   | { type: 'COMPLETE_TRANSITION' }
-  | { type: 'START_RUN'; threadId: string; protocolRoll?: ProtocolRoll; selectedTraveler?: string; selectedLoadout?: string; startingItems?: string[] }
+  | { type: 'START_RUN'; threadId: string; protocolRoll?: ProtocolRoll; selectedTraveler?: string; selectedLoadout?: string; startingItems?: string[]; startingDomain?: number }
   | { type: 'START_PRACTICE' }
   | { type: 'END_RUN'; won: boolean }
   | { type: 'RESET_RUN' }
@@ -307,6 +307,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         action.selectedTraveler
       );
       const initialState = createInitialRunState();
+      // Use starting domain from homepage NPC or default to 1
+      const domainId = action.startingDomain || 1;
       return {
         ...initialState,
         centerPanel: 'globe',
@@ -314,6 +316,9 @@ function runReducer(state: RunState, action: RunAction): RunState {
         protocolRoll: action.protocolRoll,
         ledger: [threadStartEvent],
         phase: 'playing',
+        // Set starting domain (from homepage NPC offering)
+        currentDomain: domainId,
+        domainState: generateDomain(domainId),
         // Initialize inventory with loadout items
         inventory: {
           ...initialState.inventory,
@@ -568,7 +573,15 @@ function runReducer(state: RunState, action: RunAction): RunState {
         };
       }
 
-      // Next domain - advance directly
+      // DOMAIN TRANSITION - Expire non-persistent items
+      // Common/Uncommon items (including starting loadout) expire
+      // Epic/Legendary/Unique persist, flagged Rare items persist
+      const persistentPowerups = filterPersistentItems(state.inventory.powerups);
+
+      // Log domain clear
+      logDomainClear(state.currentDomain || 1, state.totalScore);
+
+      // Next domain - advance with filtered inventory
       return {
         ...state,
         centerPanel: 'globe',
@@ -577,6 +590,11 @@ function runReducer(state: RunState, action: RunAction): RunState {
         roomNumber: 1,
         completedEvents: [false, false, false],
         phase: 'playing',
+        // Expire domain-scoped items
+        inventory: {
+          ...state.inventory,
+          powerups: persistentPowerups,
+        },
       };
     }
 
@@ -750,9 +768,9 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'COMPLETE_TRANSITION' });
   }, []);
 
-  const startRun = useCallback((threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[]) => {
+  const startRun = useCallback((threadId: string, protocolRoll?: ProtocolRoll, selectedTraveler?: string, selectedLoadout?: string, startingItems?: string[], startingDomain?: number) => {
     logRunStart(selectedLoadout || 'default', threadId);
-    dispatch({ type: 'START_RUN', threadId, protocolRoll, selectedTraveler, selectedLoadout, startingItems });
+    dispatch({ type: 'START_RUN', threadId, protocolRoll, selectedTraveler, selectedLoadout, startingItems, startingDomain });
   }, []);
 
   const startPractice = useCallback(() => {

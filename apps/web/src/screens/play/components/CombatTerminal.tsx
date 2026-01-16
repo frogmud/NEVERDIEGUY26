@@ -45,6 +45,8 @@ import type { GuardianData } from '../../../games/globe-meteor/components/Guardi
 import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS, DOMAIN_PLANET_CONFIG } from '../../../games/globe-meteor/config';
 import { latLngToCartesian } from '../../../games/globe-meteor/utils/sphereCoords';
 import { getBonusesFromInventory } from '../../../data/items/combat-effects';
+import { getBossForZone, getBossTargetScore, type BossDefinition } from '../../../data/boss-types';
+import { BossHeartsHUD } from '../../../games/globe-meteor/components/BossHeartsHUD';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
@@ -441,6 +443,21 @@ export function CombatTerminal({
   const [guardians, setGuardians] = useState<GuardianData[]>([]);
   const [showVictoryExplosion, setShowVictoryExplosion] = useState(false);
   const [lastScoreGain, setLastScoreGain] = useState(0);
+  const [bossIsHit, setBossIsHit] = useState(false);
+
+  // Boss detection - zone 3 is boss zone
+  const boss: BossDefinition | null = useMemo(() => {
+    if (isLobby) return null;
+    return getBossForZone(domain, eventNumber);
+  }, [domain, eventNumber, isLobby]);
+
+  // Calculate actual score goal (use boss HP if boss zone)
+  const actualScoreGoal = useMemo(() => {
+    if (boss) {
+      return getBossTargetScore(boss);
+    }
+    return scoreGoal;
+  }, [boss, scoreGoal]);
   const [cameraDistance, setCameraDistance] = useState(GLOBE_CONFIG.camera.initialDistance);
   const [centerTarget, setCenterTarget] = useState<{ lat: number; lng: number; point3D: [number, number, number] } | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
@@ -555,10 +572,12 @@ export function CombatTerminal({
     const itemBonuses = getBonusesFromInventory(inventoryItems);
 
     // Configure combat with item bonuses
+    // Use boss HP for zone 3, otherwise use scoreGoal
+    const zoneScoreGoal = eventNumber === 3 && boss ? getBossTargetScore(boss) : scoreGoal;
     const config: CombatConfig = {
       domainId: domain,
       roomType: eventTypeToRoomType(eventType),
-      targetScore: scoreGoal,
+      targetScore: zoneScoreGoal,
       maxTurns: eventType === 'boss' ? 8 : eventType === 'big' ? 6 : 5,
       bonusThrows: itemBonuses.bonusThrows,
       bonusTrades: itemBonuses.bonusTrades,
@@ -627,7 +646,7 @@ export function CombatTerminal({
       unsubscribe();
       engineRef.current = null;
     };
-  }, [isLobby, domain, eventType, tier, scoreGoal, onWin, onLose]);
+  }, [isLobby, domain, eventType, tier, scoreGoal, onWin, onLose, eventNumber, boss]);
 
   // Create a key that changes when any die's held state changes
   const handHeldKey = engineState?.hand.map(d => `${d.id}:${d.isHeld}`).join(',') ?? '';
@@ -930,18 +949,24 @@ export function CombatTerminal({
       if (newImpacts.length > 0) {
         setImpacts(prev => [...prev, ...newImpacts]);
 
-        // Track score gain
+        // Track score gain and trigger boss hit animation
         setTimeout(() => {
           const currentScore = engineRef.current?.getState()?.currentScore || 0;
           const scoreGain = currentScore - prevScoreRef.current;
           if (scoreGain > 0) {
             setLastScoreGain(scoreGain);
             prevScoreRef.current = currentScore;
+
+            // Trigger boss hit animation if in boss zone
+            if (boss) {
+              setBossIsHit(true);
+              setTimeout(() => setBossIsHit(false), 200);
+            }
           }
         }, 100);
       }
     }
-  }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale, onGuardianSlain]);
+  }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale, onGuardianSlain, boss]);
 
   // Keep impacts for the duration of combat (clear only on new zone)
   // Limit to last 100 impacts - let the destruction stack!
@@ -1295,12 +1320,24 @@ export function CombatTerminal({
             onVictoryExplosionComplete={handleVictoryExplosionComplete}
             onCameraChange={setCameraDistance}
             onCenterTargetChange={setCenterTarget}
+            boss={boss || undefined}
+            bossCurrentScore={combatState.currentScore}
+            bossIsHit={bossIsHit}
           />
         </Box>
 
         {/* Damage visualization - flash and floating numbers */}
         {!isLobby && (
           <DamageFlash impacts={impacts} scoreGained={lastScoreGain} />
+        )}
+
+        {/* Boss Hearts HUD - shows for zone 3 (boss encounters) */}
+        {!isLobby && boss && (
+          <BossHeartsHUD
+            boss={boss}
+            currentScore={combatState.currentScore}
+            isHit={bossIsHit}
+          />
         )}
 
         {/* Fixed HUD Reticle - scales with zoom to match impact area on planet */}

@@ -92,6 +92,28 @@ export function PlayHub() {
     }
   }, [navState?.practiceMode, state.phase, startPractice, navigate]);
 
+  // Auto-start run with homepage loadout if available
+  useEffect(() => {
+    if (state.phase === 'event_select') {
+      const storedLoadout = sessionStorage.getItem('ndg-starting-loadout');
+      if (storedLoadout) {
+        try {
+          const loadout = JSON.parse(storedLoadout);
+          // Clear immediately so refresh doesn't restart
+          sessionStorage.removeItem('ndg-starting-loadout');
+          // Start run with NPC-offered items
+          const threadId = loadout.seed || generateThreadId();
+          const items = loadout.items || [];
+          // Pass domain as last parameter (startingDomain)
+          startRun(threadId, undefined, undefined, 'survivor', items, loadout.domain);
+        } catch {
+          // Invalid loadout, ignore
+          sessionStorage.removeItem('ndg-starting-loadout');
+        }
+      }
+    }
+  }, [state.phase, startRun]);
+
   // Handle Main Menu - navigate to app home
   const handleMainMenu = useCallback(() => {
     resetRun?.();

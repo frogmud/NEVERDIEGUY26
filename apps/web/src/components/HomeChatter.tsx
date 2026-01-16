@@ -414,12 +414,12 @@ export function HomeChatter() {
     setIsSending(false);
   };
 
-  // Handle sending a FAQ question (offline mode)
-  const handleSendFaqQuestion = async () => {
-    if (!selectedQuestion || isSending || isTyping) return;
+  // Handle sending a FAQ question (offline mode or quick chip click)
+  const handleSendFaqQuestion = async (directFaq?: FaqQuestion) => {
+    const faq = directFaq || selectedQuestion;
+    if (!faq || isSending || isTyping) return;
 
     setIsSending(true);
-    const faq = selectedQuestion;
     setSelectedQuestion(null);
 
     // Add player's question
@@ -1500,6 +1500,45 @@ export function HomeChatter() {
             </Box>
           )}
 
+          {/* Quick question chips - shown in both API and FAQ mode */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 1,
+              mb: 1.5,
+              justifyContent: 'center',
+            }}
+          >
+            {getAllQuestions().slice(0, 6).map((faq) => (
+              <Chip
+                key={faq.id}
+                label={faq.question.replace('?', '')}
+                size="small"
+                onClick={() => handleSendFaqQuestion(faq)}
+                disabled={isSending || awaitingConfirm || isTyping}
+                sx={{
+                  fontFamily: '"Inter", sans-serif',
+                  fontSize: '0.75rem',
+                  height: 28,
+                  bgcolor: 'transparent',
+                  border: '1px solid #333',
+                  color: tokens.colors.text.disabled,
+                  cursor: 'pointer',
+                  transition: 'all 150ms ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,0.05)',
+                    borderColor: '#555',
+                    color: tokens.colors.text.secondary,
+                  },
+                  '&.Mui-disabled': {
+                    opacity: 0.4,
+                  },
+                }}
+              />
+            ))}
+          </Box>
+
           {/* API mode: Autocomplete with free-form input + FAQ suggestions */}
           {apiAvailable && (
             <Box
@@ -1516,7 +1555,7 @@ export function HomeChatter() {
             >
               <Autocomplete
                 freeSolo
-                options={getAllQuestions().slice(0, 5)} // Show only a few suggestions
+                options={getAllQuestions()} // All questions in dropdown
                 getOptionLabel={(option) => typeof option === 'string' ? option : option.question}
                 inputValue={inputValue}
                 onInputChange={(_, newValue) => setInputValue(newValue.slice(0, 300))}
@@ -1623,7 +1662,7 @@ export function HomeChatter() {
                   />
                   <Box sx={{ flex: 1 }} />
                   <IconButton
-                    onClick={handleSendFaqQuestion}
+                    onClick={() => handleSendFaqQuestion()}
                     disabled={isSending || awaitingConfirm}
                     sx={{
                       width: 36,

@@ -6,7 +6,8 @@
  * Roguelike: items are lost at end of run.
  */
 
-import type { Element } from '../wiki/types';
+import type { Element, Item } from '../wiki/types';
+import { getEntity } from '../wiki';
 
 // Combat effect types
 export type CombatEffectType =
@@ -177,4 +178,45 @@ export function getBonusesFromInventory(itemSlugs: string[]): CombatBonuses {
   }
 
   return calculateCombatBonuses(allEffects);
+}
+
+/**
+ * Domain-Scoped Inventory Persistence
+ *
+ * Items expire when clearing a domain, EXCEPT:
+ * - Legendary/Unique: Always persist
+ * - Epic: Always persist
+ * - Rare: Only if explicitly flagged with persistsAcrossDomains
+ * - Common/Uncommon: Never persist (including starting loadout items)
+ */
+
+/**
+ * Check if an item persists across domain clears
+ */
+export function itemPersistsAcrossDomains(slug: string): boolean {
+  const entity = getEntity(slug);
+  if (!entity || entity.category !== 'items') return false;
+
+  const item = entity as Item;
+  const rarity = item.rarity;
+
+  // Legendary, Unique, Epic always persist
+  if (rarity === 'Legendary' || rarity === 'Unique' || rarity === 'Epic') {
+    return true;
+  }
+
+  // Rare items only if explicitly flagged
+  if (rarity === 'Rare' && item.persistsAcrossDomains === true) {
+    return true;
+  }
+
+  // Common/Uncommon never persist
+  return false;
+}
+
+/**
+ * Filter inventory to only persistent items (for domain transition)
+ */
+export function filterPersistentItems(itemSlugs: string[]): string[] {
+  return itemSlugs.filter(itemPersistsAcrossDomains);
 }

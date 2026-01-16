@@ -7,6 +7,7 @@ import { GameTabPlaying } from './tabs/GameTabPlaying';
 import { BagTab } from './tabs/BagTab';
 import { SettingsTab } from './tabs/SettingsTab';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../../data/loadouts';
+import { useRun } from '../../../contexts/RunContext';
 
 interface RollHistoryEntry {
   id: number;
@@ -119,6 +120,10 @@ export function PlaySidebar({
 }: PlaySidebarProps) {
   const [activeTab, setActiveTab] = useState<LobbyTabValue>('game');
   const [selectedLoadout, setSelectedLoadout] = useState<string>(DEFAULT_LOADOUT_ID);
+
+  // Get inventory from RunContext for BagTab
+  const { state: runState } = useRun();
+  const inventoryItems = runState.inventory?.powerups || [];
 
   // Handle new run with selected loadout
   const handleNewRun = useCallback(() => {
@@ -253,6 +258,7 @@ export function PlaySidebar({
             isLobby={phase === 'lobby' || phase === 'zoneSelect'}
             selectedLoadout={selectedLoadout}
             onLoadoutSelect={setSelectedLoadout}
+            inventoryItems={inventoryItems}
           />
         )}
         {activeTab === 'options' && <SettingsTab />}
