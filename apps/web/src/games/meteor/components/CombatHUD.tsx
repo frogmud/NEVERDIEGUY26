@@ -380,6 +380,14 @@ function DiceHandRow({
  *
  * Main combat interface - dice display + action toolbar
  */
+// Get time pressure color based on multiplier
+function getTimePressureColor(multiplier: number, isGrace: boolean): string {
+  if (isGrace) return '#4CAF50';       // Green - safe
+  if (multiplier >= 0.85) return '#FFC107'; // Yellow - light pressure
+  if (multiplier >= 0.70) return '#FF9800'; // Orange - medium pressure
+  return '#F44336';                     // Red - high pressure
+}
+
 export function CombatHUD({
   combatState,
   onToggleHold,
@@ -399,6 +407,8 @@ export function CombatHUD({
     turnNumber,
     targetScore,
     currentScore,
+    timePressureMultiplier = 1.0,
+    isGracePeriod = true,
   } = combatState;
 
   // Count held/unheld dice
@@ -425,8 +435,9 @@ export function CombatHUD({
   const isDisabled = isDisabledProp || phase === 'throw' || phase === 'resolve' || phase === 'victory' || phase === 'defeat' || isRolling;
   const allRolled = hand.every((d) => d.rollValue !== null);
 
-  // Victory/Defeat: Hide HUD - GameOverModal in PlayHub handles the overlay
-  if (phase === 'victory' || phase === 'defeat') {
+  // Defeat: Hide HUD - GameOverModal in PlayHub handles the overlay
+  // Victory: Keep HUD visible (disabled) until transition to summary to prevent layout jump
+  if (phase === 'defeat') {
     return null;
   }
 
@@ -453,6 +464,57 @@ export function CombatHUD({
         turnNumber={turnNumber}
         guardianDieTypes={guardianDieTypes}
       />
+
+      {/* Time Pressure Indicator - minimal display */}
+      {!isDisabledProp && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mb: 1,
+          }}
+        >
+          <Tooltip
+            title={isGracePeriod
+              ? "Grace period - no score decay yet"
+              : `Time pressure: ${Math.round(timePressureMultiplier * 100)}% score multiplier. Finish fast for bonus gold!`
+            }
+            arrow
+            placement="top"
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                px: 1,
+                py: 0.25,
+                borderRadius: 1,
+                bgcolor: 'rgba(0,0,0,0.3)',
+              }}
+            >
+              <Box
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: getTimePressureColor(timePressureMultiplier, isGracePeriod),
+                }}
+              />
+              <Typography
+                sx={{
+                  ...gamingFont,
+                  fontSize: '0.7rem',
+                  color: getTimePressureColor(timePressureMultiplier, isGracePeriod),
+                }}
+              >
+                {isGracePeriod ? 'GRACE' : `${Math.round(timePressureMultiplier * 100)}%`}
+              </Typography>
+            </Box>
+          </Tooltip>
+        </Box>
+      )}
 
       {/* Action toolbar - Throw | Holding | Trade - always reserve space for consistent height */}
       <Box

@@ -368,7 +368,7 @@ interface CombatTerminalProps {
   eventType: EventType;
   tier: number;
   scoreGoal: number;
-  onWin: (score: number, stats: { npcsSquished: number; diceThrown: number }) => void;
+  onWin: (score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number) => void;
   onLose: () => void;
   isLobby?: boolean;
   // Run progress for header display
@@ -376,6 +376,8 @@ interface CombatTerminalProps {
   totalDomains?: number;
   currentRoom?: number;
   totalRooms?: number;
+  /** Event number (1-3) for sky color escalation */
+  eventNumber?: number;
   totalScore?: number;
   gold?: number;
   /** Inventory item slugs for combat bonuses */
@@ -407,6 +409,7 @@ export function CombatTerminal({
   totalDomains = 6,
   currentRoom = 1,
   totalRooms = 3,
+  eventNumber = 1,
   totalScore = 0,
   gold = 0,
   inventoryItems = [],
@@ -992,6 +995,9 @@ export function CombatTerminal({
         turnNumber: engineState.turnNumber,
         enemiesSquished: engineState.enemiesSquished,
         friendlyHits: engineState.friendlyHits,
+        // Time pressure system
+        timePressureMultiplier: engineState.timePressureMultiplier,
+        isGracePeriod: engineState.isGracePeriod,
       }
     : {
         phase: 'draw',
@@ -1005,6 +1011,8 @@ export function CombatTerminal({
         turnNumber: 1,
         enemiesSquished: 0,
         friendlyHits: 0,
+        timePressureMultiplier: 1.0,
+        isGracePeriod: true,
       };
 
   // Generate roll notation from thrown dice (e.g., "2d6 + 1d8 = 14")
@@ -1186,7 +1194,7 @@ export function CombatTerminal({
       onWin(state.currentScore, {
         npcsSquished: state.enemiesSquished,
         diceThrown: state.turnNumber * 5,
-      });
+      }, state.turnsRemaining);
     }
   }, [onWin, clearMessage]);
 
@@ -1282,6 +1290,7 @@ export function CombatTerminal({
             isIdle={isLobby}
             zones={[]}
             domainId={domain}
+            eventNumber={eventNumber}
             showVictoryExplosion={showVictoryExplosion}
             onVictoryExplosionComplete={handleVictoryExplosionComplete}
             onCameraChange={setCameraDistance}

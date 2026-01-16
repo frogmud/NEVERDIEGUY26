@@ -129,6 +129,17 @@ export function HomeChatter() {
   const [usedCheckpoints, setUsedCheckpoints] = useState<Set<number>>(new Set());
   const [pendingInterrupt, setPendingInterrupt] = useState<EnemyInterrupt | null>(null);
 
+  // Safety timeout - clear pendingInterrupt if stuck for > 10 seconds
+  // This prevents the interrupt flow from getting permanently blocked
+  useEffect(() => {
+    if (pendingInterrupt) {
+      const safetyTimer = setTimeout(() => {
+        setPendingInterrupt(null);
+      }, 10000);
+      return () => clearTimeout(safetyTimer);
+    }
+  }, [pendingInterrupt]);
+
   // Initial animation sequence
   useEffect(() => {
     const spriteTimer = setTimeout(() => setShowSprite(true), 100);
@@ -400,7 +411,7 @@ export function HomeChatter() {
                 borderRadius: '12px',
                 px: 3,
                 py: 2,
-                maxWidth: '95%',
+                width: '100%',
                 animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
               }}
             >

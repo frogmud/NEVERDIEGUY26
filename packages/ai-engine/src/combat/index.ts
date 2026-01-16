@@ -78,12 +78,17 @@ export {
   calculateGoldReward,
 } from './scoring';
 
-// Balance Configuration (Timer Decay, Score Tuning)
+// Balance Configuration (Time Pressure, Score Tuning)
 export {
   TIMER_CONFIG,
+  TIMER_CONFIG_BY_ROOM,
   SCORE_CONFIG,
-  calculateDecayedMultiplier,
-  getSecondsUntilDecay,
+  type TimerConfig,
+  type RoomType as BalanceRoomType,
+  getTimerConfigForRoom,
+  getTimePressureMultiplier,
+  getEarlyFinishBonus,
+  isInGracePeriod,
   calculateTargetScore as calculateBalancedTargetScore,
 } from './balance-config';
 

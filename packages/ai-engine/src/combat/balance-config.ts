@@ -1,58 +1,98 @@
 /**
  * Balance Configuration - Centralized tuning constants
  *
- * Timer-based multiplier decay rewards fast, instinctive play.
+ * Turn-based multiplier decay creates tension without punishing slow thinkers.
  * NEVER DIE GUY
  */
 
 // ============================================
-// TIMER-BASED MULTIPLIER DECAY
+// TURN-BASED TIME PRESSURE SYSTEM
 // ============================================
 
-export const TIMER_CONFIG = {
-  /** Seconds between multiplier decay steps */
-  decayInterval: 10,
+export interface TimerConfig {
+  /** Turns before decay starts (grace period) */
+  graceTurns: number;
+  /** Score multiplier reduction per turn after grace (-5% = 0.05) */
+  decayPerTurn: number;
+  /** Minimum multiplier floor (can't go below 60%) */
+  minMultiplier: number;
+  /** Bonus multiplier per unused turn on victory (+10% = 0.10) */
+  earlyFinishBonus: number;
+  /** Animation duration in ms (kept for transition timing) */
+  animationDuration: number;
+}
 
-  /** Decay factor per step (0.5 = halves each step) */
-  decayFactor: 0.5,
-
-  /** Minimum multiplier floor (never goes below) */
-  minMultiplier: 1,
-
-  /** When timer starts: 'first_throw' */
-  startTrigger: 'first_throw' as const,
-
-  /** Pause timer during throw/resolve animations */
-  pauseDuringAnimation: true,
-
-  /** Animation duration in ms (for pause calculation) */
+export const TIMER_CONFIG: TimerConfig = {
+  graceTurns: 2,
+  decayPerTurn: 0.05,
+  minMultiplier: 0.60,
+  earlyFinishBonus: 0.10,
   animationDuration: 500,
-} as const;
+};
 
 /**
- * Calculate decayed multiplier based on elapsed time
- * @param baseMultiplier - Starting multiplier (after trades)
- * @param elapsedSeconds - Time since timer started
- * @returns Decayed multiplier (minimum 1)
+ * Room-type specific overrides for timer config
+ * - Elite: Slightly lower floor (0.55)
+ * - Boss: More grace (3 turns), slower decay, lower floor (0.50)
  */
-export function calculateDecayedMultiplier(
-  baseMultiplier: number,
-  elapsedSeconds: number
-): number {
-  const decaySteps = Math.floor(elapsedSeconds / TIMER_CONFIG.decayInterval);
-  const decayedValue = baseMultiplier * Math.pow(TIMER_CONFIG.decayFactor, decaySteps);
-  return Math.max(TIMER_CONFIG.minMultiplier, Math.floor(decayedValue));
+export const TIMER_CONFIG_BY_ROOM: Record<
+  'normal' | 'elite' | 'boss',
+  Partial<TimerConfig>
+> = {
+  normal: {},
+  elite: { minMultiplier: 0.55 },
+  boss: { graceTurns: 3, decayPerTurn: 0.04, minMultiplier: 0.50 },
+};
+
+export type RoomType = 'normal' | 'elite' | 'boss';
+
+/**
+ * Get merged timer config for a room type
+ */
+export function getTimerConfigForRoom(roomType: RoomType): TimerConfig {
+  return { ...TIMER_CONFIG, ...TIMER_CONFIG_BY_ROOM[roomType] };
 }
 
 /**
- * Get seconds until next decay tick
- * @param elapsedSeconds - Time since timer started
- * @returns Seconds remaining until next decay
+ * Calculate time pressure multiplier for current turn
+ * @param turnNumber - Current turn (1-indexed)
+ * @param roomType - Room type for config lookup
+ * @returns Multiplier between minMultiplier and 1.0
  */
-export function getSecondsUntilDecay(elapsedSeconds: number): number {
-  if (elapsedSeconds <= 0) return TIMER_CONFIG.decayInterval;
-  const secondsIntoCurrentInterval = elapsedSeconds % TIMER_CONFIG.decayInterval;
-  return TIMER_CONFIG.decayInterval - secondsIntoCurrentInterval;
+export function getTimePressureMultiplier(
+  turnNumber: number,
+  roomType: RoomType = 'normal'
+): number {
+  const config = getTimerConfigForRoom(roomType);
+
+  if (turnNumber <= config.graceTurns) {
+    return 1.0;
+  }
+
+  const decayTurns = turnNumber - config.graceTurns;
+  const decay = decayTurns * config.decayPerTurn;
+
+  return Math.max(config.minMultiplier, 1.0 - decay);
+}
+
+/**
+ * Calculate early finish bonus multiplier
+ * @param turnsRemaining - Unused turns at victory
+ * @returns Bonus multiplier (1.0 = no bonus, 1.3 = 30% bonus)
+ */
+export function getEarlyFinishBonus(turnsRemaining: number): number {
+  return 1.0 + turnsRemaining * TIMER_CONFIG.earlyFinishBonus;
+}
+
+/**
+ * Check if currently in grace period
+ */
+export function isInGracePeriod(
+  turnNumber: number,
+  roomType: RoomType = 'normal'
+): boolean {
+  const config = getTimerConfigForRoom(roomType);
+  return turnNumber <= config.graceTurns;
 }
 
 // ============================================
@@ -64,7 +104,7 @@ export const SCORE_CONFIG = {
   baseScore: 1000,
 
   /** Multiplier per domain (1.25 = 25% harder each domain) */
-  domainMultiplier: 1.25, // Changed from 1.5 - with persistent multiplier, scores are higher
+  domainMultiplier: 1.25,
 
   /** Room type multipliers */
   roomMultipliers: {

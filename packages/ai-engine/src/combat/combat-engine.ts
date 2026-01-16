@@ -15,8 +15,9 @@ import {
 import {
   TIMER_CONFIG,
   SCORE_CONFIG,
-  calculateDecayedMultiplier,
-  getSecondsUntilDecay,
+  getTimePressureMultiplier,
+  isInGracePeriod,
+  getEarlyFinishBonus,
   calculateTargetScore as calcTargetScore,
 } from './balance-config';
 import {
@@ -111,15 +112,13 @@ export interface CombatState {
   // Scoring
   targetScore: number;
   currentScore: number;
-  multiplier: number;       // Base multiplier (pre-decay, built via trades)
+  multiplier: number;       // Base multiplier (built via trades)
   turnsRemaining: number;
   turnNumber: number;
 
-  // Timer-based decay (multiplier decays over time to reward fast play)
-  timerStarted: boolean;
-  timerStartTime: number;      // Timestamp when timer began (first throw)
-  timerPausedTime: number;     // Accumulated pause time (during animations)
-  animating: boolean;          // True during throw/resolve animations
+  // Turn-based time pressure (score multiplier decays each turn after grace)
+  timePressureMultiplier: number;  // Current decay state (0.6-1.0)
+  isGracePeriod: boolean;          // True if in grace turns
 
   // Tracking
   collateralDamage: number;
@@ -287,14 +286,12 @@ export class CombatEngine {
       throwsRemaining: baseThrows + bonusThrows,  // 3 base + item bonus
       targetScore,
       currentScore: startingScore,                // Start with bonus score
-      multiplier: baseMultiplier,                 // Base multiplier (decays via timer)
+      multiplier: baseMultiplier,                 // Base multiplier (built via trades)
       turnsRemaining: maxTurns,
       turnNumber: 1,
-      // Timer state (starts on first throw)
-      timerStarted: false,
-      timerStartTime: 0,
-      timerPausedTime: 0,
-      animating: false,
+      // Turn-based time pressure (turn 1 is in grace period)
+      timePressureMultiplier: 1.0,
+      isGracePeriod: true,
       // Tracking
       collateralDamage: 0,
       friendlyHits: 0,
@@ -314,22 +311,21 @@ export class CombatEngine {
   }
 
   /**
-   * Get timer info for UI display (decay countdown, effective multiplier)
+   * Get time pressure info for UI display
    */
   getTimerInfo(): {
-    started: boolean;
-    elapsedSeconds: number;
-    effectiveMultiplier: number;
-    secondsUntilDecay: number;
+    turnNumber: number;
+    timePressureMultiplier: number;
+    isGracePeriod: boolean;
     baseMultiplier: number;
+    effectiveMultiplier: number;
   } {
-    const elapsed = this.getElapsedSeconds();
     return {
-      started: this.state.timerStarted,
-      elapsedSeconds: elapsed,
-      effectiveMultiplier: this.getEffectiveMultiplier(),
-      secondsUntilDecay: getSecondsUntilDecay(elapsed),
+      turnNumber: this.state.turnNumber,
+      timePressureMultiplier: this.state.timePressureMultiplier,
+      isGracePeriod: this.state.isGracePeriod,
       baseMultiplier: this.state.multiplier,
+      effectiveMultiplier: this.state.multiplier * this.state.timePressureMultiplier,
     };
   }
 
@@ -351,53 +347,6 @@ export class CombatEngine {
   private setPhase(phase: CombatPhase): void {
     this.state.phase = phase;
     this.notify();
-  }
-
-  // ============================================
-  // Timer Management (Multiplier Decay)
-  // ============================================
-
-  /**
-   * Start the decay timer (called on first throw)
-   */
-  private startTimer(): void {
-    if (this.state.timerStarted) return;
-    this.state.timerStarted = true;
-    this.state.timerStartTime = Date.now();
-    this.state.timerPausedTime = 0;
-  }
-
-  /**
-   * Get elapsed seconds since timer started (excluding paused time)
-   */
-  private getElapsedSeconds(): number {
-    if (!this.state.timerStarted) return 0;
-    const totalElapsed = Date.now() - this.state.timerStartTime;
-    const activeTime = totalElapsed - this.state.timerPausedTime;
-    return Math.max(0, activeTime / 1000);
-  }
-
-  /**
-   * Get effective multiplier after decay
-   */
-  private getEffectiveMultiplier(): number {
-    if (!this.state.timerStarted) return this.state.multiplier;
-    return calculateDecayedMultiplier(this.state.multiplier, this.getElapsedSeconds());
-  }
-
-  /**
-   * Pause timer during animations
-   */
-  private pauseTimer(): void {
-    this.state.animating = true;
-  }
-
-  /**
-   * Resume timer after animations, adding pause duration to offset
-   */
-  private resumeTimer(pauseDuration: number): void {
-    this.state.animating = false;
-    this.state.timerPausedTime += pauseDuration;
   }
 
   // ============================================
@@ -458,9 +407,6 @@ export class CombatEngine {
     if (this.state.phase !== 'select' && this.state.phase !== 'draw') return;
     if (this.state.throwsRemaining <= 0) return; // No throws left
 
-    // Start decay timer on first throw
-    this.startTimer();
-
     // Roll unheld dice only
     this.state.hand = rollHand(this.state.hand, this.rng);
     this.state.throwsRemaining--;
@@ -475,22 +421,18 @@ export class CombatEngine {
       scoreGain += Math.round(rollValue * 10 * elementBonus);
     }
 
-    // Use effective multiplier (accounts for timer decay)
-    const effectiveMultiplier = this.getEffectiveMultiplier();
-    scoreGain = Math.round(scoreGain * effectiveMultiplier);
+    // Apply base multiplier (from trades)
+    scoreGain = Math.round(scoreGain * this.state.multiplier);
+
+    // Apply turn-based time pressure multiplier
+    scoreGain = Math.round(scoreGain * this.state.timePressureMultiplier);
+
     this.state.currentScore += scoreGain;
 
-    // NOTE: Multiplier persists and decays via timer - no reset!
-
     this.setPhase('throw');
-    this.pauseTimer(); // Pause during animation
 
     // Brief delay for animation, then check victory/continue
-    const animationStart = Date.now();
     setTimeout(() => {
-      const animationDuration = Date.now() - animationStart;
-      this.resumeTimer(animationDuration); // Resume timer, accounting for pause
-
       // Check for immediate victory (reached target score)
       if (this.state.currentScore >= this.state.targetScore) {
         this.setPhase('victory');
@@ -591,6 +533,16 @@ export class CombatEngine {
     this.state.turnNumber++;
     // Note: throwsRemaining is NOT reset - it's a finite pool for the entire combat (3 total)
 
+    // Update turn-based time pressure
+    this.state.timePressureMultiplier = getTimePressureMultiplier(
+      this.state.turnNumber,
+      this.state.roomType
+    );
+    this.state.isGracePeriod = isInGracePeriod(
+      this.state.turnNumber,
+      this.state.roomType
+    );
+
     // Discard and draw
     const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);
     this.state.hand = hand;
@@ -679,6 +631,19 @@ export class CombatEngine {
 
   getTurnsRemaining(): number {
     return this.state.turnsRemaining;
+  }
+
+  /**
+   * Get early finish bonus info (for victory screen)
+   */
+  getEarlyFinishInfo(): {
+    turnsRemaining: number;
+    bonusMultiplier: number;
+  } {
+    return {
+      turnsRemaining: this.state.turnsRemaining,
+      bonusMultiplier: getEarlyFinishBonus(this.state.turnsRemaining),
+    };
   }
 }
 
