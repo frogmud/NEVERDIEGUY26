@@ -40,7 +40,6 @@ export { MarketSprite, MarketPortrait } from './MarketSprite';
 // Feedback & Overlays
 export { NotificationToast } from './NotificationToast';
 export { FavorEffectToast } from './FavorEffectToast';
-export { LottieOverlay } from './LottieOverlay';
 
 // Dialogs & Sheets
 export { ShareSheet } from './ShareSheet';

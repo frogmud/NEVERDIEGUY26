@@ -1848,51 +1848,6 @@ const handleSort = (column: string) => {
 <MarketPortrait characterId="dr-maxwell" size={120} />`,
   },
 
-  'lottie-overlay': {
-    examples: (
-      <Box>
-        <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 3 }}>
-          LottieOverlay displays animated Lottie effects (confetti, skull, star, energy) as overlays.
-        </Typography>
-
-        <Typography variant="subtitle2" sx={{ mb: 2 }}>Available Types</Typography>
-        <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
-          {['confetti', 'skull', 'star', 'energy'].map((type) => (
-            <Box key={type} sx={{ textAlign: 'center' }}>
-              <Box sx={{ width: 48, height: 48, borderRadius: '50%', border: `2px solid ${tokens.colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
-                <Typography sx={{ fontSize: '0.5rem', color: tokens.colors.text.disabled }}>{type}</Typography>
-              </Box>
-              <Typography variant="caption">{type}</Typography>
-            </Box>
-          ))}
-        </Stack>
-
-        <Typography variant="subtitle2" sx={{ mb: 2 }}>Components</Typography>
-        <Stack direction="row" spacing={1}>
-          <Chip label="LottieOverlay" size="small" />
-          <Chip label="LottieTrigger" size="small" variant="outlined" />
-        </Stack>
-      </Box>
-    ),
-    props: [
-      { name: 'type', type: "'confetti' | 'skull' | 'star' | 'energy'", default: '-', description: 'Lottie animation type' },
-      { name: 'play', type: 'boolean', default: '-', description: 'Trigger animation' },
-      { name: 'onComplete', type: '() => void', default: '-', description: 'Animation complete callback' },
-      { name: 'size', type: 'number', default: '120', description: 'Animation size' },
-    ],
-    code: `import { LottieOverlay, LottieTrigger } from '../../components/LottieOverlay';
-
-// Controlled overlay
-<LottieOverlay
-  type="confetti"
-  play={showConfetti}
-  onComplete={() => setShowConfetti(false)}
-/>
-
-// Increment-based trigger
-<LottieTrigger type="star" trigger={starCount} />`,
-  },
-
   'lucky-number-picker': {
     examples: (
       <Box>

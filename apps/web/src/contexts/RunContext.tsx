@@ -246,7 +246,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       const newState = {
         ...state,
         centerPanel: state.pendingPanel || state.centerPanel,
-        transitionPhase: 'idle',
+        transitionPhase: 'idle' as const,
         pendingPanel: null,
       };
 

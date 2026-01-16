@@ -290,16 +290,23 @@ export const INTEGRITY_CONFIG = {
 // Creates urgency during combat - score multiplier decays after grace period
 // ============================================================
 
-export const TIMER_CONFIG = {
+export interface TimerConfig {
   /** Turns before decay starts (grace period) */
-  graceTurns: 2,
+  graceTurns: number;
   /** Score multiplier reduction per turn after grace (-5% = 0.05) */
-  decayPerTurn: 0.05,
+  decayPerTurn: number;
   /** Minimum multiplier floor (can't go below 60%) */
-  minMultiplier: 0.60,
+  minMultiplier: number;
   /** Bonus multiplier per unused turn on victory (+10% = 0.10) */
+  earlyFinishBonus: number;
+}
+
+export const TIMER_CONFIG: TimerConfig = {
+  graceTurns: 2,
+  decayPerTurn: 0.05,
+  minMultiplier: 0.60,
   earlyFinishBonus: 0.10,
-} as const;
+};
 
 /**
  * Room-type specific overrides for timer config
@@ -308,7 +315,7 @@ export const TIMER_CONFIG = {
  */
 export const TIMER_CONFIG_BY_ROOM: Record<
   'normal' | 'elite' | 'boss',
-  Partial<typeof TIMER_CONFIG>
+  Partial<TimerConfig>
 > = {
   normal: {},
   elite: { minMultiplier: 0.55 },
@@ -320,7 +327,7 @@ export type RoomType = 'normal' | 'elite' | 'boss';
 /**
  * Get merged timer config for a room type
  */
-export function getTimerConfigForRoom(roomType: RoomType): typeof TIMER_CONFIG {
+export function getTimerConfigForRoom(roomType: RoomType): TimerConfig {
   return { ...TIMER_CONFIG, ...TIMER_CONFIG_BY_ROOM[roomType] };
 }
 

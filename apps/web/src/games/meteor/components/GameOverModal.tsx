@@ -1,7 +1,6 @@
 import { Box, Button, Paper, Typography, keyframes } from '@mui/material';
 import { tokens } from '../../../theme';
 import { getRandomQuip } from '../../../data/quips';
-import { LottieTrigger } from '../../../components/LottieOverlay';
 import { useMemo, useState, useEffect } from 'react';
 
 // Gaming font style
@@ -242,21 +241,6 @@ export function GameOverModal({
           cursor: 'default',
         }}
       >
-        {/* Confetti behind skull - stage 2 */}
-        {stage >= 2 && (
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: 70,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 0,
-            }}
-          >
-            <LottieTrigger type="confetti" trigger={1} size={300} />
-          </Box>
-        )}
-
         {/* Speech Bubble - stage 3, positioned above skull */}
         <Paper
           sx={{

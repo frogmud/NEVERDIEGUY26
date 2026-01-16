@@ -15,7 +15,6 @@
     "@dice-roller/rpg-dice-roller": "^5.5.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@lottiefiles/dotlottie-react": "^0.17.10",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
     "@react-three/drei": "^10.7.7",
