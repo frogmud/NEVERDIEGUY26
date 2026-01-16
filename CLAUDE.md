@@ -142,13 +142,35 @@ Use gh CLI to create PRs with clear descriptions.
 - [x] TypeScript build passing
 - [x] Vercel deployment configured (auto-deploys on push to main)
 - [x] Asset optimization (removed unused backgrounds)
+- [x] Multiplayer routes hidden until backend ready
 - [ ] Custom domain setup (if applicable)
 - [ ] Production environment variables audit
 
-### Priority 3: Nice-to-Have
+### Priority 3: UX Polish
+- [x] NPC ambient chat display during combat (AmbientChatToast)
+- [x] Sound effects volume controls in settings
+- [ ] Victory screen timing stats (totalTimeMs, avgEventTimeMs, fastestEventMs)
+- [ ] Mobile responsiveness (sidebar collapse on tablet/phone)
+
+### Priority 4: Nice-to-Have
 - [x] Add more NPC ambient dialogue variety
 - [x] Boss phase with Die-rectors
 - [x] Domain-scoped inventory system
 - [ ] Leaderboard/high score persistence
-- [ ] Sound effects volume controls in settings
 - [ ] Tutorial/onboarding flow for new players
+
+## Session Notes - Jan 16, 2026
+
+### Completed This Session
+1. **Code Quality Audit** - Passed (0 console.logs, 0 type issues)
+2. **Hide Multiplayer Routes** - Commented out ReplayList/TournamentBracket until backend ready
+3. **NPC Chat Fix** - Enabled onVictory trigger, added AmbientChatToast to CombatTerminal
+4. **Volume Controls** - Added masterVolume to GameSettingsContext, Audio section in Settings
+
+### Next Session Priorities
+1. **Victory Stats Timing** - Add event timing tracking to CombatTerminal, pass to GameOverModal
+   - Files: `CombatTerminal.tsx`, `RunContext.ts`, `GameOverModal.tsx`
+   - Track: event start/end timestamps, calculate fastest/avg
+2. **Mobile Layout** - Sidebar collapse/drawer for screens < 900px
+   - Files: `PlayHub.tsx`, `Shop.tsx`
+3. **Full Run Testing** - Play complete 6-domain run to verify all systems
