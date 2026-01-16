@@ -25,6 +25,7 @@ import { ReportGameDialog } from '../../../components/ReportGameDialog';
 import { TokenIcon } from '../../../components/TokenIcon';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
+import { AmbientChatToast } from '../../../components/AmbientChatToast';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
 import { useKeyboardShortcuts } from '../../../hooks/useKeyboardShortcuts';
 import { useSoundContext } from '../../../contexts/SoundContext';
@@ -1494,10 +1495,8 @@ export function CombatTerminal({
     const isEffectiveWin = state && effectiveScore >= state.targetScore;
     if (state?.phase === 'victory' || isEffectiveWin) {
       victoryFiredRef.current = true;
-      // Clear any lingering NPC messages before transition
-      clearMessage();
-      // Fire victory NPC commentary (disabled for now - messages disappear too fast)
-      // onVictory();
+      // Fire victory NPC commentary before transition
+      onVictory();
       // Then call the win callback - use effective score
       onWin(effectiveScore, {
         npcsSquished: state?.enemiesSquished || 0,
@@ -1542,8 +1541,12 @@ export function CombatTerminal({
         height: '100%',
         p: 2,
         gap: 1,
+        position: 'relative',
       }}
     >
+      {/* NPC ambient chat toast */}
+      <AmbientChatToast message={currentMessage} position="top-left" />
+
       {/* Top bar - Run progress (lobby) or Turn meter (combat) */}
       <CardSection
         padding={1}
