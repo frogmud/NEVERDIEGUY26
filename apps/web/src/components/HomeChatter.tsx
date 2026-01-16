@@ -12,11 +12,11 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, keyframes } from '@mui/material';
+import { Box, Typography, Button, keyframes, Menu, MenuItem, TextField, Autocomplete } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { tokens } from '../theme';
 import {
-  getRandomGreeter,
+  HOME_GREETERS,
   getRandomGreeting,
   GREETER_DOMAINS,
   GREETER_INTERRUPT_CHANCE,
@@ -28,12 +28,7 @@ import {
   type EnemyInterrupt,
 } from '../data/home-greeters';
 import { lookupDialogueAsync } from '../services/chatbase';
-
-// Generate a random 9-digit player number (zero-padded)
-function generatePlayerNumber(): string {
-  const num = Math.floor(1 + Math.random() * 999999999);
-  return String(num).padStart(9, '0');
-}
+import { generateThreadId } from '../data/pools/seededRng';
 
 // ============================================
 // Animations
@@ -91,20 +86,45 @@ const DOMAIN_KEYS = Object.keys(DOMAIN_INTERRUPTS);
 export function HomeChatter() {
   const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [isAtBottom, setIsAtBottom] = useState(true);
+  const [hasNewMessages, setHasNewMessages] = useState(false);
 
-  // Pick random greeter and greeting on mount
-  const greeter = useMemo<HomeGreeter>(() => getRandomGreeter(), []);
+  // Pick greeter based on domain preference (if set) or random
+  const greeter = useMemo<HomeGreeter>(() => {
+    const preferredDomain = sessionStorage.getItem('ndg-preferred-domain');
+
+    if (preferredDomain) {
+      // Filter greeters by preferred domain
+      const domainGreeters = HOME_GREETERS.filter(g => {
+        const gDomain = GREETER_DOMAINS[g.id];
+        return gDomain === preferredDomain || gDomain === 'roaming';
+      });
+
+      if (domainGreeters.length > 0) {
+        return domainGreeters[Math.floor(Math.random() * domainGreeters.length)];
+      }
+    }
+
+    // Fallback to random
+    return HOME_GREETERS[Math.floor(Math.random() * HOME_GREETERS.length)];
+  }, []);
   const initialGreeting = useMemo<string>(() => getRandomGreeting(greeter), [greeter]);
 
-  // Generate player number once
-  const playerNumber = useMemo(() => generatePlayerNumber(), []);
+  // Generate session seed once (6-char hex like "A4F2B1") or use stored seed
+  const sessionSeed = useMemo(() => {
+    const stored = sessionStorage.getItem('ndg-session-seed');
+    return stored || generateThreadId();
+  }, []);
 
   // Derive domain for this greeter (handle "roaming" special case)
   const greeterDomain = useMemo(() => {
+    const preferredDomain = sessionStorage.getItem('ndg-preferred-domain');
     const domain = GREETER_DOMAINS[greeter.id] || 'earth';
+
     if (domain === 'roaming') {
-      // Pick random domain for roaming characters like Willy
-      return DOMAIN_KEYS[Math.floor(Math.random() * DOMAIN_KEYS.length)];
+      // If preferred domain is set, use it; otherwise pick random
+      return preferredDomain || DOMAIN_KEYS[Math.floor(Math.random() * DOMAIN_KEYS.length)];
     }
     return domain;
   }, [greeter.id]);
@@ -134,8 +154,69 @@ export function HomeChatter() {
   const [gruntCooldown, setGruntCooldown] = useState(false);
   const [gruntCount, setGruntCount] = useState(0);
 
-  // Handle grunt - NDG grunts, NPC reacts
-  const handleGrunt = async () => {
+  // Domain picker dropdown
+  const [domainMenuAnchor, setDomainMenuAnchor] = useState<HTMLElement | null>(null);
+  const domainMenuOpen = Boolean(domainMenuAnchor);
+
+  const handleDomainClick = (event: React.MouseEvent<HTMLElement>) => {
+    setDomainMenuAnchor(event.currentTarget);
+  };
+
+  const handleDomainClose = () => {
+    setDomainMenuAnchor(null);
+  };
+
+  const handleDomainSelect = (domainKey: string | null) => {
+    handleDomainClose();
+    if (domainKey === null) {
+      // Random - clear preference and reload
+      sessionStorage.removeItem('ndg-preferred-domain');
+    } else {
+      // Set preference and reload
+      sessionStorage.setItem('ndg-preferred-domain', domainKey);
+    }
+    window.location.reload();
+  };
+
+  // Seed input state
+  const [seedInput, setSeedInput] = useState(sessionSeed);
+  const [isEditingSeed, setIsEditingSeed] = useState(false);
+
+  // Get recent seeds from localStorage for autocomplete
+  const recentSeeds = useMemo(() => {
+    try {
+      const stored = localStorage.getItem('ndg-recent-seeds');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  }, []);
+
+  // Save current seed to recent seeds
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('ndg-recent-seeds');
+      const seeds: string[] = stored ? JSON.parse(stored) : [];
+      if (!seeds.includes(sessionSeed)) {
+        const updated = [sessionSeed, ...seeds].slice(0, 10); // Keep last 10
+        localStorage.setItem('ndg-recent-seeds', JSON.stringify(updated));
+      }
+    } catch {
+      // Ignore storage errors
+    }
+  }, [sessionSeed]);
+
+  const handleSeedSubmit = (newSeed: string) => {
+    const cleanSeed = newSeed.toUpperCase().replace(/[^0-9A-F]/g, '').slice(0, 6);
+    if (cleanSeed && cleanSeed !== sessionSeed) {
+      sessionStorage.setItem('ndg-session-seed', cleanSeed);
+      window.location.reload();
+    }
+    setIsEditingSeed(false);
+  };
+
+  // Handle grunt - NDG grunts at a specific message, NPC reacts
+  const handleGrunt = async (targetMessage: string) => {
     if (gruntCooldown || isTyping || pendingInterrupt) return;
 
     setGruntCooldown(true);
@@ -181,11 +262,12 @@ export function HomeChatter() {
         }
       }
 
-      // Normal NPC reaction from chatbase
+      // Normal NPC reaction from chatbase - include the grunted message as context
       try {
         const response = await lookupDialogueAsync({
           npcSlug: greeter.id,
           pool: 'reaction',
+          context: targetMessage, // Pass the message being grunted at
         });
         setTimeout(() => {
           setIsTyping(false);
@@ -361,10 +443,34 @@ export function HomeChatter() {
     };
   }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
 
-  // Auto-scroll to latest message
+  // Check if scrolled to bottom
+  const checkIfAtBottom = () => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      const threshold = 50; // pixels from bottom to consider "at bottom"
+      const atBottom = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+      setIsAtBottom(atBottom);
+      if (atBottom) {
+        setHasNewMessages(false);
+      }
+    }
+  };
+
+  // Auto-scroll only if at bottom, otherwise show "new messages"
   useEffect(() => {
+    if (isAtBottom) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else if (messages.length > 1) {
+      setHasNewMessages(true);
+    }
+  }, [messages, isTyping, isAtBottom]);
+
+  // Scroll to bottom when clicking "new messages"
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
+    setHasNewMessages(false);
+    setIsAtBottom(true);
+  };
 
   // Handle navigation
   const handleChoice = (route: RouteChoice) => {
@@ -374,19 +480,175 @@ export function HomeChatter() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
       {/* Welcome message with domain */}
-      <Typography
+      <Box
         sx={{
-          fontFamily: tokens.fonts.gaming,
-          fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
-          color: tokens.colors.text.secondary,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 0.5,
           mb: 4,
-          letterSpacing: '0.05em',
-          textAlign: 'center',
-          textWrap: 'balance', // Keep welcome message balanced
+          flexWrap: 'wrap',
         }}
       >
-        Welcome to {domainDisplayName}, neverdieguy#{playerNumber}
-      </Typography>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
+            color: tokens.colors.text.secondary,
+            letterSpacing: '0.05em',
+          }}
+        >
+          Welcome to{' '}
+          <Box
+            component="span"
+            onClick={handleDomainClick}
+            sx={{
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              textUnderlineOffset: '4px',
+              transition: 'color 150ms ease',
+              '&:hover': {
+                color: tokens.colors.text.primary,
+              },
+            }}
+          >
+            {domainDisplayName}
+          </Box>
+        </Typography>
+
+        {/* Seed input - click to edit, autocomplete with recent seeds */}
+        {isEditingSeed ? (
+          <Autocomplete
+            freeSolo
+            size="small"
+            options={recentSeeds}
+            value={seedInput}
+            onInputChange={(_, value) => setSeedInput(value)}
+            onChange={(_, value) => {
+              if (value) handleSeedSubmit(value);
+            }}
+            onBlur={() => handleSeedSubmit(seedInput)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSeedSubmit(seedInput);
+              if (e.key === 'Escape') {
+                setSeedInput(sessionSeed);
+                setIsEditingSeed(false);
+              }
+            }}
+            sx={{ width: 120 }}
+            slotProps={{
+              paper: {
+                sx: {
+                  bgcolor: '#1a1a1a',
+                  border: `1px solid ${tokens.colors.border}`,
+                },
+              },
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                autoFocus
+                variant="standard"
+                placeholder="SEED"
+                inputProps={{
+                  ...params.inputProps,
+                  maxLength: 6,
+                  style: {
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '1.6rem',
+                    color: tokens.colors.text.disabled,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    padding: 0,
+                  },
+                }}
+                sx={{
+                  '& .MuiInput-underline:before': { borderColor: tokens.colors.border },
+                  '& .MuiInput-underline:hover:before': { borderColor: tokens.colors.text.secondary },
+                  '& .MuiInput-underline:after': { borderColor: tokens.colors.primary },
+                }}
+              />
+            )}
+          />
+        ) : (
+          <Typography
+            onClick={() => setIsEditingSeed(true)}
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
+              color: tokens.colors.text.disabled,
+              letterSpacing: '0.05em',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              textDecorationStyle: 'dotted',
+              textUnderlineOffset: '4px',
+              transition: 'color 150ms ease',
+              '&:hover': {
+                color: tokens.colors.text.secondary,
+              },
+            }}
+          >
+            {sessionSeed}
+          </Typography>
+        )}
+
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
+            color: tokens.colors.text.secondary,
+            letterSpacing: '0.05em',
+          }}
+        >
+          , Never Die Guy
+        </Typography>
+      </Box>
+
+      {/* Domain picker dropdown */}
+      <Menu
+        anchorEl={domainMenuAnchor}
+        open={domainMenuOpen}
+        onClose={handleDomainClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        slotProps={{
+          paper: {
+            sx: {
+              bgcolor: '#1a1a1a',
+              border: `1px solid ${tokens.colors.border}`,
+              minWidth: 180,
+            },
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => handleDomainSelect(null)}
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.95rem',
+            color: tokens.colors.text.secondary,
+            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+          }}
+        >
+          Random
+        </MenuItem>
+        {Object.entries(DOMAIN_DISPLAY_NAMES).map(([key, name]) => (
+          <MenuItem
+            key={key}
+            onClick={() => handleDomainSelect(key)}
+            selected={key === greeterDomain}
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.95rem',
+              color: key === greeterDomain ? tokens.colors.text.primary : tokens.colors.text.secondary,
+              '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+              '&.Mui-selected': { bgcolor: 'rgba(255,255,255,0.08)' },
+            }}
+          >
+            {name}
+          </MenuItem>
+        ))}
+      </Menu>
 
       <Box
         sx={{
@@ -463,6 +725,8 @@ export function HomeChatter() {
       >
         {/* Messages container */}
         <Box
+          ref={messagesContainerRef}
+          onScroll={checkIfAtBottom}
           sx={{
             flex: 1,
             display: 'flex',
@@ -472,6 +736,7 @@ export function HomeChatter() {
             maxHeight: 300,
             overflowY: 'auto',
             pr: 1,
+            position: 'relative',
             // Hide scrollbar
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
@@ -479,8 +744,8 @@ export function HomeChatter() {
         >
           {messages.map((msg, i) => {
             const isPlayerMessage = msg.startsWith('You:');
-            const isLatestNpcMessage = !isPlayerMessage && i === messages.length - 1;
-            const canGrunt = isLatestNpcMessage && !gruntCooldown && !isTyping && !pendingInterrupt;
+            const isNpcMessage = !isPlayerMessage;
+            const canGrunt = isNpcMessage && !gruntCooldown && !isTyping && !pendingInterrupt;
 
             return (
               <Box
@@ -491,6 +756,14 @@ export function HomeChatter() {
                   gap: 1.5,
                   width: '100%',
                   animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
+                  // Show grunt button on hover
+                  '& .grunt-btn': {
+                    opacity: 0,
+                    transition: 'opacity 150ms ease',
+                  },
+                  '&:hover .grunt-btn': {
+                    opacity: canGrunt ? 1 : 0,
+                  },
                 }}
               >
                 <Box
@@ -501,6 +774,35 @@ export function HomeChatter() {
                     px: 3,
                     py: 2,
                     flex: 1,
+                    position: 'relative',
+                    // Chat bubble triangle on right for player messages
+                    ...(isPlayerMessage && {
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        right: -10,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        width: 0,
+                        height: 0,
+                        borderTop: '8px solid transparent',
+                        borderBottom: '8px solid transparent',
+                        borderLeft: '10px solid #554400',
+                      },
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        right: -6,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        width: 0,
+                        height: 0,
+                        borderTop: '6px solid transparent',
+                        borderBottom: '6px solid transparent',
+                        borderLeft: '8px solid #2a2a1a',
+                        zIndex: 1,
+                      },
+                    }),
                   }}
                 >
                   <Typography
@@ -518,10 +820,12 @@ export function HomeChatter() {
                     {isPlayerMessage ? msg.replace('You: ', '') : msg}
                   </Typography>
                 </Box>
-                {/* Grunt reaction button - only on latest NPC message */}
-                {canGrunt && (
+                {/* Grunt reaction button - shows on hover for any NPC message */}
+                {isNpcMessage && (
                   <Button
-                    onClick={handleGrunt}
+                    className="grunt-btn"
+                    onClick={() => handleGrunt(msg)}
+                    disabled={!canGrunt}
                     sx={{
                       minWidth: 'auto',
                       px: 1.5,
@@ -536,6 +840,9 @@ export function HomeChatter() {
                         color: tokens.colors.warning,
                         borderColor: tokens.colors.warning,
                         bgcolor: 'rgba(255,193,7,0.1)',
+                      },
+                      '&:disabled': {
+                        opacity: 0.3,
                       },
                     }}
                   >
@@ -574,6 +881,34 @@ export function HomeChatter() {
 
           <div ref={messagesEndRef} />
         </Box>
+
+        {/* New messages indicator */}
+        {hasNewMessages && (
+          <Button
+            onClick={scrollToBottom}
+            size="small"
+            sx={{
+              alignSelf: 'center',
+              mb: 2,
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.8rem',
+              color: tokens.colors.text.secondary,
+              bgcolor: 'rgba(255,255,255,0.05)',
+              border: `1px solid ${tokens.colors.border}`,
+              borderRadius: '16px',
+              px: 2,
+              py: 0.5,
+              textTransform: 'none',
+              animation: `${fadeIn} 200ms ease-out`,
+              '&:hover': {
+                bgcolor: 'rgba(255,255,255,0.1)',
+                borderColor: tokens.colors.text.secondary,
+              },
+            }}
+          >
+            New messages
+          </Button>
+        )}
 
         {/* Action buttons - always visible once loaded */}
         <Box
@@ -618,25 +953,6 @@ export function HomeChatter() {
             }}
           >
             Explore Wiki
-          </Button>
-          {/* Tertiary button - right aligned */}
-          <Button
-            variant="text"
-            onClick={() => handleChoice('about')}
-            sx={{
-              ml: 'auto',
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.9rem', sm: '1rem' },
-              px: 2,
-              py: 1,
-              color: tokens.colors.text.disabled,
-              '&:hover': {
-                color: tokens.colors.text.secondary,
-                bgcolor: 'transparent',
-              },
-            }}
-          >
-            What is NEVER DIE GUY?
           </Button>
         </Box>
       </Box>

@@ -1,5 +1,8 @@
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, IconButton } from '@mui/material';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 import { tokens } from '../../theme';
 
 // Video data - add more videos here as needed
@@ -12,6 +15,19 @@ const videos = [
 
 export function AboutUs() {
   const navigate = useNavigate();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <Box
@@ -120,16 +136,22 @@ export function AboutUs() {
         {videos.map((video, index) => (
           <Box
             key={index}
+            onClick={togglePlay}
             sx={{
               borderRadius: 2,
               overflow: 'hidden',
               bgcolor: tokens.colors.background.elevated,
+              position: 'relative',
+              cursor: 'pointer',
+              '&:hover .play-overlay': {
+                opacity: 1,
+              },
             }}
           >
             <Box
               component="video"
+              ref={index === 0 ? videoRef : undefined}
               src={video.src}
-              autoPlay
               loop
               muted
               playsInline
@@ -139,6 +161,38 @@ export function AboutUs() {
                 display: 'block',
               }}
             />
+            {/* Play/Pause overlay */}
+            <Box
+              className="play-overlay"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'rgba(0,0,0,0.4)',
+                opacity: isPlaying ? 0 : 1,
+                transition: 'opacity 200ms ease',
+              }}
+            >
+              <IconButton
+                sx={{
+                  bgcolor: 'rgba(0,0,0,0.6)',
+                  color: tokens.colors.text.primary,
+                  width: 72,
+                  height: 72,
+                  '&:hover': {
+                    bgcolor: 'rgba(0,0,0,0.8)',
+                  },
+                }}
+              >
+                {isPlaying ? (
+                  <PauseIcon sx={{ fontSize: 40 }} />
+                ) : (
+                  <PlayArrowIcon sx={{ fontSize: 40 }} />
+                )}
+              </IconButton>
+            </Box>
           </Box>
         ))}
       </Box>

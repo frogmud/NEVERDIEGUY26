@@ -41,6 +41,8 @@ export interface ChatRequest {
   };
   /** Rich game state for template interpolation */
   gameState?: CombatGameState;
+  /** Context message being reacted to (e.g., for grunt responses) */
+  context?: string;
 }
 
 export interface ChatResponse {
