@@ -285,6 +285,7 @@ export function HomeChatter() {
           mb: 4,
           letterSpacing: '0.05em',
           textAlign: 'center',
+          textWrap: 'balance', // Keep welcome message balanced
         }}
       >
         Welcome to {domainDisplayName}, neverdieguy#{playerNumber}
@@ -398,6 +399,7 @@ export function HomeChatter() {
                   fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
                   color: tokens.colors.text.primary,
                   lineHeight: 1.5,
+                  textWrap: 'pretty', // Prevent widows/orphans
                 }}
               >
                 {msg}
