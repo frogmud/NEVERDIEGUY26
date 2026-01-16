@@ -12,7 +12,7 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, keyframes, Menu, MenuItem, TextField, Autocomplete, Skeleton } from '@mui/material';
+import { Box, Typography, Button, keyframes, Menu, MenuItem, Skeleton } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { tokens } from '../theme';
 import {
@@ -189,43 +189,6 @@ export function HomeChatter() {
     window.location.reload();
   };
 
-  // Seed input state
-  const [seedInput, setSeedInput] = useState(sessionSeed);
-  const [isEditingSeed, setIsEditingSeed] = useState(false);
-
-  // Get recent seeds from localStorage for autocomplete
-  const recentSeeds = useMemo(() => {
-    try {
-      const stored = localStorage.getItem('ndg-recent-seeds');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  }, []);
-
-  // Save current seed to recent seeds
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('ndg-recent-seeds');
-      const seeds: string[] = stored ? JSON.parse(stored) : [];
-      if (!seeds.includes(sessionSeed)) {
-        const updated = [sessionSeed, ...seeds].slice(0, 10); // Keep last 10
-        localStorage.setItem('ndg-recent-seeds', JSON.stringify(updated));
-      }
-    } catch {
-      // Ignore storage errors
-    }
-  }, [sessionSeed]);
-
-  const handleSeedSubmit = (newSeed: string) => {
-    const cleanSeed = newSeed.toUpperCase().replace(/[^0-9A-F]/g, '').slice(0, 6);
-    if (cleanSeed && cleanSeed !== sessionSeed) {
-      sessionStorage.setItem('ndg-session-seed', cleanSeed);
-      window.location.reload();
-    }
-    setIsEditingSeed(false);
-  };
-
   // Reaction types for player responses
   type ReactionType = 'grunt' | 'hmph' | 'ignore';
 
@@ -301,7 +264,7 @@ export function HomeChatter() {
         if (interrupt) {
           setTimeout(() => {
             setIsTyping(false);
-            setMessages(prev => [...prev, interrupt.action]);
+            setMessages(prev => [...prev, `Enemy: ${interrupt.enemyName} ${interrupt.action}`]);
             // NPC reaction to enemy
             setTimeout(() => {
               setIsTyping(true);
@@ -435,7 +398,7 @@ export function HomeChatter() {
         // Show enemy action
         const enemyTimer = setTimeout(() => {
           setIsTyping(false);
-          setMessages(prev => [...prev, interrupt.action]);
+          setMessages(prev => [...prev, `Enemy: ${interrupt.enemyName} ${interrupt.action}`]);
           // Twitch sprite (reacting to enemy)
           if (greeter.sprite2) {
             setSpriteFrame(2);
@@ -506,7 +469,7 @@ export function HomeChatter() {
   // Track if user is currently interacting (hovering on messages)
   const [isInteracting, setIsInteracting] = useState(false);
 
-  // Check if scrolled to bottom
+  // Check if scrolled to bottom (can see latest message)
   const checkIfAtBottom = () => {
     const container = messagesContainerRef.current;
     if (container) {
@@ -519,14 +482,27 @@ export function HomeChatter() {
     }
   };
 
-  // Auto-scroll only if at bottom AND not interacting, otherwise show "new messages"
+  // Auto-scroll only if at bottom AND not interacting
+  // Only show "new messages" when scrolled far enough that latest message is hidden
   useEffect(() => {
-    // Delay scroll slightly to not interrupt interactions
+    const container = messagesContainerRef.current;
     const scrollTimer = setTimeout(() => {
-      if (isAtBottom && !isInteracting) {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      } else if (messages.length > 1) {
-        setHasNewMessages(true);
+      if (isAtBottom) {
+        // At bottom - clear new messages indicator and auto-scroll if not interacting
+        setHasNewMessages(false);
+        if (!isInteracting) {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else if (container) {
+        // Not at bottom - check if we should show "new messages"
+        const isScrollable = container.scrollHeight > container.clientHeight;
+        const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+        // Show only if scrolled more than 100px from bottom (latest message hidden)
+        if (isScrollable && distanceFromBottom > 100) {
+          setHasNewMessages(true);
+        } else {
+          setHasNewMessages(false);
+        }
       }
     }, 100);
     return () => clearTimeout(scrollTimer);
@@ -547,27 +523,39 @@ export function HomeChatter() {
   // Skeleton loading state
   if (isLoading) {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
-        {/* Welcome skeleton */}
-        <Skeleton
-          variant="text"
-          sx={{
-            width: { xs: 280, sm: 400, md: 500 },
-            height: { xs: 40, md: 50 },
-            mb: 4,
-            bgcolor: 'rgba(255,255,255,0.05)',
-          }}
-        />
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: 1200,
+        height: '100%',
+        maxHeight: 'calc(100vh - 120px)',
+        overflow: 'hidden',
+      }}>
+        {/* Welcome skeleton - 1/5 */}
+        <Box sx={{ flex: '0 0 auto', minHeight: '15vh', display: 'flex', alignItems: 'center' }}>
+          <Skeleton
+            variant="text"
+            sx={{
+              width: { xs: 280, sm: 400, md: 500 },
+              height: { xs: 40, md: 50 },
+              bgcolor: 'rgba(255,255,255,0.05)',
+            }}
+          />
+        </Box>
 
+        {/* Chat skeleton - 3/5 */}
         <Box
           sx={{
+            flex: '1 1 auto',
             width: '100%',
             maxWidth: 1200,
-            minHeight: 480,
             display: 'flex',
             gap: { xs: 3, sm: 4 },
             px: { xs: 3, sm: 4 },
-            py: 4,
+            py: 2,
+            minHeight: 0,
           }}
         >
           {/* Sprite skeleton */}
@@ -610,61 +598,91 @@ export function HomeChatter() {
               />
             </Box>
 
-            {/* Button skeletons */}
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Skeleton
-                variant="rectangular"
-                sx={{
-                  width: 100,
-                  height: 48,
-                  borderRadius: 1,
-                  bgcolor: 'rgba(255,255,255,0.05)',
-                }}
-              />
-              <Skeleton
-                variant="rectangular"
-                sx={{
-                  width: 140,
-                  height: 48,
-                  borderRadius: 1,
-                  bgcolor: 'rgba(255,255,255,0.05)',
-                }}
-              />
-            </Box>
           </Box>
+        </Box>
+
+        {/* Button skeletons - 1/5 */}
+        <Box sx={{ flex: '0 0 auto', minHeight: '12vh', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              width: 100,
+              height: 48,
+              borderRadius: 1,
+              bgcolor: 'rgba(255,255,255,0.05)',
+            }}
+          />
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              width: 140,
+              height: 48,
+              borderRadius: 1,
+              bgcolor: 'rgba(255,255,255,0.05)',
+            }}
+          />
         </Box>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
-      {/* Welcome headline - custom per NPC/domain */}
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '100%',
+      maxWidth: 1200,
+      height: '100%',
+      maxHeight: 'calc(100vh - 120px)', // Account for chrome (header/footer)
+      overflow: 'hidden',
+    }}>
+      {/* Welcome headline - 1/5 */}
       <Box
         sx={{
+          flex: '0 0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '15vh',
           textAlign: 'center',
-          mb: { xs: 4, sm: 5, md: 6 },
-          mt: { xs: 2, sm: 3, md: 4 },
           px: { xs: 2, sm: 4, md: 6 },
         }}
       >
         <Typography
           component="h1"
-          onClick={handleDomainClick}
           sx={{
             fontFamily: tokens.fonts.gaming,
             fontWeight: 800,
             fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
             color: tokens.colors.text.primary,
             lineHeight: 1.4,
-            cursor: 'pointer',
-            transition: 'color 150ms ease',
-            '&:hover': {
-              color: tokens.colors.text.secondary,
-            },
           }}
         >
-          {welcomeHeadline}
+          {/* Split headline around domain name to make domain clickable */}
+          {welcomeHeadline.split(domainDisplayName).map((part, i, arr) => (
+            <span key={i}>
+              {part}
+              {i < arr.length - 1 && (
+                <Box
+                  component="span"
+                  onClick={handleDomainClick}
+                  sx={{
+                    textDecoration: 'underline',
+                    textDecorationStyle: 'dotted',
+                    textUnderlineOffset: '4px',
+                    cursor: 'pointer',
+                    transition: 'color 150ms ease',
+                    '&:hover': {
+                      color: tokens.colors.text.secondary,
+                    },
+                  }}
+                >
+                  {domainDisplayName}
+                </Box>
+              )}
+            </span>
+          ))}
         </Typography>
       </Box>
 
@@ -718,96 +736,20 @@ export function HomeChatter() {
             {name}
           </MenuItem>
         ))}
-
-        {/* Divider */}
-        <Box sx={{ borderTop: `1px solid ${tokens.colors.border}`, my: 1 }} />
-
-        {/* Seed section */}
-        <Box sx={{ px: 2, py: 1 }}>
-          <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, fontFamily: tokens.fonts.gaming }}>
-            Seed
-          </Typography>
-        </Box>
-        {isEditingSeed ? (
-          <Box sx={{ px: 2, pb: 1.5 }}>
-            <Autocomplete
-              freeSolo
-              size="small"
-              options={recentSeeds}
-              value={seedInput}
-              onInputChange={(_, value) => setSeedInput(value)}
-              onChange={(_, value) => {
-                if (value) handleSeedSubmit(value);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleSeedSubmit(seedInput);
-                  handleDomainClose();
-                }
-                if (e.key === 'Escape') {
-                  setSeedInput(sessionSeed);
-                  setIsEditingSeed(false);
-                }
-              }}
-              sx={{ width: '100%' }}
-              slotProps={{
-                paper: {
-                  sx: {
-                    bgcolor: '#1a1a1a',
-                    border: `1px solid ${tokens.colors.border}`,
-                  },
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  autoFocus
-                  variant="outlined"
-                  placeholder="Enter seed"
-                  size="small"
-                  inputProps={{
-                    ...params.inputProps,
-                    maxLength: 6,
-                    style: {
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '0.95rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                    },
-                  }}
-                />
-              )}
-            />
-          </Box>
-        ) : (
-          <MenuItem
-            onClick={() => setIsEditingSeed(true)}
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '0.95rem',
-              color: tokens.colors.text.secondary,
-              display: 'flex',
-              justifyContent: 'space-between',
-              '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
-            }}
-          >
-            <span>{sessionSeed}</span>
-            <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, ml: 2 }}>
-              edit
-            </Typography>
-          </MenuItem>
-        )}
       </Menu>
 
+      {/* Chat area - 3/5 (flex grow) */}
       <Box
         sx={{
+          flex: '1 1 auto',
           width: '100%',
           maxWidth: 1200,
-          minHeight: 480,
           display: 'flex',
           gap: { xs: 3, sm: 4 },
           px: { xs: 3, sm: 4 },
-          py: 4,
+          py: 2,
+          minHeight: 0, // Allow flex shrink
+          overflow: 'hidden',
         }}
       >
       {/* Sprite - fixed on left, entire area clickable */}
@@ -821,25 +763,33 @@ export function HomeChatter() {
           animation: showSprite ? `${slideInSprite} 500ms ease-out` : 'none',
           textDecoration: 'none',
           cursor: 'pointer',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          minHeight: { xs: 180, sm: 210, md: 250 },
           '&:hover .wiki-link': {
             color: tokens.colors.secondary,
           },
         }}
       >
-        <Box
-          component="img"
-          src={spriteFrame === 2 && greeter.sprite2 ? greeter.sprite2 : (greeter.sprite || greeter.portrait)}
-          alt={greeter.name}
-          sx={{
-            width: '100%',
-            height: 'auto',
-            maxHeight: { xs: 150, sm: 180, md: 210 },
-            objectFit: 'contain',
-            imageRendering: 'pixelated',
-          }}
-        />
-        {/* Name + wiki link below sprite */}
-        <Box sx={{ mt: 1.5, textAlign: 'center' }}>
+        {/* Typing indicator above name */}
+        {isTyping && (
+          <Typography
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.2rem',
+              color: tokens.colors.text.secondary,
+              animation: `${pulse} 1s ease-in-out infinite`,
+              letterSpacing: '0.15em',
+              textAlign: 'center',
+              mb: 0.5,
+            }}
+          >
+            ...
+          </Typography>
+        )}
+        {/* Name + wiki link above sprite */}
+        <Box sx={{ mb: 1, textAlign: 'center' }}>
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
@@ -861,68 +811,121 @@ export function HomeChatter() {
             [wiki]
           </Typography>
         </Box>
+        <Box
+          component="img"
+          src={spriteFrame === 2 && greeter.sprite2 ? greeter.sprite2 : (greeter.sprite || greeter.portrait)}
+          alt={greeter.name}
+          sx={{
+            width: '100%',
+            height: 'auto',
+            maxHeight: { xs: 150, sm: 180, md: 210 },
+            objectFit: 'contain',
+            imageRendering: 'pixelated',
+          }}
+        />
       </Box>
 
-      {/* Right side - messages + buttons */}
+      {/* Right side - messages, fills available space */}
       <Box
         sx={{
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
+          minHeight: 0, // Allow flex shrink
+          overflow: 'hidden',
         }}
       >
-        {/* Messages container */}
+        {/* Messages container with gradient overlay */}
+        <Box
+          sx={{
+            position: 'relative',
+            height: { xs: 200, sm: 240, md: 280 },
+            flexShrink: 0,
+            // Top gradient fade
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '24px',
+              background: 'linear-gradient(to bottom, #0a0a0a, transparent)',
+              pointerEvents: 'none',
+              zIndex: 1,
+            },
+            // Bottom gradient fade
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '24px',
+              background: 'linear-gradient(to top, #0a0a0a, transparent)',
+              pointerEvents: 'none',
+              zIndex: 1,
+            },
+          }}
+        >
         <Box
           ref={messagesContainerRef}
           onScroll={checkIfAtBottom}
           onMouseEnter={() => setIsInteracting(true)}
           onMouseLeave={() => setIsInteracting(false)}
           sx={{
-            flex: 1,
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'flex-end',
             gap: 2,
-            mb: 3,
-            maxHeight: 300,
             overflowY: 'auto',
+            pl: 2,
             pr: 1,
-            position: 'relative',
-            // Hide scrollbar
+            // Hidden scrollbar
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
           {messages.map((msg, i) => {
             const isPlayerMessage = msg.startsWith('You:');
-            const isNpcMessage = !isPlayerMessage;
+            const isEnemyMessage = msg.startsWith('Enemy:');
+            const isNpcMessage = !isPlayerMessage && !isEnemyMessage;
             const canGrunt = isNpcMessage && !gruntCooldown && !isTyping && !pendingInterrupt;
+            // Show arrow on latest NPC message (always)
+            const isLatestNpcMessage = isNpcMessage && i === messages.length - 1;
+
+            // Message colors
+            const getBubbleColors = () => {
+              if (isPlayerMessage) return { bg: '#2a2a1a', border: '#554400' };
+              if (isEnemyMessage) return { bg: '#2a1a1a', border: '#662222' };
+              return { bg: '#1a1a1a', border: '#333' };
+            };
+            const bubbleColors = getBubbleColors();
 
             return (
               <Box
                 key={i}
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
+                  position: 'relative',
                   width: '100%',
                   animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
-                  // Show reaction buttons on hover
+                  // Show reaction buttons on hover (absolute, no layout shift)
                   '& .reaction-btns': {
                     opacity: 0,
-                    maxHeight: 0,
-                    overflow: 'hidden',
-                    transition: 'opacity 150ms ease, max-height 150ms ease',
+                    pointerEvents: 'none',
+                    transition: 'opacity 150ms ease',
                   },
                   '&:hover .reaction-btns': {
                     opacity: canGrunt ? 1 : 0,
-                    maxHeight: canGrunt ? '40px' : 0,
+                    pointerEvents: canGrunt ? 'auto' : 'none',
                   },
                 }}
               >
                 <Box
                   sx={{
-                    bgcolor: isPlayerMessage ? '#2a2a1a' : '#1a1a1a',
-                    border: `2px solid ${isPlayerMessage ? '#554400' : '#333'}`,
+                    bgcolor: bubbleColors.bg,
+                    border: `2px solid ${bubbleColors.border}`,
                     borderRadius: '12px',
                     px: 3,
                     py: 2,
@@ -956,32 +959,70 @@ export function HomeChatter() {
                         zIndex: 1,
                       },
                     }),
+                    // Chat bubble triangle on left for latest NPC message (pointing to sprite)
+                    ...(isLatestNpcMessage && {
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        left: -14,
+                        top: '50%',
+                        marginTop: '-10px',
+                        width: 0,
+                        height: 0,
+                        borderTop: '10px solid transparent',
+                        borderBottom: '10px solid transparent',
+                        borderRight: '14px solid #333',
+                      },
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        left: -8,
+                        top: '50%',
+                        marginTop: '-8px',
+                        width: 0,
+                        height: 0,
+                        borderTop: '8px solid transparent',
+                        borderBottom: '8px solid transparent',
+                        borderRight: '12px solid #1a1a1a',
+                        zIndex: 1,
+                      },
+                    }),
                   }}
                 >
                   <Typography
                     sx={{
                       fontFamily: tokens.fonts.gaming,
-                      fontSize: isPlayerMessage
+                      fontSize: (isPlayerMessage || isEnemyMessage)
                         ? { xs: '1rem', sm: '1.2rem', md: '1.3rem' }
                         : { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
-                      color: isPlayerMessage ? tokens.colors.warning : tokens.colors.text.primary,
+                      color: isPlayerMessage
+                        ? tokens.colors.warning
+                        : isEnemyMessage
+                          ? '#ff6b6b'
+                          : tokens.colors.text.primary,
                       lineHeight: 1.5,
                       wordBreak: 'break-word',
-                      fontStyle: isPlayerMessage ? 'italic' : 'normal',
+                      fontStyle: (isPlayerMessage || isEnemyMessage) ? 'italic' : 'normal',
                     }}
                   >
-                    {isPlayerMessage ? msg.replace('You: ', '') : msg}
+                    {isPlayerMessage
+                      ? msg.replace('You: ', '')
+                      : isEnemyMessage
+                        ? msg.replace('Enemy: ', '')
+                        : msg}
                   </Typography>
                 </Box>
-                {/* Reaction buttons - shows below message on hover */}
+                {/* Reaction buttons - overlays below message on hover */}
                 {isNpcMessage && (
                   <Box
                     className="reaction-btns"
                     sx={{
+                      position: 'absolute',
+                      bottom: -24,
+                      left: 8,
                       display: 'flex',
-                      gap: 1,
-                      mt: 0.5,
-                      pl: 1,
+                      gap: 0.5,
+                      zIndex: 2,
                     }}
                   >
                     <Button
@@ -1068,55 +1109,32 @@ export function HomeChatter() {
             );
           })}
 
-          {/* Typing indicator */}
-          {isTyping && (
-            <Box
-              sx={{
-                bgcolor: '#1a1a1a',
-                border: '2px solid #333',
-                borderRadius: '12px',
-                px: 3,
-                py: 2,
-                width: 'fit-content',
-              }}
-            >
-              <Typography
-                sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '1.6rem',
-                  color: tokens.colors.text.secondary,
-                  animation: `${pulse} 1s ease-in-out infinite`,
-                  letterSpacing: '0.2em',
-                }}
-              >
-                ...
-              </Typography>
-            </Box>
-          )}
-
           <div ref={messagesEndRef} />
         </Box>
 
-        {/* New messages indicator */}
+        {/* New messages indicator - floating overlay at bottom */}
         {hasNewMessages && (
           <Button
             onClick={scrollToBottom}
             size="small"
             sx={{
-              alignSelf: 'center',
-              mb: 2,
+              position: 'absolute',
+              bottom: 32,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 2,
               fontFamily: tokens.fonts.gaming,
-              fontSize: '0.8rem',
+              fontSize: '0.75rem',
               color: tokens.colors.text.secondary,
-              bgcolor: 'rgba(255,255,255,0.05)',
+              bgcolor: 'rgba(10,10,10,0.9)',
               border: `1px solid ${tokens.colors.border}`,
-              borderRadius: '16px',
-              px: 2,
-              py: 0.5,
+              borderRadius: '12px',
+              px: 1.5,
+              py: 0.25,
               textTransform: 'none',
               animation: `${fadeIn} 200ms ease-out`,
               '&:hover': {
-                bgcolor: 'rgba(255,255,255,0.1)',
+                bgcolor: 'rgba(30,30,30,0.95)',
                 borderColor: tokens.colors.text.secondary,
               },
             }}
@@ -1124,57 +1142,62 @@ export function HomeChatter() {
             New messages
           </Button>
         )}
+        </Box>
 
-        {/* Action buttons - always visible once loaded */}
-        <Box
+      </Box>
+      </Box>
+
+      {/* Action buttons - 1/5 */}
+      <Box
+        sx={{
+          flex: '0 0 auto',
+          display: 'flex',
+          gap: 2,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '12vh',
+          py: 2,
+          opacity: showButtons ? 1 : 0,
+          transition: 'opacity 300ms ease-out',
+        }}
+      >
+        <Button
+          variant="contained"
+          onClick={() => handleChoice('play')}
           sx={{
-            display: 'flex',
-            gap: 2,
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            maxWidth: '95%',
-            opacity: showButtons ? 1 : 0,
-            transition: 'opacity 300ms ease-out',
+            fontFamily: tokens.fonts.gaming,
+            fontSize: { xs: '1.1rem', sm: '1.25rem' },
+            fontWeight: 700,
+            px: 6,
+            py: 2,
+            borderRadius: '12px',
+            bgcolor: tokens.colors.primary,
+            '&:hover': { bgcolor: '#c7033a' },
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() => handleChoice('play')}
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '1.1rem', sm: '1.25rem' },
-              fontWeight: 700,
-              px: 6,
-              py: 2,
-              borderRadius: '12px',
-              bgcolor: tokens.colors.primary,
-              '&:hover': { bgcolor: '#c7033a' },
-            }}
-          >
-            Play
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => handleChoice('wiki')}
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '1.1rem', sm: '1.25rem' },
-              fontWeight: 600,
-              px: 5,
-              py: 2,
-              borderRadius: '12px',
-              borderColor: tokens.colors.border,
-              color: tokens.colors.text.primary,
-              '&:hover': {
-                borderColor: tokens.colors.text.secondary,
-                bgcolor: 'rgba(255,255,255,0.05)',
-              },
-            }}
-          >
-            Explore Wiki
-          </Button>
-        </Box>
-      </Box>
+          Play
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => handleChoice('wiki')}
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: { xs: '1.1rem', sm: '1.25rem' },
+            fontWeight: 600,
+            px: 5,
+            py: 2,
+            borderRadius: '12px',
+            borderColor: tokens.colors.border,
+            color: tokens.colors.text.primary,
+            '&:hover': {
+              borderColor: tokens.colors.text.secondary,
+              bgcolor: 'rgba(255,255,255,0.05)',
+            },
+          }}
+        >
+          Explore Wiki
+        </Button>
       </Box>
     </Box>
   );
