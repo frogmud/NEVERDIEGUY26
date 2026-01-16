@@ -27,6 +27,7 @@ import {
   type HomeGreeter,
   type EnemyInterrupt,
 } from '../data/home-greeters';
+import { lookupDialogueAsync } from '../services/chatbase';
 
 // Generate a random 9-digit player number (zero-padded)
 function generatePlayerNumber(): string {
@@ -128,6 +129,80 @@ export function HomeChatter() {
   const INTERRUPT_CHECKPOINTS = [1, 3, 5, 7, 9];
   const [usedCheckpoints, setUsedCheckpoints] = useState<Set<number>>(new Set());
   const [pendingInterrupt, setPendingInterrupt] = useState<EnemyInterrupt | null>(null);
+
+  // Grunt state - NDG can grunt to provoke reactions
+  const [gruntCooldown, setGruntCooldown] = useState(false);
+  const [gruntCount, setGruntCount] = useState(0);
+
+  // Handle grunt - NDG grunts, NPC reacts
+  const handleGrunt = async () => {
+    if (gruntCooldown || isTyping || pendingInterrupt) return;
+
+    setGruntCooldown(true);
+    const newGruntCount = gruntCount + 1;
+    setGruntCount(newGruntCount);
+
+    // Show NDG's grunt (always *grunt* to match button)
+    setMessages(prev => [...prev, 'You: *grunt*']);
+
+    // Twitch sprite (reacting)
+    if (greeter.sprite2) {
+      setSpriteFrame(2);
+      setTimeout(() => setSpriteFrame(1), 150);
+    }
+
+    // NPC reacts after a beat
+    setTimeout(async () => {
+      setIsTyping(true);
+
+      // Higher enemy chance after multiple grunts
+      const enemyChance = Math.min(0.5, 0.15 + newGruntCount * 0.1);
+      const shouldSummonEnemy = Math.random() < enemyChance;
+
+      if (shouldSummonEnemy) {
+        // Enemy interrupt triggered by grunt
+        const interrupt = getRandomInterrupt(greeterDomain);
+        if (interrupt) {
+          setTimeout(() => {
+            setIsTyping(false);
+            setMessages(prev => [...prev, interrupt.action]);
+            // NPC reaction to enemy
+            setTimeout(() => {
+              setIsTyping(true);
+              setTimeout(() => {
+                setIsTyping(false);
+                const reaction = getRandomReaction(interrupt);
+                setMessages(prev => [...prev, reaction]);
+                setGruntCooldown(false);
+              }, 1500);
+            }, 1000);
+          }, 1500);
+          return;
+        }
+      }
+
+      // Normal NPC reaction from chatbase
+      try {
+        const response = await lookupDialogueAsync({
+          npcSlug: greeter.id,
+          pool: 'reaction',
+        });
+        setTimeout(() => {
+          setIsTyping(false);
+          setMessages(prev => [...prev, response.text]);
+          setGruntCooldown(false);
+        }, 1000);
+      } catch {
+        // Fallback reaction
+        setTimeout(() => {
+          setIsTyping(false);
+          const fallbacks = ['Hmm.', 'Interesting...', '...', 'You have my attention.'];
+          setMessages(prev => [...prev, fallbacks[Math.floor(Math.random() * fallbacks.length)]]);
+          setGruntCooldown(false);
+        }, 1000);
+      }
+    }, 800);
+  };
 
   // Safety timeout - clear pendingInterrupt if stuck for > 10 seconds
   // This prevents the interrupt flow from getting permanently blocked
@@ -402,32 +477,74 @@ export function HomeChatter() {
             '&::-webkit-scrollbar': { display: 'none' },
           }}
         >
-          {messages.map((msg, i) => (
-            <Box
-              key={i}
-              sx={{
-                bgcolor: '#1a1a1a',
-                border: '2px solid #333',
-                borderRadius: '12px',
-                px: 3,
-                py: 2,
-                width: '100%',
-                animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
-              }}
-            >
-              <Typography
+          {messages.map((msg, i) => {
+            const isPlayerMessage = msg.startsWith('You:');
+            const isLatestNpcMessage = !isPlayerMessage && i === messages.length - 1;
+            const canGrunt = isLatestNpcMessage && !gruntCooldown && !isTyping && !pendingInterrupt;
+
+            return (
+              <Box
+                key={i}
                 sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
-                  color: tokens.colors.text.primary,
-                  lineHeight: 1.5,
-                  wordBreak: 'break-word',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  width: '100%',
+                  animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
                 }}
               >
-                {msg}
-              </Typography>
-            </Box>
-          ))}
+                <Box
+                  sx={{
+                    bgcolor: isPlayerMessage ? '#2a2a1a' : '#1a1a1a',
+                    border: `2px solid ${isPlayerMessage ? '#554400' : '#333'}`,
+                    borderRadius: '12px',
+                    px: 3,
+                    py: 2,
+                    flex: 1,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: isPlayerMessage
+                        ? { xs: '1rem', sm: '1.2rem', md: '1.3rem' }
+                        : { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
+                      color: isPlayerMessage ? tokens.colors.warning : tokens.colors.text.primary,
+                      lineHeight: 1.5,
+                      wordBreak: 'break-word',
+                      fontStyle: isPlayerMessage ? 'italic' : 'normal',
+                    }}
+                  >
+                    {isPlayerMessage ? msg.replace('You: ', '') : msg}
+                  </Typography>
+                </Box>
+                {/* Grunt reaction button - only on latest NPC message */}
+                {canGrunt && (
+                  <Button
+                    onClick={handleGrunt}
+                    sx={{
+                      minWidth: 'auto',
+                      px: 1.5,
+                      py: 1,
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '0.85rem',
+                      color: tokens.colors.text.disabled,
+                      border: `1px solid ${tokens.colors.border}`,
+                      borderRadius: '8px',
+                      flexShrink: 0,
+                      '&:hover': {
+                        color: tokens.colors.warning,
+                        borderColor: tokens.colors.warning,
+                        bgcolor: 'rgba(255,193,7,0.1)',
+                      },
+                    }}
+                  >
+                    *grunt*
+                  </Button>
+                )}
+              </Box>
+            );
+          })}
 
           {/* Typing indicator */}
           {isTyping && (

@@ -1,0 +1,54 @@
+<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- 4-leaf clover outline for Luck stat -->
+<g clip-path="url(#clip_luck)">
+<!-- Top leaves outline -->
+<path d="M27 0H18V9H27V0Z" fill="white"/>
+<path d="M36 0H27V9H36V0Z" fill="white"/>
+<path d="M63 0H54V9H63V0Z" fill="white"/>
+<path d="M72 0H63V9H72V0Z" fill="white"/>
+<!-- Row 1 - outer edges -->
+<path d="M18 9H9V18H18V9Z" fill="white"/>
+<path d="M45 9H36V18H45V9Z" fill="white"/>
+<path d="M54 9H45V18H54V9Z" fill="white"/>
+<path d="M81 9H72V18H81V9Z" fill="white"/>
+<!-- Row 2 - outer edges -->
+<path d="M18 18H9V27H18V18Z" fill="white"/>
+<path d="M45 18H36V27H45V18Z" fill="white"/>
+<path d="M54 18H45V27H54V18Z" fill="white"/>
+<path d="M81 18H72V27H81V18Z" fill="white"/>
+<!-- Row 3 - side leaves outer + inner -->
+<path d="M9 27H0V36H9V27Z" fill="white"/>
+<path d="M36 27H27V36H36V27Z" fill="white"/>
+<path d="M63 27H54V36H63V27Z" fill="white"/>
+<path d="M90 27H81V36H90V27Z" fill="white"/>
+<!-- Row 4 - outer only -->
+<path d="M9 36H0V45H9V36Z" fill="white"/>
+<path d="M90 36H81V45H90V36Z" fill="white"/>
+<!-- Row 5 - outer only -->
+<path d="M9 45H0V54H9V45Z" fill="white"/>
+<path d="M90 45H81V54H90V45Z" fill="white"/>
+<!-- Row 6 - side leaves outer + inner -->
+<path d="M9 54H0V63H9V54Z" fill="white"/>
+<path d="M36 54H27V63H36V54Z" fill="white"/>
+<path d="M63 54H54V63H63V54Z" fill="white"/>
+<path d="M90 54H81V63H90V54Z" fill="white"/>
+<!-- Row 7 - outer edges -->
+<path d="M18 63H9V72H18V63Z" fill="white"/>
+<path d="M45 63H36V72H45V63Z" fill="white"/>
+<path d="M54 63H45V72H54V63Z" fill="white"/>
+<path d="M81 63H72V72H81V63Z" fill="white"/>
+<!-- Row 8 - bottom edges -->
+<path d="M27 72H18V81H27V72Z" fill="white"/>
+<path d="M36 72H27V81H36V72Z" fill="white"/>
+<path d="M63 72H54V81H63V72Z" fill="white"/>
+<path d="M72 72H63V81H72V72Z" fill="white"/>
+<!-- Row 9 - stem -->
+<path d="M45 81H36V90H45V81Z" fill="white"/>
+<path d="M54 81H45V90H54V81Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip_luck">
+<rect width="90" height="90" fill="white"/>
+</clipPath>
+</defs>
+</svg>

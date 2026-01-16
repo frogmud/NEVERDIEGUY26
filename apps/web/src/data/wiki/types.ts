@@ -24,7 +24,7 @@ export type Difficulty = 'Easy' | 'Normal' | 'Hard' | 'Extreme';
 // 'none' = no patron, 'all' = Board Room (legendary unlock)
 export type LuckyDie = 'd4' | 'd6' | 'd8' | 'd10' | 'd12' | 'd20' | 'none' | 'all';
 
-// Legacy alias (deprecated - use LuckyDie)
+// Legacy lucky number (0-7) - kept for data compatibility, UI uses luckyDie
 export type LuckyNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 // Item subtypes
@@ -71,7 +71,9 @@ export interface WikiEntity {
   name: string;
   category: WikiCategory;
   luckyDie?: LuckyDie;           // Die-rector alliance (d4=The One, d6=John, etc.)
-  luckyNumber?: LuckyNumber;     // Legacy (deprecated - use luckyDie)
+  luckyNumber?: LuckyNumber;     // Legacy (0-7) - kept for data compatibility, UI uses luckyDie
+  species?: string;              // Legacy - kept for data compatibility, not displayed in UI
+  birthday?: string;             // Legacy - kept for data compatibility, not displayed in UI
   rarity?: Rarity;
   image?: string;
   portrait?: string; // Main wiki image (for characters)
@@ -86,19 +88,10 @@ export interface Traveler extends WikiEntity {
   origin?: string;
   playStyle?: string;
   availability?: 'Starter' | 'Unlockable' | 'Premium';
-  species?: string;
-  birthday?: string;
 
-  // Invisible dice-themed stats (Luck, Essence, John, Shadow, Fury, Resilience, Swiftness)
+  // Invisible dice-themed stats (Luck, Essence, Grit, Shadow, Fury, Resilience, Swiftness)
   baseStats?: BaseStats;
 
-  // Legacy display stats (for wiki UI)
-  stats?: {
-    health?: number;
-    attack?: number;
-    defense?: number;
-    speed?: number;
-  };
   startingLoadout?: string[]; // Item slugs
   abilities?: Ability[];
 
@@ -242,8 +235,6 @@ export interface Wanderer extends WikiEntity {
   category: 'wanderers';
   role?: string;
   origin?: string;
-  species?: string;
-  birthday?: string;
   locations?: string[]; // Domain slugs
   services?: string[];
   dialogue?: string[];

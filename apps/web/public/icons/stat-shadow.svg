@@ -1,0 +1,94 @@
+<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Ghost for Shadow stat -->
+<g clip-path="url(#clip_shadow)">
+<!-- Row 0 - top of head -->
+<path d="M36 0H27V9H36V0Z" fill="white"/>
+<path d="M45 0H36V9H45V0Z" fill="white"/>
+<path d="M54 0H45V9H54V0Z" fill="white"/>
+<path d="M63 0H54V9H63V0Z" fill="white"/>
+<!-- Row 1 -->
+<path d="M27 9H18V18H27V9Z" fill="white"/>
+<path d="M36 9H27V18H36V9Z" fill="white"/>
+<path d="M45 9H36V18H45V9Z" fill="white"/>
+<path d="M54 9H45V18H54V9Z" fill="white"/>
+<path d="M63 9H54V18H63V9Z" fill="white"/>
+<path d="M72 9H63V18H72V9Z" fill="white"/>
+<!-- Row 2 -->
+<path d="M18 18H9V27H18V18Z" fill="white"/>
+<path d="M27 18H18V27H27V18Z" fill="white"/>
+<path d="M36 18H27V27H36V18Z" fill="white"/>
+<path d="M45 18H36V27H45V18Z" fill="white"/>
+<path d="M54 18H45V27H54V18Z" fill="white"/>
+<path d="M63 18H54V27H63V18Z" fill="white"/>
+<path d="M72 18H63V27H72V18Z" fill="white"/>
+<path d="M81 18H72V27H81V18Z" fill="white"/>
+<!-- Row 3 - full width -->
+<path d="M9 27H0V36H9V27Z" fill="white"/>
+<path d="M18 27H9V36H18V27Z" fill="white"/>
+<path d="M27 27H18V36H27V27Z" fill="white"/>
+<path d="M36 27H27V36H36V27Z" fill="white"/>
+<path d="M45 27H36V36H45V27Z" fill="white"/>
+<path d="M54 27H45V36H54V27Z" fill="white"/>
+<path d="M63 27H54V36H63V27Z" fill="white"/>
+<path d="M72 27H63V36H72V27Z" fill="white"/>
+<path d="M81 27H72V36H81V27Z" fill="white"/>
+<path d="M90 27H81V36H90V27Z" fill="white"/>
+<!-- Row 4 - eyes row -->
+<path d="M9 36H0V45H9V36Z" fill="white"/>
+<path d="M18 36H9V45H18V36Z" fill="white"/>
+<path d="M36 36H27V45H36V36Z" fill="white"/>
+<path d="M45 36H36V45H45V36Z" fill="white"/>
+<path d="M54 36H45V45H54V36Z" fill="white"/>
+<path d="M63 36H54V45H63V36Z" fill="white"/>
+<path d="M81 36H72V45H81V36Z" fill="white"/>
+<path d="M90 36H81V45H90V36Z" fill="white"/>
+<!-- Row 5 - eyes row 2 -->
+<path d="M9 45H0V54H9V45Z" fill="white"/>
+<path d="M18 45H9V54H18V45Z" fill="white"/>
+<path d="M36 45H27V54H36V45Z" fill="white"/>
+<path d="M45 45H36V54H45V45Z" fill="white"/>
+<path d="M54 45H45V54H54V45Z" fill="white"/>
+<path d="M63 45H54V54H63V45Z" fill="white"/>
+<path d="M81 45H72V54H81V45Z" fill="white"/>
+<path d="M90 45H81V54H90V45Z" fill="white"/>
+<!-- Row 6 - full width -->
+<path d="M9 54H0V63H9V54Z" fill="white"/>
+<path d="M18 54H9V63H18V54Z" fill="white"/>
+<path d="M27 54H18V63H27V54Z" fill="white"/>
+<path d="M36 54H27V63H36V54Z" fill="white"/>
+<path d="M45 54H36V63H45V54Z" fill="white"/>
+<path d="M54 54H45V63H54V54Z" fill="white"/>
+<path d="M63 54H54V63H63V54Z" fill="white"/>
+<path d="M72 54H63V63H72V54Z" fill="white"/>
+<path d="M81 54H72V63H81V54Z" fill="white"/>
+<path d="M90 54H81V63H90V54Z" fill="white"/>
+<!-- Row 7 - full width -->
+<path d="M9 63H0V72H9V63Z" fill="white"/>
+<path d="M18 63H9V72H18V63Z" fill="white"/>
+<path d="M27 63H18V72H27V63Z" fill="white"/>
+<path d="M36 63H27V72H36V63Z" fill="white"/>
+<path d="M45 63H36V72H45V63Z" fill="white"/>
+<path d="M54 63H45V72H54V63Z" fill="white"/>
+<path d="M63 63H54V72H63V63Z" fill="white"/>
+<path d="M72 63H63V72H72V63Z" fill="white"/>
+<path d="M81 63H72V72H81V63Z" fill="white"/>
+<path d="M90 63H81V72H90V63Z" fill="white"/>
+<!-- Row 8 - wavy bottom -->
+<path d="M9 72H0V81H9V72Z" fill="white"/>
+<path d="M27 72H18V81H27V72Z" fill="white"/>
+<path d="M36 72H27V81H36V72Z" fill="white"/>
+<path d="M63 72H54V81H63V72Z" fill="white"/>
+<path d="M72 72H63V81H72V72Z" fill="white"/>
+<path d="M90 72H81V81H90V72Z" fill="white"/>
+<!-- Row 9 - wavy tips -->
+<path d="M9 81H0V90H9V81Z" fill="white"/>
+<path d="M36 81H27V90H36V81Z" fill="white"/>
+<path d="M63 81H54V90H63V81Z" fill="white"/>
+<path d="M90 81H81V90H90V81Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip_shadow">
+<rect width="90" height="90" fill="white"/>
+</clipPath>
+</defs>
+</svg>

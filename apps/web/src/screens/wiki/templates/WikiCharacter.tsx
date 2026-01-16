@@ -18,7 +18,6 @@ import {
   CasinoSharp as DiceIcon,
   PublicSharp as OriginIcon,
   SportsEsportsSharp as PlayStyleIcon,
-  PersonSharp as SpeciesIcon,
   InventorySharp as LoadoutIcon,
   StorefrontSharp as ServicesIcon,
   AutoAwesomeSharp as FavorIcon,
@@ -183,17 +182,12 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const travelerInfo = travelerData ? {
     origin: travelerData.origin || 'Unknown',
     playStyle: travelerData.playStyle || 'Balanced',
-    species: travelerData.species || 'Human',
-    luckyNumber: travelerData.luckyNumber,
-    birthday: travelerData.birthday,
   } : null;
 
   // Wanderer-specific data
   const wandererInfo = wandererData ? {
     role: wandererData.role || 'NPC',
     origin: wandererData.origin || 'Unknown',
-    species: wandererData.species || 'Unknown',
-    birthday: wandererData.birthday,
   } : null;
 
   // Pantheon-specific data
@@ -202,7 +196,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
     domain: pantheonData.domain || 'Unknown',
     element: pantheonData.element || 'Neutral',
     door: pantheonData.door,
-    luckyNumber: pantheonData.luckyNumber,
   } : null;
 
   // Faction-specific data
@@ -394,8 +387,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               {[
                 { icon: OriginIcon, label: 'Origin', value: travelerInfo.origin },
                 { icon: PlayStyleIcon, label: 'Play Style', value: travelerInfo.playStyle },
-                { icon: SpeciesIcon, label: 'Species', value: travelerInfo.species },
-                { icon: DiceIcon, label: 'Lucky Number', value: travelerInfo.luckyNumber === 7 ? 'ALL' : `d${travelerInfo.luckyNumber}` },
+                { icon: DiceIcon, label: 'Lucky Die', value: travelerData?.luckyDie?.toUpperCase() || 'None' },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -417,7 +409,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               {[
                 { icon: ServicesIcon, label: 'Role', value: wandererInfo.role },
                 { icon: OriginIcon, label: 'Origin', value: wandererInfo.origin },
-                { icon: SpeciesIcon, label: 'Species', value: wandererInfo.species },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -440,7 +431,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                 { icon: LocationIcon, label: 'Domain', value: slugToName(pantheonInfo.domain) },
                 { icon: FavorIcon, label: 'Element', value: pantheonInfo.element },
                 { icon: DiceIcon, label: 'Door', value: pantheonInfo.door ? `Door ${pantheonInfo.door}` : 'None' },
-                { icon: DiceIcon, label: 'Lucky Number', value: pantheonInfo.luckyNumber === 0 ? 'None' : `d${(pantheonInfo.luckyNumber || 1) * 2}` },
+                { icon: DiceIcon, label: 'Lucky Die', value: pantheonData?.luckyDie?.toUpperCase() || 'None' },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -462,7 +453,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               {[
                 { icon: FavorIcon, label: 'Element', value: factionInfo.element },
                 { icon: LocationIcon, label: 'Home Base', value: factionInfo.homeBase ? slugToName(factionInfo.homeBase) : 'Various' },
-                { icon: DiceIcon, label: 'Lucky Number', value: entity?.luckyNumber === 0 ? 'None' : `d${((entity?.luckyNumber || 1) * 2)}` },
+                { icon: DiceIcon, label: 'Lucky Die', value: entity?.luckyDie?.toUpperCase() || 'None' },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -562,16 +553,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                     <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Play Style</Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>{travelerInfo.playStyle}</Typography>
                   </Box>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Species</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{travelerInfo.species}</Typography>
-                  </Box>
-                  {travelerInfo.birthday && (
-                    <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Birthday</Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>{travelerInfo.birthday}</Typography>
-                    </Box>
-                  )}
                 </Box>
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
@@ -583,12 +564,12 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                     textAlign: 'center',
                   }}
                 >
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Number</Typography>
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Die</Typography>
                   <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                    {travelerInfo.luckyNumber === 7 ? 'ALL' : travelerInfo.luckyNumber}
+                    {travelerData?.luckyDie?.toUpperCase() || 'None'}
                   </Typography>
                   <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    {travelerInfo.luckyNumber === 7 ? 'All dice affinity' : `d${(travelerInfo.luckyNumber || 1) * 2} affinity`}
+                    {travelerData?.luckyDie === 'all' ? 'All dice affinity' : travelerData?.luckyDie ? `${travelerData.luckyDie.toUpperCase()} affinity` : 'No affinity'}
                   </Typography>
                 </Box>
               </Grid>
@@ -623,16 +604,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                     <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Origin</Typography>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>{wandererInfo.origin}</Typography>
                   </Box>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Species</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{wandererInfo.species}</Typography>
-                  </Box>
-                  {wandererInfo.birthday && (
-                    <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Birthday</Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>{wandererInfo.birthday}</Typography>
-                    </Box>
-                  )}
                 </Box>
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
@@ -707,12 +678,12 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                     textAlign: 'center',
                   }}
                 >
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Number</Typography>
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Die</Typography>
                   <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                    {pantheonInfo.luckyNumber === 0 ? 'None' : pantheonInfo.luckyNumber}
+                    {pantheonData?.luckyDie?.toUpperCase() || 'None'}
                   </Typography>
                   <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    {pantheonInfo.luckyNumber === 0 ? 'No dice affinity' : `d${(pantheonInfo.luckyNumber || 1) * 2} affinity`}
+                    {pantheonData?.luckyDie === 'all' ? 'All dice affinity' : pantheonData?.luckyDie ? `${pantheonData.luckyDie.toUpperCase()} affinity` : 'No affinity'}
                   </Typography>
                 </Box>
               </Grid>
@@ -783,12 +754,12 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                       textAlign: 'center',
                     }}
                   >
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Number</Typography>
+                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Die</Typography>
                     <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                      {entity?.luckyNumber === 0 ? 'None' : entity?.luckyNumber}
+                      {entity?.luckyDie?.toUpperCase() || 'None'}
                     </Typography>
                     <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                      {entity?.luckyNumber === 0 ? 'No dice affinity' : `d${((entity?.luckyNumber || 1) * 2)} affinity`}
+                      {entity?.luckyDie === 'all' ? 'All dice affinity' : entity?.luckyDie ? `${entity.luckyDie.toUpperCase()} affinity` : 'No affinity'}
                     </Typography>
                   </Box>
                 </Grid>
@@ -1011,15 +982,16 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           <BaseCard sx={{ mb: 4 }}>
             <Grid container spacing={2}>
               {Object.entries(baseStats).map(([stat, value]) => {
-                const statLabels: Record<string, string> = {
-                  luck: 'Luck',
-                  essence: 'Essence',
-                  grit: 'Grit',
-                  shadow: 'Shadow',
-                  fury: 'Fury',
-                  resilience: 'Resilience',
-                  swiftness: 'Swiftness',
+                const statConfig: Record<string, { label: string; icon: string; color: string }> = {
+                  luck: { label: 'Luck', icon: '/icons/stat-luck.svg', color: '#FFD700' },
+                  essence: { label: 'Essence', icon: '/icons/stat-essence.svg', color: '#FF1744' },
+                  grit: { label: 'Grit', icon: '/icons/stat-grit.svg', color: '#FFA726' },
+                  shadow: { label: 'Shadow', icon: '/icons/stat-shadow.svg', color: '#7C4DFF' },
+                  fury: { label: 'Fury', icon: '/icons/stat-fury.svg', color: '#4CAF50' },
+                  resilience: { label: 'Resilience', icon: '/icons/stat-resilience.svg', color: '#00E5FF' },
+                  swiftness: { label: 'Swiftness', icon: '/icons/stat-swiftness.svg', color: '#FFEB3B' },
                 };
+                const config = statConfig[stat] || { label: stat, icon: '', color: tokens.colors.text.secondary };
                 return (
                   <Grid size={{ xs: 6, sm: 4, md: 3 }} key={stat}>
                     <Box
@@ -1030,21 +1002,35 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                         textAlign: 'center',
                       }}
                     >
-                      <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
+                      {config.icon && (
+                        <Box
+                          component="img"
+                          src={config.icon}
+                          alt={config.label}
+                          sx={{
+                            width: 24,
+                            height: 24,
+                            mb: 1,
+                            filter: 'brightness(0) invert(1)',
+                            opacity: 0.8,
+                          }}
+                        />
+                      )}
+                      <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming, color: config.color }}>
                         {value}
                       </Typography>
                       <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                        {statLabels[stat] || stat}
+                        {config.label}
                       </Typography>
                       <LinearProgress
                         variant="determinate"
-                        value={value}
+                        value={typeof value === 'number' ? value : 0}
                         sx={{
                           mt: 1,
                           height: 4,
                           borderRadius: 1,
                           bgcolor: tokens.colors.background.paper,
-                          '& .MuiLinearProgress-bar': { bgcolor: tokens.colors.text.secondary },
+                          '& .MuiLinearProgress-bar': { bgcolor: config.color },
                         }}
                       />
                     </Box>
