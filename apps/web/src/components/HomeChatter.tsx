@@ -12,7 +12,7 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, keyframes, Menu, MenuItem, TextField, Autocomplete } from '@mui/material';
+import { Box, Typography, Button, keyframes, Menu, MenuItem, TextField, Autocomplete, Skeleton } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { tokens } from '../theme';
 import {
@@ -137,6 +137,9 @@ export function HomeChatter() {
   const [isTyping, setIsTyping] = useState(false);
   const [ambientIndex, setAmbientIndex] = useState(0);
 
+  // Loading state for skeleton
+  const [isLoading, setIsLoading] = useState(true);
+
   // Animation states
   const [showSprite, setShowSprite] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
@@ -215,16 +218,20 @@ export function HomeChatter() {
     setIsEditingSeed(false);
   };
 
-  // Handle grunt - NDG grunts at a specific message, NPC reacts
-  const handleGrunt = async (targetMessage: string) => {
+  // Reaction types for player responses
+  type ReactionType = 'grunt' | 'hmph';
+
+  // Handle grunt/hmph - NDG reacts to a specific message, NPC responds
+  const handleGrunt = async (targetMessage: string, reactionType: ReactionType = 'grunt') => {
     if (gruntCooldown || isTyping || pendingInterrupt) return;
 
     setGruntCooldown(true);
     const newGruntCount = gruntCount + 1;
     setGruntCount(newGruntCount);
 
-    // Show NDG's grunt (always *grunt* to match button)
-    setMessages(prev => [...prev, 'You: *grunt*']);
+    // Show NDG's reaction
+    const reactionText = reactionType === 'grunt' ? '*grunt*' : '*hmph*';
+    setMessages(prev => [...prev, `You: ${reactionText}`]);
 
     // Twitch sprite (reacting)
     if (greeter.sprite2) {
@@ -263,11 +270,12 @@ export function HomeChatter() {
       }
 
       // Normal NPC reaction from chatbase - include the grunted message as context
+      // 'grunt' = acknowledgment/agreement, 'hmph' = skepticism/dismissal
       try {
         const response = await lookupDialogueAsync({
           npcSlug: greeter.id,
           pool: 'reaction',
-          context: targetMessage, // Pass the message being grunted at
+          context: `[${reactionType}] ${targetMessage}`, // Pass reaction type + message
         });
         setTimeout(() => {
           setIsTyping(false);
@@ -299,16 +307,19 @@ export function HomeChatter() {
 
   // Initial animation sequence
   useEffect(() => {
-    const spriteTimer = setTimeout(() => setShowSprite(true), 100);
-    const buttonsTimer = setTimeout(() => setShowButtons(true), 600);
+    // Brief loading state for skeleton display
+    const loadingTimer = setTimeout(() => setIsLoading(false), 150);
+    const spriteTimer = setTimeout(() => setShowSprite(true), 200);
+    const buttonsTimer = setTimeout(() => setShowButtons(true), 700);
 
     // Initial greeting twitch
     if (greeter.sprite2) {
       const twitchTimer = setTimeout(() => {
         setSpriteFrame(2);
         setTimeout(() => setSpriteFrame(1), 150);
-      }, 400);
+      }, 500);
       return () => {
+        clearTimeout(loadingTimer);
         clearTimeout(spriteTimer);
         clearTimeout(buttonsTimer);
         clearTimeout(twitchTimer);
@@ -316,6 +327,7 @@ export function HomeChatter() {
     }
 
     return () => {
+      clearTimeout(loadingTimer);
       clearTimeout(spriteTimer);
       clearTimeout(buttonsTimer);
     };
@@ -476,6 +488,99 @@ export function HomeChatter() {
   const handleChoice = (route: RouteChoice) => {
     navigate(ROUTE_PATHS[route]);
   };
+
+  // Skeleton loading state
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
+        {/* Welcome skeleton */}
+        <Skeleton
+          variant="text"
+          sx={{
+            width: { xs: 280, sm: 400, md: 500 },
+            height: { xs: 40, md: 50 },
+            mb: 4,
+            bgcolor: 'rgba(255,255,255,0.05)',
+          }}
+        />
+
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 1200,
+            minHeight: 480,
+            display: 'flex',
+            gap: { xs: 3, sm: 4 },
+            px: { xs: 3, sm: 4 },
+            py: 4,
+          }}
+        >
+          {/* Sprite skeleton */}
+          <Box sx={{ width: { xs: 96, sm: 120, md: 150 }, flexShrink: 0 }}>
+            <Skeleton
+              variant="rectangular"
+              sx={{
+                width: '100%',
+                height: { xs: 150, sm: 180, md: 210 },
+                borderRadius: 1,
+                bgcolor: 'rgba(255,255,255,0.05)',
+              }}
+            />
+            <Skeleton
+              variant="text"
+              sx={{ mt: 1.5, width: '80%', mx: 'auto', bgcolor: 'rgba(255,255,255,0.05)' }}
+            />
+          </Box>
+
+          {/* Chat area skeleton */}
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  width: '90%',
+                  height: 60,
+                  borderRadius: '12px',
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                }}
+              />
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  width: '70%',
+                  height: 50,
+                  borderRadius: '12px',
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                }}
+              />
+            </Box>
+
+            {/* Button skeletons */}
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  width: 100,
+                  height: 48,
+                  borderRadius: 1,
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                }}
+              />
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  width: 140,
+                  height: 48,
+                  borderRadius: 1,
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
@@ -752,17 +857,19 @@ export function HomeChatter() {
                 key={i}
                 sx={{
                   display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5,
+                  flexDirection: 'column',
                   width: '100%',
                   animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
-                  // Show grunt button on hover
-                  '& .grunt-btn': {
+                  // Show reaction buttons on hover
+                  '& .reaction-btns': {
                     opacity: 0,
-                    transition: 'opacity 150ms ease',
+                    maxHeight: 0,
+                    overflow: 'hidden',
+                    transition: 'opacity 150ms ease, max-height 150ms ease',
                   },
-                  '&:hover .grunt-btn': {
+                  '&:hover .reaction-btns': {
                     opacity: canGrunt ? 1 : 0,
+                    maxHeight: canGrunt ? '40px' : 0,
                   },
                 }}
               >
@@ -820,34 +927,64 @@ export function HomeChatter() {
                     {isPlayerMessage ? msg.replace('You: ', '') : msg}
                   </Typography>
                 </Box>
-                {/* Grunt reaction button - shows on hover for any NPC message */}
+                {/* Reaction buttons - shows below message on hover */}
                 {isNpcMessage && (
-                  <Button
-                    className="grunt-btn"
-                    onClick={() => handleGrunt(msg)}
-                    disabled={!canGrunt}
+                  <Box
+                    className="reaction-btns"
                     sx={{
-                      minWidth: 'auto',
-                      px: 1.5,
-                      py: 1,
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '0.85rem',
-                      color: tokens.colors.text.disabled,
-                      border: `1px solid ${tokens.colors.border}`,
-                      borderRadius: '8px',
-                      flexShrink: 0,
-                      '&:hover': {
-                        color: tokens.colors.warning,
-                        borderColor: tokens.colors.warning,
-                        bgcolor: 'rgba(255,193,7,0.1)',
-                      },
-                      '&:disabled': {
-                        opacity: 0.3,
-                      },
+                      display: 'flex',
+                      gap: 1,
+                      mt: 0.5,
+                      pl: 1,
                     }}
                   >
-                    *grunt*
-                  </Button>
+                    <Button
+                      onClick={() => handleGrunt(msg, 'grunt')}
+                      disabled={!canGrunt}
+                      sx={{
+                        minWidth: 'auto',
+                        px: 1.5,
+                        py: 0.25,
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.9rem',
+                        color: '#555',
+                        bgcolor: 'transparent',
+                        textTransform: 'none',
+                        '&:hover': {
+                          color: '#888',
+                          bgcolor: 'rgba(255,255,255,0.03)',
+                        },
+                        '&:disabled': {
+                          opacity: 0.3,
+                        },
+                      }}
+                    >
+                      grunt
+                    </Button>
+                    <Button
+                      onClick={() => handleGrunt(msg, 'hmph')}
+                      disabled={!canGrunt}
+                      sx={{
+                        minWidth: 'auto',
+                        px: 1.5,
+                        py: 0.25,
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.9rem',
+                        color: '#555',
+                        bgcolor: 'transparent',
+                        textTransform: 'none',
+                        '&:hover': {
+                          color: '#888',
+                          bgcolor: 'rgba(255,255,255,0.03)',
+                        },
+                        '&:disabled': {
+                          opacity: 0.3,
+                        },
+                      }}
+                    >
+                      hmph
+                    </Button>
+                  </Box>
                 )}
               </Box>
             );
