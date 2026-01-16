@@ -15,17 +15,18 @@ export default defineConfig({
         manualChunks(id) {
           // Vendor splits (node_modules)
           if (id.includes('node_modules')) {
-            // Core React
-            if (id.includes('react-dom') || id.includes('react-router')) {
+            // Core React + MUI + Emotion (must be together to avoid initialization order issues)
+            if (
+              id.includes('react-dom') ||
+              id.includes('react-router') ||
+              id.includes('/react/') ||
+              id.includes('@mui/material') ||
+              id.includes('@mui/system') ||
+              id.includes('@emotion')
+            ) {
               return 'vendor';
             }
-            if (id.includes('/react/')) {
-              return 'vendor';
-            }
-            // MUI + Emotion (must be in same chunk to avoid initialization order issues)
-            if (id.includes('@mui/material') || id.includes('@emotion')) {
-              return 'mui-core';
-            }
+            // MUI icons can be separate (no circular deps)
             if (id.includes('@mui/icons-material')) {
               return 'mui-icons';
             }
