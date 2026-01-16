@@ -10,7 +10,6 @@ export { GameSidebar } from './GameSidebar';
 export { RollHistory } from './RollHistory';
 export { SettingsModal } from './SettingsModal';
 export { DiceBuilder } from './DiceBuilder';
-export { DiceRoller, DiceHistory, type DiceResult } from './DiceRoller';
 export { GameStartPanel, type GameConfig, type GameMode } from './GameStartPanel';
 export { DoorOverlay, type DoorOverlayProps } from './DoorOverlay';
 export { NarrativeFork, type NarrativeForkProps } from './NarrativeFork';

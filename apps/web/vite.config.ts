@@ -33,10 +33,6 @@ export default defineConfig({
             if (id.includes('@emotion')) {
               return 'emotion';
             }
-            // Animation
-            if (id.includes('lottie')) {
-              return 'lottie';
-            }
             // Game engine
             if (id.includes('phaser')) {
               return 'phaser';

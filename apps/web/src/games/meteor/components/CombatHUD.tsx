@@ -397,8 +397,6 @@ export function CombatHUD({
     hand,
     throwsRemaining,
     turnNumber,
-    targetScore,
-    currentScore,
   } = combatState;
 
   // Count held/unheld dice
@@ -425,8 +423,9 @@ export function CombatHUD({
   const isDisabled = isDisabledProp || phase === 'throw' || phase === 'resolve' || phase === 'victory' || phase === 'defeat' || isRolling;
   const allRolled = hand.every((d) => d.rollValue !== null);
 
-  // Victory/Defeat: Hide HUD - GameOverModal in PlayHub handles the overlay
-  if (phase === 'victory' || phase === 'defeat') {
+  // Defeat: Hide HUD - GameOverModal in PlayHub handles the overlay
+  // Victory: Keep HUD visible (disabled) until transition to summary to prevent layout jump
+  if (phase === 'defeat') {
     return null;
   }
 

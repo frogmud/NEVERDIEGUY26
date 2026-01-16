@@ -315,7 +315,7 @@ export interface Stat {
 }
 
 export interface ObtainMethod {
-  type: 'enemy' | 'shop' | 'quest' | 'craft' | 'chest' | 'event';
+  type: 'enemy' | 'shop' | 'quest' | 'craft' | 'chest' | 'event' | 'starter' | 'drop';
   source: string; // Entity slug
   location?: string;
   rate?: string;

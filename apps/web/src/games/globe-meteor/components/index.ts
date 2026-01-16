@@ -6,8 +6,6 @@ export { DiceReticle } from './DiceReticle';
 export { ImpactEffect } from './ImpactEffect';
 export { DiceHand } from './DiceHand';
 export { DiceHand3D } from './DiceHand3D';
-export { DiceHandSVG } from './DiceHandSVG';
-export { DiceHandDraggable } from './DiceHandDraggable';
 export { RollResult } from './RollResult';
 export { ZoneMarker } from './ZoneMarker';
 export { GridOverlay } from './GridOverlay';

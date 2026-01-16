@@ -23,6 +23,14 @@ import { GuardianGroup, type GuardianData } from './components/Guardian';
 import { VictoryExplosion } from './components/VictoryExplosion';
 import { ZoneMarker as ZoneMarkerType } from '../../types/zones';
 
+// Event sky colors - tinting for atmosphere via fog + ambient
+// Event 1 (afternoon): warm, Event 2 (dusk): neutral, Event 3 (night): cool
+const EVENT_SKY_COLORS: Record<number, { ambient: string; fog: string; intensity: number }> = {
+  1: { ambient: '#ffe4c4', fog: '#1a1408', intensity: 0.35 },  // Warm - afternoon
+  2: { ambient: '#d4d4d4', fog: '#0a0a0a', intensity: 0.30 },  // Neutral - dusk
+  3: { ambient: '#a0c4e8', fog: '#080c14', intensity: 0.25 },  // Cool blue - night/boss
+};
+
 interface GlobeSceneProps {
   npcs: GlobeNPC[];
   meteors: MeteorProjectile[];
@@ -42,6 +50,8 @@ interface GlobeSceneProps {
   selectedZone?: ZoneMarkerType | null;
   /** Domain ID (1-6) for domain-specific planet size/color */
   domainId?: number;
+  /** Event number (1-3) for sky color escalation */
+  eventNumber?: number;
   /** Guardians - flat billboard enemies that orbit and protect the planet */
   guardians?: GuardianData[];
   onGuardianHit?: (guardianId: string) => void;
@@ -169,6 +179,7 @@ export function GlobeScene({
   onZoneClick,
   selectedZone,
   domainId,
+  eventNumber = 1,
   guardians = [],
   onGuardianHit,
   showVictoryExplosion = false,
@@ -178,6 +189,9 @@ export function GlobeScene({
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Get sky color based on event number (1-3)
+  const skyConfig = EVENT_SKY_COLORS[Math.min(Math.max(eventNumber, 1), 3)] || EVENT_SKY_COLORS[1];
+
   return (
     <Box
       ref={containerRef}
@@ -185,7 +199,7 @@ export function GlobeScene({
       onMouseDown={onInteraction}
       onTouchStart={onInteraction}
     >
-      <Canvas shadows>
+      <Canvas shadows style={{ background: skyConfig.fog }}>
         <Suspense fallback={null}>
           {/* Track camera distance and center target for zoom-aware UI */}
           <CameraTracker
@@ -210,8 +224,8 @@ export function GlobeScene({
             autoRotateSpeed={0.5}
           />
 
-          {/* Lighting */}
-          <ambientLight intensity={GLOBE_CONFIG.lighting.ambient} />
+          {/* Lighting - ambient color shifts based on event number */}
+          <ambientLight color={skyConfig.ambient} intensity={skyConfig.intensity} />
           <directionalLight
             position={GLOBE_CONFIG.lighting.sunPosition}
             intensity={GLOBE_CONFIG.lighting.sunIntensity}
@@ -227,6 +241,9 @@ export function GlobeScene({
             saturation={0}
             fade
           />
+
+          {/* Atmospheric fog - tints space based on event number */}
+          <fog attach="fog" args={[skyConfig.fog, 25, 80]} />
 
           {/* The globe */}
           <Planet

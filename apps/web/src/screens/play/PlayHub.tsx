@@ -63,10 +63,11 @@ export function PlayHub() {
     transitionToPanel,
     setTransitionPhase,
     completeTransition,
-    completeRoom,
+    setPendingVictory,
     failRoom,
     continueFromSummary,
     continueFromShop,
+    completeFlumeTransition,
     purchase,
     loadRun,
     hasSavedRun,
@@ -166,6 +167,8 @@ export function PlayHub() {
 
   // Build game state for sidebar - uses live combat state when available
   // Use granular dependencies to ensure score updates trigger re-renders
+  // Event number: clearedCount + 1 (next event to play), or +1 more if zone selected
+  const currentEvent = (state.domainState?.clearedCount ?? 0) + (state.selectedZone ? 1 : 0);
   const gameState = useMemo(() => ({
     enemySprite: '/assets/enemies/shadow-knight.png',
     scoreToBeat: combatGameState?.goal || 1000,
@@ -177,8 +180,8 @@ export function PlayHub() {
     gold: state.gold ?? 0,
     domain: state.currentDomain ?? 1,
     totalDomains: 6,
-    event: state.currentEvent ?? 1,
-    totalEvents: 3,
+    event: currentEvent,
+    totalEvents: state.domainState?.totalZones ?? 3,
     rollHistory: [],
   }), [
     combatGameState?.score,
@@ -189,7 +192,8 @@ export function PlayHub() {
     state.totalScore,
     state.gold,
     state.currentDomain,
-    state.currentEvent,
+    currentEvent,
+    state.domainState?.totalZones,
   ]);
 
   // Handle New Run - starts run and shows zone selection
@@ -227,22 +231,6 @@ export function PlayHub() {
 
   // Combat feed history (passed to sidebar)
   const [combatFeed, setCombatFeed] = useState<FeedEntry[]>([]);
-
-  // Pending victory data (for transition wipe)
-  const [pendingVictory, setPendingVictory] = useState<{
-    score: number;
-    gold: number;
-    stats: { npcsSquished: number; diceThrown: number };
-  } | null>(null);
-
-  // Process pending victory after wipe completes (transition to summary)
-  useEffect(() => {
-    if (pendingVictory && state.centerPanel === 'summary' && state.transitionPhase === 'idle') {
-      // Wipe completed, now actually complete the room
-      completeRoom(pendingVictory.score, pendingVictory.gold, pendingVictory.stats);
-      setPendingVictory(null);
-    }
-  }, [pendingVictory, state.centerPanel, state.transitionPhase, completeRoom]);
 
   // Handle Options button
   const handleOptions = () => {
@@ -297,7 +285,8 @@ export function PlayHub() {
 
   // Handle combat win - trigger skull wipe then complete room
   // Uses refs instead of state to keep callback reference stable
-  const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }) => {
+  // Victory data is stored in context and applied atomically when transition completes
+  const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number) => {
     // Practice mode: end immediately with win (no summary/shop)
     if (practiceModeRef.current) {
       endRun(true);
@@ -305,10 +294,11 @@ export function PlayHub() {
     }
     // Full run: calculate gold using balance config (tier-based, domain-scaled)
     const goldEarned = calculateGoldReward(selectedZoneTierRef.current, currentDomainRef.current);
-    // Store pending victory data and trigger transition wipe
-    setPendingVictory({ score, gold: goldEarned, stats });
+    // Store pending victory in context - will be applied atomically when transition completes
+    // turnsRemaining is used for early finish bonus calculation
+    setPendingVictory({ score, gold: goldEarned, stats, turnsRemaining });
     transitionToPanel('summary');
-  }, [transitionToPanel, endRun]);
+  }, [transitionToPanel, endRun, setPendingVictory]);
 
   // Check if we're in summary or shop mode (rendered in center area, not as early return)
   const isInSummary = state.centerPanel === 'summary' && !state.runEnded;
@@ -339,8 +329,9 @@ export function PlayHub() {
         }}
       >
         {/* Overall Run Progress Bar - shows domain and event progress with checkpoints */}
+        {/* Positioned with high z-index so it stays above game over overlay */}
         {state.phase !== 'event_select' && (
-          <Box sx={{ px: 3, pt: 2, pb: 1 }}>
+          <Box sx={{ px: 3, pt: 2, pb: 1, position: 'relative', zIndex: 200, flexShrink: 0 }}>
             <Box
               sx={{
                 display: 'flex',
@@ -494,6 +485,7 @@ export function PlayHub() {
               totalDomains={6}
               currentRoom={state.roomNumber || 1}
               totalRooms={3}
+              eventNumber={(state.domainState?.clearedCount || 0) + 1}
               totalScore={state.totalScore || 0}
               gold={state.gold || 0}
               inventoryItems={state.inventory?.powerups || []}
@@ -581,6 +573,7 @@ export function PlayHub() {
         totalScore={state.totalScore || 0}
         gold={state.gold || 0}
       />
+
 
     </Box>
   );

@@ -41,8 +41,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'stitch-up-girl',
     name: 'Stitch Up Girl',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-stitchupgirl-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-stitchupgirl-idle-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-stitchupgirl-idle-02.svg',
+    sprite: '/assets/market-svg/stitch-up-girl/idle-01.svg',
+    sprite2: '/assets/market-svg/stitch-up-girl/idle-02.svg',
     wikiSlug: 'characters/stitch-up-girl',
     ambient: [
       'Shadow Keep taught me that healing is just damage in reverse.',
@@ -50,6 +50,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'My scissors can cut more than flesh. They can sever curses.',
       'Medical advice: survive the first wave, then strike.',
       'I patched up the last Guy. He did okay.',
+      // From dialogue-expansion chatbase
+      'Healing is not magic. Well, it is. But it is also about knowing where the important bits go.',
+      'I have stitched up Die-rectors, wanderers, even a guardian once. That one was weird.',
+      'Fun fact: the average meteor strike victim needs 47 stitches. I have gotten it down to 43.',
+      '*organizes medical supplies with concerning enthusiasm*',
+      '*sharpens scissors* These are for curses. And also opening packages.',
+      'The guardians have weak points. Aim for the glowing bits.',
+      'You know what never dies? Family support. I will always be here with bandages and judgment.',
+      'Pro tip: save your biggest dice for when you are cornered.',
+      'At your current integrity, you can survive exactly two more hits. Maybe.',
+      'That crater is going to need stitches. Not yours. The planet\'s. I am branching out.',
+      'New shipment of bandages! Extra absorbent! I tested them on Robert\'s domain.',
+      'Family discount means free. Do not tell the other patients.',
     ],
     greetings: [
       'There you are! Let me take a look at you. Any new holes I should know about?',
@@ -88,8 +101,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'keith-man',
     name: 'Keith Man',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-keithman-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-keithman-idle-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-keithman-idle-02.svg',
+    sprite: '/assets/market-svg/keith-man/idle-01.svg',
+    sprite2: '/assets/market-svg/keith-man/idle-02.svg',
     wikiSlug: 'characters/keith-man',
     ambient: [
       'Time is just... suggestion? Frost Reach taught me that!',
@@ -97,6 +110,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Do not think about paradoxes! Just RUN!',
       'The universe respawned you! How exciting!',
       'Second chances at SPEED!',
+      // From chatbase sources
+      '... The sphere watches you. It always watches.',
+      '... The answer is in the reflection. You know which one.',
+      '... You already know. The sphere sees all.',
+      'Time-moves-different-for-me! Always-has! Always-will!',
+      'Frost-Reach-is-cold! But-speed-keeps-you-warm!',
+      'I-checked-the-future! You-do-fine! Probably!',
+      'Paradoxes-are-just-time-trying-to-be-interesting!',
+      'Slow-down? Never-heard-of-it!',
+      'The-Die-rectors-move-so-SLOW! It-is-painful-to-watch!',
+      'Every-millisecond-counts! I-counted-them!',
+      'Past-present-future! All-the-same-to-me! Kind-of!',
+      'The-guardians-cannot-catch-what-they-cannot-see!',
     ],
     greetings: [
       'Hey-hi-hello! Good-to-see-you! Been-waiting! Well-not-waiting-exactly-time-is-relative!',
@@ -132,8 +158,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'mr-kevin',
     name: 'Mr. Kevin',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-mrkevin-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-mrkevin-idle-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-mrkevin-idle-02.svg',
+    sprite: '/assets/market-svg/mr-kevin/idle-01.svg',
+    sprite2: '/assets/market-svg/mr-kevin/idle-02.svg',
     wikiSlug: 'characters/mr-kevin',
     ambient: [
       'The code is very readable today.',
@@ -141,6 +167,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'The void whispered your arrival. Very chatty today.',
       'Reality renders you correctly. More than most.',
       'All bugs inherited from previous Guys.',
+      // From meta-game lore
+      'The probability matrix is stable. For now.',
+      'I see patterns others miss. The dice speak to me.',
+      'Running diagnostics on existence. Please wait.',
+      'Your instance is unique. Also identical to the others. Paradox noted.',
+      'The simulation generates many Guys. Most do not make it this far.',
+      'Superposition is complicated. You are here. Also not. Both true.',
+      'Previous instance recycled. You are the upgrade.',
+      'The eternal logs record everything. Even this conversation.',
+      'Null Providence hums with void energy today.',
+      'The domains are subroutines. The dice are function calls.',
+      'Your persistence is noted. The code appreciates determination.',
+      'Reality bugs are features. Do not let anyone tell you otherwise.',
     ],
     greetings: [
       'Ah. You are here. The probability matrix suggested you would be. It was correct. As usual.',
@@ -177,8 +216,7 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'clausen',
     name: 'Clausen',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-clausen-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-clausen-idle-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-clausen-walk-01.svg',
+    sprite: '/assets/market-svg/clausen/idle-01.svg',
     wikiSlug: 'characters/clausen',
     ambient: [
       '*takes long drag* Story writes itself.',
@@ -186,6 +224,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Seen your type before. Determined. Doomed.',
       'I solve problems. You look like a problem.',
       'You still have hope in your eyes.',
+      // From chatbase sources
+      'That roll? Embarrassing. But you can do better. Probably. Maybe.',
+      'Not bad. Not good either. But not bad. I guess.',
+      '*flips open notebook* The case never closes. Only pauses.',
+      'Infernus burns evidence. I preserve it.',
+      'Every death is a clue. You leave a lot of clues.',
+      'The Die-rectors think they run this place. Cute.',
+      'I investigate everything. Including you.',
+      '*exhales smoke* Another mystery. Another day.',
+      'Clues are everywhere. Most people just do not look.',
+      'The noir never ends. Neither does the paperwork.',
+      'Suspects. Everyone is a suspect. Even me.',
+      'The case files grow thicker. The answers stay thin.',
     ],
     greetings: [
       '*lights cigarette* Another case. Another Guy. Same old chaos.',
@@ -222,8 +273,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'body-count',
     name: 'Body Count',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-bodycount-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-bodycount-idle-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-bodycount-idle-02.svg',
+    sprite: '/assets/market-svg/body-count/idle-01.svg',
+    sprite2: '/assets/market-svg/body-count/idle-02.svg',
     wikiSlug: 'characters/body-count',
     ambient: [
       '*tallies something* The count is... high.',
@@ -231,6 +282,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Each Guy is unique. Each Guy is replaceable.',
       'The body count never stops.',
       '*looks up from notes* Statistics.',
+      // From observer archetype
+      '*makes another tally* The numbers tell a story.',
+      'I have catalogued every death in Aberrant. Comprehensive.',
+      'The count resets for you. For me? Never.',
+      'Every throw is data. Every impact is logged.',
+      'The roster updates itself. Frequently.',
+      '*checks notes* You are doing better than average. Barely.',
+      'Silent observation is my specialty. The dead do not mind.',
+      'Aberrant generates chaos. I organize it.',
+      'The ledger is patient. So am I.',
+      'Each incarnation adds to the total. The total is impressive.',
+      'Statistics do not lie. They just oversimplify.',
+      '*tallies quietly* ...Carry the one...',
     ],
     greetings: [
       'New Guy? I keep track of the old ones. The count is... high.',
@@ -275,6 +339,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Your footwear matters. Trust me. I AM footwear.',
       'The void? Kicked my way out. TWICE.',
       '*excited stomping* Take your time! I can stomp in place!',
+      // From chatbase sources
+      'Been there. Would not recommend it. But you made it through.',
+      'Shortcuts exist if you know where to look. I know where to look.',
+      'Good form on that throw. Your grip looks solid.',
+      'The terrain ahead is rough. Good footwear helps.',
+      '*stomps approvingly* That was a solid impact!',
+      'I protect feet. Feet are important. Everyone forgets feet.',
+      'Aberrant terrain is unpredictable. So am I!',
+      'Every stomp tells a story. What story are you telling?',
+      'The cosmic cat knows things. I know other things. We overlap sometimes.',
+      '*bounces higher* The energy here is PERFECT for kicking!',
+      'Null Providence tried to take my bounce. It failed.',
+      'Equipment advice: protect your weak points. Start with your feet.',
     ],
     greetings: [
       '*stomps excitedly* NEW GUY! I like your energy! Very... vertical!',
@@ -314,8 +391,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'willy',
     name: 'Willy',
     portrait: '/assets/characters/portraits/240px/shop-portrait-willy-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-willy-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/shop-sprite-willy-02.svg',
+    sprite: '/assets/market-svg/willy/idle-01.svg',
+    sprite2: '/assets/market-svg/willy/idle-02.svg',
     wikiSlug: 'characters/willy',
     ambient: [
       '*rattles happily* The bones are good today. Very good.',
@@ -323,6 +400,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Everything has a price! Even friendship! Just kidding! ...mostly!',
       'The void took my flesh but not my customer service skills!',
       '*adjusts merchandise* Best deals this side of existence!',
+      // From WILLY_EXPANDED chatbase
+      'Seven come eleven! The house always wins in the end. But today? Today you win!',
+      'My favorite customer returns! I saved the good stuff for you! Well, the okay stuff!',
+      '*hums a cheerful tune while organizing inventory*',
+      '*practices sales pitch to a rock* ...Great deal for you, Mr. Rock!',
+      '*counts gold* One... two... is that a button? Still counting!',
+      'This item was owned by a very powerful warrior! They died horribly! But that is not the item\'s fault!',
+      'I also accept trades! Relics, potions, interesting stories, spare bones...',
+      'I found this in a crater! Looks valuable! Might explode! Only one way to find out!',
+      'For you? Special price! Even more special than the special price! Ultra special!',
+      'The domains have blessed me today! A customer AND nice weather!',
+      '*rattles enthusiastically* Business is good! Or will be! Same thing!',
+      'I do not sell junk. Everything here is field-tested. By someone. Somewhere.',
     ],
     greetings: [
       'Oh! A customer! I mean, a friend! I mean, a customer-friend! Welcome, welcome!',
@@ -360,14 +450,31 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'boo-g',
     name: 'Boo G',
     portrait: '/assets/characters/portraits/240px/shop-portrait-boog-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-boo-01.svg',
+    sprite: '/assets/market-svg/boo-g/idle-01.svg',
+    sprite2: '/assets/market-svg/boo-g/idle-02.svg',
     wikiSlug: 'characters/boo-g',
     ambient: [
-      '*spectral beatboxing* The beat never dies. Like me.',
-      'Death gave me REVERB. Best thing that ever happened.',
-      'The afterlife has GREAT acoustics. Trust me.',
-      '*ghost DJ scratching* Just warming up. Always warming up.',
-      'My flow is eternal. Literally. Ghost perks.',
+      // Singles (punchy one-liners)
+      "Been dead so long I forgot how to breathe, but this mic in my hand is all that I need.",
+      "Can't pass on 'til I make that track, once it hits number one I ain't comin' back.",
+      "Death couldn't stop my grind, stuck between worlds but I don't mind.",
+      "Eternity's long but the beat goes on, still waitin' to drop that perfect song.",
+      "The reaper tried to take my voice, now we collab - that's HIS choice.",
+      "I phase through walls and phase through beats, spectral flow that can't be beat.",
+      // Couplets (two-liners for fuller performance)
+      "Droppin' bars since the dawn of time, still searchin' for that perfect rhyme.",
+      "Heaven's gate is locked up tight, won't open 'til my flow is right.",
+      "They buried me deep but I rose with the beat, now every flow I drop is eternally sweet.",
+      "The crowd goes wild even when it's just you, audience of one still gets the debut.",
+      "A thousand years and I ain't done yet, the afterlife's longest recording set.",
+      // From chatbase sources
+      "Boo! Did that scare you? No? The dice will. They always do.",
+      "A living visitor! How fun! How temporary! Just kidding. Maybe.",
+      "Ghost life got perks, never need sleep, eternal beats from the underground deep.",
+      "Spectral MC in the house tonight, drop the bass and watch it take flight.",
+      "The void tried to silence my flow, but these beats just refuse to go.",
+      "Every throw is a verse, every impact a chorus, the game itself is backing my performance.",
+      "Hauntin' these halls with sick rhyme schemes, living the afterlife of musical dreams.",
     ],
     greetings: [
       'Yo yo YO! Welcome to existence! Where the beats are spectral and the bass drops through dimensions!',
@@ -404,7 +511,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'the-general',
     name: 'The General',
     portrait: '/assets/characters/portraits/240px/shop-portrait-general-02.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-general-01.svg',
+    sprite: '/assets/market-svg/the-general/idle-01.svg',
+    sprite2: '/assets/market-svg/the-general/idle-02.svg',
     wikiSlug: 'characters/the-general',
     ambient: [
       '*checks clipboard* The roster is... acceptable.',
@@ -412,6 +520,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Every Guy I trained is either a hero or a statistic.',
       'The enemy does not rest. Neither should you.',
       '*nods curtly* Discipline wins wars.',
+      // From WANDERER_EXPANDED chatbase
+      'Watch your step. The ground here remembers meteor strikes.',
+      'The Die-rectors are watching. They always are.',
+      'I have seen many come through here. Fewer leave.',
+      'Rest if you need to. The next zone will not wait.',
+      'I wander between domains. You wander between throws. We are alike.',
+      'The road ahead is treacherous. But then, so was the road behind.',
+      'The Die-rectors favor those who adapt.',
+      'Trust the dice. Distrust everything else.',
+      'The domains used to be connected. Now they only share borders, and grudges.',
+      'The guardians were not always hostile. Something changed them.',
+      'Good throw. The planet remembers such impacts.',
+      '*assesses position* Tactical advantage noted.',
     ],
     greetings: [
       '*evaluates you* Hmm. Potential. Raw, but potential. State your business.',
@@ -448,7 +569,7 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'dr-maxwell',
     name: 'Dr. Maxwell',
     portrait: '/assets/characters/portraits/240px/shop-portrait-maxwell-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-maxwell-01.svg',
+    sprite: '/assets/market-svg/dr-maxwell/idle-01.svg',
     wikiSlug: 'characters/dr-maxwell',
     ambient: [
       '*adjusts flaming spectacles* Knowledge is combustible.',
@@ -456,6 +577,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Read faster. The books are catching fire.',
       'Enlightenment. Literally. Always literally.',
       '*pages smolder* The curriculum adapts. Or burns.',
+      // From DR_MAXWELL_EXPANDED chatbase
+      'Do you understand the MATH behind the sphere\'s quantum outcomes? Fascinating!',
+      'Your trajectory was nearly optimal! The physics are EXQUISITE!',
+      'A test subject arrives! I mean, valued participant in my ongoing research!',
+      'The probability of you arriving exactly now was 0.003%! Or maybe 73%!',
+      'The domains operate on principles I am THIS close to understanding!',
+      'The dice are not random. They are pseudo-random. The distinction is CRITICAL.',
+      'I once tried to measure The One. My equipment melted. Or never existed.',
+      'That explosion released exactly 2.7 megajoules! Or I made that number up!',
+      'Scientific advice: the guardians have a 0.3 second reaction delay.',
+      'Your bio-readings are fascinating! I have been monitoring you. For science.',
+      'The impact trajectory was exactly as I predicted! Approximately!',
+      '*scribbles notes furiously* Data! Beautiful data!',
     ],
     greetings: [
       'Welcome to The Burning Pages. Read fast or wear fireproof gloves.',
@@ -493,7 +627,7 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'xtreme',
     name: 'X-treme',
     portrait: '/assets/characters/portraits/240px/shop-portrait-xtreme-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-xtreme-01.svg',
+    sprite: '/assets/market-svg/xtreme/idle-01.svg',
     wikiSlug: 'characters/xtreme',
     ambient: [
       '*shakes dice* The odds are CALCULATING!',
@@ -501,6 +635,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Every moment is a GAMBLE! Even THIS one!',
       '*rattles excitedly* The RNG favors the BOLD!',
       'Life is RANDOM! That is the BEST part!',
+      // From CHATTER_EXTRACTED chatbase
+      'FULL SEND! High-stakes, adrenaline-fueled EXTREME DICE ACTION!',
+      'You ready to GO EXTREME? Show me what you got! No fear! Only DICE!',
+      'THAT WAS SICK! You are catching on! Keep that energy!',
+      'Big dice equal big swings! Small dice equal small certainties!',
+      'The probability of that was INCALCULABLE! Which is how I like it!',
+      '*extreme vibrating* FRESH GUY! MAXIMUM POTENTIAL!',
+      'What are the ODDS? Actually I know the odds! They are WILD!',
+      'CHAOS APPROVES! Continue with the mayhem!',
+      'Waiting is boring! Let us mutate something!',
+      'That throw violated at least three laws of physics! EXCELLENT!',
+      'Even I did not see that coming! And I never see anything coming!',
+      '*rolls imaginary dice* The EXCITEMENT never stops!',
     ],
     greetings: [
       'WELCOME TO X-TREME EXISTENCE! Where EVERYTHING is a gamble! Including being ALIVE!',
@@ -538,7 +685,7 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'mr-bones',
     name: 'Mr. Bones',
     portrait: '/assets/characters/portraits/240px/shop-portrait-mrbones-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-mrbones-01.svg',
+    sprite: '/assets/market-svg/mr-bones/idle-01.svg',
     wikiSlug: 'characters/mr-bones',
     ambient: [
       '*rattles thoughtfully* The bones remember.',
@@ -546,6 +693,20 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'I was something else once. Now I am this. Progress.',
       '*bone sounds* The universe is patient. So am I.',
       'Existence is temporary. Bones are longer.',
+      // From MR_BONES_EXPANDED chatbase
+      'Time to face the grave matters at hand. The dice fall.',
+      'You roll with the confidence of the living. I admire that. I remember confidence.',
+      'I watched the domains form. Or watched them end. The difference is perspective.',
+      'The Die-rectors believe they rule. The dice know otherwise.',
+      'I lost my flesh to Infernus. My memory to Null Providence. My heart? That I gave away freely.',
+      'Every skeleton was once someone\'s friend. Or enemy. Or both.',
+      'The guardians dream. In their dreams, they are still alive. Pity them.',
+      'Willy sells. I observe. We are both merchants of sorts.',
+      'That throw had... poetry. Destructive poetry, but poetry nonetheless.',
+      'The impact echoes through the void. Someone is listening. Someone always is.',
+      'Chaos and order dance. You lead well.',
+      '*contemplates the space between moments*',
+      '*traces patterns in the dust that may or may not be prophecy*',
     ],
     greetings: [
       '*rattles thoughtfully* Ah. Another one. Welcome to the ossuary.',
@@ -583,7 +744,7 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'dr-voss',
     name: 'Dr. Voss',
     portrait: '/assets/characters/portraits/240px/shop-portrait-voss-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-voss-02.svg',
+    sprite: '/assets/market-svg/dr-voss/idle-01.svg',
     wikiSlug: 'characters/dr-voss',
     ambient: [
       '*takes notes* Fascinating baseline readings.',
@@ -591,6 +752,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Enhancement is not optional. It is inevitable.',
       '*adjusts goggles* Your potential is... measurable.',
       'Science waits for no one. Neither do I.',
+      // From CHATTER_EXTRACTED chatbase
+      'Your fear response is predictable. Your holds demonstrate a clear weakness in risk assessment.',
+      'True control requires understanding your own psychology. Chance is merely a variable.',
+      'I have been studying your patterns. You telegraph your intentions. Consider that.',
+      'Baseline human variant. Potential for enhancement: significant.',
+      'Every subject teaches me something. You are teaching me... patience.',
+      'The void is merely uncharted territory. I chart territories.',
+      'Null Providence is my laboratory. The entire domain. Do not touch anything.',
+      '*calibrates instruments* Your metrics are... improving. Marginally.',
+      'I solve problems with SCIENCE. You look like several problems.',
+      'Field testing? Excellent data opportunity.',
+      'The experiments never stop. Neither does my curiosity.',
+      '*scribbles in notebook* Noted. Very noted.',
     ],
     greetings: [
       'Fascinating. Another specimen walks in. I mean, customer. Welcome.',
@@ -628,7 +802,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'king-james',
     name: 'King James',
     portrait: '/assets/characters/portraits/240px/shop-portrait-kingjames-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/shop-sprite-kingjames-01.svg',
+    sprite: '/assets/market-svg/king-james/idle-01.svg',
+    sprite2: '/assets/market-svg/king-james/idle-02.svg',
     wikiSlug: 'characters/king-james',
     ambient: [
       '*adjusts crown* The realm persists. As do I.',
@@ -636,6 +811,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
       'Every Guy serves the crown. Eventually.',
       '*royal gesture* The kingdom remembers all.',
       'Taxes are eternal. So is the throne.',
+      // From KING_JAMES_EXPANDED chatbase
+      'Once I had subjects. Now I have conversations. Arguably an improvement.',
+      'You stand before royalty. Fallen royalty. But royalty nonetheless.',
+      'I ruled before the Die-rectors divided the domains. Now I wander between their scraps.',
+      'Power is temporary. Style is eternal. I may have lost one. Never the other.',
+      'A secret from my reign: the guardians serve whoever holds the dice.',
+      'I once commanded armies. You could have led a battalion.',
+      'The guardian falls! A peasant could not have done better! ...Probably!',
+      'Such destruction. In my day, we called that diplomacy.',
+      'Royal wisdom: the strong guard their weaknesses. Look for what they protect.',
+      'A king\'s advice is worth kingdoms. This one is free: patience defeats panic.',
+      '*examines throne* The void cannot claim what refuses to be forgotten.',
+      'My favorite commoner returns! That is a compliment. I do not use it lightly.',
     ],
     greetings: [
       'A subject approaches. Kneel. Or do not. I am feeling generous.',
@@ -691,4 +879,307 @@ export function getRandomGreeting(greeter: HomeGreeter): string {
 export function getRandomFarewell(greeter: HomeGreeter, route: 'play' | 'wiki' | 'about'): string {
   const farewells = greeter.farewells[route];
   return farewells[Math.floor(Math.random() * farewells.length)];
+}
+
+// ============================================
+// GREETER-DOMAIN MAPPING
+// ============================================
+
+/**
+ * Domain slug to display name mapping
+ */
+export const DOMAIN_DISPLAY_NAMES: Record<string, string> = {
+  'earth': 'Earth',
+  'frost-reach': 'Frost Reach',
+  'infernus': 'Infernus',
+  'shadow-keep': 'Shadow Keep',
+  'null-providence': 'Null Providence',
+  'aberrant': 'Aberrant',
+};
+
+/**
+ * Maps greeter ID to their home domain slug
+ * Derived from wiki locations/origin data
+ */
+export const GREETER_DOMAINS: Record<string, string> = {
+  'stitch-up-girl': 'shadow-keep',
+  'keith-man': 'frost-reach',
+  'mr-kevin': 'earth',
+  'clausen': 'earth',
+  'body-count': 'aberrant',
+  'boots': 'aberrant',
+  'willy': 'roaming', // Special case - picks random domain
+  'boo-g': 'aberrant',
+  'the-general': 'shadow-keep',
+  'dr-maxwell': 'infernus',
+  'xtreme': 'earth',
+  'mr-bones': 'frost-reach',
+  'dr-voss': 'null-providence',
+  'king-james': 'null-providence',
+};
+
+/**
+ * Per-greeter chance of enemy interrupt at each checkpoint (0-1)
+ * Some characters attract more trouble than others
+ * Checkpoints occur at ambient indices 1, 3, 5, 7, 9
+ */
+export const GREETER_INTERRUPT_CHANCE: Record<string, number> = {
+  'stitch-up-girl': 0.50, // High - Shadow Keep is crawling
+  'keith-man': 0.40,      // Moderate - too fast but still gets caught
+  'mr-kevin': 0.35,       // Moderate - reality glitches attract pests
+  'clausen': 0.55,        // Very high - trouble finds him
+  'body-count': 0.45,     // High - death attracts death
+  'boots': 0.60,          // Very high - chaos magnet
+  'willy': 0.45,          // High - merchant attracts all sorts
+  'boo-g': 0.50,          // High - ghosts attract everything
+  'the-general': 0.55,    // Very high - battlefield never sleeps
+  'dr-maxwell': 0.60,     // Very high - Infernus is wild
+  'xtreme': 0.65,         // Extremely high - pure chaos
+  'mr-bones': 0.35,       // Moderate - Frost Reach stirs sometimes
+  'dr-voss': 0.45,        // High - experiments escape
+  'king-james': 0.50,     // High - void creatures serve the crown
+};
+
+// ============================================
+// ENEMY INTERRUPT SYSTEM
+// ============================================
+
+export interface EnemyInterrupt {
+  enemySlug: string;
+  enemyName: string;
+  sprite: string;
+  action: string;        // What the enemy does (italic action text)
+  reactions: string[];   // Character's possible responses
+}
+
+/**
+ * Per-domain pools of low-level enemies that can interrupt
+ */
+export const DOMAIN_INTERRUPTS: Record<string, EnemyInterrupt[]> = {
+  'earth': [
+    {
+      enemySlug: 'cow',
+      enemyName: 'Wandering Cow',
+      sprite: '/assets/enemies-svg/cow.svg',
+      action: '*moos and ambles past*',
+      reactions: [
+        'The cows here are... persistent.',
+        'Ignore that. Standard Earth fauna.',
+        'They are harmless. Mostly.',
+      ],
+    },
+    {
+      enemySlug: 'crab',
+      enemyName: 'Scuttling Crab',
+      sprite: '/assets/enemies-svg/crab.svg',
+      action: '*clicks claws menacingly*',
+      reactions: [
+        'The crabs are feeling bold today.',
+        'Do not make sudden movements.',
+        'They pinch. Trust me on that.',
+      ],
+    },
+    {
+      enemySlug: 'myconid',
+      enemyName: 'Curious Myconid',
+      sprite: '/assets/enemies-svg/myconid.svg',
+      action: '*releases spores and waddles away*',
+      reactions: [
+        'The mushrooms are restless.',
+        'Do not breathe that in.',
+        'Spore season. Lovely.',
+      ],
+    },
+  ],
+  'frost-reach': [
+    {
+      enemySlug: 'ice-wraith',
+      enemyName: 'Ice Wraith',
+      sprite: '/assets/enemies-svg/ice-wraith.svg',
+      action: '*drifts through silently*',
+      reactions: [
+        'The wraiths are restless today.',
+        'Frost Reach hospitality.',
+        'They drift. It is what they do.',
+      ],
+    },
+    {
+      enemySlug: 'frost-giant-i',
+      enemyName: 'Young Frost Giant',
+      sprite: '/assets/enemies-svg/frost-giant-i.svg',
+      action: '*stomps past in the distance*',
+      reactions: [
+        'The giants are migrating. Standard.',
+        'Stay out of their path.',
+        'They are mostly peaceful. MOSTLY.',
+      ],
+    },
+  ],
+  'infernus': [
+    {
+      enemySlug: 'camel',
+      enemyName: 'Blazing Camel',
+      sprite: '/assets/enemies-svg/camel.svg',
+      action: '*spits embers nearby*',
+      reactions: [
+        'Ignore that. They do that.',
+        'Camels here are... temperamental.',
+        'See? This is what I deal with.',
+      ],
+    },
+    {
+      enemySlug: 'fire-imp',
+      enemyName: 'Fire Imp',
+      sprite: '/assets/enemies-svg/fire-imp.svg',
+      action: '*giggles and scampers off*',
+      reactions: [
+        'Little pest.',
+        'They are everywhere lately.',
+        'Do not make eye contact.',
+      ],
+    },
+    {
+      enemySlug: 'lava-golem',
+      enemyName: 'Lava Golem',
+      sprite: '/assets/enemies-svg/lava-golem.svg',
+      action: '*trudges past, dripping magma*',
+      reactions: [
+        'Watch the floor. Magma stains.',
+        'The golems are active today.',
+        'Stay clear of the drippings.',
+      ],
+    },
+  ],
+  'shadow-keep': [
+    {
+      enemySlug: 'bat',
+      enemyName: 'Shadow Bat',
+      sprite: '/assets/enemies-svg/bat.svg',
+      action: '*flutters past overhead*',
+      reactions: [
+        'The bats are restless today.',
+        'Shadow Keep wildlife. Charming.',
+        'Nothing to worry about. Probably.',
+      ],
+    },
+    {
+      enemySlug: 'skeleton-archer',
+      enemyName: 'Skeleton Archer',
+      sprite: '/assets/enemies-svg/skeleton-archer.svg',
+      action: '*rattles past on patrol*',
+      reactions: [
+        'The patrols never stop here.',
+        'Just keep talking. They ignore civilians.',
+        'Shadow Keep security. Very thorough.',
+      ],
+    },
+    {
+      enemySlug: 'skeleton-barb',
+      enemyName: 'Skeleton Barbarian',
+      sprite: '/assets/enemies-svg/skeleton-barb.svg',
+      action: '*charges through, chasing something*',
+      reactions: [
+        'They are always chasing something.',
+        'The undead are restless today.',
+        'Standard Keep behavior.',
+      ],
+    },
+  ],
+  'null-providence': [
+    {
+      enemySlug: 'void-spawn',
+      enemyName: 'Void Spawn',
+      sprite: '/assets/enemies-svg/void-spawn.svg',
+      action: '*phases in and out of existence*',
+      reactions: [
+        'The void leaks. It does that.',
+        'Reality is... flexible here.',
+        'Do not stare directly at it.',
+      ],
+    },
+    {
+      enemySlug: 'time-scavenger',
+      enemyName: 'Time Scavenger',
+      sprite: '/assets/enemies-svg/time-scavenger.svg',
+      action: '*skitters past, rewinding its steps*',
+      reactions: [
+        'Time moves differently for them.',
+        'The scavengers are hunting again.',
+        'They are harmless. To us. For now.',
+      ],
+    },
+    {
+      enemySlug: 'time-elemental',
+      enemyName: 'Time Elemental',
+      sprite: '/assets/enemies-svg/time-elemental.svg',
+      action: '*flickers between moments*',
+      reactions: [
+        'Temporal interference. Normal here.',
+        'The elementals are agitated.',
+        'Best not to think about causality.',
+      ],
+    },
+  ],
+  'aberrant': [
+    {
+      enemySlug: 'chicken',
+      enemyName: 'Mutant Chicken',
+      sprite: '/assets/enemies-svg/chicken.svg',
+      action: '*clucks aggressively and struts past*',
+      reactions: [
+        'The chickens here are... different.',
+        'Do not underestimate them.',
+        'Aberrant wildlife. Delightful.',
+      ],
+    },
+    {
+      enemySlug: 'carniflower',
+      enemyName: 'Carniflower',
+      sprite: '/assets/enemies-svg/carniflower.svg',
+      action: '*snaps hungrily at the air*',
+      reactions: [
+        'The plants are hungry today.',
+        'Keep your fingers clear.',
+        'Nature, but angrier.',
+      ],
+    },
+    {
+      enemySlug: 'spore-cloud',
+      enemyName: 'Spore Cloud',
+      sprite: '/assets/enemies-svg/spore-cloud.svg',
+      action: '*drifts past ominously*',
+      reactions: [
+        'Hold your breath.',
+        'The spores are migrating.',
+        'Aberrant air quality. Typical.',
+      ],
+    },
+    {
+      enemySlug: 'twisted-sapling',
+      enemyName: 'Twisted Sapling',
+      sprite: '/assets/enemies-svg/twisted-sapling.svg',
+      action: '*creaks and shuffles by*',
+      reactions: [
+        'The trees walk here. You get used to it.',
+        'Aberrant forestry.',
+        'They are just curious. Probably.',
+      ],
+    },
+  ],
+};
+
+/**
+ * Get a random interrupt for a domain
+ */
+export function getRandomInterrupt(domain: string): EnemyInterrupt | null {
+  const pool = DOMAIN_INTERRUPTS[domain];
+  if (!pool || pool.length === 0) return null;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/**
+ * Get a random reaction from an interrupt
+ */
+export function getRandomReaction(interrupt: EnemyInterrupt): string {
+  return interrupt.reactions[Math.floor(Math.random() * interrupt.reactions.length)];
 }

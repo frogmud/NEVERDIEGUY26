@@ -49,6 +49,7 @@ import {
   logDefeat,
 } from '../utils/telemetry';
 import { getBonusesFromInventory } from '../data/items/combat-effects';
+import { getEarlyFinishBonus } from '../data/balance-config';
 
 // Combat system types from ai-engine
 import type {
@@ -77,9 +78,27 @@ export interface RunCombatState {
   turnNumber: number;
   enemiesSquished: number;
   friendlyHits: number;
+  // Time pressure system (turn-based decay)
+  timePressureMultiplier?: number;  // 0.60-1.00, score decay multiplier
+  isGracePeriod?: boolean;          // True during first 2 turns (no decay)
   // Grid/entity references (non-serializable, regenerated on load)
   gridRef?: GridState;
   entitiesRef?: EntityMap;
+}
+
+// Victory data to be applied atomically during transition
+export interface PendingVictory {
+  score: number;
+  gold: number;
+  turnsRemaining: number;  // For early finish bonus calculation
+  stats: { npcsSquished: number; diceThrown: number };
+}
+
+// Early finish bonus info (for victory screen)
+export interface RoomBonus {
+  turnsRemaining: number;
+  bonusMultiplier: number;  // e.g., 1.3 = 30% bonus
+  bonusGold: number;        // Just the bonus portion
 }
 
 // Extended run state with center panel
@@ -87,15 +106,20 @@ export interface RunState extends GameState {
   centerPanel: CenterPanel;
   transitionPhase: TransitionPhase;
   pendingPanel: CenterPanel | null; // Panel to switch to after wipe
+  pendingVictory: PendingVictory | null; // Victory data to apply when transition completes
   domainState: DomainState | null;
   selectedZone: ZoneMarker | null;
   lastRoomScore: number;
   lastRoomGold: number;
+  lastRoomBonus: RoomBonus | null;  // Early finish bonus info for UI
   runEnded: boolean;
   // Combat integration
   combatState: RunCombatState | null;
   // Practice mode (Battle Now) - single combat, no progression
   practiceMode: boolean;
+  // Flume transition (domain-to-domain)
+  showingFlume: boolean;
+  flumeToDomain: number | null;  // Target domain for flume
 }
 
 // Run context value
@@ -123,6 +147,7 @@ interface RunContextValue {
   selectZone: (zone: ZoneMarker) => void;
 
   // Combat callbacks
+  setPendingVictory: (payload: PendingVictory) => void;
   completeRoom: (score: number, gold: number, stats: { npcsSquished: number; diceThrown: number }) => void;
   failRoom: () => void;
 
@@ -141,6 +166,9 @@ interface RunContextValue {
 
   // Summary continue
   continueFromSummary: () => void;
+
+  // Flume transitions
+  completeFlumeTransition: () => void;
 
   // Run persistence
   loadRun: () => boolean;
@@ -170,7 +198,10 @@ type RunAction =
   | { type: 'TOGGLE_HOLD_DIE'; dieId: string }
   | { type: 'THROW_DICE'; rollResults: Die[] }
   | { type: 'END_COMBAT_TURN' }
-  | { type: 'UPDATE_COMBAT_SCORE'; score: number; enemiesSquished?: number; friendlyHits?: number };
+  | { type: 'UPDATE_COMBAT_SCORE'; score: number; enemiesSquished?: number; friendlyHits?: number }
+  | { type: 'SET_PENDING_VICTORY'; payload: PendingVictory }
+  // Flume transition
+  | { type: 'COMPLETE_FLUME_TRANSITION' };
 
 // Initial state
 function createInitialRunState(): RunState {
@@ -179,13 +210,17 @@ function createInitialRunState(): RunState {
     centerPanel: 'globe',
     transitionPhase: 'idle',
     pendingPanel: null,
+    pendingVictory: null,
     domainState: generateDomain(1),
     selectedZone: null,
     lastRoomScore: 0,
     lastRoomGold: 0,
+    lastRoomBonus: null,
     runEnded: false,
     combatState: null,
     practiceMode: false,
+    showingFlume: false,
+    flumeToDomain: null,
   };
 }
 
@@ -206,14 +241,64 @@ function runReducer(state: RunState, action: RunAction): RunState {
         pendingPanel: action.panel,
       };
 
-    case 'COMPLETE_TRANSITION':
+    case 'COMPLETE_TRANSITION': {
       // Wipe completed - swap to pending panel and reset transition state
-      return {
+      const newState = {
         ...state,
         centerPanel: state.pendingPanel || state.centerPanel,
-        transitionPhase: 'idle',
+        transitionPhase: 'idle' as const,
         pendingPanel: null,
       };
+
+      // If transitioning to summary with pending victory, apply it atomically
+      // This prevents the double-render flicker (RunSummary gets all data in one render)
+      if (state.pendingPanel === 'summary' && state.pendingVictory) {
+        // Mark zone as cleared in domain state
+        const updatedDomainState = state.domainState && state.selectedZone
+          ? {
+              ...state.domainState,
+              zones: state.domainState.zones.map((z) =>
+                z.id === state.selectedZone?.id ? { ...z, cleared: true } : z
+              ),
+              clearedCount: state.domainState.clearedCount + 1,
+            }
+          : state.domainState;
+
+        // Calculate early finish bonus
+        const turnsRemaining = state.pendingVictory.turnsRemaining;
+        const bonusMultiplier = getEarlyFinishBonus(turnsRemaining);
+        const baseGold = state.pendingVictory.gold;
+        const totalGold = Math.floor(baseGold * bonusMultiplier);
+        const bonusGold = totalGold - baseGold;
+
+        // Store bonus info for UI (only if there's a bonus)
+        const roomBonus: RoomBonus | null = turnsRemaining > 0 ? {
+          turnsRemaining,
+          bonusMultiplier,
+          bonusGold,
+        } : null;
+
+        return {
+          ...newState,
+          domainState: updatedDomainState,
+          selectedZone: null,
+          lastRoomScore: state.pendingVictory.score,
+          lastRoomGold: totalGold,
+          lastRoomBonus: roomBonus,
+          totalScore: state.totalScore + state.pendingVictory.score,
+          gold: state.gold + totalGold,
+          pendingVictory: null,
+          runStats: {
+            ...state.runStats,
+            npcsSquished: state.runStats.npcsSquished + state.pendingVictory.stats.npcsSquished,
+            diceThrown: state.runStats.diceThrown + state.pendingVictory.stats.diceThrown,
+            eventsCompleted: state.runStats.eventsCompleted + 1,
+          },
+        };
+      }
+
+      return newState;
+    }
 
     case 'START_RUN': {
       const threadStartEvent = createThreadStartEvent(
@@ -483,7 +568,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
         };
       }
 
-      // Next domain - generate new zones, back to globe
+      // Next domain - advance directly
       return {
         ...state,
         centerPanel: 'globe',
@@ -514,6 +599,12 @@ function runReducer(state: RunState, action: RunAction): RunState {
     // ============================================
     // Combat Actions
     // ============================================
+
+    case 'SET_PENDING_VICTORY':
+      return {
+        ...state,
+        pendingVictory: action.payload,
+      };
 
     case 'INIT_COMBAT':
       return {
@@ -687,6 +778,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SELECT_ZONE', zone });
   }, []);
 
+  const setPendingVictory = useCallback((payload: PendingVictory) => {
+    dispatch({ type: 'SET_PENDING_VICTORY', payload });
+  }, []);
+
   const completeRoom = useCallback((score: number, gold: number, stats: { npcsSquished: number; diceThrown: number }) => {
     // Log room clear
     const domain = state.currentDomain || 1;
@@ -782,6 +877,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'CONTINUE_FROM_SUMMARY' });
   }, []);
 
+  const completeFlumeTransition = useCallback(() => {
+    dispatch({ type: 'COMPLETE_FLUME_TRANSITION' });
+  }, []);
+
   // Load saved run from localStorage
   const loadRun = useCallback(() => {
     const savedRun = loadSavedRun();
@@ -845,6 +944,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     endRun,
     resetRun,
     selectZone,
+    setPendingVictory,
     completeRoom,
     failRoom,
     initCombat,
@@ -855,6 +955,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     continueFromShop,
     selectDoor,
     continueFromSummary,
+    completeFlumeTransition,
     loadRun,
     hasSavedRun: checkHasSavedRun,
   }), [
@@ -870,6 +971,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     endRun,
     resetRun,
     selectZone,
+    setPendingVictory,
     completeRoom,
     failRoom,
     initCombat,
@@ -880,6 +982,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     continueFromShop,
     selectDoor,
     continueFromSummary,
+    completeFlumeTransition,
     loadRun,
     checkHasSavedRun,
   ]);

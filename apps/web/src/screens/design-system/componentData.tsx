@@ -866,15 +866,6 @@ const MarketSpritePreview = () => (
   </Stack>
 );
 
-const LottieOverlayPreview = () => (
-  <Box sx={{ position: 'relative', width: 40, height: 40 }}>
-    <Box sx={{ width: 40, height: 40, bgcolor: tokens.colors.background.elevated, borderRadius: 0.5, opacity: 0.5 }} />
-    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 24, height: 24, borderRadius: '50%', border: `2px solid ${tokens.colors.warning}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <StarIcon sx={{ fontSize: 12, color: tokens.colors.warning }} />
-    </Box>
-  </Box>
-);
-
 const LuckyNumberPickerPreview = () => (
   <Stack direction="row" spacing={0.5}>
     {[1, 2, 3].map((n) => (
@@ -1341,13 +1332,6 @@ export const componentRegistry: ComponentInfo[] = [
     category: 'Game UI',
     description: 'Market character sprite with animation',
     preview: <MarketSpritePreview />,
-  },
-  {
-    id: 'lottie-overlay',
-    name: 'LottieOverlay',
-    category: 'Game UI',
-    description: 'Animated Lottie effect overlay',
-    preview: <LottieOverlayPreview />,
   },
   {
     id: 'lucky-number-picker',

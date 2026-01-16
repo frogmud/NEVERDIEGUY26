@@ -3,6 +3,31 @@
  *
  * All tunable game values in one place for easy iteration.
  * Round 31: Polish & Balance Pass
+ *
+ * === BALANCE PHILOSOPHY ===
+ *
+ * CORE DESIGN PILLARS:
+ * 1. Meaningful Choices > Optimal Paths - Every decision should feel like a trade-off
+ * 2. Skill Expression Through Dice Management - The throw/trade system is the heartbeat
+ * 3. Readable Difficulty Curve - Players should FEEL domains getting harder, not hit walls
+ * 4. Economy as Pacing Mechanism - Gold controls tempo of power acquisition
+ *
+ * THE THREE LEVERS:
+ * 1. Action Economy - Throws/turn, trades/turn, hand size (never give free actions!)
+ * 2. Point Generation - Die values, score multiplier, element bonus (cap multiplicative!)
+ * 3. Resource Pressure - Integrity damage, gold costs, satchel capacity
+ *
+ * RED FLAGS TO WATCH:
+ * - "Always X" strategies (remove choice or rebalance)
+ * - Empty shops (prices too low or gold too high)
+ * - Inventory hoarding (consumables too precious or too weak)
+ * - Skip spam (small room rewards too low)
+ * - One-shot builds (cap problematic interactions)
+ *
+ * CURRENT CONCERNS (from senior dev review):
+ * - Domain 6 score goal may need tuning if time pressure adds too much
+ * - Lucky #7 is powerful; monitor for overuse
+ * - Starting gold 100g is intentionally tight
  */
 
 // ============================================================
@@ -261,6 +286,94 @@ export const INTEGRITY_CONFIG = {
 } as const;
 
 // ============================================================
+// TIME PRESSURE SYSTEM
+// Creates urgency during combat - score multiplier decays after grace period
+// ============================================================
+
+export interface TimerConfig {
+  /** Turns before decay starts (grace period) */
+  graceTurns: number;
+  /** Score multiplier reduction per turn after grace (-5% = 0.05) */
+  decayPerTurn: number;
+  /** Minimum multiplier floor (can't go below 60%) */
+  minMultiplier: number;
+  /** Bonus multiplier per unused turn on victory (+10% = 0.10) */
+  earlyFinishBonus: number;
+}
+
+export const TIMER_CONFIG: TimerConfig = {
+  graceTurns: 2,
+  decayPerTurn: 0.05,
+  minMultiplier: 0.60,
+  earlyFinishBonus: 0.10,
+};
+
+/**
+ * Room-type specific overrides for timer config
+ * - Elite: Slightly lower floor (0.55)
+ * - Boss: More grace (3 turns), slower decay, lower floor (0.50)
+ */
+export const TIMER_CONFIG_BY_ROOM: Record<
+  'normal' | 'elite' | 'boss',
+  Partial<TimerConfig>
+> = {
+  normal: {},
+  elite: { minMultiplier: 0.55 },
+  boss: { graceTurns: 3, decayPerTurn: 0.04, minMultiplier: 0.50 },
+};
+
+export type RoomType = 'normal' | 'elite' | 'boss';
+
+/**
+ * Get merged timer config for a room type
+ */
+export function getTimerConfigForRoom(roomType: RoomType): TimerConfig {
+  return { ...TIMER_CONFIG, ...TIMER_CONFIG_BY_ROOM[roomType] };
+}
+
+/**
+ * Calculate time pressure multiplier for current turn
+ * @param turnNumber - Current turn (1-indexed)
+ * @param roomType - Room type for config lookup
+ * @returns Multiplier between minMultiplier and 1.0
+ */
+export function getTimePressureMultiplier(
+  turnNumber: number,
+  roomType: RoomType = 'normal'
+): number {
+  const config = getTimerConfigForRoom(roomType);
+
+  if (turnNumber <= config.graceTurns) {
+    return 1.0;
+  }
+
+  const decayTurns = turnNumber - config.graceTurns;
+  const decay = decayTurns * config.decayPerTurn;
+
+  return Math.max(config.minMultiplier, 1.0 - decay);
+}
+
+/**
+ * Calculate early finish bonus multiplier
+ * @param turnsRemaining - Unused turns at victory
+ * @returns Bonus multiplier (1.0 = no bonus, 1.3 = 30% bonus)
+ */
+export function getEarlyFinishBonus(turnsRemaining: number): number {
+  return 1.0 + turnsRemaining * TIMER_CONFIG.earlyFinishBonus;
+}
+
+/**
+ * Check if currently in grace period
+ */
+export function isInGracePeriod(
+  turnNumber: number,
+  roomType: RoomType = 'normal'
+): boolean {
+  const config = getTimerConfigForRoom(roomType);
+  return turnNumber <= config.graceTurns;
+}
+
+// ============================================================
 // EXPORT ALL FOR EASY ACCESS
 // ============================================================
 
@@ -273,4 +386,5 @@ export const BALANCE = {
   gold: GOLD_REWARDS,
   integrity: INTEGRITY_CONFIG,
   lucky: LUCKY_SYNERGY,
+  timer: TIMER_CONFIG,
 } as const;

@@ -1,7 +1,6 @@
 import { Box, Button, Paper, Typography, keyframes } from '@mui/material';
 import { tokens } from '../../../theme';
 import { getRandomQuip } from '../../../data/quips';
-import { LottieTrigger } from '../../../components/LottieOverlay';
 import { useMemo, useState, useEffect } from 'react';
 
 // Gaming font style
@@ -116,15 +115,17 @@ export function GameOverModal({
         // When contained, parent handles the overlay; otherwise use our own
         bgcolor: contained ? 'transparent' : bgColor,
         display: 'flex',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 4,
         zIndex: contained ? 100 : 1300,
         p: 3,
         cursor: onClose ? 'pointer' : 'default',
+        overflow: 'auto',
       }}
     >
-      {/* Stats Modal Card (Left) - stage 1 with slide up */}
+      {/* Stats Modal Card - left side */}
       <Paper
         onClick={(e) => e.stopPropagation()}
         sx={{
@@ -162,9 +163,8 @@ export function GameOverModal({
             <StatBox label="Most Rolled" value={stats.mostRolled} />
             <StatBox label="Dice Rolled" value={stats.diceRolled.toString()} color={tokens.colors.secondary} />
             <StatBox label="Domains" value={stats.domains.toString()} />
-            <StatBox label="Reloads" value={stats.reloads.toString()} color={tokens.colors.warning} />
-            <StatBox label="Rooms" value={stats.rooms.toString()} />
             <StatBox label="Purchases" value={stats.purchases.toString()} color="#C4A000" />
+            <StatBox label="Events" value={stats.rooms.toString()} />
             {!isWin && stats.killedBy && (
               <Box sx={{ gridColumn: '1 / -1' }}>
                 <StatBox label="Killed By" value={stats.killedBy} fullWidth />
@@ -230,7 +230,7 @@ export function GameOverModal({
         </Box>
       </Paper>
 
-      {/* Skull + Speech Bubble (Right) - fixed layout so elements don't shift */}
+      {/* Skull + Speech Bubble - right side, vertically centered */}
       <Box
         onClick={(e) => e.stopPropagation()}
         sx={{
@@ -239,24 +239,8 @@ export function GameOverModal({
           height: 240,
           flexShrink: 0,
           cursor: 'default',
-          alignSelf: 'flex-end', // Position at bottom so it doesn't cover vital info
         }}
       >
-        {/* Confetti behind skull - stage 2 */}
-        {stage >= 2 && (
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: 70,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 0,
-            }}
-          >
-            <LottieTrigger type="confetti" trigger={1} size={300} />
-          </Box>
-        )}
-
         {/* Speech Bubble - stage 3, positioned above skull */}
         <Paper
           sx={{
@@ -275,19 +259,6 @@ export function GameOverModal({
             justifyContent: 'center',
             opacity: stage >= 3 ? 1 : 0,
             zIndex: 2,
-            // Speech bubble tail
-            '&::after': {
-              content: '""',
-              position: 'absolute',
-              bottom: -12,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 0,
-              height: 0,
-              borderLeft: '12px solid transparent',
-              borderRight: '12px solid transparent',
-              borderTop: '12px solid #fff',
-            },
           }}
         >
           <Typography

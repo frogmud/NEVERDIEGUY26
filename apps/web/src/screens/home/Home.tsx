@@ -7,20 +7,11 @@
  * NEVER DIE GUY
  */
 
-import { useMemo } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { tokens } from '../../theme';
 import { HomeChatter } from '../../components/HomeChatter';
 
-// Generate a random 5-digit player number
-function generatePlayerNumber(): string {
-  return String(Math.floor(10000 + Math.random() * 90000));
-}
-
 export function Home() {
-  // Generate player number once on mount
-  const playerNumber = useMemo(() => generatePlayerNumber(), []);
-
   return (
     <Box
       sx={{
@@ -33,19 +24,6 @@ export function Home() {
         bgcolor: tokens.colors.background.default,
       }}
     >
-      {/* Welcome message */}
-      <Typography
-        sx={{
-          fontFamily: tokens.fonts.gaming,
-          fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.1rem' },
-          color: tokens.colors.text.secondary,
-          mb: 4,
-          letterSpacing: '0.05em',
-        }}
-      >
-        welcome neverdieguy#{playerNumber}
-      </Typography>
-
       <HomeChatter />
     </Box>
   );

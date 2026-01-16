@@ -358,6 +358,9 @@ export function WikiIndex() {
     '& th': { borderColor: tokens.colors.border, bgcolor: tokens.colors.background.elevated, height: 48 },
   };
 
+  // Check if any filters are active
+  const hasActiveFilters = Object.values(filters).some(v => v !== null && v !== '');
+
   // Filter dropdowns for current tab
   const renderFilters = () => {
     const tabFilters = FILTER_OPTIONS[activeTab];
@@ -403,6 +406,21 @@ export function WikiIndex() {
             </Select>
           </FormControl>
         ))}
+        {hasActiveFilters && (
+          <Typography
+            component="span"
+            onClick={() => setFilters({})}
+            sx={{
+              color: tokens.colors.text.disabled,
+              fontSize: '0.875rem',
+              cursor: 'pointer',
+              ml: 1,
+              '&:hover': { color: tokens.colors.text.secondary },
+            }}
+          >
+            Clear
+          </Typography>
+        )}
       </Box>
     );
   };

@@ -12,14 +12,27 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, Link, keyframes } from '@mui/material';
+import { Box, Typography, Button, keyframes } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { tokens } from '../theme';
 import {
   getRandomGreeter,
   getRandomGreeting,
+  GREETER_DOMAINS,
+  GREETER_INTERRUPT_CHANCE,
+  DOMAIN_INTERRUPTS,
+  DOMAIN_DISPLAY_NAMES,
+  getRandomInterrupt,
+  getRandomReaction,
   type HomeGreeter,
+  type EnemyInterrupt,
 } from '../data/home-greeters';
+
+// Generate a random 9-digit player number (zero-padded)
+function generatePlayerNumber(): string {
+  const num = Math.floor(1 + Math.random() * 999999999);
+  return String(num).padStart(9, '0');
+}
 
 // ============================================
 // Animations
@@ -71,6 +84,9 @@ const FALLBACK_AMBIENT = [
 // Component
 // ============================================
 
+// All domain keys for random selection (roaming characters)
+const DOMAIN_KEYS = Object.keys(DOMAIN_INTERRUPTS);
+
 export function HomeChatter() {
   const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -78,6 +94,22 @@ export function HomeChatter() {
   // Pick random greeter and greeting on mount
   const greeter = useMemo<HomeGreeter>(() => getRandomGreeter(), []);
   const initialGreeting = useMemo<string>(() => getRandomGreeting(greeter), [greeter]);
+
+  // Generate player number once
+  const playerNumber = useMemo(() => generatePlayerNumber(), []);
+
+  // Derive domain for this greeter (handle "roaming" special case)
+  const greeterDomain = useMemo(() => {
+    const domain = GREETER_DOMAINS[greeter.id] || 'earth';
+    if (domain === 'roaming') {
+      // Pick random domain for roaming characters like Willy
+      return DOMAIN_KEYS[Math.floor(Math.random() * DOMAIN_KEYS.length)];
+    }
+    return domain;
+  }, [greeter.id]);
+
+  // Get display name for domain
+  const domainDisplayName = DOMAIN_DISPLAY_NAMES[greeterDomain] || greeterDomain;
 
   // Messages state - starts with initial greeting
   const [messages, setMessages] = useState<string[]>([initialGreeting]);
@@ -90,6 +122,23 @@ export function HomeChatter() {
 
   // Sprite frame toggle (swaps when talking)
   const [spriteFrame, setSpriteFrame] = useState(1);
+
+  // Enemy interrupt state - checkpoints based on dice sides (d4, d6, d8, d10, d12)
+  // Interrupts can happen at ambient indices 1, 3, 5, 7, 9 (every other starting at 1)
+  const INTERRUPT_CHECKPOINTS = [1, 3, 5, 7, 9];
+  const [usedCheckpoints, setUsedCheckpoints] = useState<Set<number>>(new Set());
+  const [pendingInterrupt, setPendingInterrupt] = useState<EnemyInterrupt | null>(null);
+
+  // Safety timeout - clear pendingInterrupt if stuck for > 10 seconds
+  // This prevents the interrupt flow from getting permanently blocked
+  useEffect(() => {
+    if (pendingInterrupt) {
+      const safetyTimer = setTimeout(() => {
+        setPendingInterrupt(null);
+      }, 10000);
+      return () => clearTimeout(safetyTimer);
+    }
+  }, [pendingInterrupt]);
 
   // Initial animation sequence
   useEffect(() => {
@@ -116,12 +165,95 @@ export function HomeChatter() {
   }, [greeter.sprite2]);
 
   // Get ambient messages for this greeter (character-specific or fallback)
-  const ambientMessages = greeter.ambient?.length ? greeter.ambient : FALLBACK_AMBIENT;
+  // Filter to remove duplicates, shuffle for variety
+  const ambientMessages = useMemo(() => {
+    const source = greeter.ambient?.length ? greeter.ambient : FALLBACK_AMBIENT;
+    // Remove messages that overlap with greeting
+    const filtered = source.filter((msg, i) => {
+      // Skip if exact match with greeting
+      if (msg === initialGreeting) return false;
+      // Skip if ambient is contained in greeting (e.g., greeting ends with this phrase)
+      if (initialGreeting.includes(msg)) return false;
+      // Skip if greeting is contained in ambient
+      if (msg.includes(initialGreeting)) return false;
+      // Skip if same as previous message in the array
+      if (i > 0 && msg === source[i - 1]) return false;
+      return true;
+    });
+    // Shuffle for variety (Fisher-Yates)
+    const shuffled = [...filtered];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, [greeter.ambient, initialGreeting]);
 
-  // Ambient message cycle
+  // Get interrupt chance for this greeter
+  const interruptChance = GREETER_INTERRUPT_CHANCE[greeter.id] || 0.2;
+
+  // Ambient message cycle with interrupt support at dice-based checkpoints
   useEffect(() => {
     if (ambientIndex >= ambientMessages.length) return;
 
+    // Check for interrupt at checkpoint indices (1, 3, 5, 7, 9)
+    const isCheckpoint = INTERRUPT_CHECKPOINTS.includes(ambientIndex);
+    const checkpointUsed = usedCheckpoints.has(ambientIndex);
+    const shouldTryInterrupt = isCheckpoint && !checkpointUsed;
+    const interruptRoll = shouldTryInterrupt ? Math.random() : 1;
+    const willInterrupt = interruptRoll < interruptChance;
+
+    if (willInterrupt && !pendingInterrupt) {
+      // Get a random enemy interrupt for this domain
+      const interrupt = getRandomInterrupt(greeterDomain);
+      if (interrupt) {
+        setPendingInterrupt(interrupt);
+        setUsedCheckpoints(prev => new Set([...prev, ambientIndex]));
+
+        // Show typing, then enemy action
+        const typingTimer = setTimeout(() => {
+          setIsTyping(true);
+        }, 2500 + ambientIndex * 1500);
+
+        // Show enemy action
+        const enemyTimer = setTimeout(() => {
+          setIsTyping(false);
+          setMessages(prev => [...prev, interrupt.action]);
+          // Twitch sprite (reacting to enemy)
+          if (greeter.sprite2) {
+            setSpriteFrame(2);
+            setTimeout(() => setSpriteFrame(1), 150);
+          }
+        }, 4000 + ambientIndex * 1500);
+
+        // Show character reaction after enemy
+        const reactionTimer = setTimeout(() => {
+          setIsTyping(true);
+        }, 5000 + ambientIndex * 1500);
+
+        const reactionMsgTimer = setTimeout(() => {
+          setIsTyping(false);
+          const reaction = getRandomReaction(interrupt);
+          setMessages(prev => [...prev, reaction]);
+          setPendingInterrupt(null);
+          setAmbientIndex(prev => prev + 1);
+          // Twitch sprite when speaking
+          if (greeter.sprite2) {
+            setSpriteFrame(2);
+            setTimeout(() => setSpriteFrame(1), 150);
+          }
+        }, 6500 + ambientIndex * 1500);
+
+        return () => {
+          clearTimeout(typingTimer);
+          clearTimeout(enemyTimer);
+          clearTimeout(reactionTimer);
+          clearTimeout(reactionMsgTimer);
+        };
+      }
+    }
+
+    // Normal ambient flow (no interrupt)
     // Show typing indicator after delay
     const typingTimer = setTimeout(() => {
       setIsTyping(true);
@@ -130,7 +262,16 @@ export function HomeChatter() {
     // Add message after typing
     const messageTimer = setTimeout(() => {
       setIsTyping(false);
-      setMessages(prev => [...prev, ambientMessages[ambientIndex]]);
+      // Ensure we don't add a duplicate of the last message
+      const nextMessage = ambientMessages[ambientIndex];
+      setMessages(prev => {
+        const lastMsg = prev[prev.length - 1];
+        if (lastMsg === nextMessage) {
+          // Skip duplicate, try next
+          return prev;
+        }
+        return [...prev, nextMessage];
+      });
       setAmbientIndex(prev => prev + 1);
       // Twitch sprite when speaking
       if (greeter.sprite2) {
@@ -143,7 +284,7 @@ export function HomeChatter() {
       clearTimeout(typingTimer);
       clearTimeout(messageTimer);
     };
-  }, [ambientIndex, ambientMessages]);
+  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
 
   // Auto-scroll to latest message
   useEffect(() => {
@@ -156,24 +297,47 @@ export function HomeChatter() {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        maxWidth: 1200,
-        minHeight: 480,
-        display: 'flex',
-        gap: { xs: 3, sm: 4 },
-        px: { xs: 3, sm: 4 },
-        py: 4,
-      }}
-    >
-      {/* Sprite - fixed on left */}
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {/* Welcome message with domain */}
+      <Typography
+        sx={{
+          fontFamily: tokens.fonts.gaming,
+          fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
+          color: tokens.colors.text.secondary,
+          mb: 4,
+          letterSpacing: '0.05em',
+          textAlign: 'center',
+          textWrap: 'balance', // Keep welcome message balanced
+        }}
+      >
+        Welcome to {domainDisplayName}, neverdieguy#{playerNumber}
+      </Typography>
+
       <Box
+        sx={{
+          width: '100%',
+          maxWidth: 1200,
+          minHeight: 480,
+          display: 'flex',
+          gap: { xs: 3, sm: 4 },
+          px: { xs: 3, sm: 4 },
+          py: 4,
+        }}
+      >
+      {/* Sprite - fixed on left, entire area clickable */}
+      <Box
+        component={RouterLink}
+        to={`/wiki/${greeter.wikiSlug}`}
         sx={{
           width: { xs: 96, sm: 120, md: 150 },
           flexShrink: 0,
           opacity: showSprite ? 1 : 0,
           animation: showSprite ? `${slideInSprite} 500ms ease-out` : 'none',
+          textDecoration: 'none',
+          cursor: 'pointer',
+          '&:hover .wiki-link': {
+            color: tokens.colors.secondary,
+          },
         }}
       >
         <Box
@@ -199,19 +363,17 @@ export function HomeChatter() {
           >
             {greeter.name}
           </Typography>
-          <Link
-            component={RouterLink}
-            to={`/wiki/${greeter.wikiSlug}`}
+          <Typography
+            className="wiki-link"
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: '0.8rem',
               color: tokens.colors.text.disabled,
-              textDecoration: 'none',
-              '&:hover': { color: tokens.colors.secondary },
+              transition: 'color 150ms ease',
             }}
           >
             [wiki]
-          </Link>
+          </Typography>
         </Box>
       </Box>
 
@@ -249,7 +411,7 @@ export function HomeChatter() {
                 borderRadius: '12px',
                 px: 3,
                 py: 2,
-                maxWidth: '95%',
+                width: '100%',
                 animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
               }}
             >
@@ -259,6 +421,7 @@ export function HomeChatter() {
                   fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
                   color: tokens.colors.text.primary,
                   lineHeight: 1.5,
+                  textWrap: 'pretty', // Prevent widows/orphans
                 }}
               >
                 {msg}
@@ -359,6 +522,7 @@ export function HomeChatter() {
             What is NEVER DIE GUY?
           </Button>
         </Box>
+      </Box>
       </Box>
     </Box>
   );
