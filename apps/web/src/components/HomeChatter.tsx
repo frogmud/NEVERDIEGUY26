@@ -18,7 +18,13 @@ import { tokens } from '../theme';
 import {
   getRandomGreeter,
   getRandomGreeting,
+  GREETER_DOMAINS,
+  GREETER_INTERRUPT_CHANCE,
+  DOMAIN_INTERRUPTS,
+  getRandomInterrupt,
+  getRandomReaction,
   type HomeGreeter,
+  type EnemyInterrupt,
 } from '../data/home-greeters';
 
 // ============================================
@@ -71,6 +77,9 @@ const FALLBACK_AMBIENT = [
 // Component
 // ============================================
 
+// All domain keys for random selection (roaming characters)
+const DOMAIN_KEYS = Object.keys(DOMAIN_INTERRUPTS);
+
 export function HomeChatter() {
   const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -78,6 +87,16 @@ export function HomeChatter() {
   // Pick random greeter and greeting on mount
   const greeter = useMemo<HomeGreeter>(() => getRandomGreeter(), []);
   const initialGreeting = useMemo<string>(() => getRandomGreeting(greeter), [greeter]);
+
+  // Derive domain for this greeter (handle "roaming" special case)
+  const greeterDomain = useMemo(() => {
+    const domain = GREETER_DOMAINS[greeter.id] || 'earth';
+    if (domain === 'roaming') {
+      // Pick random domain for roaming characters like Willy
+      return DOMAIN_KEYS[Math.floor(Math.random() * DOMAIN_KEYS.length)];
+    }
+    return domain;
+  }, [greeter.id]);
 
   // Messages state - starts with initial greeting
   const [messages, setMessages] = useState<string[]>([initialGreeting]);
@@ -90,6 +109,10 @@ export function HomeChatter() {
 
   // Sprite frame toggle (swaps when talking)
   const [spriteFrame, setSpriteFrame] = useState(1);
+
+  // Enemy interrupt state
+  const [hasInterrupted, setHasInterrupted] = useState(false);
+  const [pendingInterrupt, setPendingInterrupt] = useState<EnemyInterrupt | null>(null);
 
   // Initial animation sequence
   useEffect(() => {
@@ -116,12 +139,86 @@ export function HomeChatter() {
   }, [greeter.sprite2]);
 
   // Get ambient messages for this greeter (character-specific or fallback)
-  const ambientMessages = greeter.ambient?.length ? greeter.ambient : FALLBACK_AMBIENT;
+  // Filter to remove duplicates and any that overlap with the initial greeting
+  const ambientMessages = useMemo(() => {
+    const source = greeter.ambient?.length ? greeter.ambient : FALLBACK_AMBIENT;
+    // Remove messages that overlap with greeting or are consecutive duplicates
+    return source.filter((msg, i) => {
+      // Skip if exact match with greeting
+      if (msg === initialGreeting) return false;
+      // Skip if ambient is contained in greeting (e.g., greeting ends with this phrase)
+      if (initialGreeting.includes(msg)) return false;
+      // Skip if greeting is contained in ambient
+      if (msg.includes(initialGreeting)) return false;
+      // Skip if same as previous message in the array
+      if (i > 0 && msg === source[i - 1]) return false;
+      return true;
+    });
+  }, [greeter.ambient, initialGreeting]);
 
-  // Ambient message cycle
+  // Get interrupt chance for this greeter
+  const interruptChance = GREETER_INTERRUPT_CHANCE[greeter.id] || 0.2;
+
+  // Ambient message cycle with interrupt support
   useEffect(() => {
     if (ambientIndex >= ambientMessages.length) return;
 
+    // Check for interrupt opportunity (only once per session, after first ambient)
+    const shouldTryInterrupt = !hasInterrupted && ambientIndex >= 1;
+    const interruptRoll = shouldTryInterrupt ? Math.random() : 1;
+    const willInterrupt = interruptRoll < interruptChance;
+
+    if (willInterrupt && !pendingInterrupt) {
+      // Get a random enemy interrupt for this domain
+      const interrupt = getRandomInterrupt(greeterDomain);
+      if (interrupt) {
+        setPendingInterrupt(interrupt);
+        setHasInterrupted(true);
+
+        // Show typing, then enemy action
+        const typingTimer = setTimeout(() => {
+          setIsTyping(true);
+        }, 2500 + ambientIndex * 1500);
+
+        // Show enemy action
+        const enemyTimer = setTimeout(() => {
+          setIsTyping(false);
+          setMessages(prev => [...prev, interrupt.action]);
+          // Twitch sprite (reacting to enemy)
+          if (greeter.sprite2) {
+            setSpriteFrame(2);
+            setTimeout(() => setSpriteFrame(1), 150);
+          }
+        }, 4000 + ambientIndex * 1500);
+
+        // Show character reaction after enemy
+        const reactionTimer = setTimeout(() => {
+          setIsTyping(true);
+        }, 5000 + ambientIndex * 1500);
+
+        const reactionMsgTimer = setTimeout(() => {
+          setIsTyping(false);
+          const reaction = getRandomReaction(interrupt);
+          setMessages(prev => [...prev, reaction]);
+          setPendingInterrupt(null);
+          setAmbientIndex(prev => prev + 1);
+          // Twitch sprite when speaking
+          if (greeter.sprite2) {
+            setSpriteFrame(2);
+            setTimeout(() => setSpriteFrame(1), 150);
+          }
+        }, 6500 + ambientIndex * 1500);
+
+        return () => {
+          clearTimeout(typingTimer);
+          clearTimeout(enemyTimer);
+          clearTimeout(reactionTimer);
+          clearTimeout(reactionMsgTimer);
+        };
+      }
+    }
+
+    // Normal ambient flow (no interrupt)
     // Show typing indicator after delay
     const typingTimer = setTimeout(() => {
       setIsTyping(true);
@@ -130,7 +227,16 @@ export function HomeChatter() {
     // Add message after typing
     const messageTimer = setTimeout(() => {
       setIsTyping(false);
-      setMessages(prev => [...prev, ambientMessages[ambientIndex]]);
+      // Ensure we don't add a duplicate of the last message
+      const nextMessage = ambientMessages[ambientIndex];
+      setMessages(prev => {
+        const lastMsg = prev[prev.length - 1];
+        if (lastMsg === nextMessage) {
+          // Skip duplicate, try next
+          return prev;
+        }
+        return [...prev, nextMessage];
+      });
       setAmbientIndex(prev => prev + 1);
       // Twitch sprite when speaking
       if (greeter.sprite2) {
@@ -143,7 +249,7 @@ export function HomeChatter() {
       clearTimeout(typingTimer);
       clearTimeout(messageTimer);
     };
-  }, [ambientIndex, ambientMessages]);
+  }, [ambientIndex, ambientMessages, hasInterrupted, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
 
   // Auto-scroll to latest message
   useEffect(() => {

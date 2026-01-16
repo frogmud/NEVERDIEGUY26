@@ -700,3 +700,293 @@ export function getRandomFarewell(greeter: HomeGreeter, route: 'play' | 'wiki' |
   const farewells = greeter.farewells[route];
   return farewells[Math.floor(Math.random() * farewells.length)];
 }
+
+// ============================================
+// GREETER-DOMAIN MAPPING
+// ============================================
+
+/**
+ * Maps greeter ID to their home domain slug
+ * Derived from wiki locations/origin data
+ */
+export const GREETER_DOMAINS: Record<string, string> = {
+  'stitch-up-girl': 'shadow-keep',
+  'keith-man': 'frost-reach',
+  'mr-kevin': 'earth',
+  'clausen': 'earth',
+  'body-count': 'aberrant',
+  'boots': 'aberrant',
+  'willy': 'roaming', // Special case - picks random domain
+  'boo-g': 'aberrant',
+  'the-general': 'shadow-keep',
+  'dr-maxwell': 'infernus',
+  'xtreme': 'earth',
+  'mr-bones': 'frost-reach',
+  'dr-voss': 'null-providence',
+  'king-james': 'null-providence',
+};
+
+/**
+ * Per-greeter chance of enemy interrupt (0-1)
+ * Some characters attract more trouble than others
+ */
+export const GREETER_INTERRUPT_CHANCE: Record<string, number> = {
+  'stitch-up-girl': 0.25, // Moderate - Shadow Keep vibes
+  'keith-man': 0.20,      // Low-moderate - too fast to catch
+  'mr-kevin': 0.15,       // Low - reality bends around him
+  'clausen': 0.30,        // High - trouble finds him
+  'body-count': 0.25,     // Moderate - just counting
+  'boots': 0.35,          // High - attracts chaos
+  'willy': 0.20,          // Moderate - merchant luck
+  'boo-g': 0.25,          // Moderate - ghosts attract ghosts
+  'the-general': 0.30,    // High - battlefield vibes
+  'dr-maxwell': 0.35,     // High - Infernus is chaotic
+  'xtreme': 0.40,         // Very high - chaos magnet
+  'mr-bones': 0.15,       // Low - Frost Reach is quiet
+  'dr-voss': 0.20,        // Moderate - lab security
+  'king-james': 0.25,     // Moderate - void creatures lurk
+};
+
+// ============================================
+// ENEMY INTERRUPT SYSTEM
+// ============================================
+
+export interface EnemyInterrupt {
+  enemySlug: string;
+  enemyName: string;
+  sprite: string;
+  action: string;        // What the enemy does (italic action text)
+  reactions: string[];   // Character's possible responses
+}
+
+/**
+ * Per-domain pools of low-level enemies that can interrupt
+ */
+export const DOMAIN_INTERRUPTS: Record<string, EnemyInterrupt[]> = {
+  'earth': [
+    {
+      enemySlug: 'cow',
+      enemyName: 'Wandering Cow',
+      sprite: '/assets/enemies-svg/cow.svg',
+      action: '*moos and ambles past*',
+      reactions: [
+        'The cows here are... persistent.',
+        'Ignore that. Standard Earth fauna.',
+        'They are harmless. Mostly.',
+      ],
+    },
+    {
+      enemySlug: 'crab',
+      enemyName: 'Scuttling Crab',
+      sprite: '/assets/enemies-svg/crab.svg',
+      action: '*clicks claws menacingly*',
+      reactions: [
+        'The crabs are feeling bold today.',
+        'Do not make sudden movements.',
+        'They pinch. Trust me on that.',
+      ],
+    },
+    {
+      enemySlug: 'myconid',
+      enemyName: 'Curious Myconid',
+      sprite: '/assets/enemies-svg/myconid.svg',
+      action: '*releases spores and waddles away*',
+      reactions: [
+        'The mushrooms are restless.',
+        'Do not breathe that in.',
+        'Spore season. Lovely.',
+      ],
+    },
+  ],
+  'frost-reach': [
+    {
+      enemySlug: 'ice-wraith',
+      enemyName: 'Ice Wraith',
+      sprite: '/assets/enemies-svg/ice-wraith.svg',
+      action: '*drifts through silently*',
+      reactions: [
+        'The wraiths are restless today.',
+        'Frost Reach hospitality.',
+        'They drift. It is what they do.',
+      ],
+    },
+    {
+      enemySlug: 'frost-giant-i',
+      enemyName: 'Young Frost Giant',
+      sprite: '/assets/enemies-svg/frost-giant-i.svg',
+      action: '*stomps past in the distance*',
+      reactions: [
+        'The giants are migrating. Standard.',
+        'Stay out of their path.',
+        'They are mostly peaceful. MOSTLY.',
+      ],
+    },
+  ],
+  'infernus': [
+    {
+      enemySlug: 'camel',
+      enemyName: 'Blazing Camel',
+      sprite: '/assets/enemies-svg/camel.svg',
+      action: '*spits embers nearby*',
+      reactions: [
+        'Ignore that. They do that.',
+        'Camels here are... temperamental.',
+        'See? This is what I deal with.',
+      ],
+    },
+    {
+      enemySlug: 'fire-imp',
+      enemyName: 'Fire Imp',
+      sprite: '/assets/enemies-svg/fire-imp.svg',
+      action: '*giggles and scampers off*',
+      reactions: [
+        'Little pest.',
+        'They are everywhere lately.',
+        'Do not make eye contact.',
+      ],
+    },
+    {
+      enemySlug: 'lava-golem',
+      enemyName: 'Lava Golem',
+      sprite: '/assets/enemies-svg/lava-golem.svg',
+      action: '*trudges past, dripping magma*',
+      reactions: [
+        'Watch the floor. Magma stains.',
+        'The golems are active today.',
+        'Stay clear of the drippings.',
+      ],
+    },
+  ],
+  'shadow-keep': [
+    {
+      enemySlug: 'bat',
+      enemyName: 'Shadow Bat',
+      sprite: '/assets/enemies-svg/bat.svg',
+      action: '*flutters past overhead*',
+      reactions: [
+        'The bats are restless today.',
+        'Shadow Keep wildlife. Charming.',
+        'Nothing to worry about. Probably.',
+      ],
+    },
+    {
+      enemySlug: 'skeleton-archer',
+      enemyName: 'Skeleton Archer',
+      sprite: '/assets/enemies-svg/skeleton-archer.svg',
+      action: '*rattles past on patrol*',
+      reactions: [
+        'The patrols never stop here.',
+        'Just keep talking. They ignore civilians.',
+        'Shadow Keep security. Very thorough.',
+      ],
+    },
+    {
+      enemySlug: 'skeleton-barb',
+      enemyName: 'Skeleton Barbarian',
+      sprite: '/assets/enemies-svg/skeleton-barb.svg',
+      action: '*charges through, chasing something*',
+      reactions: [
+        'They are always chasing something.',
+        'The undead are restless today.',
+        'Standard Keep behavior.',
+      ],
+    },
+  ],
+  'null-providence': [
+    {
+      enemySlug: 'void-spawn',
+      enemyName: 'Void Spawn',
+      sprite: '/assets/enemies-svg/void-spawn.svg',
+      action: '*phases in and out of existence*',
+      reactions: [
+        'The void leaks. It does that.',
+        'Reality is... flexible here.',
+        'Do not stare directly at it.',
+      ],
+    },
+    {
+      enemySlug: 'time-scavenger',
+      enemyName: 'Time Scavenger',
+      sprite: '/assets/enemies-svg/time-scavenger.svg',
+      action: '*skitters past, rewinding its steps*',
+      reactions: [
+        'Time moves differently for them.',
+        'The scavengers are hunting again.',
+        'They are harmless. To us. For now.',
+      ],
+    },
+    {
+      enemySlug: 'time-elemental',
+      enemyName: 'Time Elemental',
+      sprite: '/assets/enemies-svg/time-elemental.svg',
+      action: '*flickers between moments*',
+      reactions: [
+        'Temporal interference. Normal here.',
+        'The elementals are agitated.',
+        'Best not to think about causality.',
+      ],
+    },
+  ],
+  'aberrant': [
+    {
+      enemySlug: 'chicken',
+      enemyName: 'Mutant Chicken',
+      sprite: '/assets/enemies-svg/chicken.svg',
+      action: '*clucks aggressively and struts past*',
+      reactions: [
+        'The chickens here are... different.',
+        'Do not underestimate them.',
+        'Aberrant wildlife. Delightful.',
+      ],
+    },
+    {
+      enemySlug: 'carniflower',
+      enemyName: 'Carniflower',
+      sprite: '/assets/enemies-svg/carniflower.svg',
+      action: '*snaps hungrily at the air*',
+      reactions: [
+        'The plants are hungry today.',
+        'Keep your fingers clear.',
+        'Nature, but angrier.',
+      ],
+    },
+    {
+      enemySlug: 'spore-cloud',
+      enemyName: 'Spore Cloud',
+      sprite: '/assets/enemies-svg/spore-cloud.svg',
+      action: '*drifts past ominously*',
+      reactions: [
+        'Hold your breath.',
+        'The spores are migrating.',
+        'Aberrant air quality. Typical.',
+      ],
+    },
+    {
+      enemySlug: 'twisted-sapling',
+      enemyName: 'Twisted Sapling',
+      sprite: '/assets/enemies-svg/twisted-sapling.svg',
+      action: '*creaks and shuffles by*',
+      reactions: [
+        'The trees walk here. You get used to it.',
+        'Aberrant forestry.',
+        'They are just curious. Probably.',
+      ],
+    },
+  ],
+};
+
+/**
+ * Get a random interrupt for a domain
+ */
+export function getRandomInterrupt(domain: string): EnemyInterrupt | null {
+  const pool = DOMAIN_INTERRUPTS[domain];
+  if (!pool || pool.length === 0) return null;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/**
+ * Get a random reaction from an interrupt
+ */
+export function getRandomReaction(interrupt: EnemyInterrupt): string {
+  return interrupt.reactions[Math.floor(Math.random() * interrupt.reactions.length)];
+}
