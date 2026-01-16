@@ -12,10 +12,15 @@ import { DICE_CONFIG } from '../dice/config';
 /**
  * Get the stat associated with a die type
  * d4 -> essence, d6 -> grit, d8 -> shadow, etc.
+ * @throws Error if die type has no associated stat (should never happen with valid DieSides)
  */
 export function getStatForDie(die: DieSides): StatKey {
   const entry = Object.entries(STAT_CONFIG).find(([_, config]) => config.die === die);
-  return entry ? (entry[0] as StatKey) : 'essence';
+  if (!entry) {
+    console.warn(`getStatForDie: No stat found for die d${die}, defaulting to essence`);
+    return 'essence';
+  }
+  return entry[0] as StatKey;
 }
 
 /**
@@ -81,24 +86,37 @@ export function getStatBonusFromRoll(
   // Base bonus from trigger
   let bonus = 1.0 + trigger.bonus;
 
-  // Additional bonus from stat value
-  const statValue = stats[trigger.stat] as number;
-  if (typeof statValue === 'number' && trigger.stat !== 'luck') {
-    // Each point of the relevant stat adds 0.1% bonus
-    bonus += statValue * 0.001;
+  // Additional bonus from stat value (luck excluded - it's special)
+  if (trigger.stat !== 'luck') {
+    const statValue = stats[trigger.stat];
+    if (typeof statValue === 'number') {
+      // Each point of the relevant stat adds 0.1% bonus
+      bonus += statValue * 0.001;
+    }
   }
 
   return bonus;
 }
 
 /**
- * Calculate damage with stat bonuses applied
+ * Roll for critical hit (separate RNG check for testability)
+ * @param stats - Computed stats with critChance
+ * @param rng - Random function (default Math.random, injectable for tests)
+ */
+export function rollCrit(stats: ComputedStats, rng: () => number = Math.random): boolean {
+  return rng() < stats.critChance;
+}
+
+/**
+ * Calculate damage with stat bonuses applied (pure calculation, no RNG)
+ * @param isCrit - Whether this is a critical hit (caller decides via rollCrit)
  */
 export function calculateDamage(
   baseDamage: number,
   roll: number,
   die: DieSides,
-  stats: ComputedStats
+  stats: ComputedStats,
+  isCrit: boolean = false
 ): number {
   // Start with base damage + stat damage
   let damage = baseDamage + stats.damage;
@@ -107,8 +125,8 @@ export function calculateDamage(
   const rollBonus = getStatBonusFromRoll(roll, die, stats);
   damage *= rollBonus;
 
-  // Check for critical hit
-  if (Math.random() < stats.critChance) {
+  // Apply critical multiplier if crit
+  if (isCrit) {
     damage *= stats.critMultiplier;
   }
 
@@ -116,19 +134,40 @@ export function calculateDamage(
 }
 
 /**
- * Check if an attack is dodged based on stats
+ * Calculate effective dodge chance (pure calculation)
  */
-export function checkDodge(attackerStats: ComputedStats, defenderStats: ComputedStats): boolean {
+export function getEffectiveDodgeChance(
+  attackerStats: ComputedStats,
+  defenderStats: ComputedStats
+): number {
   // Base dodge chance from defender
   let dodgeChance = defenderStats.dodgeChance;
 
   // Reduce by attacker's swiftness
   dodgeChance -= attackerStats.swiftness * 0.002;
 
-  // Clamp to reasonable bounds
-  dodgeChance = Math.max(0.05, Math.min(0.75, dodgeChance));
+  // Clamp to reasonable bounds (5% min, 50% practical max given formula)
+  return Math.max(0.05, Math.min(0.50, dodgeChance));
+}
 
-  return Math.random() < dodgeChance;
+/**
+ * Roll for dodge (separate RNG check for testability)
+ * @param rng - Random function (default Math.random, injectable for tests)
+ */
+export function rollDodge(
+  attackerStats: ComputedStats,
+  defenderStats: ComputedStats,
+  rng: () => number = Math.random
+): boolean {
+  const dodgeChance = getEffectiveDodgeChance(attackerStats, defenderStats);
+  return rng() < dodgeChance;
+}
+
+/**
+ * @deprecated Use rollDodge instead - kept for backwards compatibility
+ */
+export function checkDodge(attackerStats: ComputedStats, defenderStats: ComputedStats): boolean {
+  return rollDodge(attackerStats, defenderStats);
 }
 
 /**

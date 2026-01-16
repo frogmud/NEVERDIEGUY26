@@ -9,12 +9,12 @@ export type StatKey = 'luck' | 'essence' | 'grit' | 'shadow' | 'fury' | 'resilie
 // Base stats for all characters (Travelers, Enemies)
 export interface BaseStats {
   luck: LuckyNumber;      // Player's die affinity (0-7)
-  essence: number;        // d4/Void - Base power, reality manipulation
-  grit: number;           // d6/Earth - Mixing stat, endurance, HP pool (John's domain)
-  shadow: number;         // d8/Death - Evasion, stealth, dodge
-  fury: number;           // d10/Fire - Attack power, damage output
+  essence: number;        // d4/Void - Base power, crit multiplier
+  grit: number;           // d6/Earth - HP pool, endurance (John's domain)
+  shadow: number;         // d8/Death - Dodge chance, stealth
+  fury: number;           // d10/Fire - Attack damage
   resilience: number;     // d12/Ice - Defense, damage reduction
-  swiftness: number;      // d20/Wind - Speed, action priority
+  swiftness: number;      // d20/Wind - Action speed, minor crit/dodge
 }
 
 // Stat modifier from items, effects, or buffs
@@ -28,14 +28,14 @@ export interface StatModifier {
 // Computed stats after applying modifiers + derived values
 export interface ComputedStats extends BaseStats {
   // Derived combat values
-  maxHp: number;          // Based on john (mixing stat)
+  maxHp: number;          // Based on grit + resilience
   damage: number;         // Based on fury + essence
   defense: number;        // Based on resilience
-  dodgeChance: number;    // Based on shadow (0-1)
-  critChance: number;     // Based on luck + swiftness (0-1)
-  critMultiplier: number; // Based on essence + luck
+  dodgeChance: number;    // Based on shadow + swiftness (0-0.50)
+  critChance: number;     // Based on luck + swiftness (0.05-0.50)
+  critMultiplier: number; // Based on luck + essence (1.5-3.0)
   actionSpeed: number;    // Based on swiftness
-  lootBonus: number;      // Based on luck
+  lootBonus: number;      // Based on luck (0-0.35)
 }
 
 // Configuration linking stats to dice/Die-rectors/elements
@@ -114,5 +114,11 @@ export const DEFAULT_BASE_STATS: BaseStats = {
 // Stat keys as array for iteration
 export const STAT_KEYS: StatKey[] = ['luck', 'essence', 'grit', 'shadow', 'fury', 'resilience', 'swiftness'];
 
-// Non-luck stats (for calculations that exclude luck)
+/**
+ * Non-luck stats (for calculations that exclude luck)
+ *
+ * DESIGN NOTE: Luck is intentionally excluded from modifiers.
+ * Luck represents player agency/choice (die affinity 0-7) and should not
+ * be buffed by items. This keeps luck special and prevents stacking exploits.
+ */
 export const COMBAT_STAT_KEYS: Exclude<StatKey, 'luck'>[] = ['essence', 'grit', 'shadow', 'fury', 'resilience', 'swiftness'];
