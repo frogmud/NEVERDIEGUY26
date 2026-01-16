@@ -1,5 +1,93 @@
 # NEVER DIE GUY - Changelog
 
+## [0.4.0] - 2026-01-16
+
+### Bullet Mode & QOL Polish
+
+Faster gameplay with comprehensive stat tracking and quality-of-life improvements.
+
+#### Added
+
+**Bullet Mode Timing**
+- Events now 20s (was 45s) for snappier gameplay
+- 3 throws per event (was 5)
+- 1 trade per event (was 2)
+- 3s grace period (was 5s)
+- Target run length: 3-5 minutes
+
+**Event Variants**
+- Swift: 0.6x goal/timer/gold (12s events)
+- Standard: 1.0x all (20s events)
+- Grueling: 1.5x goal/timer, 1.8x gold (30s events)
+- Variant displayed in sidebar with color-coded border
+
+**Victory Screen Overhaul**
+- Stats organized into categories: COMBAT | PROGRESS | PERFORMANCE | ECONOMY
+- Run time, average event time, fastest event tracking
+- Variant breakdown pills (Swift x2, Std x3, etc.)
+- Best roll tracking per run
+
+**Pause Menu QOL**
+- Prominent green Resume button at top
+- Fast Mode toggle (1x/2x game speed)
+- Skip Event button (forfeit current event)
+
+**Info Modal Improvements**
+- Domain element display with +50% bonus tip
+- Event difficulty with multiplier breakdown
+- Active loadout bonuses (Fury %, Resilience %)
+- Inventory items list
+
+#### Changed
+- Goals scaled for 3-throw events: [500, 750, 1100, 1500, 2000, 2500]
+- Gold rewards adjusted: [75, 125, 175, 250, 350, 500]
+
+---
+
+## [0.3.0] - 2026-01-16
+
+### Boss Phase & Inventory System
+
+Die-rector bosses and domain-scoped item persistence.
+
+#### Added
+
+**Boss Phase System**
+- Die-rector bosses appear in zone 3 of each domain
+- Hearts-based HP display (4-7 hearts based on domain)
+- BossSprite with hit shake and low HP flicker effects
+- BossHeartsHUD with pulse animations on depleting heart
+
+| Domain | Die-rector | Hearts | Total HP |
+|--------|------------|--------|----------|
+| Null Providence | The One | 4 | 2000 |
+| Earth | John | 5 | 3000 |
+| Shadow Keep | Peter | 5 | 3500 |
+| Infernus | Robert | 6 | 4800 |
+| Frost Reach | Alice | 6 | 5400 |
+| Aberrant | Jane | 7 | 7000 |
+
+**Domain-Scoped Inventory**
+- Common/Uncommon items expire after defeating domain boss
+- Epic/Legendary/Unique items persist across domains
+- Rare items can be flagged with `persistsAcrossDomains: true`
+- BagTab shows active inventory during gameplay
+
+**Homepage Improvements**
+- Quick question chips for prebaked FAQ responses
+- NPC-offered items become actual starting inventory
+- Improved chat wiring between homepage and run
+
+**Shop Redesign**
+- Illustration-first minimal UI
+- Cleaner item presentation
+
+#### Changed
+- Black sky backgrounds for boss zones (removed color shifting)
+- Loadout cards hidden during gameplay (items come from NPC offerings)
+
+---
+
 ## [0.2.0] - 2026-01-09
 
 ### Combat Polish & NPC Chat

@@ -72,6 +72,21 @@ Use gh CLI to create PRs with clear descriptions.
 
 ## Recent Changes (January 2026)
 
+### Week of Jan 16 - Bullet Mode & QOL
+- **Bullet Mode Timing**: Events 20s (was 45s), 3 throws (was 5), 1 trade
+- **Event Variants**: Swift (0.6x), Standard (1x), Grueling (1.5x) difficulty
+- **Victory Screen**: Categorized stats (Combat/Progress/Performance/Economy)
+- **Run Tracking**: Total time, avg event time, fastest event, variant breakdown
+- **Best Roll Tracking**: Tracks highest single throw score per run
+- **Pause Menu**: Prominent Resume button, Fast Mode toggle (1x/2x speed)
+- **Info Modal**: Domain element (+50% bonus tip), event difficulty, active bonuses
+- **Sidebar**: Event variant displayed with color-coded border during play
+- **Boss Phase**: Die-rector bosses in zone 3 with hearts-based HP display
+- **Domain Inventory**: Items expire on domain clear (Common/Uncommon), persist (Epic+)
+- **Shop Redesign**: Illustration-first minimal UI
+- **Asset Cleanup**: Removed ~1500 unused photorealistic backgrounds
+
+### Week of Jan 9-14 - Homepage & Polish
 - Homepage character chatter with animated sprites and ambient dialogue
 - Custom NPC/domain welcome headlines (e.g., "Mr. Bones contemplates Frost Reach")
 - Domain/seed picker dropdown (click headline to change domain or edit seed)
@@ -79,10 +94,9 @@ Use gh CLI to create PRs with clear descriptions.
 - Wiki base stat tooltips on hover (explains each stat)
 - Wiki sprite zoom on hover (1.4x) and click (full modal view)
 - Skeleton loaders for homepage on load/refresh
-- Chrome cleanup: Help/Settings/About in top bar, removed notifications/avatar
-- Footer cleanup: removed sitemap, renamed Design System to "Bones"
-- Fixed meteor crater black artifacts (ImpactEffect)
-- Removed "Play As" buttons from wiki
+- Quick question chips for prebaked FAQ responses
+
+### Week of Jan 2-8 - Core Systems
 - Sound effects system (SoundContext)
 - Persistent game settings (GameSettingsContext)
 - Overall progress bar at top of play area
@@ -95,24 +109,46 @@ Use gh CLI to create PRs with clear descriptions.
 - Throw button debouncing (disabled during throw/resolve phases)
 - Dice reticle colors match toolbar dice colors
 
+## Current Game Balance
+
+| Setting | Value |
+|---------|-------|
+| Event Duration | 20s base |
+| Throws per Event | 3 |
+| Trades per Event | 1 |
+| Grace Period | 3s |
+| Domains | 6 |
+| Rooms per Domain | 3 |
+| Target Run Length | 3-5 min |
+
+### Event Variants
+- **Swift**: 0.6x goal, 0.6x timer (12s), 0.6x gold
+- **Standard**: 1.0x all (20s)
+- **Grueling**: 1.5x goal, 1.5x timer (30s), 1.8x gold
+
 ## Next Steps (Deployment Prep)
 
 ### Priority 1: Final Polish
 - [x] Homepage polish (headlines, reactions, skeletons)
 - [x] Wiki improvements (stat tooltips, sprite zoom)
+- [x] Bullet mode timing rebalance
+- [x] Victory screen stats overhaul
+- [x] Pause menu QOL (Resume, Fast Mode)
+- [x] Info modal improvements
 - [ ] Test full Arena run end-to-end (6 domains, 3 rooms each)
-- [ ] Verify all wiki pages load without broken images
 - [ ] Mobile responsiveness pass on key screens (Home, Play, Wiki)
 
 ### Priority 2: Deployment
 - [x] TypeScript build passing
 - [x] Vercel deployment configured (auto-deploys on push to main)
+- [x] Asset optimization (removed unused backgrounds)
 - [ ] Custom domain setup (if applicable)
 - [ ] Production environment variables audit
 
 ### Priority 3: Nice-to-Have
 - [x] Add more NPC ambient dialogue variety
+- [x] Boss phase with Die-rectors
+- [x] Domain-scoped inventory system
 - [ ] Leaderboard/high score persistence
 - [ ] Sound effects volume controls in settings
 - [ ] Tutorial/onboarding flow for new players
-- [ ] Market/barter system with NPC negotiations
