@@ -7,6 +7,8 @@ import { GameTabPlaying } from './tabs/GameTabPlaying';
 import { BagTab } from './tabs/BagTab';
 import { SettingsTab } from './tabs/SettingsTab';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../../data/loadouts';
+import { useRun } from '../../../contexts/RunContext';
+import { EventVariant } from '../../../types/zones';
 
 interface RollHistoryEntry {
   id: number;
@@ -50,6 +52,7 @@ interface GameState {
   event: number;
   totalEvents: number;
   rollHistory: RollHistoryEntry[];
+  eventVariant?: EventVariant;
 }
 
 type GamePhase = 'lobby' | 'zoneSelect' | 'playing';
@@ -119,6 +122,10 @@ export function PlaySidebar({
 }: PlaySidebarProps) {
   const [activeTab, setActiveTab] = useState<LobbyTabValue>('game');
   const [selectedLoadout, setSelectedLoadout] = useState<string>(DEFAULT_LOADOUT_ID);
+
+  // Get inventory from RunContext for BagTab
+  const { state: runState } = useRun();
+  const inventoryItems = runState.inventory?.powerups || [];
 
   // Handle new run with selected loadout
   const handleNewRun = useCallback(() => {
@@ -219,6 +226,7 @@ export function PlaySidebar({
               totalDomains={state.totalDomains}
               event={state.event}
               totalEvents={state.totalEvents}
+              eventVariant={state.eventVariant}
               rollHistory={state.rollHistory}
               onOptions={onOptions}
               onInfo={onInfo}
@@ -226,18 +234,11 @@ export function PlaySidebar({
             />
           ) : phase === 'zoneSelect' ? (
             <GameTabLaunch
-              zones={zones}
+              zones={zones || []}
               selectedZoneId={selectedZoneId}
               onZoneSelect={onZoneSelect}
               onLaunch={onLaunch}
-              onBack={onBack}
-              seedHash={seedHash}
               currentDomain={currentDomain}
-              totalDomains={totalDomains}
-              currentRoom={currentRoom}
-              totalRooms={totalRooms}
-              totalScore={totalScore}
-              gold={gold}
             />
           ) : (
             <GameTab
@@ -253,6 +254,7 @@ export function PlaySidebar({
             isLobby={phase === 'lobby' || phase === 'zoneSelect'}
             selectedLoadout={selectedLoadout}
             onLoadoutSelect={setSelectedLoadout}
+            inventoryItems={inventoryItems}
           />
         )}
         {activeTab === 'options' && <SettingsTab />}

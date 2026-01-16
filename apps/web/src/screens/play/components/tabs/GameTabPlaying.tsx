@@ -12,6 +12,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import { tokens } from '../../../../theme';
 import { TokenIcon } from '../../../../components/TokenIcon';
+import { EventVariant, EVENT_VARIANTS } from '../../../../types/zones';
 
 interface RollHistoryEntry {
   id: number;
@@ -76,6 +77,7 @@ interface GameTabPlayingProps {
   totalDomains: number;
   event: number;
   totalEvents: number;
+  eventVariant?: EventVariant;
 
   // Roll history
   rollHistory: RollHistoryEntry[];
@@ -102,11 +104,13 @@ export function GameTabPlaying({
   totalDomains = 6,
   event = 1,
   totalEvents = 3,
+  eventVariant,
   rollHistory = [],
   onOptions,
   onInfo,
   combatFeed = [],
 }: GameTabPlayingProps) {
+  const variantConfig = eventVariant ? EVENT_VARIANTS[eventVariant] : null;
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Score To Beat - clean centered layout (hidden during shop) */}
@@ -475,22 +479,27 @@ export function GameTabPlaying({
             flex: 1,
             p: 1.5,
             borderRadius: 2,
-            border: `1px solid ${tokens.colors.border}`,
+            border: `1px solid ${variantConfig?.color || tokens.colors.border}`,
             textAlign: 'center',
           }}
         >
-          <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary, mb: 0.5 }}>
+          <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary, mb: 0.25 }}>
             Event
           </Typography>
-          <Typography
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '1rem',
-              color: tokens.colors.text.primary,
-            }}
-          >
-            {event}/{totalEvents}
-          </Typography>
+          {variantConfig && (
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '0.75rem',
+                color: variantConfig.color,
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              {variantConfig.label}
+            </Typography>
+          )}
         </Box>
 
         {/* Info */}

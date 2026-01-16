@@ -39,6 +39,21 @@ const particleDirections = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
   };
 });
 
+// Debris chunk configs - rock shapes that fly off the planet
+const DEBRIS_COUNT = 5;
+const debrisConfigs = Array.from({ length: DEBRIS_COUNT }, (_, i) => {
+  const angle = (i / DEBRIS_COUNT) * Math.PI * 2 + Math.random() * 0.5;
+  return {
+    angle,
+    elevationBias: 0.3 + Math.random() * 0.5, // Mostly outward
+    size: 0.06 + Math.random() * 0.06,
+    speed: 1.2 + Math.random() * 0.8,
+    spinX: (Math.random() - 0.5) * 8,
+    spinY: (Math.random() - 0.5) * 8,
+    spinZ: (Math.random() - 0.5) * 8,
+  };
+});
+
 /**
  * ImpactEffect Component - Particle burst with damage number
  */
@@ -286,6 +301,51 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
                     color="#666666"
                     transparent
                     opacity={smokeOpacity}
+                  />
+                </mesh>
+              );
+            })}
+          </group>
+        )}
+
+        {/* Debris chunks - rock pieces flying off the planet */}
+        {progress < 0.9 && (
+          <group>
+            {debrisConfigs.map((debris, i) => {
+              // Only show chunks proportional to intensity (weak hits = fewer chunks)
+              if (i >= Math.ceil(intensity * DEBRIS_COUNT * 0.7)) return null;
+
+              const chunkProgress = Math.min(1, progress * debris.speed);
+              const easeOutQuad = 1 - Math.pow(1 - chunkProgress, 2);
+
+              // Fly outward and slightly up (away from planet)
+              const distance = easeOutQuad * 1.2 * intensity;
+              const x = Math.cos(debris.angle) * distance * 0.6;
+              const y = debris.elevationBias * distance; // Mostly outward from surface
+              const z = Math.sin(debris.angle) * distance * 0.6;
+
+              // Tumbling rotation
+              const rotX = chunkProgress * debris.spinX;
+              const rotY = chunkProgress * debris.spinY;
+              const rotZ = chunkProgress * debris.spinZ;
+
+              // Fade out
+              const chunkOpacity = Math.max(0, 1 - chunkProgress * 1.1);
+
+              // Size shrinks slightly as it flies
+              const chunkSize = debris.size * intensity * (1 - chunkProgress * 0.3);
+
+              return (
+                <mesh
+                  key={`debris-${i}`}
+                  position={[x, y, z]}
+                  rotation={[rotX, rotY, rotZ]}
+                >
+                  <boxGeometry args={[chunkSize, chunkSize * 0.7, chunkSize * 1.2]} />
+                  <meshBasicMaterial
+                    color="#3a3a4a"
+                    transparent
+                    opacity={chunkOpacity}
                   />
                 </mesh>
               );

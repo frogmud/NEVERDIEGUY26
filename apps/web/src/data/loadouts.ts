@@ -22,37 +22,37 @@ export const LOADOUT_PRESETS: LoadoutPreset[] = [
   {
     id: 'warrior',
     name: 'Warrior',
-    description: '+1 Throw, +20% Fire damage',
+    description: 'High damage, tanky',
     playstyle: 'Tank & Damage',
     icon: 'ShieldSharp',
-    items: ['worn-dice-bag', 'fire-ember'],
+    items: [], // Items come from homepage NPC offerings
     statBonus: { fury: 20, resilience: 15, grit: 10 },
   },
   {
     id: 'rogue',
     name: 'Rogue',
-    description: '+1 Trade, +20% Wind damage',
+    description: 'Fast, crit-focused',
     playstyle: 'Speed & Crits',
     icon: 'BoltSharp',
-    items: ['traders-coin', 'wind-feather'],
+    items: [], // Items come from homepage NPC offerings
     statBonus: { swiftness: 25, shadow: 20, fury: 10 },
   },
   {
     id: 'mage',
     name: 'Mage',
-    description: '+10% Score, +20% Void damage',
+    description: 'Elemental mastery',
     playstyle: 'Essence & Elements',
     icon: 'AutoAwesomeSharp',
-    items: ['lucky-charm', 'void-crystal'],
+    items: [], // Items come from homepage NPC offerings
     statBonus: { essence: 25, fury: 15, swiftness: 10 },
   },
   {
     id: 'survivor',
     name: 'Survivor',
-    description: '+1 Throw, +10% Score',
+    description: 'Endurance, sustain',
     playstyle: 'Sustain & Endurance',
     icon: 'FavoriteSharp',
-    items: ['worn-dice-bag', 'lucky-charm'],
+    items: [], // Items come from homepage NPC offerings
     statBonus: { grit: 20, resilience: 15, essence: 10 },
   },
 ];

@@ -2,6 +2,45 @@
  * Zone and Domain types for the hybrid globe/flat game architecture
  */
 
+// Event variants for player choice
+export type EventVariant = 'swift' | 'standard' | 'grueling';
+
+export interface EventVariantConfig {
+  label: string;
+  description: string;
+  goalMultiplier: number;    // Affects score goal
+  timerMultiplier: number;   // Affects event duration
+  goldMultiplier: number;    // Affects gold reward
+  color: string;             // UI accent color
+}
+
+export const EVENT_VARIANTS: Record<EventVariant, EventVariantConfig> = {
+  swift: {
+    label: 'Swift',
+    description: 'Quick clear, lower rewards',
+    goalMultiplier: 0.6,     // 40% easier goal
+    timerMultiplier: 0.6,    // 12s (base 20s * 0.6)
+    goldMultiplier: 0.6,     // 40% less gold
+    color: '#22c55e',        // Green - easy
+  },
+  standard: {
+    label: 'Standard',
+    description: 'Balanced risk and reward',
+    goalMultiplier: 1.0,     // Base goal
+    timerMultiplier: 1.0,    // 20s base
+    goldMultiplier: 1.0,
+    color: '#f59e0b',        // Amber - normal
+  },
+  grueling: {
+    label: 'Grueling',
+    description: 'High stakes, high payout',
+    goalMultiplier: 1.5,     // 50% harder goal
+    timerMultiplier: 1.5,    // 30s (base 20s * 1.5)
+    goldMultiplier: 1.8,     // 80% more gold
+    color: '#ef4444',        // Red - hard
+  },
+};
+
 export interface ZoneMarker {
   id: string;
   lat: number;
@@ -9,6 +48,7 @@ export interface ZoneMarker {
   tier: 1 | 2 | 3 | 4 | 5;
   type: 'stable' | 'elite' | 'anomaly';
   eventType: 'small' | 'big' | 'boss';
+  eventVariant: EventVariant;
   cleared: boolean;
   rewards: ZoneRewards;
 }
@@ -61,35 +101,25 @@ export function fibonacciSpherePoints(count: number): Array<{ lat: number; lng: 
 }
 
 // Generate zone markers for a domain
-export function generateDomainZones(domainId: number, zoneCount = 3): ZoneMarker[] {
+// Flat structure: 3 event options (swift/standard/grueling) - player picks one
+export function generateDomainZones(domainId: number, _zoneCount = 3): ZoneMarker[] {
   const zones: ZoneMarker[] = [];
-  const basePositions = fibonacciSpherePoints(zoneCount);
+  const variants: EventVariant[] = ['swift', 'standard', 'grueling'];
+  const basePositions = fibonacciSpherePoints(3);
 
-  for (let i = 0; i < zoneCount; i++) {
-    // Roll tier with weighted distribution
-    const tierRoll = Math.random();
-    const tier = (
-      tierRoll < 0.5 ? 1 :
-      tierRoll < 0.8 ? 2 :
-      tierRoll < 0.95 ? 3 : 4
-    ) as 1 | 2 | 3 | 4 | 5;
-
-    // Determine zone type based on position in sequence
-    const type: ZoneMarker['type'] =
-      i === zoneCount - 1 ? 'anomaly' :
-      i === zoneCount - 2 ? 'elite' : 'stable';
-
-    const eventType: ZoneMarker['eventType'] =
-      type === 'anomaly' ? 'boss' :
-      type === 'elite' ? 'big' : 'small';
+  // Generate 3 event options with different variants
+  for (let i = 0; i < 3; i++) {
+    const variant = variants[i];
+    const tier = Math.min(5, domainId) as 1 | 2 | 3 | 4 | 5;
 
     zones.push({
-      id: `${domainId}-zone-${i}`,
+      id: `${domainId}-event-${variant}`,
       lat: basePositions[i].lat + (Math.random() - 0.5) * 30,
       lng: basePositions[i].lng + (Math.random() - 0.5) * 30,
       tier,
-      type,
-      eventType,
+      type: 'stable',
+      eventType: 'big',
+      eventVariant: variant,
       cleared: false,
       rewards: calculateRewards(tier),
     });

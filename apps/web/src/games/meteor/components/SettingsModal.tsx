@@ -1,13 +1,15 @@
-import { Box, Button, Dialog, DialogContent, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, Typography, Switch, FormControlLabel } from '@mui/material';
 import {
   SettingsSharp as SettingsIcon,
   RestartAltSharp as RestartIcon,
   HomeSharp as HomeIcon,
   BarChartSharp as StatsIcon,
-  ArrowBackSharp as BackIcon,
+  PlayArrowSharp as ResumeIcon,
   SkipNextSharp as SkipIcon,
+  SpeedSharp as SpeedIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
+import { useGameSettings } from '../../../contexts/GameSettingsContext';
 
 // Gaming font style
 const gamingFont = { fontFamily: tokens.fonts.gaming };
@@ -29,6 +31,13 @@ export function SettingsModal({
   onStats,
   onSkip,
 }: SettingsModalProps) {
+  const { gameSpeed, setGameSpeed } = useGameSettings();
+  const isFastMode = gameSpeed >= 1.5;
+
+  const handleSpeedToggle = () => {
+    setGameSpeed(isFastMode ? 1 : 2);
+  };
+
   return (
     <Dialog
       open={open}
@@ -53,6 +62,58 @@ export function SettingsModal({
 
           {/* Menu buttons */}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {/* Resume - most prominent */}
+            <Button
+              variant="contained"
+              startIcon={<ResumeIcon />}
+              onClick={onClose}
+              sx={{
+                bgcolor: tokens.colors.success,
+                color: '#fff',
+                ...gamingFont,
+                fontSize: '1.125rem',
+                py: 1.5,
+                justifyContent: 'flex-start',
+                pl: 3,
+                '&:hover': { bgcolor: '#28a745' },
+              }}
+            >
+              Resume
+            </Button>
+
+            {/* Quick Settings - Speed Toggle */}
+            <Box
+              sx={{
+                bgcolor: tokens.colors.background.elevated,
+                borderRadius: 1,
+                px: 2,
+                py: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <SpeedIcon sx={{ color: tokens.colors.text.secondary, fontSize: 20 }} />
+                <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.primary }}>
+                  Fast Mode
+                </Typography>
+              </Box>
+              <Switch
+                checked={isFastMode}
+                onChange={handleSpeedToggle}
+                size="small"
+                sx={{
+                  '& .MuiSwitch-switchBase.Mui-checked': {
+                    color: tokens.colors.success,
+                  },
+                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                    bgcolor: tokens.colors.success,
+                  },
+                }}
+              />
+            </Box>
+
             {/* Skip Room - warning styled */}
             {onSkip && (
               <Button
@@ -66,33 +127,16 @@ export function SettingsModal({
                   bgcolor: tokens.colors.error,
                   color: '#fff',
                   ...gamingFont,
-                  fontSize: '1.125rem',
+                  fontSize: '0.9rem',
                   py: 1.5,
                   justifyContent: 'flex-start',
                   pl: 3,
                   '&:hover': { bgcolor: '#c0392b' },
                 }}
               >
-                Skip Room
+                Skip Event
               </Button>
             )}
-
-            <Button
-              variant="contained"
-              startIcon={<SettingsIcon />}
-              sx={{
-                bgcolor: tokens.colors.background.elevated,
-                color: tokens.colors.text.primary,
-                ...gamingFont,
-                fontSize: '0.9rem',
-                py: 1.5,
-                justifyContent: 'flex-start',
-                pl: 3,
-                '&:hover': { bgcolor: tokens.colors.border },
-              }}
-            >
-              Settings
-            </Button>
 
             <Button
               variant="contained"
@@ -149,25 +193,6 @@ export function SettingsModal({
               }}
             >
               Stats
-            </Button>
-
-            <Button
-              variant="contained"
-              startIcon={<BackIcon />}
-              onClick={onClose}
-              sx={{
-                bgcolor: '#C4A000',
-                color: '#fff',
-                ...gamingFont,
-                fontSize: '0.9rem',
-                py: 1.5,
-                justifyContent: 'flex-start',
-                pl: 3,
-                mt: 1,
-                '&:hover': { bgcolor: '#a08300' },
-              }}
-            >
-              Back
             </Button>
           </Box>
         </Box>

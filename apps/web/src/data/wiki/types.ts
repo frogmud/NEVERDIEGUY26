@@ -165,6 +165,10 @@ export interface Item extends WikiEntity {
 
   // Dice-based effects
   diceEffects?: DiceEffect[];
+
+  // Domain-scoped inventory: items expire on domain clear unless they persist
+  // Legendary/Unique/Epic always persist. Rare items need this flag set to true.
+  persistsAcrossDomains?: boolean;
 }
 
 // Domain (game world/location)

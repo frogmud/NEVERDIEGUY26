@@ -9,3 +9,5 @@ export { DiceHand3D } from './DiceHand3D';
 export { RollResult } from './RollResult';
 export { ZoneMarker } from './ZoneMarker';
 export { GridOverlay } from './GridOverlay';
+export { BossSprite } from './BossSprite';
+export { BossHeartsHUD } from './BossHeartsHUD';

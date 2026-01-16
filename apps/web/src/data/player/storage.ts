@@ -292,6 +292,8 @@ export interface SavedRunState {
     eventsCompleted: number;
     purchases: number;
   };
+  // Scar system (4 scars = game over)
+  scars: number;
   savedAt: number;
 }
 

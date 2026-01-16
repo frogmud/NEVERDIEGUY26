@@ -7,6 +7,19 @@ import {
 } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
 import { LOADOUT_PRESETS, type LoadoutPreset } from '../../../../data/loadouts';
+import { getEntity } from '../../../../data/wiki';
+import { itemPersistsAcrossDomains } from '../../../../data/items/combat-effects';
+import type { Item, Rarity } from '../../../../data/wiki/types';
+
+// Rarity colors (matches Shop.tsx)
+const RARITY_COLORS: Record<Rarity, string> = {
+  Common: tokens.colors.text.secondary,
+  Uncommon: tokens.colors.success,
+  Rare: tokens.colors.secondary,
+  Epic: '#a855f7',
+  Legendary: tokens.colors.warning,
+  Unique: tokens.colors.error,
+};
 
 // Icon mapping for loadouts
 const LOADOUT_ICONS: Record<string, React.ReactNode> = {
@@ -30,17 +43,92 @@ interface BagTabProps {
   onLoadoutSelect?: (loadoutId: string) => void;
   /** Player stats from the selected loadout */
   playerStats?: Record<string, number>;
+  /** Runtime inventory items (slugs) during gameplay */
+  inventoryItems?: string[];
 }
 
-export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect, playerStats }: BagTabProps) {
+export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect, playerStats, inventoryItems = [] }: BagTabProps) {
   // Get stats from selected loadout
   const selectedLoadoutData = LOADOUT_PRESETS.find(l => l.id === selectedLoadout);
   const stats = playerStats || selectedLoadoutData?.statBonus || {};
 
   return (
-    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-      {/* Player Profile - compact stat display */}
-      {!isLobby && (
+    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2, height: '100%', overflow: 'auto' }}>
+      {/* Active Inventory - shown during gameplay */}
+      {!isLobby && inventoryItems.length > 0 && (
+        <Box>
+          {/* Loadout badge */}
+          {selectedLoadoutData && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                mb: 2,
+                p: 1,
+                bgcolor: `${tokens.colors.primary}12`,
+                borderRadius: '8px',
+                border: `1px solid ${tokens.colors.primary}30`,
+              }}
+            >
+              {LOADOUT_ICONS[selectedLoadoutData.icon] || <ShieldIcon sx={{ fontSize: 20 }} />}
+              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontWeight: 600, fontSize: '0.9rem' }}>
+                {selectedLoadoutData.name}
+              </Typography>
+            </Box>
+          )}
+
+          {/* Section header */}
+          <Typography
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.8rem',
+              color: tokens.colors.text.secondary,
+              mb: 1.5,
+            }}
+          >
+            Active Items ({inventoryItems.length})
+          </Typography>
+
+          {/* Items grid */}
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, justifyContent: 'flex-start' }}>
+            {inventoryItems.map((slug) => (
+              <InventoryItemCard
+                key={slug}
+                slug={slug}
+                willPersist={itemPersistsAcrossDomains(slug)}
+              />
+            ))}
+          </Box>
+        </Box>
+      )}
+
+      {/* Empty state during gameplay */}
+      {!isLobby && inventoryItems.length === 0 && (
+        <Box sx={{ textAlign: 'center', py: 4 }}>
+          <Typography
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.85rem',
+              color: tokens.colors.text.disabled,
+            }}
+          >
+            No items equipped
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              color: tokens.colors.text.disabled,
+              mt: 0.5,
+            }}
+          >
+            Visit shops to acquire items
+          </Typography>
+        </Box>
+      )}
+
+      {/* Player Profile - compact stat display (only in lobby) */}
+      {isLobby && (
         <Box
           sx={{
             p: 1.5,
@@ -122,31 +210,35 @@ export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect, play
         </Box>
       )}
 
-      {/* Header */}
-      <Typography
-        sx={{
-          fontSize: '0.75rem',
-          color: tokens.colors.text.secondary,
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-        }}
-      >
-        {isLobby ? 'Select' : 'Current'} <Box component="span" sx={{ color: tokens.colors.text.primary, fontWeight: 600 }}>Loadout</Box>
-      </Typography>
+      {/* Loadout Selection - only in lobby */}
+      {isLobby && (
+        <>
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              color: tokens.colors.text.secondary,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+            }}
+          >
+            Select <Box component="span" sx={{ color: tokens.colors.text.primary, fontWeight: 600 }}>Loadout</Box>
+          </Typography>
 
-      {/* Class Cards */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        {LOADOUT_PRESETS.map((loadout) => (
-          <LoadoutCard
-            key={loadout.id}
-            loadout={loadout}
-            selected={selectedLoadout === loadout.id}
-            expanded={selectedLoadout === loadout.id}
-            onClick={() => onLoadoutSelect?.(loadout.id)}
-            isLobby={isLobby}
-          />
-        ))}
-      </Box>
+          {/* Class Cards */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            {LOADOUT_PRESETS.map((loadout) => (
+              <LoadoutCard
+                key={loadout.id}
+                loadout={loadout}
+                selected={selectedLoadout === loadout.id}
+                expanded={selectedLoadout === loadout.id}
+                onClick={() => onLoadoutSelect?.(loadout.id)}
+                isLobby={isLobby}
+              />
+            ))}
+          </Box>
+        </>
+      )}
     </Box>
   );
 }
@@ -254,8 +346,8 @@ function LoadoutCard({ loadout, selected, expanded, onClick, isLobby }: LoadoutC
         </Box>
       </Box>
 
-      {/* Expanded items section */}
-      {expanded && (
+      {/* Expanded items section - only show if loadout has items */}
+      {expanded && loadout.items.length > 0 && (
         <Box
           sx={{
             borderTop: `1px solid ${tokens.colors.border}`,
@@ -303,4 +395,143 @@ function formatItemName(slug: string): string {
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+}
+
+// Inventory Item Card - displays single item during gameplay
+interface InventoryItemCardProps {
+  slug: string;
+  willPersist: boolean;
+}
+
+function InventoryItemCard({ slug, willPersist }: InventoryItemCardProps) {
+  const entity = getEntity(slug);
+  const item = entity?.category === 'items' ? (entity as Item) : null;
+
+  if (!item) {
+    // Fallback for items not in wiki (like combat-effects-only items)
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          p: 1.5,
+          bgcolor: tokens.colors.background.elevated,
+          borderRadius: '10px',
+          border: `1px solid ${tokens.colors.border}`,
+          minWidth: 80,
+          maxWidth: 100,
+        }}
+      >
+        <Box
+          sx={{
+            width: 56,
+            height: 56,
+            bgcolor: 'rgba(255,255,255,0.05)',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mb: 1,
+          }}
+        >
+          <Typography sx={{ fontSize: '1.5rem' }}>?</Typography>
+        </Box>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.7rem',
+            textAlign: 'center',
+            lineHeight: 1.2,
+            color: tokens.colors.text.secondary,
+          }}
+        >
+          {formatItemName(slug)}
+        </Typography>
+      </Box>
+    );
+  }
+
+  const rarityColor = RARITY_COLORS[item.rarity || 'Common'];
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        p: 1.5,
+        bgcolor: tokens.colors.background.elevated,
+        borderRadius: '10px',
+        border: `1px solid ${tokens.colors.border}`,
+        minWidth: 80,
+        maxWidth: 100,
+      }}
+    >
+      {/* Sprite */}
+      <Box
+        component="img"
+        src={item.image || '/assets/items/placeholder.png'}
+        alt=""
+        sx={{
+          width: 56,
+          height: 56,
+          objectFit: 'contain',
+          imageRendering: 'pixelated',
+          mb: 1,
+        }}
+        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+          e.currentTarget.src = '/assets/items/placeholder.png';
+        }}
+      />
+
+      {/* Name */}
+      <Typography
+        sx={{
+          fontFamily: tokens.fonts.gaming,
+          fontSize: '0.7rem',
+          textAlign: 'center',
+          lineHeight: 1.2,
+          mb: 0.5,
+          maxWidth: '100%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          color: tokens.colors.text.primary,
+        }}
+      >
+        {item.name}
+      </Typography>
+
+      {/* Rarity chip */}
+      <Chip
+        label={item.rarity || 'Common'}
+        size="small"
+        sx={{
+          height: 18,
+          fontSize: '0.6rem',
+          fontWeight: 600,
+          bgcolor: `${rarityColor}20`,
+          color: rarityColor,
+          border: `1px solid ${rarityColor}40`,
+          '& .MuiChip-label': { px: 0.75 },
+        }}
+      />
+
+      {/* Persistence indicator */}
+      {willPersist && (
+        <Typography
+          sx={{
+            fontSize: '0.55rem',
+            color: tokens.colors.success,
+            textTransform: 'uppercase',
+            letterSpacing: '0.03em',
+            mt: 0.5,
+          }}
+        >
+          PERSISTS
+        </Typography>
+      )}
+    </Box>
+  );
 }

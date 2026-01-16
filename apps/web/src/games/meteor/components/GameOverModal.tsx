@@ -19,17 +19,30 @@ const slideUp = keyframes`
 `;
 
 export interface RunStats {
+  // Combat stats
   bestRoll: number;
   mostRolled: string;
   diceRolled: number;
+  totalScore: number;
+  // Progress stats
   domains: number;
-  reloads: number;
   rooms: number;
+  // Economy stats
   purchases: number;
   shopRemixes: number;
-  discoveries: number;
+  goldEarned: number;
+  // Performance stats
+  totalTimeMs: number;
+  avgEventTimeMs: number;
+  fastestEventMs: number;
+  // Variant breakdown
+  variantCounts: { swift: number; standard: number; grueling: number };
+  // Meta
   seed: string;
   killedBy?: string;
+  // Legacy (kept for backwards compat)
+  reloads?: number;
+  discoveries?: number;
 }
 
 interface GameOverModalProps {
@@ -156,28 +169,85 @@ export function GameOverModal({
           </Typography>
         </Box>
 
-        {/* Stats Grid */}
+        {/* Stats Grid - Organized by Category */}
         <Box sx={{ px: 3, pb: 2 }}>
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5 }}>
+          {/* Combat Section */}
+          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
+            COMBAT
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
+            <StatBox label="Total Score" value={stats.totalScore.toLocaleString()} color={tokens.colors.primary} />
             <StatBox label="Best Roll" value={stats.bestRoll.toLocaleString()} color="#C4A000" />
-            <StatBox label="Most Rolled" value={stats.mostRolled} />
             <StatBox label="Dice Rolled" value={stats.diceRolled.toString()} color={tokens.colors.secondary} />
-            <StatBox label="Domains" value={stats.domains.toString()} />
-            <StatBox label="Purchases" value={stats.purchases.toString()} color="#C4A000" />
-            <StatBox label="Events" value={stats.rooms.toString()} />
-            {!isWin && stats.killedBy && (
-              <Box sx={{ gridColumn: '1 / -1' }}>
-                <StatBox label="Killed By" value={stats.killedBy} fullWidth />
-              </Box>
-            )}
-            <StatBox label="Shop Remixes" value={stats.shopRemixes.toString()} />
-            <StatBox label="Discoveries" value={stats.discoveries.toString()} />
+            <StatBox label="Most Rolled" value={stats.mostRolled} />
           </Box>
+
+          {/* Progress Section */}
+          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
+            PROGRESS
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
+            <StatBox label="Domains" value={`${stats.domains}/6`} />
+            <StatBox label="Events" value={stats.rooms.toString()} />
+          </Box>
+
+          {/* Difficulty Breakdown - Visual Pills */}
+          {stats.variantCounts && (stats.variantCounts.swift + stats.variantCounts.standard + stats.variantCounts.grueling > 0) && (
+            <Box sx={{ display: 'flex', gap: 0.75, mb: 2 }}>
+              {stats.variantCounts.swift > 0 && (
+                <Box sx={{ bgcolor: '#22c55e20', border: '1px solid #22c55e', borderRadius: 1, px: 1.5, py: 0.5 }}>
+                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: '#22c55e' }}>
+                    Swift x{stats.variantCounts.swift}
+                  </Typography>
+                </Box>
+              )}
+              {stats.variantCounts.standard > 0 && (
+                <Box sx={{ bgcolor: '#f59e0b20', border: '1px solid #f59e0b', borderRadius: 1, px: 1.5, py: 0.5 }}>
+                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: '#f59e0b' }}>
+                    Std x{stats.variantCounts.standard}
+                  </Typography>
+                </Box>
+              )}
+              {stats.variantCounts.grueling > 0 && (
+                <Box sx={{ bgcolor: '#ef444420', border: '1px solid #ef4444', borderRadius: 1, px: 1.5, py: 0.5 }}>
+                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: '#ef4444' }}>
+                    Hard x{stats.variantCounts.grueling}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          )}
+
+          {/* Performance Section */}
+          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
+            PERFORMANCE
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
+            <StatBox label="Run Time" value={formatTime(stats.totalTimeMs)} />
+            <StatBox label="Avg Event" value={formatTime(stats.avgEventTimeMs)} />
+            <StatBox label="Fastest" value={formatTime(stats.fastestEventMs)} color="#22c55e" />
+            <StatBox label="Gold Earned" value={`$${stats.goldEarned.toLocaleString()}`} color="#C4A000" />
+          </Box>
+
+          {/* Economy Section */}
+          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
+            ECONOMY
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
+            <StatBox label="Purchases" value={stats.purchases.toString()} color="#C4A000" />
+            <StatBox label="Shop Remixes" value={stats.shopRemixes.toString()} />
+          </Box>
+
+          {/* Death info */}
+          {!isWin && stats.killedBy && (
+            <Box sx={{ mb: 2 }}>
+              <StatBox label="Killed By" value={stats.killedBy} fullWidth />
+            </Box>
+          )}
 
           {/* Seed */}
           <Box
             sx={{
-              mt: 2,
               p: 1.5,
               bgcolor: tokens.colors.background.elevated,
               borderRadius: 1,
@@ -292,6 +362,16 @@ export function GameOverModal({
       </Box>
     </Box>
   );
+}
+
+// Helper to format milliseconds as readable time
+function formatTime(ms: number): string {
+  if (!ms || ms <= 0) return '-';
+  const seconds = Math.floor(ms / 1000);
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
 // Helper component for stat boxes

@@ -21,14 +21,16 @@ import { DiceReticle } from './components/DiceReticle';
 import { ImpactEffect } from './components/ImpactEffect';
 import { GuardianGroup, type GuardianData } from './components/Guardian';
 import { VictoryExplosion } from './components/VictoryExplosion';
+import { BossSprite } from './components/BossSprite';
 import { ZoneMarker as ZoneMarkerType } from '../../types/zones';
+import type { BossDefinition } from '../../data/boss-types';
 
-// Event sky colors - tinting for atmosphere via fog + ambient
-// Event 1 (afternoon): warm, Event 2 (dusk): neutral, Event 3 (night): cool
+// Event sky colors - all black backgrounds for clean space look
+// Zone 1: intact planet, Zone 2: damaged/mini-boss, Zone 3: Die-rector boss
 const EVENT_SKY_COLORS: Record<number, { ambient: string; fog: string; intensity: number }> = {
-  1: { ambient: '#ffe4c4', fog: '#1a1408', intensity: 0.35 },  // Warm - afternoon
-  2: { ambient: '#d4d4d4', fog: '#0a0a0a', intensity: 0.30 },  // Neutral - dusk
-  3: { ambient: '#a0c4e8', fog: '#080c14', intensity: 0.25 },  // Cool blue - night/boss
+  1: { ambient: '#ffffff', fog: '#000000', intensity: 0.30 },  // Clean white light, black sky
+  2: { ambient: '#e0e0e0', fog: '#000000', intensity: 0.28 },  // Slightly dimmer
+  3: { ambient: '#d0d0d0', fog: '#000000', intensity: 0.25 },  // Boss atmosphere
 };
 
 interface GlobeSceneProps {
@@ -62,6 +64,12 @@ interface GlobeSceneProps {
   onCameraChange?: (distance: number) => void;
   /** Callback when center target changes (point on planet under reticle) */
   onCenterTargetChange?: (target: { lat: number; lng: number; point3D: [number, number, number] } | null) => void;
+  /** Boss definition for boss encounters (zone 3) */
+  boss?: BossDefinition;
+  /** Current score for boss HP calculation */
+  bossCurrentScore?: number;
+  /** True when boss was just hit (triggers shake animation) */
+  bossIsHit?: boolean;
 }
 
 /**
@@ -186,6 +194,9 @@ export function GlobeScene({
   onVictoryExplosionComplete,
   onCameraChange,
   onCenterTargetChange,
+  boss,
+  bossCurrentScore = 0,
+  bossIsHit = false,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -271,6 +282,16 @@ export function GlobeScene({
           {/* Guardians - flat billboard enemies orbiting the planet */}
           {guardians.length > 0 && (
             <GuardianGroup guardians={guardians} onGuardianHit={onGuardianHit} />
+          )}
+
+          {/* Boss sprite - positioned above/behind the globe */}
+          {boss && (
+            <BossSprite
+              boss={boss}
+              currentScore={bossCurrentScore}
+              isHit={bossIsHit}
+              position={[0, 2.5, -2]}
+            />
           )}
 
           {/* Active meteors */}
