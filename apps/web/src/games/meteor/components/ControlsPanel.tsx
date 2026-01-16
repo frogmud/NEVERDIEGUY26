@@ -6,6 +6,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Typography,
 } from '@mui/material';
 import { ExpandMoreSharp as ExpandMoreIcon } from '@mui/icons-material';
 import { CardSection } from '../../../components/CardSection';
