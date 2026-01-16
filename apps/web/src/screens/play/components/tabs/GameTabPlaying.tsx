@@ -59,6 +59,7 @@ interface GameTabPlayingProps {
   // Enemy/Goal
   enemySprite?: string;
   scoreToBeat: number;
+  hideScoreToBeat?: boolean; // Hide during shop phase
 
   // Current score
   score: number;
@@ -90,6 +91,7 @@ interface GameTabPlayingProps {
 export function GameTabPlaying({
   enemySprite = '/assets/enemies/shadow-knight.png',
   scoreToBeat = 0,
+  hideScoreToBeat = false,
   score = 0,
   multiplier = 1,
   goal = 0,
@@ -107,43 +109,45 @@ export function GameTabPlaying({
 }: GameTabPlayingProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-      {/* Score To Beat - clean centered layout */}
-      <Box
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderBottom: `1px solid ${tokens.colors.border}`,
-          flexShrink: 0,
-        }}
-      >
-        <Typography
+      {/* Score To Beat - clean centered layout (hidden during shop) */}
+      {!hideScoreToBeat && (
+        <Box
           sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.875rem',
-            color: tokens.colors.text.secondary,
-            mb: 0.5,
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderBottom: `1px solid ${tokens.colors.border}`,
+            flexShrink: 0,
           }}
         >
-          Score to Beat
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <TokenIcon size={32} />
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: '2rem',
-              color: tokens.colors.primary,
-              fontWeight: 700,
-              letterSpacing: '0.05em',
+              fontSize: '0.875rem',
+              color: tokens.colors.text.secondary,
+              mb: 0.5,
             }}
           >
-            {scoreToBeat.toLocaleString()}
+            Score to Beat
           </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TokenIcon size={32} />
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '2rem',
+                color: tokens.colors.primary,
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+              }}
+            >
+              {scoreToBeat.toLocaleString()}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      )}
 
       {/* Combat Feed - NPC Chat, Rolls, Trades (most recent at top, persists) */}
       <Box

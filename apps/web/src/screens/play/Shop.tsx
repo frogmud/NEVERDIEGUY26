@@ -2,7 +2,6 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Box, Typography, Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes } from '@mui/material';
 import {
   ArrowForwardSharp as ContinueIcon,
-  RefreshSharp as RerollIcon,
   CheckCircleSharp as CheckIcon,
 } from '@mui/icons-material';
 import { DURATION } from '../../utils/transitions';
@@ -330,49 +329,49 @@ export function Shop({
           </Typography>
         </Box>
 
-        {/* Speech bubble */}
+        {/* Speech bubble - larger like homepage */}
         <Box
           sx={{
             bgcolor: '#1a1a1a',
             border: '2px solid #333',
             borderRadius: '12px',
-            px: 3,
-            py: 1.5,
-            maxWidth: 320,
+            px: 4,
+            py: 2.5,
+            maxWidth: 400,
             position: 'relative',
             // Triangle pointer
             '&::before': {
               content: '""',
               position: 'absolute',
-              left: -12,
+              left: -14,
               top: '50%',
-              marginTop: -8,
+              marginTop: -10,
               width: 0,
               height: 0,
-              borderTop: '8px solid transparent',
-              borderBottom: '8px solid transparent',
-              borderRight: '12px solid #333',
+              borderTop: '10px solid transparent',
+              borderBottom: '10px solid transparent',
+              borderRight: '14px solid #333',
             },
             '&::after': {
               content: '""',
               position: 'absolute',
               left: -8,
               top: '50%',
-              marginTop: -6,
+              marginTop: -8,
               width: 0,
               height: 0,
-              borderTop: '6px solid transparent',
-              borderBottom: '6px solid transparent',
-              borderRight: '10px solid #1a1a1a',
+              borderTop: '8px solid transparent',
+              borderBottom: '8px solid transparent',
+              borderRight: '12px solid #1a1a1a',
             },
           }}
         >
           <Typography
             sx={{
               ...gamingFont,
-              fontSize: { xs: '0.85rem', sm: '1rem' },
+              fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
               color: tokens.colors.text.primary,
-              lineHeight: 1.4,
+              lineHeight: 1.5,
             }}
           >
             {vendor.greeting}
@@ -503,7 +502,7 @@ export function Shop({
             ${REROLL_COST}
           </Typography>
 
-          {/* Reroll icon/text area */}
+          {/* Reroll text area - no icon */}
           <Box
             sx={{
               width: { xs: 64, sm: 80, md: 96 },
@@ -515,14 +514,13 @@ export function Shop({
               mb: 1.5,
             }}
           >
-            <RerollIcon sx={{ fontSize: { xs: 32, sm: 40 }, color: tokens.colors.text.secondary, mb: 0.5 }} />
             <Typography
               sx={{
                 ...gamingFont,
-                fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
                 color: tokens.colors.text.secondary,
                 textAlign: 'center',
-                lineHeight: 1.2,
+                lineHeight: 1.3,
               }}
             >
               reroll
@@ -549,11 +547,13 @@ export function Shop({
       <Button
         variant="contained"
         onClick={onContinue}
-        endIcon={<ContinueIcon />}
+        endIcon={<ContinueIcon sx={{ color: '#000' }} />}
         sx={{
           bgcolor: tokens.colors.success,
+          color: '#000',
           ...gamingFont,
           fontSize: { xs: '1rem', sm: '1.25rem' },
+          fontWeight: 700,
           px: { xs: 4, sm: 6 },
           py: 1.5,
           '&:hover': { bgcolor: '#1e8449' },
