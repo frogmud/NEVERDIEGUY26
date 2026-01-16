@@ -1,8 +1,8 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Box, Typography, Button, Paper, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes } from '@mui/material';
+import { Box, Typography, Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes } from '@mui/material';
 import {
   ArrowForwardSharp as ContinueIcon,
-  FavoriteSharp as FavorIcon,
+  RefreshSharp as RerollIcon,
   CheckCircleSharp as CheckIcon,
 } from '@mui/icons-material';
 import { DURATION } from '../../utils/transitions';
@@ -12,6 +12,9 @@ import { applyFavorDiscount, getTierPriceMultiplier, type LuckySynergyLevel } fr
 import type { Item, Rarity } from '../../data/wiki/types';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
+
+// Reroll cost
+const REROLL_COST = 50;
 
 // Vendor animation
 const slideIn = keyframes`
@@ -101,26 +104,6 @@ function calculateItemCost(item: Item, tier: number, favorTokens: number = 0): n
   return applyFavorDiscount(basePrice, favorTokens);
 }
 
-// Legacy shop items (fallback when wiki data not available)
-interface LegacyShopItem {
-  id: string;
-  name: string;
-  description: string;
-  cost: number;
-  rarity: Rarity;
-}
-
-const LEGACY_SHOP_ITEMS: LegacyShopItem[] = [
-  { id: 'd4', name: 'Extra D4', description: '+1 D4 die to your loadout', cost: 75, rarity: 'Common' },
-  { id: 'd6', name: 'Extra D6', description: '+1 D6 die to your loadout', cost: 100, rarity: 'Common' },
-  { id: 'd8', name: 'Extra D8', description: '+1 D8 die to your loadout', cost: 150, rarity: 'Uncommon' },
-  { id: 'd10', name: 'Extra D10', description: '+1 D10 die to your loadout', cost: 200, rarity: 'Uncommon' },
-  { id: 'd12', name: 'Extra D12', description: '+1 D12 die to your loadout', cost: 300, rarity: 'Rare' },
-  { id: 'd20', name: 'Extra D20', description: '+1 D20 die to your loadout', cost: 400, rarity: 'Rare' },
-  { id: 'summon', name: '+1 Summon', description: 'Gain an extra summon this domain', cost: 250, rarity: 'Uncommon' },
-  { id: 'tribute', name: '+1 Tribute', description: 'Gain an extra tribute this domain', cost: 150, rarity: 'Common' },
-  { id: 'double', name: '2x Next Combo', description: 'Double your next combo multiplier', cost: 350, rarity: 'Rare' },
-];
 
 interface ShopProps {
   gold: number;
@@ -150,7 +133,6 @@ export function Shop({
   favorTokens = 0,
   luckySynergy = 'none',
 }: ShopProps) {
-  const hasDiscount = favorTokens > 0;
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
   const [purchasingItem, setPurchasingItem] = useState<string | null>(null);
   const [confirmItem, setConfirmItem] = useState<Item | null>(null);
@@ -198,7 +180,7 @@ export function Shop({
         {
           tier,
           domain: domainSlug,
-          count: 4, // Hades-style limited inventory
+          count: 3, // 3 items + reroll slot
           includeOverride: isAuditPrep,
         },
         rng,
@@ -251,15 +233,41 @@ export function Shop({
     setConfirmItem(null);
   };
 
-  // Calculate discount percentage for display
-  const discountPercent = hasDiscount ? Math.round(favorTokens * 15) : 0;
 
-  const handlePurchaseLegacy = (item: LegacyShopItem) => {
-    if (gold >= item.cost && !purchasedItems.includes(item.id)) {
-      onPurchase(item.cost, item.id, 'dice');
-      setPurchasedItems((prev) => [...prev, item.id]);
+  // Reroll state
+  const [rerollCount, setRerollCount] = useState(0);
+  const [rerollSeed, setRerollSeed] = useState(threadId || '');
+
+  // Handle reroll - generates new items
+  const handleReroll = useCallback(() => {
+    if (gold >= REROLL_COST) {
+      onPurchase(REROLL_COST, 'reroll', 'powerup');
+      setRerollCount((prev) => prev + 1);
+      setRerollSeed(`${threadId}-reroll-${rerollCount + 1}`);
     }
-  };
+  }, [gold, threadId, rerollCount, onPurchase]);
+
+  // Generate items with reroll seed
+  const displayItems = useMemo(() => {
+    if (!threadId) return wikiItems;
+    if (rerollCount === 0) return wikiItems;
+    try {
+      const rng = createSeededRng(rerollSeed);
+      const domainSlug = `domain-${domainId}`;
+      return getRequisitionPool(
+        {
+          tier,
+          domain: domainSlug,
+          count: 3,
+          includeOverride: isAuditPrep,
+        },
+        rng,
+        luckySynergy
+      );
+    } catch {
+      return wikiItems;
+    }
+  }, [threadId, rerollCount, rerollSeed, domainId, tier, isAuditPrep, luckySynergy, wikiItems]);
 
   return (
     <Box
@@ -272,8 +280,23 @@ export function Shop({
         p: 3,
       }}
     >
-      {/* Vendor + Header */}
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3, mb: 3 }}>
+      {/* Headline - Vendor/Event Name */}
+      <Typography
+        component="h1"
+        sx={{
+          ...gamingFont,
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+          fontWeight: 800,
+          color: tokens.colors.text.primary,
+          textAlign: 'center',
+          mb: 3,
+        }}
+      >
+        {vendor.name}
+      </Typography>
+
+      {/* Vendor sprite + speech bubble */}
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 4 }}>
         {/* Vendor Sprite */}
         <Box
           sx={{
@@ -287,9 +310,9 @@ export function Shop({
             src={spriteFrame === 2 && vendor.sprite2 ? vendor.sprite2 : vendor.sprite}
             alt={vendor.name}
             sx={{
-              width: 80,
+              width: { xs: 80, sm: 100 },
               height: 'auto',
-              maxHeight: 100,
+              maxHeight: 120,
               objectFit: 'contain',
               imageRendering: 'pixelated',
             }}
@@ -297,7 +320,7 @@ export function Shop({
           <Typography
             sx={{
               ...gamingFont,
-              fontSize: '0.65rem',
+              fontSize: '0.7rem',
               color: tokens.colors.text.disabled,
               textAlign: 'center',
               mt: 0.5,
@@ -307,383 +330,214 @@ export function Shop({
           </Typography>
         </Box>
 
-        {/* Header text + greeting */}
-        <Box sx={{ textAlign: 'left', pt: 1 }}>
-          {/* Vendor greeting */}
-          <Paper
-            sx={{
-              bgcolor: '#1a1a1a',
-              border: '2px solid #333',
-              borderRadius: '8px',
-              px: 2,
-              py: 1,
-              mb: 2,
-              maxWidth: 280,
-            }}
-          >
-            <Typography
-              sx={{
-                ...gamingFont,
-                fontSize: '0.9rem',
-                color: tokens.colors.text.primary,
-                lineHeight: 1.4,
-              }}
-            >
-              {vendor.greeting}
-            </Typography>
-          </Paper>
-
-          {/* Tier label */}
+        {/* Speech bubble */}
+        <Box
+          sx={{
+            bgcolor: '#1a1a1a',
+            border: '2px solid #333',
+            borderRadius: '12px',
+            px: 3,
+            py: 1.5,
+            maxWidth: 320,
+            position: 'relative',
+            // Triangle pointer
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              left: -12,
+              top: '50%',
+              marginTop: -8,
+              width: 0,
+              height: 0,
+              borderTop: '8px solid transparent',
+              borderBottom: '8px solid transparent',
+              borderRight: '12px solid #333',
+            },
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              left: -8,
+              top: '50%',
+              marginTop: -6,
+              width: 0,
+              height: 0,
+              borderTop: '6px solid transparent',
+              borderBottom: '6px solid transparent',
+              borderRight: '10px solid #1a1a1a',
+            },
+          }}
+        >
           <Typography
             sx={{
               ...gamingFont,
-              fontSize: '0.7rem',
-              color: tokens.colors.text.disabled,
-              letterSpacing: '0.1em',
-              mb: 0.25,
+              fontSize: { xs: '0.85rem', sm: '1rem' },
+              color: tokens.colors.text.primary,
+              lineHeight: 1.4,
             }}
           >
-            REQUISITION
+            {vendor.greeting}
           </Typography>
-          <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: tokens.colors.text.primary }}>
-            Tier {tier} Issuance
-          </Typography>
-          {isAuditPrep && (
-            <Chip
-              label="AUDIT PREP"
-              size="small"
-              sx={{
-                mt: 1,
-                height: 20,
-                fontSize: '0.625rem',
-                bgcolor: `${tokens.colors.error}20`,
-                color: tokens.colors.error,
-                border: `1px solid ${tokens.colors.error}40`,
-              }}
-            />
-          )}
-          {hasDiscount && (
-            <Chip
-              icon={<FavorIcon sx={{ fontSize: 12 }} />}
-              label={`${discountPercent}% OFF`}
-              size="small"
-              sx={{
-                mt: 1,
-                ml: isAuditPrep ? 1 : 0,
-                height: 20,
-                fontSize: '0.625rem',
-                bgcolor: `${tokens.colors.success}20`,
-                color: tokens.colors.success,
-                border: `1px solid ${tokens.colors.success}40`,
-                '& .MuiChip-icon': { color: tokens.colors.success },
-              }}
-            />
-          )}
         </Box>
       </Box>
 
-      {/* Gold display */}
-      <Paper
+      {/* Items Row - simplified: price, big sprite, rarity tag */}
+      <Box
         sx={{
-          bgcolor: tokens.colors.background.elevated,
-          border: `1px solid ${tokens.colors.border}`,
-          borderRadius: 1,
-          px: 3,
-          py: 1,
-          mb: 3,
+          display: 'flex',
+          flexDirection: 'row',
+          gap: { xs: 2, sm: 3, md: 4 },
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          flexWrap: 'wrap',
+          width: '100%',
+          maxWidth: 800,
+          mb: 4,
         }}
       >
-        <Typography sx={{ ...gamingFont, fontSize: '1.5rem', color: '#c4a000' }}>
-          {gold} Credits
-        </Typography>
-      </Paper>
+        {/* Display first 3 items */}
+        {displayItems.slice(0, 3).map((item) => {
+          const isPurchased = purchasedItems.includes(item.slug);
+          const isPurchasing = purchasingItem === item.slug;
+          const cost = calculateItemCost(item, tier, favorTokens);
+          const canAfford = gold >= cost;
+          const rarityColor = RARITY_COLORS[item.rarity || 'Common'];
 
-      {/* Wiki Items Row (Hades-style limited inventory) */}
-      {useWikiItems ? (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 2,
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            width: '100%',
-            maxWidth: 900,
-            mb: 4,
-          }}
-        >
-          {wikiItems.map((item) => {
-            const isPurchased = purchasedItems.includes(item.slug);
-            const isPurchasing = purchasingItem === item.slug;
-            const baseCost = calculateBaseItemCost(item, tier);
-            const cost = calculateItemCost(item, tier, favorTokens);
-            const canAfford = gold >= cost;
-            const rarityColor = RARITY_COLORS[item.rarity || 'Common'];
-            const showOriginalPrice = hasDiscount && baseCost !== cost;
-
-            return (
-              <Paper
-                key={item.slug}
+          return (
+            <Box
+              key={item.slug}
+              onClick={() => !isPurchased && !isPurchasing && canAfford && handlePurchaseWikiItem(item)}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                cursor: isPurchased || !canAfford ? 'default' : 'pointer',
+                opacity: isPurchased ? 0.5 : 1,
+                transition: 'all 150ms ease',
+                '&:hover': {
+                  transform: isPurchased || !canAfford ? 'none' : 'scale(1.08)',
+                },
+              }}
+            >
+              {/* Price */}
+              <Typography
                 sx={{
-                  bgcolor: tokens.colors.background.paper,
-                  border: `2px solid ${isPurchased ? tokens.colors.success : `${rarityColor}40`}`,
-                  borderRadius: 1,
-                  p: 1.5,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: 180,
-                  flexShrink: 0,
-                  opacity: isPurchased ? 0.6 : 1,
-                  transition: 'all 0.2s',
-                  '&:hover': {
-                    borderColor: isPurchased ? tokens.colors.success : rarityColor,
-                    transform: 'translateY(-2px)',
-                  },
+                  ...gamingFont,
+                  fontSize: { xs: '1rem', sm: '1.25rem' },
+                  color: isPurchased ? tokens.colors.success : canAfford ? '#c4a000' : tokens.colors.error,
+                  mb: 1,
                 }}
               >
-                {/* Item Header */}
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
-                  {item.image && (
-                    <Box
-                      sx={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: 1,
-                        bgcolor: `${rarityColor}10`,
-                        border: `1px solid ${rarityColor}30`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <Box
-                        component="img"
-                        src={item.image}
-                        alt={item.name}
-                        sx={{
-                          width: 28,
-                          height: 28,
-                          objectFit: 'contain',
-                        }}
-                        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    </Box>
-                  )}
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography
-                      sx={{
-                        fontWeight: 600,
-                        fontSize: '0.75rem',
-                        color: tokens.colors.text.primary,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {item.name}
-                    </Typography>
-                    <Chip
-                      label={item.rarity}
-                      size="small"
-                      sx={{
-                        height: 16,
-                        fontSize: '0.625rem',
-                        bgcolor: `${rarityColor}15`,
-                        color: rarityColor,
-                        border: `1px solid ${rarityColor}30`,
-                        '& .MuiChip-label': { px: 0.5 },
-                      }}
-                    />
-                  </Box>
-                </Box>
+                {isPurchased ? <CheckIcon sx={{ fontSize: 20 }} /> : `$${cost}`}
+              </Typography>
 
-                {/* Item Type */}
-                <Typography
-                  sx={{
-                    fontSize: '0.75rem',
-                    color: tokens.colors.text.disabled,
-                    mb: 1,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  {item.itemType || 'Item'}
-                </Typography>
-
-                {/* Description */}
-                <Typography
-                  sx={{
-                    fontSize: '0.65rem',
-                    color: tokens.colors.text.secondary,
-                    mb: 1.5,
-                    flex: 1,
-                    lineHeight: 1.4,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {item.description || 'A mysterious item from the archive.'}
-                </Typography>
-
-                {/* Price and Buy */}
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
-                    {showOriginalPrice && (
-                      <Typography
-                        sx={{
-                          ...gamingFont,
-                          fontSize: '0.75rem',
-                          color: tokens.colors.text.disabled,
-                          textDecoration: 'line-through',
-                        }}
-                      >
-                        {baseCost}c
-                      </Typography>
-                    )}
-                    <Typography
-                      sx={{
-                        ...gamingFont,
-                        fontSize: '0.75rem',
-                        color: showOriginalPrice ? tokens.colors.success : '#c4a000',
-                      }}
-                    >
-                      {cost}c
-                    </Typography>
-                  </Box>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    disabled={isPurchased || isPurchasing || !canAfford}
-                    onClick={() => handlePurchaseWikiItem(item)}
-                    startIcon={isPurchased ? <CheckIcon sx={{ fontSize: 14 }} /> : undefined}
-                    sx={{
-                      minWidth: 60,
-                      bgcolor: isPurchased
-                        ? tokens.colors.success
-                        : isPurchasing
-                        ? `${rarityColor}80`
-                        : canAfford
-                        ? rarityColor
-                        : tokens.colors.background.elevated,
-                      color: '#fff',
-                      ...gamingFont,
-                      fontSize: '0.75rem',
-                      py: 0.5,
-                      transition: 'all 150ms ease-out',
-                      transform: isPurchasing ? 'scale(0.97)' : 'scale(1)',
-                      '&:hover': {
-                        bgcolor: isPurchased ? tokens.colors.success : rarityColor,
-                        filter: 'brightness(1.1)',
-                      },
-                      '&.Mui-disabled': {
-                        bgcolor: isPurchased
-                          ? tokens.colors.success
-                          : isPurchasing
-                          ? `${rarityColor}80`
-                          : tokens.colors.background.elevated,
-                        color: isPurchased || isPurchasing ? '#fff' : tokens.colors.text.disabled,
-                      },
-                    }}
-                  >
-                    {isPurchased ? 'Owned' : isPurchasing ? '...' : 'Buy'}
-                  </Button>
-                </Box>
-              </Paper>
-            );
-          })}
-        </Box>
-      ) : (
-        /* Legacy Items Grid (fallback) */
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-            gap: 2,
-            width: '100%',
-            maxWidth: 700,
-            mb: 4,
-          }}
-        >
-          {LEGACY_SHOP_ITEMS.map((item) => {
-            const isPurchased = purchasedItems.includes(item.id);
-            const canAfford = gold >= item.cost;
-            const rarityColor = RARITY_COLORS[item.rarity];
-
-            return (
-              <Paper
-                key={item.id}
+              {/* Big Item Sprite */}
+              <Box
                 sx={{
-                  bgcolor: tokens.colors.background.paper,
-                  border: `1px solid ${isPurchased ? tokens.colors.success : `${rarityColor}40`}`,
-                  borderRadius: 1,
-                  p: 2,
+                  width: { xs: 64, sm: 80, md: 96 },
+                  height: { xs: 64, sm: 80, md: 96 },
                   display: 'flex',
-                  flexDirection: 'column',
-                  opacity: isPurchased ? 0.6 : 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mb: 1.5,
                 }}
               >
-                <Typography sx={{ fontWeight: 600, fontSize: '0.85rem', mb: 0.5 }}>{item.name}</Typography>
-                <Chip
-                  label={item.rarity}
-                  size="small"
+                <Box
+                  component="img"
+                  src={item.image || '/assets/items/placeholder.png'}
+                  alt={item.name}
                   sx={{
-                    width: 'fit-content',
-                    height: 18,
-                    fontSize: '0.625rem',
-                    bgcolor: `${rarityColor}15`,
-                    color: rarityColor,
-                    mb: 1,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                    filter: isPurchased ? 'grayscale(50%)' : 'none',
+                  }}
+                  onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                    e.currentTarget.src = '/assets/items/placeholder.png';
                   }}
                 />
-                <Typography
-                  sx={{
-                    fontSize: '0.7rem',
-                    color: tokens.colors.text.secondary,
-                    mb: 1.5,
-                    flex: 1,
-                  }}
-                >
-                  {item.description}
-                </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography sx={{ ...gamingFont, fontSize: '1rem', color: '#c4a000' }}>
-                    {item.cost}c
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    disabled={isPurchased || !canAfford}
-                    onClick={() => handlePurchaseLegacy(item)}
-                    sx={{
-                      bgcolor: isPurchased ? tokens.colors.success : canAfford ? '#c4a000' : tokens.colors.background.elevated,
-                      ...gamingFont,
-                      fontSize: '0.65rem',
-                      '&:hover': {
-                        bgcolor: isPurchased ? tokens.colors.success : '#a08300',
-                      },
-                      '&.Mui-disabled': {
-                        bgcolor: isPurchased ? tokens.colors.success : tokens.colors.background.elevated,
-                        color: isPurchased ? '#fff' : tokens.colors.text.disabled,
-                      },
-                    }}
-                  >
-                    {isPurchased ? 'Owned' : 'Buy'}
-                  </Button>
-                </Box>
-              </Paper>
-            );
-          })}
+              </Box>
+
+              {/* Rarity Tag */}
+              <Chip
+                label={item.rarity || 'Common'}
+                size="small"
+                sx={{
+                  height: 24,
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  bgcolor: `${rarityColor}20`,
+                  color: rarityColor,
+                  border: `1px solid ${rarityColor}50`,
+                  '& .MuiChip-label': { px: 1.5 },
+                }}
+              />
+            </Box>
+          );
+        })}
+
+        {/* Reroll Requisition slot */}
+        <Box
+          onClick={() => gold >= REROLL_COST && handleReroll()}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            cursor: gold >= REROLL_COST ? 'pointer' : 'default',
+            opacity: gold >= REROLL_COST ? 1 : 0.4,
+            transition: 'all 150ms ease',
+            '&:hover': {
+              transform: gold >= REROLL_COST ? 'scale(1.08)' : 'none',
+            },
+          }}
+        >
+          {/* Price */}
+          <Typography
+            sx={{
+              ...gamingFont,
+              fontSize: { xs: '1rem', sm: '1.25rem' },
+              color: gold >= REROLL_COST ? '#c4a000' : tokens.colors.text.disabled,
+              mb: 1,
+            }}
+          >
+            ${REROLL_COST}
+          </Typography>
+
+          {/* Reroll icon/text area */}
+          <Box
+            sx={{
+              width: { xs: 64, sm: 80, md: 96 },
+              height: { xs: 64, sm: 80, md: 96 },
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mb: 1.5,
+            }}
+          >
+            <RerollIcon sx={{ fontSize: { xs: 32, sm: 40 }, color: tokens.colors.text.secondary, mb: 0.5 }} />
+            <Typography
+              sx={{
+                ...gamingFont,
+                fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                color: tokens.colors.text.secondary,
+                textAlign: 'center',
+                lineHeight: 1.2,
+              }}
+            >
+              reroll
+              <br />
+              requisition
+            </Typography>
+          </Box>
+
+          {/* Empty tag space for alignment */}
+          <Box sx={{ height: 24 }} />
         </Box>
-      )}
+      </Box>
 
       {/* Empty state */}
-      {useWikiItems && wikiItems.length === 0 && (
+      {useWikiItems && displayItems.length === 0 && (
         <Box sx={{ textAlign: 'center', py: 4 }}>
           <Typography sx={{ ...gamingFont, fontSize: '1rem', color: tokens.colors.text.disabled }}>
             {getEmptyPoolMessage('requisition')}
@@ -691,7 +545,7 @@ export function Shop({
         </Box>
       )}
 
-      {/* Continue button */}
+      {/* Next Event button */}
       <Button
         variant="contained"
         onClick={onContinue}
@@ -699,16 +553,16 @@ export function Shop({
         sx={{
           bgcolor: tokens.colors.success,
           ...gamingFont,
-          fontSize: '1.125rem',
-          px: 4,
+          fontSize: { xs: '1rem', sm: '1.25rem' },
+          px: { xs: 4, sm: 6 },
           py: 1.5,
           '&:hover': { bgcolor: '#1e8449' },
         }}
       >
-        Continue
+        Next Event
       </Button>
 
-      {/* Confirmation Dialog (Round 31) */}
+      {/* Confirmation Dialog */}
       <Dialog
         open={Boolean(confirmItem)}
         onClose={handleCancelPurchase}
@@ -724,32 +578,34 @@ export function Shop({
         <DialogTitle sx={{ ...gamingFont, fontSize: '1.125rem', pb: 1 }}>Confirm Purchase</DialogTitle>
         <DialogContent>
           {confirmItem && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Typography sx={{ fontWeight: 600 }}>{confirmItem.name}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+              <Box
+                component="img"
+                src={confirmItem.image || '/assets/items/placeholder.png'}
+                alt={confirmItem.name}
+                sx={{ width: 80, height: 80, objectFit: 'contain', imageRendering: 'pixelated' }}
+              />
+              <Typography sx={{ ...gamingFont, fontWeight: 600, fontSize: '1rem' }}>{confirmItem.name}</Typography>
               <Chip
                 label={confirmItem.rarity}
                 size="small"
                 sx={{
-                  width: 'fit-content',
-                  height: 18,
-                  fontSize: '0.625rem',
-                  bgcolor: `${RARITY_COLORS[confirmItem.rarity || 'Common']}15`,
+                  height: 20,
+                  fontSize: '0.7rem',
+                  bgcolor: `${RARITY_COLORS[confirmItem.rarity || 'Common']}20`,
                   color: RARITY_COLORS[confirmItem.rarity || 'Common'],
                 }}
               />
-              <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary }}>
-                {confirmItem.description || 'A mysterious item from the archive.'}
+              <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: '#c4a000' }}>
+                ${calculateItemCost(confirmItem, tier, favorTokens)}
               </Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '1.125rem', color: '#c4a000', mt: 1 }}>
-                Cost: {calculateItemCost(confirmItem, tier, favorTokens)}c
-              </Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>
-                Remaining: {gold - calculateItemCost(confirmItem, tier, favorTokens)}c
+              <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
+                Remaining: ${gold - calculateItemCost(confirmItem, tier, favorTokens)}
               </Typography>
             </Box>
           )}
         </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2 }}>
+        <DialogActions sx={{ px: 3, pb: 2, justifyContent: 'center', gap: 2 }}>
           <Button onClick={handleCancelPurchase} sx={{ color: tokens.colors.text.secondary }}>
             Cancel
           </Button>
@@ -759,10 +615,11 @@ export function Shop({
             sx={{
               bgcolor: confirmItem ? RARITY_COLORS[confirmItem.rarity || 'Common'] : tokens.colors.primary,
               ...gamingFont,
-              fontSize: '0.7rem',
+              fontSize: '0.85rem',
+              px: 3,
             }}
           >
-            Confirm
+            Buy
           </Button>
         </DialogActions>
       </Dialog>

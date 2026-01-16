@@ -65,6 +65,7 @@ export const LOADOUT_ITEMS: Record<string, { rarity: number; category: string; i
   'turtle-shell': { rarity: 2, category: 'armor', image: '/assets/items/armor/turtle-shell.png' },
   'shield-heavy': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/shield-heavy.png' },
   'melee-crowbar': { rarity: 1, category: 'weapon', image: '/assets/items/weapons/melee-crowbar.png' },
+  'melee-stichup-scissors': { rarity: 2, category: 'weapon', image: '/assets/items/weapons/melee-stichup-scissors.png' },
 
   // ============================================
   // FROST REACH ITEMS (Domain 2)
