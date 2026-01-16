@@ -9,7 +9,7 @@
  * NEVER DIE GUY
  */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Sound configuration
 const SOUND_CONFIG = {
@@ -64,7 +64,8 @@ export interface SoundHook {
 
 export function useSound(): SoundHook {
   const audioContextRef = useRef<AudioContext | null>(null);
-  const enabledRef = useRef(true);
+  const enabledRef = useRef(true);  // Ref for sync access in audio callbacks
+  const [enabled, setEnabledState] = useState(true);  // State for reactive UI
 
   // Initialize AudioContext on first interaction
   const getAudioContext = useCallback(() => {
@@ -198,9 +199,10 @@ export function useSound(): SoundHook {
     });
   }, [playTone]);
 
-  // Set enabled state
-  const setEnabled = useCallback((enabled: boolean) => {
-    enabledRef.current = enabled;
+  // Set enabled state (updates both ref for sync access and state for UI reactivity)
+  const setEnabled = useCallback((value: boolean) => {
+    enabledRef.current = value;
+    setEnabledState(value);
   }, []);
 
   // Cleanup on unmount
@@ -219,6 +221,6 @@ export function useSound(): SoundHook {
     playVictory,
     playDefeat,
     setEnabled,
-    isEnabled: enabledRef.current,
+    isEnabled: enabled,  // Now reactive for UI
   };
 }

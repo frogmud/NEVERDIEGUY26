@@ -28,7 +28,10 @@ export interface GameStats {
 
 export interface UseGameStateReturn {
   state: GameState;
+  /** @deprecated Use getStats() instead - this returns stale ref */
   stats: GameStats;
+  /** Get current stats snapshot (use this instead of stats property) */
+  getStats: () => GameStats;
   setScore: React.Dispatch<React.SetStateAction<number>>;
   setSummons: React.Dispatch<React.SetStateAction<number>>;
   setTributes: React.Dispatch<React.SetStateAction<number>>;
@@ -93,6 +96,9 @@ export function useGameState(
     statsRef.current.diceThrown += count;
   }, []);
 
+  // Get current stats snapshot (returns a copy, not the ref)
+  const getStats = useCallback(() => ({ ...statsRef.current }), []);
+
   const resetGame = useCallback(() => {
     setScore(0);
     setSummons(config.initialSummons);
@@ -115,7 +121,8 @@ export function useGameState(
       gameOver,
       isWin,
     },
-    stats: statsRef.current,
+    stats: statsRef.current,  // Kept for backwards compat (deprecated)
+    getStats,  // Use this instead
     setScore,
     setSummons,
     setTributes,

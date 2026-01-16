@@ -8,7 +8,7 @@
  * - Uses the chatbase lookup system for responses
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import type { MoodType, TemplatePool } from '@ndg/shared';
 import { lookupDialogue, getRegisteredNPCs } from '../services/chatbase';
 import { shops } from '../data/wiki/entities/shops';
@@ -67,6 +67,31 @@ export interface MarketNpcInfo {
 export function useMarketChat() {
   const [messages, setMessages] = useState<MarketChatMessage[]>([]);
   const [hasGreeted, setHasGreeted] = useState<Set<string>>(new Set());
+
+  // Refs for timeout cleanup
+  const chatterTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingTimeoutsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
+
+  // Utility for tracked delayed execution (cleans up on unmount)
+  const scheduleDelayed = useCallback((fn: () => void, delay: number) => {
+    const id = setTimeout(() => {
+      pendingTimeoutsRef.current.delete(id);
+      fn();
+    }, delay);
+    pendingTimeoutsRef.current.add(id);
+    return id;
+  }, []);
+
+  // Cleanup all timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (chatterTimeoutRef.current) {
+        clearTimeout(chatterTimeoutRef.current);
+      }
+      pendingTimeoutsRef.current.forEach(clearTimeout);
+      pendingTimeoutsRef.current.clear();
+    };
+  }, []);
 
   // Get list of NPCs registered in chatbase
   const registeredNPCs = useMemo(() => new Set(getRegisteredNPCs()), []);
@@ -231,8 +256,8 @@ export function useMarketChat() {
       playerContext: createPlayerContext(),
     });
 
-    // Simulate typing delay
-    setTimeout(() => {
+    // Simulate typing delay (tracked for cleanup)
+    scheduleDelayed(() => {
       addMessage({
         type: 'npc_message',
         content: response.text,
@@ -242,7 +267,7 @@ export function useMarketChat() {
         mood: response.mood,
       });
     }, 600);
-  }, [getNpcInfo, createPlayerContext, addMessage, addPlayerMessage]);
+  }, [getNpcInfo, createPlayerContext, addMessage, addPlayerMessage, scheduleDelayed]);
 
   // Record a purchase in the chat
   const recordPurchase = useCallback((
@@ -263,7 +288,7 @@ export function useMarketChat() {
     const npcSlug = shop.proprietor || shop.slug;
     const npcInfo = getNpcInfo(npcSlug);
     if (npcInfo) {
-      setTimeout(() => {
+      scheduleDelayed(() => {
         // Use positive mood context for purchase reactions
         const response = lookupDialogue({
           npcSlug,
@@ -280,7 +305,7 @@ export function useMarketChat() {
         });
       }, 800);
     }
-  }, [getNpcInfo, addMessage]);
+  }, [getNpcInfo, addMessage, scheduleDelayed]);
 
   // Record a gift in the chat
   const recordGift = useCallback((
@@ -299,7 +324,7 @@ export function useMarketChat() {
     // NPC reaction from chatbase (grateful context)
     const npcInfo = getNpcInfo(recipientSlug);
     if (npcInfo) {
-      setTimeout(() => {
+      scheduleDelayed(() => {
         const response = lookupDialogue({
           npcSlug: recipientSlug,
           pool: 'reaction',
@@ -315,7 +340,7 @@ export function useMarketChat() {
         });
       }, 800);
     }
-  }, [getNpcInfo, addMessage]);
+  }, [getNpcInfo, addMessage, scheduleDelayed]);
 
   // Add system message
   const addSystemMessage = useCallback((content: string) => {
@@ -401,24 +426,30 @@ export function useMarketChat() {
     }, 1500 + Math.random() * 1000);
   }, [availableNpcs, registeredNPCs, createPlayerContext, generateId]);
 
-  // Start ambient chatter loop
+  // Start ambient chatter loop (with proper cleanup)
   const startAmbientChatter = useCallback(() => {
     // Generate chatter every 15-30 seconds
     const scheduleNext = () => {
       const delay = 15000 + Math.random() * 15000;
-      return setTimeout(() => {
+      chatterTimeoutRef.current = setTimeout(() => {
         generateAmbientChatter();
         scheduleNext();
       }, delay);
     };
 
     // Start after initial delay
-    const initialDelay = setTimeout(() => {
+    chatterTimeoutRef.current = setTimeout(() => {
       generateAmbientChatter();
       scheduleNext();
     }, 5000);
 
-    return () => clearTimeout(initialDelay);
+    // Return cleanup that clears the active chatter timeout
+    return () => {
+      if (chatterTimeoutRef.current) {
+        clearTimeout(chatterTimeoutRef.current);
+        chatterTimeoutRef.current = null;
+      }
+    };
   }, [generateAmbientChatter]);
 
   return {

@@ -94,11 +94,13 @@ function getTimeUntilNextPeriod(): { hours: number; minutes: number; nextPeriod:
 
 /**
  * Check if an NPC is available based on their availability config
+ * @param npcSlug - NPC identifier for per-NPC seeded randomness
  */
 function checkAvailability(
   availability: MarketAvailability | undefined,
   currentTime: TimeOfDay,
-  currentDay: number
+  currentDay: number,
+  npcSlug: string = ''
 ): { isAvailable: boolean; reason?: string } {
   // No availability config = always available
   if (!availability) {
@@ -142,9 +144,8 @@ function checkAvailability(
 
   // Check chance (random availability)
   if (availability.chance !== undefined && availability.chance < 100) {
-    // Use a seeded random based on date + NPC for consistency within the day
-    // For prototype, we'll use a simple approach
-    const seed = new Date().toDateString();
+    // Use a seeded random based on date + NPC for per-NPC consistency within the day
+    const seed = `${new Date().toDateString()}-${npcSlug}`;
     const seededRandom = Math.abs(hashCode(seed)) % 100;
     if (seededRandom >= availability.chance) {
       return {
@@ -211,8 +212,8 @@ export function useMarketAvailability() {
 
   // Check availability function
   const isAvailable = useCallback(
-    (availability: MarketAvailability | undefined) => {
-      return checkAvailability(availability, currentTime, currentDay);
+    (availability: MarketAvailability | undefined, npcSlug: string = '') => {
+      return checkAvailability(availability, currentTime, currentDay, npcSlug);
     },
     [currentTime, currentDay]
   );

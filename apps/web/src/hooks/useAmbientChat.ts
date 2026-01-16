@@ -22,38 +22,29 @@ import {
 } from '../data/npc-chat/triggers';
 import { lookupDialogueAsync } from '../services/chatbase';
 
-// Simple seeded RNG for trigger evaluation
+// Seeded PRNG for trigger evaluation - state advances on each call
+// Keeps namespace parameter for API compatibility but ignores it (state advances regardless)
 function createTriggerRng(seed: string) {
-  let h = 0;
+  // Initialize state from seed
+  let state = 0;
   for (let i = 0; i < seed.length; i++) {
-    h = Math.imul(31, h) + seed.charCodeAt(i) | 0;
+    state = Math.imul(31, state) + seed.charCodeAt(i) | 0;
   }
-  const random = () => {
-    h = Math.imul(h ^ (h >>> 16), 2246822507);
-    h = Math.imul(h ^ (h >>> 13), 3266489909);
-    return ((h ^= h >>> 16) >>> 0) / 4294967296;
+
+  // Advance state on every call (actual PRNG, not hash)
+  const next = (): number => {
+    state = Math.imul(state ^ (state >>> 16), 2246822507);
+    state = Math.imul(state ^ (state >>> 13), 3266489909);
+    state ^= state >>> 16;
+    return (state >>> 0) / 4294967296;
   };
 
   return {
-    chance: (ns: string, pct: number) => {
-      // Mix namespace into seed for variety
-      let nsHash = 0;
-      for (let i = 0; i < ns.length; i++) {
-        nsHash = Math.imul(31, nsHash) + ns.charCodeAt(i) | 0;
-      }
-      const combined = h ^ nsHash;
-      const val = ((combined >>> 0) / 4294967296) * 100;
-      return val < pct;
-    },
-    pick: <T>(ns: string, items: T[]): T | undefined => {
+    // Namespace parameter kept for API compatibility but ignored
+    chance: (_ns: string, pct: number): boolean => next() * 100 < pct,
+    pick: <T>(_ns: string, items: T[]): T | undefined => {
       if (items.length === 0) return undefined;
-      let nsHash = 0;
-      for (let i = 0; i < ns.length; i++) {
-        nsHash = Math.imul(31, nsHash) + ns.charCodeAt(i) | 0;
-      }
-      const combined = h ^ nsHash;
-      const idx = Math.abs(combined) % items.length;
-      return items[idx];
+      return items[Math.floor(next() * items.length)];
     },
   };
 }

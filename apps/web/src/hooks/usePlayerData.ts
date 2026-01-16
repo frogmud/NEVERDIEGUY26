@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   type PlayerData,
   type StashItem,
@@ -43,11 +43,42 @@ export interface UsePlayerDataReturn {
 
 export function usePlayerData(): UsePlayerDataReturn {
   const [playerData, setPlayerData] = useState<PlayerData>(loadPlayerData);
+  const isDirtyRef = useRef(false);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Auto-save whenever playerData changes
+  // Debounced auto-save - waits 500ms after last change
   useEffect(() => {
-    savePlayerData(playerData);
+    isDirtyRef.current = true;
+
+    // Clear previous timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    // Schedule save after 500ms of no changes
+    saveTimeoutRef.current = setTimeout(() => {
+      if (isDirtyRef.current) {
+        savePlayerData(playerData);
+        isDirtyRef.current = false;
+      }
+    }, 500);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
   }, [playerData]);
+
+  // Save immediately on unmount if dirty
+  useEffect(() => {
+    return () => {
+      if (isDirtyRef.current) {
+        savePlayerData(playerData);
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Stash operations
   const addToStash = useCallback((itemSlug: string, quantity: number = 1) => {
