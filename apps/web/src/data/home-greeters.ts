@@ -739,24 +739,25 @@ export const GREETER_DOMAINS: Record<string, string> = {
 };
 
 /**
- * Per-greeter chance of enemy interrupt (0-1)
+ * Per-greeter chance of enemy interrupt at each checkpoint (0-1)
  * Some characters attract more trouble than others
+ * Checkpoints occur at ambient indices 1, 3, 5, 7, 9
  */
 export const GREETER_INTERRUPT_CHANCE: Record<string, number> = {
-  'stitch-up-girl': 0.25, // Moderate - Shadow Keep vibes
-  'keith-man': 0.20,      // Low-moderate - too fast to catch
-  'mr-kevin': 0.15,       // Low - reality bends around him
-  'clausen': 0.30,        // High - trouble finds him
-  'body-count': 0.25,     // Moderate - just counting
-  'boots': 0.35,          // High - attracts chaos
-  'willy': 0.20,          // Moderate - merchant luck
-  'boo-g': 0.25,          // Moderate - ghosts attract ghosts
-  'the-general': 0.30,    // High - battlefield vibes
-  'dr-maxwell': 0.35,     // High - Infernus is chaotic
-  'xtreme': 0.40,         // Very high - chaos magnet
-  'mr-bones': 0.15,       // Low - Frost Reach is quiet
-  'dr-voss': 0.20,        // Moderate - lab security
-  'king-james': 0.25,     // Moderate - void creatures lurk
+  'stitch-up-girl': 0.50, // High - Shadow Keep is crawling
+  'keith-man': 0.40,      // Moderate - too fast but still gets caught
+  'mr-kevin': 0.35,       // Moderate - reality glitches attract pests
+  'clausen': 0.55,        // Very high - trouble finds him
+  'body-count': 0.45,     // High - death attracts death
+  'boots': 0.60,          // Very high - chaos magnet
+  'willy': 0.45,          // High - merchant attracts all sorts
+  'boo-g': 0.50,          // High - ghosts attract everything
+  'the-general': 0.55,    // Very high - battlefield never sleeps
+  'dr-maxwell': 0.60,     // Very high - Infernus is wild
+  'xtreme': 0.65,         // Extremely high - pure chaos
+  'mr-bones': 0.35,       // Moderate - Frost Reach stirs sometimes
+  'dr-voss': 0.45,        // High - experiments escape
+  'king-james': 0.50,     // High - void creatures serve the crown
 };
 
 // ============================================

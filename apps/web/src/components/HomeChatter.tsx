@@ -123,8 +123,10 @@ export function HomeChatter() {
   // Sprite frame toggle (swaps when talking)
   const [spriteFrame, setSpriteFrame] = useState(1);
 
-  // Enemy interrupt state
-  const [hasInterrupted, setHasInterrupted] = useState(false);
+  // Enemy interrupt state - checkpoints based on dice sides (d4, d6, d8, d10, d12)
+  // Interrupts can happen at ambient indices 1, 3, 5, 7, 9 (every other starting at 1)
+  const INTERRUPT_CHECKPOINTS = [1, 3, 5, 7, 9];
+  const [usedCheckpoints, setUsedCheckpoints] = useState<Set<number>>(new Set());
   const [pendingInterrupt, setPendingInterrupt] = useState<EnemyInterrupt | null>(null);
 
   // Initial animation sequence
@@ -172,12 +174,14 @@ export function HomeChatter() {
   // Get interrupt chance for this greeter
   const interruptChance = GREETER_INTERRUPT_CHANCE[greeter.id] || 0.2;
 
-  // Ambient message cycle with interrupt support
+  // Ambient message cycle with interrupt support at dice-based checkpoints
   useEffect(() => {
     if (ambientIndex >= ambientMessages.length) return;
 
-    // Check for interrupt opportunity (only once per session, after first ambient)
-    const shouldTryInterrupt = !hasInterrupted && ambientIndex >= 1;
+    // Check for interrupt at checkpoint indices (1, 3, 5, 7, 9)
+    const isCheckpoint = INTERRUPT_CHECKPOINTS.includes(ambientIndex);
+    const checkpointUsed = usedCheckpoints.has(ambientIndex);
+    const shouldTryInterrupt = isCheckpoint && !checkpointUsed;
     const interruptRoll = shouldTryInterrupt ? Math.random() : 1;
     const willInterrupt = interruptRoll < interruptChance;
 
@@ -186,7 +190,7 @@ export function HomeChatter() {
       const interrupt = getRandomInterrupt(greeterDomain);
       if (interrupt) {
         setPendingInterrupt(interrupt);
-        setHasInterrupted(true);
+        setUsedCheckpoints(prev => new Set([...prev, ambientIndex]));
 
         // Show typing, then enemy action
         const typingTimer = setTimeout(() => {
@@ -262,7 +266,7 @@ export function HomeChatter() {
       clearTimeout(typingTimer);
       clearTimeout(messageTimer);
     };
-  }, [ambientIndex, ambientMessages, hasInterrupted, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
+  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
 
   // Auto-scroll to latest message
   useEffect(() => {
