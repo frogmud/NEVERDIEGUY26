@@ -222,8 +222,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'body-count',
     name: 'Body Count',
     portrait: '/assets/characters/portraits/240px/traveler-portrait-bodycount-01.svg',
-    sprite: '/assets/characters/sprites/frame-1/traveler-sprite-bodycount-idle-01.svg',
-    sprite2: '/assets/characters/sprites/frame-1/traveler-sprite-bodycount-idle-02.svg',
+    sprite: '/assets/characters/travelers/bodycount/traveler-sprite-bodycount-walk-01.svg',
+    sprite2: '/assets/characters/travelers/bodycount/traveler-sprite-bodycount-walk-02.svg',
     wikiSlug: 'characters/body-count',
     ambient: [
       '*tallies something* The count is... high.',
@@ -363,11 +363,19 @@ export const HOME_GREETERS: HomeGreeter[] = [
     sprite: '/assets/characters/sprites/frame-1/shop-sprite-boo-01.svg',
     wikiSlug: 'characters/boo-g',
     ambient: [
-      '*spectral beatboxing* The beat never dies. Like me.',
-      'Death gave me REVERB. Best thing that ever happened.',
-      'The afterlife has GREAT acoustics. Trust me.',
-      '*ghost DJ scratching* Just warming up. Always warming up.',
-      'My flow is eternal. Literally. Ghost perks.',
+      // Singles (punchy one-liners)
+      "Been dead so long I forgot how to breathe, but this mic in my hand is all that I need.",
+      "Can't pass on 'til I make that track, once it hits number one I ain't comin' back.",
+      "Death couldn't stop my grind, stuck between worlds but I don't mind.",
+      "Eternity's long but the beat goes on, still waitin' to drop that perfect song.",
+      "The reaper tried to take my voice, now we collab - that's HIS choice.",
+      "I phase through walls and phase through beats, spectral flow that can't be beat.",
+      // Couplets (two-liners for fuller performance)
+      "Droppin' bars since the dawn of time, still searchin' for that perfect rhyme.",
+      "Heaven's gate is locked up tight, won't open 'til my flow is right.",
+      "They buried me deep but I rose with the beat, now every flow I drop is eternally sweet.",
+      "The crowd goes wild even when it's just you, audience of one still gets the debut.",
+      "A thousand years and I ain't done yet, the afterlife's longest recording set.",
     ],
     greetings: [
       'Yo yo YO! Welcome to existence! Where the beats are spectral and the bass drops through dimensions!',

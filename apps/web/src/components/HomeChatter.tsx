@@ -12,7 +12,7 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, Link, keyframes } from '@mui/material';
+import { Box, Typography, Button, keyframes } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { tokens } from '../theme';
 import {
@@ -167,13 +167,20 @@ export function HomeChatter() {
         py: 4,
       }}
     >
-      {/* Sprite - fixed on left */}
+      {/* Sprite - fixed on left, entire area clickable */}
       <Box
+        component={RouterLink}
+        to={`/wiki/${greeter.wikiSlug}`}
         sx={{
           width: { xs: 96, sm: 120, md: 150 },
           flexShrink: 0,
           opacity: showSprite ? 1 : 0,
           animation: showSprite ? `${slideInSprite} 500ms ease-out` : 'none',
+          textDecoration: 'none',
+          cursor: 'pointer',
+          '&:hover .wiki-link': {
+            color: tokens.colors.secondary,
+          },
         }}
       >
         <Box
@@ -199,19 +206,17 @@ export function HomeChatter() {
           >
             {greeter.name}
           </Typography>
-          <Link
-            component={RouterLink}
-            to={`/wiki/${greeter.wikiSlug}`}
+          <Typography
+            className="wiki-link"
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: '0.8rem',
               color: tokens.colors.text.disabled,
-              textDecoration: 'none',
-              '&:hover': { color: tokens.colors.secondary },
+              transition: 'color 150ms ease',
             }}
           >
             [wiki]
-          </Link>
+          </Typography>
         </Box>
       </Box>
 
