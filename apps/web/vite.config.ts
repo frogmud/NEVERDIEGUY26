@@ -22,16 +22,12 @@ export default defineConfig({
             if (id.includes('/react/')) {
               return 'vendor';
             }
-            // MUI
-            if (id.includes('@mui/material')) {
+            // MUI + Emotion (must be in same chunk to avoid initialization order issues)
+            if (id.includes('@mui/material') || id.includes('@emotion')) {
               return 'mui-core';
             }
             if (id.includes('@mui/icons-material')) {
               return 'mui-icons';
-            }
-            // Styling
-            if (id.includes('@emotion')) {
-              return 'emotion';
             }
             // Game engine
             if (id.includes('phaser')) {
