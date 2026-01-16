@@ -379,7 +379,7 @@ export function Shop({
         </Box>
       </Box>
 
-      {/* Items Row - simplified: price, big sprite, rarity tag */}
+      {/* Items Row - simplified: price, big sprite, name, rarity tag */}
       <Box
         sx={{
           display: 'flex',
@@ -389,7 +389,7 @@ export function Shop({
           alignItems: 'flex-start',
           flexWrap: 'wrap',
           width: '100%',
-          maxWidth: 800,
+          maxWidth: 1000,
           mb: 4,
         }}
       >
@@ -412,8 +412,9 @@ export function Shop({
                 cursor: isPurchased || !canAfford ? 'default' : 'pointer',
                 opacity: isPurchased ? 0.5 : 1,
                 transition: 'all 150ms ease',
+                minWidth: { xs: 100, sm: 120, md: 140 },
                 '&:hover': {
-                  transform: isPurchased || !canAfford ? 'none' : 'scale(1.08)',
+                  transform: isPurchased || !canAfford ? 'none' : 'scale(1.05)',
                 },
               }}
             >
@@ -421,19 +422,19 @@ export function Shop({
               <Typography
                 sx={{
                   ...gamingFont,
-                  fontSize: { xs: '1rem', sm: '1.25rem' },
+                  fontSize: { xs: '1.1rem', sm: '1.35rem' },
                   color: isPurchased ? tokens.colors.success : canAfford ? '#c4a000' : tokens.colors.error,
                   mb: 1,
                 }}
               >
-                {isPurchased ? <CheckIcon sx={{ fontSize: 20 }} /> : `$${cost}`}
+                {isPurchased ? <CheckIcon sx={{ fontSize: 24 }} /> : `$${cost}`}
               </Typography>
 
               {/* Big Item Sprite */}
               <Box
                 sx={{
-                  width: { xs: 64, sm: 80, md: 96 },
-                  height: { xs: 64, sm: 80, md: 96 },
+                  width: { xs: 80, sm: 100, md: 120 },
+                  height: { xs: 80, sm: 100, md: 120 },
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -443,7 +444,7 @@ export function Shop({
                 <Box
                   component="img"
                   src={item.image || '/assets/items/placeholder.png'}
-                  alt={item.name}
+                  alt=""
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -456,6 +457,21 @@ export function Shop({
                   }}
                 />
               </Box>
+
+              {/* Item Name */}
+              <Typography
+                sx={{
+                  ...gamingFont,
+                  fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                  color: tokens.colors.text.primary,
+                  textAlign: 'center',
+                  mb: 1,
+                  maxWidth: 140,
+                  lineHeight: 1.2,
+                }}
+              >
+                {item.name}
+              </Typography>
 
               {/* Rarity Tag */}
               <Chip
@@ -485,8 +501,9 @@ export function Shop({
             cursor: gold >= REROLL_COST ? 'pointer' : 'default',
             opacity: gold >= REROLL_COST ? 1 : 0.4,
             transition: 'all 150ms ease',
+            minWidth: { xs: 100, sm: 120, md: 140 },
             '&:hover': {
-              transform: gold >= REROLL_COST ? 'scale(1.08)' : 'none',
+              transform: gold >= REROLL_COST ? 'scale(1.05)' : 'none',
             },
           }}
         >
@@ -494,7 +511,7 @@ export function Shop({
           <Typography
             sx={{
               ...gamingFont,
-              fontSize: { xs: '1rem', sm: '1.25rem' },
+              fontSize: { xs: '1.1rem', sm: '1.35rem' },
               color: gold >= REROLL_COST ? '#c4a000' : tokens.colors.text.disabled,
               mb: 1,
             }}
@@ -505,19 +522,21 @@ export function Shop({
           {/* Reroll text area - no icon */}
           <Box
             sx={{
-              width: { xs: 64, sm: 80, md: 96 },
-              height: { xs: 64, sm: 80, md: 96 },
+              width: { xs: 80, sm: 100, md: 120 },
+              height: { xs: 80, sm: 100, md: 120 },
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
+              border: `2px dashed ${tokens.colors.border}`,
+              borderRadius: 2,
               mb: 1.5,
             }}
           >
             <Typography
               sx={{
                 ...gamingFont,
-                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+                fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                 color: tokens.colors.text.secondary,
                 textAlign: 'center',
                 lineHeight: 1.3,
@@ -529,8 +548,8 @@ export function Shop({
             </Typography>
           </Box>
 
-          {/* Empty tag space for alignment */}
-          <Box sx={{ height: 24 }} />
+          {/* Empty space for alignment with item names + tags */}
+          <Box sx={{ height: { xs: 44, sm: 48 } }} />
         </Box>
       </Box>
 
