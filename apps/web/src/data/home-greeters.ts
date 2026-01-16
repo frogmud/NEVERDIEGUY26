@@ -706,6 +706,18 @@ export function getRandomFarewell(greeter: HomeGreeter, route: 'play' | 'wiki' |
 // ============================================
 
 /**
+ * Domain slug to display name mapping
+ */
+export const DOMAIN_DISPLAY_NAMES: Record<string, string> = {
+  'earth': 'Earth',
+  'frost-reach': 'Frost Reach',
+  'infernus': 'Infernus',
+  'shadow-keep': 'Shadow Keep',
+  'null-providence': 'Null Providence',
+  'aberrant': 'Aberrant',
+};
+
+/**
  * Maps greeter ID to their home domain slug
  * Derived from wiki locations/origin data
  */

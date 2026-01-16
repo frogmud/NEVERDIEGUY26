@@ -21,11 +21,18 @@ import {
   GREETER_DOMAINS,
   GREETER_INTERRUPT_CHANCE,
   DOMAIN_INTERRUPTS,
+  DOMAIN_DISPLAY_NAMES,
   getRandomInterrupt,
   getRandomReaction,
   type HomeGreeter,
   type EnemyInterrupt,
 } from '../data/home-greeters';
+
+// Generate a random 9-digit player number (zero-padded)
+function generatePlayerNumber(): string {
+  const num = Math.floor(1 + Math.random() * 999999999);
+  return String(num).padStart(9, '0');
+}
 
 // ============================================
 // Animations
@@ -88,6 +95,9 @@ export function HomeChatter() {
   const greeter = useMemo<HomeGreeter>(() => getRandomGreeter(), []);
   const initialGreeting = useMemo<string>(() => getRandomGreeting(greeter), [greeter]);
 
+  // Generate player number once
+  const playerNumber = useMemo(() => generatePlayerNumber(), []);
+
   // Derive domain for this greeter (handle "roaming" special case)
   const greeterDomain = useMemo(() => {
     const domain = GREETER_DOMAINS[greeter.id] || 'earth';
@@ -97,6 +107,9 @@ export function HomeChatter() {
     }
     return domain;
   }, [greeter.id]);
+
+  // Get display name for domain
+  const domainDisplayName = DOMAIN_DISPLAY_NAMES[greeterDomain] || greeterDomain;
 
   // Messages state - starts with initial greeting
   const [messages, setMessages] = useState<string[]>([initialGreeting]);
@@ -262,17 +275,32 @@ export function HomeChatter() {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        maxWidth: 1200,
-        minHeight: 480,
-        display: 'flex',
-        gap: { xs: 3, sm: 4 },
-        px: { xs: 3, sm: 4 },
-        py: 4,
-      }}
-    >
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {/* Welcome message with domain */}
+      <Typography
+        sx={{
+          fontFamily: tokens.fonts.gaming,
+          fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
+          color: tokens.colors.text.secondary,
+          mb: 4,
+          letterSpacing: '0.05em',
+          textAlign: 'center',
+        }}
+      >
+        Welcome to {domainDisplayName}, neverdieguy#{playerNumber}
+      </Typography>
+
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 1200,
+          minHeight: 480,
+          display: 'flex',
+          gap: { xs: 3, sm: 4 },
+          px: { xs: 3, sm: 4 },
+          py: 4,
+        }}
+      >
       {/* Sprite - fixed on left, entire area clickable */}
       <Box
         component={RouterLink}
@@ -470,6 +498,7 @@ export function HomeChatter() {
             What is NEVER DIE GUY?
           </Button>
         </Box>
+      </Box>
       </Box>
     </Box>
   );
