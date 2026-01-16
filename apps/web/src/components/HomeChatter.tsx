@@ -12,8 +12,10 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, keyframes, Menu, MenuItem, Skeleton } from '@mui/material';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Box, Typography, Button, keyframes, Menu, MenuItem, Skeleton, TextField, Autocomplete, Chip, InputAdornment, IconButton } from '@mui/material';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { useNavigate, Link as RouterLink, useOutletContext } from 'react-router-dom';
+import type { ShellContext } from './Shell';
 import { tokens } from '../theme';
 import {
   HOME_GREETERS,
@@ -27,9 +29,11 @@ import {
   getRandomInterrupt,
   getRandomReaction,
   getWelcomeHeadline,
+  getShockReaction,
   type HomeGreeter,
   type EnemyInterrupt,
 } from '../data/home-greeters';
+import { getAllQuestions, getFaqAnswer, type FaqQuestion } from '../data/home-faq';
 import { lookupDialogueAsync } from '../services/chatbase';
 import { generateThreadId } from '../data/pools/seededRng';
 
@@ -88,6 +92,7 @@ const DOMAIN_KEYS = Object.keys(DOMAIN_INTERRUPTS);
 
 export function HomeChatter() {
   const navigate = useNavigate();
+  const { sidebarWidth } = useOutletContext<ShellContext>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
@@ -165,6 +170,13 @@ export function HomeChatter() {
   const [gruntCooldown, setGruntCooldown] = useState(false);
   const [gruntCount, setGruntCount] = useState(0);
 
+  // Chat input state - NDG can ask questions
+  const [inputValue, setInputValue] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [apiAvailable, setApiAvailable] = useState<boolean | null>(null); // null = checking
+  const [selectedQuestion, setSelectedQuestion] = useState<FaqQuestion | null>(null);
+  const [awaitingConfirm, setAwaitingConfirm] = useState(false); // Pause ambient until user confirms
+
   // Domain picker dropdown
   const [domainMenuAnchor, setDomainMenuAnchor] = useState<HTMLElement | null>(null);
   const domainMenuOpen = Boolean(domainMenuAnchor);
@@ -188,6 +200,23 @@ export function HomeChatter() {
     }
     window.location.reload();
   };
+
+  // Check API availability on mount
+  useEffect(() => {
+    const checkApi = async () => {
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ npcSlug: 'mr-bones', pool: 'greeting' }),
+        });
+        setApiAvailable(response.ok);
+      } catch {
+        setApiAvailable(false);
+      }
+    };
+    checkApi();
+  }, []);
 
   // Reaction types for player responses
   type ReactionType = 'grunt' | 'hmph' | 'ignore';
@@ -305,6 +334,120 @@ export function HomeChatter() {
     }, 800);
   };
 
+  // Helper for async delays
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // Helper to show shock reaction (20% chance)
+  const maybeShowShock = async (): Promise<boolean> => {
+    const isShocked = Math.random() < 0.2;
+    if (isShocked) {
+      setIsTyping(true);
+      await delay(1200);
+      setIsTyping(false);
+
+      const shockLine = getShockReaction(greeter.id);
+      setMessages(prev => [...prev, shockLine]);
+
+      if (greeter.sprite2) {
+        setSpriteFrame(2);
+        setTimeout(() => setSpriteFrame(1), 150);
+      }
+      await delay(800);
+    }
+    return isShocked;
+  };
+
+  // Handle sending a typed message from NDG (API mode)
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isSending || isTyping) return;
+
+    setIsSending(true);
+    const question = inputValue.trim();
+    setInputValue('');
+
+    // Add player's message to chat
+    setMessages(prev => [...prev, `You: ${question}`]);
+
+    // Twitch sprite (reacting to speech)
+    if (greeter.sprite2) {
+      setSpriteFrame(2);
+      setTimeout(() => setSpriteFrame(1), 150);
+    }
+
+    // Maybe show shock reaction
+    await maybeShowShock();
+
+    // Get response from API
+    setIsTyping(true);
+
+    try {
+      const response = await lookupDialogueAsync({
+        npcSlug: greeter.id,
+        pool: 'reaction',
+        context: question,
+      });
+
+      await delay(1000 + Math.random() * 500);
+      setIsTyping(false);
+      setMessages(prev => [...prev, response.text]);
+    } catch {
+      // Shouldn't happen in API mode, but fallback just in case
+      await delay(800);
+      setIsTyping(false);
+      setMessages(prev => [...prev, "Hmm. Let me think about that..."]);
+    }
+
+    if (greeter.sprite2) {
+      setSpriteFrame(2);
+      setTimeout(() => setSpriteFrame(1), 150);
+    }
+
+    setIsSending(false);
+  };
+
+  // Handle sending a FAQ question (offline mode)
+  const handleSendFaqQuestion = async () => {
+    if (!selectedQuestion || isSending || isTyping) return;
+
+    setIsSending(true);
+    const faq = selectedQuestion;
+    setSelectedQuestion(null);
+
+    // Add player's question
+    setMessages(prev => [...prev, `You: ${faq.question}`]);
+
+    if (greeter.sprite2) {
+      setSpriteFrame(2);
+      setTimeout(() => setSpriteFrame(1), 150);
+    }
+
+    await delay(400);
+
+    // Maybe show shock reaction
+    await maybeShowShock();
+
+    // Get NPC-personalized response
+    setIsTyping(true);
+    await delay(800 + Math.random() * 600);
+    setIsTyping(false);
+
+    const response = getFaqAnswer(faq.id, greeter.id);
+    setMessages(prev => [...prev, response]);
+
+    if (greeter.sprite2) {
+      setSpriteFrame(2);
+      setTimeout(() => setSpriteFrame(1), 150);
+    }
+
+    setIsSending(false);
+    setAwaitingConfirm(true); // Pause ambient until confirmed
+  };
+
+  // User confirms they read the response, resume ambient
+  const handleConfirmRead = () => {
+    setAwaitingConfirm(false);
+  };
+
   // Safety timeout - clear pendingInterrupt if stuck for > 10 seconds
   // This prevents the interrupt flow from getting permanently blocked
   useEffect(() => {
@@ -375,6 +518,7 @@ export function HomeChatter() {
   // Ambient message cycle with interrupt support at dice-based checkpoints
   useEffect(() => {
     if (ambientIndex >= ambientMessages.length) return;
+    if (awaitingConfirm) return; // Pause ambient while user is reading FAQ response
 
     // Check for interrupt at checkpoint indices (1, 3, 5, 7, 9)
     const isCheckpoint = INTERRUPT_CHECKPOINTS.includes(ambientIndex);
@@ -464,7 +608,7 @@ export function HomeChatter() {
       clearTimeout(typingTimer);
       clearTimeout(messageTimer);
     };
-  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
+  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2, awaitingConfirm]);
 
   // Track if user is currently interacting (hovering on messages)
   const [isInteracting, setIsInteracting] = useState(false);
@@ -528,9 +672,11 @@ export function HomeChatter() {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        maxWidth: 1200,
+        maxWidth: 900,
+        mx: 'auto',
         height: '100%',
-        maxHeight: 'calc(100vh - 120px)',
+        maxHeight: 'calc(100vh - 64px)',
+        pb: '100px',
         overflow: 'hidden',
       }}>
         {/* Welcome skeleton - 1/5 */}
@@ -632,19 +778,24 @@ export function HomeChatter() {
       flexDirection: 'column',
       alignItems: 'center',
       width: '100%',
-      maxWidth: 1200,
+      maxWidth: 900,
+      mx: 'auto',
       height: '100%',
-      maxHeight: 'calc(100vh - 120px)', // Account for chrome (header/footer)
+      maxHeight: 'calc(100vh - 64px)', // Account for header only (footer hidden)
+      pb: '100px', // Space for fixed chat input at bottom
       overflow: 'hidden',
     }}>
-      {/* Welcome headline - 1/5 */}
+      {/* Welcome headline + action buttons */}
       <Box
         sx={{
           flex: '0 0 auto',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: '15vh',
+          gap: 2,
+          pt: 2,
+          pb: 1,
           textAlign: 'center',
           px: { xs: 2, sm: 4, md: 6 },
         }}
@@ -684,6 +835,56 @@ export function HomeChatter() {
             </span>
           ))}
         </Typography>
+
+        {/* Action buttons - moved here from bottom */}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            justifyContent: 'center',
+            opacity: showButtons ? 1 : 0,
+            transition: 'opacity 300ms ease-out',
+          }}
+        >
+          <Button
+            variant="contained"
+            onClick={() => handleChoice('play')}
+            size="small"
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+              fontWeight: 700,
+              px: 4,
+              py: 1,
+              borderRadius: '8px',
+              bgcolor: tokens.colors.primary,
+              '&:hover': { bgcolor: '#c7033a' },
+            }}
+          >
+            Play
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => handleChoice('wiki')}
+            size="small"
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+              fontWeight: 600,
+              px: 3,
+              py: 1,
+              borderRadius: '8px',
+              borderColor: tokens.colors.border,
+              color: tokens.colors.text.primary,
+              '&:hover': {
+                borderColor: tokens.colors.text.secondary,
+                bgcolor: 'rgba(255,255,255,0.05)',
+              },
+            }}
+          >
+            Explore Wiki
+          </Button>
+        </Box>
       </Box>
 
       {/* Domain picker dropdown */}
@@ -768,7 +969,8 @@ export function HomeChatter() {
           justifyContent: 'flex-end',
           minHeight: { xs: 180, sm: 210, md: 250 },
           '&:hover .wiki-link': {
-            color: tokens.colors.secondary,
+            opacity: 1,
+            color: '#888',
           },
         }}
       >
@@ -788,7 +990,7 @@ export function HomeChatter() {
             ...
           </Typography>
         )}
-        {/* Name + wiki link above sprite */}
+        {/* Name above sprite */}
         <Box sx={{ mb: 1, textAlign: 'center' }}>
           <Typography
             sx={{
@@ -798,17 +1000,6 @@ export function HomeChatter() {
             }}
           >
             {greeter.name}
-          </Typography>
-          <Typography
-            className="wiki-link"
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '0.8rem',
-              color: tokens.colors.text.disabled,
-              transition: 'color 150ms ease',
-            }}
-          >
-            [wiki]
           </Typography>
         </Box>
         <Box
@@ -823,6 +1014,22 @@ export function HomeChatter() {
             imageRendering: 'pixelated',
           }}
         />
+        {/* Visit profile - appears on hover below sprite */}
+        <Typography
+          className="wiki-link"
+          sx={{
+            fontFamily: '"Inter", sans-serif',
+            fontSize: '0.7rem',
+            fontWeight: 500,
+            color: '#555',
+            opacity: 0,
+            transition: 'opacity 150ms ease, color 150ms ease',
+            textAlign: 'center',
+            mt: 1,
+          }}
+        >
+          visit profile
+        </Typography>
       </Box>
 
       {/* Right side - messages, fills available space */}
@@ -878,7 +1085,7 @@ export function HomeChatter() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-end',
-            gap: 2,
+            gap: 3,
             overflowY: 'auto',
             pl: 2,
             pr: 1,
@@ -920,13 +1127,19 @@ export function HomeChatter() {
                     opacity: canGrunt ? 1 : 0,
                     pointerEvents: canGrunt ? 'auto' : 'none',
                   },
+                  // Brighten bubble border on hover when reactions available
+                  '&:hover .chat-bubble': canGrunt ? {
+                    borderColor: '#555',
+                  } : {},
                 }}
               >
                 <Box
+                  className="chat-bubble"
                   sx={{
                     bgcolor: bubbleColors.bg,
                     border: `2px solid ${bubbleColors.border}`,
                     borderRadius: '12px',
+                    transition: 'border-color 150ms ease',
                     px: 3,
                     py: 2,
                     flex: 1,
@@ -1035,8 +1248,9 @@ export function HomeChatter() {
                         minWidth: 'auto',
                         px: 1.5,
                         py: 0.25,
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.9rem',
+                        fontFamily: '"Inter", sans-serif',
+                        fontSize: '0.7rem',
+                        fontWeight: 500,
                         color: '#555',
                         bgcolor: 'transparent',
                         textTransform: 'none',
@@ -1061,8 +1275,9 @@ export function HomeChatter() {
                         minWidth: 'auto',
                         px: 1.5,
                         py: 0.25,
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.9rem',
+                        fontFamily: '"Inter", sans-serif',
+                        fontSize: '0.7rem',
+                        fontWeight: 500,
                         color: '#555',
                         bgcolor: 'transparent',
                         textTransform: 'none',
@@ -1087,8 +1302,9 @@ export function HomeChatter() {
                         minWidth: 'auto',
                         px: 1.5,
                         py: 0.25,
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.9rem',
+                        fontFamily: '"Inter", sans-serif',
+                        fontSize: '0.7rem',
+                        fontWeight: 500,
                         color: '#555',
                         bgcolor: 'transparent',
                         textTransform: 'none',
@@ -1147,57 +1363,260 @@ export function HomeChatter() {
       </Box>
       </Box>
 
-      {/* Action buttons - 1/5 */}
+      {/* Chat input - fixed to bottom of viewport, offset for sidebar */}
       <Box
         sx={{
-          flex: '0 0 auto',
-          display: 'flex',
-          gap: 2,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '12vh',
-          py: 2,
-          opacity: showButtons ? 1 : 0,
-          transition: 'opacity 300ms ease-out',
+          position: 'fixed',
+          bottom: 0,
+          left: { xs: 0, md: sidebarWidth },
+          right: 0,
+          bgcolor: tokens.colors.background.default,
+          px: { xs: 2, sm: 3 },
+          pt: 1,
+          pb: 2,
+          zIndex: 10,
+          transition: 'left 225ms cubic-bezier(0.4, 0, 0.6, 1)',
         }}
       >
-        <Button
-          variant="contained"
-          onClick={() => handleChoice('play')}
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: { xs: '1.1rem', sm: '1.25rem' },
-            fontWeight: 700,
-            px: 6,
-            py: 2,
-            borderRadius: '12px',
-            bgcolor: tokens.colors.primary,
-            '&:hover': { bgcolor: '#c7033a' },
-          }}
-        >
-          Play
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => handleChoice('wiki')}
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: { xs: '1.1rem', sm: '1.25rem' },
-            fontWeight: 600,
-            px: 5,
-            py: 2,
-            borderRadius: '12px',
-            borderColor: tokens.colors.border,
-            color: tokens.colors.text.primary,
-            '&:hover': {
-              borderColor: tokens.colors.text.secondary,
-              bgcolor: 'rgba(255,255,255,0.05)',
-            },
-          }}
-        >
-          Explore Wiki
-        </Button>
+        <Box sx={{ maxWidth: 700, mx: 'auto' }}>
+          {/* Awaiting confirm indicator */}
+          {awaitingConfirm && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
+              <Button
+                size="small"
+                onClick={handleConfirmRead}
+                sx={{
+                  fontFamily: '"Inter", sans-serif',
+                  fontSize: '0.75rem',
+                  color: tokens.colors.text.secondary,
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+                }}
+              >
+                Got it
+              </Button>
+            </Box>
+          )}
+
+          {/* API mode: free-form text input with send icon */}
+          {apiAvailable && (
+            <TextField
+              multiline
+              maxRows={3}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value.slice(0, 300))}
+              placeholder="Ask something..."
+              disabled={isSending || isTyping || awaitingConfirm}
+              fullWidth
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleSendMessage}
+                        disabled={!inputValue.trim() || isSending || isTyping || awaitingConfirm}
+                        edge="end"
+                        sx={{
+                          width: 36,
+                          height: 36,
+                          minWidth: 36,
+                          borderRadius: '50%',
+                          bgcolor: inputValue.trim() && !isSending && !isTyping && !awaitingConfirm ? tokens.colors.primary : 'transparent',
+                          color: inputValue.trim() && !isSending && !isTyping && !awaitingConfirm ? '#fff' : '#333',
+                          '&:hover': {
+                            bgcolor: inputValue.trim() ? '#c7033a' : 'transparent',
+                            color: inputValue.trim() ? '#fff' : '#333',
+                          },
+                          '&.Mui-disabled': { color: '#333', bgcolor: 'transparent' },
+                          transition: 'all 150ms ease',
+                        }}
+                      >
+                        <ArrowUpwardIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '0.95rem',
+                  bgcolor: '#1a1a1a',
+                  borderRadius: '20px',
+                  '& fieldset': { borderColor: '#333' },
+                  '&:hover fieldset': { borderColor: '#444' },
+                  '&.Mui-focused fieldset': { borderColor: tokens.colors.text.secondary },
+                  '&.Mui-disabled': {
+                    bgcolor: '#151515',
+                    '& fieldset': { borderColor: '#2a2a2a' },
+                  },
+                },
+                '& .MuiOutlinedInput-input': {
+                  color: tokens.colors.text.primary,
+                  '&::placeholder': { color: '#555', opacity: 1 },
+                },
+              }}
+            />
+          )}
+
+          {/* FAQ mode: single select with chip display and send icon */}
+          {!apiAvailable && (
+            <>
+              {selectedQuestion ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    flex: 1,
+                  }}
+                >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flex: 1,
+                    minHeight: 48,
+                    px: 2,
+                    pl: 2.5,
+                    bgcolor: '#1a1a1a',
+                    border: '1px solid #333',
+                    borderRadius: '24px',
+                  }}
+                >
+                    <Chip
+                      label={selectedQuestion.question}
+                      size="small"
+                      onDelete={isSending || isTyping || awaitingConfirm ? undefined : () => setSelectedQuestion(null)}
+                      sx={{
+                        fontFamily: '"Inter", sans-serif',
+                        fontSize: '0.8rem',
+                        bgcolor: '#2a2a2a',
+                        color: tokens.colors.text.primary,
+                        '& .MuiChip-deleteIcon': {
+                          color: '#555',
+                          '&:hover': { color: '#888' },
+                        },
+                      }}
+                    />
+                  </Box>
+                  <IconButton
+                    onClick={handleSendFaqQuestion}
+                    disabled={isSending || isTyping || awaitingConfirm}
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      minWidth: 40,
+                      borderRadius: '50%',
+                      bgcolor: !isSending && !isTyping && !awaitingConfirm ? tokens.colors.primary : 'transparent',
+                      color: !isSending && !isTyping && !awaitingConfirm ? '#fff' : '#333',
+                      '&:hover': {
+                        bgcolor: !isSending && !isTyping && !awaitingConfirm ? '#c7033a' : 'transparent',
+                        color: '#fff',
+                      },
+                      '&.Mui-disabled': { color: '#333', bgcolor: 'transparent' },
+                      transition: 'all 150ms ease',
+                    }}
+                  >
+                    <ArrowUpwardIcon />
+                  </IconButton>
+                </Box>
+              ) : (
+                <Box sx={{ display: 'flex', gap: 1, flex: 1, alignItems: 'center' }}>
+                  <Autocomplete
+                    options={getAllQuestions()}
+                    getOptionLabel={(option) => option.question}
+                    value={null}
+                    onChange={(_, newValue) => newValue && setSelectedQuestion(newValue)}
+                    disabled={isSending || isTyping || awaitingConfirm}
+                    groupBy={(option) => option.category === 'mechanics' ? 'Game' : option.category === 'lore' ? 'Lore' : 'Help'}
+                    popupIcon={null}
+                    forcePopupIcon={false}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select a question..."
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            fontFamily: tokens.fonts.gaming,
+                            fontSize: '0.95rem',
+                            bgcolor: '#1a1a1a',
+                            borderRadius: '24px',
+                            pl: 1.5,
+                            '& fieldset': { borderColor: '#333' },
+                            '&:hover fieldset': { borderColor: '#444' },
+                            '&.Mui-focused fieldset': { borderColor: tokens.colors.text.secondary },
+                            '&.Mui-disabled': {
+                              bgcolor: '#151515',
+                              '& fieldset': { borderColor: '#2a2a2a' },
+                            },
+                          },
+                          '& .MuiOutlinedInput-input': {
+                            color: tokens.colors.text.primary,
+                            pl: 2,
+                            '&::placeholder': { color: '#555', opacity: 1 },
+                          },
+                        }}
+                      />
+                    )}
+                    slotProps={{
+                      paper: {
+                        sx: {
+                          bgcolor: '#1a1a1a',
+                          border: '1px solid #333',
+                          borderRadius: '12px',
+                          mt: 1,
+                          '& .MuiAutocomplete-groupLabel': {
+                            fontFamily: tokens.fonts.gaming,
+                            fontSize: '0.75rem',
+                            color: tokens.colors.text.disabled,
+                            bgcolor: '#151515',
+                            pl: 2.5,
+                          },
+                          '& .MuiAutocomplete-option': {
+                            fontFamily: '"Inter", sans-serif',
+                            fontSize: '0.85rem',
+                            color: tokens.colors.text.secondary,
+                            pl: 3,
+                            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+                          },
+                        },
+                      },
+                    }}
+                    fullWidth
+                  />
+                  <IconButton
+                    onClick={handleSendFaqQuestion}
+                    disabled={true}
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      minWidth: 40,
+                      borderRadius: '50%',
+                      color: '#333',
+                      '&.Mui-disabled': { color: '#333' },
+                    }}
+                  >
+                    <ArrowUpwardIcon />
+                  </IconButton>
+                </Box>
+              )}
+            </>
+          )}
+
+          {/* Disclaimer */}
+          <Typography
+            sx={{
+              fontFamily: '"Inter", sans-serif',
+              fontSize: '0.65rem',
+              color: '#444',
+              textAlign: 'center',
+              mt: 1,
+            }}
+          >
+            NPCs may hallucinate. Check the wiki for accurate info.
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
