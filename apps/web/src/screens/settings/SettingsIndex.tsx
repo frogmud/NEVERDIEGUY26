@@ -16,6 +16,7 @@ import { tokens } from '../../theme';
 // Section components
 import { BoardAndPiecesSection } from './sections/BoardAndPieces';
 import { GameplaySection } from './sections/Gameplay';
+import { AudioSection } from './sections/Audio';
 import { AccessibilitySection } from './sections/Accessibility';
 
 // ============================================
@@ -25,6 +26,7 @@ import { AccessibilitySection } from './sections/Accessibility';
 type SettingsCategory =
   | 'board'
   | 'gameplay'
+  | 'audio'
   | 'accessibility';
 
 interface CategoryConfig {
@@ -39,6 +41,7 @@ interface CategoryConfig {
 const categories: CategoryConfig[] = [
   { id: 'board', label: 'Board & Pieces' },
   { id: 'gameplay', label: 'Gameplay' },
+  { id: 'audio', label: 'Audio' },
   { id: 'accessibility', label: 'Accessibility' },
 ];
 
@@ -65,6 +68,8 @@ export function SettingsIndex() {
         return <BoardAndPiecesSection />;
       case 'gameplay':
         return <GameplaySection />;
+      case 'audio':
+        return <AudioSection />;
       case 'accessibility':
         return <AccessibilitySection />;
       default:

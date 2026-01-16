@@ -13,11 +13,13 @@ import { createContext, useContext, useState, useCallback, type ReactNode } from
 const GAME_SPEED_KEY = 'ndg-game-speed';
 const ANIMATIONS_ENABLED_KEY = 'ndg-animations-enabled';
 const MUSIC_ENABLED_KEY = 'ndg-music-enabled';
+const MASTER_VOLUME_KEY = 'ndg-master-volume';
 
 // Default values
 const DEFAULT_GAME_SPEED = 1;
 const DEFAULT_ANIMATIONS_ENABLED = true;
 const DEFAULT_MUSIC_ENABLED = true;
+const DEFAULT_MASTER_VOLUME = 0.3;
 
 interface GameSettingsContextValue {
   // Game speed (0.5 to 2)
@@ -31,6 +33,10 @@ interface GameSettingsContextValue {
   // Music enabled
   musicEnabled: boolean;
   setMusicEnabled: (enabled: boolean) => void;
+
+  // Master volume (0 to 1)
+  masterVolume: number;
+  setMasterVolume: (volume: number) => void;
 
   // Helper to adjust delay based on game speed
   // Lower game speed = slower animations (higher delay)
@@ -65,6 +71,18 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     return stored !== 'false'; // Default to true
   });
 
+  // Master volume state (0 to 1)
+  const [masterVolume, setMasterVolumeState] = useState(() => {
+    const stored = localStorage.getItem(MASTER_VOLUME_KEY);
+    if (stored) {
+      const parsed = parseFloat(stored);
+      if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) {
+        return parsed;
+      }
+    }
+    return DEFAULT_MASTER_VOLUME;
+  });
+
   // Setters with localStorage persistence
   const setGameSpeed = useCallback((speed: number) => {
     const clampedSpeed = Math.max(0.5, Math.min(2, speed));
@@ -80,6 +98,12 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
   const setMusicEnabled = useCallback((enabled: boolean) => {
     setMusicEnabledState(enabled);
     localStorage.setItem(MUSIC_ENABLED_KEY, String(enabled));
+  }, []);
+
+  const setMasterVolume = useCallback((volume: number) => {
+    const clampedVolume = Math.max(0, Math.min(1, volume));
+    setMasterVolumeState(clampedVolume);
+    localStorage.setItem(MASTER_VOLUME_KEY, String(clampedVolume));
   }, []);
 
   // Helper to adjust delays based on game speed
@@ -99,6 +123,8 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
         setAnimationsEnabled,
         musicEnabled,
         setMusicEnabled,
+        masterVolume,
+        setMasterVolume,
         adjustDelay,
       }}
     >

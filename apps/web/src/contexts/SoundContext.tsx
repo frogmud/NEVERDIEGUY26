@@ -8,11 +8,10 @@
  */
 
 import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
+import { useGameSettings } from './GameSettingsContext';
 
 // Sound configuration
 const SOUND_CONFIG = {
-  masterVolume: 0.3,
-
   diceRoll: {
     clicks: 5,
     duration: 0.05,
@@ -66,6 +65,8 @@ const SoundContext = createContext<SoundContextValue | null>(null);
 const STORAGE_KEY = 'ndg-sound-enabled';
 
 export function SoundProvider({ children }: { children: ReactNode }) {
+  const { masterVolume } = useGameSettings();
+
   const [soundEnabled, setSoundEnabledState] = useState(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored !== 'false'; // Default to true
@@ -104,7 +105,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     gainNode.connect(ctx.destination);
 
     const now = ctx.currentTime;
-    const adjustedVolume = volume * SOUND_CONFIG.masterVolume;
+    const adjustedVolume = volume * masterVolume;
 
     gainNode.gain.setValueAtTime(0, now);
     gainNode.gain.linearRampToValueAtTime(adjustedVolume, now + 0.01);
@@ -112,7 +113,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
     oscillator.start(now);
     oscillator.stop(now + duration);
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, masterVolume]);
 
   // Play noise burst
   const playNoise = useCallback((duration: number, volume = 1) => {
@@ -140,12 +141,12 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     gainNode.connect(ctx.destination);
 
     const now = ctx.currentTime;
-    const adjustedVolume = volume * SOUND_CONFIG.masterVolume;
+    const adjustedVolume = volume * masterVolume;
     gainNode.gain.setValueAtTime(adjustedVolume, now);
     gainNode.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
     source.start(now);
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, masterVolume]);
 
   // Dice roll sound
   const playDiceRoll = useCallback(() => {
@@ -211,11 +212,11 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
     const randomIndex = Math.floor(Math.random() * EXPLOSION_SOUNDS.length);
     const audio = new Audio(EXPLOSION_SOUNDS[randomIndex]);
-    audio.volume = SOUND_CONFIG.masterVolume * 0.5; // Slightly quieter for explosions
+    audio.volume = masterVolume * 0.5; // Slightly quieter for explosions
     audio.play().catch(() => {
       // Ignore autoplay restrictions
     });
-  }, [soundEnabled]);
+  }, [soundEnabled, masterVolume]);
 
   // Cleanup on unmount
   useEffect(() => {

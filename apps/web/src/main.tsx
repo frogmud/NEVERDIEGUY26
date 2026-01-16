@@ -85,8 +85,8 @@ createRoot(document.getElementById('root')!).render(
       {globalStyles}
       <BrowserRouter>
         <SettingsProvider>
-          <SoundProvider>
-            <GameSettingsProvider>
+          <GameSettingsProvider>
+            <SoundProvider>
               <AuthProvider>
                 <NotificationProvider>
                   <CartProvider>
@@ -94,8 +94,8 @@ createRoot(document.getElementById('root')!).render(
                   </CartProvider>
                 </NotificationProvider>
               </AuthProvider>
-            </GameSettingsProvider>
-          </SoundProvider>
+            </SoundProvider>
+          </GameSettingsProvider>
         </SettingsProvider>
       </BrowserRouter>
     </ThemeProvider>
