@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import {
   Box,
   Typography,
@@ -6,7 +7,11 @@ import {
   Chip,
   LinearProgress,
   Grid,
+  Tooltip,
+  Modal,
+  IconButton,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   FavoriteSharp as HealthIcon,
   PlaceSharp as LocationIcon,
@@ -145,6 +150,9 @@ const getCharacterSections = (
 export function WikiCharacter({ entity }: WikiCharacterProps) {
   const { category } = useParams();
   const navigate = useNavigate();
+
+  // Sprite zoom modal state
+  const [zoomedSprite, setZoomedSprite] = useState<string | null>(null);
 
   // Determine character type
   const isEnemy = entity?.category === 'enemies';
@@ -349,16 +357,29 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         {(travelerData?.sprites || pantheonData?.sprites) && (
           <Box sx={{ mt: 2, display: 'flex', gap: 0.5, justifyContent: 'center', flexWrap: 'wrap' }}>
             {(travelerData?.sprites || pantheonData?.sprites || []).map((sprite, i) => (
-              <AssetImage
-                key={i}
-                src={sprite}
-                alt={`${characterInfo.name} sprite ${i + 1}`}
-                category={category as 'travelers' | 'pantheon'}
-                width={40}
-                height={40}
-                fallback="placeholder"
-                sx={{ objectFit: 'contain', filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0.5))' }}
-              />
+              <Tooltip key={i} title="Click to enlarge" placement="top" arrow>
+                <Box
+                  onClick={() => setZoomedSprite(sprite)}
+                  sx={{
+                    cursor: 'zoom-in',
+                    transition: 'transform 150ms ease',
+                    '&:hover': {
+                      transform: 'scale(1.4)',
+                      zIndex: 10,
+                    },
+                  }}
+                >
+                  <AssetImage
+                    src={sprite}
+                    alt={`${characterInfo.name} sprite ${i + 1}`}
+                    category={category as 'travelers' | 'pantheon'}
+                    width={40}
+                    height={40}
+                    fallback="placeholder"
+                    sx={{ objectFit: 'contain', filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0.5))' }}
+                  />
+                </Box>
+              </Tooltip>
             ))}
           </Box>
         )}
@@ -982,58 +1003,119 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           <BaseCard sx={{ mb: 4 }}>
             <Grid container spacing={2}>
               {Object.entries(baseStats).map(([stat, value]) => {
-                const statConfig: Record<string, { label: string; icon: string; color: string }> = {
-                  luck: { label: 'Luck', icon: '/icons/stat-luck.svg', color: '#FFD700' },
-                  essence: { label: 'Essence', icon: '/icons/stat-essence.svg', color: '#FF1744' },
-                  grit: { label: 'Grit', icon: '/icons/stat-grit.svg', color: '#FFA726' },
-                  shadow: { label: 'Shadow', icon: '/icons/stat-shadow.svg', color: '#7C4DFF' },
-                  fury: { label: 'Fury', icon: '/icons/stat-fury.svg', color: '#4CAF50' },
-                  resilience: { label: 'Resilience', icon: '/icons/stat-resilience.svg', color: '#00E5FF' },
-                  swiftness: { label: 'Swiftness', icon: '/icons/stat-swiftness.svg', color: '#FFEB3B' },
+                const statConfig: Record<string, { label: string; icon: string; color: string; tooltip: string }> = {
+                  luck: {
+                    label: 'Luck',
+                    icon: '/icons/stat-luck.svg',
+                    color: '#FFD700',
+                    tooltip: 'Affects critical hit chance, rare drops, and bonus roll opportunities. Higher luck means more favorable RNG.',
+                  },
+                  essence: {
+                    label: 'Essence',
+                    icon: '/icons/stat-essence.svg',
+                    color: '#FF1744',
+                    tooltip: 'Core vitality and life force. Determines max health pool and recovery rate between encounters.',
+                  },
+                  grit: {
+                    label: 'Grit',
+                    icon: '/icons/stat-grit.svg',
+                    color: '#FFA726',
+                    tooltip: 'Mental fortitude and determination. Reduces damage from consecutive hits and improves comeback mechanics.',
+                  },
+                  shadow: {
+                    label: 'Shadow',
+                    icon: '/icons/stat-shadow.svg',
+                    color: '#7C4DFF',
+                    tooltip: 'Stealth and evasion capability. Higher shadow increases dodge chance and sneak attack damage.',
+                  },
+                  fury: {
+                    label: 'Fury',
+                    icon: '/icons/stat-fury.svg',
+                    color: '#4CAF50',
+                    tooltip: 'Raw offensive power. Directly multiplies damage output and affects dice roll bonuses.',
+                  },
+                  resilience: {
+                    label: 'Resilience',
+                    icon: '/icons/stat-resilience.svg',
+                    color: '#00E5FF',
+                    tooltip: 'Defensive capability and damage reduction. Higher resilience means less damage taken per hit.',
+                  },
+                  swiftness: {
+                    label: 'Swiftness',
+                    icon: '/icons/stat-swiftness.svg',
+                    color: '#FFEB3B',
+                    tooltip: 'Speed and agility. Affects turn order, action economy, and chance to act first in combat.',
+                  },
                 };
-                const config = statConfig[stat] || { label: stat, icon: '', color: tokens.colors.text.secondary };
+                const config = statConfig[stat] || { label: stat, icon: '', color: tokens.colors.text.secondary, tooltip: '' };
                 return (
                   <Grid size={{ xs: 6, sm: 4, md: 3 }} key={stat}>
-                    <Box
-                      sx={{
-                        p: 2,
-                        bgcolor: tokens.colors.background.elevated,
-                        borderRadius: 1,
-                        textAlign: 'center',
+                    <Tooltip
+                      title={config.tooltip}
+                      placement="top"
+                      arrow
+                      slotProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: '#1a1a1a',
+                            border: `1px solid ${tokens.colors.border}`,
+                            fontSize: '0.8rem',
+                            maxWidth: 220,
+                            p: 1.5,
+                          },
+                        },
+                        arrow: {
+                          sx: { color: '#1a1a1a' },
+                        },
                       }}
                     >
-                      {config.icon && (
-                        <Box
-                          component="img"
-                          src={config.icon}
-                          alt={config.label}
+                      <Box
+                        sx={{
+                          p: 2,
+                          bgcolor: tokens.colors.background.elevated,
+                          borderRadius: 1,
+                          textAlign: 'center',
+                          cursor: 'help',
+                          transition: 'transform 150ms ease, box-shadow 150ms ease',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            boxShadow: `0 4px 12px ${config.color}33`,
+                          },
+                        }}
+                      >
+                        {config.icon && (
+                          <Box
+                            component="img"
+                            src={config.icon}
+                            alt={config.label}
+                            sx={{
+                              width: 24,
+                              height: 24,
+                              mb: 1,
+                              filter: 'brightness(0) invert(1)',
+                              opacity: 0.8,
+                            }}
+                          />
+                        )}
+                        <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming, color: config.color }}>
+                          {value}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                          {config.label}
+                        </Typography>
+                        <LinearProgress
+                          variant="determinate"
+                          value={typeof value === 'number' ? value : 0}
                           sx={{
-                            width: 24,
-                            height: 24,
-                            mb: 1,
-                            filter: 'brightness(0) invert(1)',
-                            opacity: 0.8,
+                            mt: 1,
+                            height: 4,
+                            borderRadius: 1,
+                            bgcolor: tokens.colors.background.paper,
+                            '& .MuiLinearProgress-bar': { bgcolor: config.color },
                           }}
                         />
-                      )}
-                      <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming, color: config.color }}>
-                        {value}
-                      </Typography>
-                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                        {config.label}
-                      </Typography>
-                      <LinearProgress
-                        variant="determinate"
-                        value={typeof value === 'number' ? value : 0}
-                        sx={{
-                          mt: 1,
-                          height: 4,
-                          borderRadius: 1,
-                          bgcolor: tokens.colors.background.paper,
-                          '& .MuiLinearProgress-bar': { bgcolor: config.color },
-                        }}
-                      />
-                    </Box>
+                      </Box>
+                    </Tooltip>
                   </Grid>
                 );
               })}
@@ -1444,6 +1526,58 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           </BaseCard>
         </WikiSectionAnchor>
       )}
+
+      {/* Sprite Zoom Modal */}
+      <Modal
+        open={!!zoomedSprite}
+        onClose={() => setZoomedSprite(null)}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Box
+          onClick={() => setZoomedSprite(null)}
+          sx={{
+            position: 'relative',
+            outline: 'none',
+            cursor: 'zoom-out',
+          }}
+        >
+          <IconButton
+            onClick={() => setZoomedSprite(null)}
+            sx={{
+              position: 'absolute',
+              top: -40,
+              right: -40,
+              color: tokens.colors.text.primary,
+              bgcolor: 'rgba(0,0,0,0.5)',
+              '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          {zoomedSprite && (
+            <Box
+              component="img"
+              src={zoomedSprite}
+              alt="Zoomed sprite"
+              sx={{
+                maxWidth: '80vw',
+                maxHeight: '80vh',
+                width: 'auto',
+                height: 'auto',
+                minWidth: 200,
+                minHeight: 200,
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+                filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.5))',
+              }}
+            />
+          )}
+        </Box>
+      </Modal>
 
     </WikiLayout>
   );

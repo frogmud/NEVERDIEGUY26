@@ -940,6 +940,197 @@ export const GREETER_INTERRUPT_CHANCE: Record<string, number> = {
   'king-james': 0.50,     // High - void creatures serve the crown
 };
 
+/**
+ * How sensitive each NPC is to being ignored (0-1)
+ * Higher = more likely to react negatively when ignored
+ * 0 = doesn't care, 1 = very sensitive
+ */
+export const GREETER_IGNORE_SENSITIVITY: Record<string, number> = {
+  'stitch-up-girl': 0.3,  // Caring but understands, mild concern
+  'keith-man': 0.2,       // Too fast to notice being ignored
+  'mr-kevin': 0.1,        // Observes. Does not care. Meta.
+  'clausen': 0.2,         // Detached noir type, seen it all
+  'body-count': 0.1,      // Just tallies, doesn't take offense
+  'boots': 0.5,           // Wants engagement! Bouncy and eager!
+  'willy': 0.6,           // Merchant needs customers! Desperate!
+  'boo-g': 0.7,           // Performer needs audience! EGO!
+  'the-general': 0.9,     // Military discipline demands attention!
+  'dr-maxwell': 0.8,      // Ego! Students must pay attention!
+  'xtreme': 0.6,          // Wants that EXTREME engagement!
+  'mr-bones': 0.0,        // Philosophical. Time is meaningless. So is attention.
+  'dr-voss': 0.85,        // Scientists demand respect! Test subjects listen!
+  'king-james': 0.95,     // ROYALTY. DEMANDS. ATTENTION.
+};
+
+/**
+ * NPC responses when ignored, based on sensitivity
+ * Each NPC has mild and annoyed responses
+ */
+export const GREETER_IGNORE_RESPONSES: Record<string, { mild: string[]; annoyed: string[] }> = {
+  'stitch-up-girl': {
+    mild: ['...Alright then.', 'No rush, I suppose.', '*continues organizing supplies*'],
+    annoyed: ['Hello? I am trying to help here.', 'Ignoring your medic is... bold.', 'Fine. Bleed next time. See if I care.'],
+  },
+  'keith-man': {
+    mild: ['That-is-fine! I-will-wait! Kind-of!', '*zooms around impatiently*', 'No-problem!'],
+    annoyed: ['Hello?? Are-you-there?? I-can-SEE-you!', 'Time-is-wasting! YOUR-time!', 'HELLO??'],
+  },
+  'mr-kevin': {
+    mild: ['Acknowledged.', 'The silence is noted in the logs.', '*observes*'],
+    annoyed: ['Input expected but not received.', 'User engagement: suboptimal.', 'The code waits. As do I.'],
+  },
+  'clausen': {
+    mild: ['*lights another cigarette*', 'Take your time, kid.', '*exhales*'],
+    annoyed: ['Rude.', 'I have cases to solve.', '*stares pointedly*'],
+  },
+  'body-count': {
+    mild: ['*makes tally mark*', 'Noted.', '*observes silently*'],
+    annoyed: ['The silence adds to the count. Somehow.', '*tallies harder*', 'Even I notice. And I notice everything.'],
+  },
+  'boots': {
+    mild: ['*bounces uncertainly*', 'Hello? Friend?', '*waits... kicks ground*'],
+    annoyed: ['HEY! I am RIGHT HERE!', 'Did you forget about BOOTS?!', 'I will KICK something if you keep ignoring me!'],
+  },
+  'willy': {
+    mild: ['*rattles quietly*', 'Customer? Still there?', 'Take your time! Bones can wait!'],
+    annoyed: ['Hello?? I have DEALS! Great deals!', 'Ignoring a merchant? MY BONES FEEL THIS.', '*rattles sadly* Nobody wants my wares...'],
+  },
+  'boo-g': {
+    mild: ['*ghost noises*', 'Tough crowd.', 'Yo, you still there?'],
+    annoyed: ['YO! BOO G is PERFORMING here!', 'The DISRESPECT to my CRAFT!', 'I have been dead for CENTURIES and even I feel that shade!'],
+  },
+  'the-general': {
+    mild: ['Soldier. Acknowledge.', '*clears throat*', 'Awaiting response.'],
+    annoyed: ['ATTENTION, SOLDIER!', 'Insubordination will be noted!', 'I do not tolerate being dismissed!'],
+  },
+  'dr-maxwell': {
+    mild: ['*adjusts spectacles*', 'Students today...', 'The lecture continues regardless.'],
+    annoyed: ['EXCUSE ME. I am TEACHING.', 'This is why education fails!', 'You WILL pay attention to KNOWLEDGE!'],
+  },
+  'xtreme': {
+    mild: ['Hello?? EXTREME hello??', '*rattles less extremely*', 'The odds of being ignored were... HIGH apparently!'],
+    annoyed: ['YOU CANNOT IGNORE X-TREME!', 'That is SO un-EXTREME!', 'CHAOS demands ACKNOWLEDGMENT!'],
+  },
+  'mr-bones': {
+    mild: ['...', '*bone sounds*', 'Time passes. As does this moment.'],
+    annoyed: ['*rattles philosophically*', 'Even silence speaks. If you listen.', 'The bones do not mind. Neither do I.'],
+  },
+  'dr-voss': {
+    mild: ['*takes notes* Subject unresponsive.', 'Fascinating behavior pattern.', 'Hmm.'],
+    annoyed: ['TEST SUBJECT. RESPOND.', 'I do not appreciate being ignored by my experiments!', 'Your participation is NOT optional!'],
+  },
+  'king-james': {
+    mild: ['*adjusts crown*', 'The crown... waits.', 'Hmph.'],
+    annoyed: ['You DARE ignore ROYALTY?!', 'Peasant! I am your KING!', 'This INSOLENCE will be remembered!'],
+  },
+};
+
+/**
+ * Custom welcome headlines per NPC
+ * These replace the generic "Welcome to [Domain], Never Die Guy"
+ * All headlines should include {domain} for context
+ * Format: {npcId: string[]} - random selection per load
+ */
+export const GREETER_WELCOME_HEADLINES: Record<string, string[]> = {
+  'stitch-up-girl': [
+    'Stitch Up Girl awaits in {domain}',
+    'The medic is ready in {domain}',
+    '{domain}: Bandages Included',
+    'Medical support in {domain}',
+  ],
+  'keith-man': [
+    'Keith Man zips through {domain}',
+    'Speed run: {domain}',
+    'Keith Man scouted {domain}',
+    '{domain} at maximum velocity',
+  ],
+  'mr-kevin': [
+    'Mr. Kevin logs {domain}',
+    '{domain}: Status Observed',
+    'Reality check in {domain}',
+    'Mr. Kevin watches {domain}',
+  ],
+  'clausen': [
+    'Clausen investigates {domain}',
+    'Case file: {domain}',
+    'The detective stalks {domain}',
+    '{domain} noir',
+  ],
+  'body-count': [
+    'Body Count: {domain}',
+    'Tallying {domain}',
+    '{domain} statistics loading',
+    'The count begins in {domain}',
+  ],
+  'boots': [
+    'Boots kicks {domain}',
+    '{domain}: KICK MODE',
+    'Chaos boots through {domain}',
+    'Bouncing into {domain}',
+  ],
+  'willy': [
+    'Willy sells in {domain}',
+    '{domain} Market: OPEN',
+    'Bone deals in {domain}',
+    'Willy awaits in {domain}',
+  ],
+  'boo-g': [
+    'Boo G haunts {domain}',
+    '{domain}: Ghost Hour',
+    'Dead bars drop in {domain}',
+    'Spectral beats in {domain}',
+  ],
+  'the-general': [
+    'The General commands {domain}',
+    '{domain}: Fall In',
+    'Orders from {domain}',
+    'Discipline in {domain}',
+  ],
+  'dr-maxwell': [
+    'Dr. Maxwell lectures in {domain}',
+    '{domain}: Class in Session',
+    'Knowledge burns in {domain}',
+    'The professor owns {domain}',
+  ],
+  'xtreme': [
+    'X-TREME {domain}',
+    '{domain}: MAXIMUM CHAOS',
+    'Extremely {domain}',
+    '{domain} goes X-TREME',
+  ],
+  'mr-bones': [
+    'Mr. Bones contemplates {domain}',
+    '{domain}: Time Frozen',
+    'Cold wisdom in {domain}',
+    'Bones rattle in {domain}',
+  ],
+  'dr-voss': [
+    'Dr. Voss experiments in {domain}',
+    '{domain}: Test Subject Located',
+    'Science awaits in {domain}',
+    'Lab conditions in {domain}',
+  ],
+  'king-james': [
+    'King James rules {domain}',
+    '{domain}: Bow Before Royalty',
+    'The crown conquers {domain}',
+    'Royal decree from {domain}',
+  ],
+};
+
+/**
+ * Get a random welcome headline for an NPC
+ * Replaces {domain} with the actual domain name
+ */
+export function getWelcomeHeadline(npcId: string, domainName: string): string {
+  const headlines = GREETER_WELCOME_HEADLINES[npcId];
+  if (!headlines || headlines.length === 0) {
+    return `Welcome to ${domainName}`;
+  }
+  const headline = headlines[Math.floor(Math.random() * headlines.length)];
+  return headline.replace('{domain}', domainName);
+}
+
 // ============================================
 // ENEMY INTERRUPT SYSTEM
 // ============================================

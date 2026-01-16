@@ -20,10 +20,13 @@ import {
   getRandomGreeting,
   GREETER_DOMAINS,
   GREETER_INTERRUPT_CHANCE,
+  GREETER_IGNORE_SENSITIVITY,
+  GREETER_IGNORE_RESPONSES,
   DOMAIN_INTERRUPTS,
   DOMAIN_DISPLAY_NAMES,
   getRandomInterrupt,
   getRandomReaction,
+  getWelcomeHeadline,
   type HomeGreeter,
   type EnemyInterrupt,
 } from '../data/home-greeters';
@@ -132,6 +135,11 @@ export function HomeChatter() {
   // Get display name for domain
   const domainDisplayName = DOMAIN_DISPLAY_NAMES[greeterDomain] || greeterDomain;
 
+  // Get custom welcome headline for this NPC/domain combo
+  const welcomeHeadline = useMemo(() => {
+    return getWelcomeHeadline(greeter.id, domainDisplayName);
+  }, [greeter.id, domainDisplayName]);
+
   // Messages state - starts with initial greeting
   const [messages, setMessages] = useState<string[]>([initialGreeting]);
   const [isTyping, setIsTyping] = useState(false);
@@ -219,9 +227,12 @@ export function HomeChatter() {
   };
 
   // Reaction types for player responses
-  type ReactionType = 'grunt' | 'hmph';
+  type ReactionType = 'grunt' | 'hmph' | 'ignore';
 
-  // Handle grunt/hmph - NDG reacts to a specific message, NPC responds
+  // Track ignore count for escalation
+  const [ignoreCount, setIgnoreCount] = useState(0);
+
+  // Handle grunt/hmph/ignore - NDG reacts to a specific message, NPC responds
   const handleGrunt = async (targetMessage: string, reactionType: ReactionType = 'grunt') => {
     if (gruntCooldown || isTyping || pendingInterrupt) return;
 
@@ -230,8 +241,12 @@ export function HomeChatter() {
     setGruntCount(newGruntCount);
 
     // Show NDG's reaction
-    const reactionText = reactionType === 'grunt' ? '*grunt*' : '*hmph*';
-    setMessages(prev => [...prev, `You: ${reactionText}`]);
+    const reactionTexts: Record<ReactionType, string> = {
+      grunt: '*grunt*',
+      hmph: '*hmph*',
+      ignore: '*looks away*',
+    };
+    setMessages(prev => [...prev, `You: ${reactionTexts[reactionType]}`]);
 
     // Twitch sprite (reacting)
     if (greeter.sprite2) {
@@ -239,7 +254,40 @@ export function HomeChatter() {
       setTimeout(() => setSpriteFrame(1), 150);
     }
 
-    // NPC reacts after a beat
+    // Handle ignore specially - use local personality responses
+    if (reactionType === 'ignore') {
+      const newIgnoreCount = ignoreCount + 1;
+      setIgnoreCount(newIgnoreCount);
+
+      // Get this NPC's ignore sensitivity
+      const sensitivity = GREETER_IGNORE_SENSITIVITY[greeter.id] || 0.5;
+      const responses = GREETER_IGNORE_RESPONSES[greeter.id];
+
+      // Chance of annoyed response increases with sensitivity and ignore count
+      const annoyedChance = sensitivity + (newIgnoreCount * 0.2);
+      const isAnnoyed = Math.random() < annoyedChance;
+
+      // NPC responds after a beat
+      setTimeout(() => {
+        setIsTyping(true);
+        setTimeout(() => {
+          setIsTyping(false);
+          if (responses) {
+            const pool = isAnnoyed ? responses.annoyed : responses.mild;
+            const response = pool[Math.floor(Math.random() * pool.length)];
+            setMessages(prev => [...prev, response]);
+          } else {
+            // Fallback if no responses defined
+            const fallback = isAnnoyed ? 'Hello??' : '...';
+            setMessages(prev => [...prev, fallback]);
+          }
+          setGruntCooldown(false);
+        }, 1200);
+      }, 600);
+      return;
+    }
+
+    // NPC reacts after a beat (grunt/hmph)
     setTimeout(async () => {
       setIsTyping(true);
 
@@ -455,6 +503,9 @@ export function HomeChatter() {
     };
   }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2]);
 
+  // Track if user is currently interacting (hovering on messages)
+  const [isInteracting, setIsInteracting] = useState(false);
+
   // Check if scrolled to bottom
   const checkIfAtBottom = () => {
     const container = messagesContainerRef.current;
@@ -468,14 +519,18 @@ export function HomeChatter() {
     }
   };
 
-  // Auto-scroll only if at bottom, otherwise show "new messages"
+  // Auto-scroll only if at bottom AND not interacting, otherwise show "new messages"
   useEffect(() => {
-    if (isAtBottom) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    } else if (messages.length > 1) {
-      setHasNewMessages(true);
-    }
-  }, [messages, isTyping, isAtBottom]);
+    // Delay scroll slightly to not interrupt interactions
+    const scrollTimer = setTimeout(() => {
+      if (isAtBottom && !isInteracting) {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      } else if (messages.length > 1) {
+        setHasNewMessages(true);
+      }
+    }, 100);
+    return () => clearTimeout(scrollTimer);
+  }, [messages, isTyping, isAtBottom, isInteracting]);
 
   // Scroll to bottom when clicking "new messages"
   const scrollToBottom = () => {
@@ -584,128 +639,32 @@ export function HomeChatter() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 1200, overflow: 'hidden' }}>
-      {/* Welcome message with domain */}
+      {/* Welcome headline - custom per NPC/domain */}
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 0.5,
-          mb: 4,
-          flexWrap: 'wrap',
+          textAlign: 'center',
+          mb: { xs: 4, sm: 5, md: 6 },
+          mt: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 2, sm: 4, md: 6 },
         }}
       >
         <Typography
+          component="h1"
+          onClick={handleDomainClick}
           sx={{
             fontFamily: tokens.fonts.gaming,
-            fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
-            color: tokens.colors.text.secondary,
-            letterSpacing: '0.05em',
+            fontWeight: 800,
+            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+            color: tokens.colors.text.primary,
+            lineHeight: 1.4,
+            cursor: 'pointer',
+            transition: 'color 150ms ease',
+            '&:hover': {
+              color: tokens.colors.text.secondary,
+            },
           }}
         >
-          Welcome to{' '}
-          <Box
-            component="span"
-            onClick={handleDomainClick}
-            sx={{
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              textUnderlineOffset: '4px',
-              transition: 'color 150ms ease',
-              '&:hover': {
-                color: tokens.colors.text.primary,
-              },
-            }}
-          >
-            {domainDisplayName}
-          </Box>
-        </Typography>
-
-        {/* Seed input - click to edit, autocomplete with recent seeds */}
-        {isEditingSeed ? (
-          <Autocomplete
-            freeSolo
-            size="small"
-            options={recentSeeds}
-            value={seedInput}
-            onInputChange={(_, value) => setSeedInput(value)}
-            onChange={(_, value) => {
-              if (value) handleSeedSubmit(value);
-            }}
-            onBlur={() => handleSeedSubmit(seedInput)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSeedSubmit(seedInput);
-              if (e.key === 'Escape') {
-                setSeedInput(sessionSeed);
-                setIsEditingSeed(false);
-              }
-            }}
-            sx={{ width: 120 }}
-            slotProps={{
-              paper: {
-                sx: {
-                  bgcolor: '#1a1a1a',
-                  border: `1px solid ${tokens.colors.border}`,
-                },
-              },
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                autoFocus
-                variant="standard"
-                placeholder="SEED"
-                inputProps={{
-                  ...params.inputProps,
-                  maxLength: 6,
-                  style: {
-                    fontFamily: tokens.fonts.gaming,
-                    fontSize: '1.6rem',
-                    color: tokens.colors.text.disabled,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    padding: 0,
-                  },
-                }}
-                sx={{
-                  '& .MuiInput-underline:before': { borderColor: tokens.colors.border },
-                  '& .MuiInput-underline:hover:before': { borderColor: tokens.colors.text.secondary },
-                  '& .MuiInput-underline:after': { borderColor: tokens.colors.primary },
-                }}
-              />
-            )}
-          />
-        ) : (
-          <Typography
-            onClick={() => setIsEditingSeed(true)}
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
-              color: tokens.colors.text.disabled,
-              letterSpacing: '0.05em',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              textDecorationStyle: 'dotted',
-              textUnderlineOffset: '4px',
-              transition: 'color 150ms ease',
-              '&:hover': {
-                color: tokens.colors.text.secondary,
-              },
-            }}
-          >
-            {sessionSeed}
-          </Typography>
-        )}
-
-        <Typography
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.9rem' },
-            color: tokens.colors.text.secondary,
-            letterSpacing: '0.05em',
-          }}
-        >
-          , Never Die Guy
+          {welcomeHeadline}
         </Typography>
       </Box>
 
@@ -721,11 +680,17 @@ export function HomeChatter() {
             sx: {
               bgcolor: '#1a1a1a',
               border: `1px solid ${tokens.colors.border}`,
-              minWidth: 180,
+              minWidth: 200,
             },
           },
         }}
       >
+        {/* Domain selection */}
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, fontFamily: tokens.fonts.gaming }}>
+            Domain
+          </Typography>
+        </Box>
         <MenuItem
           onClick={() => handleDomainSelect(null)}
           sx={{
@@ -753,6 +718,85 @@ export function HomeChatter() {
             {name}
           </MenuItem>
         ))}
+
+        {/* Divider */}
+        <Box sx={{ borderTop: `1px solid ${tokens.colors.border}`, my: 1 }} />
+
+        {/* Seed section */}
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, fontFamily: tokens.fonts.gaming }}>
+            Seed
+          </Typography>
+        </Box>
+        {isEditingSeed ? (
+          <Box sx={{ px: 2, pb: 1.5 }}>
+            <Autocomplete
+              freeSolo
+              size="small"
+              options={recentSeeds}
+              value={seedInput}
+              onInputChange={(_, value) => setSeedInput(value)}
+              onChange={(_, value) => {
+                if (value) handleSeedSubmit(value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSeedSubmit(seedInput);
+                  handleDomainClose();
+                }
+                if (e.key === 'Escape') {
+                  setSeedInput(sessionSeed);
+                  setIsEditingSeed(false);
+                }
+              }}
+              sx={{ width: '100%' }}
+              slotProps={{
+                paper: {
+                  sx: {
+                    bgcolor: '#1a1a1a',
+                    border: `1px solid ${tokens.colors.border}`,
+                  },
+                },
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  autoFocus
+                  variant="outlined"
+                  placeholder="Enter seed"
+                  size="small"
+                  inputProps={{
+                    ...params.inputProps,
+                    maxLength: 6,
+                    style: {
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '0.95rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                    },
+                  }}
+                />
+              )}
+            />
+          </Box>
+        ) : (
+          <MenuItem
+            onClick={() => setIsEditingSeed(true)}
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.95rem',
+              color: tokens.colors.text.secondary,
+              display: 'flex',
+              justifyContent: 'space-between',
+              '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+            }}
+          >
+            <span>{sessionSeed}</span>
+            <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, ml: 2 }}>
+              edit
+            </Typography>
+          </MenuItem>
+        )}
       </Menu>
 
       <Box
@@ -832,6 +876,8 @@ export function HomeChatter() {
         <Box
           ref={messagesContainerRef}
           onScroll={checkIfAtBottom}
+          onMouseEnter={() => setIsInteracting(true)}
+          onMouseLeave={() => setIsInteracting(false)}
           sx={{
             flex: 1,
             display: 'flex',
@@ -939,7 +985,10 @@ export function HomeChatter() {
                     }}
                   >
                     <Button
-                      onClick={() => handleGrunt(msg, 'grunt')}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleGrunt(msg, 'grunt');
+                      }}
                       disabled={!canGrunt}
                       sx={{
                         minWidth: 'auto',
@@ -962,7 +1011,10 @@ export function HomeChatter() {
                       grunt
                     </Button>
                     <Button
-                      onClick={() => handleGrunt(msg, 'hmph')}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleGrunt(msg, 'hmph');
+                      }}
                       disabled={!canGrunt}
                       sx={{
                         minWidth: 'auto',
@@ -983,6 +1035,32 @@ export function HomeChatter() {
                       }}
                     >
                       hmph
+                    </Button>
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleGrunt(msg, 'ignore');
+                      }}
+                      disabled={!canGrunt}
+                      sx={{
+                        minWidth: 'auto',
+                        px: 1.5,
+                        py: 0.25,
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.9rem',
+                        color: '#555',
+                        bgcolor: 'transparent',
+                        textTransform: 'none',
+                        '&:hover': {
+                          color: '#888',
+                          bgcolor: 'rgba(255,255,255,0.03)',
+                        },
+                        '&:disabled': {
+                          opacity: 0.3,
+                        },
+                      }}
+                    >
+                      ignore
                     </Button>
                   </Box>
                 )}
@@ -1065,8 +1143,10 @@ export function HomeChatter() {
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: { xs: '1.1rem', sm: '1.25rem' },
-              px: 4,
-              py: 1.5,
+              fontWeight: 700,
+              px: 6,
+              py: 2,
+              borderRadius: '12px',
               bgcolor: tokens.colors.primary,
               '&:hover': { bgcolor: '#c7033a' },
             }}
@@ -1079,8 +1159,10 @@ export function HomeChatter() {
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: { xs: '1.1rem', sm: '1.25rem' },
-              px: 4,
-              py: 1.5,
+              fontWeight: 600,
+              px: 5,
+              py: 2,
+              borderRadius: '12px',
               borderColor: tokens.colors.border,
               color: tokens.colors.text.primary,
               '&:hover': {
