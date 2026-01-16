@@ -545,6 +545,7 @@ export function PlayHub() {
         totalRooms={3}
         totalScore={state.totalScore || 0}
         gold={state.gold || 0}
+        isInShop={isInShop}
       />
 
       {/* Transition Wipe */}

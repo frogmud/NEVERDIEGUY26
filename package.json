@@ -16,8 +16,8 @@
     "sim:chatter": "pnpm --filter @ndg/ai-engine sim:chatter"
   },
   "devDependencies": {
-    "@vercel/node": "^5.5.16",
-    "turbo": "^2.5.4",
+    "@vercel/node": "^5.5.22",
+    "turbo": "^2.7.4",
     "typescript": "~5.8.3"
   },
   "pnpm": {

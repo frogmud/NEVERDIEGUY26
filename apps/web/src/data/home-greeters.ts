@@ -1374,3 +1374,199 @@ export function getRandomInterrupt(domain: string): EnemyInterrupt | null {
 export function getRandomReaction(interrupt: EnemyInterrupt): string {
   return interrupt.reactions[Math.floor(Math.random() * interrupt.reactions.length)];
 }
+
+// ============================================
+// SHOCK REACTIONS - When NDG speaks
+// ============================================
+
+/**
+ * Per-NPC shock reactions when the player types a message.
+ * NDG is normally silent (grunts only), so speaking is surprising.
+ */
+export const GREETER_SHOCK_REACTIONS: Record<string, string[]> = {
+  'stitch-up-girl': [
+    'Oh! Oh my. You can talk! This changes the diagnosis entirely.',
+    '*drops needle* You have a VOICE?!',
+    'Hold on - you actually speak?! The last Guy just grunted!',
+    'Words! Actual words! I need to update your medical chart.',
+  ],
+  'keith-man': [
+    'WHOA! You can TALK?! This is NOT in my notes!',
+    '*nearly spills energy drink* A TALKING GUY?!',
+    'Yo yo yo - did you just SAY something?!',
+    'Wait wait wait - you have WORDS?! This changes EVERYTHING!',
+  ],
+  'mr-kevin': [
+    'Most curious. You possess the gift of speech.',
+    '*adjusts monocle* A vocalizing specimen. Fascinating.',
+    'The probability of this is... improbable. And yet.',
+    'Ah. A talking one. The universe grows stranger.',
+  ],
+  'clausen': [
+    '*metallic whirr* Speech detected. Unexpected parameter.',
+    'You vocalize? My records indicated non-verbal behavior.',
+    'PROCESSING: Subject exhibits linguistic capability. Updating profile.',
+    '*beeps curiously* A talking Guy. How... organic.',
+  ],
+  'body-count': [
+    'Did you just... Was that WORDS?! From YOU?!',
+    '*stops counting* Hold up. You TALK?!',
+    'A speaking Guy? That messes up my whole system!',
+    'Words, huh? Most of you just grunt and die.',
+  ],
+  'boots': [
+    '*wagging intensifies* You TALK?! BEST DAY EVER!',
+    'BARK! BARK! You can SPEAK! This is AMAZING!',
+    'Words! Human words! From the Guy! WOW!',
+    '*spins in circle* A TALKING FRIEND! YES!',
+  ],
+  'willy': [
+    '*cocks head* Well butter my biscuit. A talker.',
+    'Huh. You speak. Did NOT see that comin\'.',
+    '*adjusts holster* A Guy with words. Interestin\'.',
+    'Most of you lot just grunt. You\'re different.',
+  ],
+  'boo-g': [
+    'Yo WHAT?! You got VOCALS?! Spit some bars then!',
+    '*drops microphone* A TALKING GUY?! This a feature drop!',
+    'Hold UP - you can SAY things?! That is FIRE!',
+    'Words from the void! The remix nobody expected!',
+  ],
+  'the-general': [
+    '*snaps to attention* A vocal operative?! Report!',
+    'You SPEAK, soldier?! Why was I not briefed?!',
+    'A talking asset. Tactical implications unknown.',
+    '*strokes moustache* Speech capability confirmed. Intriguing.',
+  ],
+  'dr-maxwell': [
+    '*drops beaker* REMARKABLE! Verbal communication!',
+    'You SPEAK?! The scientific implications are ENORMOUS!',
+    'A talking specimen! I must document EVERYTHING!',
+    'EXTRAORDINARY! Vocalization from a typically mute subject!',
+  ],
+  'xtreme': [
+    'DUUUDE! You can TALK?! That is SO RAD!',
+    '*does kickflip* A SPEAKING GUY?! GNARLY!',
+    'Whoa whoa WHOA - you got WORDS bro?!',
+    'TOTALLY unexpected verbal shred! SICK!',
+  ],
+  'mr-bones': [
+    '*bones rattle violently* You... you SPEAK?!',
+    'Wait. Did you just... words?! From your mouth hole?!',
+    '*jaw drops (literally)* A talking Guy?! Unprecedented!',
+    'In all my years... a Guy who SPEAKS! Remarkable!',
+  ],
+  'dr-voss': [
+    '*raises eyebrow* Vocalization. Interesting development.',
+    'You speak. Most subjects do not. Note taken.',
+    '*scribbles in journal* A verbal anomaly. How... useful.',
+    'Words, is it? Perhaps you are worth studying after all.',
+  ],
+  'king-james': [
+    '*adjusts crown* A speaking peasant? How novel.',
+    'You DARE address the King directly?! Actually, please continue.',
+    'Words from a Guy? The court will find this most amusing.',
+    '*strokes beard* Speech! Finally, an interesting subject.',
+  ],
+};
+
+// Default shock reactions for NPCs without custom lines
+const DEFAULT_SHOCK_REACTIONS = [
+  'Wait... you can TALK?!',
+  'Did you just... speak?!',
+  'A talking one?! Interesting...',
+  'You have WORDS?! Unexpected!',
+  '*surprised* You can communicate!',
+];
+
+/**
+ * Get a random shock reaction for an NPC
+ * Used when NDG types a message (rare, since NDG usually just grunts)
+ */
+export function getShockReaction(npcId: string): string {
+  const reactions = GREETER_SHOCK_REACTIONS[npcId] || DEFAULT_SHOCK_REACTIONS;
+  return reactions[Math.floor(Math.random() * reactions.length)];
+}
+
+// ============================================
+// NPC DOMAIN HELPERS
+// ============================================
+
+// Domain slug to ID mapping
+const DOMAIN_SLUG_TO_ID: Record<string, number> = {
+  'earth': 1,
+  'frost-reach': 2,
+  'infernus': 3,
+  'shadow-keep': 4,
+  'null-providence': 5,
+  'aberrant': 6,
+};
+
+// Domain ID to slug mapping
+const DOMAIN_ID_TO_SLUG: Record<number, string> = {
+  1: 'earth',
+  2: 'frost-reach',
+  3: 'infernus',
+  4: 'shadow-keep',
+  5: 'null-providence',
+  6: 'aberrant',
+};
+
+/**
+ * Check if an NPC can appear in a given domain
+ * Roaming NPCs can appear anywhere
+ */
+export function canNpcAppearInDomain(npcId: string, domainId: number): boolean {
+  const npcDomain = GREETER_DOMAINS[npcId];
+  if (!npcDomain) return false;
+  if (npcDomain === 'roaming') return true;
+  return DOMAIN_SLUG_TO_ID[npcDomain] === domainId;
+}
+
+/**
+ * Get all NPCs that can appear in a given domain
+ * Returns array of NPC IDs
+ */
+export function getNpcsForDomain(domainId: number): string[] {
+  return Object.entries(GREETER_DOMAINS)
+    .filter(([npcId, domain]) => {
+      if (domain === 'roaming') return true;
+      return DOMAIN_SLUG_TO_ID[domain] === domainId;
+    })
+    .map(([npcId]) => npcId);
+}
+
+/**
+ * Get the home domain ID for an NPC (or random if roaming)
+ */
+export function getNpcHomeDomain(npcId: string): number {
+  const domainSlug = GREETER_DOMAINS[npcId];
+  if (!domainSlug || domainSlug === 'roaming') {
+    // Random domain for roaming NPCs
+    return Math.floor(Math.random() * 6) + 1;
+  }
+  return DOMAIN_SLUG_TO_ID[domainSlug] || 1;
+}
+
+/**
+ * Get domain slug from domain ID
+ */
+export function getDomainSlugFromId(domainId: number): string {
+  return DOMAIN_ID_TO_SLUG[domainId] || 'earth';
+}
+
+/**
+ * Get a greeter by ID
+ */
+export function getGreeterById(npcId: string): HomeGreeter | undefined {
+  return HOME_GREETERS.find(g => g.id === npcId);
+}
+
+/**
+ * Get a random greeter available for a domain
+ */
+export function getRandomGreeterForDomain(domainId: number): HomeGreeter {
+  const availableNpcs = getNpcsForDomain(domainId);
+  const randomNpcId = availableNpcs[Math.floor(Math.random() * availableNpcs.length)];
+  return getGreeterById(randomNpcId) || HOME_GREETERS[0];
+}

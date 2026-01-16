@@ -81,6 +81,8 @@ interface PlaySidebarProps {
   totalRooms?: number;
   totalScore?: number;
   gold?: number;
+  // Shop mode - hides score to beat
+  isInShop?: boolean;
 }
 
 type LobbyTabValue = 'game' | 'bag' | 'options';
@@ -113,6 +115,7 @@ export function PlaySidebar({
   totalRooms = 3,
   totalScore = 0,
   gold = 0,
+  isInShop = false,
 }: PlaySidebarProps) {
   const [activeTab, setActiveTab] = useState<LobbyTabValue>('game');
   const [selectedLoadout, setSelectedLoadout] = useState<string>(DEFAULT_LOADOUT_ID);
@@ -205,6 +208,7 @@ export function PlaySidebar({
             <GameTabPlaying
               enemySprite={state.enemySprite}
               scoreToBeat={state.scoreToBeat}
+              hideScoreToBeat={isInShop}
               score={state.score}
               multiplier={state.multiplier}
               goal={state.goal}
