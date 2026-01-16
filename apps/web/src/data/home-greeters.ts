@@ -1487,3 +1487,86 @@ export function getShockReaction(npcId: string): string {
   const reactions = GREETER_SHOCK_REACTIONS[npcId] || DEFAULT_SHOCK_REACTIONS;
   return reactions[Math.floor(Math.random() * reactions.length)];
 }
+
+// ============================================
+// NPC DOMAIN HELPERS
+// ============================================
+
+// Domain slug to ID mapping
+const DOMAIN_SLUG_TO_ID: Record<string, number> = {
+  'earth': 1,
+  'frost-reach': 2,
+  'infernus': 3,
+  'shadow-keep': 4,
+  'null-providence': 5,
+  'aberrant': 6,
+};
+
+// Domain ID to slug mapping
+const DOMAIN_ID_TO_SLUG: Record<number, string> = {
+  1: 'earth',
+  2: 'frost-reach',
+  3: 'infernus',
+  4: 'shadow-keep',
+  5: 'null-providence',
+  6: 'aberrant',
+};
+
+/**
+ * Check if an NPC can appear in a given domain
+ * Roaming NPCs can appear anywhere
+ */
+export function canNpcAppearInDomain(npcId: string, domainId: number): boolean {
+  const npcDomain = GREETER_DOMAINS[npcId];
+  if (!npcDomain) return false;
+  if (npcDomain === 'roaming') return true;
+  return DOMAIN_SLUG_TO_ID[npcDomain] === domainId;
+}
+
+/**
+ * Get all NPCs that can appear in a given domain
+ * Returns array of NPC IDs
+ */
+export function getNpcsForDomain(domainId: number): string[] {
+  return Object.entries(GREETER_DOMAINS)
+    .filter(([npcId, domain]) => {
+      if (domain === 'roaming') return true;
+      return DOMAIN_SLUG_TO_ID[domain] === domainId;
+    })
+    .map(([npcId]) => npcId);
+}
+
+/**
+ * Get the home domain ID for an NPC (or random if roaming)
+ */
+export function getNpcHomeDomain(npcId: string): number {
+  const domainSlug = GREETER_DOMAINS[npcId];
+  if (!domainSlug || domainSlug === 'roaming') {
+    // Random domain for roaming NPCs
+    return Math.floor(Math.random() * 6) + 1;
+  }
+  return DOMAIN_SLUG_TO_ID[domainSlug] || 1;
+}
+
+/**
+ * Get domain slug from domain ID
+ */
+export function getDomainSlugFromId(domainId: number): string {
+  return DOMAIN_ID_TO_SLUG[domainId] || 'earth';
+}
+
+/**
+ * Get a greeter by ID
+ */
+export function getGreeterById(npcId: string): HomeGreeter | undefined {
+  return HOME_GREETERS.find(g => g.id === npcId);
+}
+
+/**
+ * Get a random greeter available for a domain
+ */
+export function getRandomGreeterForDomain(domainId: number): HomeGreeter {
+  const availableNpcs = getNpcsForDomain(domainId);
+  const randomNpcId = availableNpcs[Math.floor(Math.random() * availableNpcs.length)];
+  return getGreeterById(randomNpcId) || HOME_GREETERS[0];
+}

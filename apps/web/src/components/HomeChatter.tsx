@@ -12,8 +12,9 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, Button, keyframes, Menu, MenuItem, Skeleton, TextField, Autocomplete, Chip, InputAdornment, IconButton } from '@mui/material';
+import { Box, Typography, Button, keyframes, Skeleton, TextField, Autocomplete, Chip, IconButton } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useNavigate, Link as RouterLink, useOutletContext } from 'react-router-dom';
 import type { ShellContext } from './Shell';
 import { tokens } from '../theme';
@@ -25,17 +26,28 @@ import {
   GREETER_IGNORE_SENSITIVITY,
   GREETER_IGNORE_RESPONSES,
   DOMAIN_INTERRUPTS,
-  DOMAIN_DISPLAY_NAMES,
   getRandomInterrupt,
   getRandomReaction,
-  getWelcomeHeadline,
   getShockReaction,
+  getNpcsForDomain,
+  getGreeterById,
+  getRandomGreeterForDomain,
+  getDomainSlugFromId,
   type HomeGreeter,
   type EnemyInterrupt,
 } from '../data/home-greeters';
+import { DOMAIN_CONFIGS } from '../data/domains';
 import { getAllQuestions, getFaqAnswer, type FaqQuestion } from '../data/home-faq';
 import { lookupDialogueAsync } from '../services/chatbase';
-import { generateThreadId } from '../data/pools/seededRng';
+import {
+  generateLoadout,
+  generateHeadline,
+  getLoadoutDomainName,
+  getLoadoutDomainSlug,
+  getItemImage,
+  LOADOUT_ITEMS,
+  type StartingLoadout,
+} from '../data/decrees';
 
 // ============================================
 // Animations
@@ -98,52 +110,40 @@ export function HomeChatter() {
   const [isAtBottom, setIsAtBottom] = useState(true);
   const [hasNewMessages, setHasNewMessages] = useState(false);
 
-  // Pick greeter based on domain preference (if set) or random
-  const greeter = useMemo<HomeGreeter>(() => {
-    const preferredDomain = sessionStorage.getItem('ndg-preferred-domain');
-
-    if (preferredDomain) {
-      // Filter greeters by preferred domain
-      const domainGreeters = HOME_GREETERS.filter(g => {
-        const gDomain = GREETER_DOMAINS[g.id];
-        return gDomain === preferredDomain || gDomain === 'roaming';
-      });
-
-      if (domainGreeters.length > 0) {
-        return domainGreeters[Math.floor(Math.random() * domainGreeters.length)];
-      }
+  // Starting loadout system - NPC offers items for a domain
+  const [selectedDomain, setSelectedDomain] = useState<number>(() => {
+    // Use stored preference or random
+    const stored = sessionStorage.getItem('ndg-preferred-domain');
+    if (stored) {
+      const domainConfig = Object.values(DOMAIN_CONFIGS).find(d => d.slug === stored);
+      if (domainConfig) return domainConfig.id;
     }
+    return Math.floor(Math.random() * 6) + 1;
+  });
 
-    // Fallback to random
-    return HOME_GREETERS[Math.floor(Math.random() * HOME_GREETERS.length)];
-  }, []);
+  // Tier level (1-6) - separate from domain, can be traded down to reveal items
+  const [selectedTier, setSelectedTier] = useState<number>(6);
+
+  const [selectedNpcId, setSelectedNpcId] = useState<string>(() => {
+    // Pick random NPC available for selected domain
+    const available = getNpcsForDomain(selectedDomain);
+    return available[Math.floor(Math.random() * available.length)] || 'mr-kevin';
+  });
+
+  const [currentLoadout, setCurrentLoadout] = useState<StartingLoadout>(() =>
+    generateLoadout(selectedNpcId, selectedDomain)
+  );
+
+  // Get greeter based on selected NPC
+  const greeter = useMemo<HomeGreeter>(() => {
+    return getGreeterById(selectedNpcId) || HOME_GREETERS[0];
+  }, [selectedNpcId]);
   const initialGreeting = useMemo<string>(() => getRandomGreeting(greeter), [greeter]);
 
-  // Generate session seed once (6-char hex like "A4F2B1") or use stored seed
-  const sessionSeed = useMemo(() => {
-    const stored = sessionStorage.getItem('ndg-session-seed');
-    return stored || generateThreadId();
-  }, []);
-
-  // Derive domain for this greeter (handle "roaming" special case)
+  // Domain slug for enemy interrupts
   const greeterDomain = useMemo(() => {
-    const preferredDomain = sessionStorage.getItem('ndg-preferred-domain');
-    const domain = GREETER_DOMAINS[greeter.id] || 'earth';
-
-    if (domain === 'roaming') {
-      // If preferred domain is set, use it; otherwise pick random
-      return preferredDomain || DOMAIN_KEYS[Math.floor(Math.random() * DOMAIN_KEYS.length)];
-    }
-    return domain;
-  }, [greeter.id]);
-
-  // Get display name for domain
-  const domainDisplayName = DOMAIN_DISPLAY_NAMES[greeterDomain] || greeterDomain;
-
-  // Get custom welcome headline for this NPC/domain combo
-  const welcomeHeadline = useMemo(() => {
-    return getWelcomeHeadline(greeter.id, domainDisplayName);
-  }, [greeter.id, domainDisplayName]);
+    return getDomainSlugFromId(selectedDomain);
+  }, [selectedDomain]);
 
   // Messages state - starts with initial greeting
   const [messages, setMessages] = useState<string[]>([initialGreeting]);
@@ -177,28 +177,37 @@ export function HomeChatter() {
   const [selectedQuestion, setSelectedQuestion] = useState<FaqQuestion | null>(null);
   const [awaitingConfirm, setAwaitingConfirm] = useState(false); // Pause ambient until user confirms
 
-  // Domain picker dropdown
-  const [domainMenuAnchor, setDomainMenuAnchor] = useState<HTMLElement | null>(null);
-  const domainMenuOpen = Boolean(domainMenuAnchor);
 
-  const handleDomainClick = (event: React.MouseEvent<HTMLElement>) => {
-    setDomainMenuAnchor(event.currentTarget);
+  // Track if user is currently interacting (hovering on messages)
+  const [isInteracting, setIsInteracting] = useState(false);
+
+  // Regenerate loadout when domain or NPC changes
+  useEffect(() => {
+    setCurrentLoadout(generateLoadout(selectedNpcId, selectedDomain));
+    sessionStorage.setItem('ndg-preferred-domain', getDomainSlugFromId(selectedDomain));
+  }, [selectedNpcId, selectedDomain]);
+
+
+  // Refresh loadout with new random NPC + domain
+  const handleRefreshLoadout = () => {
+    // Pick new random domain
+    const newDomain = Math.floor(Math.random() * 6) + 1;
+    setSelectedDomain(newDomain);
+    // Reset tier to max
+    setSelectedTier(6);
+    // Pick new random NPC available for that domain
+    const availableNpcs = getNpcsForDomain(newDomain);
+    const newNpcId = availableNpcs[Math.floor(Math.random() * availableNpcs.length)] || 'mr-kevin';
+    setSelectedNpcId(newNpcId);
+    // Generate loadout with new values
+    setCurrentLoadout(generateLoadout(newNpcId, newDomain));
   };
 
-  const handleDomainClose = () => {
-    setDomainMenuAnchor(null);
-  };
-
-  const handleDomainSelect = (domainKey: string | null) => {
-    handleDomainClose();
-    if (domainKey === null) {
-      // Random - clear preference and reload
-      sessionStorage.removeItem('ndg-preferred-domain');
-    } else {
-      // Set preference and reload
-      sessionStorage.setItem('ndg-preferred-domain', domainKey);
-    }
-    window.location.reload();
+  // Navigate to play with loadout pre-loaded
+  const handleStartLoadout = () => {
+    // Store loadout in sessionStorage for PlayHub to read
+    sessionStorage.setItem('ndg-starting-loadout', JSON.stringify(currentLoadout));
+    navigate('/play');
   };
 
   // Check API availability on mount
@@ -519,6 +528,7 @@ export function HomeChatter() {
   useEffect(() => {
     if (ambientIndex >= ambientMessages.length) return;
     if (awaitingConfirm) return; // Pause ambient while user is reading FAQ response
+    if (isInteracting) return; // Pause ambient while user is hovering/deciding
 
     // Check for interrupt at checkpoint indices (1, 3, 5, 7, 9)
     const isCheckpoint = INTERRUPT_CHECKPOINTS.includes(ambientIndex);
@@ -608,10 +618,7 @@ export function HomeChatter() {
       clearTimeout(typingTimer);
       clearTimeout(messageTimer);
     };
-  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2, awaitingConfirm]);
-
-  // Track if user is currently interacting (hovering on messages)
-  const [isInteracting, setIsInteracting] = useState(false);
+  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2, awaitingConfirm, isInteracting]);
 
   // Check if scrolled to bottom (can see latest message)
   const checkIfAtBottom = () => {
@@ -785,159 +792,307 @@ export function HomeChatter() {
       pb: '100px', // Space for fixed chat input at bottom
       overflow: 'hidden',
     }}>
-      {/* Welcome headline + action buttons */}
+      {/* Mission headline - clickable to start */}
       <Box
         sx={{
           flex: '0 0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
           pt: 2,
           pb: 1,
+          px: { xs: 2, sm: 4 },
           textAlign: 'center',
-          px: { xs: 2, sm: 4, md: 6 },
         }}
       >
         <Typography
           component="h1"
+          onClick={handleStartLoadout}
           sx={{
             fontFamily: tokens.fonts.gaming,
             fontWeight: 800,
-            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+            fontSize: { xs: '1.2rem', sm: '1.6rem', md: '2rem' },
             color: tokens.colors.text.primary,
             lineHeight: 1.4,
+            cursor: 'pointer',
+            transition: 'all 150ms ease',
+            '&:hover': {
+              color: tokens.colors.primary,
+            },
           }}
         >
-          {/* Split headline around domain name to make domain clickable */}
-          {welcomeHeadline.split(domainDisplayName).map((part, i, arr) => (
-            <span key={i}>
-              {part}
-              {i < arr.length - 1 && (
-                <Box
-                  component="span"
-                  onClick={handleDomainClick}
-                  sx={{
-                    textDecoration: 'underline',
-                    textDecorationStyle: 'dotted',
-                    textUnderlineOffset: '4px',
-                    cursor: 'pointer',
-                    transition: 'color 150ms ease',
-                    '&:hover': {
-                      color: tokens.colors.text.secondary,
-                    },
-                  }}
-                >
-                  {domainDisplayName}
-                </Box>
-              )}
-            </span>
-          ))}
+          {generateHeadline(currentLoadout)}
         </Typography>
+      </Box>
 
-        {/* Action buttons - moved here from bottom */}
+      {/* Loadout row: [items] [?] [spacer] [domain] T# [refresh] - fixed width container */}
+      <Box
+        sx={{
+          flex: '0 0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pb: 3,
+          px: { xs: 2, sm: 4 },
+          opacity: showButtons ? 1 : 0,
+          transition: 'opacity 300ms ease-out',
+        }}
+      >
+        {/* Fixed width inner container for consistent item placement */}
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
+            alignItems: 'center',
             justifyContent: 'center',
-            opacity: showButtons ? 1 : 0,
-            transition: 'opacity 300ms ease-out',
+            gap: { xs: 2.5, sm: 3 },
+            width: { xs: 340, sm: 420 },
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() => handleChoice('play')}
-            size="small"
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.9rem', sm: '1rem' },
-              fontWeight: 700,
-              px: 4,
-              py: 1,
-              borderRadius: '8px',
-              bgcolor: tokens.colors.primary,
-              '&:hover': { bgcolor: '#c7033a' },
-            }}
-          >
-            Play
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => handleChoice('wiki')}
-            size="small"
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.9rem', sm: '1rem' },
-              fontWeight: 600,
-              px: 3,
-              py: 1,
-              borderRadius: '8px',
-              borderColor: tokens.colors.border,
-              color: tokens.colors.text.primary,
-              '&:hover': {
-                borderColor: tokens.colors.text.secondary,
-                bgcolor: 'rgba(255,255,255,0.05)',
-              },
-            }}
-          >
-            Explore Wiki
-          </Button>
-        </Box>
-      </Box>
+        {/* Items - hover to see name */}
+        {currentLoadout.items.slice(0, 2).map((itemSlug, idx) => {
+          const itemData = LOADOUT_ITEMS[itemSlug];
+          const displayName = itemData
+            ? itemSlug.replace(/-/g, ' ').replace(/^(melee|ranged|throwable) /, '')
+            : itemSlug.replace(/-/g, ' ');
+          return (
+            <Box
+              key={idx}
+              component={RouterLink}
+              to={`/wiki/items/${itemSlug}`}
+              title={displayName}
+              sx={{
+                position: 'relative',
+                textDecoration: 'none',
+                transition: 'transform 150ms ease',
+                '&:hover': {
+                  transform: 'scale(1.15)',
+                },
+                '&:hover .item-tooltip': {
+                  opacity: 1,
+                },
+              }}
+            >
+              <Box
+                component="img"
+                src={getItemImage(itemSlug)}
+                alt={itemSlug}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/assets/items/placeholder.png';
+                }}
+                sx={{
+                  width: { xs: 52, sm: 64 },
+                  height: { xs: 52, sm: 64 },
+                  imageRendering: 'pixelated',
+                }}
+              />
+              {/* Tooltip on hover */}
+              <Typography
+                className="item-tooltip"
+                sx={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  mt: 0.5,
+                  fontFamily: '"Inter", sans-serif',
+                  fontSize: '0.7rem',
+                  color: tokens.colors.text.secondary,
+                  textTransform: 'capitalize',
+                  whiteSpace: 'nowrap',
+                  opacity: 0,
+                  transition: 'opacity 150ms ease',
+                  pointerEvents: 'none',
+                }}
+              >
+                {displayName}
+              </Typography>
+            </Box>
+          );
+        })}
 
-      {/* Domain picker dropdown */}
-      <Menu
-        anchorEl={domainMenuAnchor}
-        open={domainMenuOpen}
-        onClose={handleDomainClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-        slotProps={{
-          paper: {
-            sx: {
-              bgcolor: '#1a1a1a',
-              border: `1px solid ${tokens.colors.border}`,
-              minWidth: 200,
-            },
-          },
-        }}
-      >
-        {/* Domain selection */}
-        <Box sx={{ px: 2, py: 1 }}>
-          <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, fontFamily: tokens.fonts.gaming }}>
-            Domain
-          </Typography>
-        </Box>
-        <MenuItem
-          onClick={() => handleDomainSelect(null)}
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.95rem',
-            color: tokens.colors.text.secondary,
-            '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
-          }}
-        >
-          Random
-        </MenuItem>
-        {Object.entries(DOMAIN_DISPLAY_NAMES).map(([key, name]) => (
-          <MenuItem
-            key={key}
-            onClick={() => handleDomainSelect(key)}
-            selected={key === greeterDomain}
+        {/* Mystery item - click to trade tier and reveal */}
+        {selectedTier > 1 ? (
+          <Box
+            component="button"
+            type="button"
+            onClick={() => {
+              // Trade a tier to reveal the third item
+              setSelectedTier(prev => Math.max(1, prev - 1));
+            }}
+            title="Trade a tier to reveal"
             sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '0.95rem',
-              color: key === greeterDomain ? tokens.colors.text.primary : tokens.colors.text.secondary,
-              '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
-              '&.Mui-selected': { bgcolor: 'rgba(255,255,255,0.08)' },
+              position: 'relative',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'transform 150ms ease',
+              '&:hover': {
+                transform: 'scale(1.15)',
+              },
+              '&:hover .mystery-box': {
+                borderColor: '#555',
+                bgcolor: '#222',
+              },
+              '&:hover .reveal-hint': {
+                opacity: 1,
+              },
+              '&:focus': { outline: 'none' },
             }}
           >
-            {name}
-          </MenuItem>
-        ))}
-      </Menu>
+            <Box
+              className="mystery-box"
+              sx={{
+                width: { xs: 52, sm: 64 },
+                height: { xs: 52, sm: 64 },
+                bgcolor: '#1a1a1a',
+                border: '2px dashed #333',
+                borderRadius: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 150ms ease',
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '1.5rem',
+                  color: '#444',
+                }}
+              >
+                ?
+              </Typography>
+            </Box>
+            <Typography
+              className="reveal-hint"
+              sx={{
+                position: 'absolute',
+                top: '100%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                mt: 0.5,
+                fontFamily: '"Inter", sans-serif',
+                fontSize: '0.6rem',
+                color: tokens.colors.warning,
+                whiteSpace: 'nowrap',
+                opacity: 0,
+                transition: 'opacity 150ms ease',
+                pointerEvents: 'none',
+              }}
+            >
+              -1 tier to reveal
+            </Typography>
+          </Box>
+        ) : (
+          // Third item revealed (at T1)
+          (() => {
+            const itemSlug = currentLoadout.items[2];
+            const itemData = LOADOUT_ITEMS[itemSlug];
+            const displayName = itemData
+              ? itemSlug.replace(/-/g, ' ').replace(/^(melee|ranged|throwable) /, '')
+              : itemSlug.replace(/-/g, ' ');
+            return (
+              <Box
+                component={RouterLink}
+                to={`/wiki/items/${itemSlug}`}
+                title={displayName}
+                sx={{
+                  position: 'relative',
+                  textDecoration: 'none',
+                  transition: 'transform 150ms ease',
+                  '&:hover': {
+                    transform: 'scale(1.15)',
+                  },
+                  '&:hover .item-tooltip': {
+                    opacity: 1,
+                  },
+                }}
+              >
+                <Box
+                  component="img"
+                  src={getItemImage(itemSlug)}
+                  alt={itemSlug}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/assets/items/placeholder.png';
+                  }}
+                  sx={{
+                    width: { xs: 52, sm: 64 },
+                    height: { xs: 52, sm: 64 },
+                    imageRendering: 'pixelated',
+                  }}
+                />
+                <Typography
+                  className="item-tooltip"
+                  sx={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    mt: 0.5,
+                    fontFamily: '"Inter", sans-serif',
+                    fontSize: '0.7rem',
+                    color: tokens.colors.text.secondary,
+                    textTransform: 'capitalize',
+                    whiteSpace: 'nowrap',
+                    opacity: 0,
+                    transition: 'opacity 150ms ease',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  {displayName}
+                </Typography>
+              </Box>
+            );
+          })()
+        )}
+
+          {/* Spacer - pushes domain to the right */}
+          <Box sx={{ flex: 1 }} />
+
+          {/* Domain icon + tier */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <Box
+              component="img"
+              src={`/assets/domains/${getLoadoutDomainSlug(currentLoadout)}.png`}
+              alt={getLoadoutDomainName(currentLoadout)}
+              title={getLoadoutDomainName(currentLoadout)}
+              sx={{
+                width: { xs: 32, sm: 40 },
+                height: { xs: 32, sm: 40 },
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }}
+            />
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                fontWeight: 700,
+                color: tokens.colors.text.secondary,
+              }}
+            >
+              T{selectedTier}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Refresh button - consistent position outside items container */}
+        <IconButton
+          onClick={handleRefreshLoadout}
+          size="small"
+          sx={{
+            ml: 2,
+            color: '#333',
+            '&:hover': { color: tokens.colors.text.secondary, bgcolor: 'transparent' },
+          }}
+        >
+          <RefreshIcon fontSize="small" />
+        </IconButton>
+      </Box>
 
       {/* Chat area - 3/5 (flex grow) */}
       <Box
@@ -953,7 +1108,7 @@ export function HomeChatter() {
           overflow: 'hidden',
         }}
       >
-      {/* Sprite - fixed on left, entire area clickable */}
+      {/* Sprite - fixed on left, click to visit wiki */}
       <Box
         component={RouterLink}
         to={`/wiki/${greeter.wikiSlug}`}
@@ -968,9 +1123,11 @@ export function HomeChatter() {
           flexDirection: 'column',
           justifyContent: 'flex-end',
           minHeight: { xs: 180, sm: 210, md: 250 },
-          '&:hover .wiki-link': {
+          '&:hover .wiki-hint': {
             opacity: 1,
-            color: '#888',
+          },
+          '&:hover img': {
+            transform: 'scale(1.05)',
           },
         }}
       >
@@ -1012,23 +1169,24 @@ export function HomeChatter() {
             maxHeight: { xs: 150, sm: 180, md: 210 },
             objectFit: 'contain',
             imageRendering: 'pixelated',
+            transition: 'transform 150ms ease',
           }}
         />
-        {/* Visit profile - appears on hover below sprite */}
+        {/* Wiki hint - appears on hover */}
         <Typography
-          className="wiki-link"
+          className="wiki-hint"
           sx={{
             fontFamily: '"Inter", sans-serif',
-            fontSize: '0.7rem',
+            fontSize: '0.65rem',
             fontWeight: 500,
             color: '#555',
             opacity: 0,
-            transition: 'opacity 150ms ease, color 150ms ease',
+            transition: 'opacity 150ms ease',
             textAlign: 'center',
             mt: 1,
           }}
         >
-          visit profile
+          view profile
         </Typography>
       </Box>
 
@@ -1098,7 +1256,7 @@ export function HomeChatter() {
             const isPlayerMessage = msg.startsWith('You:');
             const isEnemyMessage = msg.startsWith('Enemy:');
             const isNpcMessage = !isPlayerMessage && !isEnemyMessage;
-            const canGrunt = isNpcMessage && !gruntCooldown && !isTyping && !pendingInterrupt;
+            const canReact = isNpcMessage && !gruntCooldown && !pendingInterrupt;
             // Show arrow on latest NPC message (always)
             const isLatestNpcMessage = isNpcMessage && i === messages.length - 1;
 
@@ -1124,12 +1282,13 @@ export function HomeChatter() {
                     transition: 'opacity 150ms ease',
                   },
                   '&:hover .reaction-btns': {
-                    opacity: canGrunt ? 1 : 0,
-                    pointerEvents: canGrunt ? 'auto' : 'none',
+                    opacity: canReact ? 1 : 0,
+                    pointerEvents: canReact ? 'auto' : 'none',
                   },
-                  // Brighten bubble border on hover when reactions available
-                  '&:hover .chat-bubble': canGrunt ? {
+                  // Highlight bubble on hover when reactions available
+                  '&:hover .chat-bubble': canReact ? {
                     borderColor: '#555',
+                    bgcolor: '#222',
                   } : {},
                 }}
               >
@@ -1234,7 +1393,7 @@ export function HomeChatter() {
                       bottom: -24,
                       left: 8,
                       display: 'flex',
-                      gap: 0.5,
+                      gap: 1,
                       zIndex: 2,
                     }}
                   >
@@ -1243,7 +1402,7 @@ export function HomeChatter() {
                         e.stopPropagation();
                         handleGrunt(msg, 'grunt');
                       }}
-                      disabled={!canGrunt}
+                      disabled={!canReact}
                       sx={{
                         minWidth: 'auto',
                         px: 1.5,
@@ -1251,12 +1410,12 @@ export function HomeChatter() {
                         fontFamily: '"Inter", sans-serif',
                         fontSize: '0.7rem',
                         fontWeight: 500,
-                        color: '#555',
+                        color: '#666',
                         bgcolor: 'transparent',
                         textTransform: 'none',
                         '&:hover': {
-                          color: '#888',
-                          bgcolor: 'rgba(255,255,255,0.03)',
+                          color: '#aaa',
+                          bgcolor: 'rgba(255,255,255,0.05)',
                         },
                         '&:disabled': {
                           opacity: 0.3,
@@ -1268,36 +1427,9 @@ export function HomeChatter() {
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleGrunt(msg, 'hmph');
-                      }}
-                      disabled={!canGrunt}
-                      sx={{
-                        minWidth: 'auto',
-                        px: 1.5,
-                        py: 0.25,
-                        fontFamily: '"Inter", sans-serif',
-                        fontSize: '0.7rem',
-                        fontWeight: 500,
-                        color: '#555',
-                        bgcolor: 'transparent',
-                        textTransform: 'none',
-                        '&:hover': {
-                          color: '#888',
-                          bgcolor: 'rgba(255,255,255,0.03)',
-                        },
-                        '&:disabled': {
-                          opacity: 0.3,
-                        },
-                      }}
-                    >
-                      hmph
-                    </Button>
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
                         handleGrunt(msg, 'ignore');
                       }}
-                      disabled={!canGrunt}
+                      disabled={!canReact}
                       sx={{
                         minWidth: 'auto',
                         px: 1.5,
@@ -1305,19 +1437,19 @@ export function HomeChatter() {
                         fontFamily: '"Inter", sans-serif',
                         fontSize: '0.7rem',
                         fontWeight: 500,
-                        color: '#555',
+                        color: '#666',
                         bgcolor: 'transparent',
                         textTransform: 'none',
                         '&:hover': {
-                          color: '#888',
-                          bgcolor: 'rgba(255,255,255,0.03)',
+                          color: '#aaa',
+                          bgcolor: 'rgba(255,255,255,0.05)',
                         },
                         '&:disabled': {
                           opacity: 0.3,
                         },
                       }}
                     >
-                      ignore
+                      shh
                     </Button>
                   </Box>
                 )}
@@ -1328,36 +1460,6 @@ export function HomeChatter() {
           <div ref={messagesEndRef} />
         </Box>
 
-        {/* New messages indicator - floating overlay at bottom */}
-        {hasNewMessages && (
-          <Button
-            onClick={scrollToBottom}
-            size="small"
-            sx={{
-              position: 'absolute',
-              bottom: 32,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 2,
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '0.75rem',
-              color: tokens.colors.text.secondary,
-              bgcolor: 'rgba(10,10,10,0.9)',
-              border: `1px solid ${tokens.colors.border}`,
-              borderRadius: '12px',
-              px: 1.5,
-              py: 0.25,
-              textTransform: 'none',
-              animation: `${fadeIn} 200ms ease-out`,
-              '&:hover': {
-                bgcolor: 'rgba(30,30,30,0.95)',
-                borderColor: tokens.colors.text.secondary,
-              },
-            }}
-          >
-            New messages
-          </Button>
-        )}
         </Box>
 
       </Box>
@@ -1393,167 +1495,179 @@ export function HomeChatter() {
                   '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
                 }}
               >
-                Got it
+                *grunts*
               </Button>
             </Box>
           )}
 
-          {/* API mode: free-form text input with send icon */}
+          {/* API mode: Autocomplete with free-form input + FAQ suggestions */}
           {apiAvailable && (
-            <TextField
-              multiline
-              maxRows={3}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value.slice(0, 300))}
-              placeholder="Ask something..."
-              disabled={isSending || isTyping || awaitingConfirm}
-              fullWidth
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleSendMessage}
-                        disabled={!inputValue.trim() || isSending || isTyping || awaitingConfirm}
-                        edge="end"
-                        sx={{
-                          width: 36,
-                          height: 36,
-                          minWidth: 36,
-                          borderRadius: '50%',
-                          bgcolor: inputValue.trim() && !isSending && !isTyping && !awaitingConfirm ? tokens.colors.primary : 'transparent',
-                          color: inputValue.trim() && !isSending && !isTyping && !awaitingConfirm ? '#fff' : '#333',
-                          '&:hover': {
-                            bgcolor: inputValue.trim() ? '#c7033a' : 'transparent',
-                            color: inputValue.trim() ? '#fff' : '#333',
-                          },
-                          '&.Mui-disabled': { color: '#333', bgcolor: 'transparent' },
-                          transition: 'all 150ms ease',
-                        }}
-                      >
-                        <ArrowUpwardIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                },
-              }}
+            <Box
               sx={{
-                '& .MuiOutlinedInput-root': {
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '0.95rem',
-                  bgcolor: '#1a1a1a',
-                  borderRadius: '20px',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#444' },
-                  '&.Mui-focused fieldset': { borderColor: tokens.colors.text.secondary },
-                  '&.Mui-disabled': {
-                    bgcolor: '#151515',
-                    '& fieldset': { borderColor: '#2a2a2a' },
-                  },
-                },
-                '& .MuiOutlinedInput-input': {
-                  color: tokens.colors.text.primary,
-                  '&::placeholder': { color: '#555', opacity: 1 },
-                },
+                display: 'flex',
+                alignItems: 'center',
+                bgcolor: '#1a1a1a',
+                border: '2px solid #333',
+                borderRadius: '12px',
+                px: 3,
+                py: 1.5,
+                gap: 2,
               }}
-            />
+            >
+              <Autocomplete
+                freeSolo
+                options={getAllQuestions().slice(0, 5)} // Show only a few suggestions
+                getOptionLabel={(option) => typeof option === 'string' ? option : option.question}
+                inputValue={inputValue}
+                onInputChange={(_, newValue) => setInputValue(newValue.slice(0, 300))}
+                onChange={(_, newValue) => {
+                  if (newValue && typeof newValue !== 'string') {
+                    setInputValue(newValue.question);
+                  }
+                }}
+                disabled={isSending || awaitingConfirm}
+                popupIcon={null}
+                forcePopupIcon={false}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Click or start typing..."
+                    variant="standard"
+                    sx={{
+                      '& .MuiInput-root': {
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: { xs: '1rem', sm: '1.1rem' },
+                        color: tokens.colors.text.primary,
+                        '&::before, &::after': { display: 'none' },
+                      },
+                      '& .MuiInput-input': {
+                        padding: 0,
+                        '&::placeholder': { color: '#555', opacity: 1 },
+                      },
+                    }}
+                  />
+                )}
+                slotProps={{
+                  paper: {
+                    sx: {
+                      bgcolor: '#1a1a1a',
+                      border: '2px solid #333',
+                      borderRadius: '12px',
+                      mt: 1,
+                      '& .MuiAutocomplete-option': {
+                        fontFamily: '"Inter", sans-serif',
+                        fontSize: '0.85rem',
+                        color: tokens.colors.text.secondary,
+                        pl: 3,
+                        '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+                      },
+                    },
+                  },
+                }}
+                fullWidth
+                sx={{ flex: 1 }}
+              />
+              <IconButton
+                onClick={handleSendMessage}
+                disabled={!inputValue.trim() || isSending || awaitingConfirm}
+                sx={{
+                  width: 36,
+                  height: 36,
+                  minWidth: 36,
+                  borderRadius: '50%',
+                  bgcolor: 'transparent',
+                  color: inputValue.trim() && !isSending && !awaitingConfirm ? tokens.colors.text.secondary : '#333',
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,0.05)',
+                    color: tokens.colors.text.primary,
+                  },
+                  '&.Mui-disabled': { color: '#333' },
+                  transition: 'all 150ms ease',
+                }}
+              >
+                <ArrowUpwardIcon />
+              </IconButton>
+            </Box>
           )}
 
           {/* FAQ mode: single select with chip display and send icon */}
           {!apiAvailable && (
-            <>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                bgcolor: '#1a1a1a',
+                border: '2px solid #333',
+                borderRadius: '12px',
+                px: 3,
+                py: 1.5,
+                gap: 2,
+              }}
+            >
               {selectedQuestion ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    flex: 1,
-                  }}
-                >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flex: 1,
-                    minHeight: 48,
-                    px: 2,
-                    pl: 2.5,
-                    bgcolor: '#1a1a1a',
-                    border: '1px solid #333',
-                    borderRadius: '24px',
-                  }}
-                >
-                    <Chip
-                      label={selectedQuestion.question}
-                      size="small"
-                      onDelete={isSending || isTyping || awaitingConfirm ? undefined : () => setSelectedQuestion(null)}
-                      sx={{
-                        fontFamily: '"Inter", sans-serif',
-                        fontSize: '0.8rem',
-                        bgcolor: '#2a2a2a',
-                        color: tokens.colors.text.primary,
-                        '& .MuiChip-deleteIcon': {
-                          color: '#555',
-                          '&:hover': { color: '#888' },
-                        },
-                      }}
-                    />
-                  </Box>
+                <>
+                  <Chip
+                    label={selectedQuestion.question}
+                    size="small"
+                    onDelete={isSending || awaitingConfirm ? undefined : () => setSelectedQuestion(null)}
+                    sx={{
+                      fontFamily: '"Inter", sans-serif',
+                      fontSize: '0.85rem',
+                      bgcolor: '#2a2a2a',
+                      color: tokens.colors.text.primary,
+                      '& .MuiChip-deleteIcon': {
+                        color: '#555',
+                        '&:hover': { color: '#888' },
+                      },
+                    }}
+                  />
+                  <Box sx={{ flex: 1 }} />
                   <IconButton
                     onClick={handleSendFaqQuestion}
-                    disabled={isSending || isTyping || awaitingConfirm}
+                    disabled={isSending || awaitingConfirm}
                     sx={{
-                      width: 40,
-                      height: 40,
-                      minWidth: 40,
+                      width: 36,
+                      height: 36,
+                      minWidth: 36,
                       borderRadius: '50%',
-                      bgcolor: !isSending && !isTyping && !awaitingConfirm ? tokens.colors.primary : 'transparent',
-                      color: !isSending && !isTyping && !awaitingConfirm ? '#fff' : '#333',
+                      bgcolor: 'transparent',
+                      color: !isSending && !awaitingConfirm ? tokens.colors.text.secondary : '#333',
                       '&:hover': {
-                        bgcolor: !isSending && !isTyping && !awaitingConfirm ? '#c7033a' : 'transparent',
-                        color: '#fff',
+                        bgcolor: 'rgba(255,255,255,0.05)',
+                        color: tokens.colors.text.primary,
                       },
-                      '&.Mui-disabled': { color: '#333', bgcolor: 'transparent' },
+                      '&.Mui-disabled': { color: '#333' },
                       transition: 'all 150ms ease',
                     }}
                   >
                     <ArrowUpwardIcon />
                   </IconButton>
-                </Box>
+                </>
               ) : (
-                <Box sx={{ display: 'flex', gap: 1, flex: 1, alignItems: 'center' }}>
+                <>
                   <Autocomplete
                     options={getAllQuestions()}
                     getOptionLabel={(option) => option.question}
                     value={null}
                     onChange={(_, newValue) => newValue && setSelectedQuestion(newValue)}
-                    disabled={isSending || isTyping || awaitingConfirm}
+                    disabled={isSending || awaitingConfirm}
                     groupBy={(option) => option.category === 'mechanics' ? 'Game' : option.category === 'lore' ? 'Lore' : 'Help'}
                     popupIcon={null}
                     forcePopupIcon={false}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        placeholder="Select a question..."
+                        placeholder="Click or start typing..."
+                        variant="standard"
                         sx={{
-                          '& .MuiOutlinedInput-root': {
+                          '& .MuiInput-root': {
                             fontFamily: tokens.fonts.gaming,
-                            fontSize: '0.95rem',
-                            bgcolor: '#1a1a1a',
-                            borderRadius: '24px',
-                            pl: 1.5,
-                            '& fieldset': { borderColor: '#333' },
-                            '&:hover fieldset': { borderColor: '#444' },
-                            '&.Mui-focused fieldset': { borderColor: tokens.colors.text.secondary },
-                            '&.Mui-disabled': {
-                              bgcolor: '#151515',
-                              '& fieldset': { borderColor: '#2a2a2a' },
-                            },
-                          },
-                          '& .MuiOutlinedInput-input': {
+                            fontSize: { xs: '1rem', sm: '1.1rem' },
                             color: tokens.colors.text.primary,
-                            pl: 2,
+                            '&::before, &::after': { display: 'none' },
+                          },
+                          '& .MuiInput-input': {
+                            padding: 0,
                             '&::placeholder': { color: '#555', opacity: 1 },
                           },
                         }}
@@ -1563,7 +1677,7 @@ export function HomeChatter() {
                       paper: {
                         sx: {
                           bgcolor: '#1a1a1a',
-                          border: '1px solid #333',
+                          border: '2px solid #333',
                           borderRadius: '12px',
                           mt: 1,
                           '& .MuiAutocomplete-groupLabel': {
@@ -1584,14 +1698,14 @@ export function HomeChatter() {
                       },
                     }}
                     fullWidth
+                    sx={{ flex: 1 }}
                   />
                   <IconButton
-                    onClick={handleSendFaqQuestion}
                     disabled={true}
                     sx={{
-                      width: 40,
-                      height: 40,
-                      minWidth: 40,
+                      width: 36,
+                      height: 36,
+                      minWidth: 36,
                       borderRadius: '50%',
                       color: '#333',
                       '&.Mui-disabled': { color: '#333' },
@@ -1599,9 +1713,9 @@ export function HomeChatter() {
                   >
                     <ArrowUpwardIcon />
                   </IconButton>
-                </Box>
+                </>
               )}
-            </>
+            </Box>
           )}
 
           {/* Disclaimer */}
