@@ -20,7 +20,7 @@ import {
   resetRoomLimits,
   DEFAULT_DOMAIN_OWNERS,
 } from '../data/npc-chat/triggers';
-import { lookupDialogue, getRegisteredNPCs } from '../services/chatbase';
+import { lookupDialogueAsync } from '../services/chatbase';
 
 // Simple seeded RNG for trigger evaluation
 function createTriggerRng(seed: string) {
@@ -97,8 +97,8 @@ export interface UseAmbientChatReturn {
   currentMessage: AmbientMessage | null;
   /** Recent message history */
   messageHistory: AmbientMessage[];
-  /** Fire a specific trigger manually */
-  fireTrigger: (event: NPCTriggerEvent, payload?: DiceRollEventPayload) => void;
+  /** Fire a specific trigger manually (async - fetches from API with fallback) */
+  fireTrigger: (event: NPCTriggerEvent, payload?: DiceRollEventPayload) => Promise<void>;
   /** Fire domain enter trigger */
   onDomainEnter: (domainSlug: string) => void;
   /** Fire room clear trigger */
@@ -192,11 +192,8 @@ export function useAmbientChat({
     }
   };
 
-  // Get registered NPCs for validation
-  const registeredNPCs = getRegisteredNPCs();
-
-  // Fire a trigger and get NPC response from chatbase
-  const fireTrigger = useCallback((event: NPCTriggerEvent, payload?: DiceRollEventPayload) => {
+  // Fire a trigger and get NPC response from chatbase (async for API fetch)
+  const fireTrigger = useCallback(async (event: NPCTriggerEvent, payload?: DiceRollEventPayload) => {
     const chatContext = getContext();
     let result: { npcSlug: string | null; updatedState: RateLimitState };
 
@@ -219,12 +216,9 @@ export function useAmbientChat({
 
     if (!result.npcSlug) return;
 
-    // Check if NPC is in chatbase
-    if (!registeredNPCs.includes(result.npcSlug)) return;
-
-    // Map event to pool and lookup dialogue
+    // Map event to pool and lookup dialogue (async with API fallback)
     const pool = triggerToPool(event, payload);
-    const response = lookupDialogue({
+    const response = await lookupDialogueAsync({
       npcSlug: result.npcSlug,
       pool,
       playerContext: {
@@ -259,7 +253,7 @@ export function useAmbientChat({
     setTimeout(() => {
       setCurrentMessage(prev => prev?.id === message.id ? null : prev);
     }, displayTime);
-  }, [currentDomain, roomNumber, rng, getContext, playerStats, onMessage, registeredNPCs]);
+  }, [currentDomain, roomNumber, rng, getContext, playerStats, onMessage, gameState]);
 
   // Convenience methods for specific triggers
   const onDomainEnter = useCallback((domainSlug: string) => {
