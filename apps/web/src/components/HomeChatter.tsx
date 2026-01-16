@@ -154,11 +154,11 @@ export function HomeChatter() {
   }, [greeter.sprite2]);
 
   // Get ambient messages for this greeter (character-specific or fallback)
-  // Filter to remove duplicates and any that overlap with the initial greeting
+  // Filter to remove duplicates, shuffle for variety
   const ambientMessages = useMemo(() => {
     const source = greeter.ambient?.length ? greeter.ambient : FALLBACK_AMBIENT;
-    // Remove messages that overlap with greeting or are consecutive duplicates
-    return source.filter((msg, i) => {
+    // Remove messages that overlap with greeting
+    const filtered = source.filter((msg, i) => {
       // Skip if exact match with greeting
       if (msg === initialGreeting) return false;
       // Skip if ambient is contained in greeting (e.g., greeting ends with this phrase)
@@ -169,6 +169,13 @@ export function HomeChatter() {
       if (i > 0 && msg === source[i - 1]) return false;
       return true;
     });
+    // Shuffle for variety (Fisher-Yates)
+    const shuffled = [...filtered];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }, [greeter.ambient, initialGreeting]);
 
   // Get interrupt chance for this greeter
