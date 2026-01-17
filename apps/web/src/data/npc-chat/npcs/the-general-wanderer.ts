@@ -20,23 +20,25 @@ export const THE_GENERAL_WANDERER_PERSONALITY: NPCPersonalityConfig = {
   name: 'The General',
   basePoolWeights: {
     greeting: 15,
-    salesPitch: 35, // Primary merchant
+    salesPitch: 30, // Primary merchant
     hint: 15, // Tactical intel
-    lore: 15, // Military history
-    challenge: 15, // Combat tests
-    reaction: 5,
+    lore: 10, // Military history
+    challenge: 10, // Combat tests
+    reaction: 10,
     threat: 0, // Professional
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 15,
-    salesPitch: 35,
+    salesPitch: 30,
     hint: 15,
-    lore: 15,
-    challenge: 15,
-    reaction: 5,
+    lore: 10,
+    challenge: 10,
+    reaction: 10,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -228,6 +230,102 @@ export const THE_GENERAL_WANDERER_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'Objective achieved. Performance noted. Discount eligibility updated.',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'general-w-farewell-neutral-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Dismissed. Return when you need resupply. Command & Supply operates around the clock.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-farewell-neutral-2',
+    entitySlug: 'the-general-wanderer',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: '*salutes* Move out, {{playerName}}. Enemy territory ahead. Stay sharp.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-farewell-pleased-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Good hunting, soldier. That equipment is guaranteed field-ready. Report back with results.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-farewell-generous-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'farewell',
+    mood: 'generous',
+    text: "At ease. You've earned your place among the elite. The armory is always open to you.",
+    weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'general-w-idle-neutral-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*inspects weapon inventory* Hmm. Acceptable condition. Battle-ready.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-idle-neutral-2',
+    entitySlug: 'the-general-wanderer',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*reviews tactical maps* Reports indicate increased hostile activity. Benefits inventory turnover.',
+    weight: 10,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-idle-pleased-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*adjusts medals* Another successful quarter. Customer survival rate: acceptable.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+
+  // ---- REACTION (expanded) ----
+  {
+    id: 'general-w-react-lowintegrity-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'Integrity at {{integrity}}%. Tactical recommendation: withdraw and regroup. Or purchase repair kits.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-react-purchase-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'Transaction complete. Equipment logged. Use it well. Command & Supply guarantees results.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-w-react-defeat-1',
+    entitySlug: 'the-general-wanderer',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'Mission failure. Extraction complete. Analysis suggests inadequate equipment. Review catalog.',
+    weight: 13,
     purpose: 'ambient',
   },
 ];

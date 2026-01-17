@@ -338,10 +338,15 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           <Tooltip title={expanded ? 'Collapse' : 'Expand'} placement="right" arrow enterDelay={300} enterNextDelay={300}>
             <IconButton
               onClick={onToggleExpand}
-              size="small"
               sx={{
-                color: tokens.colors.text.secondary,
-                '&:hover': { bgcolor: tokens.colors.background.elevated },
+                width: 44,
+                height: 44,
+                color: tokens.colors.text.disabled,
+                transition: 'all 150ms ease',
+                '&:hover': {
+                  bgcolor: tokens.colors.background.elevated,
+                  color: tokens.colors.text.secondary,
+                },
               }}
             >
               {expanded ? <CollapseLeftIcon sx={{ fontSize: 18 }} /> : <ExpandRightIcon sx={{ fontSize: 18 }} />}

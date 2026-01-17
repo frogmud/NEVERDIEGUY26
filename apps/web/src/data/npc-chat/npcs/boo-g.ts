@@ -24,7 +24,8 @@ export const BOO_G_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15, // Rap battles
     reaction: 10,
     threat: 0, // Too chill to threaten
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 20,
@@ -34,7 +35,8 @@ export const BOO_G_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15,
     reaction: 10,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -209,6 +211,84 @@ export const BOO_G_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: '*drops victory beat* THE CROWD GOES WILD! *crowd noises* (that was me making crowd noises)',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- HINTS (Additional) ----
+  {
+    id: 'boog-hint-pleased-2',
+    entitySlug: 'boo-g',
+    pool: 'hint',
+    mood: 'pleased',
+    text: "Pro tip from the ghost host: rhythm is EVERYTHING. Watch the beat, throw on tempo, maximize damage! That's bars AND advice!",
+    weight: 14,
+    purpose: 'warning',
+  },
+  {
+    id: 'boog-hint-pleased-3',
+    entitySlug: 'boo-g',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'Yo, I see you struggling! Switch up your flow! Different dice, different vibes. Variety is the spice of afterlife!',
+    weight: 13,
+    purpose: 'warning',
+  },
+  {
+    id: 'boog-hint-generous-2',
+    entitySlug: 'boo-g',
+    pool: 'hint',
+    mood: 'generous',
+    text: 'Real recognize real. You got potential! Check the shop - I stashed something special for performers who GET IT.',
+    weight: 17,
+    purpose: 'warning',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'boog-idle-pleased-1',
+    entitySlug: 'boo-g',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*beatboxes quietly* Boots and cats and boots and cats... Never gets old! NEVER!',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-idle-pleased-2',
+    entitySlug: 'boo-g',
+    pool: 'idle',
+    mood: 'pleased',
+    text: "*adjusts spectral turntables* The silence between beats? That's where the MAGIC lives, baby!",
+    weight: 11,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-idle-generous-1',
+    entitySlug: 'boo-g',
+    pool: 'idle',
+    mood: 'generous',
+    text: '*nods to music only he can hear* Yeah... this track SLAPS. Wrote it in 1847. Still fresh!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'boog-farewell-pleased-1',
+    entitySlug: 'boo-g',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: "Peace out! Keep the rhythm alive! Or dead! Both work! I'm proof!",
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-farewell-generous-1',
+    entitySlug: 'boo-g',
+    pool: 'farewell',
+    mood: 'generous',
+    text: "You've been a LEGENDARY crowd! *throws ghost confetti* Come back for the encore! There's ALWAYS an encore!",
+    weight: 18,
     purpose: 'ambient',
   },
 ];

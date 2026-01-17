@@ -28,7 +28,7 @@ import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
 import { EVENT_VARIANTS, type ZoneMarker } from '../../types/zones';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
-import { calculateGoldReward } from '../../data/balance-config';
+import { applyHeatReward } from '../../data/balance-config';
 import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
 
 // Layout constants
@@ -319,6 +319,12 @@ export function PlayHub() {
     eventVariantRef.current = state.selectedZone?.eventVariant || 'standard';
   }, [state.selectedZone?.eventVariant]);
 
+  // Track heat in a ref for stable gold calculation with heat bonus
+  const heatRef = useRef<number>(0);
+  useEffect(() => {
+    heatRef.current = state.heat || 0;
+  }, [state.heat]);
+
   // Track practice mode in a ref for stable callback
   const practiceModeRef = useRef(false);
   useEffect(() => {
@@ -334,10 +340,12 @@ export function PlayHub() {
       endRun(true);
       return;
     }
-    // Full run: calculate gold using flat domain-based rewards with variant multiplier
+    // Full run: calculate gold using flat domain-based rewards with variant + heat multipliers
     const baseGold = getFlatGoldReward(currentDomainRef.current);
     const variantMultiplier = EVENT_VARIANTS[eventVariantRef.current].goldMultiplier;
-    const goldEarned = Math.round(baseGold * variantMultiplier);
+    const withVariant = baseGold * variantMultiplier;
+    // Apply heat bonus (20% more gold per heat level)
+    const goldEarned = Math.round(applyHeatReward(withVariant, heatRef.current));
     // Store pending victory in context - will be applied atomically when transition completes
     // turnsRemaining is used for early finish bonus calculation
     setPendingVictory({

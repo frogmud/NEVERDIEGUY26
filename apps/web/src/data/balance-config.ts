@@ -27,7 +27,7 @@
  * CURRENT CONCERNS (from senior dev review):
  * - Domain 6 score goal may need tuning if time pressure adds too much
  * - Lucky #7 is powerful; monitor for overuse
- * - Starting gold 100g is intentionally tight
+ * - Starting gold 0g means players must win events to buy upgrades
  */
 
 // ============================================================

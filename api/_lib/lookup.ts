@@ -16,6 +16,7 @@ export interface LookupRequest {
   npcSlug: string;
   pool: TemplatePool;
   contextHash?: string;
+  sessionId?: string; // For deduplication across requests
   playerContext?: {
     deaths: number;
     streak: number;
@@ -37,6 +38,29 @@ type MoodBucket = 'hostile' | 'negative' | 'neutral' | 'positive' | 'generous';
 // ============================================
 // Lookup Engine
 // ============================================
+
+// ============================================
+// Session Deduplication Cache
+// ============================================
+// Prevents same dialogue back-to-back per NPC per session
+// Key: `${sessionId}:${npcSlug}` -> Set of recently used entry IDs
+const recentEntriesCache = new Map<string, Set<string>>();
+const MAX_RECENT_ENTRIES = 5; // Remember last 5 entries per NPC per session
+const SESSION_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+// Track when sessions were last active for cleanup
+const sessionLastSeen = new Map<string, number>();
+
+// Cleanup old sessions periodically
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, lastSeen] of sessionLastSeen.entries()) {
+    if (now - lastSeen > SESSION_CACHE_TTL_MS) {
+      recentEntriesCache.delete(key);
+      sessionLastSeen.delete(key);
+    }
+  }
+}, 5 * 60 * 1000); // Clean up every 5 minutes
 
 export class ChatbaseLookup {
   private loaded = false;
@@ -144,7 +168,7 @@ export class ChatbaseLookup {
   }
 
   /**
-   * Select best entry using weighted random
+   * Select best entry using weighted random with deduplication
    */
   private selectEntry(entries: ChatbaseEntry[], request: LookupRequest): ChatbaseEntry {
     // Filter by mood compatibility if we have player context
@@ -160,19 +184,71 @@ export class ChatbaseLookup {
       }
     }
 
+    // Session deduplication: filter out recently used entries
+    if (request.sessionId) {
+      const cacheKey = `${request.sessionId}:${request.npcSlug}`;
+      const recentIds = recentEntriesCache.get(cacheKey);
+
+      if (recentIds && recentIds.size > 0) {
+        const dedupedCandidates = candidates.filter(e => !recentIds.has(e.id));
+        // Only use deduped list if we have alternatives
+        if (dedupedCandidates.length > 0) {
+          candidates = dedupedCandidates;
+        }
+        // If all candidates were recently used, just return any to avoid empty response
+      }
+    }
+
     // Weighted random selection by interest score
     const totalWeight = candidates.reduce((sum, e) => sum + e.metrics.interestScore, 0);
     let roll = Math.random() * totalWeight;
 
+    let selected: ChatbaseEntry | null = null;
     for (const entry of candidates) {
       roll -= entry.metrics.interestScore;
       if (roll <= 0) {
-        return entry;
+        selected = entry;
+        break;
       }
     }
 
     // Fallback to random
-    return candidates[Math.floor(Math.random() * candidates.length)];
+    if (!selected) {
+      selected = candidates[Math.floor(Math.random() * candidates.length)];
+    }
+
+    // Track this entry as recently used
+    if (request.sessionId && selected) {
+      this.trackRecentEntry(request.sessionId, request.npcSlug, selected.id);
+    }
+
+    return selected;
+  }
+
+  /**
+   * Track an entry as recently used for deduplication
+   */
+  private trackRecentEntry(sessionId: string, npcSlug: string, entryId: string): void {
+    const cacheKey = `${sessionId}:${npcSlug}`;
+
+    // Update last seen time
+    sessionLastSeen.set(cacheKey, Date.now());
+
+    // Get or create recent entries set
+    let recentIds = recentEntriesCache.get(cacheKey);
+    if (!recentIds) {
+      recentIds = new Set();
+      recentEntriesCache.set(cacheKey, recentIds);
+    }
+
+    // Add new entry
+    recentIds.add(entryId);
+
+    // Trim to max size (remove oldest - Sets maintain insertion order)
+    if (recentIds.size > MAX_RECENT_ENTRIES) {
+      const iterator = recentIds.values();
+      recentIds.delete(iterator.next().value);
+    }
   }
 
   /**

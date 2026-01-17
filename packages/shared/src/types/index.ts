@@ -139,14 +139,16 @@ export interface ChatMessage {
 
 export interface ChatRequest {
   npcSlug: string;
-  contextHash: string;
   pool: TemplatePool;
-  playerContext: {
+  contextHash?: string;
+  playerContext?: {
     deaths: number;
     streak: number;
     domain: string;
     ante: number;
   };
+  /** Context for AI refinement (e.g., player's message being reacted to) */
+  context?: string;
 }
 
 export interface ChatResponse {

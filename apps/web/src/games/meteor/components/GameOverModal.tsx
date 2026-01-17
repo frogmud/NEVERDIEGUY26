@@ -146,7 +146,8 @@ export function GameOverModal({
           border: `2px solid ${tokens.colors.border}`,
           borderRadius: 3,
           p: 0,
-          width: 380,
+          width: 320,
+          maxWidth: '90vw',
           flexShrink: 0,
           overflow: 'hidden',
           animation: `${slideUp} 0.25s ease-out forwards`,
@@ -154,12 +155,12 @@ export function GameOverModal({
         }}
       >
         {/* Header */}
-        <Box sx={{ p: 3, pb: 2 }}>
+        <Box sx={{ p: 2.5, pb: 1.5 }}>
           <Typography
             variant="h3"
             sx={{
               ...gamingFont,
-              fontSize: '2.5rem',
+              fontSize: '2rem',
               color: accentColor,
               textAlign: 'center',
               textShadow: `0 0 20px ${accentColor}40`,
@@ -169,73 +170,16 @@ export function GameOverModal({
           </Typography>
         </Box>
 
-        {/* Stats Grid - Organized by Category */}
+        {/* Stats Grid - Compact 2-section layout */}
         <Box sx={{ px: 3, pb: 2 }}>
-          {/* Combat Section */}
-          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
-            COMBAT
-          </Typography>
+          {/* Main Stats */}
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
-            <StatBox label="Total Score" value={stats.totalScore.toLocaleString()} color={tokens.colors.primary} />
+            <StatBox label="Score" value={stats.totalScore.toLocaleString()} color={tokens.colors.primary} />
             <StatBox label="Best Roll" value={stats.bestRoll.toLocaleString()} color="#C4A000" />
-            <StatBox label="Dice Rolled" value={stats.diceRolled.toString()} color={tokens.colors.secondary} />
-            <StatBox label="Most Rolled" value={stats.mostRolled} />
-          </Box>
-
-          {/* Progress Section */}
-          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
-            PROGRESS
-          </Typography>
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
             <StatBox label="Domains" value={`${stats.domains}/6`} />
             <StatBox label="Events" value={stats.rooms.toString()} />
-          </Box>
-
-          {/* Difficulty Breakdown - Visual Pills */}
-          {stats.variantCounts && (stats.variantCounts.swift + stats.variantCounts.standard + stats.variantCounts.grueling > 0) && (
-            <Box sx={{ display: 'flex', gap: 0.75, mb: 2 }}>
-              {stats.variantCounts.swift > 0 && (
-                <Box sx={{ bgcolor: '#22c55e20', border: '1px solid #22c55e', borderRadius: 1, px: 1.5, py: 0.5 }}>
-                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: '#22c55e' }}>
-                    Swift x{stats.variantCounts.swift}
-                  </Typography>
-                </Box>
-              )}
-              {stats.variantCounts.standard > 0 && (
-                <Box sx={{ bgcolor: '#f59e0b20', border: '1px solid #f59e0b', borderRadius: 1, px: 1.5, py: 0.5 }}>
-                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: '#f59e0b' }}>
-                    Std x{stats.variantCounts.standard}
-                  </Typography>
-                </Box>
-              )}
-              {stats.variantCounts.grueling > 0 && (
-                <Box sx={{ bgcolor: '#ef444420', border: '1px solid #ef4444', borderRadius: 1, px: 1.5, py: 0.5 }}>
-                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: '#ef4444' }}>
-                    Hard x{stats.variantCounts.grueling}
-                  </Typography>
-                </Box>
-              )}
-            </Box>
-          )}
-
-          {/* Performance Section */}
-          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
-            PERFORMANCE
-          </Typography>
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
             <StatBox label="Run Time" value={formatTime(stats.totalTimeMs)} />
-            <StatBox label="Avg Event" value={formatTime(stats.avgEventTimeMs)} />
-            <StatBox label="Fastest" value={formatTime(stats.fastestEventMs)} color="#22c55e" />
-            <StatBox label="Gold Earned" value={`$${stats.goldEarned.toLocaleString()}`} color="#C4A000" />
-          </Box>
-
-          {/* Economy Section */}
-          <Typography sx={{ ...gamingFont, fontSize: '0.7rem', color: tokens.colors.text.disabled, mb: 0.75, letterSpacing: '0.1em' }}>
-            ECONOMY
-          </Typography>
-          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, mb: 2 }}>
-            <StatBox label="Purchases" value={stats.purchases.toString()} color="#C4A000" />
-            <StatBox label="Shop Remixes" value={stats.shopRemixes.toString()} />
+            <StatBox label="Gold" value={`$${stats.goldEarned.toLocaleString()}`} color="#C4A000" />
           </Box>
 
           {/* Death info */}
@@ -248,7 +192,7 @@ export function GameOverModal({
           {/* Seed */}
           <Box
             sx={{
-              p: 1.5,
+              p: 1.25,
               bgcolor: tokens.colors.background.elevated,
               borderRadius: 1,
               display: 'flex',
@@ -256,17 +200,17 @@ export function GameOverModal({
               alignItems: 'center',
             }}
           >
-            <Typography sx={{ ...gamingFont, fontSize: '0.875rem', color: tokens.colors.text.secondary }}>
+            <Typography sx={{ ...gamingFont, fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
               Seed
             </Typography>
-            <Typography sx={{ ...gamingFont, fontSize: '1rem', color: tokens.colors.text.primary }}>
+            <Typography sx={{ ...gamingFont, fontSize: '0.9rem', color: tokens.colors.text.primary }}>
               {stats.seed}
             </Typography>
           </Box>
         </Box>
 
         {/* Buttons */}
-        <Box sx={{ p: 3, pt: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+        <Box sx={{ p: 2.5, pt: 1.5, display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Button
             variant="contained"
             fullWidth
@@ -275,8 +219,8 @@ export function GameOverModal({
               bgcolor: accentColor,
               color: '#fff',
               ...gamingFont,
-              fontSize: '1.25rem',
-              py: 1.5,
+              fontSize: '1.1rem',
+              py: 1.25,
               '&:hover': { bgcolor: isWin ? '#28a745' : '#b8033a' },
             }}
           >
@@ -290,8 +234,8 @@ export function GameOverModal({
               bgcolor: accentColor,
               color: '#fff',
               ...gamingFont,
-              fontSize: '1.25rem',
-              py: 1.5,
+              fontSize: '1.1rem',
+              py: 1.25,
               '&:hover': { bgcolor: isWin ? '#28a745' : '#b8033a' },
             }}
           >
@@ -300,15 +244,16 @@ export function GameOverModal({
         </Box>
       </Paper>
 
-      {/* Skull + Speech Bubble - right side, vertically centered */}
+      {/* Skull + Speech Bubble - right side, hidden on small screens */}
       <Box
         onClick={(e) => e.stopPropagation()}
         sx={{
           position: 'relative',
-          width: 280,
-          height: 240,
+          width: 220,
+          height: 200,
           flexShrink: 0,
           cursor: 'default',
+          display: { xs: 'none', md: 'block' },
         }}
       >
         {/* Speech Bubble - stage 3, positioned above skull */}
@@ -320,10 +265,10 @@ export function GameOverModal({
             transform: 'translateX(-50%)',
             bgcolor: '#fff',
             color: '#000',
-            p: 2,
+            p: 1.5,
             borderRadius: 2,
-            width: 260,
-            minHeight: 60,
+            width: 200,
+            minHeight: 50,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -334,9 +279,9 @@ export function GameOverModal({
           <Typography
             sx={{
               ...gamingFont,
-              fontSize: '1.05rem',
+              fontSize: '0.9rem',
               textAlign: 'center',
-              lineHeight: 1.5,
+              lineHeight: 1.4,
             }}
           >
             {displayedQuip}
@@ -353,8 +298,8 @@ export function GameOverModal({
             bottom: 0,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: 140,
-            height: 140,
+            width: 100,
+            height: 100,
             opacity: stage >= 3 ? 1 : 0,
             zIndex: 1,
           }}

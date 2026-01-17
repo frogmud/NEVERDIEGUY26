@@ -24,7 +24,8 @@ export const STITCH_UP_GIRL_PERSONALITY: NPCPersonalityConfig = {
     challenge: 5, // Rarely challenges, supportive
     reaction: 20, // Reacts to injuries, squishes
     threat: 0, // Never threatens
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 20,
@@ -34,7 +35,8 @@ export const STITCH_UP_GIRL_PERSONALITY: NPCPersonalityConfig = {
     challenge: 5,
     reaction: 20,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -266,5 +268,64 @@ export const STITCH_UP_GIRL_TEMPLATES: ResponseTemplate[] = [
     weight: 20,
     purpose: 'warning',
     conditions: [{ type: 'integrity', comparison: 'lt', value: 20 }],
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'stitch-idle-1',
+    entitySlug: 'stitch-up-girl',
+    pool: 'idle',
+    mood: 'any',
+    text: '*organizes medical supplies with concerning precision*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'stitch-idle-2',
+    entitySlug: 'stitch-up-girl',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*hums while sharpening scissors* These are for curses. Mostly.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'stitch-idle-3',
+    entitySlug: 'stitch-up-girl',
+    pool: 'idle',
+    mood: 'pleased',
+    text: 'Inventory check: bandages, potions, thread, hope. Low on hope. Always low on hope.',
+    weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'stitch-farewell-1',
+    entitySlug: 'stitch-up-girl',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Stay safe out there! Or at least come back in one piece. Roughly one piece.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'stitch-farewell-2',
+    entitySlug: 'stitch-up-girl',
+    pool: 'farewell',
+    mood: 'generous',
+    text: 'Take care of yourself. And if you cannot, take care to come find me. I will fix you.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'stitch-farewell-3',
+    entitySlug: 'stitch-up-girl',
+    pool: 'farewell',
+    mood: 'annoyed',
+    text: 'Go. But come STRAIGHT back if anything starts falling off. I mean it.',
+    weight: 15,
+    purpose: 'ambient',
+    conditions: [{ type: 'integrity', comparison: 'lt', value: 50 }],
   },
 ];

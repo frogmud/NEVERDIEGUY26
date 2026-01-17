@@ -80,22 +80,35 @@ export function AssetImage({
   }, [slug, category, subtype, variant]);
 
   // Determine initial source (SVG preferred if available)
+  // Return null instead of empty string to avoid browser warning
   const initialSrc = useMemo(() => {
     if (resolvedPaths) {
       return preferSvg && resolvedPaths.svg ? resolvedPaths.svg : resolvedPaths.png;
     }
-    return src || '';
+    return src || null;
   }, [resolvedPaths, preferSvg, src]);
 
   // Fallback stage: 0=initial, 1=tried SVG, 2=tried PNG, 3=tried placeholder, 4=hidden
-  const [fallbackStage, setFallbackStage] = useState(0);
-  const [currentSrc, setCurrentSrc] = useState(initialSrc);
+  const [fallbackStage, setFallbackStage] = useState(initialSrc ? 0 : 4);
+  const [currentSrc, setCurrentSrc] = useState<string | null>(initialSrc);
 
   // Reset when source changes
   useEffect(() => {
-    setCurrentSrc(initialSrc);
-    setFallbackStage(0);
-  }, [initialSrc]);
+    if (initialSrc) {
+      setCurrentSrc(initialSrc);
+      setFallbackStage(0);
+    } else {
+      // No source provided - go to fallback or hidden state
+      if (fallback === 'placeholder') {
+        const categoryPlaceholder = category ? getCategoryPlaceholder(category) : DEFAULT_PLACEHOLDER;
+        setCurrentSrc(categoryPlaceholder);
+        setFallbackStage(2);
+      } else {
+        setCurrentSrc(null);
+        setFallbackStage(4);
+      }
+    }
+  }, [initialSrc, fallback, category]);
 
   const handleError = useCallback(() => {
     if (fallback === 'hide' && !resolvedPaths) {
@@ -147,7 +160,7 @@ export function AssetImage({
     setFallbackStage(4);
   }, [category, currentSrc, fallback, fallbackStage, preferSvg, resolvedPaths]);
 
-  if (fallbackStage === 4) {
+  if (fallbackStage === 4 || !currentSrc) {
     return null;
   }
 

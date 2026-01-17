@@ -24,6 +24,7 @@ export const THE_ONE_PERSONALITY: NPCPersonalityConfig = {
     reaction: 10,
     threat: 0, // Never threatens directly
     idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 15,
@@ -34,6 +35,7 @@ export const THE_ONE_PERSONALITY: NPCPersonalityConfig = {
     reaction: 10,
     threat: 0,
     idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -280,6 +282,35 @@ export const THE_ONE_TEMPLATES: ResponseTemplate[] = [
     mood: 'cryptic',
     text: 'The void watches. It always watches.',
     weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'the-one-farewell-1',
+    entitySlug: 'the-one',
+    pool: 'farewell',
+    mood: 'cryptic',
+    text: 'Go. Return. The cycle continues regardless.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'the-one-farewell-2',
+    entitySlug: 'the-one',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Until the next iteration. They are all the same, and none.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'the-one-farewell-3',
+    entitySlug: 'the-one',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'You persist. That is... something. Perhaps the only thing.',
+    weight: 18,
     purpose: 'ambient',
   },
 ];

@@ -24,7 +24,8 @@ export const KING_JAMES_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15, // Tests of worthiness
     reaction: 10,
     threat: 0, // Too regal to threaten
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 15,
@@ -34,7 +35,8 @@ export const KING_JAMES_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15,
     reaction: 10,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -278,6 +280,64 @@ export const KING_JAMES_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'Victory. Existence triumphs over non-existence. A temporary condition, but enjoy it.',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'james-idle-1',
+    entitySlug: 'king-james',
+    pool: 'idle',
+    mood: 'any',
+    text: '*adjusts crown that may or may not exist*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-idle-2',
+    entitySlug: 'king-james',
+    pool: 'idle',
+    mood: 'neutral',
+    text: 'A king waits. It is what kings do. Between everything and nothing.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-idle-3',
+    entitySlug: 'king-james',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*contemplates the weight of an empty throne*',
+    weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'james-farewell-1',
+    entitySlug: 'king-james',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Go. The void will be here when you return. It is always here. And nowhere.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-farewell-2',
+    entitySlug: 'king-james',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Travel well, subject. May your existence remain... probable.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-farewell-3',
+    entitySlug: 'king-james',
+    pool: 'farewell',
+    mood: 'generous',
+    text: 'The Null Throne shall remember you. Not fondly. Not bitterly. Just... remember.',
+    weight: 18,
     purpose: 'ambient',
   },
 ];

@@ -24,7 +24,8 @@ export const CLAUSEN_PERSONALITY: NPCPersonalityConfig = {
     challenge: 10, // Investigation challenges
     reaction: 15,
     threat: 0, // Ally
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 15,
@@ -34,7 +35,8 @@ export const CLAUSEN_PERSONALITY: NPCPersonalityConfig = {
     challenge: 10,
     reaction: 15,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -241,6 +243,64 @@ export const CLAUSEN_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'Case closed. *raises flask* To surviving another one.',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'clausen-idle-1',
+    entitySlug: 'clausen',
+    pool: 'idle',
+    mood: 'any',
+    text: '*exhales smoke, watching shadows*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-idle-2',
+    entitySlug: 'clausen',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*flips a coin absently* Same side. Always the same side.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-idle-3',
+    entitySlug: 'clausen',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*reviews notes* Evidence does not lie. People do.',
+    weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'clausen-farewell-1',
+    entitySlug: 'clausen',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Watch your back. In this business, the shadows watch you.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-farewell-2',
+    entitySlug: 'clausen',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Stay alive out there. Good partners are hard to find.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-farewell-3',
+    entitySlug: 'clausen',
+    pool: 'farewell',
+    mood: 'generous',
+    text: '*nods* If you need backup, you know where to find me. Do not make me regret saying that.',
+    weight: 18,
     purpose: 'ambient',
   },
 ];

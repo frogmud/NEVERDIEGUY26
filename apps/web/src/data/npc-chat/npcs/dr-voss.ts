@@ -24,7 +24,8 @@ export const DR_VOSS_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15, // Beta testing
     reaction: 5,
     threat: 0, // Too excited to threaten
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 15,
@@ -34,7 +35,8 @@ export const DR_VOSS_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15,
     reaction: 5,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -245,6 +247,64 @@ export const DR_VOSS_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'Success! Your combat data has been logged! The void is pleased! I am pleased! We are all pleased!',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'voss-idle-amused-1',
+    entitySlug: 'dr-voss',
+    pool: 'idle',
+    mood: 'amused',
+    text: '*adjusts goggles* The void is particularly chatty today. It says hello! I think. Might have been a threat.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'voss-idle-amused-2',
+    entitySlug: 'dr-voss',
+    pool: 'idle',
+    mood: 'amused',
+    text: '*scribbles notes furiously* Yes... YES! This changes everything! Or nothing! Unclear!',
+    weight: 10,
+    purpose: 'ambient',
+  },
+  {
+    id: 'voss-idle-pleased-1',
+    entitySlug: 'dr-voss',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*examines bubbling vial* Stable... stable... still stable... EXCITING! *vial explodes mildly*',
+    weight: 14,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'voss-farewell-amused-1',
+    entitySlug: 'dr-voss',
+    pool: 'farewell',
+    mood: 'amused',
+    text: 'Go! Collect data! Return with results! Or as results! Both are useful!',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'voss-farewell-pleased-1',
+    entitySlug: 'dr-voss',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Remember: side effects are temporary! Except the permanent ones! Good luck!',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'voss-farewell-generous-1',
+    entitySlug: 'dr-voss',
+    pool: 'farewell',
+    mood: 'generous',
+    text: 'You have been an exceptional test subject! I look forward to your continued survival! Statistically unlikely but I believe in you!',
+    weight: 18,
     purpose: 'ambient',
   },
 ];

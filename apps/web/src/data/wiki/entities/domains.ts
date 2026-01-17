@@ -20,7 +20,6 @@ export const domains: Domain[] = [
     npcs: ['king-james', 'dr-voss'],
     connectedAreas: [
       { area: 'shadow-keep', direction: 'South', levelRange: '25-35' },
-      { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
     ],
     quests: [
       { name: 'Face the Void', type: 'Main', reward: 'Void Heart' },
@@ -60,10 +59,7 @@ export const domains: Domain[] = [
     enemies: ['cow', 'crab', 'myconid', 'steam-sentry'],
     items: ['iron-boots', 'mecha-bow'],
     npcs: ['the-general'],
-    connectedAreas: [
-      { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
-      { area: 'crystal-caverns', direction: 'Underground', levelRange: '15-25' },
-    ],
+    connectedAreas: [],
     quests: [
       { name: 'Factory Floor', type: 'Main', reward: 'Power Core' },
       { name: 'Circuit Breaker', type: 'Side', reward: 'Tech Components' },
@@ -100,12 +96,10 @@ export const domains: Domain[] = [
     image: '/assets/domains/shadow-keep.png',
     description: 'Shadow Keep manifests when Door 3 opens, revealing Peter\'s twilight domain. The Hidden Director rules this paradoxical realm where life and shadow dance as equals. Divine favor determines whether you master the duality or split into separate, hostile entities.',
     enemies: ['bat', 'skeleton-archer', 'skeleton-barb', 'skeleton-knight', 'ludwig', 'makora', 'makora-reborn'],
-    items: ['shadow-essence', 'dark-gem', 'bone-fragment', 'shadowblade'],
+    items: ['shadow-essence'],
     npcs: ['dr-voss', 'the-general'],
     connectedAreas: [
       { area: 'null-providence', direction: 'North', levelRange: '35-45' },
-      { area: 'bone-yard', direction: 'East', levelRange: '20-25' },
-      { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
     ],
     quests: [
       { name: 'Into the Darkness', type: 'Main', reward: 'Shadow Key' },
@@ -145,9 +139,7 @@ export const domains: Domain[] = [
     enemies: ['fire-imp', 'camel', 'lava-golem', 'skeleton-demon', 'succubus', 'mephisto'],
     items: ['infernal-bow', 'blazecaster', 'fire-grenade', 'infernal-salts', 'infernal-crystal'],
     npcs: ['dr-maxwell', 'xtreme'],
-    connectedAreas: [
-      { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
-    ],
+    connectedAreas: [],
     quests: [
       { name: 'Through the Fire', type: 'Main', reward: 'Fire Core' },
       { name: 'Ash Gardens', type: 'Side', reward: 'Pyroclastic Relic' },
@@ -184,12 +176,9 @@ export const domains: Domain[] = [
     image: '/assets/domains/frost-reach.png',
     description: 'Frost Reach manifests when Door 5 opens, revealing Alice\'s frozen time domain. The Clock-Faced Maiden rules this crystalline nightmare where ice and time merge into one devastating force. Divine favor determines whether you harness temporal frost or become another frozen statue in her collection.',
     enemies: ['ice-wraith', 'frost-giant-i', 'frost-giant-ii', 'frost-giant-iii'],
-    items: ['time-crystal', 'ice-bow', 'frost-blade'],
+    items: ['time-crystal', 'ice-bow'],
     npcs: ['mr-bones', 'willy'],
-    connectedAreas: [
-      { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
-      { area: 'frozen-wastes', direction: 'North', levelRange: '30-40' },
-    ],
+    connectedAreas: [],
     quests: [
       { name: 'Frozen in Time', type: 'Main', reward: 'Temporal Shard' },
       { name: 'Clock Tower', type: 'Side', reward: 'Ice Crystal' },
@@ -226,12 +215,9 @@ export const domains: Domain[] = [
     image: '/assets/domains/aberrant.png',
     description: 'Aberrant manifests when Door 6 opens, revealing Jane\'s chaotic wind domain. The Howling Goddess rules this aerial nightmare where atmosphere itself wages war on stability. Divine favor determines whether you surf the jetstreams or dissolve into them.',
     enemies: ['chicken', 'carniflower', 'spore-cloud', 'twisted-sapling', 'vine-strangler', 'gear-construct', 'air-elemental', 'ancient-treant', 'wretched-beast', 'abominable'],
-    items: ['windcutter', 'aberrant-bow', 'wind-shard'],
+    items: ['windcutter'],
     npcs: ['boo-g'],
-    connectedAreas: [
-      { area: 'the-dying-saucer', direction: 'Portal', levelRange: '1-50' },
-      { area: 'thunder-spire', direction: 'Up', levelRange: '30-40' },
-    ],
+    connectedAreas: [],
     quests: [
       { name: 'Ride the Wind', type: 'Main', reward: 'Wind Core' },
       { name: 'Sky Anchor', type: 'Side', reward: 'Chaos Fragment' },
@@ -251,73 +237,5 @@ export const domains: Domain[] = [
       requirements: ['Complete "The Sixth Door" quest', 'Level 45 or higher recommended'],
       cost: '200 Gold or 1 Wind Token',
     },
-  },
-
-  // The Dying Saucer - Central Hub
-  {
-    slug: 'the-dying-saucer',
-    name: 'The Dying Saucer',
-    category: 'domains',
-    luckyNumber: 0,
-    rarity: 'Unique',
-    element: 'Neutral',
-    difficulty: 'Easy',
-    levelRange: '1-50',
-    image: '/assets/domains/the-dying-saucer.svg',
-    description: 'The Dying Saucer serves as the central hub where every run begins and every death returns you. This crashed UFO apartment complex houses six numbered doors, each leading to a different domain. The saucer itself is a massive d6 - choosing a door triggers the cosmic dice roll that determines your divine favor.',
-    npcs: ['willy', 'mr-bones', 'boo-g', 'king-james', 'dr-maxwell', 'the-general', 'dr-voss', 'xtreme'],
-    connectedAreas: [
-      { area: 'null-providence', direction: 'Door 1', levelRange: '35-45' },
-      { area: 'earth', direction: 'Door 2', levelRange: '10-20' },
-      { area: 'shadow-keep', direction: 'Door 3', levelRange: '25-35' },
-      { area: 'infernus', direction: 'Door 4', levelRange: '20-30' },
-      { area: 'frost-reach', direction: 'Door 5', levelRange: '25-35' },
-      { area: 'aberrant', direction: 'Door 6', levelRange: '35-45' },
-      { area: 'the-board-room', direction: 'Door 7 (Hidden)', levelRange: '50' },
-    ],
-    seeAlso: ['never-die-guy', 'stitch-up-girl', 'the-general', 'willy', 'mr-bones'],
-    // Hub - no run structure (starting point)
-    dicePool: [4, 6, 8, 10, 12, 20],
-    diceBias: 0,
-    encounterTypes: ['shop', 'rest'],
-    // Flume portal data (Return to Nexus)
-    flume: {
-      name: 'Return to Nexus',
-      video: '/assets/flumes/cursed/flume-00010.mp4',
-      requirements: ['Must be in a safe zone', 'No active combat'],
-      cost: 'Free',
-    },
-  },
-
-  // The Board Room - Door 7, All Die-rectors
-  {
-    slug: 'the-board-room',
-    name: 'The Board Room',
-    category: 'domains',
-    luckyNumber: 7,
-    rarity: 'Unique',
-    door: 7,
-    dieRector: 'all',
-    element: 'Neutral',
-    difficulty: 'Extreme',
-    levelRange: '50',
-    requirements: '100+ deaths to unlock Door 7',
-    image: '/assets/domains/board-room-fisheye.png',
-    description: 'The Board Room manifests after 100 deaths when Door 7 appears unmarked in the apartment nexus. This corporate meeting space serves as neutral ground where all six Die-rectors convene to discuss quarterly death reports, divine favor algorithms, and domain budget allocations. The One dials in via void-screen from imprisonment.',
-    connectedAreas: [
-      { area: 'the-dying-saucer', direction: 'Exit', levelRange: '1-50' },
-      { area: 'null-providence', direction: 'The One\'s Portal', levelRange: '35-45' },
-    ],
-    quests: [
-      { name: 'Board Meeting', type: 'Event', reward: 'Corporate Card Key' },
-      { name: 'Exit Interview', type: 'Side', reward: 'Die-rector\'s Gavel' },
-    ],
-    seeAlso: ['the-one', 'john', 'peter', 'robert', 'alice', 'jane', 'king-james'],
-    // Dice roguelike run structure - All Die-rectors gauntlet
-    dicePool: [4, 6, 8, 10, 12, 20],
-    diceBias: 0,
-    floors: 6,
-    encounterTypes: ['boss', 'event'],
-    bossFloors: [1, 2, 3, 4, 5, 6],
   },
 ];

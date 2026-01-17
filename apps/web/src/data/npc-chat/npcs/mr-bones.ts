@@ -24,6 +24,7 @@ export const MR_BONES_PERSONALITY: NPCPersonalityConfig = {
     reaction: 10,
     threat: 0, // Never threatens
     idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 10,
@@ -34,6 +35,7 @@ export const MR_BONES_PERSONALITY: NPCPersonalityConfig = {
     reaction: 10,
     threat: 0,
     idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -280,6 +282,44 @@ export const MR_BONES_TEMPLATES: ResponseTemplate[] = [
     mood: 'amused',
     text: "*counts ribs* Still got 'em all. Good day.",
     weight: 8,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'mr-bones-farewell-neutral-1',
+    entitySlug: 'mr-bones',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Walk well, traveler. The road remembers those who treat it kindly.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-farewell-cryptic-1',
+    entitySlug: 'mr-bones',
+    pool: 'farewell',
+    mood: 'cryptic',
+    text: "Until we meet again. Or met. Tense is difficult when you've been everywhere at once.",
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-farewell-amused-1',
+    entitySlug: 'mr-bones',
+    pool: 'farewell',
+    mood: 'amused',
+    text: "Off you go! Try not to die too permanently. It's inconvenient for conversation.",
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-farewell-generous-1',
+    entitySlug: 'mr-bones',
+    pool: 'farewell',
+    mood: 'generous',
+    text: "May your dice roll true, {{playerName}}. And if they don't... well, I'll still be here. Waiting.",
+    weight: 18,
     purpose: 'ambient',
   },
 ];

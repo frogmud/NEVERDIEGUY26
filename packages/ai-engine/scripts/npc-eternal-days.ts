@@ -14,6 +14,8 @@
  *   --verbose         Show all activity (not just highlights)
  *   --tokens-quick=N  Tokens for quick banter (default: 60)
  *   --tokens-story=N  Tokens for story moments (default: 250)
+ *   --extract-templates  Save generated dialogue as ResponseTemplates
+ *   --model=X         Claude model to use (default: claude-3-5-haiku-20241022)
  */
 
 import * as fs from 'fs';
@@ -44,6 +46,55 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// ============================================
+// Template Extraction (for chatbase generation)
+// ============================================
+
+interface ExtractedTemplate {
+  id: string;
+  entitySlug: string;
+  pool: string;
+  mood: string;
+  text: string;
+  weight: number;
+  purpose: string;
+  context: {
+    day: number;
+    situation: string;
+    targetNpc?: string;
+    location?: string;
+  };
+}
+
+// Global collection for extracted templates
+const extractedTemplates: ExtractedTemplate[] = [];
+let templateCounter = 0;
+
+function extractTemplate(
+  speakerSlug: string,
+  text: string,
+  pool: string,
+  mood: string,
+  day: number,
+  situation: string,
+  targetNpc?: string,
+  location?: string
+): void {
+  if (!text || text.length < 10) return; // Skip empty/tiny responses
+
+  templateCounter++;
+  extractedTemplates.push({
+    id: `eternal-gen-${speakerSlug}-${templateCounter}`,
+    entitySlug: speakerSlug,
+    pool,
+    mood,
+    text: text.trim(),
+    weight: 12, // Default weight for generated templates
+    purpose: 'ambient',
+    context: { day, situation, targetNpc, location },
+  });
+}
 
 // ============================================
 // Types
@@ -706,6 +757,7 @@ const ALL_NPCS: NPCDef[] = [
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
+    silentCharacter: true,    
     domain: 'the-partnership',
   },
 ];
@@ -1803,41 +1855,60 @@ RULES:
 - Just dialogue - what you SAY, not what you do`;
 }
 
+// Default model - can be overridden via --model flag or CLAUDE_MODEL env var
+let CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-haiku-20241022';
+
 async function generateWithClaude(
   prompt: string,
   tokens: number,
-  apiKey: string
+  apiKey: string,
+  retries = 2
 ): Promise<string | null> {
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-3-haiku-20240307',
-        max_tokens: tokens,
-        temperature: 0.9,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: CLAUDE_MODEL,
+          max_tokens: tokens,
+          temperature: 0.9,
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
 
-    if (!response.ok) return null;
-    const data = await response.json();
-    const text = data.content?.[0]?.text || null;
+      if (!response.ok) {
+        if (attempt < retries) {
+          // Exponential backoff: 1s, 2s
+          await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+          continue;
+        }
+        return null;
+      }
 
-    if (text) {
-      return text
-        .replace(/^["']|["']$/g, '')
-        .replace(/^\*.*\*\s*/g, '')
-        .trim();
+      const data = await response.json();
+      const text = data.content?.[0]?.text || null;
+
+      if (text) {
+        return text
+          .replace(/^["']|["']$/g, '')
+          .replace(/^\*.*\*\s*/g, '')
+          .trim();
+      }
+      return null;
+    } catch {
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+        continue;
+      }
+      return null;
     }
-    return null;
-  } catch {
-    return null;
   }
+  return null;
 }
 
 // ============================================
@@ -1853,6 +1924,7 @@ async function simulateDay(
     useClaude: boolean;
     apiKey: string;
     verbose: boolean;
+    extractTemplates: boolean;
   }
 ): Promise<DiaryEntry> {
   const events: DayEvent[] = [];
@@ -2046,6 +2118,12 @@ async function simulateDay(
           isClaudeGenerated: true,
           location: matchLocation,
         });
+
+        // Extract template for chatbase
+        if (options.extractTemplates) {
+          const mood = loserState.mood === 'tilted' ? 'annoyed' : 'neutral';
+          extractTemplate(loserNPC.slug, response, 'reaction', mood, day, situation, winnerNPC.slug, matchLocation);
+        }
       }
     }
   }
@@ -2096,6 +2174,14 @@ async function simulateDay(
           isClaudeGenerated: true,
           location: environment.dominantLocation,
         });
+
+        // Extract template for chatbase
+        if (options.extractTemplates) {
+          const mood = speakerState.mood === 'tilted' ? 'annoyed' : speakerState.mood === 'hot' ? 'pleased' : 'neutral';
+          const poolToType = { banter: 'idle', debt_drama: 'reaction', lore_drop: 'lore', player_gossip: 'reaction', ceelo_emotional: 'reaction' };
+          const templatePool = poolToType[pool as keyof typeof poolToType] || 'idle';
+          extractTemplate(speaker.slug, response, templatePool, mood, day, situation, target.slug, environment.dominantLocation);
+        }
       }
     }
   }
@@ -2151,6 +2237,13 @@ async function simulateDay(
             isClaudeGenerated: true,
             location: 'sphere-stands',
           });
+
+          // Extract template for chatbase
+          if (options.extractTemplates) {
+            const speakerState = npcStates.get(speaker.slug)!;
+            const mood = speakerState.mood === 'tilted' ? 'annoyed' : run.result === 'win' ? 'amused' : 'neutral';
+            extractTemplate(speaker.slug, response, 'reaction', mood, day, situation, target.slug, 'sphere-stands');
+          }
         }
       }
     }
@@ -2383,6 +2476,7 @@ async function main() {
     verbose: false,
     tokensQuick: 60,
     tokensStory: 250,
+    extractTemplates: false,
   };
 
   for (const arg of args) {
@@ -2392,6 +2486,8 @@ async function main() {
     else if (arg === '--verbose') options.verbose = true;
     else if (arg.startsWith('--tokens-quick=')) options.tokensQuick = parseInt(arg.split('=')[1], 10);
     else if (arg.startsWith('--tokens-story=')) options.tokensStory = parseInt(arg.split('=')[1], 10);
+    else if (arg === '--extract-templates') options.extractTemplates = true;
+    else if (arg.startsWith('--model=')) CLAUDE_MODEL = arg.split('=')[1];
   }
 
   // Update token pools with custom values
@@ -2404,7 +2500,8 @@ async function main() {
   console.log('='.repeat(60));
   console.log(`Days: ${options.days}`);
   console.log(`Seed: ${options.seed}`);
-  console.log(`Claude: ${options.useClaude ? 'Enabled' : 'Disabled'}`);
+  console.log(`Claude: ${options.useClaude ? `Enabled (${CLAUDE_MODEL})` : 'Disabled'}`);
+  console.log(`Extract Templates: ${options.extractTemplates ? 'Yes' : 'No'}`);
   console.log('='.repeat(60));
   console.log('');
 
@@ -2496,6 +2593,7 @@ async function main() {
       useClaude: options.useClaude,
       apiKey,
       verbose: options.verbose,
+      extractTemplates: options.extractTemplates,
     });
 
     diary.push(entry);
@@ -2550,6 +2648,52 @@ async function main() {
   // Save player profile separately for chatbase lookups
   const profilePath = path.join(sessionDir, 'player-profile.json');
   fs.writeFileSync(profilePath, serializeProfile(playerState.profile));
+
+  // Save extracted templates if enabled
+  if (options.extractTemplates && extractedTemplates.length > 0) {
+    const templatesPath = path.join(sessionDir, 'extracted-templates.json');
+    fs.writeFileSync(templatesPath, JSON.stringify({
+      generatedAt: new Date().toISOString(),
+      seed: options.seed,
+      totalTemplates: extractedTemplates.length,
+      templatesByNpc: extractedTemplates.reduce((acc, t) => {
+        acc[t.entitySlug] = (acc[t.entitySlug] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>),
+      templates: extractedTemplates,
+    }, null, 2));
+
+    // Also write TypeScript-ready format for easy import
+    const tsPath = path.join(sessionDir, 'extracted-templates.ts');
+    const tsContent = `/**
+ * Auto-generated dialogue templates from Eternal Days simulation
+ * Generated: ${new Date().toISOString()}
+ * Seed: ${options.seed}
+ * Total: ${extractedTemplates.length} templates
+ */
+
+import type { ResponseTemplate } from '@/data/npc-chat/types';
+
+export const GENERATED_TEMPLATES: ResponseTemplate[] = ${JSON.stringify(
+      extractedTemplates.map(t => ({
+        id: t.id,
+        entitySlug: t.entitySlug,
+        pool: t.pool,
+        mood: t.mood,
+        text: t.text,
+        weight: t.weight,
+        purpose: t.purpose,
+      })),
+      null,
+      2
+    )};
+`;
+    fs.writeFileSync(tsPath, tsContent);
+
+    console.log(`\nExtracted ${extractedTemplates.length} templates to:`);
+    console.log(`  - ${templatesPath}`);
+    console.log(`  - ${tsPath}`);
+  }
 
   // Write markdown diary
   const mdLines: string[] = [
@@ -2708,6 +2852,20 @@ async function main() {
   console.log(`  Resilience: ${ALL_NPCS.find(n => n.slug === statLeaders.resilience[0])?.name} (${statLeaders.resilience[1].stats.resilience})`);
   console.log(`  Swiftness: ${ALL_NPCS.find(n => n.slug === statLeaders.swiftness[0])?.name} (${statLeaders.swiftness[1].stats.swiftness})`);
   console.log('');
+  if (options.extractTemplates && extractedTemplates.length > 0) {
+    console.log('=== EXTRACTED TEMPLATES ===');
+    console.log(`Total: ${extractedTemplates.length} templates`);
+    const byNpc = extractedTemplates.reduce((acc, t) => {
+      acc[t.entitySlug] = (acc[t.entitySlug] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    const sorted = Object.entries(byNpc).sort((a, b) => b[1] - a[1]);
+    for (const [slug, count] of sorted.slice(0, 10)) {
+      const npc = ALL_NPCS.find(n => n.slug === slug);
+      console.log(`  ${npc?.name || slug}: ${count}`);
+    }
+    console.log('');
+  }
   console.log('='.repeat(60));
   console.log(`Output: ${sessionDir}`);
   console.log('='.repeat(60));

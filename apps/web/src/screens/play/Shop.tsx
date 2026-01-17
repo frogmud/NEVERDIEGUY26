@@ -7,13 +7,10 @@ import {
 import { DURATION } from '../../utils/transitions';
 import { tokens } from '../../theme';
 import { createSeededRng, getRequisitionPool, getEmptyPoolMessage } from '../../data/pools';
-import { applyFavorDiscount, getTierPriceMultiplier, type LuckySynergyLevel } from '../../data/balance-config';
+import { applyFavorDiscount, getTierPriceMultiplier, SHOP_PRICING, applyRerollCalmReduction, type LuckySynergyLevel } from '../../data/balance-config';
 import type { Item, Rarity } from '../../data/wiki/types';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
-
-// Reroll cost
-const REROLL_COST = 50;
 
 // Vendor animation
 const slideIn = keyframes`
@@ -116,6 +113,7 @@ interface ShopProps {
   onPurchaseItem?: (item: Item, cost: number) => void;
   // Wanderer effects (Round 31)
   favorTokens?: number; // Shop discount per token
+  calmBonus?: number; // Reroll cost reduction
   // Lucky Number synergy - boosts rarity tier
   luckySynergy?: LuckySynergyLevel;
 }
@@ -130,8 +128,12 @@ export function Shop({
   isAuditPrep = false,
   onPurchaseItem,
   favorTokens = 0,
+  calmBonus = 0,
   luckySynergy = 'none',
 }: ShopProps) {
+  // Calculate reroll cost with calm reduction (base 25g from balance-config)
+  const rerollCost = applyRerollCalmReduction(SHOP_PRICING.baseRerollCost, calmBonus);
+
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
   const [purchasingItem, setPurchasingItem] = useState<string | null>(null);
   const [confirmItem, setConfirmItem] = useState<Item | null>(null);
@@ -239,8 +241,8 @@ export function Shop({
 
   // Handle reroll - generates new items
   const handleReroll = useCallback(() => {
-    if (gold >= REROLL_COST) {
-      onPurchase(REROLL_COST, 'reroll', 'powerup');
+    if (gold >= rerollCost) {
+      onPurchase(rerollCost, 'reroll', 'powerup');
       setRerollCount((prev) => prev + 1);
       setRerollSeed(`${threadId}-reroll-${rerollCount + 1}`);
     }
@@ -476,17 +478,17 @@ export function Shop({
 
         {/* Reroll Requisition slot */}
         <Box
-          onClick={() => gold >= REROLL_COST && handleReroll()}
+          onClick={() => gold >= rerollCost && handleReroll()}
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            cursor: gold >= REROLL_COST ? 'pointer' : 'default',
-            opacity: gold >= REROLL_COST ? 1 : 0.4,
+            cursor: gold >= rerollCost ? 'pointer' : 'default',
+            opacity: gold >= rerollCost ? 1 : 0.4,
             transition: 'all 150ms ease',
             minWidth: { xs: 100, sm: 120, md: 140 },
             '&:hover': {
-              transform: gold >= REROLL_COST ? 'scale(1.05)' : 'none',
+              transform: gold >= rerollCost ? 'scale(1.05)' : 'none',
             },
           }}
         >
@@ -495,11 +497,11 @@ export function Shop({
             sx={{
               ...gamingFont,
               fontSize: { xs: '1.1rem', sm: '1.35rem' },
-              color: gold >= REROLL_COST ? '#c4a000' : tokens.colors.text.disabled,
+              color: gold >= rerollCost ? '#c4a000' : tokens.colors.text.disabled,
               mb: 1,
             }}
           >
-            ${REROLL_COST}
+            ${rerollCost}
           </Typography>
 
           {/* Reroll text area - no icon */}

@@ -24,6 +24,7 @@ export const WILLY_PERSONALITY: NPCPersonalityConfig = {
     reaction: 15,
     threat: 0, // Never threatens
     idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 20,
@@ -34,6 +35,7 @@ export const WILLY_PERSONALITY: NPCPersonalityConfig = {
     reaction: 15,
     threat: 0,
     idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -251,6 +253,35 @@ export const WILLY_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: "*polishes a slightly cursed sock*",
     weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'willy-farewell-1',
+    entitySlug: 'willy',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: "Safe travels, friend! Come back soon! I'll have new stock! Maybe even a matching cursed sock!",
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'willy-farewell-2',
+    entitySlug: 'willy',
+    pool: 'farewell',
+    mood: 'generous',
+    text: "Take care out there! And remember: Willy always has your back! ...And your front! ...And discounts!",
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'willy-farewell-3',
+    entitySlug: 'willy',
+    pool: 'farewell',
+    mood: 'any',
+    text: "*waves enthusiastically* Bye bye! Tell your friends about Willy! The friendly skeleton! With deals!",
+    weight: 12,
     purpose: 'ambient',
   },
 ];

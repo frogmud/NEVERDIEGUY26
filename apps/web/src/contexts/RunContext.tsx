@@ -38,7 +38,7 @@ import {
   DOMAINS,
 } from '../games/meteor/gameConfig';
 import type { DoorPreview } from '../data/pools';
-import type { ZoneMarker, DomainState } from '../types/zones';
+import { EVENT_VARIANTS, type ZoneMarker, type DomainState } from '../types/zones';
 import { generateDomain, getNextDomain, DOMAIN_CONFIGS } from '../data/domains';
 import {
   logRunStart,
@@ -897,10 +897,12 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const completeRoom = useCallback((score: number, gold: number, stats: { npcsSquished: number; diceThrown: number }) => {
-    // Log room clear
+    // Log room clear with actual target (base * variant multiplier)
     const domain = state.currentDomain || 1;
     const room = state.roomNumber || 1;
-    const targetScore = getFlatScoreGoal(domain);
+    const baseTarget = getFlatScoreGoal(domain);
+    const variantMultiplier = EVENT_VARIANTS[state.selectedZone?.eventVariant || 'standard'].goalMultiplier;
+    const targetScore = Math.round(baseTarget * variantMultiplier);
     logRoomClear(domain, room, score, targetScore, gold, stats.diceThrown);
 
     // Check if this completes the domain (3/3 zones)
@@ -911,12 +913,14 @@ export function RunProvider({ children }: { children: ReactNode }) {
     }
 
     dispatch({ type: 'COMPLETE_ROOM', score, gold, stats });
-  }, [state.currentDomain, state.roomNumber, state.selectedZone?.tier, state.domainState, state.totalScore, state.gold]);
+  }, [state.currentDomain, state.roomNumber, state.selectedZone?.tier, state.selectedZone?.eventVariant, state.domainState, state.totalScore, state.gold]);
 
   const failRoom = useCallback(() => {
-    // Log defeat
+    // Log defeat with actual target (base * variant multiplier)
     const domain = state.currentDomain || 1;
-    const targetScore = getFlatScoreGoal(domain);
+    const baseTarget = getFlatScoreGoal(domain);
+    const variantMultiplier = EVENT_VARIANTS[state.selectedZone?.eventVariant || 'standard'].goalMultiplier;
+    const targetScore = Math.round(baseTarget * variantMultiplier);
     logDefeat(
       state.combatState?.currentScore || 0,
       targetScore,
@@ -931,7 +935,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
       state.runStats.eventsCompleted
     );
     dispatch({ type: 'FAIL_ROOM' });
-  }, [state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.totalScore, state.gold, state.runStats.eventsCompleted]);
+  }, [state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.selectedZone?.eventVariant, state.totalScore, state.gold, state.runStats.eventsCompleted]);
 
   // Combat actions
   const initCombat = useCallback(() => {

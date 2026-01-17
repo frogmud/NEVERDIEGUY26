@@ -86,7 +86,7 @@ export function GameTabLaunch({
           const baseGold = getFlatGoldReward(currentDomain);
           const adjustedGoal = Math.round(baseGoal * variant.goalMultiplier);
           const adjustedGold = Math.round(baseGold * variant.goldMultiplier);
-          const timerSecs = Math.round(45 * variant.timerMultiplier);
+          const timerSecs = Math.round(20 * variant.timerMultiplier); // Base 20s from FLAT_EVENT_CONFIG
 
           return (
             <ButtonBase

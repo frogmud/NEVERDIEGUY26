@@ -26,7 +26,8 @@ export const THE_GENERAL_TRAVELER_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15, // Combat tests
     reaction: 10,
     threat: 0, // Ally, never threatens
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   poolWeights: {
     greeting: 15,
@@ -36,7 +37,8 @@ export const THE_GENERAL_TRAVELER_PERSONALITY: NPCPersonalityConfig = {
     challenge: 15,
     reaction: 10,
     threat: 0,
-    idle: 0,
+    idle: 5,
+    farewell: 5,
   },
   moodTriggers: [
     {
@@ -266,6 +268,64 @@ export const THE_GENERAL_TRAVELER_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'Objective complete. Excellent execution. You would have made a fine soldier in my regiment.',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'general-t-idle-1',
+    entitySlug: 'the-general-traveler',
+    pool: 'idle',
+    mood: 'any',
+    text: '*reviews tactical maps*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-t-idle-2',
+    entitySlug: 'the-general-traveler',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*sharpens blade with mechanical precision*',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-t-idle-3',
+    entitySlug: 'the-general-traveler',
+    pool: 'idle',
+    mood: 'pleased',
+    text: 'The waiting is the hardest part. That and the dying. And the coming back.',
+    weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'general-t-farewell-1',
+    entitySlug: 'the-general-traveler',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Dismissed. Make me proud out there. Or at least make them regret fighting you.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-t-farewell-2',
+    entitySlug: 'the-general-traveler',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Good hunting, soldier. Report back when the mission is complete. Or when you respawn.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'general-t-farewell-3',
+    entitySlug: 'the-general-traveler',
+    pool: 'farewell',
+    mood: 'generous',
+    text: '*salutes* It has been an honor. Now go out there and earn another one.',
+    weight: 18,
     purpose: 'ambient',
   },
 ];

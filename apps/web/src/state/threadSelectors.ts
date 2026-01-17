@@ -5,8 +5,13 @@
  * Used by UI components to avoid direct GameState manipulation.
  */
 
-import type { GameState, LedgerEvent } from '../games/meteor/gameConfig';
-import { DOMAINS } from '../games/meteor/gameConfig';
+import type { GameState, LedgerEvent, LedgerEventType } from '../games/meteor/gameConfig';
+import {
+  DOMAINS,
+  EVENTS_PER_DOMAIN,
+  BOSS_THRESHOLD,
+  INTEGRITY_THRESHOLDS,
+} from '../games/meteor/gameConfig';
 
 /**
  * Check if a thread (run) exists and can be resumed
@@ -56,11 +61,10 @@ export function getProtocolRollSummary(state: GameState): string {
  */
 export function getLoadoutHash(state: GameState): string {
   const { inventory } = state;
-  if (!inventory) return '---';
-
-  const diceCount = Object.values(inventory.dice || {}).reduce((a, b) => a + b, 0);
-  const powerupCount = (inventory.powerups || []).length;
-  const upgradeCount = (inventory.upgrades || []).length;
+  // Inventory is always defined in GameState - sub-fields may be empty
+  const diceCount = Object.values(inventory.dice).reduce((a, b) => a + b, 0);
+  const powerupCount = inventory.powerups.length;
+  const upgradeCount = inventory.upgrades.length;
 
   return `${diceCount}D/${powerupCount}P/${upgradeCount}U`;
 }
@@ -69,7 +73,7 @@ export function getLoadoutHash(state: GameState): string {
  * Get current tier display
  */
 export function getTierDisplay(state: GameState): string {
-  return `TIER ${state.tier || 1}`;
+  return `TIER ${state.tier ?? 1}`;
 }
 
 /**
@@ -84,8 +88,8 @@ export function getIntegrityPercent(state: GameState): number {
  */
 export function getIntegrityStatus(state: GameState): 'nominal' | 'warning' | 'critical' {
   const integrity = state.integrity ?? 100;
-  if (integrity > 60) return 'nominal';
-  if (integrity > 30) return 'warning';
+  if (integrity > INTEGRITY_THRESHOLDS.warning) return 'nominal';
+  if (integrity > INTEGRITY_THRESHOLDS.critical) return 'warning';
   return 'critical';
 }
 
@@ -93,19 +97,18 @@ export function getIntegrityStatus(state: GameState): 'nominal' | 'warning' | 'c
  * Get room progress (e.g., "Room 2/3")
  */
 export function getRoomProgress(state: GameState): string {
-  const completed = state.completedEvents?.filter(Boolean).length || 0;
-  const total = 3; // Events per domain
-  return `Room ${completed}/${total}`;
+  const completed = state.completedEvents?.filter(Boolean).length ?? 0;
+  return `Room ${completed}/${EVENTS_PER_DOMAIN}`;
 }
 
 /**
  * Get audit progress (how close to boss)
  */
 export function getAuditProgress(state: GameState): { current: number; threshold: number } {
-  const completed = state.completedEvents?.filter(Boolean).length || 0;
+  const completed = state.completedEvents?.filter(Boolean).length ?? 0;
   return {
     current: completed,
-    threshold: 3, // Boss after 3 events
+    threshold: BOSS_THRESHOLD,
   };
 }
 
@@ -121,9 +124,9 @@ export function isAuditImminent(state: GameState): boolean {
  * Get wanderer state summary
  */
 export function getWandererStateSummary(state: GameState): string {
-  const favor = state.favorTokens || 0;
-  const calm = state.calmBonus || 0;
-  const heat = state.heat || 0;
+  const favor = state.favorTokens ?? 0;
+  const calm = state.calmBonus ?? 0;
+  const heat = state.heat ?? 0;
 
   const parts: string[] = [];
   if (favor > 0) parts.push(`+${favor} Favor`);
@@ -137,7 +140,7 @@ export function getWandererStateSummary(state: GameState): string {
  * Get effective reroll cost (affected by calmBonus)
  */
 export function getEffectiveRerollCost(baseCost: number, state: GameState): number {
-  const calmReduction = state.calmBonus || 0;
+  const calmReduction = state.calmBonus ?? 0;
   return Math.max(0, baseCost - calmReduction);
 }
 
@@ -151,27 +154,19 @@ export function getRecentLedgerEvents(state: GameState, count: number = 5): Ledg
 
 /**
  * Count ledger events by type
+ * Dynamically handles any event type - no hardcoded list
  */
 export function getLedgerEventCounts(
   state: GameState
-): Record<LedgerEvent['type'], number> {
-  const ledger = state.ledger || [];
-  const counts: Record<string, number> = {
-    THREAD_START: 0,
-    SHOP_BUY: 0,
-    ROOM_CLEAR: 0,
-    DOOR_PICK: 0,
-    WANDERER_CHOICE: 0,
-    AUDIT_CLEAR: 0,
-  };
+): Record<LedgerEventType, number> {
+  const ledger = state.ledger ?? [];
+  const counts: Partial<Record<LedgerEventType, number>> = {};
 
   for (const event of ledger) {
-    if (event.type in counts) {
-      counts[event.type]++;
-    }
+    counts[event.type] = (counts[event.type] ?? 0) + 1;
   }
 
-  return counts as Record<LedgerEvent['type'], number>;
+  return counts as Record<LedgerEventType, number>;
 }
 
 /**
@@ -182,7 +177,7 @@ export function isFreshThread(state: GameState): boolean {
     state.currentDomain === 1 &&
     state.currentEvent === 0 &&
     !state.completedEvents?.some(Boolean) &&
-    (state.ledger?.length || 0) <= 1 // Only THREAD_START event
+    (state.ledger?.length ?? 0) <= 1 // Only THREAD_START event
   );
 }
 
@@ -191,7 +186,7 @@ export function isFreshThread(state: GameState): boolean {
  */
 export interface ThreadSnapshot {
   threadId: string;
-  protocolRoll: GameState['protocolRoll'];
+  protocolRoll: GameState['protocolRoll'] | null;
   tier: number;
   currentDomain: number;
   currentEvent: number;
@@ -207,18 +202,18 @@ export interface ThreadSnapshot {
 
 export function getThreadSnapshot(state: GameState): ThreadSnapshot {
   return {
-    threadId: state.threadId || '',
-    protocolRoll: state.protocolRoll,
-    tier: state.tier || 1,
+    threadId: state.threadId ?? '',
+    protocolRoll: state.protocolRoll ?? null,
+    tier: state.tier ?? 1,
     currentDomain: state.currentDomain,
     currentEvent: state.currentEvent,
-    roomsCleared: state.completedEvents?.filter(Boolean).length || 0,
+    roomsCleared: state.completedEvents?.filter(Boolean).length ?? 0,
     gold: state.gold,
     integrity: state.integrity ?? 100,
-    favorTokens: state.favorTokens || 0,
-    calmBonus: state.calmBonus || 0,
-    heat: state.heat || 0,
-    ledgerLength: state.ledger?.length || 0,
+    favorTokens: state.favorTokens ?? 0,
+    calmBonus: state.calmBonus ?? 0,
+    heat: state.heat ?? 0,
+    ledgerLength: state.ledger?.length ?? 0,
     phase: state.phase,
   };
 }

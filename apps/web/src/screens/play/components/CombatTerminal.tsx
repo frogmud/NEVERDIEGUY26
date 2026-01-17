@@ -25,7 +25,6 @@ import { ReportGameDialog } from '../../../components/ReportGameDialog';
 import { TokenIcon } from '../../../components/TokenIcon';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
-import { AmbientChatToast } from '../../../components/AmbientChatToast';
 import { useAmbientChat } from '../../../hooks/useAmbientChat';
 import { useKeyboardShortcuts } from '../../../hooks/useKeyboardShortcuts';
 import { useSoundContext } from '../../../contexts/SoundContext';
@@ -571,7 +570,7 @@ export function CombatTerminal({
   // Calculate actual score goal (use boss HP if boss zone, apply variant multiplier)
   const actualScoreGoal = useMemo(() => {
     const baseGoal = boss ? getBossTargetScore(boss) : scoreGoal;
-    // Apply variant multiplier (swift = 0.75, standard = 1.0, grueling = 1.4)
+    // Apply variant multiplier (swift = 0.6, standard = 1.0, grueling = 1.5)
     return Math.round(baseGoal * variantConfig.goalMultiplier);
   }, [boss, scoreGoal, variantConfig.goalMultiplier]);
   const [cameraDistance, setCameraDistance] = useState(GLOBE_CONFIG.camera.initialDistance);
@@ -907,21 +906,25 @@ export function CombatTerminal({
   // Victory lock: when effective score >= goal, win immediately (decay stops)
   // This overrides the engine's raw score check
   const effectiveVictoryRef = useRef(false);
+  const victoryScoreRef = useRef<number | null>(null); // Capture score at victory moment
   useEffect(() => {
     if (isLobby || !engineState || effectiveVictoryRef.current) return;
 
     const targetScore = engineState.targetScore;
     if (effectiveScore >= targetScore && engineState.phase !== 'victory' && engineState.phase !== 'defeat') {
       // Effective score reached goal - trigger victory!
+      // Capture the score NOW before decay continues during explosion animation
       effectiveVictoryRef.current = true;
+      victoryScoreRef.current = effectiveScore;
       setShowVictoryExplosion(true);
     }
   }, [isLobby, effectiveScore, engineState?.targetScore, engineState?.phase]);
 
-  // Reset effective victory flag on new combat
+  // Reset effective victory flag and captured score on new combat
   useEffect(() => {
     if (!isLobby) {
       effectiveVictoryRef.current = false;
+      victoryScoreRef.current = null;
     }
   }, [isLobby, domain, tier]);
 
@@ -1491,14 +1494,16 @@ export function CombatTerminal({
     if (victoryFiredRef.current) return;
 
     const state = engineRef.current?.getState();
-    // Check for engine victory OR effective victory (score - decay >= goal)
-    const isEffectiveWin = state && effectiveScore >= state.targetScore;
+    // Use captured victory score (frozen at moment of win) to prevent decay drift
+    const finalScore = victoryScoreRef.current ?? effectiveScore;
+    // Check for engine victory OR effective victory
+    const isEffectiveWin = state && victoryScoreRef.current !== null;
     if (state?.phase === 'victory' || isEffectiveWin) {
       victoryFiredRef.current = true;
       // Fire victory NPC commentary before transition
       onVictory();
-      // Then call the win callback - use effective score
-      onWin(effectiveScore, {
+      // Then call the win callback - use captured score
+      onWin(finalScore, {
         npcsSquished: state?.enemiesSquished || 0,
         diceThrown: (state?.turnNumber || 1) * 5,
       }, state?.turnsRemaining || 0, bestThrowScoreRef.current);
@@ -1544,9 +1549,6 @@ export function CombatTerminal({
         position: 'relative',
       }}
     >
-      {/* NPC ambient chat toast */}
-      <AmbientChatToast message={currentMessage} position="top-left" />
-
       {/* Top bar - Run progress (lobby) or Turn meter (combat) */}
       <CardSection
         padding={1}

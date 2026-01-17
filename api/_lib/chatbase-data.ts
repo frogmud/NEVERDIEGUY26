@@ -97,12 +97,16 @@ export function getRegisteredNPCs(): string[] {
 }
 
 /**
- * Get total entry count for stats
+ * Get total entry count for stats (cached for performance)
  */
+let cachedEntryCount: number | null = null;
+
 export function getTotalEntryCount(): number {
-  let count = 0;
-  for (const entries of chatbaseRegistry.values()) {
-    count += entries.length;
+  if (cachedEntryCount === null) {
+    cachedEntryCount = 0;
+    for (const entries of chatbaseRegistry.values()) {
+      cachedEntryCount += entries.length;
+    }
   }
-  return count;
+  return cachedEntryCount;
 }

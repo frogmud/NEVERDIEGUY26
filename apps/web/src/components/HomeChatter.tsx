@@ -109,6 +109,7 @@ export function HomeChatter() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const [hasNewMessages, setHasNewMessages] = useState(false);
+  const isInitialMount = useRef(true);
 
   // Starting loadout system - NPC offers items for a domain
   const [selectedDomain, setSelectedDomain] = useState<number>(() => {
@@ -118,7 +119,10 @@ export function HomeChatter() {
       const domainConfig = Object.values(DOMAIN_CONFIGS).find(d => d.slug === stored);
       if (domainConfig) return domainConfig.id;
     }
-    return Math.floor(Math.random() * 6) + 1;
+    const randomDomain = Math.floor(Math.random() * 6) + 1;
+    // Save initial random selection
+    sessionStorage.setItem('ndg-preferred-domain', getDomainSlugFromId(randomDomain));
+    return randomDomain;
   });
 
   // Tier level (1-6) - separate from domain, can be traded down to reveal items
@@ -181,8 +185,12 @@ export function HomeChatter() {
   // Track if user is currently interacting (hovering on messages)
   const [isInteracting, setIsInteracting] = useState(false);
 
-  // Regenerate loadout when domain or NPC changes
+  // Regenerate loadout when domain or NPC changes (skip initial mount - already initialized)
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     setCurrentLoadout(generateLoadout(selectedNpcId, selectedDomain));
     sessionStorage.setItem('ndg-preferred-domain', getDomainSlugFromId(selectedDomain));
   }, [selectedNpcId, selectedDomain]);
@@ -456,10 +464,8 @@ export function HomeChatter() {
     setAwaitingConfirm(true); // Pause ambient until confirmed
   };
 
-  // User confirms they read the response, resume ambient
-  const handleConfirmRead = () => {
-    setAwaitingConfirm(false);
-  };
+  // Ambient chat pauses permanently after user interaction (carousel vibes)
+  // User can still ask more questions via the input, but ambient won't auto-resume
 
   // Safety timeout - clear pendingInterrupt if stuck for > 10 seconds
   // This prevents the interrupt flow from getting permanently blocked
@@ -1485,25 +1491,6 @@ export function HomeChatter() {
         }}
       >
         <Box sx={{ maxWidth: 700, mx: 'auto' }}>
-          {/* Awaiting confirm indicator */}
-          {awaitingConfirm && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
-              <Button
-                size="small"
-                onClick={handleConfirmRead}
-                sx={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontSize: '0.75rem',
-                  color: tokens.colors.text.secondary,
-                  textTransform: 'none',
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
-                }}
-              >
-                *grunts*
-              </Button>
-            </Box>
-          )}
-
           {/* Quick question chips - shown in both API and FAQ mode */}
           <Box
             sx={{
@@ -1514,13 +1501,13 @@ export function HomeChatter() {
               justifyContent: 'center',
             }}
           >
-            {getAllQuestions().slice(0, 6).map((faq) => (
+            {getAllQuestions().slice(0, 3).map((faq) => (
               <Chip
                 key={faq.id}
                 label={faq.question.replace('?', '')}
                 size="small"
                 onClick={() => handleSendFaqQuestion(faq)}
-                disabled={isSending || awaitingConfirm || isTyping}
+                disabled={isSending || isTyping}
                 sx={{
                   fontFamily: '"Inter", sans-serif',
                   fontSize: '0.75rem',
@@ -1568,7 +1555,7 @@ export function HomeChatter() {
                     setInputValue(newValue.question);
                   }
                 }}
-                disabled={isSending || awaitingConfirm}
+                disabled={isSending}
                 popupIcon={null}
                 forcePopupIcon={false}
                 renderInput={(params) => (
@@ -1612,14 +1599,14 @@ export function HomeChatter() {
               />
               <IconButton
                 onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isSending || awaitingConfirm}
+                disabled={!inputValue.trim() || isSending}
                 sx={{
                   width: 36,
                   height: 36,
                   minWidth: 36,
                   borderRadius: '50%',
                   bgcolor: 'transparent',
-                  color: inputValue.trim() && !isSending && !awaitingConfirm ? tokens.colors.text.secondary : '#333',
+                  color: inputValue.trim() && !isSending ? tokens.colors.text.secondary : '#333',
                   '&:hover': {
                     bgcolor: 'rgba(255,255,255,0.05)',
                     color: tokens.colors.text.primary,
@@ -1652,7 +1639,7 @@ export function HomeChatter() {
                   <Chip
                     label={selectedQuestion.question}
                     size="small"
-                    onDelete={isSending || awaitingConfirm ? undefined : () => setSelectedQuestion(null)}
+                    onDelete={isSending ? undefined : () => setSelectedQuestion(null)}
                     sx={{
                       fontFamily: '"Inter", sans-serif',
                       fontSize: '0.85rem',
@@ -1667,14 +1654,14 @@ export function HomeChatter() {
                   <Box sx={{ flex: 1 }} />
                   <IconButton
                     onClick={() => handleSendFaqQuestion()}
-                    disabled={isSending || awaitingConfirm}
+                    disabled={isSending}
                     sx={{
                       width: 36,
                       height: 36,
                       minWidth: 36,
                       borderRadius: '50%',
                       bgcolor: 'transparent',
-                      color: !isSending && !awaitingConfirm ? tokens.colors.text.secondary : '#333',
+                      color: !isSending ? tokens.colors.text.secondary : '#333',
                       '&:hover': {
                         bgcolor: 'rgba(255,255,255,0.05)',
                         color: tokens.colors.text.primary,
@@ -1693,7 +1680,7 @@ export function HomeChatter() {
                     getOptionLabel={(option) => option.question}
                     value={null}
                     onChange={(_, newValue) => newValue && setSelectedQuestion(newValue)}
-                    disabled={isSending || awaitingConfirm}
+                    disabled={isSending}
                     groupBy={(option) => option.category === 'mechanics' ? 'Game' : option.category === 'lore' ? 'Lore' : 'Help'}
                     popupIcon={null}
                     forcePopupIcon={false}

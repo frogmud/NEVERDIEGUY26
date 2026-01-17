@@ -1,6 +1,22 @@
 // Game configuration for Dice Meteor
 // Defines domains, events, rewards, and progression
 
+// ============================================
+// Balance Constants (pulled by selectors)
+// ============================================
+
+/** Number of events (zones) per domain before advancing */
+export const EVENTS_PER_DOMAIN = 3;
+
+/** Events required before boss appears */
+export const BOSS_THRESHOLD = 3;
+
+/** Integrity thresholds for status display */
+export const INTEGRITY_THRESHOLDS = {
+  warning: 60,
+  critical: 30,
+} as const;
+
 export type EventType = 'small' | 'big' | 'boss';
 export type GamePhase =
   | 'event_select'    // Legacy: Door selector screen (deprecated in Round 30)
