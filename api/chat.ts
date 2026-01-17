@@ -71,7 +71,7 @@ const VALID_POOLS: TemplatePool[] = [
   'greeting', 'farewell', 'idle', 'reaction', 'threat', 'salesPitch',
   'gamblingTrashTalk', 'gamblingBrag', 'gamblingFrustration',
   'lore', 'hint', 'challenge', 'npcGossip', 'npcConflict', 'npcReaction',
-  'alliance', 'betrayal', 'rescue',
+  'npcAlliance', 'alliance', 'betrayal', 'rescue',
 ];
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -161,6 +161,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           chatbaseText: result.text,
           pool: body.pool,
           context: body.context,
+          conversationContext: body.conversationContext,
         });
 
         if (refined.refined) {

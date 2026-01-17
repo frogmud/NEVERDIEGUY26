@@ -37,3 +37,4 @@ packages/ai-engine/logs/
 /codex/
 /design-system/assets/
 /design-system/assets-pixelart/
+packages/ai-engine/generated/

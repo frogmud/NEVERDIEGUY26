@@ -33,9 +33,17 @@ import {
   getGreeterById,
   getRandomGreeterForDomain,
   getDomainSlugFromId,
+  getRelationshipDialogue,
   type HomeGreeter,
   type EnemyInterrupt,
 } from '../data/home-greeters';
+import {
+  getConversationPartners,
+  selectNextSpeaker,
+  createMultiNPCConversation,
+  addConversationTurn,
+  type MultiNPCConversationState,
+} from '@ndg/ai-engine';
 import { DOMAIN_CONFIGS } from '../data/domains';
 import { getAllQuestions, getFaqAnswer, type FaqQuestion } from '../data/home-faq';
 import { lookupDialogueAsync } from '../services/chatbase';
@@ -85,6 +93,74 @@ const ROUTE_PATHS: Record<RouteChoice, string> = {
   wiki: '/wiki',
   about: '/about',
 };
+
+/** Multi-NPC chat message with speaker info for inline sprite display */
+export interface MultiNPCMessage {
+  id: string;
+  speakerId: string;
+  speakerName: string;
+  spriteKey: string;
+  wikiSlug?: string;
+  text: string;
+  type: 'npc' | 'player' | 'enemy';
+  timestamp: number;
+}
+
+/** Create a multi-NPC message from an NPC greeter */
+function createNPCMessage(greeter: HomeGreeter, text: string): MultiNPCMessage {
+  return {
+    id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    speakerId: greeter.id,
+    speakerName: greeter.name,
+    spriteKey: greeter.sprite || '/assets/characters/placeholder.svg',
+    wikiSlug: greeter.wikiSlug,
+    text,
+    type: 'npc',
+    timestamp: Date.now(),
+  };
+}
+
+/** Create a player message */
+function createPlayerMessage(text: string): MultiNPCMessage {
+  return {
+    id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    speakerId: 'player',
+    speakerName: 'You',
+    spriteKey: '', // Player has no sprite
+    text,
+    type: 'player',
+    timestamp: Date.now(),
+  };
+}
+
+/** Create an enemy message */
+function createEnemyMessage(enemyName: string, action: string, sprite?: string): MultiNPCMessage {
+  return {
+    id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    speakerId: 'enemy',
+    speakerName: enemyName,
+    spriteKey: sprite || '/assets/enemies/placeholder.svg',
+    text: action,
+    type: 'enemy',
+    timestamp: Date.now(),
+  };
+}
+
+/** Convert legacy string message to MultiNPCMessage */
+function legacyToMultiNPC(msg: string, greeter: HomeGreeter): MultiNPCMessage {
+  if (msg.startsWith('You:')) {
+    return createPlayerMessage(msg.replace('You: ', ''));
+  }
+  if (msg.startsWith('Enemy:')) {
+    const text = msg.replace('Enemy: ', '');
+    const match = text.match(/^(.+?)\s+(.+)$/);
+    if (match) {
+      return createEnemyMessage(match[1], match[2]);
+    }
+    return createEnemyMessage('Unknown', text);
+  }
+  return createNPCMessage(greeter, msg);
+}
 
 // Fallback ambient messages (used if character has no ambient array)
 const FALLBACK_AMBIENT = [
@@ -138,7 +214,7 @@ export function HomeChatter() {
     generateLoadout(selectedNpcId, selectedDomain)
   );
 
-  // Get greeter based on selected NPC
+  // Get greeter based on selected NPC (lead speaker)
   const greeter = useMemo<HomeGreeter>(() => {
     return getGreeterById(selectedNpcId) || HOME_GREETERS[0];
   }, [selectedNpcId]);
@@ -149,8 +225,35 @@ export function HomeChatter() {
     return getDomainSlugFromId(selectedDomain);
   }, [selectedDomain]);
 
-  // Messages state - starts with initial greeting
-  const [messages, setMessages] = useState<string[]>([initialGreeting]);
+  // Multi-NPC conversation participants (all domain NPCs that could speak)
+  const [conversationParticipants, setConversationParticipants] = useState<HomeGreeter[]>(() => {
+    const domainNpcs = getNpcsForDomain(selectedDomain);
+    const partners = getConversationPartners({
+      domainSlug: greeterDomain,
+      domainResidents: domainNpcs,
+      maxCount: Math.min(6, domainNpcs.length), // Up to 6 NPCs can participate
+    });
+    return partners
+      .map(id => getGreeterById(id))
+      .filter((g): g is HomeGreeter => g !== undefined);
+  });
+
+  // Track current speaker for multi-NPC turn-taking
+  const [currentSpeaker, setCurrentSpeaker] = useState<HomeGreeter>(greeter);
+
+  // Conversation engine state for relationship-weighted speaker selection
+  const [conversationState, setConversationState] = useState<MultiNPCConversationState>(() =>
+    createMultiNPCConversation(
+      conversationParticipants.map(p => p.id),
+      greeterDomain,
+      null // No Die-rector anchor on homepage
+    )
+  );
+
+  // Messages state - uses new structured format with speaker info
+  const [messages, setMessages] = useState<MultiNPCMessage[]>(() => [
+    createNPCMessage(greeter, initialGreeting),
+  ]);
   const [isTyping, setIsTyping] = useState(false);
   const [ambientIndex, setAmbientIndex] = useState(0);
 
@@ -158,7 +261,6 @@ export function HomeChatter() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Animation states
-  const [showSprite, setShowSprite] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
 
   // Sprite frame toggle (swaps when talking)
@@ -246,7 +348,7 @@ export function HomeChatter() {
   const [ignoreCount, setIgnoreCount] = useState(0);
 
   // Handle grunt/hmph/ignore - NDG reacts to a specific message, NPC responds
-  const handleGrunt = async (targetMessage: string, reactionType: ReactionType = 'grunt') => {
+  const handleGrunt = async (targetMessage: MultiNPCMessage, reactionType: ReactionType = 'grunt') => {
     if (gruntCooldown || isTyping || pendingInterrupt) return;
 
     setGruntCooldown(true);
@@ -259,13 +361,18 @@ export function HomeChatter() {
       hmph: '*hmph*',
       ignore: '*looks away*',
     };
-    setMessages(prev => [...prev, `You: ${reactionTexts[reactionType]}`]);
+    setMessages(prev => [...prev, createPlayerMessage(reactionTexts[reactionType])]);
 
     // Twitch sprite (reacting)
-    if (greeter.sprite2) {
+    if (currentSpeaker.sprite2) {
       setSpriteFrame(2);
       setTimeout(() => setSpriteFrame(1), 150);
     }
+
+    // Find the NPC who was speaking (to respond)
+    const respondingNpc = targetMessage.type === 'npc'
+      ? conversationParticipants.find(p => p.id === targetMessage.speakerId) || currentSpeaker
+      : currentSpeaker;
 
     // Handle ignore specially - use local personality responses
     if (reactionType === 'ignore') {
@@ -273,8 +380,8 @@ export function HomeChatter() {
       setIgnoreCount(newIgnoreCount);
 
       // Get this NPC's ignore sensitivity
-      const sensitivity = GREETER_IGNORE_SENSITIVITY[greeter.id] || 0.5;
-      const responses = GREETER_IGNORE_RESPONSES[greeter.id];
+      const sensitivity = GREETER_IGNORE_SENSITIVITY[respondingNpc.id] || 0.5;
+      const responses = GREETER_IGNORE_RESPONSES[respondingNpc.id];
 
       // Chance of annoyed response increases with sensitivity and ignore count
       const annoyedChance = sensitivity + (newIgnoreCount * 0.2);
@@ -288,11 +395,11 @@ export function HomeChatter() {
           if (responses) {
             const pool = isAnnoyed ? responses.annoyed : responses.mild;
             const response = pool[Math.floor(Math.random() * pool.length)];
-            setMessages(prev => [...prev, response]);
+            setMessages(prev => [...prev, createNPCMessage(respondingNpc, response)]);
           } else {
             // Fallback if no responses defined
             const fallback = isAnnoyed ? 'Hello??' : '...';
-            setMessages(prev => [...prev, fallback]);
+            setMessages(prev => [...prev, createNPCMessage(respondingNpc, fallback)]);
           }
           setGruntCooldown(false);
         }, 1200);
@@ -314,14 +421,16 @@ export function HomeChatter() {
         if (interrupt) {
           setTimeout(() => {
             setIsTyping(false);
-            setMessages(prev => [...prev, `Enemy: ${interrupt.enemyName} ${interrupt.action}`]);
-            // NPC reaction to enemy
+            setMessages(prev => [...prev, createEnemyMessage(interrupt.enemyName, interrupt.action)]);
+            // Random participant reacts to enemy
+            const reactor = conversationParticipants[Math.floor(Math.random() * conversationParticipants.length)] || respondingNpc;
             setTimeout(() => {
               setIsTyping(true);
               setTimeout(() => {
                 setIsTyping(false);
                 const reaction = getRandomReaction(interrupt);
-                setMessages(prev => [...prev, reaction]);
+                setMessages(prev => [...prev, createNPCMessage(reactor, reaction)]);
+                setCurrentSpeaker(reactor);
                 setGruntCooldown(false);
               }, 1500);
             }, 1000);
@@ -334,13 +443,14 @@ export function HomeChatter() {
       // 'grunt' = acknowledgment/agreement, 'hmph' = skepticism/dismissal
       try {
         const response = await lookupDialogueAsync({
-          npcSlug: greeter.id,
+          npcSlug: respondingNpc.id,
           pool: 'reaction',
-          context: `[${reactionType}] ${targetMessage}`, // Pass reaction type + message
+          context: `[${reactionType}] ${targetMessage.text}`, // Pass reaction type + message
         });
         setTimeout(() => {
           setIsTyping(false);
-          setMessages(prev => [...prev, response.text]);
+          setMessages(prev => [...prev, createNPCMessage(respondingNpc, response.text)]);
+          setCurrentSpeaker(respondingNpc);
           setGruntCooldown(false);
         }, 1000);
       } catch {
@@ -348,7 +458,8 @@ export function HomeChatter() {
         setTimeout(() => {
           setIsTyping(false);
           const fallbacks = ['Hmm.', 'Interesting...', '...', 'You have my attention.'];
-          setMessages(prev => [...prev, fallbacks[Math.floor(Math.random() * fallbacks.length)]]);
+          setMessages(prev => [...prev, createNPCMessage(respondingNpc, fallbacks[Math.floor(Math.random() * fallbacks.length)])]);
+          setCurrentSpeaker(respondingNpc);
           setGruntCooldown(false);
         }, 1000);
       }
@@ -367,7 +478,7 @@ export function HomeChatter() {
       setIsTyping(false);
 
       const shockLine = getShockReaction(greeter.id);
-      setMessages(prev => [...prev, shockLine]);
+      setMessages(prev => [...prev, createNPCMessage(greeter, shockLine)]);
 
       if (greeter.sprite2) {
         setSpriteFrame(2);
@@ -387,7 +498,7 @@ export function HomeChatter() {
     setInputValue('');
 
     // Add player's message to chat
-    setMessages(prev => [...prev, `You: ${question}`]);
+    setMessages(prev => [...prev, createPlayerMessage(question)]);
 
     // Twitch sprite (reacting to speech)
     if (greeter.sprite2) {
@@ -410,12 +521,12 @@ export function HomeChatter() {
 
       await delay(1000 + Math.random() * 500);
       setIsTyping(false);
-      setMessages(prev => [...prev, response.text]);
+      setMessages(prev => [...prev, createNPCMessage(greeter, response.text)]);
     } catch {
       // Shouldn't happen in API mode, but fallback just in case
       await delay(800);
       setIsTyping(false);
-      setMessages(prev => [...prev, "Hmm. Let me think about that..."]);
+      setMessages(prev => [...prev, createNPCMessage(greeter, "Hmm. Let me think about that...")]);
     }
 
     if (greeter.sprite2) {
@@ -435,7 +546,7 @@ export function HomeChatter() {
     setSelectedQuestion(null);
 
     // Add player's question
-    setMessages(prev => [...prev, `You: ${faq.question}`]);
+    setMessages(prev => [...prev, createPlayerMessage(faq.question)]);
 
     if (greeter.sprite2) {
       setSpriteFrame(2);
@@ -453,7 +564,7 @@ export function HomeChatter() {
     setIsTyping(false);
 
     const response = getFaqAnswer(faq.id, greeter.id);
-    setMessages(prev => [...prev, response]);
+    setMessages(prev => [...prev, createNPCMessage(greeter, response)]);
 
     if (greeter.sprite2) {
       setSpriteFrame(2);
@@ -482,7 +593,6 @@ export function HomeChatter() {
   useEffect(() => {
     // Brief loading state for skeleton display
     const loadingTimer = setTimeout(() => setIsLoading(false), 150);
-    const spriteTimer = setTimeout(() => setShowSprite(true), 200);
     const buttonsTimer = setTimeout(() => setShowButtons(true), 700);
 
     // Initial greeting twitch
@@ -493,7 +603,6 @@ export function HomeChatter() {
       }, 500);
       return () => {
         clearTimeout(loadingTimer);
-        clearTimeout(spriteTimer);
         clearTimeout(buttonsTimer);
         clearTimeout(twitchTimer);
       };
@@ -501,7 +610,6 @@ export function HomeChatter() {
 
     return () => {
       clearTimeout(loadingTimer);
-      clearTimeout(spriteTimer);
       clearTimeout(buttonsTimer);
     };
   }, [greeter.sprite2]);
@@ -562,15 +670,15 @@ export function HomeChatter() {
         // Show enemy action
         const enemyTimer = setTimeout(() => {
           setIsTyping(false);
-          setMessages(prev => [...prev, `Enemy: ${interrupt.enemyName} ${interrupt.action}`]);
+          setMessages(prev => [...prev, createEnemyMessage(interrupt.enemyName, interrupt.action)]);
           // Twitch sprite (reacting to enemy)
-          if (greeter.sprite2) {
+          if (currentSpeaker.sprite2) {
             setSpriteFrame(2);
             setTimeout(() => setSpriteFrame(1), 150);
           }
         }, 4000 + ambientIndex * 1500);
 
-        // Show character reaction after enemy
+        // Show character reaction after enemy (any participant can react)
         const reactionTimer = setTimeout(() => {
           setIsTyping(true);
         }, 5000 + ambientIndex * 1500);
@@ -578,11 +686,14 @@ export function HomeChatter() {
         const reactionMsgTimer = setTimeout(() => {
           setIsTyping(false);
           const reaction = getRandomReaction(interrupt);
-          setMessages(prev => [...prev, reaction]);
+          // Pick a random participant to react to the enemy
+          const reactor = conversationParticipants[Math.floor(Math.random() * conversationParticipants.length)] || currentSpeaker;
+          setMessages(prev => [...prev, createNPCMessage(reactor, reaction)]);
+          setCurrentSpeaker(reactor);
           setPendingInterrupt(null);
           setAmbientIndex(prev => prev + 1);
           // Twitch sprite when speaking
-          if (greeter.sprite2) {
+          if (reactor.sprite2) {
             setSpriteFrame(2);
             setTimeout(() => setSpriteFrame(1), 150);
           }
@@ -597,28 +708,80 @@ export function HomeChatter() {
       }
     }
 
-    // Normal ambient flow (no interrupt)
+    // Normal ambient flow (no interrupt) - rotate through NPC participants
     // Show typing indicator after delay
     const typingTimer = setTimeout(() => {
       setIsTyping(true);
     }, 2500 + ambientIndex * 1500);
 
-    // Add message after typing
+    // Add message after typing - select next speaker using conversation engine
     const messageTimer = setTimeout(() => {
       setIsTyping(false);
-      // Ensure we don't add a duplicate of the last message
-      const nextMessage = ambientMessages[ambientIndex];
+
+      // Use conversation engine's relationship-weighted speaker selection
+      const nextSpeakerId = selectNextSpeaker(conversationState);
+      let nextSpeaker = nextSpeakerId
+        ? conversationParticipants.find(p => p.id === nextSpeakerId) || currentSpeaker
+        : currentSpeaker;
+
+      // Fallback: if no valid speaker, pick someone different from last speaker
+      if (!nextSpeaker || nextSpeaker.id === conversationState.lastSpeaker) {
+        const lastSpeakerId = messages[messages.length - 1]?.speakerId;
+        const others = conversationParticipants.filter(p => p.id !== lastSpeakerId);
+        if (others.length > 0) {
+          nextSpeaker = others[Math.floor(Math.random() * others.length)];
+        }
+      }
+
+      // Get ambient message for this speaker
+      // 30% chance to use relationship dialogue about another participant
+      let nextMessage: string;
+      const useRelationshipDialogue = conversationParticipants.length > 1 && Math.random() < 0.3;
+
+      if (useRelationshipDialogue) {
+        // Pick a random other participant to comment on
+        const others = conversationParticipants.filter(p => p.id !== nextSpeaker.id);
+        const target = others[Math.floor(Math.random() * others.length)];
+        const relationshipLine = getRelationshipDialogue(nextSpeaker.id, target.id);
+        if (relationshipLine) {
+          nextMessage = relationshipLine;
+        } else {
+          // Fallback to ambient if no relationship dialogue exists
+          const speakerAmbient = nextSpeaker.ambient || FALLBACK_AMBIENT;
+          const msgIndex = ambientIndex % speakerAmbient.length;
+          nextMessage = speakerAmbient[msgIndex];
+        }
+      } else {
+        const speakerAmbient = nextSpeaker.ambient || FALLBACK_AMBIENT;
+        const msgIndex = ambientIndex % speakerAmbient.length;
+        nextMessage = speakerAmbient[msgIndex];
+      }
+
+      // Ensure we don't add a duplicate of the last message text
       setMessages(prev => {
         const lastMsg = prev[prev.length - 1];
-        if (lastMsg === nextMessage) {
-          // Skip duplicate, try next
+        if (lastMsg?.text === nextMessage) {
+          // Skip duplicate, try next speaker's message
           return prev;
         }
-        return [...prev, nextMessage];
+        return [...prev, createNPCMessage(nextSpeaker, nextMessage)];
       });
+
+      // Update conversation engine state for relationship tracking
+      setConversationState(prev => addConversationTurn(prev, {
+        speakerSlug: nextSpeaker.id,
+        speakerName: nextSpeaker.name,
+        spriteKey: nextSpeaker.sprite || '',
+        text: nextMessage,
+        mood: 'neutral',
+        pool: 'idle',
+      }));
+
+      setCurrentSpeaker(nextSpeaker);
       setAmbientIndex(prev => prev + 1);
+
       // Twitch sprite when speaking
-      if (greeter.sprite2) {
+      if (nextSpeaker.sprite2) {
         setSpriteFrame(2);
         setTimeout(() => setSpriteFrame(1), 150);
       }
@@ -628,7 +791,7 @@ export function HomeChatter() {
       clearTimeout(typingTimer);
       clearTimeout(messageTimer);
     };
-  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, greeter.sprite2, awaitingConfirm, isInteracting]);
+  }, [ambientIndex, ambientMessages, usedCheckpoints, pendingInterrupt, interruptChance, greeterDomain, currentSpeaker, conversationParticipants, messages, awaitingConfirm, isInteracting, conversationState]);
 
   // Check if scrolled to bottom (can see latest message)
   const checkIfAtBottom = () => {
@@ -708,59 +871,77 @@ export function HomeChatter() {
           />
         </Box>
 
-        {/* Chat skeleton - 3/5 */}
+        {/* Chat skeleton - single column */}
         <Box
           sx={{
             flex: '1 1 auto',
             width: '100%',
-            maxWidth: 1200,
+            maxWidth: 800,
             display: 'flex',
-            gap: { xs: 3, sm: 4 },
+            flexDirection: 'column',
             px: { xs: 3, sm: 4 },
             py: 2,
             minHeight: 0,
           }}
         >
-          {/* Sprite skeleton */}
-          <Box sx={{ width: { xs: 96, sm: 120, md: 150 }, flexShrink: 0 }}>
-            <Skeleton
-              variant="rectangular"
-              sx={{
-                width: '100%',
-                height: { xs: 150, sm: 180, md: 210 },
-                borderRadius: 1,
-                bgcolor: 'rgba(255,255,255,0.05)',
-              }}
-            />
-            <Skeleton
-              variant="text"
-              sx={{ mt: 1.5, width: '80%', mx: 'auto', bgcolor: 'rgba(255,255,255,0.05)' }}
-            />
-          </Box>
-
-          {/* Chat area skeleton */}
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
+          {/* Chat messages skeleton */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* First message */}
+            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
               <Skeleton
                 variant="rectangular"
                 sx={{
-                  width: '90%',
-                  height: 60,
-                  borderRadius: '12px',
+                  width: 48,
+                  height: 48,
+                  borderRadius: '8px',
                   bgcolor: 'rgba(255,255,255,0.05)',
+                  flexShrink: 0,
                 }}
               />
-              <Skeleton
-                variant="rectangular"
-                sx={{
-                  width: '70%',
-                  height: 50,
-                  borderRadius: '12px',
-                  bgcolor: 'rgba(255,255,255,0.05)',
-                }}
-              />
+              <Box sx={{ flex: 1 }}>
+                <Skeleton
+                  variant="text"
+                  sx={{ width: '25%', height: 16, mb: 0.5, bgcolor: 'rgba(255,255,255,0.03)' }}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  sx={{
+                    width: '90%',
+                    height: 60,
+                    borderRadius: '12px',
+                    bgcolor: 'rgba(255,255,255,0.05)',
+                  }}
+                />
+              </Box>
             </Box>
-
+            {/* Second message */}
+            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: '8px',
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                  flexShrink: 0,
+                }}
+              />
+              <Box sx={{ flex: 1 }}>
+                <Skeleton
+                  variant="text"
+                  sx={{ width: '30%', height: 16, mb: 0.5, bgcolor: 'rgba(255,255,255,0.03)' }}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  sx={{
+                    width: '70%',
+                    height: 50,
+                    borderRadius: '12px',
+                    bgcolor: 'rgba(255,255,255,0.05)',
+                  }}
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
 
@@ -1104,110 +1285,17 @@ export function HomeChatter() {
         </IconButton>
       </Box>
 
-      {/* Chat area - 3/5 (flex grow) */}
+      {/* Chat area - single column, full width */}
       <Box
         sx={{
           flex: '1 1 auto',
           width: '100%',
-          maxWidth: 1200,
+          maxWidth: 800,
           display: 'flex',
-          gap: { xs: 3, sm: 4 },
+          flexDirection: 'column',
           px: { xs: 3, sm: 4 },
           py: 2,
-          minHeight: 0, // Allow flex shrink
-          overflow: 'hidden',
-        }}
-      >
-      {/* Sprite - fixed on left, click to visit wiki */}
-      <Box
-        component={RouterLink}
-        to={`/wiki/${greeter.wikiSlug}`}
-        sx={{
-          width: { xs: 96, sm: 120, md: 150 },
-          flexShrink: 0,
-          opacity: showSprite ? 1 : 0,
-          animation: showSprite ? `${slideInSprite} 500ms ease-out` : 'none',
-          textDecoration: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          minHeight: { xs: 180, sm: 210, md: 250 },
-          '&:hover .wiki-hint': {
-            opacity: 1,
-          },
-          '&:hover img': {
-            transform: 'scale(1.05)',
-          },
-        }}
-      >
-        {/* Typing indicator above name */}
-        {isTyping && (
-          <Typography
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '1.2rem',
-              color: tokens.colors.text.secondary,
-              animation: `${pulse} 1s ease-in-out infinite`,
-              letterSpacing: '0.15em',
-              textAlign: 'center',
-              mb: 0.5,
-            }}
-          >
-            ...
-          </Typography>
-        )}
-        {/* Name above sprite */}
-        <Box sx={{ mb: 1, textAlign: 'center' }}>
-          <Typography
-            sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: { xs: '0.9rem', sm: '1rem' },
-              color: tokens.colors.text.primary,
-            }}
-          >
-            {greeter.name}
-          </Typography>
-        </Box>
-        <Box
-          component="img"
-          src={spriteFrame === 2 && greeter.sprite2 ? greeter.sprite2 : (greeter.sprite || greeter.portrait)}
-          alt={greeter.name}
-          sx={{
-            width: '100%',
-            height: 'auto',
-            maxHeight: { xs: 150, sm: 180, md: 210 },
-            objectFit: 'contain',
-            imageRendering: 'pixelated',
-            transition: 'transform 150ms ease',
-          }}
-        />
-        {/* Wiki hint - appears on hover */}
-        <Typography
-          className="wiki-hint"
-          sx={{
-            fontFamily: '"Inter", sans-serif',
-            fontSize: '0.65rem',
-            fontWeight: 500,
-            color: '#555',
-            opacity: 0,
-            transition: 'opacity 150ms ease',
-            textAlign: 'center',
-            mt: 1,
-          }}
-        >
-          view profile
-        </Typography>
-      </Box>
-
-      {/* Right side - messages, fills available space */}
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          minWidth: 0,
-          minHeight: 0, // Allow flex shrink
+          minHeight: 0,
           overflow: 'hidden',
         }}
       >
@@ -1263,14 +1351,14 @@ export function HomeChatter() {
           }}
         >
           {messages.map((msg, i) => {
-            const isPlayerMessage = msg.startsWith('You:');
-            const isEnemyMessage = msg.startsWith('Enemy:');
-            const isNpcMessage = !isPlayerMessage && !isEnemyMessage;
+            const isPlayerMessage = msg.type === 'player';
+            const isEnemyMessage = msg.type === 'enemy';
+            const isNpcMessage = msg.type === 'npc';
             const canReact = isNpcMessage && !gruntCooldown && !pendingInterrupt;
             // Show arrow on latest NPC message (always)
             const isLatestNpcMessage = isNpcMessage && i === messages.length - 1;
 
-            // Message colors
+            // Message colors based on type
             const getBubbleColors = () => {
               if (isPlayerMessage) return { bg: '#2a2a1a', border: '#554400' };
               if (isEnemyMessage) return { bg: '#2a1a1a', border: '#662222' };
@@ -1280,10 +1368,13 @@ export function HomeChatter() {
 
             return (
               <Box
-                key={i}
+                key={msg.id}
                 sx={{
                   position: 'relative',
                   width: '100%',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 1.5,
                   animation: i === 0 ? 'none' : `${fadeIn} 300ms ease-out`,
                   // Show reaction buttons on hover (absolute, no layout shift)
                   '& .reaction-btns': {
@@ -1302,82 +1393,105 @@ export function HomeChatter() {
                   } : {},
                 }}
               >
-                <Box
-                  className="chat-bubble"
-                  sx={{
-                    bgcolor: bubbleColors.bg,
-                    border: `2px solid ${bubbleColors.border}`,
-                    borderRadius: '12px',
-                    transition: 'border-color 150ms ease',
-                    px: 3,
-                    py: 2,
-                    flex: 1,
-                    position: 'relative',
-                    // Chat bubble triangle on right for player messages
-                    ...(isPlayerMessage && {
-                      '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        right: -10,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        width: 0,
-                        height: 0,
-                        borderTop: '8px solid transparent',
-                        borderBottom: '8px solid transparent',
-                        borderLeft: '10px solid #554400',
-                      },
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        right: -6,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        width: 0,
-                        height: 0,
-                        borderTop: '6px solid transparent',
-                        borderBottom: '6px solid transparent',
-                        borderLeft: '8px solid #2a2a1a',
-                        zIndex: 1,
-                      },
-                    }),
-                    // Chat bubble triangle on left for latest NPC message (pointing to sprite)
-                    ...(isLatestNpcMessage && {
-                      '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        left: -14,
-                        top: '50%',
-                        marginTop: '-10px',
-                        width: 0,
-                        height: 0,
-                        borderTop: '10px solid transparent',
-                        borderBottom: '10px solid transparent',
-                        borderRight: '14px solid #333',
-                      },
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        left: -8,
-                        top: '50%',
-                        marginTop: '-8px',
-                        width: 0,
-                        height: 0,
-                        borderTop: '8px solid transparent',
-                        borderBottom: '8px solid transparent',
-                        borderRight: '12px solid #1a1a1a',
-                        zIndex: 1,
-                      },
-                    }),
-                  }}
-                >
-                  <Typography
+                {/* Inline sprite avatar for NPC messages - clickable to wiki */}
+                {isNpcMessage && msg.spriteKey && (
+                  <Box
+                    component={RouterLink}
+                    to={`/wiki/${msg.wikiSlug || `characters/${msg.speakerId}`}`}
                     sx={{
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: (isPlayerMessage || isEnemyMessage)
-                        ? { xs: '1rem', sm: '1.2rem', md: '1.3rem' }
-                        : { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
-                      color: isPlayerMessage
+                      width: 48,
+                      height: 48,
+                      flexShrink: 0,
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      bgcolor: '#1a1a1a',
+                      border: '2px solid #333',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textDecoration: 'none',
+                      transition: 'all 150ms ease',
+                      '&:hover': {
+                        borderColor: tokens.colors.primary,
+                        transform: 'scale(1.1)',
+                      },
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={msg.spriteKey}
+                      alt={msg.speakerName}
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        imageRendering: 'pixelated',
+                      }}
+                    />
+                  </Box>
+                )}
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  {/* Speaker name for NPC messages */}
+                  {isNpcMessage && (
+                    <Typography
+                      sx={{
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.75rem',
+                        color: '#888',
+                        mb: 0.5,
+                        ml: 1,
+                      }}
+                    >
+                      {msg.speakerName}
+                    </Typography>
+                  )}
+                  <Box
+                    className="chat-bubble"
+                    sx={{
+                      bgcolor: bubbleColors.bg,
+                      border: `2px solid ${bubbleColors.border}`,
+                      borderRadius: '12px',
+                      transition: 'border-color 150ms ease',
+                      px: 3,
+                      py: 2,
+                      position: 'relative',
+                      // Chat bubble triangle on right for player messages
+                      ...(isPlayerMessage && {
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          right: -10,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          width: 0,
+                          height: 0,
+                          borderTop: '8px solid transparent',
+                          borderBottom: '8px solid transparent',
+                          borderLeft: '10px solid #554400',
+                        },
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          right: -6,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          width: 0,
+                          height: 0,
+                          borderTop: '6px solid transparent',
+                          borderBottom: '6px solid transparent',
+                          borderLeft: '8px solid #2a2a1a',
+                          zIndex: 1,
+                        },
+                      }),
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: (isPlayerMessage || isEnemyMessage)
+                          ? { xs: '1rem', sm: '1.2rem', md: '1.3rem' }
+                          : { xs: '1.2rem', sm: '1.4rem', md: '1.5rem' },
+                        color: isPlayerMessage
                         ? tokens.colors.warning
                         : isEnemyMessage
                           ? '#ff6b6b'
@@ -1387,12 +1501,9 @@ export function HomeChatter() {
                       fontStyle: (isPlayerMessage || isEnemyMessage) ? 'italic' : 'normal',
                     }}
                   >
-                    {isPlayerMessage
-                      ? msg.replace('You: ', '')
-                      : isEnemyMessage
-                        ? msg.replace('Enemy: ', '')
-                        : msg}
+                    {msg.text}
                   </Typography>
+                  </Box>
                 </Box>
                 {/* Reaction buttons - overlays below message on hover */}
                 {isNpcMessage && (
@@ -1467,12 +1578,83 @@ export function HomeChatter() {
             );
           })}
 
+          {/* Typing indicator - shows current speaker typing */}
+          {isTyping && currentSpeaker && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 1.5,
+                animation: `${fadeIn} 200ms ease-out`,
+              }}
+            >
+              <Box
+                component={RouterLink}
+                to={`/wiki/${currentSpeaker.wikiSlug}`}
+                sx={{
+                  width: 48,
+                  height: 48,
+                  flexShrink: 0,
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  bgcolor: '#1a1a1a',
+                  border: '2px solid #333',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  transition: 'all 150ms ease',
+                  '&:hover': {
+                    borderColor: tokens.colors.primary,
+                    transform: 'scale(1.1)',
+                  },
+                }}
+              >
+                <Box
+                  component="img"
+                  src={currentSpeaker.sprite || currentSpeaker.portrait}
+                  alt={currentSpeaker.name}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                  }}
+                />
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography
+                  sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '0.75rem',
+                    color: '#888',
+                    mb: 0.5,
+                    ml: 1,
+                  }}
+                >
+                  {currentSpeaker.name}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '1.5rem',
+                    color: tokens.colors.text.secondary,
+                    animation: `${pulse} 1s ease-in-out infinite`,
+                    letterSpacing: '0.2em',
+                    ml: 1,
+                  }}
+                >
+                  ...
+                </Typography>
+              </Box>
+            </Box>
+          )}
+
           <div ref={messagesEndRef} />
         </Box>
 
         </Box>
 
-      </Box>
       </Box>
 
       {/* Chat input - fixed to bottom of viewport, offset for sidebar */}

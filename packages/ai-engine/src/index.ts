@@ -289,6 +289,41 @@ export type {
 } from './social/conversation-threading';
 
 // ============================================
+// Multi-NPC Conversation Engine
+// ============================================
+
+export {
+  // Affinity and relationship mapping
+  AFFINITY_SCORES,
+  RELATIONSHIP_POOL_MAP,
+  RELATIONSHIP_TONE_MAP,
+  getConversationAffinity,
+  getRelationshipBetween,
+  getPoolForRelationship,
+  getToneForRelationship,
+  // NPC selection
+  getConversationPartners,
+  getConversationClusters,
+  // Speaker selection
+  selectNextSpeaker,
+  // Conversation state management
+  createMultiNPCConversation,
+  addConversationTurn,
+  handlePlayerInterrupt,
+  pauseConversation,
+  getConversationContext,
+  summarizeConversation,
+} from './social/conversation-engine';
+export type {
+  ConversationTurn,
+  MultiNPCConversationState,
+  ConversationTone,
+  ConversationPartnerOptions,
+  SpeakerWeights,
+  ConversationSummary,
+} from './social/conversation-engine';
+
+// ============================================
 // Player Mythology
 // ============================================
 

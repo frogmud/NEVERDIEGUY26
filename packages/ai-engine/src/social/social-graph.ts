@@ -80,6 +80,106 @@ export const SOCIAL_GRAPH: SocialGraph = {
     'clausen': { type: 'old_friends', strength: 8, baseStats: { respect: 60, familiarity: 90, trust: 85 } },
     'the-one': { type: 'enemies', strength: 9, baseStats: { respect: 20, familiarity: 40, trust: -100, fear: 20 } },
   },
+
+  // ============================================
+  // Homepage NPCs - Extended Relationships
+  // ============================================
+
+  'mr-bones': {
+    'willy': { type: 'old_friends', strength: 8, history: 'Fellow skeletons from the early days', baseStats: { respect: 60, familiarity: 90, trust: 70 } },
+    'boo-g': { type: 'allies', strength: 6, history: 'Undead solidarity', baseStats: { respect: 40, familiarity: 70, trust: 50 } },
+    'stitch-up-girl': { type: 'acquaintances', strength: 4, baseStats: { respect: 30, familiarity: 50, trust: 30 } },
+    'keith-man': { type: 'colleagues', strength: 5, history: 'Both Frost Reach residents', baseStats: { respect: 35, familiarity: 65, trust: 40 } },
+    'dr-voss': { type: 'rivals', strength: 4, history: 'Voss once tried to study his bones', baseStats: { respect: 20, familiarity: 45, trust: -20 } },
+    'king-james': { type: 'acquaintances', strength: 3, baseStats: { respect: 25, familiarity: 40, trust: 10 } },
+  },
+
+  'boo-g': {
+    'willy': { type: 'old_friends', strength: 7, history: 'Undead party scene', baseStats: { respect: 40, familiarity: 80, trust: 60 } },
+    'mr-bones': { type: 'allies', strength: 6, history: 'Ghost and skeleton solidarity', baseStats: { respect: 45, familiarity: 70, trust: 55 } },
+    'boots': { type: 'allies', strength: 7, history: 'Chaos appreciates chaos', baseStats: { respect: 50, familiarity: 75, trust: 65 } },
+    'xtreme': { type: 'old_friends', strength: 8, history: 'EXTREME vibes match SPECTRAL vibes', baseStats: { respect: 55, familiarity: 85, trust: 70 } },
+    'king-james': { type: 'rivals', strength: 4, history: 'Royalty vs street performer', baseStats: { respect: -10, familiarity: 50, trust: -20 } },
+  },
+
+  'keith-man': {
+    'mr-kevin': { type: 'allies', strength: 6, history: 'Meta observers recognize each other', baseStats: { respect: 50, familiarity: 60, trust: 50 } },
+    'mr-bones': { type: 'colleagues', strength: 5, history: 'Frost Reach neighbors', baseStats: { respect: 40, familiarity: 65, trust: 45 } },
+    'boots': { type: 'allies', strength: 6, history: 'Speed meets kicks', baseStats: { respect: 45, familiarity: 60, trust: 55 } },
+    'stitch-up-girl': { type: 'acquaintances', strength: 4, baseStats: { respect: 35, familiarity: 45, trust: 40 } },
+  },
+
+  'mr-kevin': {
+    'keith-man': { type: 'allies', strength: 6, history: 'Pattern watchers', baseStats: { respect: 50, familiarity: 60, trust: 50 } },
+    'dr-voss': { type: 'colleagues', strength: 5, history: 'Scientific observers', baseStats: { respect: 45, familiarity: 55, trust: 30 } },
+    'clausen': { type: 'acquaintances', strength: 4, history: 'Both Earth residents', baseStats: { respect: 40, familiarity: 50, trust: 35 } },
+    'body-count': { type: 'allies', strength: 6, history: 'Data appreciates data', baseStats: { respect: 55, familiarity: 65, trust: 60 } },
+  },
+
+  'clausen': {
+    'the-general-traveler': { type: 'old_friends', strength: 8, history: 'War buddies from old campaigns', baseStats: { respect: 60, familiarity: 90, trust: 85 } },
+    'stitch-up-girl': { type: 'allies', strength: 6, history: 'She patched him up many times', baseStats: { respect: 50, familiarity: 65, trust: 55 } },
+    'mr-kevin': { type: 'acquaintances', strength: 4, history: 'Earth neighbors', baseStats: { respect: 35, familiarity: 50, trust: 30 } },
+    'body-count': { type: 'colleagues', strength: 5, history: 'Both track the dead', baseStats: { respect: 45, familiarity: 55, trust: 50 } },
+    'xtreme': { type: 'rivals', strength: 4, history: 'Chaos vs order', baseStats: { respect: 10, familiarity: 45, trust: -10 } },
+  },
+
+  'body-count': {
+    'stitch-up-girl': { type: 'allies', strength: 7, history: 'She creates survivors, he counts the rest', baseStats: { respect: 55, familiarity: 70, trust: 60 } },
+    'the-general-traveler': { type: 'colleagues', strength: 8, history: 'Both keep records of war', baseStats: { respect: 65, familiarity: 75, trust: 70 } },
+    'boots': { type: 'allies', strength: 6, history: 'Both Aberrant chaos agents', baseStats: { respect: 45, familiarity: 65, trust: 55 } },
+    'mr-kevin': { type: 'allies', strength: 6, history: 'Statistics enthusiasts', baseStats: { respect: 55, familiarity: 65, trust: 60 } },
+    'clausen': { type: 'colleagues', strength: 5, history: 'Tracking the departed', baseStats: { respect: 45, familiarity: 55, trust: 50 } },
+  },
+
+  'boots': {
+    'boo-g': { type: 'allies', strength: 7, history: 'Chaos recognizes chaos', baseStats: { respect: 50, familiarity: 75, trust: 65 } },
+    'xtreme': { type: 'old_friends', strength: 8, history: 'EXTREME KICKING BUDDIES', baseStats: { respect: 60, familiarity: 85, trust: 75 } },
+    'stitch-up-girl': { type: 'old_friends', strength: 7, history: 'She patches up kick-related injuries', baseStats: { respect: 55, familiarity: 75, trust: 65 } },
+    'willy': { type: 'allies', strength: 6, history: 'Good customer', baseStats: { respect: 45, familiarity: 55, trust: 50 } },
+    'body-count': { type: 'allies', strength: 6, history: 'Aberrant neighbors', baseStats: { respect: 45, familiarity: 65, trust: 55 } },
+    'keith-man': { type: 'allies', strength: 6, history: 'Fast friends', baseStats: { respect: 45, familiarity: 60, trust: 55 } },
+    'king-james': { type: 'rivals', strength: 3, history: 'Kicked his crown once', baseStats: { respect: -5, familiarity: 40, trust: -30 } },
+  },
+
+  'dr-maxwell': {
+    'dr-voss': { type: 'rivals', strength: 7, history: 'Competing scientific philosophies', baseStats: { respect: 40, familiarity: 80, trust: -30 } },
+    'stitch-up-girl': { type: 'colleagues', strength: 5, history: 'Medical professionals', baseStats: { respect: 45, familiarity: 55, trust: 40 } },
+    'xtreme': { type: 'allies', strength: 5, history: 'Chaos fuels experiments', baseStats: { respect: 30, familiarity: 55, trust: 35 } },
+    'king-james': { type: 'acquaintances', strength: 3, history: 'Royalty once funded research', baseStats: { respect: 20, familiarity: 40, trust: 15 } },
+  },
+
+  'xtreme': {
+    'boots': { type: 'old_friends', strength: 8, history: 'EXTREME CHAOS PARTNERSHIP', baseStats: { respect: 60, familiarity: 85, trust: 75 } },
+    'boo-g': { type: 'old_friends', strength: 8, history: 'EXTREME SPECTRAL VIBES', baseStats: { respect: 55, familiarity: 85, trust: 70 } },
+    'dr-maxwell': { type: 'allies', strength: 5, history: 'EXTREME experiments', baseStats: { respect: 35, familiarity: 55, trust: 40 } },
+    'willy': { type: 'allies', strength: 6, history: 'Gambles at Willy shop', baseStats: { respect: 40, familiarity: 60, trust: 50 } },
+    'clausen': { type: 'rivals', strength: 4, history: 'Order vs EXTREME chaos', baseStats: { respect: 10, familiarity: 45, trust: -15 } },
+  },
+
+  'dr-voss': {
+    'dr-maxwell': { type: 'rivals', strength: 7, history: 'Academic rivalry', baseStats: { respect: 35, familiarity: 80, trust: -25 } },
+    'king-james': { type: 'colleagues', strength: 6, history: 'Both Null Providence elite', baseStats: { respect: 55, familiarity: 70, trust: 45 } },
+    'mr-kevin': { type: 'colleagues', strength: 5, history: 'Scientific observation', baseStats: { respect: 45, familiarity: 55, trust: 30 } },
+    'mr-bones': { type: 'rivals', strength: 4, history: 'Wanted to study those bones', baseStats: { respect: 25, familiarity: 45, trust: -20 } },
+    'stitch-up-girl': { type: 'acquaintances', strength: 4, history: 'Medical professionals with different ethics', baseStats: { respect: 30, familiarity: 50, trust: 20 } },
+  },
+
+  'king-james': {
+    'dr-voss': { type: 'colleagues', strength: 6, history: 'Null Providence court', baseStats: { respect: 45, familiarity: 70, trust: 40 } },
+    'boots': { type: 'rivals', strength: 3, history: 'Never forgave the crown kick', baseStats: { respect: -10, familiarity: 40, trust: -40 } },
+    'boo-g': { type: 'rivals', strength: 4, history: 'Peasant performer', baseStats: { respect: -15, familiarity: 50, trust: -25 } },
+    'willy': { type: 'acquaintances', strength: 4, history: 'Royal patronage of merchants', baseStats: { respect: 20, familiarity: 50, trust: 25 } },
+    'mr-bones': { type: 'acquaintances', strength: 3, history: 'Fellow ancient beings', baseStats: { respect: 30, familiarity: 40, trust: 15 } },
+  },
+
+  // The General (Wanderer version - shopkeeper)
+  'the-general': {
+    'the-general-traveler': { type: 'rivals', strength: 6, history: 'Same name, different paths', baseStats: { respect: 40, familiarity: 70, trust: 20 } },
+    'stitch-up-girl': { type: 'allies', strength: 7, history: 'Field medic relationship', baseStats: { respect: 60, familiarity: 75, trust: 70 } },
+    'body-count': { type: 'colleagues', strength: 7, history: 'Military logistics', baseStats: { respect: 55, familiarity: 70, trust: 65 } },
+    'clausen': { type: 'old_friends', strength: 7, history: 'Old war comrades', baseStats: { respect: 55, familiarity: 80, trust: 75 } },
+  },
 };
 
 // ============================================

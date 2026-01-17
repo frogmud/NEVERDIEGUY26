@@ -32,11 +32,28 @@ async function getClient(): Promise<unknown> {
   return anthropicClient;
 }
 
+export interface ConversationContext {
+  targetNpcSlug?: string;
+  targetNpcName?: string;
+  relationshipType?: string;
+  relationshipStrength?: number;
+  tone?: {
+    warmth: number;
+    tension: number;
+    formality: 'casual' | 'formal';
+    tone: string;
+  };
+  previousText?: string;
+  domainSlug?: string;
+}
+
 export interface RefineOptions {
   npcSlug: string;
   chatbaseText: string;
   pool: string;
   context?: string;
+  /** Context for multi-NPC conversations */
+  conversationContext?: ConversationContext;
 }
 
 export interface RefineResult {
@@ -52,7 +69,7 @@ export interface RefineResult {
  * @returns Refined text (or original if refinement fails/disabled)
  */
 export async function refineWithClaude(options: RefineOptions): Promise<RefineResult> {
-  const { npcSlug, chatbaseText, pool, context } = options;
+  const { npcSlug, chatbaseText, pool, context, conversationContext } = options;
 
   // Get persona for this NPC
   const persona = getPersona(npcSlug);
@@ -93,7 +110,7 @@ export async function refineWithClaude(options: RefineOptions): Promise<RefineRe
       messages: [
         {
           role: 'user',
-          content: buildRefinePrompt(persona.name, chatbaseText, pool, context),
+          content: buildRefinePrompt(persona.name, chatbaseText, pool, context, conversationContext),
         },
       ],
     });
@@ -142,23 +159,63 @@ function buildRefinePrompt(
   npcName: string,
   originalText: string,
   pool: string,
-  context?: string
+  context?: string,
+  conversationContext?: ConversationContext
 ): string {
   const contextLine = context
     ? `\nPlayer context: "${context}"`
     : '';
 
+  // Build conversation context section for multi-NPC dialogue
+  let conversationSection = '';
+  if (conversationContext) {
+    const parts: string[] = [];
+
+    if (conversationContext.targetNpcName) {
+      parts.push(`Speaking to: ${conversationContext.targetNpcName}`);
+    }
+
+    if (conversationContext.relationshipType) {
+      const strength = conversationContext.relationshipStrength
+        ? ` (strength ${conversationContext.relationshipStrength}/10)`
+        : '';
+      parts.push(`Relationship: ${conversationContext.relationshipType.replace(/_/g, ' ')}${strength}`);
+    }
+
+    if (conversationContext.tone) {
+      const { warmth, tension, formality, tone } = conversationContext.tone;
+      parts.push(`Tone: ${tone} (warmth: ${warmth}%, tension: ${tension}%, ${formality})`);
+    }
+
+    if (conversationContext.previousText) {
+      parts.push(`Responding to: "${conversationContext.previousText}"`);
+    }
+
+    if (parts.length > 0) {
+      conversationSection = `\n\nConversation context:\n${parts.map(p => `- ${p}`).join('\n')}`;
+    }
+  }
+
+  // Adjust rules based on whether this is NPC-to-NPC dialogue
+  const isNPCDialogue = pool.startsWith('npc') || conversationContext?.targetNpcSlug;
+  const additionalRules = isNPCDialogue
+    ? `\n- Address the other NPC naturally (use their name or a nickname)
+- Reflect the relationship dynamic in your tone
+- React to what they said if responding to a previous message`
+    : '';
+
   return `Refine this dialogue line for ${npcName}. Make it sound more natural and strongly in-character while keeping the same general meaning and length.
 
 Original line: "${originalText}"
-Dialogue type: ${pool}${contextLine}
+Dialogue type: ${pool}${contextLine}${conversationSection}
 
 Rules:
 - Keep similar length (1-3 sentences max)
 - Stay completely in character
 - Include *action* if appropriate
+- Ensure that truncation of messages doesn't hinder meaning or intent
 - Do NOT add explanations or meta-commentary
-- Do NOT use modern internet slang unless it fits the character
+- Do NOT use modern internet slang unless it fits the character${additionalRules}
 
 Respond with ONLY the refined dialogue line, nothing else.`;
 }

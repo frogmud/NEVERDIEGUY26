@@ -67,6 +67,7 @@ export type TemplatePool =
   | 'npcGossip'
   | 'npcConflict'
   | 'npcReaction'
+  | 'npcAlliance'
   | 'alliance'
   | 'betrayal'
   | 'rescue';
@@ -137,6 +138,47 @@ export interface ChatMessage {
 // Chatbase API Types
 // ============================================
 
+/** Relationship type between two NPCs */
+export type RelationshipType =
+  | 'allies'
+  | 'rivals'
+  | 'mentor_student'
+  | 'old_friends'
+  | 'enemies'
+  | 'acquaintances'
+  | 'strangers'
+  | 'family'
+  | 'colleagues'
+  | 'former_allies'
+  | 'unrequited'
+  | 'fear_respect';
+
+/** Conversational tone based on relationship */
+export interface ConversationTone {
+  warmth: number;    // 0-100
+  tension: number;   // 0-100
+  formality: 'casual' | 'formal';
+  tone: string;      // e.g., 'warm', 'competitive', 'hostile'
+}
+
+/** Context for multi-NPC conversations */
+export interface ConversationContext {
+  /** Target NPC being addressed */
+  targetNpcSlug?: string;
+  /** Target NPC's display name */
+  targetNpcName?: string;
+  /** Relationship between speaker and target */
+  relationshipType?: RelationshipType;
+  /** Relationship strength (1-10) */
+  relationshipStrength?: number;
+  /** Conversational tone hints */
+  tone?: ConversationTone;
+  /** Previous speaker's message (for context) */
+  previousText?: string;
+  /** Domain where conversation is happening */
+  domainSlug?: string;
+}
+
 export interface ChatRequest {
   npcSlug: string;
   pool: TemplatePool;
@@ -149,6 +191,8 @@ export interface ChatRequest {
   };
   /** Context for AI refinement (e.g., player's message being reacted to) */
   context?: string;
+  /** Context for multi-NPC conversations */
+  conversationContext?: ConversationContext;
 }
 
 export interface ChatResponse {

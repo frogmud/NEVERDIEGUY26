@@ -1562,6 +1562,658 @@ export function getGreeterById(npcId: string): HomeGreeter | undefined {
   return HOME_GREETERS.find(g => g.id === npcId);
 }
 
+// ============================================
+// RELATIONSHIP-AWARE DIALOGUE
+// ============================================
+
+/**
+ * Dialogue NPCs can say about other NPCs based on their relationship
+ * Key format: "speaker:target" -> dialogue pool
+ * Used when NPCs comment on each other in multi-NPC conversations
+ */
+export const NPC_RELATIONSHIP_DIALOGUE: Record<string, string[]> = {
+  // Willy's comments about others
+  'willy:mr-bones': [
+    'Mr. Bones! Old friend! Still rattling, I see!',
+    'The best part of being a skeleton? We never run out of things to sell each other!',
+    '*rattles at Mr. Bones* Remember when we found that cursed amulet?',
+  ],
+  'willy:boo-g': [
+    'Boo G! The undead party never stops when you are around!',
+    'My best customer for spectral merchandise! Always buying echo crystals!',
+  ],
+  'willy:boots': [
+    'Boots! My favorite kicker! Still breaking things?',
+    'I have some new steel-toed inventory that might interest you!',
+  ],
+
+  // Mr. Bones' comments about others
+  'mr-bones:willy': [
+    '*rattles thoughtfully* Willy and I go back. Way back. Before the flesh rotted.',
+    'Willy sells trinkets. I sell perspective. Both valuable.',
+  ],
+  'mr-bones:boo-g': [
+    'The ghost performs. The skeleton contemplates. We understand each other.',
+    '*bone sounds* Boo G reminds me why the dead still have purpose.',
+  ],
+  'mr-bones:dr-voss': [
+    'Voss once wanted to study my bones. I declined. Philosophically.',
+    '*rattles warily* The scientist watches. I watch back.',
+  ],
+
+  // Boo G's comments about others
+  'boo-g:willy': [
+    'YO WILLY! My skeletal HOMIE! Drop a beat with me!',
+    'Willy sells goods, I sell FLOW! Perfect PARTNERSHIP!',
+  ],
+  'boo-g:boots': [
+    'BOOTS! The KICKMASTER! Your stomps got RHYTHM!',
+    'Me and Boots? CHAOS DUO! We PERFORM DESTRUCTION!',
+  ],
+  'boo-g:xtreme': [
+    'X-TREME! My EXTREME SPECTRAL BROTHER! Let us VIBE!',
+    'When X-treme rolls dice, I drop BEATS! SYNERGY!',
+  ],
+  'boo-g:king-james': [
+    '*ghost scoff* Royalty thinks music is beneath them. WRONG.',
+    'King James never tips. The DISRESPECT to my CRAFT!',
+  ],
+
+  // Keith Man's comments about others
+  'keith-man:mr-kevin': [
+    'Mr-Kevin-sees-patterns-too! We-are-SPEED-BROTHERS!',
+    'Kevin-watches-the-code! I-watch-the-TIMELINES!',
+  ],
+  'keith-man:mr-bones': [
+    'Mr-Bones-is-SLOW! But-that-is-okay! Frost-Reach-is-COLD!',
+    'The-skeleton-thinks-deep! I-think-FAST! Different-styles!',
+  ],
+  'keith-man:boots': [
+    'BOOTS! You-kick-FAST! I-like-FAST!',
+    'Boots-and-me! SPEED-AND-KICKS! Perfect-combo!',
+  ],
+
+  // Boots' comments about others
+  'boots:boo-g': [
+    'BOO G! Let us STOMP AND FLOW!',
+    '*bounces* The ghost GETS IT! Chaos is FUN!',
+  ],
+  'boots:xtreme': [
+    'X-TREME! My EXTREME KICK BUDDY! STOMP STOMP!',
+    'X-treme rolls! I KICK! The ULTIMATE team!',
+  ],
+  'boots:king-james': [
+    '*bounces nervously* I kicked his crown ONCE! He still remembers!',
+    'King James gives me THE LOOK. Worth it though. Good kick.',
+  ],
+  'boots:stitch-up-girl': [
+    'Stitch patches me up after I kick things too hard! Best medic!',
+    '*grateful bounce* Stitch knows where all my kick-related injuries go!',
+  ],
+
+  // Stitch Up Girl's comments about others
+  'stitch-up-girl:boots': [
+    'Boots always needs patching. Kicking is hazardous to your health.',
+    '*sighs fondly* Boots means well. The destruction is incidental.',
+  ],
+  'stitch-up-girl:the-general': [
+    'The General and I have seen too many battles together.',
+    'Command and medical. We keep the fighters alive. Mostly.',
+  ],
+  'stitch-up-girl:willy': [
+    'Willy sells me medical supplies. Fair prices for a skeleton.',
+    '*nods at Willy* Good merchant. Questionable inventory origins.',
+  ],
+
+  // The General's comments about others
+  'the-general:stitch-up-girl': [
+    'Stitch keeps the troops alive. Invaluable asset.',
+    'Medical support wins wars. She taught me that.',
+  ],
+  'the-general:clausen': [
+    'Clausen. Old war buddy. Seen things together.',
+    '*nods at Clausen* Good soldier. Better detective now.',
+  ],
+  'the-general:body-count': [
+    'Body Count keeps the records. Important work.',
+    'Someone has to count the fallen. Respect.',
+  ],
+
+  // Clausen's comments about others
+  'clausen:the-general': [
+    '*nods at General* We go back. Way back.',
+    'The General taught me discipline. Life taught me noir.',
+  ],
+  'clausen:stitch-up-girl': [
+    'Stitch patched me up more times than I can count.',
+    '*lights cigarette* Good medic. Better friend.',
+  ],
+  'clausen:xtreme': [
+    '*side-eyes X-treme* Chaos incarnate. Cannot trust random.',
+    'X-treme and I? Different philosophies. Very different.',
+  ],
+
+  // Body Count's comments about others
+  'body-count:stitch-up-girl': [
+    '*tallies* Stitch saves them. I count the ones she could not.',
+    'Medical miracles adjust my projections. Stitch causes many.',
+  ],
+  'body-count:mr-kevin': [
+    '*nods at Kevin* Fellow data enthusiast. Respect.',
+    'Kevin logs existence. I log its end. Complementary work.',
+  ],
+  'body-count:the-general': [
+    'The General understands logistics. Including casualties.',
+    '*makes tally mark* Command decisions affect the count.',
+  ],
+
+  // Dr. Maxwell's comments about others
+  'dr-maxwell:dr-voss': [
+    'Voss and I have... differing scientific philosophies.',
+    '*adjusts spectacles* Voss experiments recklessly. I experiment PRECISELY.',
+  ],
+  'dr-maxwell:xtreme': [
+    'X-treme provides excellent chaos variables for experiments!',
+    'Randomness is data! X-treme generates MUCH data!',
+  ],
+  'dr-maxwell:stitch-up-girl': [
+    'Medical practice is applied biology. Stitch understands.',
+    '*nods* Fellow practitioner. Different methodology.',
+  ],
+
+  // X-treme's comments about others
+  'xtreme:boots': [
+    'BOOTS! EXTREME KICK PARTNER! Maximum CHAOS!',
+    'When Boots kicks and I roll? TOTAL MAYHEM! LOVE IT!',
+  ],
+  'xtreme:boo-g': [
+    'BOO G! SPECTRAL HYPE MAN! Drop those GHOST BEATS!',
+    'Undead EXTREME! Boo G GETS the vibe!',
+  ],
+  'xtreme:clausen': [
+    '*vibrates* Clausen thinks too much! JUST ROLL!',
+    'Order is BORING! Clausen is BORING! But still cool! Kind of!',
+  ],
+  'xtreme:dr-maxwell': [
+    'Dr. Maxwell! EXTREME SCIENCE! I provide the VARIABLES!',
+    'Maxwell experiments! I CAUSE experiments! SYNERGY!',
+  ],
+
+  // Dr. Voss' comments about others
+  'dr-voss:dr-maxwell': [
+    '*adjusts goggles* Maxwell burns his research. I preserve mine.',
+    'Academic rivalry. Maxwell is too dramatic. Science needs precision.',
+  ],
+  'dr-voss:king-james': [
+    'The King funds research. Useful relationship.',
+    '*nods at James* Royal patronage has its benefits.',
+  ],
+  'dr-voss:mr-bones': [
+    '*eyes Mr. Bones* Those bones would be excellent specimens...',
+    'The skeleton declined my study proposal. Unfortunate.',
+  ],
+  'dr-voss:mr-kevin': [
+    'Kevin observes the system. I observe the subjects. Similar methods.',
+    '*notes something* Fellow scientist. Different domains.',
+  ],
+
+  // King James' comments about others
+  'king-james:dr-voss': [
+    'Voss serves the crown. Useful subjects... I mean, useful science.',
+    '*adjusts crown* The scientist delivers results. Acceptable.',
+  ],
+  'king-james:boots': [
+    '*glares at Boots* That peasant kicked my crown. ONCE.',
+    'Boots is... tolerated. Barely. The crown remembers.',
+  ],
+  'king-james:boo-g': [
+    '*dismissive wave* The ghost performer. Peasant entertainment.',
+    'Boo G lacks royal decorum. Completely.',
+  ],
+  'king-james:willy': [
+    'The merchant skeleton. Acceptable commerce.',
+    '*royal gesture* Willy serves the economy. The crown approves.',
+  ],
+
+  // Mr. Kevin's comments about others
+  'mr-kevin:keith-man': [
+    'Keith sees speed. I see patterns. Complementary observation.',
+    '*adjusts glasses* Keith Man processes timelines. Interesting variable.',
+  ],
+  'mr-kevin:body-count': [
+    'Body Count quantifies endings. I quantify everything else.',
+    '*nods* Data recognizes data. Respect.',
+  ],
+  'mr-kevin:dr-voss': [
+    'Voss experiments. I observe. Similar scientific approaches.',
+    '*processes* Fellow observer of the system.',
+  ],
+};
+
+/**
+ * Get relationship dialogue for a speaker about a target
+ * Returns null if no specific dialogue exists
+ */
+export function getRelationshipDialogue(speakerId: string, targetId: string): string | null {
+  const key = `${speakerId}:${targetId}`;
+  const pool = NPC_RELATIONSHIP_DIALOGUE[key];
+  if (!pool || pool.length === 0) return null;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// ============================================
+// NPC REACTION POOLS
+// ============================================
+
+/**
+ * Context-specific reactions for NPCs
+ * Used for commenting on game events, player actions, etc.
+ */
+export type ReactionContext =
+  | 'good_roll'       // Player rolled well
+  | 'bad_roll'        // Player rolled poorly
+  | 'player_wins'     // Player won an event
+  | 'player_loses'    // Player lost an event
+  | 'low_health'      // Player has low integrity
+  | 'high_gold'       // Player has lots of gold
+  | 'broke'           // Player is out of gold
+  | 'boss_fight'      // Player facing a boss
+  | 'new_item'        // Player got a new item
+  | 'domain_enter';   // Player entered a new domain
+
+/**
+ * Per-NPC reaction pools for different game contexts
+ * Supports archetype fallbacks for NPCs without custom lines
+ */
+export const NPC_CONTEXT_REACTIONS: Record<string, Partial<Record<ReactionContext, string[]>>> = {
+  'stitch-up-girl': {
+    good_roll: [
+      'Nice throw! At this rate, you might not need my bandages.',
+      'Solid impact! Your form is improving.',
+    ],
+    bad_roll: [
+      'Ouch. Let me prep the med kit.',
+      'That... that is going to leave a mark.',
+    ],
+    player_wins: [
+      'Victory! And you are still in one piece!',
+      'Well done! Minimal blood loss this time.',
+    ],
+    player_loses: [
+      'Hold still. Let me patch that up.',
+      'I warned you. Now hold this bandage.',
+    ],
+    low_health: [
+      'Your integrity is concerning. Please be careful.',
+      'You are held together by determination and my stitches.',
+    ],
+    boss_fight: [
+      'Die-rector incoming! Aim for the weak spots!',
+      'Big one! I have extra bandages ready!',
+    ],
+  },
+
+  'keith-man': {
+    good_roll: [
+      'FAST-roll! GOOD-roll! KEEP-IT-UP!',
+      'That-was-QUICK! I-like-QUICK!',
+    ],
+    bad_roll: [
+      'Oof! Try-again! FASTER-this-time!',
+      'Not-great! But-speed-fixes-everything!',
+    ],
+    player_wins: [
+      'YESSS! VICTORY-ZOOM!',
+      'You-did-it! Fast-finish! AMAZING!',
+    ],
+    player_loses: [
+      'Oh-no! But-time-is-relative! Try-again!',
+      'Loss-is-just-a-pause! Resume-FAST!',
+    ],
+    low_health: [
+      'Slow-down! Or-speed-up! One-of-those!',
+      'You-look-rough! Stitch-can-help! FAST!',
+    ],
+  },
+
+  'willy': {
+    good_roll: [
+      'Beautiful throw! My bones rattled with joy!',
+      'Excellent! I knew selling you that was worth it!',
+    ],
+    bad_roll: [
+      'Oh dear! Let me see if I have something that can help...',
+      '*rattles sympathetically* Everyone has off days!',
+    ],
+    player_wins: [
+      'Victory! Time to celebrate! With purchases!',
+      'Wonderful! Winner gets a discount! Maybe!',
+    ],
+    player_loses: [
+      'Oh no! But loss means opportunity to buy better gear!',
+      '*sad bones* At least you are still shopping!',
+    ],
+    high_gold: [
+      '*rattles excitedly* I see you have some gold! Have I shown you my premium inventory?',
+      'Wealthy customer! My favorite kind!',
+    ],
+    broke: [
+      '*sad rattling* No gold? Credit is... not available. Sorry.',
+      'Broke? I accept trades! Relics, artifacts, interesting stories...',
+    ],
+    new_item: [
+      'Excellent purchase! Or find! Either way, congratulations!',
+      'New gear! Let me know if you need repairs! Or more gear!',
+    ],
+  },
+
+  'boo-g': {
+    good_roll: [
+      'YO! That roll had RHYTHM!',
+      'SICK THROW! The beats APPROVE!',
+    ],
+    bad_roll: [
+      'Oof! Off-beat! Find your FLOW!',
+      'That throw was... experimental. Try again!',
+    ],
+    player_wins: [
+      'VICTORY REMIX! Drop the BASS!',
+      'WINNER WINNER! The crowd goes WILD!',
+    ],
+    player_loses: [
+      'Loss is just the INTRO! The COMEBACK is next!',
+      'The show must go ON! Next verse is YOURS!',
+    ],
+    boss_fight: [
+      'BOSS BATTLE BEAT DROP!',
+      'Die-rector! Time for the FINAL TRACK!',
+    ],
+  },
+
+  'the-general': {
+    good_roll: [
+      'Acceptable strike. Continue.',
+      'Good hit, soldier. Maintain that form.',
+    ],
+    bad_roll: [
+      'Poor execution. Recalibrate.',
+      'Sloppy. The enemy does not forgive sloppiness.',
+    ],
+    player_wins: [
+      'Objective achieved. Well done, soldier.',
+      'Victory secured. Prepare for the next engagement.',
+    ],
+    player_loses: [
+      'Tactical retreat. Regroup and re-engage.',
+      'Defeat noted. Learn from it.',
+    ],
+    boss_fight: [
+      'Priority target identified. Concentrate fire.',
+      'Die-rector engagement. All weapons authorized.',
+    ],
+    domain_enter: [
+      'New zone. Stay alert. Hostiles probable.',
+      'Entering hostile territory. Maintain combat readiness.',
+    ],
+  },
+
+  'dr-maxwell': {
+    good_roll: [
+      'EXCELLENT trajectory! The physics are EXQUISITE!',
+      'Optimal impact angle! I am taking NOTES!',
+    ],
+    bad_roll: [
+      'Suboptimal! But failure is data! Glorious data!',
+      'The experiment failed! Try different variables!',
+    ],
+    player_wins: [
+      'Hypothesis CONFIRMED! Victory through SCIENCE!',
+      'The data supports SUCCESS!',
+    ],
+    player_loses: [
+      'Unexpected results! Recalibrate and repeat!',
+      'Failure is merely another data point!',
+    ],
+    new_item: [
+      'New equipment! The research potential is VAST!',
+      'Interesting artifact! I must study the properties!',
+    ],
+  },
+
+  'xtreme': {
+    good_roll: [
+      'YOOOO! EXTREME ROLL!',
+      'SICK! The dice LOVE you!',
+    ],
+    bad_roll: [
+      'Oof! That was NOT extreme! Try again!',
+      'Bad roll! But RANDOM is LIFE!',
+    ],
+    player_wins: [
+      'EXTREME VICTORY! MAXIMUM CELEBRATION!',
+      'WINNER! The CHAOS approves!',
+    ],
+    player_loses: [
+      'Loss! But loss is EXTREME too!',
+      'The dice giveth! The dice taketh! EXTREME!',
+    ],
+    boss_fight: [
+      'BOSS TIME! EXTREME MODE ACTIVATED!',
+      'Die-rector! ROLL FOR YOUR LIFE!',
+    ],
+  },
+
+  'mr-bones': {
+    good_roll: [
+      '*rattles approvingly* Well struck.',
+      'The bones see skill in that throw.',
+    ],
+    bad_roll: [
+      'Even the bones miss sometimes. Patience.',
+      '*philosophical bone sounds* Failure is perspective.',
+    ],
+    player_wins: [
+      'Victory. Temporary. But still victory.',
+      '*contemplative rattle* You did well. The bones remember.',
+    ],
+    player_loses: [
+      'Loss is the teacher. Listen to it.',
+      'The journey continues. Endings are beginnings.',
+    ],
+    low_health: [
+      'Your flesh fails you. Mine is already gone. Different problems.',
+      '*concerned rattle* Perhaps rest would be wise.',
+    ],
+  },
+
+  'dr-voss': {
+    good_roll: [
+      'Excellent data point. Your performance metrics improve.',
+      'Fascinating trajectory. I am cataloguing this.',
+    ],
+    bad_roll: [
+      'Suboptimal. Your technique requires refinement.',
+      'Disappointing. But every failure teaches.',
+    ],
+    player_wins: [
+      'Success achieved. Experiment parameters noted.',
+      'Victory logged. Subject shows promise.',
+    ],
+    player_loses: [
+      'Failure recorded. Adjustments recommended.',
+      'Defeat is data. You are generating useful data.',
+    ],
+    new_item: [
+      'New equipment acquired. I should examine it. For science.',
+      'Interesting. That item has research potential.',
+    ],
+  },
+
+  'king-james': {
+    good_roll: [
+      '*royal nod* Adequate. For a peasant.',
+      'The crown acknowledges that throw.',
+    ],
+    bad_roll: [
+      'Disappointing. The realm expected better.',
+      '*dismissive* Peasant performance. Typical.',
+    ],
+    player_wins: [
+      'Victory for the crown! Well... for you. Same thing.',
+      'Triumph! The realm prospers through your service.',
+    ],
+    player_loses: [
+      '*sighs* The kingdom weeps. Metaphorically.',
+      'Defeat. The crown is... unsurprised.',
+    ],
+    high_gold: [
+      '*eyes your gold* The treasury notices your wealth. Taxes may apply.',
+      'Prosperous! The crown smiles upon the wealthy.',
+    ],
+    broke: [
+      '*dismissive wave* No gold? Peasants. Always broke.',
+      'Empty pockets? The crown cannot help the destitute.',
+    ],
+  },
+
+  'boots': {
+    good_roll: [
+      'YEAH! KICK! I mean, THROW! Same energy!',
+      '*bounces approvingly* That was KICKABLE!',
+    ],
+    bad_roll: [
+      'Oof! Want me to KICK it next time?',
+      '*sad bounce* That throw needed more STOMP!',
+    ],
+    player_wins: [
+      'VICTORY STOMP! *kicks the air*',
+      'WE WIN! KICK KICK KICK!',
+    ],
+    player_loses: [
+      '*confused bounce* Loss? We kick loss in the FACE!',
+      'Oh no! But we can KICK our way back!',
+    ],
+    boss_fight: [
+      'BIG ONE! Big ones are KICKABLE! Let me at it!',
+      'Die-rector! I could TOTALLY kick that!',
+    ],
+  },
+
+  'body-count': {
+    good_roll: [
+      '*makes positive tally* Good hit. Numbers adjust.',
+      'Impact recorded. Statistics favor you.',
+    ],
+    bad_roll: [
+      '*tallies something* Noted. Survival odds recalculated.',
+      'Miss logged. The count continues regardless.',
+    ],
+    player_wins: [
+      'Victory. One fewer entry for the ledger.',
+      '*closes book temporarily* Win noted. Carry on.',
+    ],
+    player_loses: [
+      '*opens ledger* Another entry. Predictable.',
+      'Loss. The count grows. As always.',
+    ],
+    low_health: [
+      '*prepares pen* Your entry may be coming soon.',
+      'Low integrity. The ledger waits patiently.',
+    ],
+  },
+
+  'clausen': {
+    good_roll: [
+      '*nods* Clean hit. Like that.',
+      'Nice work. The case proceeds.',
+    ],
+    bad_roll: [
+      '*lights cigarette* Seen worse. Keep trying.',
+      'Rough throw. We all have off days.',
+    ],
+    player_wins: [
+      'Case closed. For now.',
+      '*exhales* Win. The story continues.',
+    ],
+    player_loses: [
+      'Loss. The noir never ends clean.',
+      '*stares into middle distance* Expected. Move on.',
+    ],
+    boss_fight: [
+      'Big fish. Stay sharp.',
+      'Die-rector. The main suspect.',
+    ],
+  },
+
+  'mr-kevin': {
+    good_roll: [
+      'Optimal output. The code approves.',
+      'Good variable state. Continue.',
+    ],
+    bad_roll: [
+      'Suboptimal result. Recomputing.',
+      'Error in execution. Debug and retry.',
+    ],
+    player_wins: [
+      'Success condition met. Well done.',
+      'Victory state achieved. Logging.',
+    ],
+    player_loses: [
+      'Failure state. Expected within parameters.',
+      'Loss logged. The simulation continues.',
+    ],
+    domain_enter: [
+      'New domain loaded. Processing.',
+      'Zone transition detected. Adapting.',
+    ],
+  },
+};
+
+// Default fallback reactions by archetype
+const ARCHETYPE_FALLBACK_REACTIONS: Record<string, Partial<Record<ReactionContext, string[]>>> = {
+  traveler: {
+    good_roll: ['Nice throw!', 'Well done!'],
+    bad_roll: ['Tough luck. Try again.', 'You got this.'],
+    player_wins: ['Victory!', 'You did it!'],
+    player_loses: ['Rough loss. Keep going.', 'Next time.'],
+  },
+  wanderer: {
+    good_roll: ['Good hit.', 'Solid.'],
+    bad_roll: ['Miss. It happens.', 'Not great.'],
+    player_wins: ['You won.', 'Success.'],
+    player_loses: ['Loss noted.', 'Better luck next time.'],
+  },
+};
+
+/**
+ * Get a context-specific reaction from an NPC
+ * Falls back to archetype defaults if NPC has no custom reaction
+ */
+export function getContextReaction(npcId: string, context: ReactionContext): string | null {
+  // Try NPC-specific first
+  const npcReactions = NPC_CONTEXT_REACTIONS[npcId]?.[context];
+  if (npcReactions && npcReactions.length > 0) {
+    return npcReactions[Math.floor(Math.random() * npcReactions.length)];
+  }
+
+  // Determine archetype for fallback
+  const greeter = getGreeterById(npcId);
+  if (!greeter) return null;
+
+  // Simple archetype detection based on common NPC types
+  const isTraveler = ['stitch-up-girl', 'keith-man', 'mr-kevin', 'clausen', 'body-count', 'boots'].includes(npcId);
+  const archetypeFallback = isTraveler
+    ? ARCHETYPE_FALLBACK_REACTIONS.traveler
+    : ARCHETYPE_FALLBACK_REACTIONS.wanderer;
+
+  const fallbackPool = archetypeFallback[context];
+  if (fallbackPool && fallbackPool.length > 0) {
+    return fallbackPool[Math.floor(Math.random() * fallbackPool.length)];
+  }
+
+  return null;
+}
+
 /**
  * Get a random greeter available for a domain
  */
