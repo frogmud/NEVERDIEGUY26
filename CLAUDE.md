@@ -192,6 +192,72 @@ Based on /codex audit files, all critical issues addressed:
 2. **Mobile Layout** - Sidebar collapse/drawer for screens < 900px
 3. **Victory Stats Timing** - Add event timing tracking (optional enhancement)
 
+---
+
+## WORKTREE SCOPE: Homepage Dashboard Redesign (Jan 17, 2026)
+
+This worktree focuses on transforming the homepage from a chat-based interface to an intelligent dashboard landing page.
+
+### Design Vision (2-Column Layout)
+```
++------------------------------------------------------------------+
+|  [Seed: xxx]  [Gold: 150]  [Equipped Items]      <- Player Toolbar |
++------------------+-----------------------------------------------+
+|                  |                                               |
+|  +------------+  |   Quick Prompts (Action Buttons)              |
+|  | BIG SPRITE |  |   [Enter Domain] [Browse Wiki] [Loadout]      |
+|  +------------+  |   [Daily Challenge] [Settings]                |
+|                  |                                               |
+|  +------------+  |   ------------------------------------------- |
+|  | Active Msg |  |                                               |
+|  | (largest)  |  |   Roulette Wheel / Item Entry                 |
+|  +------------+  |   - Starting loadout preview                  |
+|                  |   - Domain selection                          |
+|  History (scroll)|   - Deploy info / multiplayer status          |
+|  - Msg 2        |                                               |
+|  - Msg 3        |                                               |
+|                  |                                               |
++------------------+-----------------------------------------------+
+     Skinny Col                     Big Col
+```
+
+### Key Changes from Current Homepage
+
+**Remove:**
+- Chat input field (free-form text input at bottom)
+- Free-form conversation flow
+
+**Add:**
+- Player toolbar (seed, gold, equipped items)
+- Quick prompts as prominent action buttons
+- Roulette wheel / item entry widget
+- Deployment info section
+- Multiplayer status / lobby preview
+
+**Modify:**
+- Flip feed direction (newest on top, stream-style)
+- Big sprite stays at top of left column
+- Active message is largest, history scrolls below
+- Multi-NPC population representing domain residents
+
+### Components to Create
+1. `PlayerToolbar` - Seed, gold, items display
+2. `QuickPromptButtons` - Action buttons replacing chat
+3. `RouletteWheel` - Item selection / domain entry
+4. `NPCStream` - Flipped message feed (newest first)
+5. `DeploymentInfo` - Version, status, multiplayer info
+
+### Dependencies
+- [x] PR #26 (feat/multi-npc-chat-system) - Conversation engine foundation
+- [ ] Figma files from user (awaiting)
+- [ ] Reference older modular grid homepage versions
+
+### Development Notes
+- Sprites: Big greeter sprite ~120-180px at top, inline history sprites smaller
+- Feed: Flip direction so newest messages appear at top
+- Quick prompts: Convert existing FAQ chips to prominent action buttons
+- Incorporate multiplayer concepts from `feat/ai-engine-partykit` branch
+
 ## Session Notes - Jan 17, 2026
 
 ### Deployment Optimization

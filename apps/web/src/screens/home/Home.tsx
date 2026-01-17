@@ -1,15 +1,16 @@
 /**
- * Home - Character Chatter Landing Page
+ * Home - Dashboard Landing Page
  *
- * Random NPC greets the player on each load.
- * Every incarnation is a new Guy meeting these NPCs for the first time.
+ * 2-column layout: NPC stream (left) | Actions + Info (right)
+ * NPCs chat in a stream, questions queue via buttons, answers appear in feed.
  *
  * NEVER DIE GUY
  */
 
 import { Box } from '@mui/material';
 import { tokens } from '../../theme';
-import { HomeChatter } from '../../components/HomeChatter';
+import { HomeDashboard } from '../../components/HomeDashboard';
+// Legacy: import { HomeChatter } from '../../components/HomeChatter';
 
 export function Home() {
   return (
@@ -18,13 +19,10 @@ export function Home() {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        px: 2,
         bgcolor: tokens.colors.background.default,
       }}
     >
-      <HomeChatter />
+      <HomeDashboard />
     </Box>
   );
 }
