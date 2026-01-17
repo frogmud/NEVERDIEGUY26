@@ -40,7 +40,12 @@
     "sim:chatter": "tsx scripts/npc-pregame-chatter.ts",
     "sim:chatter:claude": "tsx scripts/npc-pregame-chatter.ts --use-claude",
     "sim:extract": "tsx scripts/extract-chatbase.ts --verbose",
-    "sim:player": "tsx scripts/npc-player-dialogue.ts --use-claude --verbose"
+    "sim:player": "tsx scripts/npc-player-dialogue.ts --use-claude --verbose",
+    "sim:audit": "tsx scripts/audit-chatbase-quality.ts",
+    "sim:restock": "tsx scripts/npc-chatbase-restock.ts",
+    "sim:restock:dry": "tsx scripts/npc-chatbase-restock.ts --dry-run",
+    "sim:restock:claude": "tsx scripts/npc-chatbase-restock.ts --use-claude",
+    "sim:restock:claude:dry": "tsx scripts/npc-chatbase-restock.ts --use-claude --dry-run"
   },
   "dependencies": {
     "@ndg/shared": "workspace:*"

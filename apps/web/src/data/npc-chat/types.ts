@@ -144,7 +144,10 @@ export type MoodType =
   | 'amused'
   | 'threatening'
   | 'generous'
-  | 'cryptic';
+  | 'cryptic'
+  | 'curious'
+  | 'concerned'
+  | 'focused';
 
 // ============================================
 // Message Purpose (What the message DOES)

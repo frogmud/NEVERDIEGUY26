@@ -5,8 +5,37 @@
  * Supports player context, NPC context, and domain-specific variables.
  */
 
-import type { ResponseContext, NPCPersonalityConfig } from './types';
+import type { ResponseContext, NPCPersonalityConfig, CombatGameState } from './types';
 import { describeFavorLevel, getFavorLevel } from './relationship';
+
+// ============================================
+// Combat Context for Variable Resolution
+// ============================================
+
+export interface CombatContext {
+  // From RunCombatState / CombatGameState
+  currentScore?: number;
+  targetScore?: number;
+  turnsRemaining?: number;
+  turnNumber?: number;
+  lastRollTotal?: number;
+  lastDiceUsed?: string[];
+
+  // Momentum flags from CombatGameState
+  isWinning?: boolean;
+  isComeback?: boolean;
+  isCrushingIt?: boolean;
+
+  // Domain progress
+  domainName?: string;
+  domainId?: number;
+  zonesCleared?: number;
+  totalZones?: number;
+  eventVariant?: string;
+
+  // NPC category
+  npcCategory?: 'travelers' | 'wanderers' | 'pantheon';
+}
 
 // ============================================
 // Variable Context
@@ -23,6 +52,8 @@ export interface VariableContext {
   npcName?: string;
   npcDomain?: string;
   npcElement?: string;
+  npcSlug?: string;
+  npcCategory?: 'travelers' | 'wanderers' | 'pantheon';
 
   // Run state
   currentDomain?: string;
@@ -35,6 +66,30 @@ export interface VariableContext {
   // Item context (for shop messages)
   itemName?: string;
   itemPrice?: number;
+
+  // Combat state (dynamic gameplay)
+  playerScore?: number;
+  targetScore?: number;
+  turnsLeft?: number;
+  throwsUsed?: number;
+  scoreGap?: number;
+
+  // Dice/Roll info
+  lastRoll?: number;
+  diceUsed?: string[];
+  diceCount?: number;
+  primaryDie?: string;
+
+  // Momentum
+  momentum?: 'crushing' | 'ahead' | 'even' | 'behind' | 'comeback';
+  isWinning?: boolean;
+
+  // Domain/Room progress
+  domainName?: string;
+  domainId?: number;
+  zonesCleared?: number;
+  totalZones?: number;
+  eventVariant?: string;
 
   // Memory context (Phase 5)
   myTotalDeaths?: number;
@@ -104,6 +159,39 @@ const VARIABLE_RESOLVERS: Record<string, VariableResolver> = {
   '{{lastVictim}}': (ctx) => ctx.lastVictim || 'no one',
   '{{strikeCount}}': (ctx) => String(ctx.strikeCount ?? 0),
   '{{degradationLevel}}': (ctx) => ctx.degradationLevel || 'normal',
+
+  // Combat state variables
+  '{{playerScore}}': (ctx) => (ctx.playerScore ?? 0).toLocaleString(),
+  '{{targetScore}}': (ctx) => (ctx.targetScore ?? 0).toLocaleString(),
+  '{{scoreProgress}}': (ctx) => {
+    if (!ctx.targetScore) return '0%';
+    return Math.round(((ctx.playerScore ?? 0) / ctx.targetScore) * 100) + '%';
+  },
+  '{{turnsLeft}}': (ctx) => String(ctx.turnsLeft ?? 0),
+  '{{throwsUsed}}': (ctx) => String(ctx.throwsUsed ?? 0),
+  '{{totalTurns}}': (ctx) => String((ctx.turnsLeft ?? 0) + (ctx.throwsUsed ?? 0)),
+  '{{scoreGap}}': (ctx) => ((ctx.targetScore ?? 0) - (ctx.playerScore ?? 0)).toLocaleString(),
+
+  // Dice/Roll variables
+  '{{lastRoll}}': (ctx) => String(ctx.lastRoll ?? 0),
+  '{{diceUsed}}': (ctx) => ctx.diceUsed?.join(', ') || 'none',
+  '{{diceCount}}': (ctx) => String(ctx.diceCount ?? ctx.diceUsed?.length ?? 0),
+  '{{primaryDie}}': (ctx) => ctx.primaryDie || 'd6',
+
+  // Momentum variables
+  '{{momentum}}': (ctx) => ctx.momentum || 'even',
+  '{{isWinning}}': (ctx) => (ctx.isWinning ? 'yes' : 'no'),
+
+  // Domain/Room progress variables
+  '{{domainName}}': (ctx) => ctx.domainName || ctx.currentDomain || 'the void',
+  '{{domainId}}': (ctx) => String(ctx.domainId ?? 1),
+  '{{zonesCleared}}': (ctx) => String(ctx.zonesCleared ?? 0),
+  '{{totalZones}}': (ctx) => String(ctx.totalZones ?? 3),
+  '{{eventVariant}}': (ctx) => ctx.eventVariant || 'standard',
+
+  // NPC identity variables
+  '{{npcSlug}}': (ctx) => ctx.npcSlug || 'unknown',
+  '{{npcCategory}}': (ctx) => ctx.npcCategory || 'wanderers',
 };
 
 // ============================================
@@ -166,14 +254,43 @@ export function getKnownVariables(): string[] {
 // ============================================
 
 /**
+ * Derive momentum string from combat state flags
+ */
+function deriveMomentum(
+  combatContext?: CombatContext
+): VariableContext['momentum'] {
+  if (!combatContext) return 'even';
+  if (combatContext.isCrushingIt) return 'crushing';
+  if (combatContext.isComeback) return 'comeback';
+  if (combatContext.isWinning) return 'ahead';
+
+  // Check if behind based on score
+  const current = combatContext.currentScore ?? 0;
+  const target = combatContext.targetScore ?? 1;
+  const progress = current / target;
+
+  // If less than 50% with less than 50% turns remaining, we're behind
+  const turnsUsed = combatContext.turnNumber ?? 0;
+  const turnsRemaining = combatContext.turnsRemaining ?? 1;
+  const turnProgress = turnsUsed / (turnsUsed + turnsRemaining);
+
+  if (progress < 0.5 && turnProgress > 0.5) return 'behind';
+  return 'even';
+}
+
+/**
  * Build variable context from response context and NPC config
  */
 export function buildVariableContext(
   responseContext: ResponseContext,
   npcConfig?: NPCPersonalityConfig,
   domainVariables?: Record<string, string>,
-  memoryVariables?: Record<string, string | number>
+  memoryVariables?: Record<string, string | number>,
+  combatContext?: CombatContext
 ): VariableContext {
+  // Derive momentum from combat state
+  const momentum = deriveMomentum(combatContext);
+
   return {
     playerName: 'Traveler', // Could come from player profile
     playerGold: responseContext.playerGold,
@@ -181,6 +298,8 @@ export function buildVariableContext(
     playerLuckyNumber: responseContext.playerLuckyNumber,
 
     npcName: npcConfig?.name,
+    npcSlug: npcConfig?.slug,
+    npcCategory: combatContext?.npcCategory,
     // npcDomain and npcElement would come from wiki entity data
 
     currentDomain: responseContext.currentDomain,
@@ -190,6 +309,33 @@ export function buildVariableContext(
     favorLevel: responseContext.relationship
       ? getFavorLevel(responseContext.relationship)
       : undefined,
+
+    // Combat state
+    playerScore: combatContext?.currentScore,
+    targetScore: combatContext?.targetScore,
+    turnsLeft: combatContext?.turnsRemaining,
+    throwsUsed: combatContext?.turnNumber,
+    scoreGap:
+      combatContext?.targetScore !== undefined && combatContext?.currentScore !== undefined
+        ? combatContext.targetScore - combatContext.currentScore
+        : undefined,
+
+    // Dice/Roll info
+    lastRoll: combatContext?.lastRollTotal,
+    diceUsed: combatContext?.lastDiceUsed,
+    diceCount: combatContext?.lastDiceUsed?.length,
+    primaryDie: combatContext?.lastDiceUsed?.[0],
+
+    // Momentum
+    momentum,
+    isWinning: combatContext?.isWinning,
+
+    // Domain/Room progress
+    domainName: combatContext?.domainName,
+    domainId: combatContext?.domainId,
+    zonesCleared: combatContext?.zonesCleared,
+    totalZones: combatContext?.totalZones,
+    eventVariant: combatContext?.eventVariant,
 
     // Memory variables (Phase 5)
     myTotalDeaths: memoryVariables?.myTotalDeaths as number | undefined,
