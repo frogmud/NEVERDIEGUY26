@@ -45,7 +45,8 @@ import {
   detectDrawEvents,
   calculateEventBonuses,
 } from '@ndg/ai-engine';
-import { DrawEventToast, useDrawEventToast } from '../../../components/DrawEventToast';
+// Draw event toast disabled to reduce UI clutter
+// import { DrawEventToast, useDrawEventToast } from '../../../components/DrawEventToast';
 import { DensityMeter } from '../../../components/DensityMeter';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
@@ -549,8 +550,7 @@ export function CombatTerminal({
   const [lastScoreGain, setLastScoreGain] = useState(0);
   const [bossIsHit, setBossIsHit] = useState(false);
 
-  // Draw event toast for special dice patterns
-  const { currentEvent: drawEvent, showEvents: showDrawEvents, clearCurrent: clearDrawEvent } = useDrawEventToast();
+  // Draw event toast disabled - reduces UI clutter
 
   // Event timer state (45s countdown)
   const [timeRemainingMs, setTimeRemainingMs] = useState<number>(FLAT_EVENT_CONFIG.eventDurationMs);
@@ -1470,11 +1470,10 @@ export function CombatTerminal({
           onDiceRoll(rollPayload);
         }
 
-        // Detect draw events (special dice patterns) and show toast
+        // Detect draw events (special dice patterns) - bonuses applied silently
+        // Toast disabled to reduce UI clutter during gameplay
         const drawEvents = detectDrawEvents(newState.hand);
-        if (drawEvents.length > 0) {
-          showDrawEvents(drawEvents);
-        }
+        void drawEvents; // Detection available for future use
 
         // Fire situational triggers based on game state
         const scoreProgress = newState.targetScore > 0
@@ -1497,7 +1496,7 @@ export function CombatTerminal({
         }
       }
     }, adjustDelay(100));
-  }, [isProcessing, onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage, showDrawEvents]);
+  }, [isProcessing, onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage]);
 
   // Victory explosion callback - fires after explosion animation
   // Uses ref to prevent multiple firings and avoid stale closure issues
@@ -1768,11 +1767,7 @@ export function CombatTerminal({
         onClose={() => setReportOpen(false)}
       />
 
-      {/* Draw Event Toast - shows when special dice patterns proc */}
-      <DrawEventToast
-        event={drawEvent}
-        onComplete={clearDrawEvent}
-      />
+      {/* Draw Event Toast disabled - reduces UI clutter during gameplay */}
     </Box>
   );
 }
