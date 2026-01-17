@@ -86,6 +86,8 @@ interface PlaySidebarProps {
   gold?: number;
   // Shop mode - hides score to beat
   isInShop?: boolean;
+  // Mobile mode - larger tap targets
+  isMobile?: boolean;
 }
 
 type LobbyTabValue = 'game' | 'bag' | 'options';
@@ -119,7 +121,10 @@ export function PlaySidebar({
   totalScore = 0,
   gold = 0,
   isInShop = false,
+  isMobile = false,
 }: PlaySidebarProps) {
+  // Touch-friendly dimensions for mobile
+  const tabHeight = isMobile ? 56 : 48;
   const [activeTab, setActiveTab] = useState<LobbyTabValue>('game');
   const [selectedLoadout, setSelectedLoadout] = useState<string>(DEFAULT_LOADOUT_ID);
 
@@ -171,7 +176,7 @@ export function PlaySidebar({
       <Box
         sx={{
           borderBottom: `1px solid ${tokens.colors.border}`,
-          height: 48,
+          height: tabHeight,
           flexShrink: 0,
         }}
       >
@@ -180,20 +185,20 @@ export function PlaySidebar({
           onChange={(_, value) => setActiveTab(value)}
           variant="fullWidth"
           sx={{
-            height: 48,
-            minHeight: 48,
+            height: tabHeight,
+            minHeight: tabHeight,
             '& .MuiTabs-indicator': {
               backgroundColor: tokens.colors.text.primary,
               height: 2,
             },
             '& .MuiTabs-flexContainer': {
-              height: 48,
+              height: tabHeight,
             },
             '& .MuiTab-root': {
-              height: 48,
-              minHeight: 48,
+              height: tabHeight,
+              minHeight: tabHeight,
               fontWeight: 500,
-              fontSize: '0.875rem',
+              fontSize: isMobile ? '1rem' : '0.875rem',
               textTransform: 'none',
               color: tokens.colors.text.secondary,
               '&.Mui-selected': {

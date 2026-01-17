@@ -10,7 +10,9 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
+import { Box, Drawer, Fab, useMediaQuery, useTheme } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { tokens } from '../../theme';
 import { PlaySidebar } from './components';
 import { RunSummary } from './components/RunSummary';
@@ -75,6 +77,11 @@ export function PlayHub() {
   const navigate = useNavigate();
   const location = useLocation();
   const navState = location.state as { practiceMode?: boolean } | null;
+
+  // Mobile responsive: drawer for sidebar on small screens
+  const muiTheme = useTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md')); // < 900px
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Mark that user has started a game (transforms home page from marketing LP)
   useEffect(() => {
@@ -543,31 +550,101 @@ export function PlayHub() {
         </Box>
       </Box>
 
-      {/* Right: Sidebar (transforms based on game phase) */}
-      <PlaySidebar
-        phase={sidebarPhase}
-        width={SIDEBAR_WIDTH}
-        onNewRun={handleNewRun}
-        onContinue={handleContinue}
-        onLaunch={handleLaunch}
-        onBack={handleBack}
-        zones={zonesForSidebar}
-        selectedZoneId={state.selectedZone?.id}
-        onZoneSelect={handleZoneSelectFromSidebar}
-        seedHash={state.threadId?.slice(0, 6)}
-        gameState={sidebarPhase === 'playing' ? gameState : undefined}
-        onOptions={handleOptions}
-        onInfo={handleInfo}
-        hasSavedRun={hasSavedRun()}
-        combatFeed={combatFeed}
-        currentDomain={state.currentDomain || 1}
-        totalDomains={6}
-        currentRoom={state.roomNumber || 1}
-        totalRooms={3}
-        totalScore={state.totalScore || 0}
-        gold={state.gold || 0}
-        isInShop={isInShop}
-      />
+      {/* Right: Sidebar - Drawer on mobile, static on desktop */}
+      {isMobile ? (
+        <>
+          {/* Mobile FAB toggle */}
+          <Fab
+            size="medium"
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            sx={{
+              position: 'fixed',
+              bottom: 16,
+              right: 16,
+              zIndex: 1200,
+              bgcolor: tokens.colors.primary,
+              color: '#fff',
+              '&:hover': {
+                bgcolor: tokens.colors.primary,
+                opacity: 0.9,
+              },
+            }}
+          >
+            {drawerOpen ? <CloseIcon /> : <MenuIcon />}
+          </Fab>
+          <Drawer
+            anchor="right"
+            open={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            PaperProps={{
+              sx: {
+                width: SIDEBAR_WIDTH,
+                bgcolor: tokens.colors.background.paper,
+              },
+            }}
+          >
+            <PlaySidebar
+              phase={sidebarPhase}
+              width={SIDEBAR_WIDTH}
+              onNewRun={(loadoutId, items) => {
+                handleNewRun(loadoutId, items);
+                setDrawerOpen(false); // Close drawer on new run
+              }}
+              onContinue={() => {
+                handleContinue();
+                setDrawerOpen(false); // Close drawer on continue
+              }}
+              onLaunch={() => {
+                handleLaunch();
+                setDrawerOpen(false); // Close drawer on launch
+              }}
+              onBack={handleBack}
+              zones={zonesForSidebar}
+              selectedZoneId={state.selectedZone?.id}
+              onZoneSelect={handleZoneSelectFromSidebar}
+              seedHash={state.threadId?.slice(0, 6)}
+              gameState={sidebarPhase === 'playing' ? gameState : undefined}
+              onOptions={handleOptions}
+              onInfo={handleInfo}
+              hasSavedRun={hasSavedRun()}
+              combatFeed={combatFeed}
+              currentDomain={state.currentDomain || 1}
+              totalDomains={6}
+              currentRoom={state.roomNumber || 1}
+              totalRooms={3}
+              totalScore={state.totalScore || 0}
+              gold={state.gold || 0}
+              isInShop={isInShop}
+              isMobile={true}
+            />
+          </Drawer>
+        </>
+      ) : (
+        <PlaySidebar
+          phase={sidebarPhase}
+          width={SIDEBAR_WIDTH}
+          onNewRun={handleNewRun}
+          onContinue={handleContinue}
+          onLaunch={handleLaunch}
+          onBack={handleBack}
+          zones={zonesForSidebar}
+          selectedZoneId={state.selectedZone?.id}
+          onZoneSelect={handleZoneSelectFromSidebar}
+          seedHash={state.threadId?.slice(0, 6)}
+          gameState={sidebarPhase === 'playing' ? gameState : undefined}
+          onOptions={handleOptions}
+          onInfo={handleInfo}
+          hasSavedRun={hasSavedRun()}
+          combatFeed={combatFeed}
+          currentDomain={state.currentDomain || 1}
+          totalDomains={6}
+          currentRoom={state.roomNumber || 1}
+          totalRooms={3}
+          totalScore={state.totalScore || 0}
+          gold={state.gold || 0}
+          isInShop={isInShop}
+        />
+      )}
 
       {/* Transition Wipe */}
       <TransitionWipe
