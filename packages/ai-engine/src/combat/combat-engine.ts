@@ -24,6 +24,8 @@ import {
   generateDicePool,
   drawHand,
   rollHand,
+  rollHandWithPity,
+  createPityState,
   toggleHold,
   discardAndDraw,
   getHandTotal,
@@ -35,6 +37,7 @@ import {
   type DiceHand,
   type Element,
   type DieSides,
+  type PityState,
 } from './dice-hand';
 
 // ============================================
@@ -108,6 +111,7 @@ export interface CombatState {
   hand: Die[];
   holdsRemaining: number;   // "Trades" - swap dice for multiplier bonus (2 per combat)
   throwsRemaining: number;  // Throws left for entire combat (3 total, no reset)
+  pityState: PityState;     // Pity timer - prevents frustrating low-roll streaks
 
   // Scoring
   targetScore: number;
@@ -284,6 +288,7 @@ export class CombatEngine {
       hand,
       holdsRemaining: baseTrades + bonusTrades,   // 2 base + item bonus
       throwsRemaining: baseThrows + bonusThrows,  // 3 base + item bonus
+      pityState: createPityState(),               // Initialize pity timer
       targetScore,
       currentScore: startingScore,                // Start with bonus score
       multiplier: baseMultiplier,                 // Base multiplier (built via trades)
@@ -407,8 +412,14 @@ export class CombatEngine {
     if (this.state.phase !== 'select' && this.state.phase !== 'draw') return;
     if (this.state.throwsRemaining <= 0) return; // No throws left
 
-    // Roll unheld dice only
-    this.state.hand = rollHand(this.state.hand, this.rng);
+    // Roll unheld dice with pity timer
+    const { hand, pityState } = rollHandWithPity(
+      this.state.hand,
+      this.rng,
+      this.state.pityState
+    );
+    this.state.hand = hand;
+    this.state.pityState = pityState;
     this.state.throwsRemaining--;
 
     // Calculate score with element bonuses
