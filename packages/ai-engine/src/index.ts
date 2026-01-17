@@ -799,3 +799,25 @@ export type {
   ItemDefinition,
   RarityConfig,
 } from './items';
+
+// ============================================
+// Shop System
+// ============================================
+
+export {
+  DEFAULT_SHOP_CONFIG,
+  WANDERER_EFFECTS,
+  defaultRng,
+  getTierPriceMultiplier,
+  generateShopPool,
+  rerollShop,
+  purchaseItem,
+  toggleLock,
+  highlightSynergies,
+} from './shop';
+export type {
+  ShopConfig,
+  ShopSlot,
+  ShopState,
+  ShopRng,
+} from './shop';
