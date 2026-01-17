@@ -868,3 +868,15 @@ export type {
   ShopState,
   ShopRng,
 } from './shop';
+
+// ============================================
+// Multiplayer - Divine Drama Engine
+// ============================================
+
+export * from './multiplayer';
+
+// ============================================
+// NPC Eternal Stream System
+// ============================================
+
+export * from './stream';

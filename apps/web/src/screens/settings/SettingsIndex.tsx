@@ -1,10 +1,10 @@
 /**
  * SettingsIndex - Settings hub with right-side sections nav (Wiki pattern)
  *
- * MVP Categories:
- * - Board & Pieces: Dice themes and colors
- * - Gameplay: Dice rolling options
- * - Accessibility: Reduced motion, colorblind mode
+ * Categories:
+ * - Controls: Dice preview and keyboard mapping
+ * - Audio: Sound effects and volume
+ * - Accessibility: Reduced motion, large text
  */
 
 import { useState } from 'react';
@@ -15,7 +15,6 @@ import { tokens } from '../../theme';
 
 // Section components
 import { BoardAndPiecesSection } from './sections/BoardAndPieces';
-import { GameplaySection } from './sections/Gameplay';
 import { AudioSection } from './sections/Audio';
 import { AccessibilitySection } from './sections/Accessibility';
 
@@ -24,8 +23,7 @@ import { AccessibilitySection } from './sections/Accessibility';
 // ============================================
 
 type SettingsCategory =
-  | 'board'
-  | 'gameplay'
+  | 'controls'
   | 'audio'
   | 'accessibility';
 
@@ -39,8 +37,7 @@ interface CategoryConfig {
 // ============================================
 
 const categories: CategoryConfig[] = [
-  { id: 'board', label: 'Board & Pieces' },
-  { id: 'gameplay', label: 'Gameplay' },
+  { id: 'controls', label: 'Controls' },
   { id: 'audio', label: 'Audio' },
   { id: 'accessibility', label: 'Accessibility' },
 ];
@@ -53,7 +50,7 @@ export function SettingsIndex() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [activeCategory, setActiveCategory] = useState<SettingsCategory>('board');
+  const [activeCategory, setActiveCategory] = useState<SettingsCategory>('controls');
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const handleCategoryClick = (category: CategoryConfig) => {
@@ -64,10 +61,8 @@ export function SettingsIndex() {
   // Render the active section
   const renderSection = () => {
     switch (activeCategory) {
-      case 'board':
+      case 'controls':
         return <BoardAndPiecesSection />;
-      case 'gameplay':
-        return <GameplaySection />;
       case 'audio':
         return <AudioSection />;
       case 'accessibility':

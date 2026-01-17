@@ -110,3 +110,50 @@ export function getTotalEntryCount(): number {
   }
   return cachedEntryCount;
 }
+
+/**
+ * Get NPC entry count by slug
+ */
+export function getNPCEntryCount(slug: string): number {
+  return chatbaseRegistry.get(slug)?.length || 0;
+}
+
+/**
+ * Get unique pools for an NPC
+ */
+export function getNPCPools(slug: string): string[] {
+  const entries = chatbaseRegistry.get(slug) || [];
+  const pools = new Set(entries.map((e) => e.pool));
+  return Array.from(pools);
+}
+
+/**
+ * Manifest structure for client-side caching
+ */
+export interface ChatManifest {
+  npcs: string[];
+  counts: Record<string, number>;
+  pools: Record<string, string[]>;
+  total: number;
+}
+
+/**
+ * Generate full manifest for client-side use
+ */
+export function getChatManifest(): ChatManifest {
+  const npcs = getRegisteredNPCs();
+  const counts: Record<string, number> = {};
+  const pools: Record<string, string[]> = {};
+
+  for (const slug of npcs) {
+    counts[slug] = getNPCEntryCount(slug);
+    pools[slug] = getNPCPools(slug);
+  }
+
+  return {
+    npcs,
+    counts,
+    pools,
+    total: getTotalEntryCount(),
+  };
+}

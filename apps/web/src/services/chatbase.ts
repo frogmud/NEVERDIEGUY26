@@ -598,34 +598,81 @@ export function lookupDialogue(request: ChatRequest): ChatResponse {
   return fallbackResponse(request.npcSlug, request.pool);
 }
 
+// ============================================================
+// MANIFEST CACHE (NPC stats from /api/chat-manifest)
+// ============================================================
+
+interface ChatManifest {
+  npcs: string[];
+  counts: Record<string, number>;
+  pools: Record<string, string[]>;
+  total: number;
+}
+
+let manifestCache: ChatManifest | null = null;
+let manifestLoading = false;
+
+/**
+ * Load manifest from API (called eagerly on module load)
+ */
+async function loadManifest(): Promise<ChatManifest | null> {
+  if (manifestCache) return manifestCache;
+  if (manifestLoading) return null;
+
+  manifestLoading = true;
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+
+    const res = await fetch('/api/chat-manifest', { signal: controller.signal });
+    clearTimeout(timeout);
+
+    if (res.ok) {
+      manifestCache = await res.json();
+      return manifestCache;
+    }
+  } catch {
+    // Silently fail - functions will return empty values
+  } finally {
+    manifestLoading = false;
+  }
+  return null;
+}
+
+// Eagerly load manifest on module init (non-blocking)
+loadManifest();
+
 /**
  * Get all registered NPC slugs
- * TODO: Implement post-MVP - fetch from /api/chat/stats or bundle at build time
  */
 export function getRegisteredNPCs(): string[] {
-  return [];
+  return manifestCache?.npcs || [];
 }
 
 /**
  * Get entry count for an NPC
- * TODO: Implement post-MVP - fetch from /api/chat/stats
  */
-export function getNPCEntryCount(_slug: string): number {
-  return 0;
+export function getNPCEntryCount(slug: string): number {
+  return manifestCache?.counts[slug] || 0;
 }
 
 /**
  * Get total entries across all NPCs
- * TODO: Implement post-MVP - fetch from /api/chat/stats
  */
 export function getTotalEntryCount(): number {
-  return 0;
+  return manifestCache?.total || 0;
 }
 
 /**
  * Get available pools for an NPC
- * TODO: Implement post-MVP - derive from chatbase data
  */
-export function getNPCPools(_slug: string): string[] {
-  return [];
+export function getNPCPools(slug: string): string[] {
+  return manifestCache?.pools[slug] || [];
+}
+
+/**
+ * Async version - ensures manifest is loaded before returning
+ */
+export async function getManifestAsync(): Promise<ChatManifest | null> {
+  return loadManifest();
 }

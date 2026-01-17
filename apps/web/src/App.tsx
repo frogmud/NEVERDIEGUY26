@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, GlobalStyles } from '@mui/material';
 import { Shell } from './components/Shell';
 import { tokens } from './theme';
-import { RunProvider } from './contexts';
+import { RunProvider, PartyProvider } from './contexts';
 
 // Global CSS animations for cross-browser compatibility
 const globalAnimations = {
@@ -73,6 +73,7 @@ const Inventory = lazy(() => import('./screens/play/Inventory').then(m => ({ def
 const MatchStats = lazy(() => import('./screens/play/MatchStats').then(m => ({ default: m.MatchStats })));
 const LootDrop = lazy(() => import('./screens/play/LootDrop').then(m => ({ default: m.LootDrop })));
 const Globe3D = lazy(() => import('./screens/play/Globe3D').then(m => ({ default: m.Globe3D })));
+const MultiplayerHub = lazy(() => import('./screens/play/MultiplayerHub').then(m => ({ default: m.MultiplayerHub })));
 
 // Game
 const LocationSelector = lazy(() => import('./screens/game/LocationSelector').then(m => ({ default: m.LocationSelector })));
@@ -133,7 +134,10 @@ function App() {
           <Route path="/play" element={<Suspense fallback={<RouteLoader />}><RunProvider><PlayHub /></RunProvider></Suspense>} />
           <Route path="/play/results" element={<Suspense fallback={<RouteLoader />}><PlayResults /></Suspense>} />
           <Route path="/play/meteor" element={<Suspense fallback={<RouteLoader />}><DiceMeteor /></Suspense>} />
-          {/* MVP: Multiplayer routes hidden until backend ready */}
+          {/* Multiplayer - Divine Drama Engine */}
+          <Route path="/play/multiplayer" element={<Suspense fallback={<RouteLoader />}><PartyProvider><RunProvider><MultiplayerHub /></RunProvider></PartyProvider></Suspense>} />
+          <Route path="/play/multiplayer/:roomCode" element={<Suspense fallback={<RouteLoader />}><PartyProvider><RunProvider><MultiplayerHub /></RunProvider></PartyProvider></Suspense>} />
+          {/* MVP: Replays/Tournaments hidden until backend ready */}
           {/* <Route path="/play/replays" element={<Suspense fallback={<RouteLoader />}><ReplayList /></Suspense>} /> */}
           {/* <Route path="/play/tournament" element={<Suspense fallback={<RouteLoader />}><TournamentBracket /></Suspense>} /> */}
           <Route path="/play/globe" element={<Suspense fallback={<RouteLoader />}><Globe3D /></Suspense>} />

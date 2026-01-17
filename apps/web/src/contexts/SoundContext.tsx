@@ -2,16 +2,17 @@
  * SoundContext - Global sound system for NEVER DIE GUY
  *
  * Provides sound functions to all components.
+ * Supports multiple sound themes: synth (Web Audio), medieval, wooden, stone
  * Persists enabled state to localStorage.
  *
  * NEVER DIE GUY
  */
 
 import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
-import { useGameSettings } from './GameSettingsContext';
+import { useGameSettings, type SoundTheme } from './GameSettingsContext';
 
-// Sound configuration
-const SOUND_CONFIG = {
+// Synth sound configuration (for 'synth' theme)
+const SYNTH_CONFIG = {
   diceRoll: {
     clicks: 5,
     duration: 0.05,
@@ -42,7 +43,38 @@ const SOUND_CONFIG = {
   },
 };
 
-// Explosion audio files
+// Theme sound paths
+const THEME_SOUNDS: Record<Exclude<SoundTheme, 'synth'>, {
+  diceRoll: string;
+  impact: string;
+  click: string;
+  victory: string;
+  defeat: string;
+}> = {
+  medieval: {
+    diceRoll: '/sfx/themes/medieval/dice-roll.wav',
+    impact: '/sfx/themes/medieval/impact.wav',
+    click: '/sfx/themes/medieval/click.wav',
+    victory: '/sfx/themes/medieval/victory.wav',
+    defeat: '/sfx/themes/medieval/defeat.wav',
+  },
+  wooden: {
+    diceRoll: '/sfx/themes/wooden/dice-roll.wav',
+    impact: '/sfx/themes/wooden/impact.wav',
+    click: '/sfx/themes/wooden/click.wav',
+    victory: '/sfx/themes/wooden/victory.wav',
+    defeat: '/sfx/themes/wooden/defeat.wav',
+  },
+  stone: {
+    diceRoll: '/sfx/themes/stone/dice-roll.wav',
+    impact: '/sfx/themes/stone/impact.wav',
+    click: '/sfx/themes/stone/click.wav',
+    victory: '/sfx/themes/stone/victory.wav',
+    defeat: '/sfx/themes/stone/defeat.wav',
+  },
+};
+
+// Explosion audio files (shared across all themes)
 const EXPLOSION_SOUNDS = [
   '/sfx/explosion-01.wav',
   '/sfx/explosion-02.wav',
@@ -65,7 +97,7 @@ const SoundContext = createContext<SoundContextValue | null>(null);
 const STORAGE_KEY = 'ndg-sound-enabled';
 
 export function SoundProvider({ children }: { children: ReactNode }) {
-  const { masterVolume } = useGameSettings();
+  const { masterVolume, soundTheme } = useGameSettings();
 
   const [soundEnabled, setSoundEnabledState] = useState(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -148,63 +180,91 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     source.start(now);
   }, [soundEnabled, getAudioContext, masterVolume]);
 
+  // Play themed audio file
+  const playThemeSound = useCallback((soundPath: string, volume = 1) => {
+    if (!soundEnabled) return;
+
+    const audio = new Audio(soundPath);
+    audio.volume = masterVolume * volume;
+    audio.play().catch(() => {
+      // Ignore autoplay restrictions
+    });
+  }, [soundEnabled, masterVolume]);
+
   // Dice roll sound
   const playDiceRoll = useCallback(() => {
     if (!soundEnabled) return;
 
-    const { clicks, duration, baseFreq, variance } = SOUND_CONFIG.diceRoll;
-
-    for (let i = 0; i < clicks; i++) {
-      setTimeout(() => {
-        const freq = baseFreq + (Math.random() - 0.5) * variance;
-        playTone(freq, duration, 'square', 0.3);
-        playNoise(duration * 0.5, 0.2);
-      }, i * 50 + Math.random() * 30);
+    if (soundTheme === 'synth') {
+      const { clicks, duration, baseFreq, variance } = SYNTH_CONFIG.diceRoll;
+      for (let i = 0; i < clicks; i++) {
+        setTimeout(() => {
+          const freq = baseFreq + (Math.random() - 0.5) * variance;
+          playTone(freq, duration, 'square', 0.3);
+          playNoise(duration * 0.5, 0.2);
+        }, i * 50 + Math.random() * 30);
+      }
+    } else {
+      playThemeSound(THEME_SOUNDS[soundTheme].diceRoll);
     }
-  }, [soundEnabled, playTone, playNoise]);
+  }, [soundEnabled, soundTheme, playTone, playNoise, playThemeSound]);
 
   // Impact sound
   const playImpact = useCallback(() => {
     if (!soundEnabled) return;
 
-    const { duration, frequency } = SOUND_CONFIG.impact;
-    playTone(frequency, duration, 'sine', 0.6);
-    playTone(frequency * 3, duration * 0.3, 'triangle', 0.3);
-  }, [soundEnabled, playTone]);
+    if (soundTheme === 'synth') {
+      const { duration, frequency } = SYNTH_CONFIG.impact;
+      playTone(frequency, duration, 'sine', 0.6);
+      playTone(frequency * 3, duration * 0.3, 'triangle', 0.3);
+    } else {
+      playThemeSound(THEME_SOUNDS[soundTheme].impact);
+    }
+  }, [soundEnabled, soundTheme, playTone, playThemeSound]);
 
   // UI click sound
   const playUIClick = useCallback(() => {
     if (!soundEnabled) return;
 
-    const { duration, frequency } = SOUND_CONFIG.uiClick;
-    playTone(frequency, duration, 'square', 0.2);
-  }, [soundEnabled, playTone]);
+    if (soundTheme === 'synth') {
+      const { duration, frequency } = SYNTH_CONFIG.uiClick;
+      playTone(frequency, duration, 'square', 0.2);
+    } else {
+      playThemeSound(THEME_SOUNDS[soundTheme].click);
+    }
+  }, [soundEnabled, soundTheme, playTone, playThemeSound]);
 
   // Victory sound
   const playVictory = useCallback(() => {
     if (!soundEnabled) return;
 
-    const { notes, noteDuration, noteGap } = SOUND_CONFIG.victory;
-
-    notes.forEach((freq, i) => {
-      setTimeout(() => {
-        playTone(freq, noteDuration, 'square', 0.4);
-      }, i * (noteDuration + noteGap) * 1000);
-    });
-  }, [soundEnabled, playTone]);
+    if (soundTheme === 'synth') {
+      const { notes, noteDuration, noteGap } = SYNTH_CONFIG.victory;
+      notes.forEach((freq, i) => {
+        setTimeout(() => {
+          playTone(freq, noteDuration, 'square', 0.4);
+        }, i * (noteDuration + noteGap) * 1000);
+      });
+    } else {
+      playThemeSound(THEME_SOUNDS[soundTheme].victory);
+    }
+  }, [soundEnabled, soundTheme, playTone, playThemeSound]);
 
   // Defeat sound
   const playDefeat = useCallback(() => {
     if (!soundEnabled) return;
 
-    const { notes, noteDuration, noteGap } = SOUND_CONFIG.defeat;
-
-    notes.forEach((freq, i) => {
-      setTimeout(() => {
-        playTone(freq, noteDuration, 'sawtooth', 0.3);
-      }, i * (noteDuration + noteGap) * 1000);
-    });
-  }, [soundEnabled, playTone]);
+    if (soundTheme === 'synth') {
+      const { notes, noteDuration, noteGap } = SYNTH_CONFIG.defeat;
+      notes.forEach((freq, i) => {
+        setTimeout(() => {
+          playTone(freq, noteDuration, 'sawtooth', 0.3);
+        }, i * (noteDuration + noteGap) * 1000);
+      });
+    } else {
+      playThemeSound(THEME_SOUNDS[soundTheme].defeat);
+    }
+  }, [soundEnabled, soundTheme, playTone, playThemeSound]);
 
   // Explosion sound (random from pool)
   const playExplosion = useCallback(() => {
@@ -212,7 +272,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
     const randomIndex = Math.floor(Math.random() * EXPLOSION_SOUNDS.length);
     const audio = new Audio(EXPLOSION_SOUNDS[randomIndex]);
-    audio.volume = masterVolume * 0.5; // Slightly quieter for explosions
+    audio.volume = masterVolume * 0.4; // 40% of master volume
     audio.play().catch(() => {
       // Ignore autoplay restrictions
     });

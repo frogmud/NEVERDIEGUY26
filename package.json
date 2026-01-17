@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "turbo dev",
     "dev:web": "pnpm --filter @ndg/web dev",
+    "dev:party": "npx partykit dev",
     "build": "turbo build",
     "build:web": "pnpm --filter @ndg/web build",
+    "deploy:party": "npx partykit deploy",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
     "sim:pantheon": "pnpm --filter @ndg/ai-engine sim:pantheon",
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "@vercel/node": "^5.5.22",
+    "partykit": "^0.0.111",
     "tsx": "^4.19.0",
     "turbo": "^2.7.4",
     "typescript": "~5.8.3"

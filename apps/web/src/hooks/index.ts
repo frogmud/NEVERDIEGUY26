@@ -14,3 +14,9 @@ export { useCharacterAnimation } from './useCharacterAnimation';
 
 export { useNPCChat, useDialogueLookup } from './useNPCChat';
 export type { UseNPCChatOptions, UseNPCChatResult, ChatResponse } from './useNPCChat';
+
+// Multiplayer hooks
+export { useEternalStream } from './useEternalStream';
+export type { UseEternalStreamOptions, UseEternalStreamReturn } from './useEternalStream';
+
+export { usePartyBridge } from './usePartyBridge';

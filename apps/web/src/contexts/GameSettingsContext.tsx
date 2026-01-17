@@ -14,12 +14,17 @@ const GAME_SPEED_KEY = 'ndg-game-speed';
 const ANIMATIONS_ENABLED_KEY = 'ndg-animations-enabled';
 const MUSIC_ENABLED_KEY = 'ndg-music-enabled';
 const MASTER_VOLUME_KEY = 'ndg-master-volume';
+const SOUND_THEME_KEY = 'ndg-sound-theme';
+
+// Sound theme options
+export type SoundTheme = 'synth' | 'medieval' | 'wooden' | 'stone';
 
 // Default values
 const DEFAULT_GAME_SPEED = 1;
 const DEFAULT_ANIMATIONS_ENABLED = true;
 const DEFAULT_MUSIC_ENABLED = true;
-const DEFAULT_MASTER_VOLUME = 0.3;
+const DEFAULT_MASTER_VOLUME = 0.15; // Chess.com-style subtle volume
+const DEFAULT_SOUND_THEME: SoundTheme = 'synth';
 
 interface GameSettingsContextValue {
   // Game speed (0.5 to 2)
@@ -37,6 +42,10 @@ interface GameSettingsContextValue {
   // Master volume (0 to 1)
   masterVolume: number;
   setMasterVolume: (volume: number) => void;
+
+  // Sound theme
+  soundTheme: SoundTheme;
+  setSoundTheme: (theme: SoundTheme) => void;
 
   // Helper to adjust delay based on game speed
   // Lower game speed = slower animations (higher delay)
@@ -83,6 +92,15 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     return DEFAULT_MASTER_VOLUME;
   });
 
+  // Sound theme state
+  const [soundTheme, setSoundThemeState] = useState<SoundTheme>(() => {
+    const stored = localStorage.getItem(SOUND_THEME_KEY);
+    if (stored && ['synth', 'medieval', 'wooden', 'stone'].includes(stored)) {
+      return stored as SoundTheme;
+    }
+    return DEFAULT_SOUND_THEME;
+  });
+
   // Setters with localStorage persistence
   const setGameSpeed = useCallback((speed: number) => {
     const clampedSpeed = Math.max(0.5, Math.min(2, speed));
@@ -106,6 +124,11 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(MASTER_VOLUME_KEY, String(clampedVolume));
   }, []);
 
+  const setSoundTheme = useCallback((theme: SoundTheme) => {
+    setSoundThemeState(theme);
+    localStorage.setItem(SOUND_THEME_KEY, theme);
+  }, []);
+
   // Helper to adjust delays based on game speed
   // gameSpeed 2 = delays cut in half (faster)
   // gameSpeed 0.5 = delays doubled (slower)
@@ -125,6 +148,8 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
         setMusicEnabled,
         masterVolume,
         setMasterVolume,
+        soundTheme,
+        setSoundTheme,
         adjustDelay,
       }}
     >

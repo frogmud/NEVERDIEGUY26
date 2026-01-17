@@ -2,6 +2,29 @@ import { createTheme } from '@mui/material/styles';
 
 // NDG Design Tokens - aligned with main design system
 export const tokens = {
+  // Semantic aliases for multiplayer components
+  status: {
+    success: '#30d158',    // Apple green
+    error: '#ff453a',      // Apple red
+    warning: '#ffd60a',    // Apple yellow
+    info: '#00e5ff',       // Cyan
+    gold: '#c4a000',       // Gold currency
+    silver: '#b8b8b8',     // Silver (2nd place)
+    bronze: '#cd7f32',     // Bronze (3rd place)
+  },
+  surface: {
+    panel: '#1a1a1a',
+    elevated: '#242424',
+    border: 'rgba(255, 255, 255, 0.12)',
+  },
+  text: {
+    primary: '#ffffff',
+    secondary: 'rgba(255, 255, 255, 0.7)',
+  },
+  accent: {
+    primary: '#E90441',
+  },
+  // Original colors structure
   colors: {
     primary: '#E90441',      // pinky red (accessible)
     secondary: '#00e5ff',    // cyan

@@ -1,0 +1,13 @@
+{
+  "name": "@ndg/party-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@ndg/ai-engine": "workspace:*"
+  },
+  "devDependencies": {
+    "partykit": "^0.0.111",
+    "typescript": "~5.8.3"
+  }
+}

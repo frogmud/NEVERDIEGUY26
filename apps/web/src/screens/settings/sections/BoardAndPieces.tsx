@@ -1,87 +1,22 @@
 /**
- * BoardAndPieces - Dice visual customization
+ * BoardAndPieces -> Controls
  *
- * Clean design inspired by Chess.com settings:
- * - Hero dice preview
- * - Simplified theme selection
- * - Toggle sections for effects
+ * Simplified settings section showing:
+ * - Single dice preview with theme selection
+ * - Keyboard controls reference
  */
 
-import { useState, useRef, useEffect } from 'react';
-import { Box, Typography, Switch, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Box, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { tokens } from '../../../theme';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { CardSection } from '../../../components/CardSection';
 import { DiceShape } from '../../../components/DiceShapes';
-import { DICE_CONFIG, getDiceColor } from '../../../data/dice';
+import { getDiceColor } from '../../../data/dice';
 import { loadBoardSettings, saveBoardSettings, type BoardSettingsData } from '../../../data/player/storage';
 
 // ============================================
-// Balatro-style hover card (simplified)
-// ============================================
-
-interface BalatroCardProps {
-  children: React.ReactNode;
-  glowColor?: string;
-  selected?: boolean;
-  onClick?: () => void;
-}
-
-function BalatroCard({ children, glowColor, selected, onClick }: BalatroCardProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState('perspective(500px) rotateX(0deg) rotateY(0deg)');
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current || selected) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateY = ((x - centerX) / centerX) * 20;
-    const rotateX = ((centerY - y) / centerY) * 20;
-    setTransform(`perspective(400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.1)`);
-  };
-
-  const handleMouseLeave = () => {
-    if (!selected) {
-      setTransform('perspective(500px) rotateX(0deg) rotateY(0deg) scale(1)');
-    }
-    setIsHovered(false);
-  };
-
-  const selectedTransform = 'perspective(400px) translateY(-16px) scale(1.15)';
-
-  return (
-    <Box
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setIsHovered(true)}
-      onClick={onClick}
-      sx={{ cursor: 'pointer', p: 1, m: -1 }}
-    >
-      <Box
-        sx={{
-          transition: (isHovered && !selected) ? 'none' : 'all 0.3s ease-out',
-          transform: selected ? selectedTransform : transform,
-          filter: selected
-            ? `drop-shadow(0 16px 24px rgba(0,0,0,0.5)) drop-shadow(0 0 20px ${glowColor || 'rgba(255,255,255,0.3)'})`
-            : isHovered
-              ? `drop-shadow(0 8px 16px rgba(0,0,0,0.4))`
-              : 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
-          pointerEvents: 'none',
-        }}
-      >
-        {children}
-      </Box>
-    </Box>
-  );
-}
-
-// ============================================
-// Color themes (simplified to 2)
+// Color themes
 // ============================================
 
 type ThemeId = 'classic' | 'monochrome';
@@ -101,15 +36,14 @@ const monochromeColors: Record<number, string> = {
 };
 
 // ============================================
-// Size options
+// Keyboard controls
 // ============================================
 
-type SizeId = 'compact' | 'standard' | 'large';
-
-const sizes: { id: SizeId; label: string; size: number }[] = [
-  { id: 'compact', label: 'Compact', size: 32 },
-  { id: 'standard', label: 'Standard', size: 48 },
-  { id: 'large', label: 'Large', size: 64 },
+const keyboardControls = [
+  { key: 'SPACE', action: 'Throw dice' },
+  { key: '1-5', action: 'Toggle hold on die' },
+  { key: 'H', action: 'Hold all / Release all' },
+  { key: 'T', action: 'Trade dice for multiplier' },
 ];
 
 // ============================================
@@ -117,21 +51,17 @@ const sizes: { id: SizeId; label: string; size: number }[] = [
 // ============================================
 
 export function BoardAndPiecesSection() {
-  // Load settings from storage
   const [settings, setSettings] = useState<BoardSettingsData>(loadBoardSettings);
-  const [selectedDice, setSelectedDice] = useState<number | null>(null);
 
   // Persist on change
   useEffect(() => {
     saveBoardSettings(settings);
   }, [settings]);
 
-  // Destructure for convenience
-  const { theme, size, showRollAnimation, showCritEffects, hapticFeedback } = settings;
+  const { theme } = settings;
 
-  // Update helpers
-  const updateSetting = <K extends keyof BoardSettingsData>(key: K, value: BoardSettingsData[K]) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+  const updateTheme = (newTheme: ThemeId) => {
+    setSettings(prev => ({ ...prev, theme: newTheme }));
   };
 
   // Get color based on theme
@@ -139,67 +69,47 @@ export function BoardAndPiecesSection() {
     return theme === 'classic' ? getDiceColor(sides) : monochromeColors[sides];
   };
 
-  const currentSize = sizes.find(s => s.id === size)?.size || 48;
-  const showValue = size !== 'compact';
-
   return (
     <Box>
       <SectionHeader
-        title="Board & Pieces"
-        subtitle="Customize the look and feel of your dice"
+        title="Controls"
+        subtitle="Dice appearance and keyboard shortcuts"
         sx={{ mb: 3 }}
       />
 
-      {/* Hero Dice Preview */}
+      {/* Dice Preview */}
       <CardSection sx={{ mb: 3 }}>
         <Typography variant="body1" sx={{ fontWeight: 600, mb: 3 }}>
-          Your Dice Set
+          Dice Preview
         </Typography>
 
-        {/* Dice Display */}
+        {/* Single d20 centered */}
         <Box
           sx={{
             display: 'flex',
-            gap: 2.5,
             justifyContent: 'center',
-            flexWrap: 'wrap',
             py: 4,
             px: 2,
-            borderRadius: '20px',
+            borderRadius: '16px',
             backgroundColor: tokens.colors.background.elevated,
-            minHeight: 140,
           }}
         >
-          {DICE_CONFIG.map((config) => {
-            const color = getColor(config.sides);
-            const isSelected = selectedDice === config.sides;
-
-            return (
-              <BalatroCard
-                key={config.sides}
-                glowColor={`${color}60`}
-                selected={isSelected}
-                onClick={() => setSelectedDice(isSelected ? null : config.sides)}
-              >
-                <DiceShape
-                  sides={config.sides}
-                  size={currentSize}
-                  color={color}
-                  value={showValue ? config.sides : undefined}
-                  fontFamily={tokens.fonts.gaming}
-                  fontScale={0.6}
-                />
-              </BalatroCard>
-            );
-          })}
+          <DiceShape
+            sides={20}
+            size={80}
+            color={getColor(20)}
+            value={20}
+            fontFamily={tokens.fonts.gaming}
+            fontScale={0.5}
+          />
         </Box>
 
-        {/* Size Selector */}
+        {/* Theme Selector */}
         <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
           <ToggleButtonGroup
-            value={size}
+            value={theme}
             exclusive
-            onChange={(_, val) => val && updateSetting('size', val)}
+            onChange={(_, val) => val && updateTheme(val)}
             size="small"
             sx={{
               '& .MuiToggleButton-root': {
@@ -219,156 +129,61 @@ export function BoardAndPiecesSection() {
               },
             }}
           >
-            {sizes.map((s) => (
-              <ToggleButton key={s.id} value={s.id}>
-                {s.label}
+            {themes.map((t) => (
+              <ToggleButton key={t.id} value={t.id}>
+                {t.name}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
         </Box>
       </CardSection>
 
-      {/* Theme Selection */}
-      <CardSection sx={{ mb: 3 }}>
+      {/* Keyboard Controls */}
+      <CardSection>
         <Typography variant="body1" sx={{ fontWeight: 600, mb: 2 }}>
-          Color Theme
+          Keyboard Controls
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          {themes.map((t) => (
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          {keyboardControls.map((control, index) => (
             <Box
-              key={t.id}
-              onClick={() => updateSetting('theme', t.id)}
+              key={index}
               sx={{
-                flex: 1,
-                p: 2,
-                borderRadius: '16px',
-                border: `2px solid ${theme === t.id ? tokens.colors.primary : tokens.colors.border}`,
-                backgroundColor: theme === t.id ? `${tokens.colors.primary}10` : 'transparent',
-                cursor: 'pointer',
-                textAlign: 'center',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  borderColor: tokens.colors.primary,
-                },
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
               }}
             >
-              {/* Mini dice preview */}
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5, mb: 1.5 }}>
-                {[4, 6, 20].map((sides) => (
-                  <Box
-                    key={sides}
-                    sx={{
-                      width: 12,
-                      height: 12,
-                      borderRadius: '3px',
-                      backgroundColor: t.id === 'classic' ? getDiceColor(sides) : monochromeColors[sides],
-                    }}
-                  />
-                ))}
+              <Box
+                sx={{
+                  minWidth: 64,
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: '6px',
+                  backgroundColor: tokens.colors.background.elevated,
+                  border: `1px solid ${tokens.colors.border}`,
+                  textAlign: 'center',
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontFamily: 'monospace',
+                    fontWeight: 600,
+                    color: tokens.colors.text.primary,
+                  }}
+                >
+                  {control.key}
+                </Typography>
               </Box>
               <Typography
                 variant="body2"
-                sx={{
-                  fontWeight: theme === t.id ? 600 : 400,
-                  color: theme === t.id ? tokens.colors.text.primary : tokens.colors.text.secondary,
-                }}
+                sx={{ color: tokens.colors.text.secondary }}
               >
-                {t.name}
+                {control.action}
               </Typography>
             </Box>
           ))}
-        </Box>
-      </CardSection>
-
-      {/* Dice Effects */}
-      <CardSection>
-        <Typography variant="body1" sx={{ fontWeight: 600, mb: 2 }}>
-          Dice Effects
-        </Typography>
-
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          {/* Roll Animation */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              py: 1.5,
-              borderBottom: `1px solid ${tokens.colors.border}`,
-            }}
-          >
-            <Box>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                Roll Animation
-              </Typography>
-              <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                Animate dice when rolling
-              </Typography>
-            </Box>
-            <Switch
-              checked={showRollAnimation}
-              onChange={() => updateSetting('showRollAnimation', !showRollAnimation)}
-              sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: tokens.colors.primary },
-                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: tokens.colors.primary },
-              }}
-            />
-          </Box>
-
-          {/* Crit Effects */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              py: 1.5,
-              borderBottom: `1px solid ${tokens.colors.border}`,
-            }}
-          >
-            <Box>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                Critical Hit Effects
-              </Typography>
-              <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                Special effects on max rolls
-              </Typography>
-            </Box>
-            <Switch
-              checked={showCritEffects}
-              onChange={() => updateSetting('showCritEffects', !showCritEffects)}
-              sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: tokens.colors.primary },
-                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: tokens.colors.primary },
-              }}
-            />
-          </Box>
-
-          {/* Haptic Feedback */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              py: 1.5,
-            }}
-          >
-            <Box>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                Haptic Feedback
-              </Typography>
-              <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                Vibration on mobile devices
-              </Typography>
-            </Box>
-            <Switch
-              checked={hapticFeedback}
-              onChange={() => updateSetting('hapticFeedback', !hapticFeedback)}
-              sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: tokens.colors.primary },
-                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: tokens.colors.primary },
-              }}
-            />
-          </Box>
         </Box>
       </CardSection>
     </Box>

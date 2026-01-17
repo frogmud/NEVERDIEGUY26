@@ -63,8 +63,18 @@ const LUCKY_NUMBER_DIE: Record<number, string> = {
 // Gaming font style
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
-// Mock inventory items for sidebar
-const sidebarInventoryItems = [
+// Inventory item type
+interface InventoryItem {
+  id: string;
+  name: string;
+  rarity: string;
+  type: 'dice' | 'accessory' | 'material' | 'consumable';
+  quantity: number;
+  equipped: boolean;
+}
+
+// Initial mock inventory items for sidebar
+const INITIAL_INVENTORY: InventoryItem[] = [
   { id: '1', name: 'Golden Dice', rarity: 'legendary', type: 'dice', quantity: 1, equipped: true },
   { id: '2', name: 'Meteor Dice', rarity: 'rare', type: 'dice', quantity: 1, equipped: false },
   { id: '3', name: 'Lucky Charm', rarity: 'uncommon', type: 'accessory', quantity: 1, equipped: true },
@@ -96,7 +106,7 @@ const rarityConfig: Record<string, { color: string; label: string }> = {
 type SidebarTab = 'new-game' | 'inventory' | 'history';
 
 // Compact inventory item for sidebar
-function SidebarInventoryItem({ item, onClick }: { item: typeof sidebarInventoryItems[0]; onClick: () => void }) {
+function SidebarInventoryItem({ item, onClick }: { item: InventoryItem; onClick: () => void }) {
   const rarity = rarityConfig[item.rarity];
 
   return (
@@ -623,6 +633,25 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
   const [activeTab, setActiveTab] = useState<SidebarTab>('new-game');
   const [inventoryFilter, setInventoryFilter] = useState<string>('all');
   const [devDrawerOpen, setDevDrawerOpen] = useState(false);
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>(INITIAL_INVENTORY);
+
+  // Handle inventory item click - use consumables, toggle equip for others
+  const handleItemClick = (item: InventoryItem) => {
+    if (item.type === 'consumable') {
+      // Use consumable immediately
+      if (item.quantity <= 0) return;
+      setInventoryItems((prev) =>
+        prev
+          .map((i) => (i.id === item.id ? { ...i, quantity: i.quantity - 1 } : i))
+          .filter((i) => i.quantity > 0)
+      );
+      return;
+    }
+    // Toggle equipped state for equipment/accessories/dice
+    setInventoryItems((prev) =>
+      prev.map((i) => (i.id === item.id ? { ...i, equipped: !i.equipped } : i))
+    );
+  };
 
   // Simplified thread setup - traveler and loadout selection
   const [selectedTraveler, setSelectedTraveler] = useState<string>('never-die-guy');
@@ -668,8 +697,8 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
   };
 
   const filteredInventoryItems = inventoryFilter === 'all'
-    ? sidebarInventoryItems
-    : sidebarInventoryItems.filter((item) => item.type === inventoryFilter);
+    ? inventoryItems
+    : inventoryItems.filter((item) => item.type === inventoryFilter);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -1001,9 +1030,7 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
                 <SidebarInventoryItem
                   key={item.id}
                   item={item}
-                  onClick={() => {
-                    // TODO: Handle item selection/equip
-                  }}
+                  onClick={() => handleItemClick(item)}
                 />
               ))
             ) : (
@@ -1025,10 +1052,10 @@ export function SidebarSetup({ onStart, gameState }: SidebarSetupProps) {
             }}
           >
             <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, fontSize: '0.6rem' }}>
-              {sidebarInventoryItems.length} items
+              {inventoryItems.length} items
             </Typography>
             <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, fontSize: '0.6rem' }}>
-              {sidebarInventoryItems.filter((i) => i.equipped).length} equipped
+              {inventoryItems.filter((i) => i.equipped).length} equipped
             </Typography>
           </Box>
         </>

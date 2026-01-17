@@ -332,85 +332,20 @@ export function getItemImage(slug: string): string {
 
 /**
  * Generate a starting loadout for an NPC + domain combo
+ *
+ * Note: Starting items removed - players now start empty and acquire items in-game.
+ * The NPC/domain/seed info is kept for reproducibility and future features.
  */
 export function generateLoadout(npcId: string, domainId: number, seed?: string): StartingLoadout {
   const actualSeed = seed || generateThreadId();
-  const rng = createSeededRng(actualSeed);
 
-  const pool = NPC_ITEM_POOLS[npcId];
-  if (!pool) {
-    // Fallback for unknown NPC
-    return {
-      npcId,
-      domain: domainId,
-      seed: actualSeed,
-      items: ['backpack', 'health-potion', 'compass'],
-      quality: 'low',
-    };
-  }
-
-  // Combine global items with domain-specific items (deduplicated)
-  const availableItems = [...new Set([
-    ...pool.global,
-    ...(pool.domainSpecific[domainId] || []),
-  ])];
-
-  // Pick 3 unique items weighted by rarity
-  const selectedItems: string[] = [];
-  const remaining = [...availableItems];
-
-  for (let i = 0; i < 3 && remaining.length > 0; i++) {
-    // Weight selection by rarity weights
-    const roll = rng.random(`item-select-${i}`);
-
-    // Determine rarity tier for this pick
-    let targetRarity: 'common' | 'uncommon' | 'rare';
-    if (roll < pool.rarityWeights.common / 100) {
-      targetRarity = 'common';
-    } else if (roll < (pool.rarityWeights.common + pool.rarityWeights.uncommon) / 100) {
-      targetRarity = 'uncommon';
-    } else {
-      targetRarity = 'rare';
-    }
-
-    // Find items of that rarity tier
-    const tierItems = remaining.filter(slug => {
-      const rarity = ITEM_RARITIES[slug] || 1;
-      if (targetRarity === 'common') return rarity <= 1;
-      if (targetRarity === 'uncommon') return rarity === 2;
-      return rarity >= 3;
-    });
-
-    // Pick from tier, or fallback to any remaining
-    const pickPool = tierItems.length > 0 ? tierItems : remaining;
-    const picked = rng.pick(`item-pick-${i}`, pickPool);
-
-    if (picked) {
-      selectedItems.push(picked);
-      const idx = remaining.indexOf(picked);
-      if (idx > -1) remaining.splice(idx, 1);
-    }
-  }
-
-  // Ensure we have 3 items
-  while (selectedItems.length < 3 && remaining.length > 0) {
-    const picked = remaining.shift();
-    if (picked) selectedItems.push(picked);
-  }
-
-  // Fallback if still not enough
-  while (selectedItems.length < 3) {
-    selectedItems.push('backpack');
-  }
-
-  const quality = calculateLoadoutQuality(selectedItems);
-
+  // No starting items - players acquire items during the run
   return {
     npcId,
     domain: domainId,
     seed: actualSeed,
-    items: selectedItems,
-    quality,
+    items: [],
+    quality: 'low',
   };
 }
 

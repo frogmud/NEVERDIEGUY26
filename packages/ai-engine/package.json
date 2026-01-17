@@ -26,6 +26,14 @@
     "./server/gambling": {
       "import": "./dist/gambling/gambling-simulation.js",
       "types": "./dist/gambling/gambling-simulation.d.ts"
+    },
+    "./multiplayer": {
+      "import": "./dist/multiplayer/index.js",
+      "types": "./dist/multiplayer/index.d.ts"
+    },
+    "./stream": {
+      "import": "./dist/stream/index.js",
+      "types": "./dist/stream/index.d.ts"
     }
   },
   "scripts": {

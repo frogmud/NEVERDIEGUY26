@@ -469,6 +469,72 @@ export const STARTER_ITEMS: ItemDefinition[] = [
 ];
 
 // ============================================================
+// SYNERGY DETECTION
+// ============================================================
+
+// Opposing element pairs for anti-synergies
+const OPPOSING_ELEMENTS: Record<string, string> = {
+  Fire: 'Ice',
+  Ice: 'Fire',
+  Wind: 'Earth',
+  Earth: 'Wind',
+  Void: 'Death',
+  Death: 'Void',
+};
+
+/**
+ * Detect items that synergize with the given item
+ * Rules:
+ * - Same element (excluding Neutral) = synergy
+ * - 2+ shared wikiTags = synergy
+ */
+function detectSynergies(item: ItemDefinition, catalog: ItemDefinition[]): string[] {
+  const synergies = new Set<string>();
+
+  for (const other of catalog) {
+    if (other.slug === item.slug) continue;
+
+    // Same element synergy (excluding Neutral)
+    if (item.element !== 'Neutral' && other.element === item.element) {
+      synergies.add(other.name);
+      continue;
+    }
+
+    // Shared wikiTags (at least 2 in common)
+    const sharedTags = item.wikiTags.filter((t) => other.wikiTags.includes(t));
+    if (sharedTags.length >= 2) {
+      synergies.add(other.name);
+    }
+  }
+
+  // Cap at 5 synergies for UI brevity
+  return Array.from(synergies).slice(0, 5);
+}
+
+/**
+ * Detect items that anti-synergize with the given item
+ * Rules:
+ * - Opposing element = anti-synergy
+ */
+function detectAntiSynergies(item: ItemDefinition, catalog: ItemDefinition[]): string[] {
+  if (item.element === 'Neutral') return [];
+
+  const opposingElement = OPPOSING_ELEMENTS[item.element];
+  if (!opposingElement) return [];
+
+  const antiSynergies: string[] = [];
+  for (const other of catalog) {
+    if (other.slug === item.slug) continue;
+    if (other.element === opposingElement) {
+      antiSynergies.push(other.name);
+    }
+  }
+
+  // Cap at 3 anti-synergies
+  return antiSynergies.slice(0, 3);
+}
+
+// ============================================================
 // CONVERSION HELPERS
 // ============================================================
 
@@ -508,8 +574,8 @@ export function toWikiEntry(item: ItemDefinition): WikiItemEntry {
     tierRequired: `Tier ${item.tier}+`,
     basePrice: `${item.basePrice}g`,
     tags: item.wikiTags,
-    synergies: [], // TODO: Auto-detect from element/category
-    antiSynergies: [],
+    synergies: detectSynergies(item, STARTER_ITEMS),
+    antiSynergies: detectAntiSynergies(item, STARTER_ITEMS),
   };
 }
 
