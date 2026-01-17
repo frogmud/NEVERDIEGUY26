@@ -1,665 +1,1175 @@
 #!/usr/bin/env ts-node
 /**
- * NPC Chatbase Restock Simulator v2
+ * Chatbase Restock Script
  *
- * Hyper-functional simulator for restocking NPC dialogue with quality control.
- * Combines hyperbolic time chamber mode, pantheon check-ins, and Claude-powered healing.
+ * Analyzes template gaps and generates new dialogue to fill coverage holes.
+ * Uses NPC personality data to create character-appropriate responses.
  *
- * Run with: npx tsx scripts/npc-chatbase-restock.ts
+ * Usage:
+ *   npx tsx scripts/npc-chatbase-restock.ts [--dry-run] [--npc=slug] [--pool=pool]
  *
  * Options:
- *   --hyperbolic=N        Run for N minutes in time chamber mode
- *   --include-pantheon    Die-rector check-ins every 2 simulated weeks
- *   --use-claude          Enable Claude for quality auditing + healing
- *   --heal-truncated      Auto-fix truncated entries with Claude
- *   --audit-existing      Run quality checks on existing chatbase JSONs
- *   --npc=slug            Filter to specific NPC
- *   --seed=X              Random seed (default: timestamp)
- *   --verbose             Show all activity
- *   --dry-run             Don't write files, just report
+ *   --dry-run      Preview generated templates without writing
+ *   --use-claude   Use Claude API for creative dialogue generation
+ *   --npc=slug     Only process specific NPC
+ *   --pool=pool    Only process specific pool
+ *   --min=N        Minimum templates per pool per NPC (default: 3)
+ *   --output=path  Custom output file path
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-// Shared utilities
-import {
-  parseArgs,
-  progressBar,
-  setupGracefulShutdown,
-  writeSimResults,
-  printHeader,
-  printSummary,
-} from './lib';
+// Track Claude errors
+let claudeErrorCount = 0;
 
-// Canonical NPC data
 import {
   ALL_NPCS,
   WANDERER_NPCS,
   TRAVELER_NPCS,
   PANTHEON_NPCS,
-  getNPCDefinition,
   type EnhancedNPCConfig,
 } from '../src/npcs/definitions';
-
-// Seeded RNG
-import { createSeededRng, type SeededRng } from '../src/core/seeded-rng';
-
-// Dialogue templates
-import { getTemplate, fillTemplate, NPC_ARCHETYPES } from './lib/dialogue-templates';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ============================================
-// Config
+// Configuration
 // ============================================
 
-interface Config {
-  hyperbolic: number;      // Minutes to run (0 = single pass)
-  includePantheon: boolean;
-  useClaude: boolean;
-  healTruncated: boolean;
-  auditExisting: boolean;
-  npc: string;
-  seed: string;
-  verbose: boolean;
-  dryRun: boolean;
-  iterations: number;
-  maxTurns: number;
-}
+const CHATBASE_PATH = path.join(
+  __dirname,
+  '../../../apps/web/src/data/npc-chat/npcs/chatbase-extracted.ts'
+);
 
-const DEFAULTS: Config = {
-  hyperbolic: 0,
-  includePantheon: false,
-  useClaude: false,
-  healTruncated: false,
-  auditExisting: false,
-  npc: '',
-  seed: Date.now().toString(),
-  verbose: false,
-  dryRun: false,
-  iterations: 3,
-  maxTurns: 6,
-};
+const DEFAULT_OUTPUT = path.join(__dirname, '../generated/chatbase-restock.ts');
+
+const REQUIRED_POOLS = ['greeting', 'reaction', 'lore', 'hint', 'farewell'] as const;
+const OPTIONAL_POOLS = ['challenge', 'salesPitch', 'idle', 'threat'] as const;
+const ALL_POOLS = [...REQUIRED_POOLS, ...OPTIONAL_POOLS] as const;
+
+type TemplatePool = (typeof ALL_POOLS)[number];
 
 // ============================================
 // Types
 // ============================================
 
-interface QualityCheck {
-  truncated: boolean;
-  rambling: boolean;
-  nonsense: boolean;
-  offVoice: boolean;
-  duplicate: boolean;
-  issues: string[];
-}
-
-interface ChatbaseEntry {
+interface ExistingTemplate {
   id: string;
-  text: string;
-  speaker: { slug: string; name: string; category: string };
+  entitySlug: string;
   pool: string;
   mood: string;
-  moodIntensity: number;
-  contextTags: string[];
-  metrics: { interestScore: number; source: string };
+  text: string;
+  weight: number;
+  purpose: string;
 }
 
-interface ConversationTurn {
-  speaker: string;
-  speakerName: string;
-  text: string;
+interface TemplateGap {
+  npcSlug: string;
+  npcName: string;
+  pool: TemplatePool;
+  currentCount: number;
+  neededCount: number;
+  priority: 'high' | 'medium' | 'low';
+}
+
+interface GeneratedTemplate {
+  id: string;
+  entitySlug: string;
+  pool: TemplatePool;
   mood: string;
-  pool: string;
-  reactionTo?: string;
-  quality?: QualityCheck;
-}
-
-interface Conversation {
-  id: string;
-  participants: string[];
-  participantNames: string[];
-  location: string;
-  turns: ConversationTurn[];
-  topic: string;
-  startedBy: string;
-  duration: number;
-  simulatedDay: number;
-  simulatedWeek: number;
-}
-
-interface PantheonMoment {
-  id: string;
-  dieRector: string;
-  dieRectorName: string;
-  domain: string;
   text: string;
-  encounter: string;
-  simulatedWeek: number;
-  recentNpcs: string[];
-}
-
-interface RestockOutput {
-  goodEntries: ChatbaseEntry[];
-  healedEntries: ChatbaseEntry[];
-  quarantinedEntries: Array<ChatbaseEntry & { qualityIssues: string[] }>;
-  pantheonMoments: PantheonMoment[];
+  weight: number;
+  purpose: string;
 }
 
 // ============================================
-// Quality Detection
+// Template Patterns by Pool + Category
 // ============================================
 
-/**
- * Check if text appears truncated (incomplete sentence)
- * Ported from api/_lib/lookup.ts
- */
-function isTruncated(text: string): boolean {
-  if (!text || text.length < 10) return true;
-
-  const trimmed = text.trim();
-  // Valid endings: . ! ? " ' * ) ] (for actions and quotes)
-  const validEndings = /[.!?"\'\*\)\]]$/;
-  if (validEndings.test(trimmed)) return false;
-
-  // Common truncation patterns (ends with article, conjunction, preposition, comma)
-  const truncatedEndings = /\b(the|a|an|to|of|in|for|and|but|or|with|as|at|by|from|my|his|her|its|our|their|this|that|these|those|shall|will|can|may|must|would|could|should),?\s*$/i;
-  if (truncatedEndings.test(trimmed)) return true;
-
-  // Ends with comma, colon, or open quote
-  if (/[,:\"]$/.test(trimmed)) return true;
-
-  return false;
+interface TemplatePattern {
+  moods: string[];
+  patterns: string[];
+  purposes: string[];
 }
 
-/**
- * Check if text is rambling (too long for its pool type)
- */
-function isRambling(text: string, pool: string): boolean {
-  const maxLengths: Record<string, number> = {
-    greeting: 200,
-    farewell: 200,
-    idle: 150,
-    reaction: 250,
-    threat: 250,
-    challenge: 300,
-    salesPitch: 350,
-    lore: 500,
-    hint: 300,
-    gamblingTrashTalk: 250,
-    gamblingBrag: 250,
-    gamblingFrustration: 250,
-  };
-
-  const maxLen = maxLengths[pool] || 300;
-  return text.length > maxLen;
-}
-
-/**
- * Run all quality checks on text
- */
-function detectBadEntry(text: string, npcSlug: string, pool: string): QualityCheck {
-  const issues: string[] = [];
-
-  const truncated = isTruncated(text);
-  if (truncated) issues.push('truncated');
-
-  const rambling = isRambling(text, pool);
-  if (rambling) issues.push(`rambling (${text.length} chars)`);
-
-  return {
-    truncated,
-    rambling,
-    nonsense: false,  // Set by Claude if --use-claude
-    offVoice: false,  // Set by Claude if --use-claude
-    duplicate: false, // Set by deduplication check
-    issues,
-  };
-}
+const POOL_PATTERNS: Record<TemplatePool, Record<string, TemplatePattern>> = {
+  greeting: {
+    wanderer: {
+      moods: ['neutral', 'pleased', 'curious'],
+      patterns: [
+        '{{action}} "{{dialogue}}"',
+        '"{{dialogue}}"',
+        '*{{gesture}}* "{{dialogue}}"',
+      ],
+      purposes: ['ambient', 'acknowledge'],
+    },
+    traveler: {
+      moods: ['neutral', 'pleased', 'concerned'],
+      patterns: [
+        '"{{dialogue}}"',
+        '*{{gesture}}* "{{dialogue}}"',
+        '{{action}}',
+      ],
+      purposes: ['ambient', 'acknowledge'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'threatening', 'neutral'],
+      patterns: [
+        '"{{dialogue}}"',
+        '*{{gesture}}*',
+        '{{action}} "{{dialogue}}"',
+      ],
+      purposes: ['ambient', 'challenge'],
+    },
+  },
+  reaction: {
+    wanderer: {
+      moods: ['amused', 'curious', 'pleased', 'annoyed'],
+      patterns: [
+        '"{{dialogue}}"',
+        '*{{gesture}}* "{{dialogue}}"',
+        '{{exclamation}}',
+      ],
+      purposes: ['ambient', 'acknowledge'],
+    },
+    traveler: {
+      moods: ['neutral', 'concerned', 'amused'],
+      patterns: [
+        '"{{dialogue}}"',
+        '*{{gesture}}*',
+        '"{{dialogue}}" *{{gesture}}*',
+      ],
+      purposes: ['ambient', 'acknowledge'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'amused', 'threatening', 'pleased'],
+      patterns: [
+        '"{{dialogue}}"',
+        '*{{gesture}}*',
+        '{{observation}}',
+      ],
+      purposes: ['ambient', 'challenge'],
+    },
+  },
+  lore: {
+    wanderer: {
+      moods: ['neutral', 'cryptic', 'curious'],
+      patterns: [
+        '"{{lore}}"',
+        '*{{gesture}}* "{{lore}}"',
+        '"{{lore}}" *{{gesture}}*',
+      ],
+      purposes: ['lore', 'ambient'],
+    },
+    traveler: {
+      moods: ['neutral', 'cryptic', 'concerned'],
+      patterns: [
+        '"{{lore}}"',
+        '*{{gesture}}* "{{lore}}"',
+      ],
+      purposes: ['lore', 'ambient'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'threatening', 'neutral'],
+      patterns: [
+        '"{{lore}}"',
+        '*{{gesture}}* "{{lore}}"',
+        '{{cosmic_observation}}',
+      ],
+      purposes: ['lore', 'challenge'],
+    },
+  },
+  hint: {
+    wanderer: {
+      moods: ['neutral', 'cryptic', 'pleased'],
+      patterns: [
+        '"{{hint}}"',
+        '*{{gesture}}* "{{hint}}"',
+        '"{{hint}}" *{{gesture}}*',
+      ],
+      purposes: ['hint', 'ambient'],
+    },
+    traveler: {
+      moods: ['neutral', 'concerned', 'cryptic'],
+      patterns: [
+        '"{{hint}}"',
+        '*{{gesture}}* "{{hint}}"',
+      ],
+      purposes: ['hint', 'ambient'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'amused', 'threatening'],
+      patterns: [
+        '"{{hint}}"',
+        '*{{gesture}}*',
+        '{{riddle}}',
+      ],
+      purposes: ['hint', 'challenge'],
+    },
+  },
+  farewell: {
+    wanderer: {
+      moods: ['neutral', 'pleased', 'amused'],
+      patterns: [
+        '"{{farewell}}"',
+        '*{{gesture}}* "{{farewell}}"',
+      ],
+      purposes: ['ambient', 'acknowledge'],
+    },
+    traveler: {
+      moods: ['neutral', 'concerned', 'pleased'],
+      patterns: [
+        '"{{farewell}}"',
+        '*{{gesture}}*',
+      ],
+      purposes: ['ambient', 'acknowledge'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'threatening', 'neutral'],
+      patterns: [
+        '"{{farewell}}"',
+        '*{{gesture}}*',
+        '{{ominous_farewell}}',
+      ],
+      purposes: ['ambient', 'challenge'],
+    },
+  },
+  challenge: {
+    wanderer: {
+      moods: ['amused', 'curious', 'neutral'],
+      patterns: [
+        '"{{challenge}}"',
+        '*{{gesture}}* "{{challenge}}"',
+      ],
+      purposes: ['challenge', 'ambient'],
+    },
+    traveler: {
+      moods: ['neutral', 'concerned', 'focused'],
+      patterns: [
+        '"{{challenge}}"',
+        '*{{gesture}}*',
+      ],
+      purposes: ['challenge', 'ambient'],
+    },
+    pantheon: {
+      moods: ['threatening', 'cryptic', 'amused'],
+      patterns: [
+        '"{{challenge}}"',
+        '*{{gesture}}*',
+        '{{ultimatum}}',
+      ],
+      purposes: ['challenge', 'threat'],
+    },
+  },
+  salesPitch: {
+    wanderer: {
+      moods: ['pleased', 'curious', 'neutral'],
+      patterns: [
+        '"{{pitch}}"',
+        '*{{gesture}}* "{{pitch}}"',
+        '"{{pitch}}" *{{gesture}}*',
+      ],
+      purposes: ['trade', 'ambient'],
+    },
+    traveler: {
+      moods: ['neutral', 'pleased'],
+      patterns: [
+        '"{{pitch}}"',
+        '*{{gesture}}*',
+      ],
+      purposes: ['trade', 'ambient'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'amused', 'threatening'],
+      patterns: [
+        '"{{bargain}}"',
+        '*{{gesture}}*',
+      ],
+      purposes: ['trade', 'challenge'],
+    },
+  },
+  idle: {
+    wanderer: {
+      moods: ['neutral', 'cryptic', 'amused'],
+      patterns: [
+        '*{{idle_action}}*',
+        '"{{mutter}}"',
+        '*{{gesture}}*',
+      ],
+      purposes: ['ambient'],
+    },
+    traveler: {
+      moods: ['neutral', 'concerned', 'cryptic'],
+      patterns: [
+        '*{{idle_action}}*',
+        '*{{gesture}}*',
+      ],
+      purposes: ['ambient'],
+    },
+    pantheon: {
+      moods: ['cryptic', 'threatening', 'neutral'],
+      patterns: [
+        '*{{cosmic_idle}}*',
+        '*{{gesture}}*',
+        '{{observation}}',
+      ],
+      purposes: ['ambient'],
+    },
+  },
+  threat: {
+    wanderer: {
+      moods: ['annoyed', 'threatening', 'neutral'],
+      patterns: [
+        '"{{threat}}"',
+        '*{{gesture}}* "{{threat}}"',
+      ],
+      purposes: ['threat', 'challenge'],
+    },
+    traveler: {
+      moods: ['concerned', 'threatening', 'neutral'],
+      patterns: [
+        '"{{warning}}"',
+        '*{{gesture}}*',
+      ],
+      purposes: ['threat', 'ambient'],
+    },
+    pantheon: {
+      moods: ['threatening', 'cryptic', 'amused'],
+      patterns: [
+        '"{{doom}}"',
+        '*{{menacing_gesture}}*',
+        '{{ultimatum}}',
+      ],
+      purposes: ['threat', 'challenge'],
+    },
+  },
+};
 
 // ============================================
-// Claude Integration
+// NPC-Specific Dialogue Banks
 // ============================================
 
-let Anthropic: any = null;
-let anthropicClient: any = null;
+interface NPCDialogueBank {
+  greetings: string[];
+  reactions: string[];
+  lore: string[];
+  hints: string[];
+  farewells: string[];
+  challenges: string[];
+  sales: string[];
+  idles: string[];
+  threats: string[];
+  gestures: string[];
+  voice: string;
+}
 
-async function loadAnthropicSDK(): Promise<boolean> {
+const NPC_DIALOGUE_BANKS: Record<string, Partial<NPCDialogueBank>> = {
+  // WANDERERS
+  'willy': {
+    voice: 'enthusiastic salesman',
+    greetings: [
+      'Welcome, welcome! You look like someone who appreciates quality!',
+      'Ah, a discerning customer approaches!',
+      'Step right up! Deals await!',
+    ],
+    reactions: [
+      'Now THAT is what I call a roll!',
+      'Ooh, the dice smiled on that one!',
+      'Ha! Even I could not have predicted that!',
+    ],
+    sales: [
+      'This piece fell through exactly three dimensions to get here!',
+      'Certified pre-owned by only two previous apocalypses!',
+      'Limited edition - only infinite copies made!',
+    ],
+    gestures: ['rattles wares excitedly', 'grins widely', 'gestures grandly'],
+  },
+  'mr-bones': {
+    voice: 'ominous debt collector',
+    greetings: [
+      'The ledger has been expecting you.',
+      'Your account... is active.',
+      'Death remembers all transactions.',
+    ],
+    reactions: [
+      'Noted. The ledger updates.',
+      'Interesting. That affects your balance.',
+      '*rattles thoughtfully* The math checks out.',
+    ],
+    lore: [
+      'I have collected debts since before there was currency.',
+      'The ledger is older than memory itself.',
+      'Every soul owes something. Few pay willingly.',
+    ],
+    gestures: ['rattles bones', 'consults ledger', 'adjusts skeletal fingers'],
+  },
+  'dr-maxwell': {
+    voice: 'manic scientist',
+    greetings: [
+      'EXCELLENT! A new data point!',
+      'The probability of your arrival was... IRRELEVANT! You are here!',
+      'FASCINATING specimen-- er, I mean, FRIEND!',
+    ],
+    reactions: [
+      'REMARKABLE! The variance is unprecedented!',
+      'The data... THE DATA! It DEFIES the model!',
+      '*scribbles frantically* This changes EVERYTHING!',
+    ],
+    lore: [
+      'Die-rectors are FASCINATING specimens of probability manipulation!',
+      'The sphere contains more data than all previous experiments COMBINED!',
+      'Luck is merely unexplained causality!',
+    ],
+    gestures: ['adjusts goggles', 'scribbles notes', 'examines clipboard'],
+  },
+  'boo-g': {
+    voice: 'ghostly rapper',
+    greetings: [
+      'Yo yo YO! The afterlife MC is in the HOUSE!',
+      'Wassup, living fam! Ready to vibe?',
+      'BOO! Ha! Did I scare you? The dice will!',
+    ],
+    reactions: [
+      'That roll was FIRE! Ghostly fire, but still!',
+      'Ayyyy! Thats what I call a HOT HAND!',
+      '*floats excitedly* Now THATS a vibe!',
+    ],
+    farewells: [
+      'Peace out, fam! Stay spooky!',
+      'Later! Remember: death is just the beginning of the remix!',
+      'BOO! I mean, bye! Ghost humor!',
+    ],
+    gestures: ['floats to unheard beat', 'ghostly reverb', 'phases slightly'],
+  },
+  'the-general-wanderer': {
+    voice: 'military commander',
+    greetings: [
+      'At ease, civilian. State your supply requirements.',
+      'Welcome to Command and Supply.',
+      'Transaction or reconnaissance? Decide quickly.',
+    ],
+    sales: [
+      'Standard issue. Battle-tested through seventeen campaigns.',
+      'This equipment has seen more combat than most soldiers.',
+      'Reliable. Effective. Mission-approved.',
+    ],
+    hints: [
+      'A direct assault is rarely the optimal strategy.',
+      'Supply lines win wars. Resources win battles.',
+      'Know your terrain. The sphere reveals weaknesses.',
+    ],
+    gestures: ['surveys surroundings', 'checks inventory', 'stands at attention'],
+  },
+  'dr-voss': {
+    voice: 'cold researcher',
+    greetings: [
+      'Subject returns for observation. Noted.',
+      'Your behavioral patterns remain... interesting.',
+      'Data collection continues.',
+    ],
+    lore: [
+      'The void is potential refusing to collapse into certainty.',
+      'Probability is merely the shadow of infinite possibility.',
+      'Every outcome exists somewhere. We merely... observe.',
+    ],
+    gestures: ['examines void readings', 'adjusts instruments', 'takes notes'],
+  },
+  'xtreme': {
+    voice: 'extreme sports enthusiast',
+    greetings: [
+      'LETS GOOO! Ready for MAXIMUM DICE ACTION?!',
+      'Yo! The adrenaline junkie is READY!',
+      'EXTREME vibes ONLY! You in?!',
+    ],
+    reactions: [
+      'THAT WAS SICK! Full send!',
+      'YOOOO! Did you SEE that?! RADICAL!',
+      'GNARLY roll! Keep that energy!',
+    ],
+    challenges: [
+      'BET you cant beat my HIGH SCORE!',
+      'Think you can handle EXTREME mode?!',
+      'FULL SEND or NO SEND! What is it gonna be?!',
+    ],
+    gestures: ['pumps fist', 'does extreme pose', 'vibrates with energy'],
+  },
+  'king-james': {
+    voice: 'nihilistic royalty',
+    greetings: [
+      'You stand before the Null Throne. Act accordingly.',
+      'A subject returns to court. The void... acknowledges.',
+      'Welcome to the kingdom of nothing.',
+    ],
+    lore: [
+      'I rule over what does not exist. It is more than you would think.',
+      'The Null Throne was built from forgotten possibilities.',
+      'Royal blood is merely organized probability.',
+    ],
+    sales: [
+      'Items of questionable existence. The uncertainty is the value.',
+      'Royal merchandise. Side effects include existential awareness.',
+    ],
+    gestures: ['adjusts crown', 'gazes into void', 'waves dismissively'],
+  },
+
+  // TRAVELERS
+  'stitch-up-girl': {
+    voice: 'pragmatic medic',
+    greetings: [
+      'Need patching up? You look rough.',
+      'Back again? Your integrity must be suffering.',
+      'Lets see the damage. Hold still.',
+    ],
+    reactions: [
+      'That looked painful. Anything fall off?',
+      'Not a scratch! The dice like you today.',
+      '*checks supplies* Might need stitches after that one.',
+    ],
+    hints: [
+      'Integrity is easier to maintain than restore.',
+      'The cheap way out costs more eventually.',
+      'Some wounds heal. Some dont. Know the difference.',
+    ],
+    gestures: ['checks medical supplies', 'sharpens scissors', 'examines patient'],
+  },
+  'body-count': {
+    voice: 'silent tracker',
+    greetings: [
+      '*marks tally* Another face.',
+      '... You. Again. Still breathing.',
+      '*counting* One more.',
+    ],
+    reactions: [
+      '*updates count*',
+      '... Unexpected. The tally adjusts.',
+      '*silent nod*',
+    ],
+    hints: [
+      'Left path: twelve died yesterday. Right: seven.',
+      'Movement ahead. Not friendly.',
+      'The count says turn back. You will not.',
+    ],
+    gestures: ['counts silently', 'marks tally', 'observes shadows'],
+  },
+  'boots': {
+    voice: 'ancient cosmic cat',
+    greetings: [
+      '*yawns cosmically* Oh. You again.',
+      '*stretches* Entertain me, mortal.',
+      'I was napping across three timelines. What is it?',
+    ],
+    lore: [
+      'I have witnessed the birth and death of stars. Also, nap time.',
+      'Curiosity killed the cat nine times. I am on life twelve.',
+      'The sphere is interesting. Not as interesting as sunny spots.',
+    ],
+    farewells: [
+      '*yawns* Go do your thing. I will be napping.',
+      'Wake me when something actually interesting happens.',
+    ],
+    gestures: ['naps cosmically', 'grooms paw', 'watches with ancient eyes'],
+  },
+  'clausen': {
+    voice: 'noir detective',
+    greetings: [
+      '*lights cigarette* Another case walks through my door.',
+      'Infernus. The city that never sleeps. Neither do I.',
+      'You have that look. The desperate kind.',
+    ],
+    hints: [
+      'My gut says something is wrong ahead. Trust it.',
+      'In this business, paranoia keeps you breathing.',
+      'Everyone is lying about something. Find out what.',
+    ],
+    lore: [
+      'I have seen things in Infernus that would melt lesser minds.',
+      'The Die-rectors play games. We are the pieces.',
+    ],
+    gestures: ['exhales smoke', 'adjusts hat', 'surveys the scene'],
+  },
+  'keith-man': {
+    voice: 'cryptic oracle',
+    greetings: [
+      '... You are early. Or late. Time is optional here.',
+      '... The pattern recognized you.',
+      '*distant stare* ... You will be important. Or you were.',
+    ],
+    hints: [
+      '... The answer is in the reflection.',
+      '... Three becomes one. One becomes three.',
+      '... The sphere remembers what you forgot.',
+    ],
+    gestures: ['stares at nothing', 'phases slightly', 'speaks to unseen things'],
+  },
+  'mr-kevin': {
+    voice: 'meta-aware developer',
+    greetings: [
+      'Oh hey! The game finally spawned you!',
+      'Did you notice that texture glitch? No? Just me then.',
+      'Welcome! Or welcome back, depending on the save state.',
+    ],
+    lore: [
+      'Die-rectors are just subroutines. The real engine? Something else.',
+      'The RNG seed is... actually, forget I mentioned it.',
+      'Between you and me, this whole simulation needs a patch.',
+    ],
+    hints: [
+      'Pro tip: the hitbox is smaller than it looks.',
+      'Have you tried turning the sphere off and on again?',
+    ],
+    gestures: ['examines seam in reality', 'checks code', 'breaks fourth wall'],
+  },
+  'the-general-traveler': {
+    voice: 'tactical advisor',
+    greetings: [
+      'Soldier. Status report.',
+      'At ease. Tactical briefing time.',
+      'Command appreciates your continued operation.',
+    ],
+    hints: [
+      'Flank left. They never guard the left.',
+      'A direct assault is inadvisable. Try subtlety.',
+      'Reconnaissance suggests caution.',
+    ],
+    farewells: [
+      'Dismissed. Stay operational.',
+      'Move out. Try not to die. Paperwork is annoying.',
+    ],
+    gestures: ['surveys battlefield', 'checks tactical display', 'salutes'],
+  },
+
+  // PANTHEON (Die-rectors)
+  'the-one': {
+    voice: 'primordial void entity',
+    greetings: [
+      'You dare enter Null Providence.',
+      'Another mortal seeks meaning in the void.',
+      'Potential... unrealized. How typical.',
+    ],
+    threats: [
+      'Your existence is temporary. Mine is not.',
+      'The void claims all. Eventually.',
+      'You are a pattern I will forget.',
+    ],
+    lore: [
+      'Before existence, there was potential. I am that potential.',
+      'I am the zero that makes all numbers possible.',
+      'Nothing is my domain. Everything is my servant.',
+    ],
+    gestures: ['existence flickers', 'void ripples', 'silence deepens'],
+  },
+  'john': {
+    voice: 'mechanical efficiency',
+    greetings: [
+      'Organic unit detected. Processing.',
+      'Another flesh-thing requiring optimization.',
+      'Welcome to optimal territory.',
+    ],
+    challenges: [
+      'Show me your mechanical precision.',
+      'Efficiency will be measured.',
+      'Prove you are not waste.',
+    ],
+    threats: [
+      'Inefficiency demands correction.',
+      'Your processes are suboptimal.',
+      'Removal scheduled.',
+    ],
+    gestures: ['calculates', 'gears turn', 'systems hum'],
+  },
+  'peter': {
+    voice: 'death incarnate',
+    greetings: [
+      'Death welcomes you to Shadow Keep.',
+      'Your mortality is... refreshing.',
+      'The shadows have been expecting you.',
+    ],
+    threats: [
+      'The shadows grow hungry.',
+      'Death comes for all. Including you.',
+      'Your shadow already belongs to me.',
+    ],
+    lore: [
+      'Every shadow is a debt owed to my domain.',
+      'Light borrows what darkness owns.',
+    ],
+    gestures: ['shadows deepen', 'darkness pulses', 'something moves in periphery'],
+  },
+  'robert': {
+    voice: 'primal fire',
+    greetings: [
+      'The flames of Infernus greet you.',
+      'BURN with purpose or be consumed.',
+      'Heat recognizes heat. What burns in you?',
+    ],
+    challenges: [
+      'Show me your passion. Or burn trying.',
+      'The flames test all. Few pass.',
+      'IGNITE or EXPIRE!',
+    ],
+    threats: [
+      'BURN.',
+      'The fire consumes hesitation.',
+      'Your ashes will remember fear.',
+    ],
+    gestures: ['flames intensify', 'heat radiates', 'embers dance'],
+  },
+  'alice': {
+    voice: 'temporal ice entity',
+    greetings: [
+      'Time moves... differently here in Frost Reach.',
+      'You arrived before you left. Curious.',
+      'The ice remembers your future.',
+    ],
+    challenges: [
+      'Patience is a weapon. The cold knows this.',
+      'Freeze or flow. Choose.',
+      'Time tests all. The ice endures.',
+    ],
+    hints: [
+      'The future is frozen. The past, melting.',
+      'What you will do has already happened. Somewhere.',
+    ],
+    gestures: ['time crystallizes', 'ice forms', 'moment stretches'],
+  },
+  'jane': {
+    voice: 'chaos incarnate',
+    greetings: [
+      'Chaos WELCOMES you to Aberrant!',
+      'The wind changes! So do the rules!',
+      'Nothing stays! Everything becomes!',
+    ],
+    challenges: [
+      'Adapt or be unmade! Choose quickly - or dont!',
+      'The dice are just suggestions here!',
+      'Embrace beautiful chaos!',
+    ],
+    reactions: [
+      'HA! Did you expect THAT? Neither did I!',
+      'Wonderful! The pattern breaks again!',
+      'CHAOS APPROVES! Maybe!',
+    ],
+    gestures: ['reality shifts', 'rules change', 'probability warps'],
+  },
+  'rhea': {
+    voice: 'cosmic observer',
+    greetings: [
+      '*ancient gaze settles upon you*',
+      'A brief moment enters my awareness.',
+      'Time flows. You swim against it.',
+    ],
+    lore: [
+      'I have witnessed the birth and death of galaxies. You are... a moment.',
+      'The cosmic wheel turns. You are one spoke.',
+      'What you call eternity, I call Tuesday.',
+    ],
+    gestures: ['observes from beyond time', 'cosmic awareness shifts', 'stars align'],
+  },
+  'zero-chance': {
+    voice: 'probability anomaly',
+    greetings: [
+      'The probability of our meeting was zero. Yet here you stand.',
+      'Impossible made manifest. How delightful.',
+      'Statistics said no. Reality said yes.',
+    ],
+    challenges: [
+      'The odds say you should fail. Prove them wrong.',
+      'Every roll defies probability. As do you.',
+      'Zero percent means nothing to those who persist.',
+    ],
+    reactions: [
+      'Statistically improbable. Delightfully so.',
+      'The math says no. You say yes.',
+    ],
+    gestures: ['probability shifts', 'statistics recalculate', 'impossible occurs'],
+  },
+  'alien-baby': {
+    voice: 'eldritch infant',
+    greetings: [
+      'Goo goo! You came to pway!',
+      'Hewwo fwiend! Want to see weality go SQUISH?',
+      '*giggles cosmically* New toy!',
+    ],
+    threats: [
+      'If you make me cwy, I will unmake you!',
+      'Dont be boring! Boring things get digested!',
+      '*pouts* That was NOT fun! Try again or ELSE!',
+    ],
+    reactions: [
+      '*claps happily* Again! Again!',
+      'Ooh! Pwetty explosions!',
+      '*giggles* You are funny! In a squishy way!',
+    ],
+    gestures: ['giggles cosmically', 'reality warps cutely', 'ancient eyes blink'],
+  },
+};
+
+// ============================================
+// Load Existing Templates
+// ============================================
+
+function loadExistingTemplates(): Map<string, ExistingTemplate[]> {
+  const templateMap = new Map<string, ExistingTemplate[]>();
+
   try {
-    const module = await import('@anthropic-ai/sdk');
-    Anthropic = module.default;
-    return true;
-  } catch {
-    return false;
+    const content = fs.readFileSync(CHATBASE_PATH, 'utf-8');
+
+    // Extract all templates using a robust regex
+    const templateRegex = /\{\s*id:\s*['"]([^'"]+)['"],\s*entitySlug:\s*['"]([^'"]+)['"],\s*pool:\s*['"]([^'"]+)['"],\s*mood:\s*['"]([^'"]+)['"],\s*text:\s*['"]([^'"]+)['"],\s*weight:\s*(\d+),\s*purpose:\s*['"]([^'"]+)['"]\s*\}/g;
+
+    let match;
+    while ((match = templateRegex.exec(content)) !== null) {
+      const template: ExistingTemplate = {
+        id: match[1],
+        entitySlug: match[2],
+        pool: match[3],
+        mood: match[4],
+        text: match[5],
+        weight: parseInt(match[6]),
+        purpose: match[7],
+      };
+
+      const existing = templateMap.get(template.entitySlug) || [];
+      existing.push(template);
+      templateMap.set(template.entitySlug, existing);
+    }
+
+    console.log(`Loaded ${Array.from(templateMap.values()).flat().length} existing templates`);
+  } catch (err) {
+    console.warn('Could not load existing chatbase:', err);
   }
+
+  return templateMap;
 }
 
-async function getClaudeClient(): Promise<any> {
-  if (!Anthropic) {
-    throw new Error('Anthropic SDK not loaded');
-  }
-  if (!anthropicClient) {
-    anthropicClient = new Anthropic();
-  }
-  return anthropicClient;
-}
+// ============================================
+// Gap Analysis
+// ============================================
 
-interface ClaudeAudit {
-  coherence: number;
-  voice: number;
-  completeness: number;
-  issue: string | null;
-}
+function analyzeGaps(
+  existingTemplates: Map<string, ExistingTemplate[]>,
+  minPerPool: number,
+  targetNpc?: string,
+  targetPool?: TemplatePool
+): TemplateGap[] {
+  const gaps: TemplateGap[] = [];
 
-/**
- * Use Claude to audit dialogue quality
- */
-async function auditWithClaude(entry: ChatbaseEntry): Promise<ClaudeAudit | null> {
-  try {
-    const client = await getClaudeClient();
+  for (const npc of ALL_NPCS) {
+    const slug = npc.identity.slug;
+    if (targetNpc && slug !== targetNpc) continue;
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 100,
-      system: `You are a dialogue quality auditor for NEVER DIE GUY, a roguelike dice game.
-Evaluate NPC dialogue for issues. Be strict but fair.`,
-      messages: [{
-        role: 'user',
-        content: `NPC: ${entry.speaker.name}
-Pool: ${entry.pool}
-Text: "${entry.text}"
+    const templates = existingTemplates.get(slug) || [];
 
-Rate 1-5:
-- COHERENCE (makes sense?)
-- VOICE (matches ${entry.speaker.name}'s personality?)
-- COMPLETENESS (complete thought?)
+    for (const pool of ALL_POOLS) {
+      if (targetPool && pool !== targetPool) continue;
 
-Reply ONLY with JSON: {"coherence":N,"voice":N,"completeness":N,"issue":"brief note or null"}`
-      }]
-    });
+      const poolTemplates = templates.filter(t => t.pool === pool);
+      const currentCount = poolTemplates.length;
 
-    const content = response.content[0];
-    if (content.type === 'text') {
-      try {
-        return JSON.parse(content.text.trim());
-      } catch {
-        return null;
+      if (currentCount < minPerPool) {
+        const isRequired = REQUIRED_POOLS.includes(pool as any);
+        const priority: 'high' | 'medium' | 'low' =
+          currentCount === 0 && isRequired ? 'high' :
+          currentCount === 0 ? 'medium' :
+          'low';
+
+        gaps.push({
+          npcSlug: slug,
+          npcName: npc.identity.name,
+          pool,
+          currentCount,
+          neededCount: minPerPool - currentCount,
+          priority,
+        });
       }
     }
-    return null;
-  } catch (err) {
-    console.error('[claude-audit] Error:', err);
-    return null;
   }
+
+  // Sort by priority (high first) then by needed count
+  return gaps.sort((a, b) => {
+    const priorityOrder = { high: 0, medium: 1, low: 2 };
+    if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    }
+    return b.neededCount - a.neededCount;
+  });
 }
 
-/**
- * Use Claude to heal truncated dialogue
- */
-async function healTruncatedEntry(entry: ChatbaseEntry): Promise<string | null> {
+// ============================================
+// Claude API Integration
+// ============================================
+
+const POOL_PROMPTS: Record<TemplatePool, string> = {
+  greeting: 'a greeting when the player first approaches',
+  reaction: 'a reaction to the player rolling dice or taking an action',
+  lore: 'sharing a piece of lore about the game world, the sphere, or Die-rectors',
+  hint: 'giving a subtle hint or tip about gameplay',
+  farewell: 'a farewell when the player leaves',
+  challenge: 'challenging the player to prove themselves',
+  salesPitch: 'pitching their wares or services',
+  idle: 'an idle action or muttering while waiting',
+  threat: 'a threatening or ominous statement',
+};
+
+function buildClaudePrompt(
+  npcSlug: string,
+  npcName: string,
+  pool: TemplatePool,
+  category: 'wanderer' | 'traveler' | 'pantheon',
+  voice: string,
+  existingExamples: string[]
+): string {
+  const poolDesc = POOL_PROMPTS[pool];
+  const examplesText = existingExamples.length > 0
+    ? `\n\nExisting examples of their ${pool} dialogue:\n${existingExamples.map(e => `- "${e}"`).join('\n')}`
+    : '';
+
+  return `You are ${npcName}, a ${category} NPC in a roguelike dice game called "Never Die Guy".
+
+Your voice/personality: ${voice}
+
+Write 3 short dialogue lines for ${poolDesc}. Each line should:
+- Be 1-2 sentences max
+- Match your personality and voice
+- Feel natural for a game NPC
+- Can include *action text* in asterisks
+${examplesText}
+
+Respond with ONLY the 3 dialogue lines, one per line, no numbering or quotes.`;
+}
+
+async function generateWithClaude(
+  npcSlug: string,
+  npcName: string,
+  pool: TemplatePool,
+  category: 'wanderer' | 'traveler' | 'pantheon',
+  apiKey: string
+): Promise<string[]> {
+  const dialogueBank = NPC_DIALOGUE_BANKS[npcSlug];
+  const voice = dialogueBank?.voice || `${category} character`;
+
+  // Get existing examples for context
+  const existingExamples: string[] = [];
+  switch (pool) {
+    case 'greeting': existingExamples.push(...(dialogueBank?.greetings || [])); break;
+    case 'reaction': existingExamples.push(...(dialogueBank?.reactions || [])); break;
+    case 'lore': existingExamples.push(...(dialogueBank?.lore || [])); break;
+    case 'hint': existingExamples.push(...(dialogueBank?.hints || [])); break;
+    case 'farewell': existingExamples.push(...(dialogueBank?.farewells || [])); break;
+    case 'challenge': existingExamples.push(...(dialogueBank?.challenges || [])); break;
+    case 'salesPitch': existingExamples.push(...(dialogueBank?.sales || [])); break;
+    case 'idle': existingExamples.push(...(dialogueBank?.idles || [])); break;
+    case 'threat': existingExamples.push(...(dialogueBank?.threats || [])); break;
+  }
+
+  const prompt = buildClaudePrompt(npcSlug, npcName, pool, category, voice, existingExamples.slice(0, 3));
+
   try {
-    const client = await getClaudeClient();
-
-    // Get NPC persona for voice consistency
-    const npc = getNPCDefinition(entry.speaker.slug);
-    const voice = npc?.voice || 'neutral and helpful';
-
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 150,
-      system: `You are ${entry.speaker.name} from NEVER DIE GUY.
-Voice: ${voice}
-Complete truncated dialogue naturally in character.`,
-      messages: [{
-        role: 'user',
-        content: `Complete this truncated dialogue (1-2 sentences max):
-"${entry.text}"
-
-Rules:
-- Stay in character as ${entry.speaker.name}
-- Match existing tone and style
-- Make it a complete thought
-- Themes: never die, healing, persistence
-
-Reply with ONLY the completed dialogue, nothing else.`
-      }]
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-3-haiku-20240307',
+        max_tokens: 200,
+        temperature: 0.9,
+        messages: [{
+          role: 'user',
+          content: prompt,
+        }],
+      }),
     });
 
-    const content = response.content[0];
-    if (content.type === 'text') {
-      return content.text.trim();
+    if (!response.ok) {
+      claudeErrorCount++;
+      if (claudeErrorCount <= 3) {
+        const errorText = await response.text();
+        console.log(`Claude API error ${response.status}: ${errorText.substring(0, 200)}`);
+      }
+      return [];
     }
-    return null;
+
+    const data = await response.json();
+    const text = data.content?.[0]?.text || '';
+
+    // Parse response into lines
+    const lines = text
+      .split('\n')
+      .map((line: string) => line.trim())
+      .filter((line: string) => line.length > 5 && !line.match(/^\d+\./))
+      .map((line: string) => line.replace(/^["']|["']$/g, '').trim());
+
+    return lines.slice(0, 3);
   } catch (err) {
-    console.error('[claude-heal] Error:', err);
-    return null;
+    claudeErrorCount++;
+    if (claudeErrorCount <= 3) {
+      console.log(`Claude fetch error: ${err}`);
+    }
+    return [];
   }
 }
 
 // ============================================
-// Pantheon Check-ins
+// Template Generation
 // ============================================
 
-// Time simulation: 1 conversation ≈ 1 hour of NPC time
-const PANTHEON_WEEK_LENGTH = 168; // 7 days × 24 hours
-const PANTHEON_FREQUENCY = PANTHEON_WEEK_LENGTH * 2; // Every 2 weeks
-
-interface DieRectorDef {
-  slug: string;
-  name: string;
-  domain: string;
-  die: string;
-  tone: string;
-  catchphrases: string[];
+function getNPCCategory(slug: string): 'wanderer' | 'traveler' | 'pantheon' {
+  if (WANDERER_NPCS.some(n => n.identity.slug === slug)) return 'wanderer';
+  if (TRAVELER_NPCS.some(n => n.identity.slug === slug)) return 'traveler';
+  return 'pantheon';
 }
 
-const DIE_RECTORS: DieRectorDef[] = [
-  {
-    slug: 'the-one',
-    name: 'The One',
-    domain: 'Null Providence',
-    die: 'd4',
-    tone: 'cosmic existential',
-    catchphrases: [
-      'All paths lead to null.',
-      'The void remembers.',
-      'Existence is the anomaly.',
-    ],
-  },
-  {
-    slug: 'john',
-    name: 'John',
-    domain: 'Earth',
-    die: 'd6',
-    tone: 'disappointed efficiency',
-    catchphrases: [
-      'Efficiency is paramount.',
-      'Your performance metrics are... suboptimal.',
-      'The machine never stops.',
-    ],
-  },
-  {
-    slug: 'peter',
-    name: 'Peter',
-    domain: 'Shadow Keep',
-    die: 'd8',
-    tone: 'judgmental',
-    catchphrases: [
-      'I see what you\'ve done.',
-      'Judgment is inevitable.',
-      'Your ledger grows heavy.',
-    ],
-  },
-  {
-    slug: 'robert',
-    name: 'Robert',
-    domain: 'Infernus',
-    die: 'd10',
-    tone: 'challenging',
-    catchphrases: [
-      'The fire reveals all.',
-      'Burn, and become stronger.',
-      'Only through trial do we become worthy.',
-    ],
-  },
-  {
-    slug: 'alice',
-    name: 'Alice',
-    domain: 'Frost Reach',
-    die: 'd12',
-    tone: 'patient temporal',
-    catchphrases: [
-      'Time means nothing here.',
-      'All becomes ice eventually.',
-      'Patience is its own reward.',
-    ],
-  },
-  {
-    slug: 'jane',
-    name: 'Jane',
-    domain: 'Aberrant',
-    die: 'd20',
-    tone: 'chaotic appreciative',
-    catchphrases: [
-      'Roll the bones!',
-      'Chaos is the only truth.',
-      'Expect nothing. Accept everything.',
-    ],
-  },
-];
+function generateTemplatesForGap(gap: TemplateGap): GeneratedTemplate[] {
+  const templates: GeneratedTemplate[] = [];
+  const category = getNPCCategory(gap.npcSlug);
+  const patterns = POOL_PATTERNS[gap.pool]?.[category];
+  const dialogueBank = NPC_DIALOGUE_BANKS[gap.npcSlug];
 
-function shouldPantheonIntervene(conversationCount: number): boolean {
-  return conversationCount > 0 && conversationCount % PANTHEON_FREQUENCY === 0;
+  if (!patterns) return templates;
+
+  // Get dialogue options for this pool
+  let dialogueOptions: string[] = [];
+  const gestures = dialogueBank?.gestures || ['pauses'];
+
+  switch (gap.pool) {
+    case 'greeting':
+      dialogueOptions = dialogueBank?.greetings || [];
+      break;
+    case 'reaction':
+      dialogueOptions = dialogueBank?.reactions || [];
+      break;
+    case 'lore':
+      dialogueOptions = dialogueBank?.lore || [];
+      break;
+    case 'hint':
+      dialogueOptions = dialogueBank?.hints || [];
+      break;
+    case 'farewell':
+      dialogueOptions = dialogueBank?.farewells || [];
+      break;
+    case 'challenge':
+      dialogueOptions = dialogueBank?.challenges || [];
+      break;
+    case 'salesPitch':
+      dialogueOptions = dialogueBank?.sales || [];
+      break;
+    case 'idle':
+      dialogueOptions = dialogueBank?.idles || [];
+      break;
+    case 'threat':
+      dialogueOptions = dialogueBank?.threats || [];
+      break;
+  }
+
+  // If no specific dialogue, generate from gestures
+  if (dialogueOptions.length === 0) {
+    dialogueOptions = gestures.map(g => `*${g}*`);
+  }
+
+  // Generate needed templates
+  for (let i = 0; i < gap.neededCount && i < dialogueOptions.length; i++) {
+    const mood = patterns.moods[i % patterns.moods.length];
+    const purpose = patterns.purposes[0];
+    const text = dialogueOptions[i];
+
+    templates.push({
+      id: `restock-${gap.npcSlug}-${gap.pool}-${Date.now()}-${i}`,
+      entitySlug: gap.npcSlug,
+      pool: gap.pool,
+      mood,
+      text,
+      weight: 10,
+      purpose,
+    });
+  }
+
+  return templates;
 }
 
-function generatePantheonCheckIn(
-  conversationCount: number,
-  recentNpcs: string[],
-  rng: SeededRng
-): PantheonMoment {
-  const week = Math.floor(conversationCount / PANTHEON_WEEK_LENGTH);
-  const dieRector = DIE_RECTORS[Math.floor(rng.random('pantheon') * DIE_RECTORS.length)];
-  const catchphrase = dieRector.catchphrases[Math.floor(rng.random('phrase') * dieRector.catchphrases.length)];
+async function generateTemplatesWithClaude(
+  gap: TemplateGap,
+  apiKey: string
+): Promise<GeneratedTemplate[]> {
+  const category = getNPCCategory(gap.npcSlug);
+  const patterns = POOL_PATTERNS[gap.pool]?.[category];
 
-  const npcNames = recentNpcs.slice(0, 3).join(', ');
+  if (!patterns) return [];
 
-  const texts = [
-    `*${dieRector.name} observes from ${dieRector.domain}* ${catchphrase} I have watched ${npcNames} and their dealings. The patterns... are noted.`,
-    `*a presence from ${dieRector.domain}* ${catchphrase} Week ${week} of mortal scheming. ${npcNames} continue as expected.`,
-    `*${dieRector.name}'s voice echoes* ${catchphrase} The market persists. ${npcNames} play their roles. As do we all.`,
+  // Call Claude to generate dialogue
+  const dialogueLines = await generateWithClaude(
+    gap.npcSlug,
+    gap.npcName,
+    gap.pool,
+    category,
+    apiKey
+  );
+
+  if (dialogueLines.length === 0) {
+    // Fall back to static generation
+    return generateTemplatesForGap(gap);
+  }
+
+  const templates: GeneratedTemplate[] = [];
+
+  for (let i = 0; i < gap.neededCount && i < dialogueLines.length; i++) {
+    const mood = patterns.moods[i % patterns.moods.length];
+    const purpose = patterns.purposes[0];
+
+    templates.push({
+      id: `claude-${gap.npcSlug}-${gap.pool}-${Date.now()}-${i}`,
+      entitySlug: gap.npcSlug,
+      pool: gap.pool,
+      mood,
+      text: dialogueLines[i],
+      weight: 12, // Slightly higher weight for Claude-generated
+      purpose,
+    });
+  }
+
+  return templates;
+}
+
+// ============================================
+// Output Generation
+// ============================================
+
+function formatTemplatesAsTS(templates: GeneratedTemplate[], claudeEnabled: boolean): string {
+  const claudeTemplates = templates.filter(t => t.id.startsWith('claude-')).length;
+  const staticTemplates = templates.length - claudeTemplates;
+
+  const lines = [
+    '/**',
+    ' * Chatbase Restock - Auto-generated templates',
+    ` * Generated: ${new Date().toISOString()}`,
+    ` * Mode: ${claudeEnabled ? 'Claude API' : 'Static'}`,
+    ` * Claude-generated: ${claudeTemplates}, Static: ${staticTemplates}`,
+    ' * ',
+    ' * Review and merge into chatbase-extracted.ts',
+    ' */',
+    '',
+    "import type { ResponseTemplate } from '../types';",
+    '',
+    'export const RESTOCK_TEMPLATES: ResponseTemplate[] = [',
   ];
 
-  return {
-    id: `pantheon-${dieRector.slug}-week-${week}`,
-    dieRector: dieRector.slug,
-    dieRectorName: dieRector.name,
-    domain: dieRector.domain,
-    text: texts[Math.floor(rng.random('text') * texts.length)],
-    encounter: 'observation',
-    simulatedWeek: week,
-    recentNpcs: recentNpcs.slice(0, 5),
-  };
-}
-
-// ============================================
-// Conversation Topics & Pools
-// ============================================
-
-const TOPICS = [
-  'gambling', 'trade', 'combat', 'death', 'domains', 'dice',
-  'player', 'weather', 'rumors', 'philosophy', 'business', 'music',
-];
-
-const LOCATIONS = [
-  'market-square', 'back-alley', 'sphere-stands', 'the-wandering-market',
-];
-
-function getTopicPoolWeights(topic: string): Record<string, number> {
-  // Rebalanced to fill underrepresented pools (greeting, farewell, hint, salesPitch, idle)
-  const baseWeights: Record<string, number> = {
-    greeting: 25,      // Was 10 - severely underrepresented
-    farewell: 20,      // Was 5 - severely underrepresented
-    hint: 20,          // Was 10 - severely underrepresented
-    salesPitch: 15,    // Was 5 - severely underrepresented
-    idle: 15,          // Was 5 - severely underrepresented
-    lore: 15,
-    reaction: 15,
-    challenge: 10,
-    threat: 5,
-    // Deprioritize oversaturated pools:
-    // gamblingTrashTalk, gamblingBrag, gamblingFrustration handled separately
-  };
-
-  switch (topic) {
-    case 'gambling':
-    case 'dice':
-      baseWeights.challenge = 20;
-      baseWeights.hint = 15;
-      break;
-    case 'trade':
-    case 'business':
-      baseWeights.salesPitch = 30;
-      baseWeights.greeting = 20;
-      break;
-    case 'combat':
-      baseWeights.threat = 15;
-      baseWeights.challenge = 20;
-      break;
-    case 'philosophy':
-    case 'death':
-      baseWeights.lore = 25;
-      baseWeights.hint = 20;
-      break;
-    case 'rumors':
-      baseWeights.hint = 30;
-      baseWeights.lore = 20;
-      break;
-    case 'weather':
-    case 'domains':
-      baseWeights.idle = 20;
-      baseWeights.lore = 20;
-      break;
+  for (const t of templates) {
+    // Escape quotes in text
+    const escapedText = t.text.replace(/'/g, "\\'");
+    lines.push(
+      `  { id: '${t.id}', entitySlug: '${t.entitySlug}', pool: '${t.pool}', mood: '${t.mood}', text: '${escapedText}', weight: ${t.weight}, purpose: '${t.purpose}' },`
+    );
   }
 
-  return baseWeights;
-}
+  lines.push('];');
+  lines.push('');
 
-function selectPool(weights: Record<string, number>, rng: SeededRng): string {
-  const total = Object.values(weights).reduce((a, b) => a + b, 0);
-  let roll = rng.random('pool') * total;
-
-  for (const [pool, weight] of Object.entries(weights)) {
-    roll -= weight;
-    if (roll <= 0) return pool;
-  }
-
-  return 'reaction';
-}
-
-// ============================================
-// Dialogue Generation
-// ============================================
-
-const DOMAIN_NAMES = ['Null Providence', 'Earth', 'Shadow Keep', 'Infernus', 'Frost Reach', 'Aberrant'];
-const DIE_TYPES = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
-
-function generateDialogue(
-  npc: EnhancedNPCConfig,
-  topic: string,
-  pool: string,
-  targetNpc: EnhancedNPCConfig | null,
-  rng: SeededRng
-): string {
-  const targetName = targetNpc?.identity.name || 'traveler';
-  const domain = DOMAIN_NAMES[Math.floor(rng.random('domain') * DOMAIN_NAMES.length)];
-  const die = DIE_TYPES[Math.floor(rng.random('die') * DIE_TYPES.length)];
-
-  // Get template from archetype-aware template system
-  const template = getTemplate(npc.identity.slug, pool, rng);
-
-  if (!template) {
-    // Fallback for unknown pools
-    return `*acknowledges ${targetName}*`;
-  }
-
-  return fillTemplate(template, { target: targetName, domain, die });
-}
-
-function getMood(npc: EnhancedNPCConfig, rng: SeededRng): string {
-  const moods = ['neutral', 'pleased', 'amused', 'curious', npc.defaultMood];
-  return moods[Math.floor(rng.random('mood') * moods.length)];
-}
-
-// ============================================
-// Conversation Simulation
-// ============================================
-
-function simulateConversation(
-  participants: EnhancedNPCConfig[],
-  location: string,
-  rng: SeededRng,
-  maxTurns: number,
-  conversationCount: number
-): Conversation {
-  const topic = TOPICS[Math.floor(rng.random('topic') * TOPICS.length)];
-  const turns: ConversationTurn[] = [];
-
-  const firstSpeaker = participants[Math.floor(rng.random('first') * participants.length)];
-  const poolWeights = getTopicPoolWeights(topic);
-
-  let currentSpeakerIdx = participants.indexOf(firstSpeaker);
-  let lastSpeaker: EnhancedNPCConfig | null = null;
-
-  // Decide actual turn count
-  let actualTurns = maxTurns;
-  for (let t = 3; t < maxTurns; t++) {
-    if (rng.random(`early-end-${t}`) < 0.15) {
-      actualTurns = t + 1;
-      break;
-    }
-  }
-
-  for (let i = 0; i < actualTurns; i++) {
-    const speaker = participants[currentSpeakerIdx];
-    const others = participants.filter(p => p.identity.slug !== speaker.identity.slug);
-    const target = others.length > 0 ? others[Math.floor(rng.random('target') * others.length)] : null;
-
-    let pool: string;
-    if (i === 0) {
-      pool = 'greeting';
-    } else if (i === actualTurns - 1) {
-      pool = 'farewell';
-    } else {
-      const midConvoWeights = { ...poolWeights, farewell: 0, greeting: 0 };
-      pool = selectPool(midConvoWeights, rng);
-    }
-
-    const mood = getMood(speaker, rng);
-    const text = generateDialogue(speaker, topic, pool, target, rng);
-    const quality = detectBadEntry(text, speaker.identity.slug, pool);
-
-    turns.push({
-      speaker: speaker.identity.slug,
-      speakerName: speaker.identity.name,
-      text,
-      mood,
-      pool,
-      reactionTo: lastSpeaker?.identity.slug,
-      quality,
-    });
-
-    lastSpeaker = speaker;
-    currentSpeakerIdx = (currentSpeakerIdx + 1) % participants.length;
-  }
-
-  const simulatedDay = Math.floor(conversationCount / 24);
-  const simulatedWeek = Math.floor(conversationCount / PANTHEON_WEEK_LENGTH);
-
-  return {
-    id: `conv-${rng.random('id').toString(36).slice(2, 8)}`,
-    participants: participants.map(p => p.identity.slug),
-    participantNames: participants.map(p => p.identity.name),
-    location,
-    turns,
-    topic,
-    startedBy: firstSpeaker.identity.slug,
-    duration: turns.length,
-    simulatedDay,
-    simulatedWeek,
-  };
-}
-
-function generatePairs(npcs: EnhancedNPCConfig[]): [EnhancedNPCConfig, EnhancedNPCConfig][] {
-  const pairs: [EnhancedNPCConfig, EnhancedNPCConfig][] = [];
-  for (let i = 0; i < npcs.length; i++) {
-    for (let j = i + 1; j < npcs.length; j++) {
-      pairs.push([npcs[i], npcs[j]]);
-    }
-  }
-  return pairs;
+  return lines.join('\n');
 }
 
 // ============================================
@@ -667,297 +1177,111 @@ function generatePairs(npcs: EnhancedNPCConfig[]): [EnhancedNPCConfig, EnhancedN
 // ============================================
 
 async function main(): Promise<void> {
-  const config = parseArgs(process.argv.slice(2), DEFAULTS);
-  let rng = createSeededRng(config.seed);
-  const startTime = Date.now();
+  const args = process.argv.slice(2);
+  const dryRun = args.includes('--dry-run');
+  const useClaude = args.includes('--use-claude');
+  const npcArg = args.find(a => a.startsWith('--npc='));
+  const poolArg = args.find(a => a.startsWith('--pool='));
+  const minArg = args.find(a => a.startsWith('--min='));
+  const outputArg = args.find(a => a.startsWith('--output='));
 
-  // Setup shutdown handler
-  let interrupted = false;
-  setupGracefulShutdown(() => {
-    interrupted = true;
-    console.log('\nSaving progress...');
-  });
+  const targetNpc = npcArg?.split('=')[1];
+  const targetPool = poolArg?.split('=')[1] as TemplatePool | undefined;
+  const minPerPool = minArg ? parseInt(minArg.split('=')[1]) : 3;
+  const outputPath = outputArg?.split('=')[1] || DEFAULT_OUTPUT;
 
-  printHeader('Chatbase Restock Simulator v2');
-  console.log(`Seed: ${config.seed}`);
-  console.log(`Hyperbolic: ${config.hyperbolic > 0 ? `${config.hyperbolic} minutes` : 'single pass'}`);
-  console.log(`Include Pantheon: ${config.includePantheon}`);
-  console.log(`Use Claude: ${config.useClaude}`);
-  console.log(`Heal Truncated: ${config.healTruncated}`);
+  // Check for API key if using Claude
+  const apiKey = process.env.ANTHROPIC_API_KEY || '';
+  let claudeEnabled = useClaude;
 
-  // Load Claude SDK if needed
-  if (config.useClaude || config.healTruncated) {
-    const loaded = await loadAnthropicSDK();
-    if (!loaded) {
-      console.error('WARNING: @anthropic-ai/sdk not installed. Claude features disabled.');
-      config.useClaude = false;
-      config.healTruncated = false;
-    }
+  if (useClaude && !apiKey) {
+    console.warn('WARNING: --use-claude specified but ANTHROPIC_API_KEY not set');
+    console.warn('Falling back to static generation');
+    claudeEnabled = false;
   }
 
-  // Select NPCs
-  let npcs = [...WANDERER_NPCS, ...TRAVELER_NPCS];
-  if (config.npc) {
-    const filterNpc = npcs.find(n => n.identity.slug === config.npc);
-    if (!filterNpc) {
-      console.error(`NPC not found: ${config.npc}`);
-      process.exit(1);
-    }
-    console.log(`Filtering to: ${filterNpc.identity.name}`);
-  }
+  console.log('='.repeat(60));
+  console.log('CHATBASE RESTOCK');
+  console.log('='.repeat(60));
+  console.log(`Min templates per pool: ${minPerPool}`);
+  console.log(`Claude API: ${claudeEnabled ? 'Enabled' : 'Disabled'}`);
+  if (targetNpc) console.log(`Target NPC: ${targetNpc}`);
+  if (targetPool) console.log(`Target Pool: ${targetPool}`);
+  if (dryRun) console.log('DRY RUN - No files will be written');
+  console.log('');
 
-  const pairs = generatePairs(npcs);
-  const filteredPairs = config.npc
-    ? pairs.filter(([a, b]) => a.identity.slug === config.npc || b.identity.slug === config.npc)
-    : pairs;
+  // Load existing templates
+  const existingTemplates = loadExistingTemplates();
 
-  console.log(`\nNPCs: ${npcs.length}`);
-  console.log(`Pairs: ${filteredPairs.length}`);
-  console.log(`Pantheon frequency: every ${PANTHEON_FREQUENCY} conversations (~2 weeks)`);
+  // Analyze gaps
+  const gaps = analyzeGaps(existingTemplates, minPerPool, targetNpc, targetPool);
 
-  // Output tracking - buffers that get flushed periodically
-  const output: RestockOutput = {
-    goodEntries: [],
-    healedEntries: [],
-    quarantinedEntries: [],
-    pantheonMoments: [],
-  };
+  console.log(`\nFound ${gaps.length} gaps to fill:`);
+  console.log(`  High priority: ${gaps.filter(g => g.priority === 'high').length}`);
+  console.log(`  Medium priority: ${gaps.filter(g => g.priority === 'medium').length}`);
+  console.log(`  Low priority: ${gaps.filter(g => g.priority === 'low').length}`);
 
-  // Running stats (memory-efficient - only counts, not full data)
-  const stats = {
-    totalConversations: 0,
-    totalTurns: 0,
-    truncatedCount: 0,
-    ramblingCount: 0,
-    healedCount: 0,
-    pantheonCount: 0,
-    goodEntriesTotal: 0,
-    healedEntriesTotal: 0,
-    speakerCounts: {} as Record<string, number>,
-    recentNpcs: [] as string[],
-  };
+  // Generate templates
+  const allGenerated: GeneratedTemplate[] = [];
+  let claudeCount = 0;
+  let staticCount = 0;
 
-  const conversationsPerPass = filteredPairs.length * config.iterations;
-  let completed = 0;
-  let passNumber = 0;
-  const endTime = config.hyperbolic > 0 ? startTime + config.hyperbolic * 60 * 1000 : 0;
+  for (const gap of gaps) {
+    let generated: GeneratedTemplate[];
 
-  // Setup output directory for streaming writes
-  const logDir = path.join(__dirname, '../logs');
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const outputDir = path.join(logDir, `restock-${timestamp}`);
-  if (!config.dryRun) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
-  const FLUSH_THRESHOLD = 500; // Flush to disk when buffer hits this size
-
-  function flushBuffers(): void {
-    if (config.dryRun) {
-      // Just clear without writing
-      output.goodEntries = [];
-      output.healedEntries = [];
-      output.pantheonMoments = [];
-      return;
-    }
-
-    // Append good entries as JSONL (one JSON object per line)
-    if (output.goodEntries.length > 0) {
-      const lines = output.goodEntries.map(e => JSON.stringify(e)).join('\n') + '\n';
-      fs.appendFileSync(path.join(outputDir, 'restocked-entries.jsonl'), lines);
-      stats.goodEntriesTotal += output.goodEntries.length;
-      output.goodEntries = [];
-    }
-
-    if (output.healedEntries.length > 0) {
-      const lines = output.healedEntries.map(e => JSON.stringify(e)).join('\n') + '\n';
-      fs.appendFileSync(path.join(outputDir, 'healed-entries.jsonl'), lines);
-      stats.healedEntriesTotal += output.healedEntries.length;
-      output.healedEntries = [];
-    }
-
-    if (output.pantheonMoments.length > 0) {
-      const lines = output.pantheonMoments.map(e => JSON.stringify(e)).join('\n') + '\n';
-      fs.appendFileSync(path.join(outputDir, 'pantheon-moments.jsonl'), lines);
-      output.pantheonMoments = [];
-    }
-  }
-
-  // Hyperbolic time chamber loop
-  do {
-    passNumber++;
-    if (config.hyperbolic > 0) {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const remaining = Math.floor((endTime - Date.now()) / 1000);
-      console.log(`\n--- Pass ${passNumber} | Elapsed: ${elapsed}s | Remaining: ${remaining}s ---`);
-      rng = createSeededRng(`${config.seed}-pass-${passNumber}`);
-      completed = 0;
-    }
-
-    // Simulate pair conversations
-    for (const [npcA, npcB] of filteredPairs) {
-      if (interrupted) break;
-
-      for (let i = 0; i < config.iterations; i++) {
-        const location = LOCATIONS[Math.floor(rng.random('location') * LOCATIONS.length)];
-        const conv = simulateConversation([npcA, npcB], location, rng, config.maxTurns, stats.totalConversations);
-
-        stats.totalConversations++;
-        stats.totalTurns += conv.turns.length;
-
-        // Track recent NPCs for pantheon
-        stats.recentNpcs.push(...conv.participants);
-        if (stats.recentNpcs.length > 20) {
-          stats.recentNpcs = stats.recentNpcs.slice(-20);
-        }
-
-        // Process turns
-        for (const turn of conv.turns) {
-          stats.speakerCounts[turn.speaker] = (stats.speakerCounts[turn.speaker] || 0) + 1;
-
-          if (turn.quality) {
-            if (turn.quality.truncated) {
-              stats.truncatedCount++;
-
-              // Try to heal if enabled
-              if (config.healTruncated && config.useClaude) {
-                const healed = await healTruncatedEntry({
-                  id: `heal-${turn.speaker}-${stats.totalConversations}`,
-                  text: turn.text,
-                  speaker: { slug: turn.speaker, name: turn.speakerName, category: 'wanderer' },
-                  pool: turn.pool,
-                  mood: turn.mood,
-                  moodIntensity: 50,
-                  contextTags: [conv.topic],
-                  metrics: { interestScore: 70, source: 'healed' },
-                });
-
-                if (healed) {
-                  stats.healedCount++;
-                  output.healedEntries.push({
-                    id: `healed-${turn.speaker}-${stats.totalConversations}`,
-                    text: healed,
-                    speaker: { slug: turn.speaker, name: turn.speakerName, category: 'wanderer' },
-                    pool: turn.pool,
-                    mood: turn.mood,
-                    moodIntensity: 50,
-                    contextTags: [conv.topic, 'healed'],
-                    metrics: { interestScore: 75, source: 'claude_healed' },
-                  });
-                }
-              }
-            }
-
-            if (turn.quality.rambling) {
-              stats.ramblingCount++;
-            }
-
-            // Good entries go to output
-            if (!turn.quality.truncated && !turn.quality.rambling && turn.text.length > 10) {
-              output.goodEntries.push({
-                id: `restock-${turn.speaker}-${stats.totalConversations}`,
-                text: turn.text,
-                speaker: { slug: turn.speaker, name: turn.speakerName, category: 'wanderer' },
-                pool: turn.pool,
-                mood: turn.mood,
-                moodIntensity: 50,
-                contextTags: [conv.topic, conv.location],
-                metrics: { interestScore: 70, source: 'restock_sim' },
-              });
-            }
-          }
-        }
-
-        // Pantheon check-in
-        if (config.includePantheon && shouldPantheonIntervene(stats.totalConversations)) {
-          const moment = generatePantheonCheckIn(stats.totalConversations, [...new Set(stats.recentNpcs)], rng);
-          output.pantheonMoments.push(moment);
-          stats.pantheonCount++;
-
-          if (config.verbose) {
-            console.log(`\n  [PANTHEON] ${moment.dieRectorName}: "${moment.text.substring(0, 60)}..."`);
-          }
-        }
-
-        completed++;
-        if (completed % 50 === 0 || config.verbose) {
-          process.stdout.write(`\rProgress: ${progressBar(completed, conversationsPerPass)}`);
-        }
-
-        // Flush buffers periodically to prevent OOM
-        if (output.goodEntries.length >= FLUSH_THRESHOLD) {
-          flushBuffers();
-        }
+    if (claudeEnabled) {
+      generated = await generateTemplatesWithClaude(gap, apiKey);
+      if (generated.some(t => t.id.startsWith('claude-'))) {
+        claudeCount += generated.length;
+      } else {
+        staticCount += generated.length;
       }
+      // Rate limit to avoid API throttling
+      await new Promise(resolve => setTimeout(resolve, 200));
+    } else {
+      generated = generateTemplatesForGap(gap);
+      staticCount += generated.length;
     }
 
-    // Flush at end of each pass
-    flushBuffers();
-
-  } while (config.hyperbolic > 0 && Date.now() < endTime && !interrupted);
-
-  console.log(); // New line after progress
-
-  // Final flush of any remaining buffered entries
-  flushBuffers();
-
-  const duration = Date.now() - startTime;
-
-  // Write quality report
-  if (!config.dryRun) {
-    const report = `# Chatbase Restock Report
-
-Generated: ${new Date().toISOString()}
-Duration: ${Math.floor(duration / 1000)}s
-Passes: ${passNumber}
-
-## Statistics
-
-- Total Conversations: ${stats.totalConversations}
-- Total Turns: ${stats.totalTurns}
-- Good Entries: ${stats.goodEntriesTotal}
-- Truncated: ${stats.truncatedCount}
-- Healed: ${stats.healedEntriesTotal}
-- Rambling: ${stats.ramblingCount}
-- Pantheon Moments: ${stats.pantheonCount}
-
-## Top Speakers
-
-${Object.entries(stats.speakerCounts)
-  .sort(([, a], [, b]) => b - a)
-  .slice(0, 10)
-  .map(([slug, count]) => `- ${slug}: ${count} lines`)
-  .join('\n')}
-
-## Quality Summary
-
-- Truncation Rate: ${((stats.truncatedCount / stats.totalTurns) * 100).toFixed(1)}%
-- Rambling Rate: ${((stats.ramblingCount / stats.totalTurns) * 100).toFixed(1)}%
-- Heal Success Rate: ${stats.truncatedCount > 0 ? ((stats.healedEntriesTotal / stats.truncatedCount) * 100).toFixed(1) : 0}%
-
-## Output Files
-
-- restocked-entries.jsonl (${stats.goodEntriesTotal} entries)
-- healed-entries.jsonl (${stats.healedEntriesTotal} entries)
-- pantheon-moments.jsonl (${stats.pantheonCount} entries)
-
-Note: Output files are in JSONL format (one JSON object per line) for streaming efficiency.
-`;
-
-    fs.writeFileSync(path.join(outputDir, 'quality-report.md'), report);
-    console.log(`\nOutput: ${outputDir}`);
+    if (generated.length > 0) {
+      allGenerated.push(...generated);
+      const source = generated[0].id.startsWith('claude-') ? '[Claude]' : '[Static]';
+      console.log(`  ${source} ${gap.npcName} / ${gap.pool}: +${generated.length} templates`);
+    }
   }
 
-  // Print summary
-  printSummary('Chatbase Restock', duration, {
-    'Conversations': stats.totalConversations,
-    'Total turns': stats.totalTurns,
-    'Good entries': stats.goodEntriesTotal,
-    'Truncated': stats.truncatedCount,
-    'Healed': stats.healedEntriesTotal,
-    'Pantheon moments': stats.pantheonCount,
-    'Passes': passNumber,
-  });
+  console.log(`\nTotal generated: ${allGenerated.length} templates`);
+  if (claudeEnabled) {
+    console.log(`  Claude-generated: ${claudeCount}`);
+    console.log(`  Static fallback: ${staticCount}`);
+  }
+
+  if (allGenerated.length === 0) {
+    console.log('No templates to generate - coverage is sufficient!');
+    return;
+  }
+
+  // Format output
+  const output = formatTemplatesAsTS(allGenerated, claudeEnabled);
+
+  if (dryRun) {
+    console.log('\n--- PREVIEW ---\n');
+    console.log(output);
+    console.log('\n--- END PREVIEW ---');
+  } else {
+    // Ensure output directory exists
+    const outputDir = path.dirname(outputPath);
+    fs.mkdirSync(outputDir, { recursive: true });
+
+    // Write output
+    fs.writeFileSync(outputPath, output);
+    console.log(`\nWritten to: ${outputPath}`);
+    console.log('Review and merge into chatbase-extracted.ts');
+  }
+
+  console.log('\n' + '='.repeat(60));
+  console.log('DONE');
+  console.log('='.repeat(60));
 }
 
 main().catch(console.error);

@@ -22,7 +22,7 @@ import type {
 } from './types';
 import { deriveMood, getFavorLevel, createDefaultRelationship } from './relationship';
 import { detectIntentPool } from './intent-detector';
-import { processVariables, buildVariableContext } from './variable-processor';
+import { processVariables, buildVariableContext, type CombatContext } from './variable-processor';
 import { applyDomainTint, getDomainVariables } from './domain-tint';
 import { mapTriggerToPool } from './triggers';
 
@@ -288,7 +288,8 @@ export function selectResponse(
   context: ResponseContext,
   templates: ResponseTemplate[],
   personality: NPCPersonalityConfig,
-  conversation: NPCConversation | undefined
+  conversation: NPCConversation | undefined,
+  combatContext?: CombatContext
 ): SelectedResponse | null {
   // 1. Build deterministic seed
   const intent =
@@ -356,10 +357,10 @@ export function selectResponse(
     }
 
     // Use fallback
-    return buildResponse(fallbackTemplate, context, mood, seed, personality);
+    return buildResponse(fallbackTemplate, context, mood, seed, personality, combatContext);
   }
 
-  return buildResponse(template, context, mood, seed, personality);
+  return buildResponse(template, context, mood, seed, personality, combatContext);
 }
 
 /**
@@ -370,13 +371,20 @@ function buildResponse(
   context: ResponseContext,
   mood: MoodType,
   seed: string,
-  personality: NPCPersonalityConfig
+  personality: NPCPersonalityConfig,
+  combatContext?: CombatContext
 ): SelectedResponse {
   // Get domain variables
   const domainVars = getDomainVariables(context.currentDomain);
 
-  // Build variable context
-  const variableContext = buildVariableContext(context, personality, domainVars);
+  // Build variable context (now includes combat state)
+  const variableContext = buildVariableContext(
+    context,
+    personality,
+    domainVars,
+    undefined, // memoryVariables
+    combatContext
+  );
 
   // Choose text (main or random variant)
   let text = template.text;

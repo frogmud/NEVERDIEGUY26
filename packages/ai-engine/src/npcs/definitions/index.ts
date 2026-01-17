@@ -56,6 +56,9 @@ import { WANDERER_NPCS } from './wanderers';
 import { TRAVELER_NPCS } from './travelers';
 import type { EnhancedNPCConfig } from '../types';
 
+// Re-export types
+export type { EnhancedNPCConfig } from '../types';
+
 /**
  * All NPCs combined
  */

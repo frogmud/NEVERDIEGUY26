@@ -88,7 +88,7 @@ export {
   extractVariables,
   hasVariables,
 } from './variable-processor';
-export type { VariableContext } from './variable-processor';
+export type { VariableContext, CombatContext } from './variable-processor';
 
 // Domain Tinting
 export {

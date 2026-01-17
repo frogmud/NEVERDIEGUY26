@@ -234,3 +234,4 @@ Based on /codex audit files, all critical issues addressed:
 - Memory-efficient hyperbolic mode (can run indefinitely without OOM)
 - All 15 NPCs have specific dialogue templates
 - Deduplication built-in (normalizes names to `{{TARGET}}`)
+- you have a plan, pls execute continuously improving the chatbase without asking for input unless its an executional move. pls help bring hte game to life!
