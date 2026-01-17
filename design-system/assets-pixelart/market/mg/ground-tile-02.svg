@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="8" viewBox="0 0 32 8" style="shape-rendering: crispEdges;">
-  <!-- Ground tile variant -->
-  <rect x="0" y="0" width="32" height="8" fill="#353535"/>
-  <rect x="4" y="2" width="4" height="4" fill="#2a2a2a"/>
-  <rect x="20" y="2" width="4" height="4" fill="#2a2a2a"/>
-</svg>

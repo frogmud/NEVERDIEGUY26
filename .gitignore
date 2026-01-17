@@ -31,3 +31,9 @@ packages/ai-engine/logs/
 # Cache
 .cache/
 .parcel-cache/
+
+# Legacy/Dev assets (not needed for deploy)
+/public/
+/codex/
+/design-system/assets/
+/design-system/assets-pixelart/
