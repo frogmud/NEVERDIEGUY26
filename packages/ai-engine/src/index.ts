@@ -704,6 +704,17 @@ export {
   getEffectiveGracePeriod,
 } from './combat';
 export type { StatKey, LoadoutStats, DensityTier, DieDensityConfig, DieDecayConfig, BalanceDieSides } from './combat';
+
+// Draw Events System
+export {
+  DRAW_EVENT_CONFIGS,
+  ELEMENT_COLORS,
+  detectDrawEvents,
+  calculateEventBonuses,
+  getEventSummary,
+} from './combat';
+export type { DrawEventType, DrawEvent, DrawEventConfig } from './combat';
+
 export type {
   // Grid types
   TileType,

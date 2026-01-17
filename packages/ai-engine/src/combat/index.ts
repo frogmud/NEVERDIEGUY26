@@ -117,6 +117,18 @@ export {
   getEffectiveGracePeriod,
 } from './balance-config';
 
+// Draw Events System
+export {
+  type DrawEventType,
+  type DrawEvent,
+  type DrawEventConfig,
+  DRAW_EVENT_CONFIGS,
+  ELEMENT_COLORS,
+  detectDrawEvents,
+  calculateEventBonuses,
+  getEventSummary,
+} from './draw-events';
+
 // Item System (re-export from items package)
 export {
   type ItemCategory,
