@@ -1,217 +1,331 @@
 /**
- * Draw Events - Special bonuses triggered by dice hand composition
+ * Draw Events System - Special dice pattern detection
  *
- * Events fire during draw/roll phases and provide score bonuses or effects.
- * Inspired by Balatro's joker proc system.
+ * Detects patterns like straights, element combos, high rollers, etc.
+ * Returns bonus/multiplier adjustments for matching patterns.
+ *
  * NEVER DIE GUY
  */
 
 import type { Die, Element } from './dice-hand';
-import { countByElement } from './dice-hand';
+import { DIE_ELEMENTS } from './dice-hand';
 
 // ============================================
 // Types
 // ============================================
 
 export type DrawEventType =
-  | 'element_surge' // 3+ same element in hand
-  | 'lucky_straight' // Sequential values (1-2-3-4-5)
-  | 'high_roller' // All dice 5+ (on d6, scaled for others)
-  | 'cursed_hand' // All 1s or 2s (bad luck event)
-  | 'wild_surge'; // All different elements
+  | 'lucky-straight'
+  | 'high-roller'
+  | 'element-surge'
+  | 'wild-surge'
+  | 'cursed-hand';
 
 export interface DrawEvent {
   type: DrawEventType;
   name: string;
   description: string;
-  element?: Element; // For element-specific events
-  bonus: number; // Flat score bonus
-  multiplier: number; // Score multiplier (1.0 = no change)
-  triggered: boolean;
+  bonus: number;
+  multiplier: number;
+  color: string;
+  /** For element surge, which element triggered it */
+  element?: Element;
+  /** Dice that contributed to this event */
+  involvedDice: string[];
 }
 
-export interface DrawEventResult {
-  events: DrawEvent[];
-  totalBonus: number;
-  totalMultiplier: number;
+export interface DrawEventConfig {
+  type: DrawEventType;
+  name: string;
+  description: string;
+  bonus: number;
+  multiplier: number;
+  color: string;
 }
 
 // ============================================
-// Event Detection
+// Event Configurations
+// ============================================
+
+export const DRAW_EVENT_CONFIGS: Record<DrawEventType, DrawEventConfig> = {
+  'lucky-straight': {
+    type: 'lucky-straight',
+    name: 'Lucky Straight',
+    description: '3+ consecutive values',
+    bonus: 500,
+    multiplier: 1.5,
+    color: '#FFD700', // Gold
+  },
+  'high-roller': {
+    type: 'high-roller',
+    name: 'High Roller',
+    description: 'All dice rolled above average',
+    bonus: 300,
+    multiplier: 1.3,
+    color: '#9B59B6', // Purple
+  },
+  'element-surge': {
+    type: 'element-surge',
+    name: 'Element Surge',
+    description: '3+ dice of same element',
+    bonus: 100, // Per die involved
+    multiplier: 1.2,
+    color: '#00CED1', // Default - overridden by element
+  },
+  'wild-surge': {
+    type: 'wild-surge',
+    name: 'Wild Surge',
+    description: 'All different elements',
+    bonus: 250,
+    multiplier: 1.25,
+    color: 'linear-gradient(90deg, #FF6B6B, #FFE66D, #4ECDC4, #45B7D1, #96CEB4)', // Rainbow
+  },
+  'cursed-hand': {
+    type: 'cursed-hand',
+    name: 'Cursed Hand',
+    description: 'All dice rolled below average',
+    bonus: -200,
+    multiplier: 0.5,
+    color: '#E74C3C', // Red
+  },
+};
+
+// Element colors for element surge
+export const ELEMENT_COLORS: Record<Element, string> = {
+  Void: '#8E44AD',
+  Earth: '#27AE60',
+  Death: '#2C3E50',
+  Fire: '#E74C3C',
+  Ice: '#3498DB',
+  Wind: '#1ABC9C',
+};
+
+// ============================================
+// Detection Functions
 // ============================================
 
 /**
- * Check for Element Surge: 3+ dice of same element
- * Bonus: +100 per matching die, 1.2x multiplier
+ * Check for Lucky Straight (3+ consecutive roll values)
  */
-function checkElementSurge(hand: Die[]): DrawEvent | null {
-  const counts = countByElement(hand);
+function detectLuckyStraight(dice: Die[]): DrawEvent | null {
+  const rolledDice = dice.filter(d => d.rollValue !== null);
+  if (rolledDice.length < 3) return null;
 
-  for (const [element, count] of Object.entries(counts) as [Element, number][]) {
-    if (count >= 3) {
+  const values = rolledDice.map(d => d.rollValue!).sort((a, b) => a - b);
+  const uniqueValues = [...new Set(values)];
+
+  // Find longest consecutive sequence
+  let maxStreak = 1;
+  let currentStreak = 1;
+  let streakDice: string[] = [];
+  let currentStreakDice: string[] = [];
+
+  for (let i = 1; i < uniqueValues.length; i++) {
+    if (uniqueValues[i] === uniqueValues[i - 1] + 1) {
+      currentStreak++;
+      // Track which dice are in the streak
+      const matchingDice = rolledDice.filter(
+        d => d.rollValue === uniqueValues[i] || d.rollValue === uniqueValues[i - 1]
+      );
+      currentStreakDice = [...new Set([...currentStreakDice, ...matchingDice.map(d => d.id)])];
+    } else {
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
+        streakDice = currentStreakDice;
+      }
+      currentStreak = 1;
+      currentStreakDice = [];
+    }
+  }
+
+  if (currentStreak > maxStreak) {
+    maxStreak = currentStreak;
+    streakDice = currentStreakDice;
+  }
+
+  if (maxStreak >= 3) {
+    const config = DRAW_EVENT_CONFIGS['lucky-straight'];
+    return {
+      ...config,
+      involvedDice: streakDice,
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Check for High Roller (all dice above their average)
+ * Average = (1 + sides) / 2, so above average means rollValue > sides/2
+ */
+function detectHighRoller(dice: Die[]): DrawEvent | null {
+  const rolledDice = dice.filter(d => d.rollValue !== null);
+  if (rolledDice.length < 2) return null;
+
+  const allAboveAverage = rolledDice.every(die => {
+    const average = (1 + die.sides) / 2;
+    return die.rollValue! > average;
+  });
+
+  if (allAboveAverage) {
+    const config = DRAW_EVENT_CONFIGS['high-roller'];
+    return {
+      ...config,
+      involvedDice: rolledDice.map(d => d.id),
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Check for Element Surge (3+ dice of same element)
+ */
+function detectElementSurge(dice: Die[]): DrawEvent | null {
+  const rolledDice = dice.filter(d => d.rollValue !== null);
+  if (rolledDice.length < 3) return null;
+
+  // Count by element
+  const elementCounts: Record<Element, Die[]> = {
+    Void: [],
+    Earth: [],
+    Death: [],
+    Fire: [],
+    Ice: [],
+    Wind: [],
+  };
+
+  for (const die of rolledDice) {
+    elementCounts[die.element].push(die);
+  }
+
+  // Find element with 3+ dice
+  for (const [element, diceList] of Object.entries(elementCounts)) {
+    if (diceList.length >= 3) {
+      const config = DRAW_EVENT_CONFIGS['element-surge'];
       return {
-        type: 'element_surge',
-        name: 'Element Surge',
-        description: `${count} ${element} dice aligned!`,
-        element,
-        bonus: count * 100,
-        multiplier: 1.2,
-        triggered: true,
+        ...config,
+        bonus: config.bonus * diceList.length, // +100 per die
+        color: ELEMENT_COLORS[element as Element],
+        element: element as Element,
+        involvedDice: diceList.map(d => d.id),
       };
     }
   }
+
   return null;
 }
 
 /**
- * Check for Lucky Straight: Sequential roll values (1-2-3-4-5)
- * Only checks rolled dice (non-null rollValue)
- * Bonus: +500, 1.5x multiplier
+ * Check for Wild Surge (all different elements, min 4 dice)
  */
-function checkLuckyStraight(hand: Die[]): DrawEvent | null {
-  const rolledValues = hand
-    .filter((d) => d.rollValue !== null)
-    .map((d) => d.rollValue as number)
-    .sort((a, b) => a - b);
+function detectWildSurge(dice: Die[]): DrawEvent | null {
+  const rolledDice = dice.filter(d => d.rollValue !== null);
+  if (rolledDice.length < 4) return null;
 
-  if (rolledValues.length < 5) return null;
+  const elements = new Set(rolledDice.map(d => d.element));
 
-  // Check for 1-2-3-4-5 sequence
-  const isSequential =
-    rolledValues[0] === 1 &&
-    rolledValues[1] === 2 &&
-    rolledValues[2] === 3 &&
-    rolledValues[3] === 4 &&
-    rolledValues[4] === 5;
-
-  if (isSequential) {
+  // All dice must be different elements
+  if (elements.size === rolledDice.length) {
+    const config = DRAW_EVENT_CONFIGS['wild-surge'];
     return {
-      type: 'lucky_straight',
-      name: 'Lucky Straight',
-      description: '1-2-3-4-5 sequence!',
-      bonus: 500,
-      multiplier: 1.5,
-      triggered: true,
+      ...config,
+      involvedDice: rolledDice.map(d => d.id),
     };
   }
+
   return null;
 }
 
 /**
- * Check for High Roller: All dice roll in top ~33% of their faces
- * (e.g., 5-6 on d6, 9-12 on d12)
- * Bonus: +300, 1.3x multiplier
+ * Check for Cursed Hand (all dice below their average)
+ * This is a penalty event - triggers when luck is bad
  */
-function checkHighRoller(hand: Die[]): DrawEvent | null {
-  const rolledDice = hand.filter((d) => d.rollValue !== null);
-  if (rolledDice.length < 3) return null; // Need at least 3 dice
-
-  const allHigh = rolledDice.every((die) => {
-    const threshold = Math.ceil(die.sides * 0.67);
-    return (die.rollValue as number) >= threshold;
-  });
-
-  if (allHigh) {
-    return {
-      type: 'high_roller',
-      name: 'High Roller',
-      description: 'All dice rolled high!',
-      bonus: 300,
-      multiplier: 1.3,
-      triggered: true,
-    };
-  }
-  return null;
-}
-
-/**
- * Check for Cursed Hand: All dice roll 1 or 2 (bad luck)
- * Penalty: -200, 0.5x multiplier
- */
-function checkCursedHand(hand: Die[]): DrawEvent | null {
-  const rolledDice = hand.filter((d) => d.rollValue !== null);
+function detectCursedHand(dice: Die[]): DrawEvent | null {
+  const rolledDice = dice.filter(d => d.rollValue !== null);
   if (rolledDice.length < 3) return null;
 
-  const allCursed = rolledDice.every((die) => {
-    const value = die.rollValue as number;
-    return value <= 2;
+  const allBelowAverage = rolledDice.every(die => {
+    const average = (1 + die.sides) / 2;
+    return die.rollValue! < average;
   });
 
-  if (allCursed) {
+  if (allBelowAverage) {
+    const config = DRAW_EVENT_CONFIGS['cursed-hand'];
     return {
-      type: 'cursed_hand',
-      name: 'Cursed Hand',
-      description: 'The dice betray you...',
-      bonus: -200,
-      multiplier: 0.5,
-      triggered: true,
+      ...config,
+      involvedDice: rolledDice.map(d => d.id),
     };
   }
-  return null;
-}
 
-/**
- * Check for Wild Surge: All 5 elements different
- * Bonus: +250, 1.25x multiplier
- */
-function checkWildSurge(hand: Die[]): DrawEvent | null {
-  if (hand.length < 5) return null;
-
-  const uniqueElements = new Set(hand.map((d) => d.element));
-  if (uniqueElements.size >= 5) {
-    return {
-      type: 'wild_surge',
-      name: 'Wild Surge',
-      description: 'Elemental harmony!',
-      bonus: 250,
-      multiplier: 1.25,
-      triggered: true,
-    };
-  }
   return null;
 }
 
 // ============================================
-// Main Detection
+// Main Detection Function
 // ============================================
 
 /**
- * Detect all draw events for a hand
- * Call after rolling dice to check for bonuses
+ * Detect all draw events in a hand
+ * Returns array of events in priority order (best events first)
+ *
+ * Priority:
+ * 1. Lucky Straight (most valuable)
+ * 2. High Roller
+ * 3. Element Surge
+ * 4. Wild Surge
+ * 5. Cursed Hand (penalty - always checked last)
  */
-export function detectDrawEvents(hand: Die[]): DrawEventResult {
+export function detectDrawEvents(hand: Die[]): DrawEvent[] {
   const events: DrawEvent[] = [];
 
-  // Check each event type (order = priority for display)
-  const luckyStraight = checkLuckyStraight(hand);
-  if (luckyStraight) events.push(luckyStraight);
+  // Check for positive events (in priority order)
+  const straight = detectLuckyStraight(hand);
+  if (straight) events.push(straight);
 
-  const highRoller = checkHighRoller(hand);
+  const highRoller = detectHighRoller(hand);
   if (highRoller) events.push(highRoller);
 
-  const elementSurge = checkElementSurge(hand);
+  const elementSurge = detectElementSurge(hand);
   if (elementSurge) events.push(elementSurge);
 
-  const wildSurge = checkWildSurge(hand);
+  const wildSurge = detectWildSurge(hand);
   if (wildSurge) events.push(wildSurge);
 
-  const cursedHand = checkCursedHand(hand);
-  if (cursedHand) events.push(cursedHand);
+  // Check for negative event only if no positive events triggered
+  // This prevents double-punishment
+  if (events.length === 0) {
+    const cursed = detectCursedHand(hand);
+    if (cursed) events.push(cursed);
+  }
 
-  // Calculate totals (bonuses additive, multipliers multiplicative)
-  const totalBonus = events.reduce((sum, e) => sum + e.bonus, 0);
-  const totalMultiplier = events.reduce((product, e) => product * e.multiplier, 1.0);
-
-  return {
-    events,
-    totalBonus,
-    totalMultiplier,
-  };
+  return events;
 }
 
 /**
- * Apply draw event bonuses to a base score
+ * Calculate total bonus and multiplier from all events
  */
-export function applyDrawEvents(baseScore: number, eventResult: DrawEventResult): number {
-  return Math.round((baseScore + eventResult.totalBonus) * eventResult.totalMultiplier);
+export function calculateEventBonuses(events: DrawEvent[]): {
+  totalBonus: number;
+  totalMultiplier: number;
+} {
+  let totalBonus = 0;
+  let totalMultiplier = 1;
+
+  for (const event of events) {
+    totalBonus += event.bonus;
+    // Multipliers stack multiplicatively
+    totalMultiplier *= event.multiplier;
+  }
+
+  return { totalBonus, totalMultiplier };
+}
+
+/**
+ * Get a summary description of active events for display
+ */
+export function getEventSummary(events: DrawEvent[]): string {
+  if (events.length === 0) return '';
+
+  return events.map(e => e.name).join(' + ');
 }

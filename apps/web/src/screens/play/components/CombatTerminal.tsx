@@ -42,7 +42,10 @@ import {
   calculateDecayRate,
   calculateStatEffects,
   type LoadoutStats,
+  detectDrawEvents,
+  calculateEventBonuses,
 } from '@ndg/ai-engine';
+import { DrawEventToast, useDrawEventToast } from '../../../components/DrawEventToast';
 import { DensityMeter } from '../../../components/DensityMeter';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
@@ -545,6 +548,9 @@ export function CombatTerminal({
   const [showVictoryExplosion, setShowVictoryExplosion] = useState(false);
   const [lastScoreGain, setLastScoreGain] = useState(0);
   const [bossIsHit, setBossIsHit] = useState(false);
+
+  // Draw event toast for special dice patterns
+  const { currentEvent: drawEvent, showEvents: showDrawEvents, clearCurrent: clearDrawEvent } = useDrawEventToast();
 
   // Event timer state (45s countdown)
   const [timeRemainingMs, setTimeRemainingMs] = useState<number>(FLAT_EVENT_CONFIG.eventDurationMs);
@@ -1464,6 +1470,12 @@ export function CombatTerminal({
           onDiceRoll(rollPayload);
         }
 
+        // Detect draw events (special dice patterns) and show toast
+        const drawEvents = detectDrawEvents(newState.hand);
+        if (drawEvents.length > 0) {
+          showDrawEvents(drawEvents);
+        }
+
         // Fire situational triggers based on game state
         const scoreProgress = newState.targetScore > 0
           ? newState.currentScore / newState.targetScore
@@ -1485,7 +1497,7 @@ export function CombatTerminal({
         }
       }
     }, adjustDelay(100));
-  }, [isProcessing, onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage]);
+  }, [isProcessing, onDiceRoll, onBigRoll, onCloseToGoal, onFinalTurn, playDiceRoll, adjustDelay, clearMessage, showDrawEvents]);
 
   // Victory explosion callback - fires after explosion animation
   // Uses ref to prevent multiple firings and avoid stale closure issues
@@ -1754,6 +1766,12 @@ export function CombatTerminal({
       <ReportGameDialog
         open={reportOpen}
         onClose={() => setReportOpen(false)}
+      />
+
+      {/* Draw Event Toast - shows when special dice patterns proc */}
+      <DrawEventToast
+        event={drawEvent}
+        onComplete={clearDrawEvent}
       />
     </Box>
   );
