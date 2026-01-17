@@ -1788,6 +1788,90 @@ export const NPC_RELATIONSHIP_DIALOGUE: Record<string, string[]> = {
     'Voss experiments. I observe. Similar scientific approaches.',
     '*processes* Fellow observer of the system.',
   ],
+
+  // Stitch-up-girl's additional relationships
+  'stitch-up-girl:body-count': [
+    'Body Count tracks the ones I could not save. We have a... professional relationship.',
+    '*glances at Body Count* He counts endings. I prevent them.',
+  ],
+  'stitch-up-girl:clausen': [
+    'Clausen and I go back. Many battlefield patches.',
+    '*threads needle* The detective was once a soldier. I remember.',
+  ],
+  'stitch-up-girl:dr-maxwell': [
+    'Maxwell experiments. I repair. Different medical ethics.',
+    '*side-eye at Maxwell* His methods are... aggressive.',
+  ],
+
+  // Clausen's comments about others
+  'clausen:boots': [
+    '*sighs* Boots creates chaos. I create order. Eternal conflict.',
+    'The kicker disrupts investigations. Constantly.',
+  ],
+  'clausen:mr-bones': [
+    'The skeleton was old before the first war. He knows things.',
+    '*notes something* Mr. Bones is a reliable witness. Memory like... bone.',
+  ],
+  'clausen:boo-g': [
+    '*adjusts hat* The ghost is loud. But observant.',
+    'Boo G sees through walls. Useful for investigations.',
+  ],
+
+  // Body Count's additional comments
+  'body-count:boots': [
+    '*marks tally* Boots contributes to the count. Indirectly.',
+    'The kicker has impressive impact statistics.',
+  ],
+  'body-count:boo-g': [
+    'The ghost cannot die. Bad for my business.',
+    '*contemplates* Already dead. Already counted. Efficient.',
+  ],
+  'body-count:xtreme': [
+    'X-treme generates casualties. I track them.',
+    '*makes notes* Chaos produces data. Appreciated.',
+  ],
+
+  // Mr. Bones additional
+  'mr-bones:keith-man': [
+    '*rattles slowly* Keith moves fast. I move not at all. Balance.',
+    'The speedster rushes. I have eternity. No hurry.',
+  ],
+  'mr-bones:king-james': [
+    '*bone chuckle* Royalty thinks they are eternal. I actually am.',
+    'The King wears a crown. I wore mine down to dust.',
+  ],
+  'mr-bones:stitch-up-girl': [
+    'Stitch tries to heal bones. Cannot heal what is already complete.',
+    '*philosophical rattle* She sees damage. I see transformation.',
+  ],
+
+  // Boo G additional
+  'boo-g:mr-bones': [
+    'MR. BONES! Fellow UNDEAD! But you got no RHYTHM in those bones!',
+    '*ghost laughs* Skeleton contemplates! Ghost CELEBRATES!',
+  ],
+  'boo-g:stitch-up-girl': [
+    'Stitch patches EVERYONE! Even tried to patch ME! I am ALREADY PATCHED into the AFTERLIFE!',
+    '*spectral nod* Medical QUEEN! Respects the FLOW of life and death!',
+  ],
+  'boo-g:dr-maxwell': [
+    'Maxwell tried to STUDY my ectoplasm! RUDE! But also INTRIGUING!',
+    '*floats around* Science GHOST! Maxwell gets it! Kind of!',
+  ],
+
+  // The General additional
+  'the-general:mr-bones': [
+    'Bones served in the old campaigns. Before he was... bones.',
+    '*nods* Ancient soldier. Deserves the salute.',
+  ],
+  'the-general:boo-g': [
+    '*mutters* The ghost is too loud for military operations.',
+    'Boo G would make a terrible scout. Zero stealth.',
+  ],
+  'the-general:xtreme': [
+    '*tactical assessment* X-treme is... unpredictable. Difficult to command.',
+    'Chaos agent. Useful in siege warfare. Nowhere else.',
+  ],
 };
 
 /**
