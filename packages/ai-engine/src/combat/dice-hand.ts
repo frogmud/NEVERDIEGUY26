@@ -41,21 +41,6 @@ export interface DicePool {
 export const MAX_HAND_SIZE = 5;
 export const DEFAULT_HOLDS_PER_ROOM = 3;
 
-// Pity timer: force 5+ roll after this many consecutive low rolls
-export const PITY_THRESHOLD = 10;
-
-/**
- * Pity state tracks consecutive low rolls across throws
- * Resets when player rolls a 5 or 6 (on d6, scaled for other dice)
- */
-export interface PityState {
-  lowRollCount: number;
-}
-
-export function createPityState(): PityState {
-  return { lowRollCount: 0 };
-}
-
 /**
  * Die to element mapping (each die type has a home element)
  */
@@ -206,47 +191,6 @@ export function rollHand(hand: Die[], rng: SeededRng): Die[] {
       rollValue: rng.roll(`roll-${die.id}-${Date.now()}`, die.sides),
     };
   });
-}
-
-/**
- * Roll unheld dice with pity timer tracking
- * Forces a high roll (top 25% of die faces) after PITY_THRESHOLD consecutive low rolls
- * Low roll = below ~67% of die faces (e.g., 1-4 on d6)
- * High roll = top ~33% of die faces (e.g., 5-6 on d6)
- */
-export function rollHandWithPity(
-  hand: Die[],
-  rng: SeededRng,
-  pityState: PityState
-): { hand: Die[]; pityState: PityState } {
-  const newPity: PityState = { lowRollCount: pityState.lowRollCount };
-
-  const newHand = hand.map((die) => {
-    if (die.isHeld) return die;
-
-    let rollValue = rng.roll(`roll-${die.id}-${Date.now()}`, die.sides);
-
-    // Pity timer: force high roll after threshold consecutive low rolls
-    if (newPity.lowRollCount >= PITY_THRESHOLD) {
-      const minHigh = Math.ceil(die.sides * 0.75); // Top 25% of die faces
-      if (rollValue < minHigh) {
-        rollValue = minHigh + rng.roll(`pity-${die.id}`, die.sides - minHigh);
-      }
-      newPity.lowRollCount = 0; // Reset after pity triggers
-    } else {
-      // Track low rolls (below ~67% of die faces)
-      const highThreshold = Math.ceil(die.sides * 0.67);
-      if (rollValue >= highThreshold) {
-        newPity.lowRollCount = 0; // Reset on natural high roll
-      } else {
-        newPity.lowRollCount++;
-      }
-    }
-
-    return { ...die, rollValue };
-  });
-
-  return { hand: newHand, pityState: newPity };
 }
 
 /**
