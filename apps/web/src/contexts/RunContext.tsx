@@ -49,7 +49,7 @@ import {
   logDefeat,
 } from '../utils/telemetry';
 import { getBonusesFromInventory, filterPersistentItems } from '../data/items/combat-effects';
-import { getEarlyFinishBonus } from '../data/balance-config';
+import { getEarlyFinishBonus, calculateGoldGain } from '../data/balance-config';
 import { getFlatScoreGoal, getFlatGoldReward, type LoadoutStats } from '@ndg/ai-engine';
 import { getLoadoutById, LOADOUT_PRESETS } from '../data/loadouts';
 
@@ -326,7 +326,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
           lastRoomGold: totalGold,
           lastRoomBonus: roomBonus,
           totalScore: state.totalScore + state.pendingVictory.score,
-          gold: state.gold + totalGold,
+          gold: state.gold + calculateGoldGain(totalGold, state.gold),
           pendingVictory: null,
           runStats: {
             ...state.runStats,

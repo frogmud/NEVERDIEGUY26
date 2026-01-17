@@ -99,9 +99,12 @@ export function applyHeatDifficulty(baseDifficulty: number, heat: number): numbe
 
 /**
  * Calculate reward with heat modifier
+ * Capped at 2.0x to prevent runaway at high heat levels
  */
 export function applyHeatReward(baseReward: number, heat: number): number {
-  return Math.floor(baseReward * Math.pow(WANDERER_EFFECTS.heat.rewardMultiplier, heat));
+  const uncapped = Math.pow(WANDERER_EFFECTS.heat.rewardMultiplier, heat);
+  const capped = Math.min(uncapped, 2.0); // Cap at 2x max
+  return Math.floor(baseReward * capped);
 }
 
 // ============================================================
@@ -190,6 +193,46 @@ export const GOLD_REWARDS = {
   /** Domain multiplier increment (Domain 1 = 1x, Domain 6 = 1 + 5 * 0.5 = 3.5x) */
   domainMultiplierIncrement: 0.5,
 } as const;
+
+// ============================================================
+// GOLD CAP (Soft Cap / Hard Cap)
+// Prevents late-game gold hoarding and trivializing shop
+// ============================================================
+
+export const GOLD_CONFIG = {
+  /** Soft cap - diminishing returns above this */
+  softCap: 500,
+  /** Hard cap - max gold player can have */
+  hardCap: 1000,
+  /** Gold above soft cap is multiplied by this (0.5 = 50%) */
+  diminishingRate: 0.5,
+} as const;
+
+/**
+ * Calculate actual gold gain with soft/hard cap
+ * - Below soft cap: full gold
+ * - Above soft cap: diminishing returns
+ * - At hard cap: no gold
+ */
+export function calculateGoldGain(rawGold: number, currentGold: number): number {
+  if (currentGold >= GOLD_CONFIG.hardCap) {
+    return 0; // At cap, no more gold
+  }
+
+  if (currentGold + rawGold <= GOLD_CONFIG.softCap) {
+    return rawGold; // Below soft cap, full value
+  }
+
+  // Above soft cap: apply diminishing returns
+  const belowCap = Math.max(0, GOLD_CONFIG.softCap - currentGold);
+  const aboveCap = rawGold - belowCap;
+  const diminished = Math.floor(aboveCap * GOLD_CONFIG.diminishingRate);
+
+  return Math.min(
+    belowCap + diminished,
+    GOLD_CONFIG.hardCap - currentGold // Don't exceed hard cap
+  );
+}
 
 /**
  * Calculate gold reward for clearing a room
@@ -384,6 +427,7 @@ export const BALANCE = {
   doors: DOOR_WEIGHTS,
   encounters: ENCOUNTER_RATES,
   gold: GOLD_REWARDS,
+  goldCap: GOLD_CONFIG,
   integrity: INTEGRITY_CONFIG,
   lucky: LUCKY_SYNERGY,
   timer: TIMER_CONFIG,

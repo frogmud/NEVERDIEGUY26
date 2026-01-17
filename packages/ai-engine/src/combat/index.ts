@@ -33,13 +33,17 @@ export {
   type Die,
   type DiceHand,
   type DicePool,
+  type PityState,
   MAX_HAND_SIZE,
   DEFAULT_HOLDS_PER_ROOM,
+  PITY_THRESHOLD,
   DIE_ELEMENTS,
   generateDicePool,
   generateWeightedPool,
   drawHand,
   rollHand,
+  rollHandWithPity,
+  createPityState,
   toggleHold,
   discardAndDraw,
   getHandTotal,
@@ -134,3 +138,12 @@ export {
   generateStatBlock,
   mergeItemStats,
 } from '../items';
+
+// Draw Events (Lucky Straight, Element Surge, etc.)
+export {
+  type DrawEventType,
+  type DrawEvent,
+  type DrawEventResult,
+  detectDrawEvents,
+  applyDrawEvents,
+} from './draw-events';
