@@ -403,17 +403,8 @@ function EventTimer({
           bgcolor: 'rgba(255,255,255,0.4)',
         }}
       />
-      {/* Time display */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 0.5 }}>
-        <Typography
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.7rem',
-            color: isGracePeriod ? '#2196F3' : tokens.colors.text.secondary,
-          }}
-        >
-          {isGracePeriod ? 'GRACE' : seconds <= 5 ? 'HURRY!' : 'TIME'}
-        </Typography>
+      {/* Time display - simplified, just seconds */}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.5 }}>
         <Typography
           sx={{
             fontFamily: tokens.fonts.gaming,
@@ -1586,12 +1577,7 @@ export function CombatTerminal({
                 <Typography sx={{ ...gamingFont, fontSize: '1.2rem', fontWeight: 700, color: tokens.colors.text.primary }}>
                   {effectiveScore.toLocaleString()}
                 </Typography>
-                {/* Decay indicator - shows when decay is active */}
-                {accumulatedDecay > 0 && (
-                  <Typography sx={{ ...gamingFont, fontSize: '0.75rem', color: tokens.colors.error, opacity: 0.8 }}>
-                    (-{Math.floor(accumulatedDecay)})
-                  </Typography>
-                )}
+                {/* Decay indicator disabled - reduces visual noise */}
               </Box>
               <Typography sx={{ ...gamingFont, fontSize: '0.9rem', color: tokens.colors.text.secondary }}>
                 / {combatState.targetScore.toLocaleString()}
@@ -1659,19 +1645,7 @@ export function CombatTerminal({
           />
         )}
 
-        {/* Population Density Meter - shows current population tier */}
-        {!isLobby && (
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-              zIndex: 10,
-            }}
-          >
-            <DensityMeter npcCount={populationCount} compact />
-          </Box>
-        )}
+        {/* Population Density Meter - disabled to reduce UI clutter */}
 
         {/* Fixed HUD Reticle - scales with zoom to match impact area on planet */}
         {!isLobby && reticleDice.length > 0 && (
