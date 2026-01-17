@@ -158,3 +158,36 @@ export interface ChatResponse {
   entryId?: string;
   confidence?: number;
 }
+
+// ============================================
+// Combat Feed Types (extracted from CombatTerminal)
+// ============================================
+
+/** Feed entry types for sidebar history */
+export type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
+
+export interface FeedEntry {
+  id: string;
+  type: FeedEntryType;
+  timestamp: number;
+  // NPC chat fields
+  npcSlug?: string;
+  npcName?: string;
+  text?: string;
+  mood?: string;
+  // Roll fields
+  rollNotation?: string;
+  rollTotal?: number;
+  // Trade fields
+  diceTraded?: number;
+  multiplierGained?: number;
+}
+
+/** Game state exposed to parent for sidebar display */
+export interface GameStateUpdate {
+  throws: number;
+  trades: number;
+  score: number;
+  goal: number;
+  multiplier: number;
+}

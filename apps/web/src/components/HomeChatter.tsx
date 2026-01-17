@@ -722,12 +722,12 @@ export function HomeChatter() {
           }}
         >
           {/* Sprite skeleton */}
-          <Box sx={{ width: { xs: 96, sm: 120, md: 150 }, flexShrink: 0 }}>
+          <Box sx={{ width: { xs: 120, sm: 150, md: 180 }, flexShrink: 0 }}>
             <Skeleton
               variant="rectangular"
               sx={{
                 width: '100%',
-                height: { xs: 150, sm: 180, md: 210 },
+                height: { xs: 180, sm: 220, md: 260 },
                 borderRadius: 1,
                 bgcolor: 'rgba(255,255,255,0.05)',
               }}
@@ -1118,12 +1118,12 @@ export function HomeChatter() {
           overflow: 'hidden',
         }}
       >
-      {/* Sprite - fixed on left, click to visit wiki */}
+      {/* Sprite - fixed on left, click to visit wiki (120px target) */}
       <Box
         component={RouterLink}
         to={`/wiki/${greeter.wikiSlug}`}
         sx={{
-          width: { xs: 96, sm: 120, md: 150 },
+          width: { xs: 120, sm: 150, md: 180 },
           flexShrink: 0,
           opacity: showSprite ? 1 : 0,
           animation: showSprite ? `${slideInSprite} 500ms ease-out` : 'none',
@@ -1132,12 +1132,12 @@ export function HomeChatter() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',
-          minHeight: { xs: 180, sm: 210, md: 250 },
+          minHeight: { xs: 200, sm: 240, md: 280 },
           '&:hover .wiki-hint': {
             opacity: 1,
           },
           '&:hover img': {
-            transform: 'scale(1.05)',
+            transform: 'scale(1.08)',
           },
         }}
       >
@@ -1176,7 +1176,7 @@ export function HomeChatter() {
           sx={{
             width: '100%',
             height: 'auto',
-            maxHeight: { xs: 150, sm: 180, md: 210 },
+            maxHeight: { xs: 180, sm: 220, md: 260 },
             objectFit: 'contain',
             imageRendering: 'pixelated',
             transition: 'transform 150ms ease',
