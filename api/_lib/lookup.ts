@@ -91,6 +91,27 @@ export class ChatbaseLookup {
   }
 
   /**
+   * Check if text appears truncated (incomplete sentence)
+   */
+  private isTruncated(text: string): boolean {
+    if (!text || text.length < 10) return true;
+
+    const trimmed = text.trim();
+    // Valid endings: . ! ? " ' * ) ] (for actions and quotes)
+    const validEndings = /[.!?"\'\*\)\]]$/;
+    if (validEndings.test(trimmed)) return false;
+
+    // Common truncation patterns (ends with article, conjunction, preposition, comma)
+    const truncatedEndings = /\b(the|a|an|to|of|in|for|and|but|or|with|as|at|by|from|my|his|her|its|our|their|this|that|these|those|shall|will|can|may|must|would|could|should),?\s*$/i;
+    if (truncatedEndings.test(trimmed)) return true;
+
+    // Ends with comma, colon, or open quote
+    if (/[,:\"]$/.test(trimmed)) return true;
+
+    return false;
+  }
+
+  /**
    * Main lookup function
    */
   async lookup(request: LookupRequest): Promise<LookupResult> {
@@ -104,8 +125,8 @@ export class ChatbaseLookup {
       return this.fallbackResponse(request.npcSlug, request.pool);
     }
 
-    // Filter by pool
-    let poolEntries = entries.filter(e => e.pool === request.pool);
+    // Filter by pool, excluding truncated entries
+    let poolEntries = entries.filter(e => e.pool === request.pool && !this.isTruncated(e.text));
 
     // If no exact pool match, try related pools
     if (poolEntries.length === 0) {
@@ -158,7 +179,8 @@ export class ChatbaseLookup {
     const related = relatedPools[pool] || ['reaction', 'idle'];
 
     for (const relatedPool of related) {
-      const found = entries.filter(e => e.pool === relatedPool);
+      // Filter out truncated entries from related pools too
+      const found = entries.filter(e => e.pool === relatedPool && !this.isTruncated(e.text));
       if (found.length > 0) {
         return found;
       }
