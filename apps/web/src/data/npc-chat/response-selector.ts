@@ -457,6 +457,21 @@ export function createFallbackResponse(
       '"You test my patience..."',
       '*a cold silence fills the air*',
     ],
+    curious: [
+      '*tilts head* "Interesting... tell me more."',
+      '"I wonder about that myself..."',
+      '*leans in with curiosity*',
+    ],
+    concerned: [
+      '*furrows brow* "That worries me."',
+      '"Be careful out there..."',
+      '*looks at you with concern*',
+    ],
+    focused: [
+      '*concentrating* "One moment..."',
+      '"Stay on task."',
+      '*maintains steady attention*',
+    ],
   };
 
   // Use seed to deterministically pick a response

@@ -87,6 +87,9 @@ export function derivePriceModifier(mood: MoodType, familiarity: number): number
     threatening: 1.5,
     amused: 0.95,
     cryptic: 1.1,
+    curious: 1.0,
+    concerned: 1.05,
+    focused: 1.0,
   };
 
   const base = moodBase[mood] ?? 1.0;
@@ -148,6 +151,27 @@ export const MOOD_EFFECTS: Record<MoodType, MoodGameplayEffects> = {
     challengeDifficulty: 'hard',
     specialOfferChance: 0,
     favorDelta: -2,
+  },
+  curious: {
+    priceModifier: 1.0,
+    hintQuality: 'helpful',
+    challengeDifficulty: 'normal',
+    specialOfferChance: 0.15,
+    favorDelta: 1,
+  },
+  concerned: {
+    priceModifier: 1.05,
+    hintQuality: 'detailed',
+    challengeDifficulty: 'normal',
+    specialOfferChance: 0.1,
+    favorDelta: 1,
+  },
+  focused: {
+    priceModifier: 1.0,
+    hintQuality: 'helpful',
+    challengeDifficulty: 'normal',
+    specialOfferChance: 0.1,
+    favorDelta: 0,
   },
 };
 
@@ -311,6 +335,9 @@ export function getMoodDisplay(mood: MoodType): MoodDisplay {
     cryptic: { color: '#673ab7', icon: 'Psychology', label: 'Cryptic' },
     annoyed: { color: '#ff9800', icon: 'SentimentDissatisfied', label: 'Annoyed' },
     threatening: { color: '#f44336', icon: 'Warning', label: 'Threatening' },
+    curious: { color: '#00bcd4', icon: 'HelpOutline', label: 'Curious' },
+    concerned: { color: '#ff7043', icon: 'ErrorOutline', label: 'Concerned' },
+    focused: { color: '#607d8b', icon: 'CenterFocusStrong', label: 'Focused' },
   };
   return displays[mood];
 }
