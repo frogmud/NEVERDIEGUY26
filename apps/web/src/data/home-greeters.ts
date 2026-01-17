@@ -450,8 +450,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'boo-g',
     name: 'Boo G',
     portrait: '/assets/characters/portraits/240px/shop-portrait-boog-01.svg',
-    sprite: '/assets/market-svg/boo-g/idle-01.svg',
-    sprite2: '/assets/market-svg/boo-g/idle-02.svg',
+    sprite: '/assets/characters/wanderers/sprite-boo-g-1.png',
+    sprite2: '/assets/characters/wanderers/sprite-boo-g-2.png',
     wikiSlug: 'characters/boo-g',
     ambient: [
       // Singles (punchy one-liners)

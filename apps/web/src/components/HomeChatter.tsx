@@ -1552,7 +1552,8 @@ export function HomeChatter() {
                 onInputChange={(_, newValue) => setInputValue(newValue.slice(0, 300))}
                 onChange={(_, newValue) => {
                   if (newValue && typeof newValue !== 'string') {
-                    setInputValue(newValue.question);
+                    // Auto-send when FAQ selected from dropdown
+                    handleSendFaqQuestion(newValue);
                   }
                 }}
                 disabled={isSending}
@@ -1563,6 +1564,12 @@ export function HomeChatter() {
                     {...params}
                     placeholder="Click or start typing..."
                     variant="standard"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && inputValue.trim() && !isSending) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
                     sx={{
                       '& .MuiInput-root': {
                         fontFamily: tokens.fonts.gaming,
