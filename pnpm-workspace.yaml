@@ -1,4 +1,4 @@
 packages:
   - 'packages/*'
   - 'apps/*'
-  - 'party'
+  # party/ deployed separately via PartyKit CLI
