@@ -372,3 +372,116 @@ export function isPoolEmpty(pool: DicePool): boolean {
 export function getPoolRemaining(pool: DicePool): number {
   return pool.available.length;
 }
+
+// ============================================
+// Pity Timer System
+// ============================================
+
+/**
+ * Pity state tracks consecutive low rolls to prevent frustrating streaks.
+ * After enough bad luck, the system guarantees a better outcome.
+ */
+export interface PityState {
+  consecutiveLowRolls: number;  // Count of rolls below threshold
+  pityThreshold: number;        // Rolls needed to trigger pity (default 10)
+  pityTriggered: boolean;       // Was pity used this roll?
+}
+
+/**
+ * Create initial pity state for a combat
+ */
+export function createPityState(threshold: number = 10): PityState {
+  return {
+    consecutiveLowRolls: 0,
+    pityThreshold: threshold,
+    pityTriggered: false,
+  };
+}
+
+/**
+ * Check if a roll is considered "low" (below 40% of max)
+ */
+function isLowRoll(rollValue: number, sides: DieSides): boolean {
+  const threshold = Math.ceil(sides * 0.4);
+  return rollValue <= threshold;
+}
+
+/**
+ * Check if a roll is considered "high" (above 70% of max)
+ */
+function isHighRoll(rollValue: number, sides: DieSides): boolean {
+  const threshold = Math.floor(sides * 0.7);
+  return rollValue >= threshold;
+}
+
+/**
+ * Apply pity boost to a roll - guarantees at least 60% of max
+ */
+function applyPityBoost(rollValue: number, sides: DieSides): number {
+  const minimumPity = Math.ceil(sides * 0.6);
+  return Math.max(rollValue, minimumPity);
+}
+
+/**
+ * Roll hand with pity timer - prevents frustrating low-roll streaks
+ *
+ * When pity triggers:
+ * - All dice in this throw get boosted to at least 60% of their max
+ * - Counter resets
+ *
+ * Pity counter resets on:
+ * - Any die rolling 70%+ naturally
+ * - Pity being consumed
+ */
+export function rollHandWithPity(
+  hand: Die[],
+  rng: SeededRng,
+  pityState: PityState
+): { hand: Die[]; pityState: PityState } {
+  const newPityState = { ...pityState, pityTriggered: false };
+  const shouldApplyPity = pityState.consecutiveLowRolls >= pityState.pityThreshold;
+
+  let hadHighRoll = false;
+  let allLowRolls = true;
+
+  const newHand = hand.map((die) => {
+    // Held dice keep their current roll value
+    if (die.isHeld) {
+      return die;
+    }
+
+    // Roll the die
+    let rollValue = rng.roll(`roll-${die.id}-${Date.now()}`, die.sides);
+
+    // Check for natural high roll (resets pity)
+    if (isHighRoll(rollValue, die.sides)) {
+      hadHighRoll = true;
+      allLowRolls = false;
+    } else if (!isLowRoll(rollValue, die.sides)) {
+      // Medium roll - not low, not high
+      allLowRolls = false;
+    }
+
+    // Apply pity boost if triggered
+    if (shouldApplyPity) {
+      rollValue = applyPityBoost(rollValue, die.sides);
+      newPityState.pityTriggered = true;
+    }
+
+    return {
+      ...die,
+      rollValue,
+    };
+  });
+
+  // Update pity counter
+  if (shouldApplyPity || hadHighRoll) {
+    // Reset on pity consumption or natural high roll
+    newPityState.consecutiveLowRolls = 0;
+  } else if (allLowRolls && newHand.some(d => !d.isHeld)) {
+    // Increment if all thrown dice were low
+    newPityState.consecutiveLowRolls++;
+  }
+
+  return { hand: newHand, pityState: newPityState };
+}
