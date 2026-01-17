@@ -662,8 +662,9 @@ export const artifacts: Item[] = [
     ],
     obtainMethods: [
       { type: 'enemy', source: 'skeleton-warrior', location: 'shadow-keep', rate: '5%' },
+      { type: 'shop', source: 'xtremes-xchange', rate: 'Cursed Stock' },
     ],
-    seeAlso: ['shadow-keep'],
+    seeAlso: ['shadow-keep', 'xtreme', 'xtremes-xchange'],
     diceEffects: [
       { trigger: 'onMax', die: 8, effect: 'Guaranteed Transfer: Curse always transfers on hit' },
     ],

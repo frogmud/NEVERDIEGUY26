@@ -205,7 +205,8 @@ export const shops: Shop[] = [
       { item: 'lucky-charm', price: 150, stock: 'Roll d20 x 15' },
       { item: 'chaos-coin', price: 250, stock: 'Roll d20 x 25' },
       { item: 'dice-of-destiny', price: 750, stock: 'EXTREME Limited' },
+      { item: 'cursed-finger', price: 100, stock: 'Cursed Stock' },
     ],
-    seeAlso: ['xtreme', 'never-die-guy', 'the-one', 'mr-bones', 'random-sword', 'mystery-box-supreme', 'lucky-charm', 'chaos-coin', 'dice-of-destiny'],
+    seeAlso: ['xtreme', 'never-die-guy', 'the-one', 'mr-bones', 'random-sword', 'mystery-box-supreme', 'lucky-charm', 'chaos-coin', 'dice-of-destiny', 'cursed-finger'],
   },
 ];
