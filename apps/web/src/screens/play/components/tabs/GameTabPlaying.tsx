@@ -152,7 +152,8 @@ export function GameTabPlaying({
         </Box>
       )}
 
-      {/* Combat Feed - NPC Chat, Rolls, Trades (most recent at top, persists) */}
+      {/* Combat Feed - Rolls, Trades (most recent at top, persists) */}
+      {/* NPC Chat filtered out - only shown in Homepage Eternal Stream */}
       <Box
         sx={{
           flex: 1,
@@ -160,12 +161,12 @@ export function GameTabPlaying({
           borderBottom: `1px solid ${tokens.colors.border}`,
         }}
       >
-        {combatFeed.length === 0 ? (
+        {combatFeed.filter(e => e.type !== 'npc_chat').length === 0 ? (
           <Box sx={{ p: 2, color: tokens.colors.text.disabled, textAlign: 'center' }}>
             <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.95rem' }}>No rolls yet</Typography>
           </Box>
         ) : (
-          combatFeed.map((entry) => (
+          combatFeed.filter(e => e.type !== 'npc_chat').map((entry) => (
             <Box
               key={entry.id}
               sx={{
