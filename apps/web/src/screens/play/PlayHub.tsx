@@ -540,7 +540,7 @@ export function PlayHub() {
                   height: '100%',
                   width: `${((state.visitedDomains?.length || 0) / 6) * 100}%`,
                   bgcolor: tokens.colors.primary,
-                  transition: 'width 0.5s ease',
+                  transition: 'width 0.3s ease',
                 }}
               />
               {/* Domain end markers - tick marks that extend below */}
@@ -581,7 +581,7 @@ export function PlayHub() {
             sx={{
               width: '100%',
               height: '100%',
-              animation: `${panelEnter} 0.4s ${EASING.smooth} forwards`,
+              animation: `${panelEnter} 0.3s ${EASING.smooth} forwards`,
             }}
           >
             <RunSummary
@@ -605,7 +605,7 @@ export function PlayHub() {
               width: '100%',
               height: '100%',
               overflow: 'auto',
-              animation: `${panelEnter} 0.4s ${EASING.smooth} forwards`,
+              animation: `${panelEnter} 0.3s ${EASING.smooth} forwards`,
             }}
           >
             <PortalSelection />
@@ -646,7 +646,7 @@ export function PlayHub() {
                     bgcolor: state.gameWon ? 'rgba(20, 60, 20, 0.7)' : 'rgba(60, 20, 20, 0.7)',
                     backdropFilter: 'blur(4px)',
                     zIndex: 80,
-                    animation: `${overlayEnter} 0.5s ${EASING.smooth} forwards`,
+                    animation: `${overlayEnter} 0.3s ${EASING.smooth} forwards`,
                   }}
                 />
                 {/* GameOverModal on top with delayed entrance */}
@@ -658,7 +658,7 @@ export function PlayHub() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    animation: `${panelEnter} 0.4s ${EASING.organic} 0.2s forwards`,
+                    animation: `${panelEnter} 0.3s ${EASING.organic} 0.15s forwards`,
                     opacity: 0,
                   }}
                 >

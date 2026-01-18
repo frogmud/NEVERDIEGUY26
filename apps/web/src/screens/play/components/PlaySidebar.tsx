@@ -252,7 +252,6 @@ export function PlaySidebar({
 
       {/* Tab Content - fade animation on switch */}
       <Box
-        key={activeTab}
         sx={{
           flex: 1,
           overflow: 'hidden',
