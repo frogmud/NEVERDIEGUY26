@@ -30,6 +30,10 @@ export const pantheon: Pantheon[] = [
       resilience: 60,   // Moderate (reality itself)
       swiftness: 50,    // Balanced
     },
+    preferredItems: ['void-crystal', 'null-charm', 'reality-anchor'],
+    dislikedItems: ['elemental-prism'],
+    preferredElements: ['Void'],
+    collectsCategory: ['Artifact', 'Quest'],
     favorEffects: [
       { roll: 1, effect: 'Null Void: Reality briefly forgets you exist (immunity).' },
       { roll: 2, effect: 'Baseline Reality: Stats reset to base values (buff or debuff).' },
@@ -48,7 +52,7 @@ export const pantheon: Pantheon[] = [
       'You exist because I allow the concept of existence.',
       'Roll. Remind yourself what singular focus means.',
     ],
-    seeAlso: ['null-providence', 'mr-kevin', 'zero-chance', 'boots'],
+    seeAlso: ['null-providence', 'void-crystal', 'mr-kevin', 'zero-chance', 'boots'],
   },
 
   // John - Door 2, Earth
@@ -79,6 +83,10 @@ export const pantheon: Pantheon[] = [
       resilience: 80,   // High (metal and stone)
       swiftness: 40,    // Below average (methodical)
     },
+    preferredItems: ['earth-stone', 'iron-boots', 'heavy-shield', 'turtle-shell'],
+    dislikedItems: ['wind-feather'],
+    preferredElements: ['Earth'],
+    collectsCategory: ['Armor', 'Material', 'Weapon'],
     favorEffects: [
       { roll: 1, effect: 'Rust: Mechanical items lose 20% effectiveness.' },
       { roll: 2, effect: 'John\'s Blessing: +30% damage with mechanical weapons.' },
@@ -97,7 +105,7 @@ export const pantheon: Pantheon[] = [
       'Your flesh is temporary. My modifications are eternal.',
       'Roll the die. Let me show you what efficiency means.',
     ],
-    seeAlso: ['earth', 'never-die-guy', 'the-one', 'mr-kevin'],
+    seeAlso: ['earth', 'earth-stone', 'iron-boots', 'never-die-guy', 'the-one', 'peter'],
   },
 
   // Peter - Door 3, Shadow Keep
@@ -127,6 +135,10 @@ export const pantheon: Pantheon[] = [
       resilience: 55,   // Moderate
       swiftness: 70,    // High (evasive, ghostly)
     },
+    preferredItems: ['death-sigil', 'bone-dagger', 'skull-mask', 'shadow-cloak'],
+    dislikedItems: ['fire-ember'],
+    preferredElements: ['Death'],
+    collectsCategory: ['Weapon', 'Armor', 'Artifact'],
     favorEffects: [
       { roll: 1, effect: 'Curse of Decay: Lose 10% max HP for the duration of the domain.' },
       { roll: 2, effect: 'Shadow Sight: See hidden enemies and traps.' },
@@ -145,7 +157,7 @@ export const pantheon: Pantheon[] = [
       'The shadows have whispered of your coming.',
       'Roll the die, traveler. Let fate decide your blessing... or curse.',
     ],
-    seeAlso: ['shadow-keep', 'stitch-up-girl', 'body-count', 'shadow-fiend'],
+    seeAlso: ['shadow-keep', 'death-sigil', 'stitch-up-girl', 'body-count', 'shadow-fiend', 'john', 'robert'],
   },
 
   // Robert - Door 4, Infernus
@@ -175,6 +187,10 @@ export const pantheon: Pantheon[] = [
       resilience: 45,   // Below average (offense over defense)
       swiftness: 75,    // High (explosive speed)
     },
+    preferredItems: ['fire-ember', 'flame-sword', 'molten-hammer', 'inferno-grenade'],
+    dislikedItems: ['ice-shard'],
+    preferredElements: ['Fire'],
+    collectsCategory: ['Weapon', 'Consumable'],
     favorEffects: [
       { roll: 1, effect: 'Burnout: Fire damage hurts you 20% more.' },
       { roll: 2, effect: 'Smolder: Attacks inflict burning status.' },
@@ -193,7 +209,7 @@ export const pantheon: Pantheon[] = [
       'Your resistance is fuel for my domain.',
       'Roll. Let us see if you burn bright or burn out.',
     ],
-    seeAlso: ['infernus', 'clausen', 'dr-maxwell'],
+    seeAlso: ['infernus', 'fire-ember', 'clausen', 'dr-maxwell', 'peter', 'alice'],
   },
 
   // Alice - Door 5, Frost Reach
@@ -222,6 +238,10 @@ export const pantheon: Pantheon[] = [
       resilience: 100,  // MAX - Ice, defense, stability
       swiftness: 65,    // Above average (time control)
     },
+    preferredItems: ['ice-shard', 'frozen-hourglass', 'temporal-anchor', 'frost-crown'],
+    dislikedItems: ['fire-ember'],
+    preferredElements: ['Ice'],
+    collectsCategory: ['Artifact', 'Quest', 'Armor'],
     favorEffects: [
       { roll: 1, effect: 'Time Slip: Actions occasionally happen twice.' },
       { roll: 2, effect: 'Frozen Moment: Brief immunity after taking damage.' },
@@ -240,7 +260,7 @@ export const pantheon: Pantheon[] = [
       'Yesterday, tomorrow, now—all happen at my convenience.',
       'Roll. Watch how quickly eternity passes.',
     ],
-    seeAlso: ['frost-reach', 'keith-man', 'the-one'],
+    seeAlso: ['frost-reach', 'ice-shard', 'keith-man', 'robert', 'jane'],
   },
 
   // Jane - Door 6, Aberrant
@@ -270,6 +290,10 @@ export const pantheon: Pantheon[] = [
       resilience: 40,   // Below average (chaos over stability)
       swiftness: 100,   // MAX - Wind, speed, chaos
     },
+    preferredItems: ['wind-feather', 'chaos-orb', 'aberrant-shard', 'storm-caller'],
+    dislikedItems: ['earth-stone'],
+    preferredElements: ['Wind'],
+    collectsCategory: ['Artifact', 'Consumable', 'Quest'],
     favorEffects: [
       { roll: 1, effect: 'Abnormality: A random stat swaps with another.' },
       { roll: 2, effect: 'Wind Walk: Phase through enemies briefly.' },
@@ -288,7 +312,7 @@ export const pantheon: Pantheon[] = [
       'Breathe deep. Taste the chaos in the air.',
       'Roll. Let abnormality find its perfect form.',
     ],
-    seeAlso: ['aberrant', 'body-count', 'boots'],
+    seeAlso: ['aberrant', 'wind-feather', 'body-count', 'boots', 'alice', 'the-one'],
   },
 
   // Rhea - Ancient Horror, No Door
@@ -317,6 +341,10 @@ export const pantheon: Pantheon[] = [
       resilience: 85,   // Beyond harm
       swiftness: 60,    // Deliberate
     },
+    preferredItems: ['ancient-relic', 'cosmic-shard', 'elder-tome', 'reality-fragment'],
+    dislikedItems: [],
+    preferredElements: ['Void'],
+    collectsCategory: ['Artifact', 'Quest'],
     favorEffects: [
       { roll: 1, effect: 'Cosmic Indifference: You become invisible to all entities.' },
       { roll: 2, effect: 'Ancient Whisper: Gain forbidden knowledge (quest hints).' },
@@ -335,7 +363,7 @@ export const pantheon: Pantheon[] = [
       'Your Die-rectors play games. I observe whether the game deserves to continue.',
       'Roll your die. It amuses me how much faith you place in numbered cubes.',
     ],
-    seeAlso: ['boots', 'the-one', 'alien-old-one', 'zero-chance'],
+    seeAlso: ['the-one', 'alien-old-one', 'alien-baby', 'zero-chance', 'king-james'],
   },
 
   // King James - Undying King, No Door
@@ -363,6 +391,10 @@ export const pantheon: Pantheon[] = [
       resilience: 90,   // Cannot truly die
       swiftness: 35,    // Bureaucratic pace
     },
+    preferredItems: ['king-james-crown', 'royal-scepter', 'death-contract', 'bureaucracy-tome'],
+    dislikedItems: [],
+    preferredElements: ['Death'],
+    collectsCategory: ['Artifact', 'Quest', 'Armor'],
     favorEffects: [
       { roll: 1, effect: 'Royal Decree: All enemies must attack you first.' },
       { roll: 2, effect: 'Undead Authority: Undead enemies serve you temporarily.' },
@@ -381,7 +413,7 @@ export const pantheon: Pantheon[] = [
       'The Die-rectors answer to the board. The board answers to me.',
       'Roll. Even kings must acknowledge fate\'s dice.',
     ],
-    seeAlso: ['the-general', 'willy', 'mr-bones', 'peter'],
+    seeAlso: ['peter', 'the-general', 'willy', 'mr-bones', 'rhea'],
   },
 
   // Zero Chance - Probability Void, No Door
@@ -412,6 +444,10 @@ export const pantheon: Pantheon[] = [
       resilience: 55,   // Moderate
       swiftness: 90,    // Probability is instant
     },
+    preferredItems: ['chaos-orb', 'probability-dice', 'null-charm', 'impossible-coin'],
+    dislikedItems: [],
+    preferredElements: ['Void'],
+    collectsCategory: ['Artifact', 'Consumable'],
     favorEffects: [
       { roll: 1, effect: 'Impossible Save: Survive what should kill you.' },
       { roll: 2, effect: 'Probability Lock: Next roll is guaranteed 6.' },
@@ -430,7 +466,7 @@ export const pantheon: Pantheon[] = [
       'Zero is not nothing. Zero is the space where probability fears to tread.',
       'Roll. Even zero can produce results.',
     ],
-    seeAlso: ['the-one', 'rhea', 'alien-baby', 'alien-old-one', 'void-lord'],
+    seeAlso: ['the-one', 'rhea', 'alien-baby', 'alien-old-one', 'jane'],
   },
 
   // Alien Baby - Larval Horror, No Door
@@ -460,6 +496,10 @@ export const pantheon: Pantheon[] = [
       resilience: 70,   // Cosmic durability
       swiftness: 80,    // Unpredictable movement
     },
+    preferredItems: ['shiny-bauble', 'cosmic-toy', 'reality-rattle', 'chaos-orb'],
+    dislikedItems: [],
+    preferredElements: ['Void'],
+    collectsCategory: ['Consumable', 'Artifact'],
     favorEffects: [
       { roll: 1, effect: 'Reality Bites: Random objects deleted when touched.' },
       { roll: 2, effect: 'Dimensional Drift: Phase between dimensions randomly.' },
@@ -478,7 +518,7 @@ export const pantheon: Pantheon[] = [
       'No meetings! Only play!',
       'Peek-a-boo! Where universe go?',
     ],
-    seeAlso: ['alien-old-one', 'rhea', 'zero-chance', 'boots'],
+    seeAlso: ['alien-old-one', 'rhea', 'zero-chance', 'the-one'],
   },
 
   // Alien Old One - Merged Horror, No Door
@@ -509,6 +549,10 @@ export const pantheon: Pantheon[] = [
       resilience: 75,   // Two bodies in one
       swiftness: 45,    // Coordination issues
     },
+    preferredItems: ['tentacle-whip', 'paradox-cube', 'dual-essence', 'alien-tech'],
+    dislikedItems: [],
+    preferredElements: ['Void'],
+    collectsCategory: ['Weapon', 'Artifact', 'Material'],
     favorEffects: [
       { roll: 1, effect: 'Invasion Mode: Enemies become test subjects.' },
       { roll: 2, effect: 'Madness Mode: Reality questions itself.' },
@@ -527,6 +571,6 @@ export const pantheon: Pantheon[] = [
       'Resistance is futile—And hilarious—FUTILE!—HILARIOUS!',
       'We are legion—No we\'re two—LEGION!—TWO!',
     ],
-    seeAlso: ['alien-baby', 'rhea', 'zero-chance', 'mr-kevin'],
+    seeAlso: ['alien-baby', 'rhea', 'zero-chance', 'the-one'],
   },
 ];

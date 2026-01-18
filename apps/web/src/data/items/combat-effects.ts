@@ -1,27 +1,37 @@
 /**
- * Combat Item Effects
+ * Combat Item Effects (DEPRECATED)
  *
+ * MIGRATION NOTE: This system is being phased out in favor of the Die-rector Favor system.
+ * Items are now eternal treasures collected by Die-rectors, not combat stat sticks.
+ *
+ * NEW SYSTEM:
+ * - Items grant favor when given to Die-rectors
+ * - Favor provides domain-wide combat bonuses (score/gold multipliers)
+ * - See packages/ai-engine/src/economy/favor.ts for new implementation
+ *
+ * LEGACY SYSTEM (below):
  * Simple bonuses that items provide during combat.
  * Applied at combat start from inventory.
  * Roguelike: items are lost at end of run.
- *
  * All bonuses are capped per COMBAT_CAPS to prevent abuse.
+ *
+ * TODO: Remove this file once all references are migrated to favor system.
  */
 
 import type { Element, Item } from '../wiki/types';
 import { getEntity } from '../wiki';
 import { COMBAT_CAPS, FLAT_EVENT_CONFIG } from '@ndg/ai-engine';
 
-// Combat effect types
+// Combat effect types (DEPRECATED - use favor system instead)
 export type CombatEffectType =
-  | 'throws'           // +N throws per combat
-  | 'trades'           // +N trades per combat
-  | 'multiplier'       // +X% base score multiplier
-  | 'elementBonus'     // +X% damage for specific element
-  | 'allElements'      // +X% damage for all elements
-  | 'gold'             // +X% gold from combat
-  | 'critChance'       // +X% chance for max roll bonus
-  | 'startingScore';   // Start combat with X score
+  | 'throws'           // +N throws per combat (DEPRECATED)
+  | 'trades'           // +N trades per combat (DEPRECATED)
+  | 'multiplier'       // +X% base score multiplier (DEPRECATED - use favor bonuses)
+  | 'elementBonus'     // +X% damage for specific element (DEPRECATED)
+  | 'allElements'      // +X% damage for all elements (DEPRECATED)
+  | 'gold'             // +X% gold from combat (DEPRECATED - use favor bonuses)
+  | 'critChance'       // +X% chance for max roll bonus (DEPRECATED)
+  | 'startingScore';   // Start combat with X score (DEPRECATED)
 
 export interface CombatEffect {
   type: CombatEffectType;
