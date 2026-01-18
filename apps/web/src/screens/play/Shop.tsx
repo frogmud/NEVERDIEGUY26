@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Box, Typography, Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes, Snackbar } from '@mui/material';
+import { Box, Typography, Button, Chip, keyframes, Snackbar } from '@mui/material';
 import {
   ArrowForwardSharp as ContinueIcon,
   CheckCircleSharp as CheckIcon,
@@ -146,7 +146,6 @@ export function Shop({
 
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
   const [purchasingItem, setPurchasingItem] = useState<string | null>(null);
-  const [confirmItem, setConfirmItem] = useState<Item | null>(null);
 
   // "Can't afford" feedback state
   const [showBrokeMessage, setShowBrokeMessage] = useState(false);
@@ -180,16 +179,6 @@ export function Shop({
     return () => clearInterval(interval);
   }, [vendor.sprite2]);
 
-  // Threshold for confirmation dialog (Epic+ items or cost > 50% of gold)
-  const requiresConfirmation = useCallback(
-    (item: Item, cost: number) => {
-      const rarity = item.rarity || 'Common';
-      const isExpensiveRarity = ['Epic', 'Legendary', 'Unique'].includes(rarity);
-      const isHighCost = gold > 0 && cost > gold * 0.5;
-      return isExpensiveRarity || isHighCost;
-    },
-    [gold]
-  );
 
   // Generate tier-filtered items from wiki data (deterministic)
   // Lucky synergy boosts effective tier for better rarity
@@ -238,7 +227,7 @@ export function Shop({
     setTimeout(() => setBrokeShake(false), 500);
   }, []);
 
-  // Handle purchase click - show confirmation for expensive items (Round 31)
+  // Handle purchase click - purchase directly without confirmation
   const handlePurchaseWikiItem = (item: Item) => {
     if (purchasedItems.includes(item.slug) || purchasingItem) return;
 
@@ -249,23 +238,7 @@ export function Shop({
       return;
     }
 
-    if (requiresConfirmation(item, cost)) {
-      setConfirmItem(item);
-    } else {
-      executePurchase(item);
-    }
-  };
-
-  // Confirm purchase from dialog (Round 31)
-  const handleConfirmPurchase = () => {
-    if (confirmItem) {
-      executePurchase(confirmItem);
-      setConfirmItem(null);
-    }
-  };
-
-  const handleCancelPurchase = () => {
-    setConfirmItem(null);
+    executePurchase(item);
   };
 
 
@@ -630,77 +603,6 @@ export function Shop({
       >
         Next Event
       </Button>
-
-      {/* Confirmation Dialog */}
-      <Dialog
-        open={Boolean(confirmItem)}
-        onClose={handleCancelPurchase}
-        PaperProps={{
-          sx: {
-            bgcolor: tokens.colors.background.paper,
-            border: `1px solid ${tokens.colors.border}`,
-            borderRadius: 2,
-            minWidth: 280,
-          },
-        }}
-      >
-        <DialogTitle sx={{ ...gamingFont, fontSize: '1.125rem', pb: 1 }}>Confirm Purchase</DialogTitle>
-        <DialogContent>
-          {confirmItem && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-              <Box
-                component="img"
-                src={confirmItem.image || '/assets/items/placeholder.png'}
-                alt={confirmItem.name}
-                sx={{ width: 80, height: 80, objectFit: 'contain', imageRendering: 'pixelated' }}
-              />
-              <Typography sx={{ ...gamingFont, fontWeight: 600, fontSize: '1rem' }}>{confirmItem.name}</Typography>
-              <Chip
-                label={confirmItem.rarity}
-                size="small"
-                sx={{
-                  height: 20,
-                  fontSize: '0.7rem',
-                  bgcolor: `${RARITY_COLORS[confirmItem.rarity || 'Common']}20`,
-                  color: RARITY_COLORS[confirmItem.rarity || 'Common'],
-                }}
-              />
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 20, height: 20 }} />
-                <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: tokens.colors.warning }}>
-                  {calculateItemCost(confirmItem, tier, favorTokens)}
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
-                  Remaining:
-                </Typography>
-                <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 12, height: 12 }} />
-                <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
-                  {gold - calculateItemCost(confirmItem, tier, favorTokens)}
-                </Typography>
-              </Box>
-            </Box>
-          )}
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2, justifyContent: 'center', gap: 2 }}>
-          <Button onClick={handleCancelPurchase} sx={{ color: tokens.colors.text.secondary }}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleConfirmPurchase}
-            sx={{
-              bgcolor: confirmItem ? RARITY_COLORS[confirmItem.rarity || 'Common'] : tokens.colors.primary,
-              ...gamingFont,
-              fontSize: '0.85rem',
-              px: 3,
-            }}
-          >
-            Buy
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* "Not enough gold" snackbar */}
       <Snackbar
