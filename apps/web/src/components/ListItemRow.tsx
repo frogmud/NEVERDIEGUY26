@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Box, Typography, SxProps, Theme } from '@mui/material';
 import { tokens } from '../theme';
+import { DURATION, EASING } from '../utils/transitions';
 
 export interface ListItemRowProps {
   icon?: ReactNode;
@@ -30,9 +31,21 @@ export function ListItemRow({
         px: 2,
         borderRadius: 1,
         cursor: onClick ? 'pointer' : 'default',
-        transition: 'background-color 0.15s ease',
+        // Balatro-style transitions
+        transition: `all ${DURATION.fast}ms ${EASING.smooth}`,
+        // Hover with lift effect
         '&:hover': onClick
-          ? { backgroundColor: tokens.colors.background.elevated }
+          ? {
+              backgroundColor: tokens.colors.background.elevated,
+              transform: 'translateX(4px)',
+            }
+          : undefined,
+        // Active press feedback
+        '&:active': onClick
+          ? {
+              transform: 'translateX(2px)',
+              transition: 'all 50ms ease-out',
+            }
           : undefined,
         ...sx,
       }}
