@@ -18,8 +18,7 @@ import { PlaySidebar } from './components';
 import { RunSummary } from './components/RunSummary';
 import { PlayOptionsModal } from './components/PlayOptionsModal';
 import { DomainInfoModal } from './components/DomainInfoModal';
-import { Shop } from './Shop';
-import { GlobeScene } from '../../games/globe-meteor/GlobeScene';
+import PortalSelection from './PortalSelection';
 import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteorGame';
 import { useRun } from '../../contexts';
 import { useAuth } from '../../contexts/AuthContext';
@@ -28,10 +27,12 @@ import { TransitionWipe } from '../../components/TransitionWipe';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
-import { EVENT_VARIANTS, type ZoneMarker } from '../../types/zones';
+import { type ZoneMarker } from '../../types/zones';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
 import { applyHeatReward } from '../../data/balance-config';
 import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
+import { isFinale } from '../../data/portal-config';
+import type { Item } from '../../data/wiki/types';
 
 // Layout constants
 const SIDEBAR_WIDTH = 320;
@@ -43,12 +44,12 @@ const generateThreadId = () => Math.random().toString(16).slice(2, 8).toUpperCas
 // Preview parking spots for lobby (shows available landing zones)
 // These are static positions that hint at the game structure
 const LOBBY_PREVIEW_ZONES: ZoneMarker[] = [
-  { id: 'preview-1', lat: 30, lng: -60, tier: 1, type: 'stable', eventType: 'small', eventVariant: 'swift', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
-  { id: 'preview-2', lat: 45, lng: 30, tier: 2, type: 'elite', eventType: 'big', eventVariant: 'standard', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
-  { id: 'preview-3', lat: -20, lng: 120, tier: 3, type: 'anomaly', eventType: 'boss', eventVariant: 'grueling', cleared: false, rewards: { goldMin: 200, goldMax: 400, lootTier: 3 } },
-  { id: 'preview-4', lat: -45, lng: -120, tier: 1, type: 'stable', eventType: 'small', eventVariant: 'swift', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
-  { id: 'preview-5', lat: 10, lng: 170, tier: 2, type: 'elite', eventType: 'big', eventVariant: 'standard', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
-  { id: 'preview-6', lat: -60, lng: 60, tier: 4, type: 'anomaly', eventType: 'boss', eventVariant: 'grueling', cleared: false, rewards: { goldMin: 300, goldMax: 600, lootTier: 4 } },
+  { id: 'preview-1', lat: 30, lng: -60, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
+  { id: 'preview-2', lat: 45, lng: 30, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
+  { id: 'preview-3', lat: -20, lng: 120, tier: 3, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 200, goldMax: 400, lootTier: 3 } },
+  { id: 'preview-4', lat: -45, lng: -120, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
+  { id: 'preview-5', lat: 10, lng: 170, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
+  { id: 'preview-6', lat: -60, lng: 60, tier: 4, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 300, goldMax: 600, lootTier: 4 } },
 ];
 
 export function PlayHub() {
@@ -99,6 +100,8 @@ export function PlayHub() {
 
   // Track quick launch mode (skip zone selection)
   const quickLaunchRef = useRef(false);
+  // Track pending auto-launch (set after zone auto-selected)
+  const pendingAutoLaunchRef = useRef(false);
 
   // Auto-start run with homepage loadout if available
   useEffect(() => {
@@ -141,59 +144,77 @@ export function PlayHub() {
     }
   }, [state.transitionPhase, setTransitionPhase]);
 
-  // Auto-select zone and launch when new run starts
-  // Quick launch: pick 'standard' variant and go straight to combat
-  // Normal: still auto-launches but could show zone select briefly
+  // Auto-select zone when new run starts (quick launch mode)
+  // This effect only handles zone selection, not the transition
   useEffect(() => {
-    let transitionTimeout: ReturnType<typeof setTimeout> | null = null;
-
     if (
       state.phase === 'playing' &&
       state.domainState?.zones &&
       state.domainState.zones.length > 0 &&
       !state.selectedZone &&
       state.centerPanel === 'globe' &&
-      state.transitionPhase === 'idle'
+      state.transitionPhase === 'idle' &&
+      quickLaunchRef.current
     ) {
-      // Quick launch mode: pick 'standard' variant zone
-      // Normal mode: pick random uncleared zone
+      // Quick launch: select first uncleared zone (1 event per domain)
       const unclearedZones = state.domainState.zones.filter(z => !z.cleared);
       const zones = unclearedZones.length > 0 ? unclearedZones : state.domainState.zones;
+      const selectedZoneForLaunch = zones[0];
 
-      let selectedZoneForLaunch;
-      if (quickLaunchRef.current) {
-        // Quick launch: prefer 'standard' variant for balanced gameplay
-        selectedZoneForLaunch = zones.find(z => z.eventVariant === 'standard') || zones[0];
-        quickLaunchRef.current = false; // Reset for future runs
-      } else {
-        // Normal: random zone
-        selectedZoneForLaunch = zones[Math.floor(Math.random() * zones.length)];
-      }
-
+      quickLaunchRef.current = false;
+      pendingAutoLaunchRef.current = true; // Signal to launch after zone is set
       selectZone(selectedZoneForLaunch);
-      // Launch into combat immediately
-      transitionTimeout = setTimeout(() => {
-        transitionToPanel('combat');
-      }, 50);
     }
+  }, [state.phase, state.domainState?.zones, state.selectedZone, state.centerPanel, state.transitionPhase, selectZone]);
 
-    return () => {
-      if (transitionTimeout) {
-        clearTimeout(transitionTimeout);
-      }
-    };
-  }, [state.phase, state.domainState?.zones, state.selectedZone, state.centerPanel, state.transitionPhase, selectZone, transitionToPanel]);
+  // Auto-launch into combat when zone is selected and pending
+  useEffect(() => {
+    if (
+      pendingAutoLaunchRef.current &&
+      state.selectedZone &&
+      state.centerPanel === 'globe' &&
+      state.transitionPhase === 'idle'
+    ) {
+      pendingAutoLaunchRef.current = false;
+      transitionToPanel('combat');
+    }
+  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel]);
+
+  // Shop state: show shop on D2+ arrivals (before first combat of domain)
+  // Track whether we've shopped this domain
+  const [hasShoppedThisDomain, setHasShoppedThisDomain] = useState(false);
+
+  // Reset shop state when domain changes
+  useEffect(() => {
+    setHasShoppedThisDomain(false);
+  }, [state.currentDomain]);
+
+  // Determine if we should show shop:
+  // - Domain 2+ (D1 player just left homepage, skip shop)
+  // - Haven't shopped this domain yet
+  // - Not in combat or portals
+  // - Run is active (phase === 'playing')
+  const shouldShowShop =
+    state.phase === 'playing' &&
+    (state.currentDomain || 1) >= 2 &&
+    !hasShoppedThisDomain &&
+    state.centerPanel === 'globe' &&
+    !state.selectedZone;
 
   // Determine game phase for sidebar based on state.phase
   // Initial state has phase='event_select', after startRun it's 'playing'
-  // 'event_select' -> lobby, 'playing' + globe -> zoneSelect, 'playing' + combat/summary/shop -> playing
-  // Keep 'playing' during game_over, summary and shop so player can see their stats in sidebar
+  // 'event_select' -> lobby, 'playing' + globe -> zoneSelect, 'playing' + combat/portals/summary -> playing
+  // Keep 'playing' during game_over, summary, and portals so player can see their stats in sidebar
   const sidebarPhase = state.phase === 'event_select' ? 'lobby'
     : state.phase === 'game_over' ? 'playing'
+    : shouldShowShop ? 'shop'
     : state.centerPanel === 'combat' ? 'playing'
+    : state.centerPanel === 'portals' ? 'playing'
     : state.centerPanel === 'summary' ? 'playing'
-    : state.centerPanel === 'shop' ? 'playing'
     : 'zoneSelect';
+
+  // Check if we're in shop mode (for hiding score to beat in sidebar)
+  const isInShop = sidebarPhase === 'shop';
 
   // 3D Globe game state
   const {
@@ -227,7 +248,6 @@ export function PlayHub() {
     event: currentEvent,
     totalEvents: state.domainState?.totalZones ?? 3,
     rollHistory: [],
-    eventVariant: state.selectedZone?.eventVariant,
   }), [
     combatGameState?.score,
     combatGameState?.goal,
@@ -239,7 +259,6 @@ export function PlayHub() {
     state.currentDomain,
     currentEvent,
     state.domainState?.totalZones,
-    state.selectedZone?.eventVariant,
   ]);
 
   // Handle New Run - starts run and shows zone selection
@@ -288,14 +307,50 @@ export function PlayHub() {
     setInfoOpen(true);
   };
 
-  // Build zones list for sidebar with event variants
-  // 3 options: swift (easy), standard, grueling (hard)
+  // Shop handlers
+  const handlePurchaseItem = useCallback((item: Item, cost: number) => {
+    // Use RunContext purchase to update gold and inventory
+    purchase(cost, item.slug, 'powerup');
+  }, [purchase]);
+
+  const handleSpendGold = useCallback((amount: number) => {
+    // Use RunContext purchase for rerolls (no item added)
+    purchase(amount, 'reroll', 'powerup');
+  }, [purchase]);
+
+  // Track pending shop launch (use same pattern as quick launch)
+  const pendingShopLaunchRef = useRef(false);
+
+  const handleShopContinue = useCallback(() => {
+    // Mark shop as done for this domain
+    setHasShoppedThisDomain(true);
+    // Quick launch into combat with first zone
+    if (state.domainState?.zones?.length) {
+      const firstZone = state.domainState.zones[0];
+      pendingShopLaunchRef.current = true; // Signal to launch after zone is set
+      selectZone(firstZone);
+    }
+  }, [state.domainState?.zones, selectZone]);
+
+  // Auto-launch after shop when zone is selected
+  useEffect(() => {
+    if (
+      pendingShopLaunchRef.current &&
+      state.selectedZone &&
+      state.centerPanel === 'globe' &&
+      state.transitionPhase === 'idle'
+    ) {
+      pendingShopLaunchRef.current = false;
+      transitionToPanel('combat');
+    }
+  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel]);
+
+  // Build zones list for sidebar (simplified - 1 zone per domain)
   const zonesForSidebar: ZoneInfo[] = useMemo(() => {
     const domainZones = state.domainState?.zones || [];
     return domainZones.map((zone) => ({
       id: zone.id,
       tier: zone.tier,
-      eventVariant: zone.eventVariant,
     }));
   }, [state.domainState?.zones]);
 
@@ -320,12 +375,6 @@ export function PlayHub() {
     currentDomainRef.current = state.currentDomain || 1;
   }, [state.currentDomain]);
 
-  // Track event variant in a ref for stable gold calculation
-  const eventVariantRef = useRef<'swift' | 'standard' | 'grueling'>('standard');
-  useEffect(() => {
-    eventVariantRef.current = state.selectedZone?.eventVariant || 'standard';
-  }, [state.selectedZone?.eventVariant]);
-
   // Track heat in a ref for stable gold calculation with heat bonus
   const heatRef = useRef<number>(0);
   useEffect(() => {
@@ -347,12 +396,10 @@ export function PlayHub() {
       endRun(true);
       return;
     }
-    // Full run: calculate gold using flat domain-based rewards with variant + heat multipliers
+    // Full run: calculate gold using flat domain-based rewards with heat bonus
     const baseGold = getFlatGoldReward(currentDomainRef.current);
-    const variantMultiplier = EVENT_VARIANTS[eventVariantRef.current].goldMultiplier;
-    const withVariant = baseGold * variantMultiplier;
     // Apply heat bonus (20% more gold per heat level)
-    const goldEarned = Math.round(applyHeatReward(withVariant, heatRef.current));
+    const goldEarned = Math.round(applyHeatReward(baseGold, heatRef.current));
     // Store pending victory in context - will be applied atomically when transition completes
     // turnsRemaining is used for early finish bonus calculation
     setPendingVictory({
@@ -360,15 +407,24 @@ export function PlayHub() {
       gold: goldEarned,
       stats,
       turnsRemaining,
-      eventVariant: eventVariantRef.current,
       bestThrowScore,
     });
-    transitionToPanel('summary');
+
+    // New portal flow: D1-5 -> portals, D6 (finale) -> summary (victory screen)
+    const isFinaleVictory = isFinale(currentDomainRef.current);
+    if (isFinaleVictory) {
+      // Finale victory: show victory summary
+      endRun(true);
+      transitionToPanel('summary');
+    } else {
+      // D1-5 victory: show portal selection
+      transitionToPanel('portals');
+    }
   }, [transitionToPanel, endRun, setPendingVictory]);
 
-  // Check if we're in summary or shop mode (rendered in center area, not as early return)
+  // Check if we're in summary, shop, or portals mode (rendered in center area)
   const isInSummary = state.centerPanel === 'summary' && !state.runEnded;
-  const isInShop = state.centerPanel === 'shop' && !state.runEnded;
+  const isInPortals = state.centerPanel === 'portals' && !state.runEnded;
 
   return (
     <Box
@@ -445,11 +501,11 @@ export function PlayHub() {
             justifyContent: 'center',
             minHeight: 0,
             position: 'relative',
-            overflow: isInShop || isInSummary ? 'auto' : 'hidden',
+            overflow: isInPortals || isInSummary ? 'auto' : 'hidden',
           }}
         >
         {isInSummary ? (
-          /* Room Clear Summary */
+          /* Victory Summary (only after D6 finale) */
           <RunSummary
             score={state.lastRoomScore}
             gold={state.lastRoomGold}
@@ -463,17 +519,10 @@ export function PlayHub() {
             eventType="small"
             onContinue={continueFromSummary}
           />
-        ) : isInShop ? (
-          /* Shop Screen */
-          <Box sx={{ width: '100%', height: '100%', overflow: 'auto', py: 4 }}>
-            <Shop
-              gold={state.gold}
-              domainId={state.currentDomain || 1}
-              onPurchase={purchase}
-              onContinue={continueFromShop}
-              threadId={state.threadId}
-              tier={state.tier || 1}
-            />
+        ) : isInPortals ? (
+          /* Portal Selection (after D1-5 combat win) */
+          <Box sx={{ width: '100%', height: '100%', overflow: 'auto' }}>
+            <PortalSelection />
           </Box>
         ) : (
           <>
@@ -509,7 +558,6 @@ export function PlayHub() {
               onGameStateChange={setCombatGameState}
               isDomainClear={state.domainState ? state.domainState.clearedCount + 1 >= state.domainState.totalZones : false}
               loadoutStats={state.loadoutStats}
-              eventVariant={state.selectedZone?.eventVariant || 'standard'}
             />
 
             {/* Game Over Modal - contained within center area so sidebar stays visible */}
@@ -563,7 +611,7 @@ export function PlayHub() {
               right: 16,
               zIndex: 1200,
               bgcolor: tokens.colors.primary,
-              color: '#fff',
+              color: tokens.colors.text.primary,
               '&:hover': {
                 bgcolor: tokens.colors.primary,
                 opacity: 0.9,
@@ -616,6 +664,14 @@ export function PlayHub() {
               gold={state.gold || 0}
               isInShop={isInShop}
               isMobile={true}
+              threadId={state.threadId}
+              tier={state.selectedZone?.tier || 1}
+              onPurchaseItem={handlePurchaseItem}
+              onSpendGold={handleSpendGold}
+              onShopContinue={() => {
+                handleShopContinue();
+                setDrawerOpen(false);
+              }}
             />
           </Drawer>
         </>
@@ -643,6 +699,11 @@ export function PlayHub() {
           totalScore={state.totalScore || 0}
           gold={state.gold || 0}
           isInShop={isInShop}
+          threadId={state.threadId}
+          tier={state.selectedZone?.tier || 1}
+          onPurchaseItem={handlePurchaseItem}
+          onSpendGold={handleSpendGold}
+          onShopContinue={handleShopContinue}
         />
       )}
 
@@ -671,7 +732,6 @@ export function PlayHub() {
         roomNumber={state.roomNumber || 1}
         totalScore={state.totalScore || 0}
         gold={state.gold || 0}
-        eventVariant={state.selectedZone?.eventVariant || 'standard'}
         loadoutStats={state.loadoutStats}
         inventoryItems={state.inventory?.powerups || []}
       />

@@ -7,8 +7,7 @@
 import { Box, Dialog, DialogContent, Typography, IconButton, Chip } from '@mui/material';
 import { CloseSharp as CloseIcon, WhatshotSharp, AcUnitSharp, PublicSharp } from '@mui/icons-material';
 import { tokens } from '../../../theme';
-import type { DomainState, EventVariant } from '../../../types/zones';
-import { EVENT_VARIANTS } from '../../../types/zones';
+import type { DomainState } from '../../../types/zones';
 import { DOMAIN_CONFIGS } from '../../../data/domains';
 import type { LoadoutStats } from '@ndg/ai-engine';
 
@@ -33,7 +32,6 @@ interface DomainInfoModalProps {
   roomNumber: number;
   totalScore: number;
   gold: number;
-  eventVariant?: EventVariant;
   loadoutStats?: LoadoutStats;
   inventoryItems?: string[];
 }
@@ -46,7 +44,6 @@ export function DomainInfoModal({
   roomNumber,
   totalScore,
   gold,
-  eventVariant = 'standard',
   loadoutStats = {},
   inventoryItems = [],
 }: DomainInfoModalProps) {
@@ -58,9 +55,6 @@ export function DomainInfoModal({
   const domainConfig = DOMAIN_CONFIGS[currentDomain];
   const domainElement = domainConfig?.element || 'Neutral';
   const elementColor = ELEMENT_COLORS[domainElement];
-
-  // Get variant config
-  const variantConfig = EVENT_VARIANTS[eventVariant];
 
   // Calculate active stats
   const fury = loadoutStats.fury || 0;
@@ -112,30 +106,6 @@ export function DomainInfoModal({
             <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, mt: 0.5 }}>
               Matching element dice get +50% score bonus
             </Typography>
-          </Box>
-
-          {/* Current Event Variant */}
-          <Box sx={{ mb: 3, p: 2, bgcolor: `${variantConfig.color}15`, borderRadius: 1, border: `1px solid ${variantConfig.color}` }}>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled, letterSpacing: '0.05em', mb: 0.5 }}>
-              EVENT DIFFICULTY
-            </Typography>
-            <Typography sx={{ ...gamingFont, fontSize: '1.125rem', color: variantConfig.color }}>
-              {variantConfig.label}
-            </Typography>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.secondary, mt: 0.5 }}>
-              {variantConfig.description}
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
-              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>
-                Goal: {Math.round(variantConfig.goalMultiplier * 100)}%
-              </Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>
-                Timer: {Math.round(variantConfig.timerMultiplier * 100)}%
-              </Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>
-                Gold: {Math.round(variantConfig.goldMultiplier * 100)}%
-              </Typography>
-            </Box>
           </Box>
 
           {/* Run Stats */}

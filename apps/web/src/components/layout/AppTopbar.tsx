@@ -58,6 +58,9 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
       sx={{
         backgroundColor: tokens.colors.background.default,
         borderBottom: `1px solid ${tokens.colors.border}`,
+        // Ensure topbar is above 3D canvas and always receives pointer events
+        zIndex: 1100,
+        pointerEvents: 'auto',
       }}
     >
       <Toolbar

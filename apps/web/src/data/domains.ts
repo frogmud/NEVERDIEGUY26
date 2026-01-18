@@ -85,17 +85,62 @@ export function generateDomain(domainId: number, zoneCount = 1): DomainState {
   };
 }
 
-// Get all domain IDs in order
+// ============================================
+// DOMAIN PROGRESSION ORDER
+// ============================================
+
+// Get all domain IDs in progression order
+// Earth -> Aberrant -> Frost -> Infernus -> Shadow -> Null Providence (finale)
 export function getDomainOrder(): number[] {
-  return [1, 2, 3, 4, 5, 6];
+  return [1, 6, 2, 3, 4, 5];
+}
+
+// Check if domain is the finale
+export function isFinale(domainId: number): boolean {
+  const order = getDomainOrder();
+  return order[order.length - 1] === domainId;
+}
+
+// Get 1-indexed position in progression (for difficulty scaling)
+export function getDomainPosition(domainId: number): number {
+  const position = getDomainOrder().indexOf(domainId);
+  return position === -1 ? 1 : position + 1;
+}
+
+// ============================================
+// PORTAL POOLS (for future portal selection UI)
+// ============================================
+
+// Portal pools - which domains are available after clearing each domain
+// Null Providence (5) is always finale, never in pools
+export const PORTAL_POOLS: Record<number, number[]> = {
+  1: [6, 2, 3, 4],  // After Earth: Aberrant, Frost, Infernus, Shadow (4 options)
+  6: [2, 3, 4],     // After Aberrant: Frost, Infernus, Shadow (3 options)
+  2: [3, 4],        // After Frost: Infernus, Shadow (2 options, binary)
+  3: [4],           // After Infernus: Shadow only (forced)
+  4: [5],           // After Shadow: Null Providence (forced finale)
+  5: [],            // After Null Providence: Victory (no portals)
+};
+
+// How many portals to show from pool
+export const PORTAL_DISPLAY_COUNT: Record<number, number> = {
+  1: 3,  // Show 3 of 4
+  6: 3,  // Show all 3
+  2: 2,  // Binary choice
+  3: 1,  // Forced
+  4: 1,  // Forced finale
+  5: 0,  // Victory
+};
+
+// Get next domain from portal pool (auto-selects first for now)
+// TODO: Replace with player portal selection
+export function getNextDomainFromPool(currentDomainId: number): number | null {
+  const pool = PORTAL_POOLS[currentDomainId];
+  if (!pool || pool.length === 0) return null;
+  return pool[0]; // Auto-pick first in pool (linear progression)
 }
 
 // Get next domain ID, or null if finished
 export function getNextDomain(currentId: number): number | null {
-  const order = getDomainOrder();
-  const currentIndex = order.indexOf(currentId);
-  if (currentIndex === -1 || currentIndex >= order.length - 1) {
-    return null;
-  }
-  return order[currentIndex + 1];
+  return getNextDomainFromPool(currentId);
 }

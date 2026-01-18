@@ -25,10 +25,12 @@
  * - One-shot builds (cap problematic interactions)
  *
  * CURRENT CONCERNS (from senior dev review):
- * - Domain 6 score goal may need tuning if time pressure adds too much
+ * - Null Providence (finale) score goal may need tuning if time pressure adds too much
  * - Lucky #7 is powerful; monitor for overuse
  * - Starting gold 0g means players must win events to buy upgrades
  */
+
+import { getDomainPosition } from './domains';
 
 // ============================================================
 // TIER PROGRESSION
@@ -190,7 +192,7 @@ export function getEncounterChance(skipPressure: number): number {
 export const GOLD_REWARDS = {
   /** Base gold by reward tier [tier0, tier1, tier2, tier3] */
   byTier: [0, 50, 100, 200],
-  /** Domain multiplier increment (Domain 1 = 1x, Domain 6 = 1 + 5 * 0.5 = 3.5x) */
+  /** Domain multiplier increment (Position 1 = 1x, Position 6 = 1 + 5 * 0.5 = 3.5x) */
   domainMultiplierIncrement: 0.5,
 } as const;
 
@@ -236,6 +238,7 @@ export function calculateGoldGain(rawGold: number, currentGold: number): number 
 
 /**
  * Calculate gold reward for clearing a room
+ * Uses domain POSITION (not raw ID) for scaling - ensures progression rewards align
  */
 export function calculateGoldReward(
   rewardTier: number,
@@ -244,7 +247,8 @@ export function calculateGoldReward(
   luckySynergy: 'strong' | 'weak' | 'none' = 'none'
 ): number {
   const base = GOLD_REWARDS.byTier[rewardTier] || GOLD_REWARDS.byTier[1];
-  const domainMultiplier = 1 + (domain - 1) * GOLD_REWARDS.domainMultiplierIncrement;
+  const position = getDomainPosition(domain);
+  const domainMultiplier = 1 + (position - 1) * GOLD_REWARDS.domainMultiplierIncrement;
   let reward = Math.floor(base * domainMultiplier);
 
   // Apply heat bonus
@@ -417,6 +421,54 @@ export function isInGracePeriod(
 }
 
 // ============================================================
+// ITEM PERSISTENCE (Portal Travel)
+// Items below Epic rarity expire when teleporting between domains
+// ============================================================
+
+export const ITEM_PERSISTENCE = {
+  /** Rarities that survive teleport */
+  persistentRarities: ['Epic', 'Legendary', 'Unique'] as const,
+  /** Rarities that expire on teleport */
+  expiringRarities: ['Common', 'Uncommon', 'Rare'] as const,
+  /** Special flag for Rare items that persist (quest items, etc.) */
+  persistFlaggedRare: true,
+} as const;
+
+export type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Unique';
+
+/**
+ * Check if an item survives portal travel
+ * Epic+ always survives, Rare can survive if flagged
+ */
+export function isItemPersistent(rarity: ItemRarity, hasPersistFlag?: boolean): boolean {
+  if ((ITEM_PERSISTENCE.persistentRarities as readonly string[]).includes(rarity)) {
+    return true;
+  }
+  if (rarity === 'Rare' && hasPersistFlag && ITEM_PERSISTENCE.persistFlaggedRare) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Filter inventory to only persistent items (for portal travel)
+ */
+export function filterPersistentItems<T extends { rarity: ItemRarity; persistFlag?: boolean }>(
+  items: T[]
+): T[] {
+  return items.filter(item => isItemPersistent(item.rarity, item.persistFlag));
+}
+
+/**
+ * Get items that will expire on portal travel (for UI warning)
+ */
+export function getExpiringItems<T extends { rarity: ItemRarity; persistFlag?: boolean }>(
+  items: T[]
+): T[] {
+  return items.filter(item => !isItemPersistent(item.rarity, item.persistFlag));
+}
+
+// ============================================================
 // EXPORT ALL FOR EASY ACCESS
 // ============================================================
 
@@ -431,4 +483,5 @@ export const BALANCE = {
   integrity: INTEGRITY_CONFIG,
   lucky: LUCKY_SYNERGY,
   timer: TIMER_CONFIG,
+  itemPersistence: ITEM_PERSISTENCE,
 } as const;

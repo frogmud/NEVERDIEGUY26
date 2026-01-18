@@ -37,8 +37,7 @@ import {
   type LedgerEvent,
   DOMAINS,
 } from '../games/meteor/gameConfig';
-import type { DoorPreview } from '../data/pools';
-import { EVENT_VARIANTS, type ZoneMarker, type DomainState } from '../types/zones';
+import { type ZoneMarker, type DomainState } from '../types/zones';
 import { generateDomain, getNextDomain, DOMAIN_CONFIGS } from '../data/domains';
 import {
   logRunStart,
@@ -49,7 +48,8 @@ import {
   logDefeat,
 } from '../utils/telemetry';
 import { getBonusesFromInventory, filterPersistentItems } from '../data/items/combat-effects';
-import { getEarlyFinishBonus, calculateGoldGain } from '../data/balance-config';
+import { getEarlyFinishBonus, calculateGoldGain, filterPersistentItems as filterPersistentItemsByRarity } from '../data/balance-config';
+import { type PortalOption, calculateHpAfterTravel, getAvailablePortals, isFinale } from '../data/portal-config';
 import { getFlatScoreGoal, getFlatGoldReward, type LoadoutStats } from '@ndg/ai-engine';
 import { getLoadoutById, LOADOUT_PRESETS } from '../data/loadouts';
 
@@ -62,7 +62,10 @@ import type {
 } from '@ndg/ai-engine';
 
 // Center panel states (Balatro-style swapping)
-export type CenterPanel = 'globe' | 'combat' | 'shop' | 'doors' | 'summary';
+// 'portals' replaces doors - shown after combat win (D1-5)
+// 'summary' is ONLY for final victory after D6
+// shop is now in sidebar (not a center panel)
+export type CenterPanel = 'globe' | 'combat' | 'portals' | 'summary';
 
 // Transition phases for orchestrated panel swaps
 export type TransitionPhase = 'idle' | 'exit' | 'wipe' | 'enter';
@@ -94,7 +97,6 @@ export interface PendingVictory {
   gold: number;
   turnsRemaining: number;  // For early finish bonus calculation
   stats: { npcsSquished: number; diceThrown: number };
-  eventVariant?: 'swift' | 'standard' | 'grueling';  // Track variant for stats
   bestThrowScore?: number;  // Best single throw score this event
 }
 
@@ -133,6 +135,14 @@ export interface RunState extends GameState {
   // Timing tracking for speedrun stats
   runStartTime: number;    // Timestamp when run started
   eventStartTime: number;  // Timestamp when current event started
+  // Portal system (distance-based domain travel)
+  visitedDomains: number[];           // Track visited domains for portal generation
+  directorAffinity: string | null;    // Die-rector slug from first die (e.g., 'jane')
+  travelMultipliers: {                // Applied from last portal choice
+    scoreMultiplier: number;          // 1.0 to 1.5
+    goldMultiplier: number;           // 1.0 to 1.75
+  };
+  hp: number;                          // Current HP (100 max, travel damage reduces)
 }
 
 // Run context value
@@ -174,8 +184,8 @@ interface RunContextValue {
   purchase: (cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => void;
   continueFromShop: () => void;
 
-  // Door selection
-  selectDoor: (door: DoorPreview) => void;
+  // Portal selection (replaces doors)
+  selectPortal: (portal: PortalOption) => void;
 
   // Summary continue
   continueFromSummary: () => void;
@@ -203,7 +213,7 @@ type RunAction =
   | { type: 'FAIL_ROOM' }
   | { type: 'PURCHASE'; cost: number; itemId: string; category: 'dice' | 'powerup' | 'upgrade' }
   | { type: 'CONTINUE_FROM_SHOP' }
-  | { type: 'SELECT_DOOR'; door: DoorPreview }
+  | { type: 'SELECT_PORTAL'; portal: PortalOption }
   | { type: 'CONTINUE_FROM_SUMMARY' }
   | { type: 'LOAD_RUN'; savedRun: SavedRunState }
   // Combat actions
@@ -239,6 +249,11 @@ function createInitialRunState(): RunState {
     gritImmunityUsed: false,
     runStartTime: 0,
     eventStartTime: 0,
+    // Portal system
+    visitedDomains: [],
+    directorAffinity: null,
+    travelMultipliers: { scoreMultiplier: 1.0, goldMultiplier: 1.0 },
+    hp: 100,  // Start at full HP
   };
 }
 
@@ -268,9 +283,9 @@ function runReducer(state: RunState, action: RunAction): RunState {
         pendingPanel: null,
       };
 
-      // If transitioning to summary with pending victory, apply it atomically
-      // This prevents the double-render flicker (RunSummary gets all data in one render)
-      if (state.pendingPanel === 'summary' && state.pendingVictory) {
+      // If transitioning to portals or summary with pending victory, apply it atomically
+      // This prevents the double-render flicker (component gets all data in one render)
+      if ((state.pendingPanel === 'portals' || state.pendingPanel === 'summary') && state.pendingVictory) {
         // Mark zone as cleared in domain state
         const updatedDomainState = state.domainState && state.selectedZone
           ? {
@@ -306,14 +321,6 @@ function runReducer(state: RunState, action: RunAction): RunState {
           ? Math.min(...newEventTimes.filter(t => t > 0))
           : 0;
 
-        // Update variant counts
-        const variant = state.pendingVictory.eventVariant || state.selectedZone?.eventVariant || 'standard';
-        const prevVariantCounts = state.runStats.variantCounts || { swift: 0, standard: 0, grueling: 0 };
-        const newVariantCounts = {
-          ...prevVariantCounts,
-          [variant]: (prevVariantCounts[variant] || 0) + 1,
-        };
-
         // Update best roll if this event had a better one
         const bestThrowScore = state.pendingVictory.bestThrowScore || 0;
         const newBestRoll = Math.max(state.runStats.bestRoll || 0, bestThrowScore);
@@ -338,8 +345,6 @@ function runReducer(state: RunState, action: RunAction): RunState {
             avgEventTimeMs,
             fastestEventMs: fastestEventMs > 0 ? fastestEventMs : 0,
             eventTimesMs: newEventTimes,
-            // Variant counts
-            variantCounts: newVariantCounts,
             // Best roll
             bestRoll: newBestRoll,
           },
@@ -381,6 +386,11 @@ function runReducer(state: RunState, action: RunAction): RunState {
         gritImmunityUsed: false,
         runStartTime: Date.now(),
         eventStartTime: 0,
+        // Portal system - track starting domain as visited
+        visitedDomains: [domainId],
+        directorAffinity: null,  // Set when first die is picked
+        travelMultipliers: { scoreMultiplier: 1.0, goldMultiplier: 1.0 },
+        hp: 100,
       };
     }
 
@@ -577,10 +587,12 @@ function runReducer(state: RunState, action: RunAction): RunState {
     }
 
     case 'CONTINUE_FROM_SUMMARY':
+      // After summary (D6 finale victory), return to globe
+      // Shop is now handled in sidebar for D2-6
       return {
         ...state,
-        centerPanel: 'shop',
-        phase: 'shop',
+        centerPanel: 'globe',
+        // Phase stays 'playing' if continuing, or could reset
       };
 
     case 'PURCHASE': {
@@ -624,9 +636,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       }
 
       // All zones cleared - advance domain or win
-      const nextDomainId = state.domainState
-        ? getNextDomain(state.domainState.id)
-        : state.currentDomain < 6 ? state.currentDomain + 1 : null;
+      const nextDomainId = getNextDomain(state.domainState?.id ?? state.currentDomain);
 
       if (!nextDomainId) {
         // Final victory! Save run to history
@@ -694,19 +704,40 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
-    case 'SELECT_DOOR': {
-      const doorPickEvent = createDoorPickEvent(
-        action.door.doorType,
-        action.door.promises,
-        state.roomNumber
-      );
+    case 'SELECT_PORTAL': {
+      const { portal } = action;
+
+      // Apply travel damage (can't die from travel - min 1 HP)
+      const newHp = calculateHpAfterTravel(state.hp, portal.travelDamage);
+
+      // Expire non-persistent items (Common/Uncommon expire, Epic+ persist)
+      const persistentPowerups = filterPersistentItems(state.inventory.powerups);
+
+      // Check if this is the finale (Null Providence)
+      const isFinalePortal = isFinale(portal.domainId);
+
       return {
         ...state,
-        centerPanel: 'combat',
-        roomNumber: state.roomNumber + 1,
+        // Navigate to new domain
+        currentDomain: portal.domainId,
+        domainState: generateDomain(portal.domainId),
+        centerPanel: 'globe',  // Shop shows in sidebar for D2+
         phase: 'playing',
-        heat: action.door.doorType === 'elite' ? state.heat + 1 : state.heat,
-        ledger: [...state.ledger, doorPickEvent],
+        // Portal system updates
+        visitedDomains: [...state.visitedDomains, portal.domainId],
+        hp: newHp,
+        travelMultipliers: {
+          scoreMultiplier: portal.scoreMultiplier,
+          goldMultiplier: portal.goldMultiplier,
+        },
+        // Expire items
+        inventory: {
+          ...state.inventory,
+          powerups: persistentPowerups,
+        },
+        // Reset room tracking for new domain
+        roomNumber: 1,
+        selectedZone: null,
       };
     }
 
@@ -897,12 +928,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const completeRoom = useCallback((score: number, gold: number, stats: { npcsSquished: number; diceThrown: number }) => {
-    // Log room clear with actual target (base * variant multiplier)
+    // Log room clear with domain-based target
     const domain = state.currentDomain || 1;
     const room = state.roomNumber || 1;
-    const baseTarget = getFlatScoreGoal(domain);
-    const variantMultiplier = EVENT_VARIANTS[state.selectedZone?.eventVariant || 'standard'].goalMultiplier;
-    const targetScore = Math.round(baseTarget * variantMultiplier);
+    const targetScore = getFlatScoreGoal(domain);
     logRoomClear(domain, room, score, targetScore, gold, stats.diceThrown);
 
     // Check if this completes the domain (3/3 zones)
@@ -913,14 +942,12 @@ export function RunProvider({ children }: { children: ReactNode }) {
     }
 
     dispatch({ type: 'COMPLETE_ROOM', score, gold, stats });
-  }, [state.currentDomain, state.roomNumber, state.selectedZone?.tier, state.selectedZone?.eventVariant, state.domainState, state.totalScore, state.gold]);
+  }, [state.currentDomain, state.roomNumber, state.domainState, state.totalScore, state.gold]);
 
   const failRoom = useCallback(() => {
-    // Log defeat with actual target (base * variant multiplier)
+    // Log defeat with domain-based target
     const domain = state.currentDomain || 1;
-    const baseTarget = getFlatScoreGoal(domain);
-    const variantMultiplier = EVENT_VARIANTS[state.selectedZone?.eventVariant || 'standard'].goalMultiplier;
-    const targetScore = Math.round(baseTarget * variantMultiplier);
+    const targetScore = getFlatScoreGoal(domain);
     logDefeat(
       state.combatState?.currentScore || 0,
       targetScore,
@@ -935,7 +962,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
       state.runStats.eventsCompleted
     );
     dispatch({ type: 'FAIL_ROOM' });
-  }, [state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.selectedZone?.eventVariant, state.totalScore, state.gold, state.runStats.eventsCompleted]);
+  }, [state.combatState?.currentScore, state.currentDomain, state.roomNumber, state.totalScore, state.gold, state.runStats.eventsCompleted]);
 
   // Combat actions
   const initCombat = useCallback(() => {
@@ -991,8 +1018,8 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'CONTINUE_FROM_SHOP' });
   }, []);
 
-  const selectDoor = useCallback((door: DoorPreview) => {
-    dispatch({ type: 'SELECT_DOOR', door });
+  const selectPortal = useCallback((portal: PortalOption) => {
+    dispatch({ type: 'SELECT_PORTAL', portal });
   }, []);
 
   const continueFromSummary = useCallback(() => {
@@ -1021,7 +1048,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
   // Auto-save run state when playing (not in lobby or game over)
   useEffect(() => {
     // Only save if we're in an active run
-    if (state.phase !== 'playing' && state.phase !== 'shop') return;
+    if (state.phase !== 'playing') return;
     if (!state.threadId) return;
 
     const runState: SavedRunState = {
@@ -1076,7 +1103,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     endCombatTurn,
     purchase,
     continueFromShop,
-    selectDoor,
+    selectPortal,
     continueFromSummary,
     completeFlumeTransition,
     loadRun,
@@ -1103,7 +1130,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     endCombatTurn,
     purchase,
     continueFromShop,
-    selectDoor,
+    selectPortal,
     continueFromSummary,
     completeFlumeTransition,
     loadRun,

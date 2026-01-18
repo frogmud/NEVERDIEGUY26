@@ -255,7 +255,11 @@ export function HomeDashboard() {
   // ============================================
 
   const handlePlay = () => {
-    sessionStorage.setItem('ndg-starting-loadout', JSON.stringify(currentLoadout));
+    // Quick launch: skip zone selection and go straight to combat
+    sessionStorage.setItem('ndg-starting-loadout', JSON.stringify({
+      ...currentLoadout,
+      quickLaunch: true,
+    }));
     navigate('/play');
   };
 
@@ -271,119 +275,146 @@ export function HomeDashboard() {
       height: 'calc(100vh - 64px)',
       overflow: 'hidden',
     }}>
-      {/* Top Rail - Player Identity */}
+      {/* Top Rail - Chunky Toolbar */}
       <Box sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: { xs: 2, md: 4 },
+        gap: 2,
         px: 3,
         py: 1.5,
-        borderBottom: '1px solid #222',
-        bgcolor: '#0a0a0a',
-        flexWrap: 'wrap',
       }}>
-        {/* Username */}
-        <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.2rem', color: tokens.colors.text.primary }}>
-          @player
-        </Typography>
-
-        {/* Total Score */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        {/* Player Identity + Score Group */}
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+          px: 2,
+          py: 1.5,
+          borderRadius: `${tokens.radius.lg}px`,
+          bgcolor: tokens.colors.background.elevated,
+        }}>
+          {/* Token Icon */}
           <Box
             component="img"
             src="/assets/ui/token.svg"
             alt="score"
-            sx={{ width: 48, height: 48 }}
+            sx={{ width: 40, height: 40, flexShrink: 0 }}
           />
+          {/* Score + Streak */}
           <Box>
-            <Typography sx={{ fontSize: '0.75rem', color: '#888' }}>
-              Total Score
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.5rem',
+              fontWeight: 700,
+              color: tokens.colors.text.primary,
+              lineHeight: 1,
+            }}>
+              {playerGold >= 1000000 ? `${(playerGold / 1000000).toFixed(1)}m` : playerGold >= 1000 ? `${(playerGold / 1000).toFixed(1)}k` : playerGold.toLocaleString()}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', fontWeight: 700, color: tokens.colors.text.primary }}>
-                {playerGold >= 1000000 ? `${(playerGold / 1000000).toFixed(1)}m` : playerGold >= 1000 ? `${(playerGold / 1000).toFixed(1)}k` : playerGold.toLocaleString()}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
+              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
+                @player
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Box
-                  component="img"
-                  src="/icons/fire.svg"
-                  alt="streak"
-                  sx={{ width: 20, height: 20 }}
-                />
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1rem', color: '#ff6b35' }}>
-                  4
-                </Typography>
-              </Box>
+              <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: tokens.colors.text.disabled }} />
+              <Box
+                component="img"
+                src="/icons/fire.svg"
+                alt="streak"
+                sx={{ width: 14, height: 14 }}
+              />
+              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.warning }}>
+                4
+              </Typography>
             </Box>
           </Box>
         </Box>
 
-        {/* Play Multiplayer */}
-        <Box
-          onClick={() => navigate('/play')}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            cursor: 'pointer',
-            px: 1.5,
-            py: 0.5,
-            borderRadius: 1,
-            border: '1px solid #333',
-            transition: 'all 150ms ease',
-            '&:hover': { borderColor: '#555', bgcolor: '#1a1a1a' },
-          }}
-        >
-          <Box
-            component="img"
-            src="/illustrations/1v1.svg"
-            alt="multiplayer"
-            sx={{ width: 24, height: 24, objectFit: 'contain' }}
-          />
-          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.8rem', color: '#888' }}>
-            Multiplayer
-          </Typography>
-        </Box>
-
-        {/* Continue Button - only if saved run exists */}
-        {savedRun && (
-          <Box
-            onClick={() => navigate('/play?continue=true')}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-              cursor: 'pointer',
-              px: 1.5,
-              py: 0.5,
-              borderRadius: 1,
-              bgcolor: tokens.colors.background.elevated,
-              border: `1px solid ${tokens.colors.border}`,
-              transition: 'all 150ms ease',
-              '&:hover': { borderColor: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
-            }}
-          >
-            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.8rem', color: tokens.colors.text.primary }}>
-              Continue
-            </Typography>
-            <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
-              D{savedRun.currentDomain}R{savedRun.roomNumber || 1}
-            </Typography>
-          </Box>
-        )}
-
-        {/* Gold (pushed right) */}
-        <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', gap: 0.75 }}>
+        {/* Gold Chip */}
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          px: 2,
+          py: 1.5,
+          borderRadius: `${tokens.radius.lg}px`,
+          bgcolor: tokens.colors.background.elevated,
+        }}>
           <Box
             component="img"
             src="/assets/ui/currency/coin.png"
             alt="gold"
-            sx={{ width: 20, height: 20, imageRendering: 'pixelated' }}
+            sx={{ width: 24, height: 24, imageRendering: 'pixelated' }}
             onError={(e: React.SyntheticEvent<HTMLImageElement>) => { e.currentTarget.style.display = 'none'; }}
           />
           <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.1rem', color: tokens.colors.warning }}>
-            {playerGold}
+            {playerGold}g
           </Typography>
+        </Box>
+
+        {/* Spacer */}
+        <Box sx={{ flex: 1 }} />
+
+        {/* Action Buttons Group */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          {/* Continue Button - only if saved run exists */}
+          {savedRun && (
+            <Box
+              onClick={() => navigate('/play?continue=true')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5,
+                px: 2.5,
+                py: 1.5,
+                borderRadius: `${tokens.radius.lg}px`,
+                bgcolor: tokens.colors.background.elevated,
+                cursor: 'pointer',
+                transition: 'all 150ms ease',
+                '&:hover': { bgcolor: tokens.colors.background.paper },
+              }}
+            >
+              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.9rem', color: tokens.colors.text.primary }}>
+                Continue
+              </Typography>
+              <Box sx={{
+                px: 1,
+                py: 0.25,
+                borderRadius: `${tokens.radius.sm}px`,
+                bgcolor: tokens.colors.background.paper,
+              }}>
+                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
+                  D{savedRun.currentDomain}R{savedRun.roomNumber || 1}
+                </Typography>
+              </Box>
+            </Box>
+          )}
+
+          {/* Multiplayer Button */}
+          <Box
+            onClick={() => navigate('/play')}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1.5,
+              px: 2.5,
+              py: 1.5,
+              borderRadius: `${tokens.radius.lg}px`,
+              bgcolor: tokens.colors.background.elevated,
+              cursor: 'pointer',
+              transition: 'all 150ms ease',
+              '&:hover': { bgcolor: tokens.colors.background.paper },
+            }}
+          >
+            <Box
+              component="img"
+              src="/illustrations/1v1.svg"
+              alt="multiplayer"
+              sx={{ width: 24, height: 24, objectFit: 'contain' }}
+            />
+            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.9rem', color: tokens.colors.text.secondary }}>
+              1v1
+            </Typography>
+          </Box>
         </Box>
       </Box>
 
@@ -419,8 +450,8 @@ export function HomeDashboard() {
                   flexDirection: 'column',
                   alignItems: 'center',
                   borderRadius: 2,
-                  border: '1px solid #333',
-                  bgcolor: '#111',
+                  border: `1px solid ${tokens.colors.border}`,
+                  bgcolor: tokens.colors.background.paper,
                   p: 2,
                   gap: 2,
                 }}
@@ -444,13 +475,13 @@ export function HomeDashboard() {
                   px: 2.5,
                   py: 0.75,
                   borderRadius: '20px',
-                  bgcolor: item.rarity === 'Uncommon' ? '#1a4d1a' : '#444',
-                  border: `1px solid ${item.rarity === 'Uncommon' ? '#2d7a2d' : '#555'}`,
+                  bgcolor: item.rarity === 'Uncommon' ? 'rgba(74, 222, 128, 0.15)' : tokens.colors.background.elevated,
+                  border: `1px solid ${item.rarity === 'Uncommon' ? 'rgba(74, 222, 128, 0.3)' : tokens.colors.border}`,
                 }}>
                   <Typography sx={{
                     fontFamily: tokens.fonts.gaming,
                     fontSize: '0.85rem',
-                    color: item.rarity === 'Uncommon' ? '#6ddf6d' : '#ccc',
+                    color: item.rarity === 'Uncommon' ? tokens.colors.success : tokens.colors.text.secondary,
                   }}>
                     {item.rarity}
                   </Typography>
@@ -460,7 +491,7 @@ export function HomeDashboard() {
           </Box>
 
           {/* Seed Display */}
-          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: '#555' }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
             seed: #{currentLoadout.seed}
           </Typography>
 
@@ -480,25 +511,34 @@ export function HomeDashboard() {
               border: `2px solid ${tokens.colors.primary}`,
               cursor: 'pointer',
               transition: 'all 150ms ease',
-              '&:hover': { bgcolor: '#c7033a', borderColor: '#c7033a', transform: 'scale(1.02)' },
+              '&:hover': { filter: 'brightness(1.1)', transform: 'scale(1.02)' },
             }}
           >
-            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', color: '#fff' }}>
+            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', color: tokens.colors.text.primary }}>
               Begin
             </Typography>
           </Box>
         </Box>
 
-        {/* Right Column - Eternal Stream */}
+        {/* Right Column - Eternal Stream (free floating with rounded corners) */}
         <Box sx={{
-          width: { xs: '100%', md: 340 },
+          width: { xs: '100%', md: 360 },
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
-          borderLeft: { md: '1px solid #222' },
           overflow: 'hidden',
           height: '100%',
-          bgcolor: '#0f0f0f',
+          p: { md: 2 },
+          pl: { md: 1 },
+        }}>
+        <Box sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          borderRadius: { md: `${tokens.radius.lg}px` },
+          bgcolor: tokens.colors.background.elevated,
+          border: { md: `1px solid ${tokens.colors.border}` },
         }}>
           {/* Stream Header - fixed height */}
           <Box sx={{ p: 2, flexShrink: 0 }}>
@@ -512,14 +552,14 @@ export function HomeDashboard() {
                   width: 20,
                   height: 20,
                   borderRadius: '50%',
-                  bgcolor: '#333',
+                  bgcolor: tokens.colors.background.paper,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  '&:hover': { bgcolor: '#444' },
+                  '&:hover': { bgcolor: tokens.colors.background.elevated },
                 }}>
-                  <Typography sx={{ fontSize: '0.7rem', color: '#888' }}>i</Typography>
+                  <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>i</Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -527,69 +567,67 @@ export function HomeDashboard() {
                   onClick={() => setAmbientIndex(prev => prev + 1)}
                   sx={{
                     cursor: 'pointer',
-                    color: '#666',
-                    '&:hover': { color: '#999' },
+                    color: tokens.colors.text.disabled,
+                    '&:hover': { color: tokens.colors.text.secondary },
                   }}
                 >
                   <Typography sx={{ fontSize: '1.1rem' }}>↻</Typography>
                 </Box>
-                <Box sx={{ cursor: 'pointer', color: '#666', '&:hover': { color: '#999' } }}>
+                <Box sx={{ cursor: 'pointer', color: tokens.colors.text.disabled, '&:hover': { color: tokens.colors.text.secondary } }}>
                   <Typography sx={{ fontSize: '1.1rem' }}>×</Typography>
                 </Box>
               </Box>
             </Box>
             {/* Filter Dropdowns */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Typography sx={{ fontSize: '0.75rem', color: '#666' }}>Filters</Typography>
+              <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>Filters</Typography>
               <Box sx={{
                 flex: 1,
                 height: 36,
                 borderRadius: 1,
-                bgcolor: '#1a1a1a',
-                border: '1px solid #333',
+                bgcolor: tokens.colors.background.paper,
+                border: `1px solid ${tokens.colors.border}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'flex-end',
                 px: 1,
                 cursor: 'pointer',
               }}>
-                <KeyboardArrowDownIcon sx={{ fontSize: 18, color: '#666' }} />
+                <KeyboardArrowDownIcon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
               </Box>
               <Box sx={{
                 flex: 1,
                 height: 36,
                 borderRadius: 1,
-                bgcolor: '#1a1a1a',
-                border: '1px solid #333',
+                bgcolor: tokens.colors.background.paper,
+                border: `1px solid ${tokens.colors.border}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'flex-end',
                 px: 1,
                 cursor: 'pointer',
               }}>
-                <KeyboardArrowDownIcon sx={{ fontSize: 18, color: '#666' }} />
+                <KeyboardArrowDownIcon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
               </Box>
             </Box>
 
-            {/* Daily Wiki Banner - fixed under filters, full width */}
+            {/* Daily Wiki Banner */}
             <Box
               component={RouterLink}
               to="/wiki"
               sx={{
                 mt: 2,
-                mx: -2,
-                mb: -2,
-                px: 2,
+                px: 1.5,
                 py: 1.5,
+                borderRadius: `${tokens.radius.md}px`,
                 bgcolor: 'rgba(74, 222, 128, 0.08)',
-                borderTop: '1px solid rgba(74, 222, 128, 0.2)',
-                borderBottom: '1px solid rgba(74, 222, 128, 0.2)',
+                border: '1px solid rgba(74, 222, 128, 0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1.5,
                 textDecoration: 'none',
                 transition: 'all 150ms ease',
-                '&:hover': { bgcolor: 'rgba(74, 222, 128, 0.12)' },
+                '&:hover': { bgcolor: 'rgba(74, 222, 128, 0.12)', borderColor: 'rgba(74, 222, 128, 0.25)' },
               }}
             >
               <Box
@@ -599,14 +637,14 @@ export function HomeDashboard() {
                 sx={{ width: 36, height: 36, flexShrink: 0 }}
               />
               <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: '#4ade80' }}>
+                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.success }}>
                   Daily Wiki
                 </Typography>
-                <Typography sx={{ fontSize: '0.7rem', color: '#a3e6a3' }}>
+                <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.success, opacity: 0.7 }}>
                   +100g reward available
                 </Typography>
               </Box>
-              <ChevronRightIcon sx={{ fontSize: 20, color: '#4ade80' }} />
+              <ChevronRightIcon sx={{ fontSize: 20, color: tokens.colors.success }} />
             </Box>
           </Box>
 
@@ -622,12 +660,12 @@ export function HomeDashboard() {
               gap: 0,
               scrollbarWidth: 'thin',
               '&::-webkit-scrollbar': { width: 4 },
-              '&::-webkit-scrollbar-thumb': { bgcolor: '#333', borderRadius: 2 },
+              '&::-webkit-scrollbar-thumb': { bgcolor: tokens.colors.border, borderRadius: 2 },
             }}
           >
             {/* Active typing message at top */}
             {isTyping && typingText && (
-              <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #1a1a1a', bgcolor: '#0f0f0f' }}>
+              <Box sx={{ px: 2, py: 1.5, borderBottom: `1px solid ${tokens.colors.border}`, bgcolor: tokens.colors.background.paper }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
                   <Box
                     component="img"
@@ -645,7 +683,7 @@ export function HomeDashboard() {
                     <Typography sx={{
                       fontFamily: tokens.fonts.gaming,
                       fontSize: '0.7rem',
-                      color: '#666',
+                      color: tokens.colors.text.disabled,
                       mb: 0.25,
                     }}>
                       {currentSpeaker.name}
@@ -682,10 +720,10 @@ export function HomeDashboard() {
                 sx={{
                   px: 2,
                   py: 1.5,
-                  borderBottom: '1px solid #1a1a1a',
+                  borderBottom: `1px solid ${tokens.colors.border}`,
                   animation: i === 0 ? `${fadeIn} 200ms ease-out` : 'none',
                   bgcolor: msg.type === 'answer' ? 'rgba(255,200,0,0.03)' : 'transparent',
-                  '&:hover': { bgcolor: '#111' },
+                  '&:hover': { bgcolor: tokens.colors.background.paper },
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
@@ -706,7 +744,7 @@ export function HomeDashboard() {
                     <Typography sx={{
                       fontFamily: tokens.fonts.gaming,
                       fontSize: '0.7rem',
-                      color: '#666',
+                      color: tokens.colors.text.disabled,
                       mb: 0.25,
                     }}>
                       {msg.speakerName}
@@ -714,7 +752,7 @@ export function HomeDashboard() {
                     <Typography sx={{
                       fontFamily: tokens.fonts.gaming,
                       fontSize: i === 0 ? '0.95rem' : '0.85rem',
-                      color: i === 0 ? tokens.colors.text.primary : '#888',
+                      color: i === 0 ? tokens.colors.text.primary : tokens.colors.text.secondary,
                       lineHeight: 1.4,
                       wordBreak: 'break-word',
                     }}>
@@ -725,6 +763,7 @@ export function HomeDashboard() {
               </Box>
             ))}
           </Box>
+        </Box>
         </Box>
       </Box>
     </Box>

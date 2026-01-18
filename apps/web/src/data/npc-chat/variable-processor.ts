@@ -31,7 +31,6 @@ export interface CombatContext {
   domainId?: number;
   zonesCleared?: number;
   totalZones?: number;
-  eventVariant?: string;
 
   // NPC category
   npcCategory?: 'travelers' | 'wanderers' | 'pantheon';
@@ -89,7 +88,6 @@ export interface VariableContext {
   domainId?: number;
   zonesCleared?: number;
   totalZones?: number;
-  eventVariant?: string;
 
   // Memory context (Phase 5)
   myTotalDeaths?: number;
@@ -187,7 +185,6 @@ const VARIABLE_RESOLVERS: Record<string, VariableResolver> = {
   '{{domainId}}': (ctx) => String(ctx.domainId ?? 1),
   '{{zonesCleared}}': (ctx) => String(ctx.zonesCleared ?? 0),
   '{{totalZones}}': (ctx) => String(ctx.totalZones ?? 3),
-  '{{eventVariant}}': (ctx) => ctx.eventVariant || 'standard',
 
   // NPC identity variables
   '{{npcSlug}}': (ctx) => ctx.npcSlug || 'unknown',
@@ -335,7 +332,6 @@ export function buildVariableContext(
     domainId: combatContext?.domainId,
     zonesCleared: combatContext?.zonesCleared,
     totalZones: combatContext?.totalZones,
-    eventVariant: combatContext?.eventVariant,
 
     // Memory variables (Phase 5)
     myTotalDeaths: memoryVariables?.myTotalDeaths as number | undefined,

@@ -50,7 +50,6 @@ import {
 import { DensityMeter } from '../../../components/DensityMeter';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
-import { EVENT_VARIANTS, type EventVariant } from '../../../types/zones';
 import type { MeteorProjectile, ImpactZone } from '../../../games/globe-meteor/config';
 import type { GuardianData } from '../../../games/globe-meteor/components/Guardian';
 import { GLOBE_CONFIG, METEOR_CONFIG, DICE_EFFECTS, DOMAIN_PLANET_CONFIG } from '../../../games/globe-meteor/config';
@@ -84,7 +83,7 @@ const DIE_SIZES: Record<number, number> = {
 // Die colors from config
 const getDieColor = (dieType: number): string => {
   const effect = DICE_EFFECTS[dieType];
-  return effect?.color || '#4488ff';
+  return effect?.color || tokens.colors.secondary;
 };
 
 /**
@@ -221,7 +220,7 @@ function HUDReticle({
   const sortedDice = [...dice].sort((a, b) => b.sides - a.sides);
 
   // Get the primary color (largest die)
-  const primaryColor = sortedDice.length > 0 ? getDieColor(sortedDice[0].sides) : '#4488ff';
+  const primaryColor = sortedDice.length > 0 ? getDieColor(sortedDice[0].sides) : tokens.colors.secondary;
 
   return (
     <Box sx={{ position: 'relative', width: finalSize, height: finalSize }}>
@@ -367,10 +366,10 @@ function EventTimer({
   // Color thresholds (from TIMER_BALANCE_SPEC)
   // 45-30s: Green, 30-15s: Yellow, 15-5s: Orange, 5-0s: Red
   const getTimerColor = () => {
-    if (isGracePeriod) return '#2196F3'; // Blue during grace
+    if (isGracePeriod) return tokens.colors.secondary; // Blue during grace
     if (seconds > 30) return tokens.colors.success; // Green
     if (seconds > 15) return tokens.colors.warning; // Yellow
-    if (seconds > 5) return '#FF9800'; // Orange
+    if (seconds > 5) return tokens.colors.rarity.legendary; // Orange
     return tokens.colors.error; // Red
   };
 
@@ -477,8 +476,6 @@ interface CombatTerminalProps {
   isDomainClear?: boolean;
   /** Loadout stats for combat effects (fury, resilience, swiftness, essence) */
   loadoutStats?: LoadoutStats;
-  /** Event variant for difficulty/reward scaling */
-  eventVariant?: EventVariant;
 }
 
 // Map EventType to RoomType
@@ -508,13 +505,10 @@ export function CombatTerminal({
   onFeedUpdate,
   onGameStateChange,
   loadoutStats = {},
-  eventVariant = 'standard',
 }: CombatTerminalProps) {
   // Calculate stat effects from loadout
   const statEffects = useMemo(() => calculateStatEffects(loadoutStats), [loadoutStats]);
 
-  // Get variant config for goal/timer multipliers
-  const variantConfig = EVENT_VARIANTS[eventVariant];
   // Sound effects
   const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion } = useSoundContext();
 
@@ -566,10 +560,9 @@ export function CombatTerminal({
 
   // Calculate actual score goal (use boss HP if boss zone, apply variant multiplier)
   const actualScoreGoal = useMemo(() => {
-    const baseGoal = boss ? getBossTargetScore(boss) : scoreGoal;
-    // Apply variant multiplier (swift = 0.6, standard = 1.0, grueling = 1.5)
-    return Math.round(baseGoal * variantConfig.goalMultiplier);
-  }, [boss, scoreGoal, variantConfig.goalMultiplier]);
+    // Use domain-based score goal (no variant multiplier)
+    return boss ? getBossTargetScore(boss) : scoreGoal;
+  }, [boss, scoreGoal]);
   const [cameraDistance, setCameraDistance] = useState(GLOBE_CONFIG.camera.initialDistance);
   const [centerTarget, setCenterTarget] = useState<{ lat: number; lng: number; point3D: [number, number, number] } | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
@@ -761,8 +754,8 @@ export function CombatTerminal({
     };
   }, [isLobby, domain, eventType, tier, actualScoreGoal, onWin, onLose, eventNumber, boss]);
 
-  // Timer countdown effect (includes swiftness bonus and variant multiplier)
-  const baseTimerMs = Math.round(FLAT_EVENT_CONFIG.eventDurationMs * variantConfig.timerMultiplier);
+  // Timer countdown effect (includes swiftness bonus)
+  const baseTimerMs = FLAT_EVENT_CONFIG.eventDurationMs;
   const totalTimerMs = baseTimerMs + statEffects.timerBonusMs;
   useEffect(() => {
     if (isLobby) {

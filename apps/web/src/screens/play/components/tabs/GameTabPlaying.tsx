@@ -12,7 +12,6 @@
 import { Box, Typography, Button } from '@mui/material';
 import { tokens } from '../../../../theme';
 import { TokenIcon } from '../../../../components/TokenIcon';
-import { EventVariant, EVENT_VARIANTS } from '../../../../types/zones';
 
 interface RollHistoryEntry {
   id: number;
@@ -77,7 +76,6 @@ interface GameTabPlayingProps {
   totalDomains: number;
   event: number;
   totalEvents: number;
-  eventVariant?: EventVariant;
 
   // Roll history
   rollHistory: RollHistoryEntry[];
@@ -104,13 +102,11 @@ export function GameTabPlaying({
   totalDomains = 6,
   event = 1,
   totalEvents = 3,
-  eventVariant,
   rollHistory = [],
   onOptions,
   onInfo,
   combatFeed = [],
 }: GameTabPlayingProps) {
-  const variantConfig = eventVariant ? EVENT_VARIANTS[eventVariant] : null;
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Score To Beat - clean centered layout (hidden during shop) */}
@@ -285,7 +281,7 @@ export function GameTabPlaying({
           <Box
             sx={{
               flex: 1,
-              bgcolor: '#3366FF',
+              bgcolor: tokens.colors.secondary,
               py: 1,
               px: 2,
               borderRadius: 50,
@@ -295,7 +291,7 @@ export function GameTabPlaying({
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
-                color: '#fff',
+                color: tokens.colors.background.default,
                 fontWeight: 700,
                 fontSize: '1.375rem',
               }}
@@ -326,7 +322,7 @@ export function GameTabPlaying({
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
-                color: '#fff',
+                color: tokens.colors.text.primary,
                 fontWeight: 700,
                 fontSize: '1.375rem',
               }}
@@ -364,7 +360,7 @@ export function GameTabPlaying({
             sx={{
               fontFamily: tokens.fonts.gaming,
               fontSize: '1.25rem',
-              color: '#3366FF',
+              color: tokens.colors.secondary,
             }}
           >
             {throws}
@@ -401,11 +397,11 @@ export function GameTabPlaying({
           onClick={onOptions}
           sx={{
             bgcolor: tokens.colors.warning,
-            color: '#000',
+            color: tokens.colors.background.default,
             fontFamily: tokens.fonts.gaming,
             fontSize: '0.85rem',
             minWidth: 80,
-            '&:hover': { bgcolor: '#d4b000' },
+            '&:hover': { filter: 'brightness(0.9)' },
           }}
         >
           Pause
@@ -479,27 +475,22 @@ export function GameTabPlaying({
             flex: 1,
             p: 1.5,
             borderRadius: 2,
-            border: `1px solid ${variantConfig?.color || tokens.colors.border}`,
+            border: `1px solid ${tokens.colors.border}`,
             textAlign: 'center',
           }}
         >
-          <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary, mb: 0.25 }}>
+          <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary, mb: 0.5 }}>
             Event
           </Typography>
-          {variantConfig && (
-            <Typography
-              sx={{
-                fontFamily: tokens.fonts.gaming,
-                fontSize: '0.75rem',
-                color: variantConfig.color,
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-              }}
-            >
-              {variantConfig.label}
-            </Typography>
-          )}
+          <Typography
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1rem',
+              color: tokens.colors.text.primary,
+            }}
+          >
+            {event}/{totalEvents}
+          </Typography>
         </Box>
 
         {/* Info */}
@@ -508,11 +499,11 @@ export function GameTabPlaying({
           onClick={onInfo}
           sx={{
             bgcolor: tokens.colors.primary,
-            color: '#fff',
+            color: tokens.colors.text.primary,
             fontFamily: tokens.fonts.gaming,
             fontSize: '0.85rem',
             minWidth: 80,
-            '&:hover': { bgcolor: '#c0033a' },
+            '&:hover': { filter: 'brightness(1.1)' },
           }}
         >
           Info

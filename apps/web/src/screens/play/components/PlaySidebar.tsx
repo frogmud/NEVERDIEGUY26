@@ -4,11 +4,13 @@ import { tokens } from '../../../theme';
 import { GameTab } from './tabs/GameTab';
 import { GameTabLaunch, type ZoneInfo } from './tabs/GameTabLaunch';
 import { GameTabPlaying } from './tabs/GameTabPlaying';
+import { GameTabShop } from './tabs/GameTabShop';
 import { BagTab } from './tabs/BagTab';
 import { SettingsTab } from './tabs/SettingsTab';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../../data/loadouts';
 import { useRun } from '../../../contexts/RunContext';
-import { EventVariant } from '../../../types/zones';
+import type { Item } from '../../../data/wiki/types';
+import type { LuckySynergyLevel } from '../../../data/balance-config';
 
 interface RollHistoryEntry {
   id: number;
@@ -52,10 +54,9 @@ interface GameState {
   event: number;
   totalEvents: number;
   rollHistory: RollHistoryEntry[];
-  eventVariant?: EventVariant;
 }
 
-type GamePhase = 'lobby' | 'zoneSelect' | 'playing';
+type GamePhase = 'lobby' | 'zoneSelect' | 'shop' | 'playing';
 
 interface PlaySidebarProps {
   phase?: GamePhase;
@@ -88,6 +89,15 @@ interface PlaySidebarProps {
   isInShop?: boolean;
   // Mobile mode - larger tap targets
   isMobile?: boolean;
+  // Shop props (for shop phase)
+  threadId?: string;
+  tier?: number;
+  favorTokens?: number;
+  calmBonus?: number;
+  luckySynergy?: LuckySynergyLevel;
+  onPurchaseItem?: (item: Item, cost: number) => void;
+  onSpendGold?: (amount: number) => void;
+  onShopContinue?: () => void;
 }
 
 type LobbyTabValue = 'game' | 'bag' | 'options';
@@ -122,6 +132,15 @@ export function PlaySidebar({
   gold = 0,
   isInShop = false,
   isMobile = false,
+  // Shop props
+  threadId,
+  tier = 1,
+  favorTokens = 0,
+  calmBonus = 0,
+  luckySynergy = 'none',
+  onPurchaseItem,
+  onSpendGold,
+  onShopContinue,
 }: PlaySidebarProps) {
   // Touch-friendly dimensions for mobile
   const tabHeight = isMobile ? 56 : 48;
@@ -231,11 +250,23 @@ export function PlaySidebar({
               totalDomains={state.totalDomains}
               event={state.event}
               totalEvents={state.totalEvents}
-              eventVariant={state.eventVariant}
               rollHistory={state.rollHistory}
               onOptions={onOptions}
               onInfo={onInfo}
               combatFeed={combatFeed}
+            />
+          ) : phase === 'shop' && threadId && onPurchaseItem && onSpendGold && onShopContinue ? (
+            <GameTabShop
+              gold={gold}
+              domainId={currentDomain}
+              threadId={threadId}
+              tier={tier}
+              favorTokens={favorTokens}
+              calmBonus={calmBonus}
+              luckySynergy={luckySynergy}
+              onPurchaseItem={onPurchaseItem}
+              onSpendGold={onSpendGold}
+              onContinue={onShopContinue}
             />
           ) : phase === 'zoneSelect' ? (
             <GameTabLaunch

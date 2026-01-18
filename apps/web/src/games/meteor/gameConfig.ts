@@ -1,6 +1,8 @@
 // Game configuration for Dice Meteor
 // Defines domains, events, rewards, and progression
 
+import { getDomainPosition, isFinale } from '../../data/domains';
+
 // ============================================
 // Balance Constants (pulled by selectors)
 // ============================================
@@ -107,10 +109,12 @@ export const EVENT_TEMPLATES: Record<EventType, Omit<EventConfig, 'scoreGoalMult
   },
 };
 
-// Gold reward calculation based on tier and domain
+// Gold reward calculation based on tier and domain position
+// Uses domain position in progression order (not raw ID) for scaling
 export function calculateGoldReward(tier: number, domain: number): number {
   const baseRewards = [0, 50, 100, 200]; // tier 1, 2, 3
-  const domainMultiplier = 1 + (domain - 1) * 0.5; // Domain 1 = 1x, Domain 6 = 3.5x
+  const position = getDomainPosition(domain);
+  const domainMultiplier = 1 + (position - 1) * 0.5; // Position 1 = 1x, Position 6 = 3.5x
   return Math.floor((baseRewards[tier] || 50) * domainMultiplier);
 }
 
@@ -171,26 +175,26 @@ export const DOMAINS: DomainConfig[] = [
   },
   {
     id: 5,
-    name: 'The Abyss',
+    name: 'The Abyss',  // Null Providence - THE FINALE
     baseScoreGoal: 8000,
     baseSummons: 3,
     baseTributes: 3,
     events: [
       { ...EVENT_TEMPLATES.small, scoreGoalMultiplier: 0.6 },
       { ...EVENT_TEMPLATES.big, scoreGoalMultiplier: 1.0 },
-      { ...EVENT_TEMPLATES.boss, scoreGoalMultiplier: 1.5 },
+      { ...EVENT_TEMPLATES.boss, scoreGoalMultiplier: 1.8 }, // Final boss is harder
     ],
   },
   {
     id: 6,
-    name: 'The Throne',
+    name: 'The Throne',  // Aberrant - now early game (position 2)
     baseScoreGoal: 10000,
     baseSummons: 3,
     baseTributes: 3,
     events: [
       { ...EVENT_TEMPLATES.small, scoreGoalMultiplier: 0.6 },
       { ...EVENT_TEMPLATES.big, scoreGoalMultiplier: 1.0 },
-      { ...EVENT_TEMPLATES.boss, scoreGoalMultiplier: 1.8 }, // Final boss is harder
+      { ...EVENT_TEMPLATES.boss, scoreGoalMultiplier: 1.5 },
     ],
   },
 ];

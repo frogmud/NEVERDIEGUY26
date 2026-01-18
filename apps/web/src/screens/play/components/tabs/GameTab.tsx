@@ -114,8 +114,9 @@ function ActionButton({ label, subtitle, onClick, disabled = false, primary = fa
         cursor: disabled ? 'not-allowed' : 'pointer',
         '&:hover': !disabled
           ? {
-              bgcolor: primary ? '#c7033a' : tokens.colors.background.paper,
-              borderColor: primary ? '#c7033a' : tokens.colors.text.secondary,
+              filter: primary ? 'brightness(1.1)' : 'none',
+              bgcolor: primary ? undefined : tokens.colors.background.paper,
+              borderColor: primary ? undefined : tokens.colors.text.secondary,
               transform: 'scale(1.02)',
             }
           : {},
@@ -125,7 +126,7 @@ function ActionButton({ label, subtitle, onClick, disabled = false, primary = fa
         sx={{
           fontFamily: tokens.fonts.gaming,
           fontSize: '1.4rem',
-          color: primary ? '#fff' : tokens.colors.text.primary,
+          color: tokens.colors.text.primary,
         }}
       >
         {label}
@@ -134,7 +135,7 @@ function ActionButton({ label, subtitle, onClick, disabled = false, primary = fa
         <Typography
           sx={{
             fontSize: '0.85rem',
-            color: primary ? 'rgba(255,255,255,0.8)' : tokens.colors.text.secondary,
+            color: tokens.colors.text.secondary,
             mt: 0.5,
           }}
         >

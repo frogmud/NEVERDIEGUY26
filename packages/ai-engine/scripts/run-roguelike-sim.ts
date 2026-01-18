@@ -62,14 +62,15 @@ interface Room {
   damageRange: [number, number];
 }
 
-// Room pools for each domain (6 domains)
+// Room pools for each domain (6 domain IDs)
+// Progression order: Earth(1) -> Aberrant(6) -> Frost(2) -> Infernus(3) -> Shadow(4) -> Null Providence(5)
 const ROOM_POOLS: Record<number, RoomType[]> = {
-  1: ['combat', 'combat', 'shop', 'event', 'rest'],    // Null Providence
-  2: ['combat', 'combat', 'shop', 'event', 'rest'],    // Earth
-  3: ['combat', 'combat', 'combat', 'shop', 'event'],  // Shadow Keep
-  4: ['combat', 'combat', 'combat', 'shop', 'event'],  // Infernus
-  5: ['combat', 'combat', 'combat', 'combat', 'shop'], // Frost Reach
-  6: ['combat', 'combat', 'boss', 'shop', 'event'],    // Aberrant (final)
+  1: ['combat', 'combat', 'shop', 'event', 'rest'],    // Earth (start)
+  2: ['combat', 'combat', 'shop', 'event', 'rest'],    // Frost Reach
+  3: ['combat', 'combat', 'combat', 'shop', 'event'],  // Infernus
+  4: ['combat', 'combat', 'combat', 'shop', 'event'],  // Shadow Keep
+  5: ['combat', 'combat', 'boss', 'shop', 'event'],    // Null Providence (FINALE)
+  6: ['combat', 'combat', 'combat', 'combat', 'shop'], // Aberrant (position 2 in progression)
 };
 
 // ============================================
@@ -143,8 +144,8 @@ function generateRoom(domain: number, roomIndex: number, rng: SeededRng): Room {
   const pool = ROOM_POOLS[domain] || ROOM_POOLS[1];
   const type = pool[Math.floor(rng.random('roomType') * pool.length)];
 
-  // Boss always in room 3 of domain 6 (final domain)
-  const finalType = (domain === 6 && roomIndex === 2) ? 'boss' : type;
+  // Boss always in room 3 of domain 5 (Null Providence - finale)
+  const finalType = (domain === 5 && roomIndex === 2) ? 'boss' : type;
 
   // Difficulty scales with domain (1-6) instead of ante (1-3)
   const baseDifficulty = domain + roomIndex;

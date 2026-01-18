@@ -143,6 +143,9 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         width: drawerWidth,
         flexShrink: 0,
         transition: 'width 200ms ease-in-out',
+        // Ensure sidebar is above 3D canvas and always receives pointer events
+        zIndex: 1200,
+        position: 'relative',
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
@@ -153,6 +156,8 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           transition: 'width 200ms ease-in-out',
           overflowX: 'hidden',
           pt: 0,
+          // Force pointer events to ensure nav is always clickable
+          pointerEvents: 'auto',
         },
       }}
     >

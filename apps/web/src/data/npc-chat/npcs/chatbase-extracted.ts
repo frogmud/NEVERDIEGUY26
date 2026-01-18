@@ -586,10 +586,6 @@ export const CONTEXT_AWARE_TEMPLATES: ResponseTemplate[] = [
   // Score-based Die-rector taunts
   { id: 'jane-ctx-score-1', entitySlug: 'jane', pool: 'reaction', mood: 'amused', text: '{{playerScore}} points so far. You need {{targetScore}}. The chaos finds your struggle... entertaining.', weight: 16, purpose: 'ambient' },
   { id: 'the-one-ctx-score-1', entitySlug: 'the-one', pool: 'challenge', mood: 'cryptic', text: '{{scoreProgress}} complete. The void measures your progress. It remains... unimpressed.', weight: 17, purpose: 'challenge' },
-
-  // Event variant commentary
-  { id: 'kevin-ctx-variant-1', entitySlug: 'mr-kevin', pool: 'hint', mood: 'curious', text: 'This is a {{eventVariant}} event. The difficulty modifier is different here. The code does not lie.', weight: 14, purpose: 'warning' },
-  { id: 'body-ctx-variant-1', entitySlug: 'body-count', pool: 'hint', mood: 'neutral', text: '{{eventVariant}} difficulty. Survival rate drops. Adjust accordingly.', weight: 15, purpose: 'warning' },
 ];
 
 // ============================================

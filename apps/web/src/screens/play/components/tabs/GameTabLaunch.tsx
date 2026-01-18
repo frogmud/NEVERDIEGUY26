@@ -1,20 +1,18 @@
 /**
- * GameTabLaunch - Event selection / launch screen
+ * GameTabLaunch - Simple launch screen
  *
- * Shows 3 event options with different risk/reward profiles.
- * Player picks one event per domain: Swift (easy), Standard, or Grueling (hard).
+ * Shows domain info and launch button.
+ * 1 event per domain, no variant selection needed.
  */
 
-import { Box, Typography, Button, ButtonBase } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { PlayArrowSharp as PlayIcon } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
-import { EVENT_VARIANTS, type EventVariant } from '../../../../types/zones';
 import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
 
 export interface ZoneInfo {
   id: string;
   tier: number;
-  eventVariant: EventVariant;
 }
 
 interface GameTabLaunchProps {
@@ -35,6 +33,12 @@ export function GameTabLaunch({
   onLaunch,
   currentDomain = 1,
 }: GameTabLaunchProps) {
+  const scoreGoal = getFlatScoreGoal(currentDomain);
+  const goldReward = getFlatGoldReward(currentDomain);
+
+  // Auto-select first zone if none selected
+  const activeZone = zones.find(z => z.id === selectedZoneId) || zones[0];
+
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* Header */}
@@ -44,7 +48,7 @@ export function GameTabLaunch({
           alignItems: 'center',
           justifyContent: 'center',
           gap: 1.5,
-          mb: 2,
+          mb: 3,
         }}
       >
         <Box
@@ -61,129 +65,65 @@ export function GameTabLaunch({
             color: tokens.colors.text.primary,
           }}
         >
-          CHOOSE EVENT
+          DOMAIN {currentDomain}
         </Typography>
       </Box>
 
-      {/* Instructions */}
-      <Typography
+      {/* Event Info Card */}
+      <Box
         sx={{
-          fontSize: '0.8rem',
-          color: tokens.colors.text.secondary,
-          textAlign: 'center',
-          mb: 2,
+          p: 2.5,
+          borderRadius: '12px',
+          bgcolor: tokens.colors.background.elevated,
+          border: `1px solid ${tokens.colors.border}`,
+          mb: 3,
         }}
       >
-        Pick your challenge for Domain {currentDomain}
-      </Typography>
-
-      {/* Event Option Cards */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 3 }}>
-        {zones.map((zone) => {
-          const isSelected = zone.id === selectedZoneId;
-          const variant = EVENT_VARIANTS[zone.eventVariant];
-          const baseGoal = getFlatScoreGoal(currentDomain);
-          const baseGold = getFlatGoldReward(currentDomain);
-          const adjustedGoal = Math.round(baseGoal * variant.goalMultiplier);
-          const adjustedGold = Math.round(baseGold * variant.goldMultiplier);
-          const timerSecs = Math.round(20 * variant.timerMultiplier); // Base 20s from FLAT_EVENT_CONFIG
-
-          return (
-            <ButtonBase
-              key={zone.id}
-              onClick={() => onZoneSelect?.(zone.id)}
+        {/* Stats Row: Goal, Timer, Gold */}
+        <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled, mb: 0.5 }}>
+              Score Goal
+            </Typography>
+            <Typography
               sx={{
-                display: 'block',
-                textAlign: 'left',
-                width: '100%',
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '1.1rem',
+                color: tokens.colors.text.primary,
               }}
             >
-              <Box
-                sx={{
-                  p: 2,
-                  borderRadius: '12px',
-                  bgcolor: tokens.colors.background.elevated,
-                  border: isSelected
-                    ? `2px solid ${variant.color}`
-                    : `1px solid ${tokens.colors.border}`,
-                  transition: 'border-color 0.15s, background-color 0.15s',
-                  '&:hover': {
-                    bgcolor: tokens.colors.background.paper,
-                    borderColor: variant.color,
-                  },
-                }}
-              >
-                {/* Variant Name + Description */}
-                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, mb: 1.5 }}>
-                  <Typography
-                    sx={{
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '1.1rem',
-                      fontWeight: 700,
-                      color: variant.color,
-                    }}
-                  >
-                    {variant.label}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '0.75rem',
-                      color: tokens.colors.text.disabled,
-                    }}
-                  >
-                    {variant.description}
-                  </Typography>
-                </Box>
-
-                {/* Stats Row: Goal, Timer, Gold */}
-                <Box sx={{ display: 'flex', gap: 2.5 }}>
-                  <Box>
-                    <Typography sx={{ fontSize: '0.6rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
-                      Goal
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.95rem',
-                        color: tokens.colors.text.primary,
-                      }}
-                    >
-                      {adjustedGoal.toLocaleString()}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography sx={{ fontSize: '0.6rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
-                      Timer
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.95rem',
-                        color: tokens.colors.text.primary,
-                      }}
-                    >
-                      {timerSecs}s
-                    </Typography>
-                  </Box>
-                  <Box sx={{ ml: 'auto' }}>
-                    <Typography sx={{ fontSize: '0.6rem', color: tokens.colors.text.disabled, mb: 0.25 }}>
-                      Gold
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.95rem',
-                        color: '#c4a000',
-                      }}
-                    >
-                      {adjustedGold}g
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            </ButtonBase>
-          );
-        })}
+              {scoreGoal.toLocaleString()}
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled, mb: 0.5 }}>
+              Timer
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '1.1rem',
+                color: tokens.colors.text.primary,
+              }}
+            >
+              20s
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled, mb: 0.5 }}>
+              Gold
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '1.1rem',
+                color: tokens.colors.warning,
+              }}
+            >
+              {goldReward}g
+            </Typography>
+          </Box>
+        </Box>
       </Box>
 
       {/* Spacer */}
@@ -192,24 +132,28 @@ export function GameTabLaunch({
       {/* Launch Button */}
       <Button
         variant="contained"
-        size="large"
+        fullWidth
+        onClick={() => {
+          // Select zone if not selected, then launch
+          if (!selectedZoneId && activeZone) {
+            onZoneSelect?.(activeZone.id);
+          }
+          onLaunch?.();
+        }}
         startIcon={<PlayIcon />}
-        onClick={onLaunch}
-        disabled={!selectedZoneId}
         sx={{
           py: 1.5,
-          borderRadius: '16px',
-          bgcolor: tokens.colors.success,
           fontFamily: tokens.fonts.gaming,
-          fontSize: '1.25rem',
-          '&:hover': { bgcolor: '#16a34a' },
-          '&.Mui-disabled': {
-            bgcolor: tokens.colors.background.elevated,
-            color: tokens.colors.text.disabled,
+          fontSize: '1.1rem',
+          borderRadius: '12px',
+          bgcolor: tokens.colors.primary,
+          '&:hover': {
+            bgcolor: tokens.colors.primary,
+            opacity: 0.9,
           },
         }}
       >
-        Launch
+        LAUNCH
       </Button>
     </Box>
   );
