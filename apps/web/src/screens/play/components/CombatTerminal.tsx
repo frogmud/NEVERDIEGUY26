@@ -1623,6 +1623,7 @@ export function CombatTerminal({
             boss={boss || undefined}
             bossCurrentScore={combatState.currentScore}
             bossIsHit={bossIsHit}
+            asciiOverlay={true}
           />
         </Box>
 

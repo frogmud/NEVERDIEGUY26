@@ -318,10 +318,11 @@ export function Globe3D() {
           autoRotate={!selectedZone}
           onInteraction={() => setLastInteraction(Date.now())}
           isIdle={isIdle}
-          // Zone props (need to add to GlobeScene)
           zones={currentDomain.zones}
           onZoneClick={handleZoneClick}
           selectedZone={selectedZone}
+          domainId={currentDomain.id}
+          asciiOverlay
         />
       </Box>
 

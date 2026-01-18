@@ -16,6 +16,7 @@ import { DURATION, EASING, GLOW } from '../../utils/transitions';
 import { useRun } from '../../contexts/RunContext';
 import { getAvailablePortals, type PortalOption } from '../../data/portal-config';
 import { DOMAIN_PLANET_CONFIG } from '../../games/globe-meteor/config';
+import { AsciiImageFilter } from '../../components/AsciiImageFilter';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
@@ -62,9 +63,10 @@ const DOMAIN_FLUME_CONFIG: Record<number, { dir: string; startFrame: number; ste
 
 const FRAME_COUNT = 100;
 
-// Animated flume background with per-domain variation
+// Animated flume background with per-domain variation - now with ASCII filter
 function AnimatedFlumeBackground({ domainId, isHovered }: { domainId: number; isHovered: boolean }) {
   const config = DOMAIN_FLUME_CONFIG[domainId];
+  const planetConfig = DOMAIN_PLANET_CONFIG[domainId];
   const [frameIndex, setFrameIndex] = useState(config?.startFrame || 1);
   const [hasError, setHasError] = useState(false);
   const [stopped, setStopped] = useState(false);
@@ -90,24 +92,30 @@ function AnimatedFlumeBackground({ domainId, isHovered }: { domainId: number; is
 
   if (hasError || !config) return null;
 
+  const frameSrc = `/assets/flumes-svg/cursed/${config.dir}/frame-${String(frameIndex).padStart(2, '0')}.svg`;
+
   return (
     <Box
-      component="img"
-      src={`/assets/flumes-svg/cursed/${config.dir}/frame-${String(frameIndex).padStart(2, '0')}.svg`}
-      alt=""
-      onError={() => setHasError(true)}
       sx={{
         position: 'absolute',
         inset: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
         // Dull when not hovered, vibrant on hover
-        opacity: isHovered ? 0.9 : 0.5,
-        filter: isHovered ? 'saturate(1) brightness(1)' : 'saturate(0.4) brightness(0.7)',
-        transition: 'opacity 300ms ease, filter 300ms ease',
+        opacity: isHovered ? 0.95 : 0.6,
+        transition: 'opacity 300ms ease',
       }}
-    />
+    >
+      <AsciiImageFilter
+        src={frameSrc}
+        width="100%"
+        height="100%"
+        cellSize={isHovered ? 7 : 8}
+        color={planetConfig?.color || '#8b7355'}
+        glowColor={planetConfig?.glowColor || '#c4a882'}
+        contrast={isHovered ? 1.8 : 1.4}
+        opacity={1}
+        onError={() => setHasError(true)}
+      />
+    </Box>
   );
 }
 

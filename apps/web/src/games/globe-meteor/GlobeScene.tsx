@@ -11,7 +11,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { GLOBE_CONFIG, GlobeNPC, MeteorProjectile, ImpactZone } from './config';
+import { GLOBE_CONFIG, DOMAIN_PLANET_CONFIG, GlobeNPC, MeteorProjectile, ImpactZone } from './config';
 import { Planet } from './components/Planet';
 import { NPCMarker } from './components/NPCMarker';
 import { ZoneMarker } from './components/ZoneMarker';
@@ -22,6 +22,7 @@ import { ImpactEffect } from './components/ImpactEffect';
 import { GuardianGroup, type GuardianData } from './components/Guardian';
 import { VictoryExplosion } from './components/VictoryExplosion';
 import { BossSprite } from './components/BossSprite';
+import { AsciiEffect } from './effects/AsciiEffect';
 import { ZoneMarker as ZoneMarkerType } from '../../types/zones';
 import type { BossDefinition } from '../../data/boss-types';
 
@@ -70,6 +71,8 @@ interface GlobeSceneProps {
   bossCurrentScore?: number;
   /** True when boss was just hit (triggers shake animation) */
   bossIsHit?: boolean;
+  /** Enable ASCII art overlay on the planet */
+  asciiOverlay?: boolean;
 }
 
 /**
@@ -197,16 +200,21 @@ export function GlobeScene({
   boss,
   bossCurrentScore = 0,
   bossIsHit = false,
+  asciiOverlay = false,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Get sky color based on event number (1-3)
   const skyConfig = EVENT_SKY_COLORS[Math.min(Math.max(eventNumber, 1), 3)] || EVENT_SKY_COLORS[1];
 
+  // When ASCII overlay is enabled, render normal planet then post-process to ASCII
+  // This gives true 3D ASCII rendering like Harri's technique
+  const planetStyle = asciiOverlay ? 'lowPoly' : style;
+
   return (
     <Box
       ref={containerRef}
-      sx={{ width: '100%', height: '100%' }}
+      sx={{ width: '100%', height: '100%', position: 'relative' }}
       onMouseDown={onInteraction}
       onTouchStart={onInteraction}
     >
@@ -243,12 +251,12 @@ export function GlobeScene({
             castShadow
           />
 
-          {/* Starfield background */}
+          {/* Starfield background - small stars for depth */}
           <Stars
-            radius={100}
-            depth={50}
-            count={5000}
-            factor={4}
+            radius={150}
+            depth={80}
+            count={6000}
+            factor={2}
             saturation={0}
             fade
           />
@@ -256,10 +264,10 @@ export function GlobeScene({
           {/* Atmospheric fog - tints space based on event number */}
           <fog attach="fog" args={[skyConfig.fog, 25, 80]} />
 
-          {/* The globe */}
+          {/* The globe - uses ascii style when asciiOverlay enabled */}
           <Planet
             radius={GLOBE_CONFIG.radius}
-            style={style}
+            style={planetStyle}
             onClick={onGlobeClick}
             domainId={domainId}
           />
@@ -319,6 +327,17 @@ export function GlobeScene({
           )}
           {targetPosition && !reticleDieType && (
             <TargetReticle lat={targetPosition.lat} lng={targetPosition.lng} />
+          )}
+
+          {/* ASCII post-processing effect - converts 3D scene to APL characters */}
+          {asciiOverlay && (
+            <AsciiEffect
+              cellSize={14}
+              color={domainId ? DOMAIN_PLANET_CONFIG[domainId]?.color : '#8b7355'}
+              glowColor={domainId ? DOMAIN_PLANET_CONFIG[domainId]?.glowColor : '#c4a882'}
+              contrast={1.6}
+              enabled={asciiOverlay}
+            />
           )}
         </Suspense>
       </Canvas>
