@@ -18,6 +18,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ForumIcon from '@mui/icons-material/Forum';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import type { ShellContext } from './Shell';
 import { tokens } from '../theme';
@@ -71,7 +73,8 @@ import {
 } from '@ndg/ai-engine';
 import { refineGreeting } from '@ndg/ai-engine/stream';
 import { hasSavedRun, loadSavedRun } from '../data/player/storage';
-import { generateLoadout, getItemImage, LOADOUT_ITEMS, type StartingLoadout } from '../data/decrees';
+import { generateLoadout, getItemImage, getItemName, generateItemStats, LOADOUT_ITEMS, type StartingLoadout, type SeededItemStats } from '../data/decrees';
+import { createSeededRng } from '../data/pools/seededRng';
 import { EASING, stagger } from '../utils/transitions';
 
 // ============================================
@@ -168,6 +171,22 @@ const buttonWiggle = keyframes`
   75% { transform: rotate(1deg); }
 `;
 
+// Idle card wiggle - subtle continuous floating effect (Balatro-style)
+const idleWiggle = keyframes`
+  0%, 100% {
+    transform: translateY(0) rotate(var(--base-rotation, 0deg));
+  }
+  25% {
+    transform: translateY(-2px) rotate(calc(var(--base-rotation, 0deg) + 0.5deg));
+  }
+  50% {
+    transform: translateY(-3px) rotate(calc(var(--base-rotation, 0deg) - 0.3deg));
+  }
+  75% {
+    transform: translateY(-1px) rotate(calc(var(--base-rotation, 0deg) + 0.2deg));
+  }
+`;
+
 // Items drop in from top with heavy impact
 const itemDropIn = keyframes`
   0% {
@@ -229,6 +248,31 @@ const ASCII_SKULL = [
   '                 @@@@@@  @@@@@@                 ',
 ];
 
+/**
+ * ASCII UI Elements - Profile and buttons that load alongside skull
+ */
+const ASCII_PROFILE = [
+  '+--------+',
+  '|  @@@@  |',
+  '|  @@@@  |',
+  '|   @@   |',
+  '+--------+ @guy_####',
+];
+
+const ASCII_BUTTONS = [
+  '+=======================+',
+  '|      N E W  R U N     |',
+  '+=======================+',
+  '',
+  '+=======================+',
+  '|      R E R O L L      |',
+  '+=======================+',
+  '',
+  '+- - - - - - - - - - - -+',
+  '|     C O N T I N U E   |',
+  '+- - - - - - - - - - - -+',
+];
+
 // Pixel explosion - toned down, more gravity
 const pixelExplode = keyframes`
   0% {
@@ -255,6 +299,331 @@ function generatePlayerAlias(seed: string): string {
   const prefix = prefixes[seedNum % prefixes.length];
   const suffix = suffixes[Math.floor(seedNum / 100) % suffixes.length];
   return `${prefix}${seed}${suffix}`;
+}
+
+// ============================================
+// Interactive Item Card Component
+// ============================================
+
+interface ItemCardProps {
+  itemSlug: string;
+  itemName: string;
+  itemStats: SeededItemStats;
+  category: string;
+  baseRotation: number;
+  index: number;
+  bootPhase: BootPhase;
+}
+
+function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index, bootPhase }: ItemCardProps) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [isPoked, setIsPoked] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const tooltipTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  // Handle mouse move for physics-like tilt (disabled once tooltip shows for stability)
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current || showTooltip) return; // Stop tilting once tooltip visible
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    // Tilt based on mouse position - stronger at edges
+    const tiltX = (y - 0.5) * 15; // -7.5 to +7.5 degrees
+    const tiltY = (x - 0.5) * -15; // -7.5 to +7.5 degrees (inverted for natural feel)
+    setTilt({ x: tiltX, y: tiltY });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+    setIsHovered(false);
+    setShowTooltip(false);
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    // Longer delay to let card fully settle before showing tooltip
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setTilt({ x: 0, y: 0 }); // Reset tilt for stable tooltip
+      setShowTooltip(true);
+    }, 400);
+  };
+
+  // Handle click for "poke" effect
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    // Stronger tilt towards click point
+    const pokeX = (y - 0.5) * 25;
+    const pokeY = (x - 0.5) * -25;
+    setTilt({ x: pokeX, y: pokeY });
+    setIsPoked(true);
+    // Bounce back
+    setTimeout(() => {
+      setTilt({ x: 0, y: 0 });
+      setIsPoked(false);
+    }, 150);
+  };
+
+  const isDropping = bootPhase === 'items-drop';
+  const isActive = bootPhase === 'active';
+
+  return (
+    <Box
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      sx={{
+        width: 220,
+        height: 300,
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '16px',
+        border: `2px solid ${isHovered ? itemStats.rarityColor : tokens.colors.border}`,
+        bgcolor: tokens.colors.background.paper,
+        overflow: 'visible',
+        position: 'relative',
+        cursor: 'pointer',
+        '--card-rotation': `${baseRotation}deg`,
+        '--base-rotation': `${baseRotation}deg`,
+        // Transform with tilt physics (stable when tooltip showing)
+        transform: showTooltip
+          ? 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(-32px) scale(1.05)'
+          : isHovered || isPoked
+          ? `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-24px) scale(1.03)`
+          : 'perspective(600px) rotateX(0deg) rotateY(0deg)',
+        // Animation states
+        animation: isDropping
+          ? `${itemDropIn} 700ms ease-out ${index * 100}ms both`
+          : isActive && !isHovered
+          ? `${idleWiggle} ${3 + index * 0.5}s ease-in-out infinite ${index * 0.3}s`
+          : 'none',
+        transition: isPoked
+          ? 'transform 100ms ease-out, border-color 200ms ease, box-shadow 200ms ease'
+          : 'transform 200ms ease-out, border-color 200ms ease, box-shadow 200ms ease',
+        boxShadow: isHovered
+          ? `0 12px 32px rgba(0,0,0,0.4), 0 0 20px ${itemStats.rarityColor}40`
+          : '0 4px 12px rgba(0,0,0,0.2)',
+        '&::before': itemStats.edition ? {
+          content: '""',
+          position: 'absolute',
+          inset: -2,
+          borderRadius: '18px',
+          background: itemStats.edition === 'Holographic'
+            ? 'linear-gradient(45deg, #ff000040, #00ff0040, #0000ff40, #ff000040)'
+            : itemStats.edition === 'Foil'
+            ? 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(255,255,255,0.2) 100%)'
+            : itemStats.edition === 'Polychrome'
+            ? 'conic-gradient(from 0deg, #ff000030, #ffff0030, #00ff0030, #00ffff30, #0000ff30, #ff00ff30, #ff000030)'
+            : 'none',
+          zIndex: -1,
+          animation: itemStats.edition === 'Holographic' ? `${pulse} 2s ease-in-out infinite` : 'none',
+        } : {},
+      }}
+    >
+      {/* Edition Badge */}
+      {itemStats.edition && (
+        <Box sx={{
+          position: 'absolute',
+          top: 8,
+          right: 8,
+          px: 1,
+          py: 0.25,
+          borderRadius: '8px',
+          bgcolor: 'rgba(0,0,0,0.7)',
+          border: '1px solid rgba(255,255,255,0.2)',
+          zIndex: 10,
+        }}>
+          <Typography sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.65rem',
+            color: '#fff',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+          }}>
+            {itemStats.edition}
+          </Typography>
+        </Box>
+      )}
+
+      {/* Grid Pattern Background */}
+      <Box sx={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '20px 20px',
+        position: 'relative',
+        borderRadius: '14px 14px 0 0',
+        overflow: 'hidden',
+      }}>
+        {/* Item Sprite with layered shadow for depth */}
+        <Box
+          component="img"
+          src={getItemImage(itemSlug)}
+          alt={itemSlug}
+          sx={{
+            width: 100,
+            height: 100,
+            objectFit: 'contain',
+            imageRendering: 'pixelated',
+            filter: `
+              drop-shadow(0 2px 2px rgba(0,0,0,0.2))
+              drop-shadow(0 4px 6px rgba(0,0,0,0.25))
+              drop-shadow(0 8px 16px rgba(0,0,0,0.3))
+            `,
+            transition: 'transform 150ms ease, filter 150ms ease',
+            transform: isHovered ? 'scale(1.1) translateY(-4px)' : 'scale(1)',
+          }}
+        />
+      </Box>
+
+      {/* Item Label - Bottom */}
+      <Box sx={{
+        px: 2,
+        py: 1.5,
+        borderTop: `1px solid ${tokens.colors.border}`,
+        bgcolor: tokens.colors.background.elevated,
+        borderRadius: '0 0 14px 14px',
+      }}>
+        <Typography sx={{
+          fontFamily: tokens.fonts.gaming,
+          fontSize: '0.9rem',
+          color: tokens.colors.text.primary,
+          textAlign: 'center',
+          lineHeight: 1.2,
+        }}>
+          {itemName}
+        </Typography>
+        {/* Rarity + Category */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mt: 0.5 }}>
+          <Typography sx={{
+            fontSize: '0.7rem',
+            color: itemStats.rarityColor,
+            fontWeight: 600,
+            textTransform: 'capitalize',
+          }}>
+            {itemStats.rarity}
+          </Typography>
+          <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled }}>
+            {category}
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Hover Tooltip - positioned below card to avoid top cutoff */}
+      {showTooltip && (
+        <Box sx={{
+          position: 'absolute',
+          top: 'calc(100% + 16px)',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 260,
+          bgcolor: tokens.colors.background.paper,
+          border: `2px solid ${itemStats.rarityColor}`,
+          borderRadius: '12px',
+          p: 2,
+          zIndex: 9999, // Above toolbar and everything
+          boxShadow: `0 8px 32px rgba(0,0,0,0.6), 0 0 20px ${itemStats.rarityColor}40`,
+          pointerEvents: 'none', // Don't interfere with card hover
+        }}>
+          {/* Edition Badge if special */}
+          {itemStats.edition && (
+            <Box sx={{
+              display: 'inline-block',
+              px: 1,
+              py: 0.25,
+              mb: 1.5,
+              borderRadius: '6px',
+              bgcolor: `${itemStats.rarityColor}20`,
+              border: `1px solid ${itemStats.rarityColor}`,
+            }}>
+              <Typography sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '0.65rem',
+                color: itemStats.rarityColor,
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+              }}>
+                {itemStats.edition} Edition
+              </Typography>
+            </Box>
+          )}
+
+          {/* Buffs - Loot Table Style */}
+          <Box sx={{ mb: 1.5 }}>
+            {itemStats.buffs.map((buff, bi) => (
+              <Box key={bi} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5 }}>
+                <Box sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: itemStats.rarityColor,
+                  flexShrink: 0,
+                }} />
+                <Typography sx={{ fontSize: '0.85rem', color: tokens.colors.text.secondary }}>
+                  +{buff.value}{buff.isPercent ? '%' : ''} {buff.stat.charAt(0).toUpperCase() + buff.stat.slice(1)}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+
+          {/* Category Info */}
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 1,
+            mb: 1,
+            borderTop: `1px solid ${tokens.colors.border}`,
+            borderBottom: `1px solid ${tokens.colors.border}`,
+          }}>
+            <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+              {category}
+            </Typography>
+            <Typography sx={{ fontSize: '0.7rem', color: itemStats.rarityColor, fontWeight: 600 }}>
+              Tier {itemStats.rarity === 'legendary' ? 5 : itemStats.rarity === 'epic' ? 4 : itemStats.rarity === 'rare' ? 3 : itemStats.rarity === 'uncommon' ? 2 : 1}
+            </Typography>
+          </Box>
+
+          {/* Flavor Text */}
+          <Typography sx={{
+            fontSize: '0.75rem',
+            color: tokens.colors.text.disabled,
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+          }}>
+            "{itemStats.flavorText}"
+          </Typography>
+
+          {/* Tooltip Arrow - points up since tooltip is below card */}
+          <Box sx={{
+            position: 'absolute',
+            top: -8,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 0,
+            height: 0,
+            borderLeft: '8px solid transparent',
+            borderRight: '8px solid transparent',
+            borderBottom: `8px solid ${itemStats.rarityColor}`,
+          }} />
+        </Box>
+      )}
+    </Box>
+  );
 }
 
 // ============================================
@@ -644,6 +1013,7 @@ export function HomeDashboard() {
   // Boot sequence state
   const [bootPhase, setBootPhase] = useState<BootPhase>('slide');
   const [asciiRowsVisible, setAsciiRowsVisible] = useState(0);
+  const [uiAsciiRowsVisible, setUiAsciiRowsVisible] = useState(0);
 
   // Player alias based on seed (for NPC mentions)
   const playerAlias = useMemo(() => generatePlayerAlias(currentLoadout.seed), [currentLoadout.seed]);
@@ -654,8 +1024,9 @@ export function HomeDashboard() {
   // Stream visibility (can be hidden by user)
   const [streamEnabled, setStreamEnabled] = useState(true);
 
-  // Stream minimized state (starts minimized, expands after boot)
-  const [streamMinimized, setStreamMinimized] = useState(false); // Default open
+  // Stream popover state (dropdown from icon instead of bottom rail)
+  const [streamAnchorEl, setStreamAnchorEl] = useState<HTMLElement | null>(null);
+  const streamOpen = Boolean(streamAnchorEl);
 
   // Unread message count (accumulates when minimized)
   const [unreadCount, setUnreadCount] = useState(0);
@@ -791,6 +1162,22 @@ export function HomeDashboard() {
       return () => clearTimeout(timer);
     }
   }, [bootPhase, asciiRowsVisible]);
+
+  // ============================================
+  // ASCII UI Elements Row-by-Row Reveal (profile + buttons)
+  // ============================================
+
+  useEffect(() => {
+    if (bootPhase !== 'skull-hero' && bootPhase !== 'ui-reveal') return;
+
+    const totalUiRows = ASCII_PROFILE.length + ASCII_BUTTONS.length;
+    if (uiAsciiRowsVisible < totalUiRows) {
+      const timer = setTimeout(() => {
+        setUiAsciiRowsVisible(prev => prev + 1);
+      }, 20); // Slightly slower than skull for staggered feel
+      return () => clearTimeout(timer);
+    }
+  }, [bootPhase, uiAsciiRowsVisible]);
 
   // ============================================
   // Pre-warm NPC Conversation (during skull-hero phase)
@@ -1165,33 +1552,21 @@ export function HomeDashboard() {
     const currentCount = messages.length;
     const newMessages = currentCount - lastMessageCountRef.current;
 
-    // If minimized and we have new messages, increment unread
-    if (streamMinimized && newMessages > 0) {
+    // If closed and we have new messages, increment unread
+    if (!streamOpen && newMessages > 0) {
       setUnreadCount(prev => prev + newMessages);
     }
 
     // Update the ref
     lastMessageCountRef.current = currentCount;
-  }, [messages.length, streamMinimized, bootPhase]);
+  }, [messages.length, streamOpen, bootPhase]);
 
-  // Clear unread when expanded
+  // Clear unread when opened
   useEffect(() => {
-    if (!streamMinimized) {
+    if (streamOpen) {
       setUnreadCount(0);
     }
-  }, [streamMinimized]);
-
-  // Auto-expand stream after boot completes
-  useEffect(() => {
-    if (bootPhase !== 'active') return;
-
-    // Delay expansion so other UI settles first
-    const timer = setTimeout(() => {
-      setStreamMinimized(false);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, [bootPhase]);
+  }, [streamOpen]);
 
   // ============================================
   // Actions
@@ -1261,176 +1636,358 @@ export function HomeDashboard() {
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
-      height: 'calc(100vh - 64px)',
+      height: '100vh', // Full viewport since top bar removed on desktop
       overflow: 'hidden',
       position: 'relative',
     }}>
-      {/* Top Rail - Chunky Toolbar */}
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2,
-        px: 3,
-        py: 1.5,
-        // Fade in during ui-reveal phase
-        opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-        transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(-10px)' : 'translateY(0)',
-        transition: 'opacity 400ms ease-out, transform 400ms ease-out',
-      }}>
-        {/* Player Identity + Score Group */}
+      {/* Top: Player Identity + Badges */}
+      <Box sx={{ position: 'relative', px: 3, pt: 2, pb: 0 }}>
+        {/* ASCII Profile - loads during skull-hero */}
+        {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal') && (
+          <Box sx={{
+            position: 'absolute',
+            top: 16,
+            left: 24,
+            display: 'flex',
+            flexDirection: 'column',
+            fontFamily: 'monospace',
+            fontSize: '0.7rem',
+            lineHeight: 1.2,
+            color: tokens.colors.primary,
+            opacity: bootPhase === 'ui-reveal' ? 0 : 1,
+            transition: 'opacity 300ms ease-out',
+            filter: 'drop-shadow(0 0 8px rgba(233, 4, 65, 0.5))',
+          }}>
+            {ASCII_PROFILE.map((row, rowIdx) => (
+              <Box
+                key={rowIdx}
+                sx={{
+                  opacity: rowIdx < uiAsciiRowsVisible ? 1 : 0,
+                  transform: rowIdx < uiAsciiRowsVisible ? 'scaleY(1)' : 'scaleY(0)',
+                  transition: 'opacity 30ms ease-out, transform 30ms ease-out',
+                  whiteSpace: 'pre',
+                }}
+              >
+                {row}
+              </Box>
+            ))}
+          </Box>
+        )}
+
+        {/* Real Profile - fades in during ui-reveal */}
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 2,
-          px: 2,
-          py: 1.5,
-          borderRadius: `${tokens.radius.lg}px`,
-          bgcolor: tokens.colors.background.elevated,
+          justifyContent: 'space-between',
+          // Fade in during ui-reveal phase
+          opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+          transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(-10px)' : 'translateY(0)',
+          transition: 'opacity 400ms ease-out, transform 400ms ease-out',
         }}>
-          {/* Token Icon */}
-          <Box
-            component="img"
-            src="/assets/ui/token.svg"
-            alt="score"
-            sx={{ width: 40, height: 40, flexShrink: 0 }}
-          />
-          {/* Score + Streak */}
-          <Box>
-            <Typography sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '1.5rem',
-              fontWeight: 700,
-              color: tokens.colors.text.primary,
-              lineHeight: 1,
-            }}>
-              {playerGold >= 1000000 ? `${(playerGold / 1000000).toFixed(1)}m` : playerGold >= 1000 ? `${(playerGold / 1000).toFixed(1)}k` : playerGold.toLocaleString()}
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
-                @player
+          {/* Left: Avatar + Username */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* Avatar - Always use NDG sprite */}
+            <Box
+              component="img"
+              src="/assets/characters/travelers/sprite-never-die-guy-1.png"
+              alt="player"
+              sx={{
+                width: 56,
+                height: 56,
+                borderRadius: `${tokens.radius.md}px`,
+                border: `2px solid ${tokens.colors.border}`,
+                objectFit: 'cover',
+                imageRendering: 'pixelated',
+              }}
+            />
+            {/* Username + Badges */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              {/* Show loading state during boot, then reveal name */}
+              {bootPhase === 'ui-reveal' ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Typography sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '1.1rem',
+                    color: tokens.colors.text.disabled,
+                  }}>
+                    @guy_
+                  </Typography>
+                  <Typography sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '1.1rem',
+                    color: tokens.colors.text.disabled,
+                    animation: `${pulse} 600ms ease-in-out infinite`,
+                  }}>
+                    ....
+                  </Typography>
+                </Box>
+              ) : (
+                <Typography sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '1.1rem',
+                  color: tokens.colors.text.secondary,
+                }}>
+                  @guy_{currentLoadout.seed}
+                </Typography>
+              )}
+              {/* Globe badge */}
+              <Typography component="span" sx={{ fontSize: '1.1rem' }}>
+                🌍
               </Typography>
-              <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: tokens.colors.text.disabled }} />
-              <Box
-                component="img"
-                src="/icons/fire.svg"
-                alt="streak"
-                sx={{ width: 14, height: 14 }}
-              />
-              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.warning }}>
-                4
+              {/* Star badge */}
+              <Typography component="span" sx={{ fontSize: '1.1rem' }}>
+                ⭐
               </Typography>
             </Box>
           </Box>
-        </Box>
 
-        {/* Gold Chip */}
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          px: 2,
-          py: 1.5,
-          borderRadius: `${tokens.radius.lg}px`,
-          bgcolor: tokens.colors.background.elevated,
-        }}>
-          <Box
-            component="img"
-            src="/assets/ui/currency/coin.png"
-            alt="gold"
-            sx={{ width: 24, height: 24, imageRendering: 'pixelated' }}
-            onError={(e: React.SyntheticEvent<HTMLImageElement>) => { e.currentTarget.style.display = 'none'; }}
-          />
-          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.1rem', color: tokens.colors.warning }}>
-            {playerGold}g
-          </Typography>
-        </Box>
-
-        {/* Spacer */}
-        <Box sx={{ flex: 1 }} />
-
-        {/* Action Buttons Group */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          {/* Continue Button - only if saved run exists */}
-          {savedRun && (
-            <Box
-              onClick={() => navigate('/play?continue=true')}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                px: 2.5,
-                py: 1.5,
-                borderRadius: `${tokens.radius.lg}px`,
-                bgcolor: tokens.colors.background.elevated,
-                cursor: 'pointer',
-                transition: 'all 150ms ease',
-                '&:hover': { bgcolor: tokens.colors.background.paper },
-              }}
-            >
-              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.9rem', color: tokens.colors.text.primary }}>
-                Continue
-              </Typography>
-              <Box sx={{
-                px: 1,
-                py: 0.25,
-                borderRadius: `${tokens.radius.sm}px`,
-                bgcolor: tokens.colors.background.paper,
-              }}>
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.7rem', color: tokens.colors.text.secondary }}>
-                  D{savedRun.currentDomain}R{savedRun.roomNumber || 1}
-                </Typography>
+          {/* Right: Stream + DM Icons */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            {/* Eternal Stream Icon */}
+            <Tooltip title="Eternal Stream" placement="bottom">
+              <Box
+                onClick={(e) => setStreamAnchorEl(streamAnchorEl ? null : e.currentTarget)}
+                sx={{
+                  position: 'relative',
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '12px',
+                  bgcolor: streamOpen ? tokens.colors.background.paper : 'transparent',
+                  border: `1px solid ${streamOpen ? tokens.colors.border : 'transparent'}`,
+                  cursor: 'pointer',
+                  transition: 'all 150ms ease',
+                  '&:hover': {
+                    bgcolor: tokens.colors.background.paper,
+                    border: `1px solid ${tokens.colors.border}`,
+                  },
+                }}
+              >
+                <ForumIcon sx={{ fontSize: 22, color: streamOpen ? tokens.colors.primary : tokens.colors.text.secondary }} />
+                {/* Unread Badge */}
+                {unreadCount > 0 && !streamOpen && (
+                  <Box sx={{
+                    position: 'absolute',
+                    top: -4,
+                    right: -4,
+                    minWidth: 18,
+                    height: 18,
+                    borderRadius: '9px',
+                    bgcolor: tokens.colors.primary,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    px: 0.5,
+                  }}>
+                    <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.65rem', color: tokens.colors.text.primary }}>
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </Typography>
+                  </Box>
+                )}
               </Box>
-            </Box>
-          )}
+            </Tooltip>
 
-          {/* Multiplayer Button */}
-          <Box
-            onClick={() => navigate('/play')}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1.5,
-              px: 2.5,
-              py: 1.5,
-              borderRadius: `${tokens.radius.lg}px`,
-              bgcolor: tokens.colors.background.elevated,
-              cursor: 'pointer',
-              transition: 'all 150ms ease',
-              '&:hover': { bgcolor: tokens.colors.background.paper },
-            }}
-          >
-            <Box
-              component="img"
-              src="/illustrations/1v1.svg"
-              alt="multiplayer"
-              sx={{ width: 24, height: 24, objectFit: 'contain' }}
-            />
-            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.9rem', color: tokens.colors.text.secondary }}>
-              1v1
-            </Typography>
+            {/* DM Inbox Icon */}
+            <Tooltip title="NPC Messages" placement="bottom">
+              <Box
+                sx={{
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  transition: 'all 150ms ease',
+                  '&:hover': {
+                    bgcolor: tokens.colors.background.paper,
+                    border: `1px solid ${tokens.colors.border}`,
+                  },
+                }}
+              >
+                <MailOutlineIcon sx={{ fontSize: 22, color: tokens.colors.text.secondary }} />
+              </Box>
+            </Tooltip>
           </Box>
         </Box>
       </Box>
 
-      {/* Main Content Area */}
+      {/* Main Content Area - 2 Column Layout */}
       <Box sx={{
         flex: 1,
         display: 'flex',
         overflow: 'hidden',
         minHeight: 0,
         position: 'relative',
+        px: 3,
+        py: 2,
+        gap: 4,
       }}>
-        {/* Center Column - Skull Hero + Starting Loadout */}
+        {/* Left Column - Action Buttons */}
+        <Box sx={{ position: 'relative', width: 260, flexShrink: 0, pt: 6 }}>
+          {/* ASCII Buttons - loads during skull-hero */}
+          {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal') && (
+            <Box sx={{
+              position: 'absolute',
+              top: 48,
+              left: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              fontFamily: 'monospace',
+              fontSize: '0.75rem',
+              lineHeight: 1.3,
+              color: tokens.colors.primary,
+              opacity: bootPhase === 'ui-reveal' ? 0 : 1,
+              transition: 'opacity 300ms ease-out',
+              filter: 'drop-shadow(0 0 8px rgba(233, 4, 65, 0.5))',
+            }}>
+              {ASCII_BUTTONS.map((row, rowIdx) => {
+                const adjustedIdx = rowIdx + ASCII_PROFILE.length; // Start after profile rows
+                return (
+                  <Box
+                    key={rowIdx}
+                    sx={{
+                      opacity: adjustedIdx < uiAsciiRowsVisible ? 1 : 0,
+                      transform: adjustedIdx < uiAsciiRowsVisible ? 'scaleY(1)' : 'scaleY(0)',
+                      transition: 'opacity 30ms ease-out, transform 30ms ease-out',
+                      whiteSpace: 'pre',
+                      height: row === '' ? '0.8rem' : 'auto', // Spacing for empty rows
+                    }}
+                  >
+                    {row || ' '}
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
+
+          {/* Real Buttons - fade in during ui-reveal */}
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            // Fade in during ui-reveal phase
+            opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+            transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateX(-20px)' : 'translateX(0)',
+            transition: 'opacity 400ms ease-out 100ms, transform 400ms ease-out 100ms',
+          }}>
+          {/* New Run Button - Primary Pink */}
+          <Box
+            onClick={bootPhase === 'active' ? handlePlay : undefined}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              py: 2.5,
+              borderRadius: '16px',
+              bgcolor: tokens.colors.primary,
+              cursor: bootPhase === 'active' ? 'pointer' : 'default',
+              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
+              boxShadow: `0 4px 16px rgba(233, 4, 65, 0.4)`,
+              '&:hover': bootPhase === 'active' ? {
+                filter: 'brightness(1.15)',
+                transform: 'scale(1.03) translateY(-2px)',
+                boxShadow: `0 8px 24px rgba(233, 4, 65, 0.5)`,
+              } : {},
+              '&:active': bootPhase === 'active' ? {
+                transform: 'scale(0.98)',
+              } : {},
+            }}
+          >
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.5rem',
+              color: tokens.colors.text.primary,
+            }}>
+              New Run
+            </Typography>
+          </Box>
+
+          {/* Reroll Button - Warning/Gold */}
+          <Box
+            onClick={handleRefresh}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              py: 2.5,
+              borderRadius: '16px',
+              bgcolor: tokens.colors.warning,
+              cursor: 'pointer',
+              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
+              boxShadow: `0 4px 16px rgba(234, 179, 8, 0.3)`,
+              '&:hover': {
+                filter: 'brightness(1.1)',
+                transform: 'scale(1.03) translateY(-2px)',
+                boxShadow: `0 8px 24px rgba(234, 179, 8, 0.4)`,
+              },
+              '&:active': {
+                transform: 'scale(0.98)',
+              },
+            }}
+          >
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.5rem',
+              color: tokens.colors.background.default,
+            }}>
+              Reroll
+            </Typography>
+          </Box>
+
+          {/* Continue Button - Disabled Gray (or active if saved run exists) */}
+          <Box
+            onClick={savedRun ? () => navigate('/play?continue=true') : undefined}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              py: 2.5,
+              borderRadius: '16px',
+              bgcolor: savedRun ? tokens.colors.background.elevated : tokens.colors.background.paper,
+              border: `2px solid ${savedRun ? tokens.colors.border : 'transparent'}`,
+              cursor: savedRun ? 'pointer' : 'default',
+              opacity: savedRun ? 1 : 0.5,
+              transition: `transform 150ms ${EASING.organic}, background-color 150ms ease`,
+              '&:hover': savedRun ? {
+                bgcolor: tokens.colors.background.elevated,
+                transform: 'scale(1.02)',
+              } : {},
+            }}
+          >
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.5rem',
+              color: savedRun ? tokens.colors.text.primary : tokens.colors.text.disabled,
+            }}>
+              Continue
+            </Typography>
+          </Box>
+
+          {/* Seed Display */}
+          <Typography sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.75rem',
+            color: tokens.colors.text.disabled,
+            textAlign: 'center',
+            mt: 1,
+          }}>
+            seed: #{currentLoadout.seed}
+          </Typography>
+          </Box>
+        </Box>
+
+        {/* Right Column - Oversized Item Cards */}
         <Box sx={{
           flex: 1,
-          display: { xs: 'none', md: 'flex' },
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: 'flex',
+          alignItems: 'flex-start',
           justifyContent: 'center',
-          p: 3,
+          pt: 6,
           gap: 3,
           position: 'relative',
-          overflow: 'hidden',
         }}>
           {/* ASCII Skull - loads row by row, explodes when items hit */}
           {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal' || bootPhase === 'items-drop') && (
@@ -1494,200 +2051,76 @@ export function HomeDashboard() {
             </Box>
           )}
 
-          {/* Item Cards - from loadout (only render during items-drop and active) */}
+          {/* Oversized Item Cards with Grid Pattern - Balatro Style */}
           {(bootPhase === 'items-drop' || bootPhase === 'active') && (
-            <Box sx={{ display: 'flex', alignItems: 'stretch', gap: 2, zIndex: 5 }}>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 3,
+              zIndex: 5,
+              // Fade in during ui-reveal phase
+              opacity: bootPhase === 'active' ? 1 : 0.8,
+              transition: 'opacity 600ms ease-out',
+            }}>
               {currentLoadout.items.map((itemSlug, i) => {
-                const itemData = LOADOUT_ITEMS[itemSlug];
-                const rarity = itemData?.rarity || 1;
-                const rarityLabel = rarity >= 3 ? 'Rare' : rarity >= 2 ? 'Uncommon' : 'Common';
-                const isRare = rarity >= 3;
-                const isUncommon = rarity >= 2;
+                const itemName = getItemName(itemSlug);
+                const itemStats = generateItemStats(itemSlug, currentLoadout.seed, i);
+                const baseItem = LOADOUT_ITEMS[itemSlug];
 
-                // Stable rotation variance based on index for "dealt" feel (-3 to +3 deg)
-                const cardRotation = (i - 1) * 3; // -3, 0, +3 degrees for more drama
+                // Stable rotation variance based on index for "dealt" feel
+                const baseRotation = (i - 1) * 2; // -2, 0, +2 degrees for subtle tilt
 
                 return (
-                  <Box
+                  <ItemCard
                     key={`${itemSlug}-${i}`}
-                    sx={{
-                      width: 160,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      borderRadius: 2,
-                      border: `2px solid ${isRare ? 'rgba(168, 85, 247, 0.5)' : isUncommon ? 'rgba(74, 222, 128, 0.4)' : tokens.colors.border}`,
-                      bgcolor: tokens.colors.background.paper,
-                      p: 2,
-                      gap: 2,
-                      '--card-rotation': `${cardRotation}deg`,
-                      // Items drop in during items-drop phase with stagger
-                      // Use ease-out for Safari compatibility
-                      animation: bootPhase === 'items-drop'
-                        ? `${itemDropIn} 700ms ease-out ${i * 80}ms both`
-                        : 'none',
-                      transition: 'transform 150ms ease, box-shadow 150ms ease',
-                      '&:hover': {
-                        transform: 'translateY(-4px) scale(1.02)',
-                        boxShadow: `0 8px 16px rgba(0,0,0,0.3)`,
-                      },
-                    }}
-                  >
-                    {/* Item Sprite */}
-                    <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
-                      <Box
-                        component="img"
-                        src={getItemImage(itemSlug)}
-                        alt={itemSlug}
-                        sx={{
-                          width: 80,
-                          height: 80,
-                          objectFit: 'contain',
-                          imageRendering: 'pixelated',
-                        }}
-                      />
-                    </Box>
-                    {/* Rarity Badge */}
-                    <Box sx={{
-                      px: 2.5,
-                      py: 0.75,
-                      borderRadius: '20px',
-                      bgcolor: isRare ? 'rgba(168, 85, 247, 0.15)' : isUncommon ? 'rgba(74, 222, 128, 0.15)' : tokens.colors.background.elevated,
-                      border: `1px solid ${isRare ? 'rgba(168, 85, 247, 0.3)' : isUncommon ? 'rgba(74, 222, 128, 0.3)' : tokens.colors.border}`,
-                    }}>
-                      <Typography sx={{
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.85rem',
-                        color: isRare ? '#a855f7' : isUncommon ? tokens.colors.success : tokens.colors.text.secondary,
-                      }}>
-                        {rarityLabel}
-                      </Typography>
-                    </Box>
-                  </Box>
+                    itemSlug={itemSlug}
+                    itemName={itemName}
+                    itemStats={itemStats}
+                    category={baseItem?.category || 'misc'}
+                    baseRotation={baseRotation}
+                    index={i}
+                    bootPhase={bootPhase}
+                  />
                 );
               })}
             </Box>
           )}
-
-          {/* Seed Display - appears after items */}
-          {(bootPhase === 'items-drop' || bootPhase === 'active') && (
-            <Typography sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '0.75rem',
-              color: tokens.colors.text.disabled,
-              opacity: bootPhase === 'active' ? 1 : 0,
-              transition: 'opacity 300ms ease',
-            }}>
-              seed: #{currentLoadout.seed}
-            </Typography>
-          )}
-
-          {/* Begin Button - appears last */}
-          {(bootPhase === 'items-drop' || bootPhase === 'active') && (
-            <Box
-              onClick={bootPhase === 'active' ? handlePlay : undefined}
-              sx={{
-                width: '100%',
-                maxWidth: 520,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: 100,
-                py: 3,
-                borderRadius: '12px',
-                bgcolor: tokens.colors.primary,
-                border: `3px solid ${tokens.colors.primary}`,
-                cursor: bootPhase === 'active' ? 'pointer' : 'default',
-                opacity: bootPhase === 'active' ? 1 : 0,
-                transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease, opacity 400ms ease 600ms`,
-                boxShadow: `0 4px 12px rgba(233, 4, 65, 0.3)`,
-                '&:hover': bootPhase === 'active' ? {
-                  filter: 'brightness(1.15)',
-                  transform: 'scale(1.05) translateY(-2px)',
-                  boxShadow: `0 8px 20px rgba(233, 4, 65, 0.5)`,
-                } : {},
-                '&:active': bootPhase === 'active' ? {
-                  transform: 'scale(0.98)',
-                  boxShadow: `0 2px 8px rgba(233, 4, 65, 0.4)`,
-                } : {},
-              }}
-            >
-              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', color: tokens.colors.text.primary }}>
-                Begin
-              </Typography>
-            </Box>
-          )}
         </Box>
 
-        {/* Floating Chat Window - Eternal Stream */}
-        <Box sx={{
-          position: 'absolute',
-          bottom: 16,
-          right: 16,
-          width: streamMinimized ? 'auto' : 380,
-          height: streamMinimized ? 'auto' : '70%',
-          display: 'flex',
-          flexDirection: 'column',
-          zIndex: 100,
-          // Slide up during ui-reveal phase
-          opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-          transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(100%)' : 'translateY(0)',
-          transition: 'opacity 500ms ease-out, transform 500ms ease-out',
-        }}>
-          {/* Minimized Tab */}
-          {streamMinimized ? (
-            <Box
-              onClick={() => setStreamMinimized(false)}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                px: 2,
-                py: 1.5,
-                borderRadius: `${tokens.radius.lg}px`,
-                bgcolor: tokens.colors.background.elevated,
-                border: `1px solid ${tokens.colors.border}`,
-                cursor: 'pointer',
-                transition: 'all 150ms ease',
-                '&:hover': { bgcolor: tokens.colors.background.paper, transform: 'translateY(-2px)' },
-              }}
-            >
-              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.95rem', color: tokens.colors.text.primary }}>
-                Eternal Stream
-              </Typography>
-              {unreadCount > 0 && (
-                <Box sx={{
-                  minWidth: 22,
-                  height: 22,
-                  borderRadius: '11px',
-                  bgcolor: tokens.colors.primary,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  px: 0.75,
-                }}>
-                  <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.text.primary }}>
-                    {unreadCount > 99 ? '99+' : unreadCount}
-                  </Typography>
-                </Box>
-              )}
-              <KeyboardArrowUpIcon sx={{ fontSize: 20, color: tokens.colors.text.disabled, ml: 0.5 }} />
-            </Box>
-          ) : (
-            /* Expanded Chat Window */
-            <Box sx={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-              borderRadius: `${tokens.radius.lg}px`,
-              bgcolor: tokens.colors.background.elevated,
-              border: `1px solid ${tokens.colors.border}`,
-              boxShadow: '0 4px 32px rgba(0,0,0,0.3)',
-            }}>
-              {/* Stream Header - fixed height, click to minimize */}
+        {/* Click-outside overlay (invisible, no backdrop) */}
+        {streamOpen && (
+          <Box
+            onClick={() => setStreamAnchorEl(null)}
+            sx={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 1099,
+            }}
+          />
+        )}
+
+        {/* Eternal Stream - Slide-in Sidebar Panel */}
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            width: 380,
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            bgcolor: tokens.colors.background.elevated,
+            borderLeft: `1px solid ${tokens.colors.border}`,
+            boxShadow: streamOpen ? '-4px 0 32px rgba(0,0,0,0.3)' : 'none',
+            zIndex: 1100,
+            // Slide animation
+            transform: streamOpen ? 'translateX(0)' : 'translateX(100%)',
+            transition: 'transform 250ms ease-out, box-shadow 250ms ease-out',
+          }}
+        >
+              {/* Stream Header - fixed height, click to close */}
               <Box
-                onClick={() => setStreamMinimized(true)}
+                onClick={() => setStreamAnchorEl(null)}
                 sx={{
                   px: 2,
                   pt: 2,
@@ -1748,9 +2181,9 @@ export function HomeDashboard() {
                         {streamEnabled ? <PauseIcon sx={{ fontSize: 18 }} /> : <PlayArrowIcon sx={{ fontSize: 18 }} />}
                       </Box>
                     </Tooltip>
-                    <Tooltip title="Minimize" placement="bottom">
+                    <Tooltip title="Close" placement="bottom">
                       <Box
-                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamMinimized(true); }}
+                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamAnchorEl(null); }}
                         sx={{
                           width: 28,
                           height: 28,
@@ -2225,9 +2658,7 @@ export function HomeDashboard() {
               ))}
             </Box>
           </Box>
-        )}
         </Box>
-      </Box>
 
       {/* Invite NPC Modal */}
       <Dialog
