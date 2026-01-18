@@ -12,6 +12,7 @@
 import { useMemo, useCallback, useState, useEffect } from 'react';
 import { Box, Typography, Button, keyframes } from '@mui/material';
 import { tokens } from '../../theme';
+import { DURATION, EASING, GLOW } from '../../utils/transitions';
 import { useRun } from '../../contexts/RunContext';
 import { getAvailablePortals, type PortalOption } from '../../data/portal-config';
 import { DOMAIN_PLANET_CONFIG } from '../../games/globe-meteor/config';
@@ -34,6 +35,18 @@ const planetPulse = keyframes`
 const mysteryPulse = keyframes`
   0%, 100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.4); }
   50% { box-shadow: 0 0 40px rgba(138, 43, 226, 0.7); }
+`;
+
+// Selected card glow pulse
+const selectedGlow = keyframes`
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+  50% { box-shadow: 0 0 35px rgba(255, 255, 255, 0.5); }
+`;
+
+// Button fade in
+const buttonFadeIn = keyframes`
+  0% { opacity: 0; transform: scale(0.9) translateY(8px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 `;
 
 // Map domain IDs to visually distinct flume sequences
@@ -131,18 +144,22 @@ function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, ind
         border: isSelected ? `2px solid ${tokens.colors.text.primary}` : `2px solid ${tokens.colors.border}`,
         borderRadius: '12px',
         opacity: 0,
-        animation: `${slideIn} 500ms ease-out forwards`,
+        animation: isSelected
+          ? `${slideIn} 500ms ease-out forwards, ${selectedGlow} 2s ease-in-out infinite`
+          : `${slideIn} 500ms ease-out forwards`,
         animationDelay: `${index * 200}ms`,
-        transition: 'all 200ms ease',
+        transition: `all ${DURATION.fast}ms ${EASING.organic}`,
         overflow: 'hidden',
         position: 'relative',
         cursor: 'pointer',
         // Fade non-selected when one is picked
         filter: hasSelection && !isSelected ? 'brightness(0.5)' : 'brightness(1)',
         transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+        // Balatro-style hover with lift
         '&:hover': {
-          transform: isSelected ? 'scale(1.05)' : 'scale(1.02)',
+          transform: isSelected ? 'scale(1.05)' : 'scale(1.03) translateY(-4px)',
           borderColor: tokens.colors.text.secondary,
+          boxShadow: isSelected ? undefined : GLOW.subtle(tokens.colors.text.secondary),
         },
       }}
     >
@@ -298,7 +315,7 @@ export default function PortalSelection() {
         Farther journeys yield greater rewards
       </Typography>
 
-      {/* Travel button - only shows when selected */}
+      {/* Travel button - fades in when selected */}
       <Box sx={{ height: 48, mb: 2, display: 'flex', alignItems: 'center' }}>
         {selectedPortal ? (
           <Button
@@ -312,8 +329,19 @@ export default function PortalSelection() {
               bgcolor: tokens.colors.text.primary,
               color: tokens.colors.background.default,
               borderRadius: '8px',
+              // Fade in animation
+              animation: `${buttonFadeIn} 300ms ${EASING.organic}`,
+              transition: `all ${DURATION.fast}ms ${EASING.organic}`,
+              boxShadow: `0 4px 16px rgba(255,255,255,0.2)`,
+              // Balatro-style hover/press
               '&:hover': {
                 bgcolor: tokens.colors.text.secondary,
+                transform: 'scale(1.03) translateY(-2px)',
+                boxShadow: GLOW.normal(tokens.colors.text.primary),
+              },
+              '&:active': {
+                transform: 'scale(0.97) translateY(2px)',
+                transition: 'all 50ms ease-out',
               },
             }}
           >
