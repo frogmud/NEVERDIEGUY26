@@ -69,8 +69,10 @@ import {
   addConversationTurn,
   type MultiNPCConversationState,
 } from '@ndg/ai-engine';
+import { refineGreeting } from '@ndg/ai-engine/stream';
 import { hasSavedRun, loadSavedRun } from '../data/player/storage';
 import { generateLoadout, getItemImage, LOADOUT_ITEMS, type StartingLoadout } from '../data/decrees';
+import { EASING, stagger } from '../utils/transitions';
 
 // ============================================
 // Animations
@@ -101,6 +103,18 @@ const popUp = keyframes`
   100% { transform: translateY(0) scale(1); opacity: 1; }
 `;
 
+// Balatro-style card entrance with slight rotation variance
+const cardDeal = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8) rotate(var(--card-rotation, 0deg));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+`;
+
 const streamSlideIn = keyframes`
   0% { transform: translateX(100%); }
   100% { transform: translateX(0); }
@@ -114,6 +128,28 @@ const uiFadeIn = keyframes`
 const blink = keyframes`
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+`;
+
+// Stream message slide-in with scale pop
+const messageSlideIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(20px) scale(0.95);
+  }
+  60% {
+    transform: translateX(0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+`;
+
+// Chunky button wiggle on hover
+const buttonWiggle = keyframes`
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-1deg); }
+  75% { transform: rotate(1deg); }
 `;
 
 // Boot sequence phases
@@ -285,6 +321,28 @@ const FALLBACK_AMBIENT = [
   'The universe can wait.',
   'Ready when you are.',
 ];
+
+/**
+ * Apply multi-pass refinement to make greetings unique.
+ * Uses local transformations with caching to avoid repetition.
+ */
+function refineMessage(npcId: string, message: string): string {
+  // Skip refinement for very short messages or fallbacks
+  if (!message || message.length < 10 || message === '...') {
+    return message;
+  }
+
+  try {
+    const result = refineGreeting(npcId, message, {
+      passes: 5,
+      temperature: 0.7,
+    });
+    return result.refined;
+  } catch {
+    // Fallback to original on error
+    return message;
+  }
+}
 
 /**
  * Render message text with @mentions AND bare NPC names highlighted.
@@ -512,7 +570,8 @@ export function HomeDashboard() {
 
   // Stream messages - newest first (prepend new messages)
   const [messages, setMessages] = useState<StreamMessage[]>(() => {
-    const initialMsg = createNPCMessage(greeter, getRandomGreeting(greeter));
+    const rawGreeting = getRandomGreeting(greeter);
+    const initialMsg = createNPCMessage(greeter, refineMessage(greeter.id, rawGreeting));
     return initialMsg ? [initialMsg] : [];
   });
 
@@ -537,7 +596,7 @@ export function HomeDashboard() {
   const [streamEnabled, setStreamEnabled] = useState(true);
 
   // Stream minimized state (starts minimized, expands after boot)
-  const [streamMinimized, setStreamMinimized] = useState(true);
+  const [streamMinimized, setStreamMinimized] = useState(false); // Default open
 
   // Unread message count (accumulates when minimized)
   const [unreadCount, setUnreadCount] = useState(0);
@@ -671,11 +730,13 @@ export function HomeDashboard() {
 
     const lines = generateAsciiBoot();
 
-    // Reveal rows one by one
+    // Reveal rows one by one with variable speed
     if (asciiRowsVisible < lines.length) {
+      // Faster for skull (first 16 lines), slower for text (last 5 lines)
+      const delay = asciiRowsVisible < 16 ? 120 : 200;
       const timer = setTimeout(() => {
         setAsciiRowsVisible(prev => prev + 1);
-      }, 200); // 200ms per row
+      }, delay);
       return () => clearTimeout(timer);
     }
   }, [bootPhase, asciiRowsVisible]);
@@ -704,12 +765,14 @@ export function HomeDashboard() {
 
       // Get a message from their ambient pool
       const speakerAmbient = speaker.ambient || FALLBACK_AMBIENT;
-      const msgText = speakerAmbient[Math.floor(Math.random() * speakerAmbient.length)];
+      const rawMsgText = speakerAmbient[Math.floor(Math.random() * speakerAmbient.length)];
 
       // Skip if blank
-      if (!msgText?.trim()) continue;
+      if (!rawMsgText?.trim()) continue;
 
-      const msg = createNPCMessage(speaker, msgText);
+      // Apply multi-pass refinement for uniqueness
+      const refinedText = refineMessage(speaker.id, rawMsgText);
+      const msg = createNPCMessage(speaker, refinedText);
       if (msg) {
         warmupMessages.push(msg);
       }
@@ -813,7 +876,9 @@ export function HomeDashboard() {
           const addMention = Math.random() < 0.5;
           nextMessage = addMention ? `@${target.name}, ${relLine.charAt(0).toLowerCase()}${relLine.slice(1)}` : relLine;
         } else {
-          nextMessage = nextSpeaker.ambient?.[ambientIndex % (nextSpeaker.ambient?.length || 1)] || FALLBACK_AMBIENT[ambientIndex % FALLBACK_AMBIENT.length];
+          // Fallback to ambient - will be refined later
+          const rawAmbient = nextSpeaker.ambient?.[ambientIndex % (nextSpeaker.ambient?.length || 1)] || FALLBACK_AMBIENT[ambientIndex % FALLBACK_AMBIENT.length];
+          nextMessage = rawAmbient;
         }
       } else {
         // Regular ambient
@@ -826,9 +891,12 @@ export function HomeDashboard() {
         nextMessage = FALLBACK_AMBIENT[Math.floor(Math.random() * FALLBACK_AMBIENT.length)];
       }
 
+      // Apply multi-pass refinement for uniqueness
+      const refinedMessage = refineMessage(nextSpeaker.id, nextMessage);
+
       // Start typing
       setCurrentSpeaker(nextSpeaker);
-      setFullTypingText(nextMessage);
+      setFullTypingText(refinedMessage);
       setTypingText('');
       setIsTyping(true);
     }, 3000 + Math.min(ambientIndex, 5) * 500);
@@ -1310,6 +1378,9 @@ export function HomeDashboard() {
               const isRare = rarity >= 3;
               const isUncommon = rarity >= 2;
 
+              // Slight rotation variance for "dealt" feel (-1 to +1 deg)
+              const cardRotation = (Math.random() * 2 - 1);
+
               return (
                 <Box
                   key={`${itemSlug}-${i}`}
@@ -1323,7 +1394,13 @@ export function HomeDashboard() {
                     bgcolor: tokens.colors.background.paper,
                     p: 2,
                     gap: 2,
-                    animation: `${popUp} 500ms ease-out ${400 + i * 150}ms both`,
+                    '--card-rotation': `${cardRotation}deg`,
+                    animation: `${cardDeal} 600ms ${EASING.organic} ${400 + i * 100}ms both`,
+                    transition: 'transform 150ms ease, box-shadow 150ms ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px) scale(1.02)',
+                      boxShadow: `0 8px 16px rgba(0,0,0,0.3)`,
+                    },
                   }}
                 >
                   {/* Item Sprite */}
@@ -1384,11 +1461,21 @@ export function HomeDashboard() {
               py: 3,
               borderRadius: '12px',
               bgcolor: tokens.colors.primary,
-              border: `2px solid ${tokens.colors.primary}`,
+              border: `3px solid ${tokens.colors.primary}`,
               cursor: 'pointer',
-              transition: 'all 150ms ease',
-              animation: `${uiFadeIn} 500ms ease-out 1.2s both`,
-              '&:hover': { filter: 'brightness(1.1)', transform: 'scale(1.02)' },
+              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
+              animation: `${uiFadeIn} 500ms ${EASING.organic} 1.2s both`,
+              boxShadow: `0 4px 12px rgba(233, 4, 65, 0.3)`,
+              '&:hover': {
+                filter: 'brightness(1.15)',
+                transform: 'scale(1.05) translateY(-2px)',
+                boxShadow: `0 8px 20px rgba(233, 4, 65, 0.5)`,
+                animation: `${buttonWiggle} 300ms ease-in-out`,
+              },
+              '&:active': {
+                transform: 'scale(0.98)',
+                boxShadow: `0 2px 8px rgba(233, 4, 65, 0.4)`,
+              },
             }}
           >
             <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', color: tokens.colors.text.primary }}>
@@ -1552,7 +1639,7 @@ export function HomeDashboard() {
                 alignItems: 'center',
                 gap: 0.75,
               }}>
-              {participants.slice(0, 6).map((npc) => (
+              {participants.slice(0, 6).map((npc, idx) => (
                 <Box
                   key={npc.id}
                   component="a"
@@ -1568,9 +1655,14 @@ export function HomeDashboard() {
                     bgcolor: tokens.colors.background.paper,
                     border: `2px solid ${typingNpcs.includes(npc.id) ? tokens.colors.success : tokens.colors.border}`,
                     cursor: 'pointer',
-                    transition: 'all 150ms ease',
+                    transition: `all 150ms ${EASING.organic}`,
                     textDecoration: 'none',
-                    '&:hover': { borderColor: tokens.colors.primary, transform: 'scale(1.1)' },
+                    animation: bootPhase === 'active' ? `${fadeIn} 300ms ease-out ${idx * 60}ms both` : 'none',
+                    '&:hover': {
+                      borderColor: tokens.colors.primary,
+                      transform: 'scale(1.15) rotate(5deg)',
+                      zIndex: 10,
+                    },
                   }}
                   title={npc.name}
                 >
@@ -1651,7 +1743,7 @@ export function HomeDashboard() {
                 }}>
                   Quick Questions
                 </Typography>
-                {QUICK_PROMPTS.map((prompt) => (
+                {QUICK_PROMPTS.map((prompt, idx) => (
                   <Box
                     key={prompt.id}
                     onClick={() => handleQuickPrompt(prompt)}
@@ -1662,11 +1754,16 @@ export function HomeDashboard() {
                       bgcolor: tokens.colors.background.paper,
                       border: `1px solid ${tokens.colors.border}`,
                       cursor: 'pointer',
-                      transition: 'all 150ms ease',
+                      transition: `all 150ms ${EASING.organic}`,
+                      animation: `${fadeIn} 300ms ease-out ${800 + idx * 80}ms both`,
                       '&:hover': {
                         bgcolor: tokens.colors.background.elevated,
                         borderColor: tokens.colors.primary,
-                        transform: 'translateY(-1px)',
+                        transform: 'translateY(-2px) scale(1.05)',
+                        boxShadow: `0 4px 8px rgba(0,0,0,0.2)`,
+                      },
+                      '&:active': {
+                        transform: 'scale(0.95)',
                       },
                     }}
                   >
@@ -1724,8 +1821,8 @@ export function HomeDashboard() {
                           lineHeight: 1.15,
                           whiteSpace: 'pre',
                           opacity: i < asciiRowsVisible ? 1 : 0,
-                          transform: i < asciiRowsVisible ? 'translateY(0)' : 'translateY(-8px)',
-                          transition: 'all 200ms ease-out',
+                          transform: i < asciiRowsVisible ? 'translateY(0) scale(1)' : 'translateY(-12px) scale(0.9)',
+                          transition: `all 250ms ${EASING.organic}`,
                         }}
                       >
                         {line || '\u00A0'}
@@ -1855,8 +1952,9 @@ export function HomeDashboard() {
                   px: 2,
                   py: msg.type === 'quip' || msg.type === 'system' ? 0.5 : 1.5,
                   borderBottom: msg.type === 'quip' || msg.type === 'system' ? 'none' : `1px solid ${tokens.colors.border}`,
-                  animation: i === 0 ? `${fadeIn} 200ms ease-out` : 'none',
+                  animation: i === 0 ? `${messageSlideIn} 400ms ${EASING.organic}` : 'none',
                   bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.05)' : msg.type === 'answer' ? 'rgba(255,200,0,0.03)' : 'transparent',
+                  transition: 'background-color 150ms ease',
                   '&:hover': { bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.08)' : msg.type === 'system' ? 'transparent' : tokens.colors.background.paper },
                 }}
               >

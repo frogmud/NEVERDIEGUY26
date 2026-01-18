@@ -97,3 +97,50 @@ export const HOVER = {
     transition: TRANSITIONS.fast,
   },
 } as const;
+
+// Balatro-style organic easing
+export const EASING = {
+  organic: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+  bouncy: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+  smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',
+} as const;
+
+// Stagger helper for sequential animations
+export const stagger = (index: number, baseDelay = 50) => ({
+  animationDelay: `${index * baseDelay}ms`,
+});
+
+// Pop constants for scale interactions
+export const POP = {
+  // Scale multipliers for different pop intensities
+  subtle: 1.02,
+  normal: 1.05,
+  strong: 1.1,
+  dramatic: 1.2,
+  // Duration for pop animations
+  duration: {
+    quick: 150,
+    normal: 250,
+    slow: 400,
+  },
+} as const;
+
+// Wiggle keyframes for subtle oscillation
+// Use with MUI's keyframes function: keyframes`${WIGGLE.subtle}`
+export const WIGGLE = {
+  subtle: `
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  `,
+  normal: `
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-4deg); }
+    75% { transform: rotate(4deg); }
+  `,
+  strong: `
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  `,
+} as const;
