@@ -27,6 +27,8 @@ import {
   StorefrontSharp as ServicesIcon,
   AutoAwesomeSharp as FavorIcon,
   WarningAmberSharp as CorruptionIcon,
+  GroupsSharp as FactionIcon,
+  FavoriteSharp as AllyIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 import { PageHeader, TextBlock } from '../../../components/Placeholder';
@@ -39,7 +41,7 @@ import { DataBadge } from '../../../components/DataBadge';
 import { CardHeader, AssetImage } from '../../../components/ds';
 import { getRarityColor, slugToName } from '../../../data/wiki/helpers';
 import type { AnyEntity, Enemy, Traveler, Wanderer, Pantheon, Faction, WikiCategory, Item, Domain, Shop } from '../../../data/wiki/types';
-import { getEntity } from '../../../data/wiki';
+import { getEntity, getRelated } from '../../../data/wiki';
 
 interface WikiCharacterProps {
   entity?: AnyEntity;
@@ -277,6 +279,18 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const hasLoadout = startingLoadout.length > 0;
   const hasServices = services.length > 0;
   const hasFavorEffects = favorEffects.length > 0;
+
+  // Get relationship data for affiliations
+  const factionMemberships = entity ? getRelated(entity.slug, 'memberOf') as Faction[] : [];
+  const controlledDomain = isPantheon && pantheonData?.domain ? getEntity(pantheonData.domain) as Domain | undefined : undefined;
+  const wandererDomains = isWanderer && wandererData?.locations ? wandererData.locations.map(loc => getEntity(loc)).filter((d): d is Domain => d !== undefined) : [];
+
+  // Get allies/rivals from seeAlso and faction data
+  const relatedCharacters = entity?.seeAlso
+    ?.map(slug => getEntity(slug))
+    .filter((e): e is AnyEntity => e !== undefined && ['travelers', 'wanderers', 'pantheon'].includes(e.category)) || [];
+
+  const hasAffiliations = factionMemberships.length > 0 || controlledDomain || wandererDomains.length > 0 || relatedCharacters.length > 0;
 
   // Infobox content (right sidebar)
   const infoboxContent = (
@@ -517,6 +531,105 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           )}
         </Box>
       </Paper>
+
+      {/* Affiliations - Show relationships at a glance */}
+      {!isEnemy && hasAffiliations && (
+        <Paper
+          sx={{
+            mt: 2,
+            backgroundColor: tokens.colors.background.paper,
+            border: `1px solid ${tokens.colors.border}`,
+            borderRadius: '30px',
+            overflow: 'hidden',
+          }}
+        >
+          <CardHeader title="Affiliations" />
+          <Box sx={{ p: 2 }}>
+            {/* Faction Membership */}
+            {factionMemberships.length > 0 && (
+              <Box sx={{ mb: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <FactionIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                    Faction
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {factionMemberships.map((faction) => (
+                    <WikiLink key={faction.slug} slug={faction.slug} variant="chip" category="factions" />
+                  ))}
+                </Box>
+              </Box>
+            )}
+
+            {/* Domain Control (Pantheon only) */}
+            {controlledDomain && (
+              <Box sx={{ mb: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <LocationIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                    Controls
+                  </Typography>
+                </Box>
+                <WikiLink slug={controlledDomain.slug} variant="chip" category="domains" />
+              </Box>
+            )}
+
+            {/* Wanderer Locations */}
+            {wandererDomains.length > 0 && (
+              <Box sx={{ mb: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <LocationIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                    Appears In
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {wandererDomains.map((domain) => (
+                    <WikiLink key={domain.slug} slug={domain.slug} variant="chip" category="domains" />
+                  ))}
+                </Box>
+              </Box>
+            )}
+
+            {/* Related Characters */}
+            {relatedCharacters.length > 0 && (
+              <Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <AllyIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
+                    Related
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {relatedCharacters.slice(0, 6).map((char) => (
+                    <Tooltip key={char.slug} title={char.name} placement="top" arrow>
+                      <Box
+                        onClick={() => navigate(`/wiki/${char.category}/${char.slug}`)}
+                        sx={{
+                          cursor: 'pointer',
+                          transition: 'transform 150ms ease',
+                          '&:hover': { transform: 'scale(1.1)' },
+                        }}
+                      >
+                        <AssetImage
+                          src={char.portrait || char.image || ''}
+                          alt={char.name}
+                          category={char.category as 'travelers' | 'wanderers' | 'pantheon'}
+                          width={32}
+                          height={32}
+                          fallback="placeholder"
+                          sx={{ borderRadius: '50%', border: `2px solid ${tokens.colors.border}` }}
+                        />
+                      </Box>
+                    </Tooltip>
+                  ))}
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </Paper>
+      )}
 
     </Box>
   );

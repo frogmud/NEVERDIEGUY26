@@ -1,5 +1,5 @@
 // Relationship types and reverse lookup resolver
-import type { WikiEntity, WikiCategory } from './types';
+import type { WikiEntity, WikiCategory, Faction, Pantheon, Wanderer } from './types';
 
 // Relationship types
 export type RelationType =
@@ -11,6 +11,10 @@ export type RelationType =
   | 'sells'        // Shop sells Item
   | 'controls'     // Pantheon controls Domain
   | 'controlledBy' // Domain controlled by Pantheon
+  | 'memberOf'     // Character is member of Faction
+  | 'hasMembers'   // Faction has Character members
+  | 'appearsIn'    // Wanderer appears in Domain
+  | 'hasWanderers' // Domain has Wanderers
   | 'seeAlso';     // Generic related entities
 
 // Build reverse lookups from entity data
@@ -107,7 +111,7 @@ export function buildRelationshipGraph(entities: WikiEntity[]): Map<string, Map<
 
     // Process pantheon for controls relationships
     if (entity.category === 'pantheon' && 'domain' in entity) {
-      const dieRector = entity as { slug: string; domain?: string };
+      const dieRector = entity as Pantheon;
       if (dieRector.domain) {
         const pantheonRelations = graph.get(dieRector.slug)!;
         pantheonRelations.set('controls', [dieRector.domain]);
@@ -118,6 +122,50 @@ export function buildRelationshipGraph(entities: WikiEntity[]): Map<string, Map<
         }
         const domainRelations = graph.get(dieRector.domain)!;
         domainRelations.set('controlledBy', [dieRector.slug]);
+      }
+    }
+
+    // Process factions for membership relationships
+    if (entity.category === 'factions' && 'members' in entity) {
+      const faction = entity as Faction;
+      if (faction.members && faction.members.length > 0) {
+        const factionRelations = graph.get(faction.slug)!;
+        factionRelations.set('hasMembers', [...faction.members]);
+
+        // Build reverse: character -> memberOf -> faction
+        for (const memberSlug of faction.members) {
+          if (!graph.has(memberSlug)) {
+            graph.set(memberSlug, new Map());
+          }
+          const memberRelations = graph.get(memberSlug)!;
+          const memberOf = memberRelations.get('memberOf') || [];
+          if (!memberOf.includes(faction.slug)) {
+            memberOf.push(faction.slug);
+          }
+          memberRelations.set('memberOf', memberOf);
+        }
+      }
+    }
+
+    // Process wanderers for location relationships
+    if (entity.category === 'wanderers' && 'locations' in entity) {
+      const wanderer = entity as Wanderer;
+      if (wanderer.locations && wanderer.locations.length > 0) {
+        const wandererRelations = graph.get(wanderer.slug)!;
+        wandererRelations.set('appearsIn', [...wanderer.locations]);
+
+        // Build reverse: domain -> hasWanderers -> wanderer
+        for (const locationSlug of wanderer.locations) {
+          if (!graph.has(locationSlug)) {
+            graph.set(locationSlug, new Map());
+          }
+          const locationRelations = graph.get(locationSlug)!;
+          const hasWanderers = locationRelations.get('hasWanderers') || [];
+          if (!hasWanderers.includes(wanderer.slug)) {
+            hasWanderers.push(wanderer.slug);
+          }
+          locationRelations.set('hasWanderers', hasWanderers);
+        }
       }
     }
   }
