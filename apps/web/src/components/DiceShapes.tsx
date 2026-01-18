@@ -11,27 +11,21 @@ interface DiceShapeProps {
   fontScale?: number;
 }
 
-// SVG path data for each dice shape
-const DICE_PATHS: Record<number, string> = {
-  // Triangle (d4)
-  4: 'M50 5 L95 90 L5 90 Z',
-  // Square (d6)
-  6: 'M10 10 L90 10 L90 90 L10 90 Z',
-  // Hexagon rotated (d8)
-  8: 'M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z',
-  // Pentagon/diamond (d10)
-  10: 'M50 5 L95 40 L80 95 L20 95 L5 40 Z',
-  // Dodecagon-ish (d12)
-  12: 'M50 5 L80 15 L95 40 L95 65 L80 90 L50 95 L20 90 L5 65 L5 40 L20 15 Z',
-  // Octagon (d20)
-  20: 'M30 5 L70 5 L95 30 L95 70 L70 95 L30 95 L5 70 L5 30 Z',
+// SVG polygon points for each dice shape (matches in-game CombatTerminal)
+const DICE_POINTS: Record<number, string> = {
+  4:  '50,15 85,80 15,80',                                    // Triangle (d4)
+  6:  '50,10 90,50 50,90 10,50',                              // Diamond (d6)
+  8:  '50,10 87,30 87,70 50,90 13,70 13,30',                  // Hexagon (d8)
+  10: '50,10 95,40 80,90 20,90 5,40',                         // Pentagon (d10)
+  12: '50,5 75,15 90,35 90,65 75,85 50,95 25,85 10,65 10,35 25,15', // Decagon (d12)
+  20: '50,8 82,18 92,50 82,82 50,92 18,82 8,50 18,18',        // Octagon (d20)
 };
 
 export function DiceShape({ sides, size = 48, color, value, onClick, disabled, fontFamily, fontScale = 0.4 }: DiceShapeProps) {
-  const path = DICE_PATHS[sides];
+  const points = DICE_POINTS[sides];
 
   // Adjust text position for triangle (d4) - needs to be lower
-  const textY = sides === 4 ? '62%' : '54%';
+  const textY = sides === 4 ? '58%' : '54%';
   const fontSize = size * fontScale;
 
   return (
@@ -64,8 +58,8 @@ export function DiceShape({ sides, size = 48, color, value, onClick, disabled, f
         height={size}
         style={{ display: 'block', maxWidth: size, maxHeight: size }}
       >
-        <path
-          d={path}
+        <polygon
+          points={points}
           fill={color}
           style={{
             filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
@@ -131,14 +125,14 @@ export function DiceMini({ sides, color, selected, count, onClick }: DiceMiniPro
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '2px solid #1a1a1a',
+            border: '2px solid currentColor',
           }}
         >
           <Typography
             sx={{
               fontSize: '0.65rem',
               fontWeight: 700,
-              color: '#fff',
+              color: 'inherit',
               lineHeight: 1,
             }}
           >

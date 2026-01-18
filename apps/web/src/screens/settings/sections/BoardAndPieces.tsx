@@ -12,7 +12,7 @@ import { tokens } from '../../../theme';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { CardSection } from '../../../components/CardSection';
 import { DiceShape } from '../../../components/DiceShapes';
-import { getDiceColor } from '../../../data/dice';
+import { DICE_EFFECTS } from '../../../games/globe-meteor/config';
 import { loadBoardSettings, saveBoardSettings, type BoardSettingsData } from '../../../data/player/storage';
 
 // ============================================
@@ -26,14 +26,21 @@ const themes: { id: ThemeId; name: string }[] = [
   { id: 'monochrome', name: 'Monochrome' },
 ];
 
+// Monochrome uses grayscale progression
 const monochromeColors: Record<number, string> = {
-  4: '#666666',
-  6: '#777777',
-  8: '#888888',
-  10: '#999999',
-  12: '#aaaaaa',
-  20: '#bbbbbb',
+  4: 'rgba(255,255,255,0.4)',
+  6: 'rgba(255,255,255,0.47)',
+  8: 'rgba(255,255,255,0.54)',
+  10: 'rgba(255,255,255,0.60)',
+  12: 'rgba(255,255,255,0.67)',
+  20: 'rgba(255,255,255,0.73)',
 };
+
+// ============================================
+// Dice types in order
+// ============================================
+
+const DICE_TYPES: (4 | 6 | 8 | 10 | 12 | 20)[] = [4, 6, 8, 10, 12, 20];
 
 // ============================================
 // Keyboard controls
@@ -41,7 +48,7 @@ const monochromeColors: Record<number, string> = {
 
 const keyboardControls = [
   { key: 'SPACE', action: 'Throw dice' },
-  { key: '1-5', action: 'Toggle hold on die' },
+  { key: '1-6', action: 'Toggle hold on die (see above)' },
   { key: 'H', action: 'Hold all / Release all' },
   { key: 'T', action: 'Trade dice for multiplier' },
 ];
@@ -64,9 +71,10 @@ export function BoardAndPiecesSection() {
     setSettings(prev => ({ ...prev, theme: newTheme }));
   };
 
-  // Get color based on theme
+  // Get color based on theme - uses actual in-game colors from DICE_EFFECTS
   const getColor = (sides: number) => {
-    return theme === 'classic' ? getDiceColor(sides) : monochromeColors[sides];
+    if (theme === 'monochrome') return monochromeColors[sides];
+    return DICE_EFFECTS[sides]?.color || tokens.colors.text.secondary;
   };
 
   return (
@@ -79,29 +87,39 @@ export function BoardAndPiecesSection() {
 
       {/* Dice Preview */}
       <CardSection sx={{ mb: 3 }}>
-        <Typography variant="body1" sx={{ fontWeight: 600, mb: 3 }}>
-          Dice Preview
+        <Typography variant="body1" sx={{ fontWeight: 600, mb: 2 }}>
+          Your Dice
+        </Typography>
+        <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 3 }}>
+          Hover to preview. Press 1-6 during combat to toggle hold.
         </Typography>
 
-        {/* Single d20 centered */}
+        {/* All 6 dice in a row */}
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            py: 4,
+            alignItems: 'flex-end',
+            gap: { xs: 1.5, sm: 2.5 },
+            py: 3,
             px: 2,
             borderRadius: '16px',
             backgroundColor: tokens.colors.background.elevated,
+            flexWrap: 'wrap',
           }}
         >
-          <DiceShape
-            sides={20}
-            size={80}
-            color={getColor(20)}
-            value={20}
-            fontFamily={tokens.fonts.gaming}
-            fontScale={0.5}
-          />
+          {DICE_TYPES.map((sides) => (
+            <DiceShape
+              key={sides}
+              sides={sides}
+              size={56}
+              color={getColor(sides)}
+              value={`d${sides}`}
+              onClick={() => {}} // Enable hover effects
+              fontFamily={tokens.fonts.gaming}
+              fontScale={0.35}
+            />
+          ))}
         </Box>
 
         {/* Theme Selector */}
