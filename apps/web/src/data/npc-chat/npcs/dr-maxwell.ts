@@ -1,10 +1,14 @@
 /**
- * Dr. Maxwell - Pyromaniac Librarian
+ * Dr. Maxwell - Manic Scientist (Wanderer)
  *
- * Personality: Knowledge-obsessed, fire-themed, speaks in burning metaphors.
- * Role: Wanderer who sells combustible books and fire equipment.
+ * Personality: EVERYTHING IS DATA. Enthusiasm overload. Fire + knowledge = chaos.
+ * Role: Pyromaniac librarian who sells combustible books and experiments on reality.
  * Origin: Infernus
- * Relationship: Respects readers, dislikes the slow and unlearned
+ * Relationship: Respects data points (you), gets excited about variance
+ *
+ * Voice: Caps for EMPHASIS. Interrupts self with discoveries. Uses scientific jargon.
+ * Obsessed with data, variance, experiments, specimens, probability. FASCINATED by everything.
+ * Speaks in fragments when excited. Which is always.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -292,6 +296,129 @@ export const DR_MAXWELL_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'Adequate performance. Your enemies are now educational material. Literally, in my case.',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- MANIC SCIENTIST VOICE ----
+  {
+    id: 'maxwell-manic-greet-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'EXCELLENT! A new data point! *scribbles* Your arrival was-- wait, let me calculate-- FASCINATING! The variance is unprecedented!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'maxwell-manic-greet-2',
+    entitySlug: 'dr-maxwell',
+    pool: 'greeting',
+    mood: 'generous',
+    text: 'YOU! Yes, YOU! I have been WAITING! Not for you specifically-- for ANY specimen-- but you arrived FIRST! REMARKABLE!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'maxwell-manic-lore-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Fire is just DATA moving very fast! Knowledge is DATA at rest! I am-- *gestures wildly* --the TRANSITION STATE! The phase change! OBSERVE!',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'maxwell-manic-lore-2',
+    entitySlug: 'dr-maxwell',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'A HYPOTHESIS: every die roll is a collapsed probability wave! The Die-rectors think they control outcomes but they are merely-- *scribbles frantically* --OBSERVING! Like me! But with less RIGOR!',
+    weight: 18,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'maxwell-manic-hint-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'I ran the NUMBERS! The path ahead has a 73.2% lethality rate! OR! Or or or-- 26.8% SURVIVAL! Glass half full! STATISTICALLY!',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 1 } },
+  },
+  {
+    id: 'maxwell-manic-hint-2',
+    entitySlug: 'dr-maxwell',
+    pool: 'hint',
+    mood: 'generous',
+    text: 'CRITICAL DATA! Three rooms ahead-- anomalous readings! Either a secret library OR a catastrophic fire! Both are EDUCATIONAL! *excited scribbling*',
+    weight: 20,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'secret', roomsAhead: 3 } },
+  },
+  {
+    id: 'maxwell-manic-react-roll-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'That roll! THE VARIANCE! *pulls out notebook* Expected value was-- no wait-- this changes EVERYTHING! Or nothing! Need more DATA!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'maxwell-manic-react-death-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'DEATH! *scribbles* Another data point! Your resurrection rate is-- *calculates* --statistically IMPROBABLE! And yet! AND YET!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'maxwell-manic-sales-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'salesPitch',
+    mood: 'pleased',
+    text: 'EQUIPMENT! Each piece TESTED! On subjects! MANY subjects! The survival rate was-- *checks notes* --non-zero! GOOD ENOUGH!',
+    weight: 16,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'browse', label: 'Show me the data' },
+      { verb: 'decline', label: 'That survival rate concerns me' },
+    ],
+    action: { type: 'openShop', payload: { shopType: 'experiments' } },
+  },
+  {
+    id: 'maxwell-manic-challenge-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'challenge',
+    mood: 'pleased',
+    text: 'AN EXPERIMENT! You are the variable! The fire is the constant! The outcome is-- *eyes widen* --DATA! Will you participate? FOR SCIENCE?',
+    weight: 16,
+    purpose: 'challenge',
+    quickReplies: [
+      { verb: 'accept', label: 'FOR SCIENCE!' },
+      { verb: 'decline', label: 'I prefer being unburned' },
+    ],
+    action: { type: 'startChallenge', payload: { challengeType: 'fire_experiment' } },
+  },
+  {
+    id: 'maxwell-manic-idle-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'idle',
+    mood: 'any',
+    text: '*muttering* ...if the exponent is SEVEN then the flame pattern should-- wait no-- EIGHT! It was EIGHT! *scribbles furiously*',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'maxwell-manic-farewell-1',
+    entitySlug: 'dr-maxwell',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'GO! Collect DATA! Return with FINDINGS! Or! Or do not return! THAT IS ALSO DATA! *waves notebook excitedly*',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

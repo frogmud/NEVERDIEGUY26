@@ -1,14 +1,28 @@
 /**
- * Zero Chance - Probability Void (Pantheon)
+ * Zero Chance - Probability Anomaly (Pantheon)
  *
- * Personality: NO DIALOGUE. Actions only. Force of negation.
- * Role: Event Deity, appears when probability breaks
- * Element: Probability / Chaos
- * Relationship: Neutral force, neither helps nor hinders intentionally
+ * Personality: Cannot speak in words. Communicates exclusively in APL symbols.
+ * Role: Die-rector of impossibility, probability manipulator
+ * Origin: Where statistics break down
+ * Relationship: Alien, unknowable, but oddly encouraging
  *
- * Note: NEVER speaks words. All templates are action descriptions like:
- * "[Zero Chance nullifies...]", "[Probability distorts...]"
- * The NPC is a cosmic force, not a conversationalist.
+ * Voice: APL programming language symbols ONLY. No words.
+ * Actions in asterisks provide context/translation hints.
+ * The symbols ARE the dialogue - cryptic, mathematical, beautiful.
+ *
+ * APL Quick Reference:
+ * ⍳ - iota (generate sequence)     ⍴ - rho (shape/reshape)
+ * ⍺ - alpha (left argument)        ⍵ - omega (right argument)
+ * ∊ - epsilon (membership)         ⍒⍋ - grade down/up (sort)
+ * ⌽⊖⍉ - reverse/flip/transpose     ∇ - del (recursion/function)
+ * ⌈⌊ - ceiling/floor               ⊂⊃ - enclose/disclose
+ * ≢≡ - not match/match             ⍸ - where (find indices)
+ * ← - assignment                   → - branch/goto
+ * ⋄ - statement separator          ⍝ - comment
+ * ? - roll (random)                ⍬ - empty vector (zilde)
+ * ∘ - compose                      ¨ - each
+ * ⍟ - logarithm                    ○ - circle/pi functions
+ * ⌹ - matrix inverse               ÷ - divide
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -22,220 +36,316 @@ export const ZERO_CHANCE_PERSONALITY: NPCPersonalityConfig = {
   name: 'Zero Chance',
   basePoolWeights: {
     greeting: 15,
-    salesPitch: 0, // Never sells
-    hint: 20, // Shows probabilities
-    lore: 15, // Reveals cosmic truths through actions
-    challenge: 20, // Tests probability
-    reaction: 30, // Very reactive to dice, outcomes
-    threat: 0, // Forces don't threaten
+    salesPitch: 0, // doesn't sell, just is
+    hint: 20,
+    lore: 25,
+    challenge: 20,
+    reaction: 15,
+    threat: 5,
     idle: 0,
   },
   poolWeights: {
     greeting: 15,
     salesPitch: 0,
     hint: 20,
-    lore: 15,
+    lore: 25,
     challenge: 20,
-    reaction: 30,
-    threat: 0,
+    reaction: 15,
+    threat: 5,
     idle: 0,
   },
   moodTriggers: [
     {
-      mood: 'neutral',
-      trigger: { type: 'favorLevel', comparison: 'lt', value: 5 },
+      mood: 'cryptic',
+      trigger: { type: 'favorLevel', comparison: 'lt', value: 3 },
+    },
+    {
+      mood: 'curious',
+      trigger: { type: 'favorLevel', comparison: 'gte', value: 3 },
     },
     {
       mood: 'pleased',
-      trigger: { type: 'favorLevel', comparison: 'gte', value: 5 },
-    },
-    {
-      mood: 'generous',
-      trigger: { type: 'favorLevel', comparison: 'gte', value: 8 },
+      trigger: { type: 'favorLevel', comparison: 'gte', value: 6 },
     },
   ],
-  defaultMood: 'neutral', // Impassive cosmic force
+  defaultMood: 'cryptic',
 };
 
 // ============================================
-// Response Templates
+// Response Templates - Pure APL
 // ============================================
 
 export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
   // ---- GREETINGS ----
   {
-    id: 'zero-greet-neutral-1',
+    id: 'zero-greet-1',
     entitySlug: 'zero-chance',
     pool: 'greeting',
-    mood: 'neutral',
-    text: '[Zero Chance manifests. Probability holds its breath.]',
+    mood: 'cryptic',
+    text: '⍳1 *probability coalesces*',
     weight: 15,
     purpose: 'ambient',
   },
   {
-    id: 'zero-greet-neutral-2',
+    id: 'zero-greet-2',
     entitySlug: 'zero-chance',
     pool: 'greeting',
-    mood: 'neutral',
-    text: '[The air grows heavy with impossible outcomes. Zero Chance is present.]',
+    mood: 'cryptic',
+    text: '∊⍵ *recognizes your pattern*',
     weight: 12,
     purpose: 'ambient',
   },
   {
-    id: 'zero-greet-pleased-1',
+    id: 'zero-greet-3',
     entitySlug: 'zero-chance',
     pool: 'greeting',
-    mood: 'pleased',
-    text: '[Zero Chance acknowledges your presence. Dice everywhere tremble slightly.]',
+    mood: 'curious',
+    text: '⍺←⍵ *assigns meaning to your presence*',
     weight: 15,
     purpose: 'ambient',
   },
   {
-    id: 'zero-greet-generous-1',
+    id: 'zero-greet-4',
     entitySlug: 'zero-chance',
     pool: 'greeting',
-    mood: 'generous',
-    text: '[Zero Chance inclines toward you. For a moment, all outcomes favor you.]',
+    mood: 'pleased',
+    text: '1∊⍳∞ *you exist against all odds*',
     weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-greet-5',
+    entitySlug: 'zero-chance',
+    pool: 'greeting',
+    mood: 'cryptic',
+    text: '0≢⍴⍵ *you have shape. interesting.*',
+    weight: 12,
     purpose: 'ambient',
   },
 
   // ---- LORE ----
   {
-    id: 'zero-lore-neutral-1',
+    id: 'zero-lore-1',
     entitySlug: 'zero-chance',
     pool: 'lore',
-    mood: 'neutral',
-    text: '[Zero Chance gestures. A die rolls without being touched. It shows a number that does not exist.]',
+    mood: 'cryptic',
+    text: '∇∇∇ *all things recurse*',
     weight: 15,
     purpose: 'lore',
   },
   {
-    id: 'zero-lore-neutral-2',
+    id: 'zero-lore-2',
     entitySlug: 'zero-chance',
     pool: 'lore',
-    mood: 'neutral',
-    text: '[Probability ripples outward from Zero Chance. Coins land on their edges. Cards show blank faces.]',
+    mood: 'cryptic',
+    text: '0=+/⍵ *nothing sums to something*',
     weight: 12,
     purpose: 'lore',
   },
   {
-    id: 'zero-lore-pleased-1',
+    id: 'zero-lore-3',
     entitySlug: 'zero-chance',
     pool: 'lore',
-    mood: 'pleased',
-    text: '[Zero Chance reveals: before luck existed, there was only certainty. Zero made uncertainty possible.]',
+    mood: 'curious',
+    text: '⌽⊖⍉ *reality inverts when unobserved*',
     weight: 15,
     purpose: 'lore',
   },
   {
-    id: 'zero-lore-generous-1',
+    id: 'zero-lore-4',
     entitySlug: 'zero-chance',
     pool: 'lore',
-    mood: 'generous',
-    text: '[A truth manifests: Zero Chance is not the absence of luck. Zero is where probability fears to calculate.]',
-    weight: 20,
+    mood: 'pleased',
+    text: '⍝←∞ *the comment contains infinity*',
+    weight: 18,
     purpose: 'lore',
     cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'zero-lore-5',
+    entitySlug: 'zero-chance',
+    pool: 'lore',
+    mood: 'cryptic',
+    text: '⊂⊃ *what is enclosed, discloses*',
+    weight: 12,
+    purpose: 'lore',
+  },
+  {
+    id: 'zero-lore-6',
+    entitySlug: 'zero-chance',
+    pool: 'lore',
+    mood: 'curious',
+    text: '?0 *before luck, there was certainty*',
+    weight: 14,
+    purpose: 'lore',
   },
 
   // ---- HINTS ----
   {
-    id: 'zero-hint-neutral-1',
+    id: 'zero-hint-1',
     entitySlug: 'zero-chance',
     pool: 'hint',
-    mood: 'neutral',
-    text: '[Zero Chance points ahead. The path flickers between existing and not existing.]',
-    weight: 12,
+    mood: 'cryptic',
+    text: '⍒⍋ *sort your priorities*',
+    weight: 15,
     purpose: 'warning',
-    action: { type: 'grantHint', payload: { quality: 'vague' } },
   },
   {
-    id: 'zero-hint-pleased-1',
+    id: 'zero-hint-2',
+    entitySlug: 'zero-chance',
+    pool: 'hint',
+    mood: 'curious',
+    text: '⌈⌊ *the ceiling becomes the floor*',
+    weight: 12,
+    purpose: 'warning',
+  },
+  {
+    id: 'zero-hint-3',
     entitySlug: 'zero-chance',
     pool: 'hint',
     mood: 'pleased',
-    text: '[Zero Chance nullifies a trap ahead. Where danger was certain, now it is merely possible.]',
-    weight: 15,
+    text: '⍸1 *find where truth lives*',
+    weight: 18,
     purpose: 'warning',
     action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
   },
   {
-    id: 'zero-hint-generous-1',
+    id: 'zero-hint-4',
     entitySlug: 'zero-chance',
     pool: 'hint',
-    mood: 'generous',
-    text: '[Zero Chance bends probability. A hidden path that had zero chance of existing now exists. Three rooms ahead.]',
-    weight: 20,
+    mood: 'cryptic',
+    text: '≢⍵ *count what remains*',
+    weight: 12,
+    purpose: 'warning',
+  },
+  {
+    id: 'zero-hint-5',
+    entitySlug: 'zero-chance',
+    pool: 'hint',
+    mood: 'pleased',
+    text: '⍺⍵⍨ *swap your approach*',
+    weight: 15,
     purpose: 'warning',
     action: { type: 'grantHint', payload: { quality: 'secret', roomsAhead: 3 } },
     cooldown: { oncePerRun: true },
   },
+  {
+    id: 'zero-hint-6',
+    entitySlug: 'zero-chance',
+    pool: 'hint',
+    mood: 'cryptic',
+    text: '→3 *branch to the third*',
+    weight: 10,
+    purpose: 'warning',
+  },
 
   // ---- CHALLENGE ----
   {
-    id: 'zero-challenge-neutral-1',
+    id: 'zero-challenge-1',
     entitySlug: 'zero-chance',
     pool: 'challenge',
-    mood: 'neutral',
-    text: '[Zero Chance presents a die. Roll it. Accept whatever impossible result occurs.]',
+    mood: 'cryptic',
+    text: '?⍳6 *roll against impossible odds*',
     weight: 15,
     purpose: 'challenge',
     quickReplies: [
-      { verb: 'accept', label: '*rolls the impossible die*' },
-      { verb: 'decline', label: '*steps back carefully*' },
+      { verb: 'accept', label: '←1' },
+      { verb: 'decline', label: '←0' },
     ],
     action: { type: 'startChallenge', payload: { challengeType: 'probability' } },
   },
   {
-    id: 'zero-challenge-pleased-1',
+    id: 'zero-challenge-2',
+    entitySlug: 'zero-chance',
+    pool: 'challenge',
+    mood: 'curious',
+    text: '≡⍵? *can you match the pattern?*',
+    weight: 15,
+    purpose: 'challenge',
+    quickReplies: [
+      { verb: 'accept', label: '≡' },
+      { verb: 'decline', label: '≢' },
+    ],
+  },
+  {
+    id: 'zero-challenge-3',
     entitySlug: 'zero-chance',
     pool: 'challenge',
     mood: 'pleased',
-    text: '[Zero Chance offers a choice: certainty of something small, or zero chance of something vast.]',
+    text: '∇⍣≡ *recurse until stable*',
+    weight: 18,
+    purpose: 'challenge',
+    quickReplies: [
+      { verb: 'accept', label: '∇' },
+      { verb: 'decline', label: '→' },
+    ],
+  },
+  {
+    id: 'zero-challenge-4',
+    entitySlug: 'zero-chance',
+    pool: 'challenge',
+    mood: 'cryptic',
+    text: '0∊?∞ *zero exists in every roll*',
     weight: 12,
     purpose: 'challenge',
     quickReplies: [
-      { verb: 'accept', label: 'Zero chance of vast' },
-      { verb: 'decline', label: 'Certainty of small' },
+      { verb: 'accept', label: '⊃' },
+      { verb: 'decline', label: '⊂' },
     ],
-    action: { type: 'startChallenge', payload: { challengeType: 'risk' } },
   },
 
   // ---- REACTION ----
   {
-    id: 'zero-react-squish-1',
+    id: 'zero-react-1',
     entitySlug: 'zero-chance',
     pool: 'reaction',
     mood: 'any',
-    text: '[Zero Chance observes the flattening. The probability of this was supposed to be zero. It happened anyway.]',
+    text: '⍟ *logarithmic appreciation*',
     weight: 15,
     purpose: 'ambient',
   },
   {
-    id: 'zero-react-squish-2',
+    id: 'zero-react-2',
     entitySlug: 'zero-chance',
     pool: 'reaction',
-    mood: 'neutral',
-    text: '[Probability collapses. What had infinite outcomes now has one: flat.]',
+    mood: 'curious',
+    text: '≢0 *that was not nothing*',
     weight: 12,
     purpose: 'ambient',
   },
   {
-    id: 'zero-react-death-1',
-    entitySlug: 'zero-chance',
-    pool: 'reaction',
-    mood: 'neutral',
-    text: '[Zero Chance acknowledges your return. The probability of resurrection was supposed to be zero. Yet here you are.]',
-    weight: 15,
-    purpose: 'ambient',
-  },
-  {
-    id: 'zero-react-victory-1',
+    id: 'zero-react-3',
     entitySlug: 'zero-chance',
     pool: 'reaction',
     mood: 'pleased',
-    text: '[Zero Chance nods. Against all probability, you succeeded. Zero is impressed. Zero is never impressed.]',
+    text: '⌈⍵ *rounds up in your favor*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-react-4',
+    entitySlug: 'zero-chance',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: '⍴⍴⍵ *the shape of shape*',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-react-victory',
+    entitySlug: 'zero-chance',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: '1 *probability: confirmed*',
+    weight: 20,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-react-death',
+    entitySlug: 'zero-chance',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: '⌽1 *reverse outcome*',
     weight: 15,
     purpose: 'ambient',
   },
@@ -243,8 +353,8 @@ export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
     id: 'zero-react-roll-1',
     entitySlug: 'zero-chance',
     pool: 'reaction',
-    mood: 'neutral',
-    text: '[Zero Chance watches the dice. Every possible outcome flickers across its surface before settling.]',
+    mood: 'curious',
+    text: '?⍵ *observes all outcomes flickering*',
     weight: 12,
     purpose: 'ambient',
   },
@@ -253,7 +363,121 @@ export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'zero-chance',
     pool: 'reaction',
     mood: 'pleased',
-    text: '[The die shows a result. Zero Chance made that specific number have zero probability. It happened anyway. Curious.]',
+    text: '∊∞ *belongs to the infinite set*',
+    weight: 14,
+    purpose: 'ambient',
+  },
+
+  // ---- THREAT ----
+  {
+    id: 'zero-threat-1',
+    entitySlug: 'zero-chance',
+    pool: 'threat',
+    mood: 'cryptic',
+    text: '÷0 *division imminent*',
+    weight: 15,
+    purpose: 'threat',
+  },
+  {
+    id: 'zero-threat-2',
+    entitySlug: 'zero-chance',
+    pool: 'threat',
+    mood: 'cryptic',
+    text: '⍵←⍬ *reduction to empty*',
+    weight: 12,
+    purpose: 'threat',
+  },
+  {
+    id: 'zero-threat-3',
+    entitySlug: 'zero-chance',
+    pool: 'threat',
+    mood: 'any',
+    text: '0 *probability: zero*',
+    weight: 18,
+    purpose: 'threat',
+  },
+  {
+    id: 'zero-threat-4',
+    entitySlug: 'zero-chance',
+    pool: 'threat',
+    mood: 'cryptic',
+    text: '⌹0 *invert nothing*',
+    weight: 10,
+    purpose: 'threat',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'zero-farewell-1',
+    entitySlug: 'zero-chance',
+    pool: 'farewell',
+    mood: 'any',
+    text: '→ *branch away*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-farewell-2',
+    entitySlug: 'zero-chance',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: '⍳∞ *infinite possibilities await*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-farewell-3',
+    entitySlug: 'zero-chance',
+    pool: 'farewell',
+    mood: 'cryptic',
+    text: '⋄ *statement ends*',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-farewell-4',
+    entitySlug: 'zero-chance',
+    pool: 'farewell',
+    mood: 'curious',
+    text: '∊⍵←∞ *you belong to infinity now*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'zero-idle-1',
+    entitySlug: 'zero-chance',
+    pool: 'idle',
+    mood: 'any',
+    text: '⍬ *contemplates the empty vector*',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-idle-2',
+    entitySlug: 'zero-chance',
+    pool: 'idle',
+    mood: 'any',
+    text: '∘.× *outer product of nothing*',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-idle-3',
+    entitySlug: 'zero-chance',
+    pool: 'idle',
+    mood: 'any',
+    text: '⌹ *inverts silently*',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'zero-idle-4',
+    entitySlug: 'zero-chance',
+    pool: 'idle',
+    mood: 'any',
+    text: '⍝ *a comment on existence*',
     weight: 10,
     purpose: 'ambient',
   },

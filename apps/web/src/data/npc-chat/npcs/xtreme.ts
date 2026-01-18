@@ -1,10 +1,14 @@
 /**
- * X-treme - Skeletal Gambler (Wanderer)
+ * X-treme - Radical Energy (Wanderer)
  *
- * Personality: High-energy, gambling-obsessed, speaks in CAPS sometimes.
- * Role: Probability-based merchant, gambler
- * Origin: Earth
- * Relationship: Loves anyone willing to gamble
+ * Personality: EXTREME SPORTS ENTHUSIASM. Everything is SICK and GNARLY.
+ * Role: Probability-based merchant who treats every transaction like a half-pipe.
+ * Origin: Earth (90s energy that transcended death)
+ * Relationship: Loves anyone who sends it. Full send or no send.
+ *
+ * Voice: CAPS LOCK ENERGY. "SICK!" "GNARLY!" "RADICAL!" "FULL SEND!"
+ * Treats dice rolls like skateboard tricks. Every outcome is EXTREME.
+ * The gambling aspect is framed as extreme sports - it's all about THE RUSH.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -226,6 +230,117 @@ export const XTREME_TEMPLATES: ResponseTemplate[] = [
     mood: 'amused',
     text: 'WINNER WINNER! Not chicken dinner! We don\'t have chickens! We have GLORY! And bones! Mostly bones!',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- RADICAL ENERGY ----
+  {
+    id: 'xtreme-radical-greet-1',
+    entitySlug: 'xtreme',
+    pool: 'greeting',
+    mood: 'amused',
+    text: 'LETS GOOOOO! Ready for MAXIMUM DICE ACTION?! The half-pipe of PROBABILITY awaits!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'xtreme-radical-greet-2',
+    entitySlug: 'xtreme',
+    pool: 'greeting',
+    mood: 'generous',
+    text: 'YO YO YO! My favorite SHREDDER! You ready to DROP IN on some GNARLY deals?!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'xtreme-radical-lore-1',
+    entitySlug: 'xtreme',
+    pool: 'lore',
+    mood: 'amused',
+    text: 'I died doing a kickflip over a probability rift! WORTH IT! Now I shred DIMENSIONS! Still worth it!',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'xtreme-radical-lore-2',
+    entitySlug: 'xtreme',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'The secret to EXTREME living? No fear! Also no flesh! One of those is optional! GUESS WHICH!',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'xtreme-radical-react-roll-1',
+    entitySlug: 'xtreme',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'THAT ROLL WAS SICK! Did you see that air?! The dice got like THREE FEET of hangtime! GNARLY!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'xtreme-radical-react-roll-2',
+    entitySlug: 'xtreme',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'FULL SEND! That die went FULL SEND! No hesitation! That\'s the XTREME way, baby!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'xtreme-radical-react-death-1',
+    entitySlug: 'xtreme',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'WIPEOUT! But you got back UP! That\'s what SHREDDERS do! Fall down, GET UP, shred HARDER!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'xtreme-radical-sales-1',
+    entitySlug: 'xtreme',
+    pool: 'salesPitch',
+    mood: 'amused',
+    text: 'GEAR CHECK! I got dice that SHRED! Tokens that GRIND! Items that do a 900 MCTWIST into your INVENTORY!',
+    weight: 18,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'browse', label: 'SHOW ME THE GEAR' },
+      { verb: 'decline', label: 'Too radical for me' },
+    ],
+    action: { type: 'openShop', payload: { shopType: 'xtreme' } },
+  },
+  {
+    id: 'xtreme-radical-challenge-1',
+    entitySlug: 'xtreme',
+    pool: 'challenge',
+    mood: 'amused',
+    text: 'TRICK CHALLENGE! Land this roll with STYLE! Spin the dice! Do a FLIP! Make it RADICAL or go HOME!',
+    weight: 18,
+    purpose: 'challenge',
+    quickReplies: [
+      { verb: 'accept', label: 'LETS GOOOO' },
+      { verb: 'decline', label: 'I prefer safe' },
+    ],
+    action: { type: 'startChallenge', payload: { challengeType: 'trick_roll' } },
+  },
+  {
+    id: 'xtreme-radical-farewell-1',
+    entitySlug: 'xtreme',
+    pool: 'farewell',
+    mood: 'amused',
+    text: 'SHRED ON, friend! May your dice GRIND and your bones RATTLE! XTREME! *does kickflip into void*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'xtreme-radical-idle-1',
+    entitySlug: 'xtreme',
+    pool: 'idle',
+    mood: 'any',
+    text: '*does kickflip* *lands it* *does another one* NEVER STOP SHREDDING!',
+    weight: 14,
     purpose: 'ambient',
   },
 ];

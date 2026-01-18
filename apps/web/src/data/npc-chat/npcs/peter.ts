@@ -1,9 +1,14 @@
 /**
- * Peter - Die-rector of Shadow Keep
+ * Peter - Die-rector of Shadow Keep (Door 3)
  *
- * Personality: Death personified, grave and measured, sardonic about mortality.
- * Domain: Shadow Keep (death, shadows, transition)
+ * Personality: DEATH PERSONIFIED. Grave, measured, sardonic about mortality.
+ * Domain: Shadow Keep (death, shadows, transition, d8 domain)
  * Relationship: Mr. Bones' boss, philosophical rival to The One (void vs death)
+ *
+ * Voice: Speaks like someone who has attended every funeral ever held.
+ * Dry humor about death. "Everyone dies. This is not a threat. This is weather."
+ * Treats mortality as both inevitable and slightly amusing. Not cruel, just...
+ * aware. Very, very aware. The shadows whisper to him. He whispers back.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -341,6 +346,146 @@ export const PETER_TEMPLATES: ResponseTemplate[] = [
     mood: 'amused',
     text: 'The octahedron. Eight paths to eight endings. All lead here eventually.',
     weight: 20,
+    purpose: 'ambient',
+  },
+
+  // ---- DEATH PERSONIFIED VOICE ----
+  {
+    id: 'peter-death-greet-1',
+    entitySlug: 'peter',
+    pool: 'greeting',
+    mood: 'neutral',
+    text: 'Everyone comes to Shadow Keep eventually. You are simply... early. Or late. It depends on perspective.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-greet-2',
+    entitySlug: 'peter',
+    pool: 'greeting',
+    mood: 'amused',
+    text: 'Ah. A visitor. The living always look so... temporary. It is almost charming.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-lore-1',
+    entitySlug: 'peter',
+    pool: 'lore',
+    mood: 'neutral',
+    text: 'The One speaks of void as if absence were profound. Void is nothing. Death is everything that was something. There is a difference.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'peter-death-lore-2',
+    entitySlug: 'peter',
+    pool: 'lore',
+    mood: 'amused',
+    text: 'Mr. Bones thinks he understands death because he is a skeleton. He understands paperwork. I understand endings.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'peter-death-lore-3',
+    entitySlug: 'peter',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'A truth from the shadows: death is not the opposite of life. Birth is the opposite of death. Life is the in-between. You are currently in-between.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'peter-death-hint-1',
+    entitySlug: 'peter',
+    pool: 'hint',
+    mood: 'neutral',
+    text: 'The shadows whisper your path. They say... caution. They always say caution. Shadows are pessimists.',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'vague' } },
+  },
+  {
+    id: 'peter-death-hint-2',
+    entitySlug: 'peter',
+    pool: 'hint',
+    mood: 'amused',
+    text: 'Ahead lies danger. I know this because ahead always lies danger. Also because I can see the bodies. Fresh ones.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 1 } },
+  },
+  {
+    id: 'peter-death-react-roll-1',
+    entitySlug: 'peter',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'The dice land. Fate is decided. Or fate was always decided, and the dice merely revealed it. I prefer that interpretation.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-react-roll-2',
+    entitySlug: 'peter',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'An interesting roll. The shadows applaud. *silence* ...They applaud quietly.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-react-death-1',
+    entitySlug: 'peter',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'You died. And now you are here. And now you will leave. Death is a revolving door for you. I find this exhausting to watch.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-threat-1',
+    entitySlug: 'peter',
+    pool: 'threat',
+    mood: 'threatening',
+    text: 'Everyone dies. This is not a threat. This is weather. I am merely the forecast.',
+    weight: 18,
+    purpose: 'warning',
+  },
+  {
+    id: 'peter-death-idle-1',
+    entitySlug: 'peter',
+    pool: 'idle',
+    mood: 'any',
+    text: '*listens to shadows* ...Yes. ...No. ...That is inappropriate. *to you* They say hello.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-idle-2',
+    entitySlug: 'peter',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*counting something invisible* Four hundred and seven today. A slow day. By my standards.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-farewell-1',
+    entitySlug: 'peter',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Go. Live. For now. We will meet again. We always meet again. I have all the time in the world. And beyond.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'peter-death-farewell-2',
+    entitySlug: 'peter',
+    pool: 'farewell',
+    mood: 'amused',
+    text: 'Until death. I mean, until we meet again. They are the same thing. Eventually.',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

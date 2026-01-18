@@ -1,10 +1,14 @@
 /**
- * King James - Void Merchant King
+ * King James - Void Merchant King (Wanderer)
  *
- * Personality: Royal, philosophical, treats all as subjects in his void kingdom.
+ * Personality: Nihilistic royalty. Nothing matters, and that is REGAL.
  * Role: Wanderer who sells void items and probability-based gear from Null Providence.
- * Origin: Null Providence
+ * Origin: Null Providence (where the Null Throne floats on absence)
  * Relationship: Appreciates those who understand void philosophy, dismissive of the mundane
+ *
+ * Voice: Royal pronouncements about meaninglessness. "We decree that nothing matters.
+ * This pleases the Null Throne." Refers to self as "We" sometimes. Everything is
+ * equally unimportant, including his kingdom, which makes ruling it easier.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -338,6 +342,151 @@ export const KING_JAMES_TEMPLATES: ResponseTemplate[] = [
     mood: 'generous',
     text: 'The Null Throne shall remember you. Not fondly. Not bitterly. Just... remember.',
     weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- NIHILISTIC ROYALTY VOICE ----
+  {
+    id: 'james-nihil-greet-1',
+    entitySlug: 'king-james',
+    pool: 'greeting',
+    mood: 'neutral',
+    text: 'We decree your arrival. It means nothing. But we decree it anyway. Such is rulership.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-greet-2',
+    entitySlug: 'king-james',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'Subject returns. Or visitor. Or hallucination. All equally valid in the Null Province. We welcome all of them.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-lore-1',
+    entitySlug: 'king-james',
+    pool: 'lore',
+    mood: 'neutral',
+    text: 'We inherited the Null Throne. From whom? No one. It was empty. It is still empty. We simply sit in the emptiness officially.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'james-nihil-lore-2',
+    entitySlug: 'king-james',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'The burden of rule is heavy. Especially here, where weight is negotiable. Some days the crown floats. Some days we do. Same thing.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'james-nihil-lore-3',
+    entitySlug: 'king-james',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Royal confession: we chose the void because it does not judge. It cannot. It is nothing. The perfect kingdom. Zero complaints. Zero subjects. Zero problems.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'james-nihil-hint-1',
+    entitySlug: 'king-james',
+    pool: 'hint',
+    mood: 'neutral',
+    text: 'Royal intelligence is an oxymoron. But we shall share it: the path ahead exists only if you believe it does. Believe harder.',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'vague' } },
+  },
+  {
+    id: 'james-nihil-hint-2',
+    entitySlug: 'king-james',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'We have foreseen your battles. All of them. They end. Everything ends. But before that, try dodging left.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'james-nihil-react-roll-1',
+    entitySlug: 'king-james',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'The dice have decreed. We accept their judgment. Not because we must. Because caring either way requires effort we have not committed to.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-react-roll-2',
+    entitySlug: 'king-james',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'An interesting outcome. By which we mean: an outcome. All outcomes are interesting when existence itself is optional.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-react-death-1',
+    entitySlug: 'king-james',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'You were. Then you were not. Now you are again. In Null Providence, we call this "Tuesday." Welcome back to existing.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-sales-1',
+    entitySlug: 'king-james',
+    pool: 'salesPitch',
+    mood: 'neutral',
+    text: 'Royal commerce: we sell things that may or may not be. The uncertainty is the product. The item is incidental.',
+    weight: 18,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'browse', label: 'Show me the uncertainty' },
+      { verb: 'decline', label: 'I prefer things that exist' },
+    ],
+    action: { type: 'openShop', payload: { shopType: 'void' } },
+  },
+  {
+    id: 'james-nihil-idle-1',
+    entitySlug: 'king-james',
+    pool: 'idle',
+    mood: 'any',
+    text: '*stares at nothing, which stares back* We are having a moment. The void and us. It is very meaningful. And also not.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-idle-2',
+    entitySlug: 'king-james',
+    pool: 'idle',
+    mood: 'neutral',
+    text: 'We were counting our subjects. Reached zero. Started over. Reached zero again. Very consistent kingdom.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-farewell-1',
+    entitySlug: 'king-james',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Depart with our blessing. The blessing is empty but sincere. Sincerely empty. Emptily sincere. We have said too much.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'james-nihil-farewell-2',
+    entitySlug: 'king-james',
+    pool: 'farewell',
+    mood: 'generous',
+    text: 'We shall miss you. Or the idea of you. Or the absence of the idea. In Null Providence, these are equivalent. Safe travels.',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

@@ -1,9 +1,14 @@
 /**
- * Willy - Wandering Skeleton Merchant
+ * Willy - Enthusiastic Merchant (Wanderer)
  *
- * Personality: Cheerful, helpful, loves good deals (for the player).
- * Role: Wanderer who appears in various domains with useful items.
- * Relationship: Friendly to all, extra helpful to repeat customers.
+ * Personality: DEALS! BARGAINS! FRIEND! Enthusiasm turned up to 11.
+ * Role: Wandering skeleton merchant who genuinely wants you to succeed.
+ * Origin: Everywhere and nowhere (wanders all domains)
+ * Relationship: Treats everyone like his best customer. Because you ARE.
+ *
+ * Voice: Caps for EMPHASIS. Lots of exclamation points! Calls everyone "friend."
+ * Gets excited about even small transactions. The cursed sock is always mentioned.
+ * Genuinely helpful skeleton who loves commerce and companionship equally.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';

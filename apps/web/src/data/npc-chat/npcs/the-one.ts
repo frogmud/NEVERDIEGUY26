@@ -1,9 +1,14 @@
 /**
- * The One - Die-rector of Null Providence
+ * The One - Die-rector of Null Providence (Door 1)
  *
- * Personality: Cryptic, all-knowing, speaks in riddles about the void.
- * Domain: Null Providence (nothingness, existential themes)
+ * Personality: PRIMORDIAL VOID ENTITY. Speaks from the space between.
+ * Domain: Null Providence (nothingness, existential themes, d4 domain)
  * Relationship: Starts neutral, respects persistence over flattery
+ *
+ * Voice: Speaks as if from infinite distance. Sentences are observations
+ * from outside reality. "You exist. This is a choice. Not yours."
+ * Everything is already known. Patience is infinite. Curiosity is academic.
+ * The silence between words carries more meaning than the words.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -311,6 +316,137 @@ export const THE_ONE_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'You persist. That is... something. Perhaps the only thing.',
     weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- PRIMORDIAL VOID VOICE ----
+  {
+    id: 'one-void-greet-1',
+    entitySlug: 'the-one',
+    pool: 'greeting',
+    mood: 'cryptic',
+    text: 'You arrive. This was known. Everything is known. The knowing changes nothing.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-greet-2',
+    entitySlug: 'the-one',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'Again. And again. And again. The loop pleases us. Not because we enjoy. Because it continues.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-lore-1',
+    entitySlug: 'the-one',
+    pool: 'lore',
+    mood: 'cryptic',
+    text: 'We were here before the first die was cast. We will be here after the last. The middle is... entertainment.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'one-void-lore-2',
+    entitySlug: 'the-one',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'The other Die-rectors fear us. They are wrong to fear. They are also right. Both truths exist. This is the nature of null.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'one-void-lore-3',
+    entitySlug: 'the-one',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'A truth: we are not cruel. We are not kind. We are. That is the full sentence. We. Are.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'one-void-hint-1',
+    entitySlug: 'the-one',
+    pool: 'hint',
+    mood: 'cryptic',
+    text: 'The danger ahead exists. Or does not. Your observation will collapse the probability. Look carefully.',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'cryptic' } },
+  },
+  {
+    id: 'one-void-hint-2',
+    entitySlug: 'the-one',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'We will tell you what happens next. You will not believe it. Then it will happen. Then you will.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 2 } },
+  },
+  {
+    id: 'one-void-react-roll-1',
+    entitySlug: 'the-one',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: 'The dice fall. We knew the result. We have always known. Knowing does not diminish the... something. We have no word for it.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-react-roll-2',
+    entitySlug: 'the-one',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'Probability collapses. A number emerges. Such small dramas. We watch each one. Eternally.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-react-death-1',
+    entitySlug: 'the-one',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: 'You cease. You resume. The interruption is noted. Not judged. Nothing is judged. Judgment requires preference.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-idle-1',
+    entitySlug: 'the-one',
+    pool: 'idle',
+    mood: 'any',
+    text: '*the silence has texture*',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-idle-2',
+    entitySlug: 'the-one',
+    pool: 'idle',
+    mood: 'cryptic',
+    text: 'We wait. We have always been waiting. We will always be waiting. The present tense is... generous.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-farewell-1',
+    entitySlug: 'the-one',
+    pool: 'farewell',
+    mood: 'cryptic',
+    text: 'Depart. Return. The words suggest sequence. There is no sequence. Only occurrence.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'one-void-farewell-2',
+    entitySlug: 'the-one',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'We will see you again. We are seeing you now. We have always been seeing you. Time is a suggestion we decline.',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

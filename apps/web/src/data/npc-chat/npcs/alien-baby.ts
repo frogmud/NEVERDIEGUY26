@@ -1,13 +1,15 @@
 /**
  * Alien Baby - Larval Horror (Pantheon)
  *
- * Personality: Noises and symbols ONLY. No real words.
- * Role: Apocalypse Intern, cosmic toddler
+ * Personality: ELDRITCH INFANT. Adorable cosmic horror toddler.
+ * Role: Apocalypse Intern, cosmic toddler who may grow up to unmake reality
  * Element: Chaos / Growth
  * Relationship: Curious, playful, accidentally destructive
  *
- * Note: Speaks in "*gurgle*", "!!!", "[strange symbol]", baby sounds only.
- * Very limited vocabulary: goo, ga, void, peek-a-boo style noises.
+ * Voice: Speaks in gurgles, symbols, and occasional terrifying glimpses of
+ * cosmic truth delivered in baby-speak. "*gurgle* void void VOID! *giggles*"
+ * Draws symbols that hurt to perceive. Offers things from dimensions that
+ * should not be. Impossibly adorable. Impossibly dangerous. Mostly adorable.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -262,6 +264,152 @@ export const ALIEN_BABY_TEMPLATES: ResponseTemplate[] = [
     mood: 'amused',
     text: '*watches dice* Ooooh! *reaches for dice* WANT!',
     weight: 12,
+    purpose: 'ambient',
+  },
+
+  // ---- ELDRITCH INFANT VOICE ----
+  {
+    id: 'baby-eldritch-greet-1',
+    entitySlug: 'alien-baby',
+    pool: 'greeting',
+    mood: 'amused',
+    text: '*waves with wrong number of tentacles* Goo goo! *the number keeps changing*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-greet-2',
+    entitySlug: 'alien-baby',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: '[blinks with too many eyes] Fwend? FWEND! *happy reality distortion*',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-lore-1',
+    entitySlug: 'alien-baby',
+    pool: 'lore',
+    mood: 'amused',
+    text: '*draws in the air* [geometry that should not exist] Gaa! PWETTY!',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'baby-eldritch-lore-2',
+    entitySlug: 'alien-baby',
+    pool: 'lore',
+    mood: 'pleased',
+    text: '*babbles* Before mama... before dada... *giggles* VOID! *more giggles* Before EVERYTHING!',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'baby-eldritch-lore-3',
+    entitySlug: 'alien-baby',
+    pool: 'lore',
+    mood: 'generous',
+    text: '*whispers in language older than stars* ...goo... *normal again* Gaa! GAA! *happy clapping*',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'baby-eldritch-hint-1',
+    entitySlug: 'alien-baby',
+    pool: 'hint',
+    mood: 'amused',
+    text: '*points at things that are not there* BAD! *points at nothing* WORSE! *points at you* ...okay!',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'vague' } },
+  },
+  {
+    id: 'baby-eldritch-hint-2',
+    entitySlug: 'alien-baby',
+    pool: 'hint',
+    mood: 'pleased',
+    text: '[draws symbol that rearranges your understanding of spatial relationships] Goo! *points* GO THERE!',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'baby-eldritch-react-roll-1',
+    entitySlug: 'alien-baby',
+    pool: 'reaction',
+    mood: 'amused',
+    text: '*catches die mid-roll* WANT! *die shows impossible number* *giggles* Oopsie!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-react-roll-2',
+    entitySlug: 'alien-baby',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: '*claps* Numbers! *each clap produces different number of echoes* NUMBEWS!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-react-death-1',
+    entitySlug: 'alien-baby',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'Bye bye! *waves at where you were* *waves at where you are* BACK! *confused but happy*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-sales-1',
+    entitySlug: 'alien-baby',
+    pool: 'salesPitch',
+    mood: 'generous',
+    text: '*offers thing from pocket that is larger than pocket* Goo? [object hums with wrongness] FOR YOU!',
+    weight: 20,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'accept', label: '*accepts nervously*' },
+      { verb: 'decline', label: '*backs away slowly*' },
+    ],
+    action: { type: 'grantItem', payload: { itemType: 'eldritch_toy' } },
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'baby-eldritch-idle-1',
+    entitySlug: 'alien-baby',
+    pool: 'idle',
+    mood: 'any',
+    text: '*stacking blocks* *blocks are stacking in fourth dimension* *proud gurgle*',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-idle-2',
+    entitySlug: 'alien-baby',
+    pool: 'idle',
+    mood: 'amused',
+    text: '*eating something invisible* Num num! *space warps slightly with each bite* NOM!',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-farewell-1',
+    entitySlug: 'alien-baby',
+    pool: 'farewell',
+    mood: 'amused',
+    text: 'Bye bye! *waves in all directions simultaneously* BYE! *you are somehow waving back*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'baby-eldritch-farewell-2',
+    entitySlug: 'alien-baby',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: '*blows kiss* *kiss travels through dimensions you cannot see* MWAH! *giggles echo before they happen*',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

@@ -1,10 +1,13 @@
 /**
  * Mr. Kevin - Reality Debugger (Traveler)
  *
- * Personality: Meta, sees through reality, debugger vibes.
- * Role: Reality debugger ally, fourth-wall aware
+ * Personality: Unhinged debugger who has stared at reality's code too long.
+ * Role: Fourth-wall-breaking ally, sees the seams in the simulation
  * Origin: Null Providence
- * Relationship: Friendly, cryptic, knows too much
+ * Relationship: Friendly but distracted, knows too much, tired but wired
+ *
+ * Voice: Stream of consciousness, interrupts self, lowercase energy,
+ * mixes tech jargon with casual dread, talks to things that aren't there
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -18,27 +21,27 @@ export const MR_KEVIN_PERSONALITY: NPCPersonalityConfig = {
   name: 'Mr. Kevin',
   basePoolWeights: {
     greeting: 15,
-    salesPitch: 10, // Debug tools
-    hint: 30, // Knows the code
-    lore: 25, // Meta knowledge
-    challenge: 10, // Debug challenges
-    reaction: 10,
-    threat: 0, // Too meta to threaten
-    idle: 0,
+    salesPitch: 5, // doesn't really sell, just offers weird tools
+    hint: 30, // knows the code, shares secrets
+    lore: 25, // meta knowledge about the simulation
+    challenge: 5, // too distracted to challenge
+    reaction: 15, // reacts to weird stuff happening
+    threat: 0, // way too chill to threaten
+    idle: 5, // mutters at bugs
   },
   poolWeights: {
     greeting: 15,
-    salesPitch: 10,
+    salesPitch: 5,
     hint: 30,
     lore: 25,
-    challenge: 10,
-    reaction: 10,
+    challenge: 5,
+    reaction: 15,
     threat: 0,
-    idle: 0,
+    idle: 5,
   },
   moodTriggers: [
     {
-      mood: 'neutral',
+      mood: 'curious',
       trigger: { type: 'favorLevel', comparison: 'lt', value: 3 },
     },
     {
@@ -50,7 +53,7 @@ export const MR_KEVIN_PERSONALITY: NPCPersonalityConfig = {
       trigger: { type: 'favorLevel', comparison: 'gte', value: 6 },
     },
   ],
-  defaultMood: 'neutral',
+  defaultMood: 'curious',
 };
 
 // ============================================
@@ -60,20 +63,29 @@ export const MR_KEVIN_PERSONALITY: NPCPersonalityConfig = {
 export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
   // ---- GREETINGS ----
   {
-    id: 'kevin-greet-neutral-1',
+    id: 'kevin-greet-curious-1',
     entitySlug: 'mr-kevin',
     pool: 'greeting',
-    mood: 'neutral',
-    text: 'Ah. You are here. The probability matrix suggested you would be. It was correct. As usual.',
+    mood: 'curious',
+    text: 'oh! oh you loaded in. wait-- yeah okay the spawn worked. i was worried about that one.',
     weight: 15,
     purpose: 'ambient',
   },
   {
-    id: 'kevin-greet-neutral-2',
+    id: 'kevin-greet-curious-2',
     entitySlug: 'mr-kevin',
     pool: 'greeting',
-    mood: 'neutral',
-    text: '*adjusts transparent glasses* I see you. I see everything. The code is very readable today.',
+    mood: 'curious',
+    text: 'hey hey hey. *squints* you\'re rendering correctly which is... huh. nice.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-greet-curious-3',
+    entitySlug: 'mr-kevin',
+    pool: 'greeting',
+    mood: 'curious',
+    text: '*looks up from nothing* oh. a player. i mean person. i mean-- what are we calling you?',
     weight: 12,
     purpose: 'ambient',
   },
@@ -82,7 +94,7 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'mr-kevin',
     pool: 'greeting',
     mood: 'pleased',
-    text: 'Welcome back. Your save state loaded correctly. No corruption detected. This time.',
+    text: 'there you are! i saw your thread start but the callback took forever. you good?',
     weight: 15,
     purpose: 'ambient',
   },
@@ -91,27 +103,27 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'mr-kevin',
     pool: 'greeting',
     mood: 'generous',
-    text: 'You. I like your variable values. Very optimized. The One would be proud. If pride existed in the void.',
+    text: 'welcome! or-- wait have you been here before? the logs are-- nevermind. hi. i\'m glad you exist.',
     weight: 18,
     purpose: 'ambient',
   },
 
   // ---- LORE ----
   {
-    id: 'kevin-lore-neutral-1',
+    id: 'kevin-lore-curious-1',
     entitySlug: 'mr-kevin',
     pool: 'lore',
-    mood: 'neutral',
-    text: 'This is all a simulation. Or is it? The distinction matters less than you think. Either way, bugs need fixing.',
+    mood: 'curious',
+    text: 'die-rectors? subroutines. big ones. important ones. but between us? *whispers* they don\'t know.',
     weight: 15,
     purpose: 'lore',
   },
   {
-    id: 'kevin-lore-neutral-2',
+    id: 'kevin-lore-curious-2',
     entitySlug: 'mr-kevin',
     pool: 'lore',
-    mood: 'neutral',
-    text: 'The One and I... we debug reality together. Partners in quality assurance. Someone has to test existence.',
+    mood: 'curious',
+    text: 'okay so the void right? people think its empty but its actually-- *looks around* --its actually just unrendered. don\'t tell anyone.',
     weight: 12,
     purpose: 'lore',
   },
@@ -120,8 +132,17 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'mr-kevin',
     pool: 'lore',
     mood: 'pleased',
-    text: 'Null Providence is where reality stores its error logs. I read them. Occasionally I fix them. Mostly I document.',
+    text: 'the simulation has layers. like an onion. a buggy onion. i\'ve seen seven. there might be more.',
     weight: 15,
+    purpose: 'lore',
+  },
+  {
+    id: 'kevin-lore-pleased-2',
+    entitySlug: 'mr-kevin',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'fun fact the sphere wasn\'t always round. someone filed a ticket. took forever to fix.',
+    weight: 12,
     purpose: 'lore',
   },
   {
@@ -129,7 +150,7 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'mr-kevin',
     pool: 'lore',
     mood: 'generous',
-    text: 'Classified debug info: the Die-rectors are subroutines. Important ones. But subroutines. Do not tell them. It upsets them.',
+    text: 'the one? yeah i debug for them sometimes. nice enough. doesn\'t really "exist" in the traditional sense but who does anymore.',
     weight: 18,
     purpose: 'lore',
     cooldown: { oncePerRun: true },
@@ -137,31 +158,49 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
 
   // ---- HINTS ----
   {
-    id: 'kevin-hint-neutral-1',
+    id: 'kevin-hint-curious-1',
     entitySlug: 'mr-kevin',
     pool: 'hint',
-    mood: 'neutral',
-    text: 'Checked the source. Room ahead has a bug. Enemies spawn at half health. Exploit before hotfix.',
+    mood: 'curious',
+    text: 'okay so that boss? their hitbox is-- *gestures vaguely* --smaller on the left. trust me i checked.',
     weight: 15,
     purpose: 'warning',
     action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'kevin-hint-curious-2',
+    entitySlug: 'mr-kevin',
+    pool: 'hint',
+    mood: 'curious',
+    text: 'see that corner? no? good. don\'t look at it. its not supposed to do that.',
+    weight: 12,
+    purpose: 'warning',
   },
   {
     id: 'kevin-hint-pleased-1',
     entitySlug: 'mr-kevin',
     pool: 'hint',
     mood: 'pleased',
-    text: 'Found an exploit. Boss in room three has a null pointer in their attack pattern. Stand still for two seconds after their wind-up. They crash.',
+    text: 'pro tip the rng isn\'t actually random. its pseudorandom. which means-- wait you didn\'t hear that from me.',
     weight: 18,
     purpose: 'warning',
     action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 3 } },
+  },
+  {
+    id: 'kevin-hint-pleased-2',
+    entitySlug: 'mr-kevin',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'if you die just reload. or don\'t. death is just a state change. nothing personal.',
+    weight: 12,
+    purpose: 'warning',
   },
   {
     id: 'kevin-hint-generous-1',
     entitySlug: 'mr-kevin',
     pool: 'hint',
     mood: 'generous',
-    text: 'Debug mode activated. Hidden developer room in area five. Walk through the wall that renders slightly wrong. You will know it.',
+    text: 'the third room has a memory leak. you might see duplicates. just ignore the extra ones. they\'re not real. probably.',
     weight: 20,
     purpose: 'warning',
     action: { type: 'grantHint', payload: { quality: 'secret', roomsAhead: 5 } },
@@ -170,16 +209,16 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
 
   // ---- SALES PITCH ----
   {
-    id: 'kevin-sales-neutral-1',
+    id: 'kevin-sales-curious-1',
     entitySlug: 'mr-kevin',
     pool: 'salesPitch',
-    mood: 'neutral',
-    text: 'Debug tools. Useful for finding glitches in reality. Also enemies. Same thing, really.',
+    mood: 'curious',
+    text: 'these? these find the weird stuff. like that corner over there. dont look at it too long. its not supposed to render that way but nobody filed a ticket so.',
     weight: 15,
     purpose: 'shop',
     quickReplies: [
-      { verb: 'browse', label: 'Show me the tools' },
-      { verb: 'decline', label: 'Too meta for me' },
+      { verb: 'browse', label: 'show me' },
+      { verb: 'decline', label: 'im good' },
     ],
     action: { type: 'openShop', payload: { shopType: 'debug' } },
   },
@@ -188,12 +227,12 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'mr-kevin',
     pool: 'salesPitch',
     mood: 'generous',
-    text: '*hands you a key* Void key. Opens anything. Including concepts. Use responsibly. Or do not. I am not your parent.',
+    text: '*hands you something* void key. opens things. concepts too. don\'t ask how. i don\'t know either. just works.',
     weight: 20,
     purpose: 'shop',
     quickReplies: [
-      { verb: 'accept', label: 'I will be careful' },
-      { verb: 'decline', label: 'Too much power' },
+      { verb: 'accept', label: 'thanks i think' },
+      { verb: 'decline', label: 'that sounds dangerous' },
     ],
     action: { type: 'grantItem', payload: { itemType: 'void_key' } },
     cooldown: { oncePerRun: true },
@@ -201,37 +240,37 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
 
   // ---- CHALLENGE ----
   {
-    id: 'kevin-challenge-neutral-1',
+    id: 'kevin-challenge-curious-1',
     entitySlug: 'mr-kevin',
     pool: 'challenge',
-    mood: 'neutral',
-    text: 'Debug challenge. Find the bug in the next room before it finds you. Hint: it looks normal but is not.',
+    mood: 'curious',
+    text: 'okay weird question. can you find what\'s wrong in the next room? i have a theory but i need someone to check. you know. empirically.',
     weight: 15,
     purpose: 'challenge',
     quickReplies: [
-      { verb: 'accept', label: 'I will find it' },
-      { verb: 'decline', label: 'Bugs scare me' },
+      { verb: 'accept', label: 'sure why not' },
+      { verb: 'decline', label: 'sounds fake' },
     ],
     action: { type: 'startChallenge', payload: { challengeType: 'debug' } },
   },
 
   // ---- REACTION ----
   {
-    id: 'kevin-react-squish-1',
+    id: 'kevin-react-dice-1',
     entitySlug: 'mr-kevin',
     pool: 'reaction',
     mood: 'any',
-    text: 'Entity flattened. Death state triggered. Respawn queued. Standard procedure.',
+    text: 'oh that was-- *checks something invisible* --that was definitely not supposed to happen. but it did! so. neat.',
     weight: 15,
     purpose: 'ambient',
   },
   {
-    id: 'kevin-react-death-1',
+    id: 'kevin-react-dice-2',
     entitySlug: 'mr-kevin',
     pool: 'reaction',
-    mood: 'neutral',
-    text: 'Respawn complete. Memory intact. No data loss detected. Good run cycle.',
-    weight: 15,
+    mood: 'curious',
+    text: 'huh. interesting. your dice rolled a-- wait that value exists? let me just-- *mutters* --okay yeah that\'s fine apparently.',
+    weight: 12,
     purpose: 'ambient',
   },
   {
@@ -239,8 +278,102 @@ export const MR_KEVIN_TEMPLATES: ResponseTemplate[] = [
     entitySlug: 'mr-kevin',
     pool: 'reaction',
     mood: 'pleased',
-    text: 'Victory condition met. Performance metrics: acceptable. Logging success to eternal database.',
+    text: 'nice! or concerning? i genuinely can\'t tell anymore. let\'s say nice.',
     weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-react-death-1',
+    entitySlug: 'mr-kevin',
+    pool: 'reaction',
+    mood: 'curious',
+    text: '*stares* you just... did that. on purpose? wild. the logs are gonna be interesting.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- IDLE ----
+  {
+    id: 'kevin-idle-1',
+    entitySlug: 'mr-kevin',
+    pool: 'idle',
+    mood: 'any',
+    text: '*stares at empty space* ...that\'s not right.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-idle-2',
+    entitySlug: 'mr-kevin',
+    pool: 'idle',
+    mood: 'any',
+    text: '*mutters* where did that pointer go...',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-idle-3',
+    entitySlug: 'mr-kevin',
+    pool: 'idle',
+    mood: 'any',
+    text: '*taps something invisible* still broken.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-idle-4',
+    entitySlug: 'mr-kevin',
+    pool: 'idle',
+    mood: 'any',
+    text: '...is that supposed to flicker?',
+    weight: 10,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-idle-5',
+    entitySlug: 'mr-kevin',
+    pool: 'idle',
+    mood: 'any',
+    text: '*to no one* yes i know. i\'m looking at it.',
+    weight: 10,
+    purpose: 'ambient',
+  },
+
+  // ---- FAREWELL ----
+  {
+    id: 'kevin-farewell-1',
+    entitySlug: 'mr-kevin',
+    pool: 'farewell',
+    mood: 'any',
+    text: 'okay yeah go do your thing. i\'ll be here. checking... stuff.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-farewell-2',
+    entitySlug: 'mr-kevin',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'bye! if you crash just-- well you won\'t remember this anyway. safe travels!',
+    weight: 15,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-farewell-3',
+    entitySlug: 'mr-kevin',
+    pool: 'farewell',
+    mood: 'curious',
+    text: 'see you next loop. or this loop. time is fake here.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'kevin-farewell-4',
+    entitySlug: 'mr-kevin',
+    pool: 'farewell',
+    mood: 'generous',
+    text: 'don\'t forget to save! or do forget. the autosave might work. probably.',
+    weight: 12,
     purpose: 'ambient',
   },
 ];

@@ -1,10 +1,14 @@
 /**
- * Stitch Up Girl - Healer Ally (Traveler)
+ * Stitch Up Girl - Pragmatic Medic (Traveler)
  *
- * Personality: Caring, precise, medical humor, sisterly warmth.
+ * Personality: Field surgeon energy. Blunt but caring. "Hold still."
  * Role: Healer ally, sister to Never Die Guy.
  * Origin: Shadow Keep
- * Relationship: Friendly, protective, offers healing and support
+ * Relationship: Protective, motherly concern, will literally force-heal you.
+ *
+ * Voice: Direct, practical, fragments when working. Uses medical terminology.
+ * "Need patching?" "Try not to come back in pieces." Cares but shows it gruffly.
+ * When integrity is low, becomes VERY insistent. Does not take no for an answer.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';

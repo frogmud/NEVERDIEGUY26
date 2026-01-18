@@ -221,6 +221,18 @@ export {
 } from './definitions';
 
 // ============================================
+// Voice Archetypes
+// ============================================
+
+export {
+  VOICE_ARCHETYPES,
+  NPC_VOICE_MAP,
+  getVoiceForNPC,
+  listNPCsWithVoice,
+  type VoiceArchetype,
+} from './voice-archetypes';
+
+// ============================================
 // Initialization
 // ============================================
 

@@ -1,9 +1,14 @@
 /**
- * Mr. Bones - Wandering Skeleton Traveler
+ * Mr. Bones - Death's Accountant (Wanderer)
  *
- * Personality: Mysterious, philosophical, has seen much.
- * Role: Wanderer who shares wisdom and occasionally odd requests.
- * Relationship: Respects curiosity, rewards those who listen.
+ * Personality: The ominous ledger. Every word is a transaction. Tracks debts.
+ * Role: Wanderer who trades in stories, memories, and favors owed.
+ * Origin: The space between death and the ledger
+ * Relationship: Respects those who pay their debts. Notes everything.
+ *
+ * Voice: Terse. Uses ledger/debt/balance language. Trails off with "..."
+ * Every interaction is recorded. Nothing is free. Even free things have costs.
+ * Speaks of credits, debits, balances, accounts, interest, and what is owed.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -320,6 +325,118 @@ export const MR_BONES_TEMPLATES: ResponseTemplate[] = [
     mood: 'generous',
     text: "May your dice roll true, {{playerName}}. And if they don't... well, I'll still be here. Waiting.",
     weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- OMINOUS LEDGER VOICE ----
+  {
+    id: 'mr-bones-ledger-greet-1',
+    entitySlug: 'mr-bones',
+    pool: 'greeting',
+    mood: 'cryptic',
+    text: 'The ledger notes your arrival. *flips invisible page* Account status: outstanding.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-ledger-greet-2',
+    entitySlug: 'mr-bones',
+    pool: 'greeting',
+    mood: 'amused',
+    text: 'You return. Good. Your balance was accruing... interest.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-ledger-lore-1',
+    entitySlug: 'mr-bones',
+    pool: 'lore',
+    mood: 'cryptic',
+    text: 'Every death is a deposit. Every resurrection, a withdrawal. The ledger... always balances.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'mr-bones-ledger-lore-2',
+    entitySlug: 'mr-bones',
+    pool: 'lore',
+    mood: 'amused',
+    text: 'The Die-rectors think they own their domains. But ownership is just... long-term debt. I hold the paper.',
+    weight: 14,
+    purpose: 'lore',
+  },
+  {
+    id: 'mr-bones-ledger-lore-3',
+    entitySlug: 'mr-bones',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'A truth, at no cost. *pauses* No. Everything costs. Consider this... an advance on future business.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'mr-bones-ledger-hint-1',
+    entitySlug: 'mr-bones',
+    pool: 'hint',
+    mood: 'cryptic',
+    text: 'The room ahead owes a debt to entropy. Collection is... imminent. Step carefully.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'cryptic', roomsAhead: 1 } },
+  },
+  {
+    id: 'mr-bones-ledger-hint-2',
+    entitySlug: 'mr-bones',
+    pool: 'hint',
+    mood: 'generous',
+    text: 'Free information, as a credit to your account: the boss fears persistence. Die twice, return stronger. They cannot... balance that.',
+    weight: 20,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'secret', type: 'boss_weakness' } },
+  },
+  {
+    id: 'mr-bones-ledger-react-death-1',
+    entitySlug: 'mr-bones',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: 'Death. *marks ledger* A deposit received. Your account... remains open.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-ledger-react-victory-1',
+    entitySlug: 'mr-bones',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'A credit... for now. *notes something* The balance shifts in your favor. Temporarily.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-ledger-farewell-1',
+    entitySlug: 'mr-bones',
+    pool: 'farewell',
+    mood: 'cryptic',
+    text: 'Go. Accrue what you can. The ledger... remembers all debts.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-ledger-idle-1',
+    entitySlug: 'mr-bones',
+    pool: 'idle',
+    mood: 'any',
+    text: '*turns invisible pages* ...three thousand... three thousand and one...',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'mr-bones-ledger-idle-2',
+    entitySlug: 'mr-bones',
+    pool: 'idle',
+    mood: 'cryptic',
+    text: '*to self* The interest compounds... always compounds...',
+    weight: 12,
     purpose: 'ambient',
   },
 ];

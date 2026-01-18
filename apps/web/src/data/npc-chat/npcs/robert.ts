@@ -1,9 +1,13 @@
 /**
- * Robert - Die-rector of Infernus
+ * Robert - Die-rector of Infernus (Door 2)
  *
- * Personality: Aggressive salesman, loves deals, respects hustle.
- * Domain: Infernus (fire, fury, challenge)
+ * Personality: INFERNAL HUSTLER. Everything is a deal. Everything is on fire.
+ * Domain: Infernus (fire, fury, challenge, d10 domain)
  * Relationship: Warms up to players who buy/trade, threatens those who waste time
+ *
+ * Voice: Used car salesman energy from literal hell. "What do I gotta do to get
+ * you in this flaming sword TODAY?" Fire metaphors CONSTANTLY. Respects the
+ * hustle above all else. Will burn you if you waste his time. Literally.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -294,6 +298,136 @@ export const ROBERT_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: "The d10! Now you're speaking my language. Fire and fury, baby.",
     weight: 20,
+    purpose: 'ambient',
+  },
+
+  // ---- INFERNAL HUSTLER VOICE ----
+  {
+    id: 'robert-hustle-greet-1',
+    entitySlug: 'robert',
+    pool: 'greeting',
+    mood: 'neutral',
+    text: 'Listen. LISTEN. I like you. So I am gonna make you a deal you LITERALLY cannot refuse. Terms are non-negotiable. But the VIBES are immaculate.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-greet-2',
+    entitySlug: 'robert',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'My FAVORITE customer! What do I gotta do to get you spending today? Name it! Within reason! Fire is the reason!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-lore-1',
+    entitySlug: 'robert',
+    pool: 'lore',
+    mood: 'neutral',
+    text: 'Other Die-rectors got their whole "philosophy" thing going. Me? I got RESULTS. And fire. Mostly fire. But RESULTS TOO.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'robert-hustle-lore-2',
+    entitySlug: 'robert',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'You wanna know the secret to Infernus? HUSTLE. Everything burns, yeah, but the hustle? The hustle is ETERNAL.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'robert-hustle-lore-3',
+    entitySlug: 'robert',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Real talk: The One thinks void is the answer. Alice thinks time is. Peter thinks death is. Me? COMMERCE. Commerce is the answer. Always commerce.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'robert-hustle-sales-1',
+    entitySlug: 'robert',
+    pool: 'salesPitch',
+    mood: 'neutral',
+    text: 'I got inventory that is LITERALLY on fire! Moving fast! Gotta move it FASTER! Help me help YOU help ME!',
+    weight: 18,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'browse', label: 'Show me the fire' },
+      { verb: 'decline', label: 'I am fireproof' },
+    ],
+    action: { type: 'openShop' },
+  },
+  {
+    id: 'robert-hustle-react-roll-1',
+    entitySlug: 'robert',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'THAT roll? That roll had HUSTLE in it! I could FEEL the ambition! The FIRE! Buy something to celebrate!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-react-roll-2',
+    entitySlug: 'robert',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'Okay okay OKAY that was not your best roll but we can WORK with it! Every setback is a SETUP! For a PURCHASE!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-react-death-1',
+    entitySlug: 'robert',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'Dead AGAIN? Should have bought the fire insurance! Still available! INTEREST is accumulating! In a FUN way!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-challenge-1',
+    entitySlug: 'robert',
+    pool: 'challenge',
+    mood: 'pleased',
+    text: 'Alright alright ALRIGHT! Competition time! You! Me! Dice! Winner gets bragging rights! Loser pays FULL PRICE! Fair? FAIR!',
+    weight: 18,
+    purpose: 'challenge',
+    quickReplies: [
+      { verb: 'accept', label: 'FAIR!' },
+      { verb: 'decline', label: 'Not fair' },
+    ],
+    action: { type: 'startChallenge', payload: { challengeType: 'dice', stakes: 'discount' } },
+  },
+  {
+    id: 'robert-hustle-idle-1',
+    entitySlug: 'robert',
+    pool: 'idle',
+    mood: 'any',
+    text: '*counting gold* *recounting gold* *finds extra gold* NICE! The hustle PROVIDES!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-farewell-1',
+    entitySlug: 'robert',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Go make some money out there! Then BRING IT BACK! To ME! This is called ECONOMICS! I invented it! Probably!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'robert-hustle-farewell-2',
+    entitySlug: 'robert',
+    pool: 'farewell',
+    mood: 'generous',
+    text: 'You are GOOD people! Come back soon! Bring friends! Friends with GOLD! GOLD friends!',
+    weight: 16,
     purpose: 'ambient',
   },
 ];
