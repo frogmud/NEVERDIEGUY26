@@ -14,3 +14,8 @@ export { useCharacterAnimation } from './useCharacterAnimation';
 
 export { useNPCChat, useDialogueLookup } from './useNPCChat';
 export type { UseNPCChatOptions, UseNPCChatResult, ChatResponse } from './useNPCChat';
+
+export { usePartyBridge, useDiceRollResult } from './usePartyBridge';
+
+export { useEternalStream } from './useEternalStream';
+export type { UseEternalStreamOptions, UseEternalStreamReturn } from './useEternalStream';
