@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NEVER DIE GUY is a roguelike dice game where you throw meteors at a 3D globe to score points. Balatro-style dice mechanics meet globe-smashing chaos.
+NEVER DIE GUY is a roguelike dice game where you throw meteors at a 3D globe. Balatro-style mechanics meet intergalactic sibling rivalry.
+
+**Narrative:** You're Guy "Never Die Guy" Smith, The Fixer - a clone sent by six siblings (Die-rectors) to settle their squabbles. They resurrect dead planets to harvest meteors (dice), then give those same meteors to you to destroy their siblings' planets. Immortality is questioned - you're a clone of a clone.
 
 **Current Focus:** Polishing the Arena game mode (solo roguelike, 6 domains x 3 rooms).
 
@@ -219,6 +221,8 @@ Located in `packages/ai-engine/src/balance/balance-config.ts` and `apps/web/src/
 /assets/items/quest/diepedia-vol1.svg  # Wiki book
 /assets/items/armor/*.svg         # Armor items (hero-cape, king-james-crown, etc.)
 /assets/items/consumables/*.svg   # Consumables (health-potion, etc.)
+/assets/items/chests/*.svg        # Loot chests (closed, open, big variants)
+/assets/dice/meteors/*.svg        # Meteor/dice variants by type (d10, d12)
 /illustrations/*.svg              # UI illustrations (1v1.svg, newgame.svg, etc.)
 /logos/ndg-skull-dome.svg         # Brand logo
 ```

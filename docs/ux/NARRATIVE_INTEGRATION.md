@@ -1,14 +1,125 @@
 # Narrative Integration
 
-Documentation for narrative systems including Narrative Fork zone selection, Die-rector dialogue, and future expansion points.
+Documentation for the narrative systems of NEVER DIE GUY, including The Fixer's role, Die-rector relationships, and NPC dialogue.
+
+## The Fixer's Role
+
+You are **Guy "Never Die Guy" Smith**, aka **The Fixer** - a clone sent on intergalactic squabbles by six siblings (the Die-rectors) who control fate.
+
+### Core Identity
+
+- **Clone of a clone of a clone** - Immortality is questioned, not guaranteed
+- **Mercenary for all six** - You serve whichever sibling needs you
+- **Neutral party in sibling rivalry** - But your actions have consequences
+
+### Gameplay Implications
+
+- Die-rectors supply meteors (dice) from their resurrected planets
+- Trading with NPCs affects your standing with specific Die-rectors
+- Surviving members of destroyed planets may offer quests or grudges
+- Your "death" just means another clone is deployed
+
+## The Die-rectors (Pantheon)
+
+Six siblings who share control of fate - and a very annoying 100/6 split.
+
+### Sibling Overview
+
+| Domain | Die-Rector | Die | Element | Personality |
+|--------|------------|-----|---------|-------------|
+| Meadow | The One | d4 | Void | Enigmatic, minimal |
+| Forest | John | d6 | Earth | Practical, grounded |
+| Caverns | Jane | d8 | Death | Calculating, precise |
+| Ruins | King James | d10 | Fire | Regal, demanding |
+| Shadow Realm | Peter | d12 | Ice | Cold, observant |
+| Abyss | Robert | d20 | Wind | Chaotic, unpredictable |
+
+### Sibling Dynamics
+
+- **Constant rivalry** - Each wants to expand their domain
+- **Shared chat system** - Required by Pantheon bylaws (100/6 split is annoying to divide)
+- **Resource competition** - Meteors used to rebuild planets are also used as weapons
+- **All use The Fixer** - You're the one constant in their conflicts
+
+### Domain Control
+
+Each Die-rector controls:
+- One domain (their "territory")
+- Resources from that domain's resurrected planets
+- NPCs loyal to their cause (wanderers, travelers, shopkeepers)
+- The planet you're currently destroying (from their siblings' perspective)
+
+## Meteor Economy
+
+The circular economy of destruction and rebirth.
+
+### The Cycle
+
+```
+Dead Planets → Resurrected → Resources Harvested → Meteors Created
+                                                        ↓
+                                            Given to The Fixer
+                                                        ↓
+                                            Thrown at Sibling Planets
+                                                        ↓
+                                            Planets Destroyed → Dead Planets
+```
+
+### Meteors = Dice
+
+- **d4-d20** map to meteor variants
+- **Elements** match Die-rector domains
+- **Harvested from resurrected planets** - nothing truly dies
+- **Weapons and building materials** - same resource, different use
+
+### Trading
+
+- NPCs trade meteors, items, and information
+- Trades affect Die-rector favor
+- Some items persist across domains (cross-sibling influence)
+- Economy reflects the recycled nature of the universe
+
+## NPC Chat System
+
+### Character Types
+
+| Type | Role | Dialogue Style |
+|------|------|----------------|
+| **Pantheon (Die-rectors)** | Domain patrons | Regal, demanding, competitive |
+| **Wanderers** | Travelers between domains | World-weary, informative |
+| **Travelers** | Visitors from other realms | Curious, foreign perspective |
+| **Shopkeepers** | Commerce NPCs | Transactional, gossipy |
+
+### Dialogue Triggers
+
+Die-rector dialogue appears at:
+1. **Zone Selection** - Presents narrative fork options
+2. **Combat Start** - Domain-specific flavor
+3. **Victory** - Acknowledgment (begrudging or pleased)
+4. **Defeat** - Taunt or reassurance (another clone incoming)
+
+### Chatbase System
+
+Client-side dialogue at `apps/web/src/services/chatbase.ts`:
+
+**Features:**
+- Pool-based dialogue selection (greeting, idle, threat, gamblingTrashTalk)
+- Interest-score weighted random selection
+- Mood compatibility filtering based on player context
+- Template interpolation with game state ({score}, {goal}, {multiplier}, {turns})
+
+**Character Filtering:**
+- Filters out NPC-to-NPC dialogue
+- Ensures dialogue is player-directed
+- Maintains character voice consistency
 
 ## Narrative Fork (Zone Selection)
 
-Replaces explicit "door cards" with minimal narrative choices like Balatro.
+Minimal narrative choices that hint at difficulty.
 
-### Concept
+### Presentation
 
-Instead of showing zone stats, present narrative options that hint at difficulty:
+Instead of explicit zone stats, present narrative options:
 
 **Before (explicit):**
 ```
@@ -24,31 +135,7 @@ The path diverges...
 - Follow the strange signal
 ```
 
-### Implementation
-
-**Component:** `NarrativeFork.tsx`
-
-**Props:**
-```typescript
-interface NarrativeForkProps {
-  domain: Domain;
-  options: NarrativeOption[];
-  onSelect: (index: number) => void;
-}
-
-interface NarrativeOption {
-  text: string;       // Narrative choice text
-  zoneType: ZoneType; // Hidden: stable | elite | anomaly
-}
-```
-
-**UI:**
-- Minimal text panel in sidebar
-- Radio buttons or clickable list
-- No difficulty stars, no tier badges
-- Zone type revealed only after selection
-
-### Narrative Templates
+### Templates by Domain
 
 18 templates total (6 domains x 3 zone types):
 
@@ -64,146 +151,42 @@ const NARRATIVE_FORKS: Record<Domain, Record<ZoneType, string>> = {
     elite: "Shadows move against the wind in the canopy...",
     anomaly: "A clearing pulses with unnatural light..."
   },
-  caverns: {
-    stable: "Crystal veins mark the safest tunnel...",
-    elite: "Echoes suggest something large below...",
-    anomaly: "The walls themselves seem to breathe..."
-  },
-  ruins: {
-    stable: "Moss-covered stairs descend steadily...",
-    elite: "Collapsed pillars block the obvious path...",
-    anomaly: "Whispers call from the sealed chamber..."
-  },
-  shadowRealm: {
-    stable: "Faint torchlight guides the way...",
-    elite: "The darkness here has weight and presence...",
-    anomaly: "Reality folds upon itself ahead..."
-  },
-  abyss: {
-    stable: "The void parts to reveal passage...",
-    elite: "Something ancient stirs in the depths...",
-    anomaly: "The boundary between worlds thins..."
-  }
+  // ... etc
 };
 ```
 
 ### Skip Penalty
 
-"Turn back" option adds Heat (+20% boss difficulty):
+"Turn back" option increases boss difficulty:
 
 ```typescript
-const options = [
-  ...zoneNarratives,
-  { text: "Turn back (the Die-rector notes your hesitation...)", zoneType: 'skip' }
-];
+{ text: "Turn back (the Die-rector notes your hesitation...)", zoneType: 'skip' }
 ```
-
-## Die-Rector Dialogue
-
-Each domain has a Die-Rector patron who delivers narrative prompts.
-
-### Die-Rectors by Domain
-
-| Domain | Die-Rector | Die | Element |
-|--------|------------|-----|---------|
-| Meadow | The One | d4 | Void |
-| Forest | John | d6 | Earth |
-| Caverns | Jane | d8 | Death |
-| Ruins | King James | d10 | Fire |
-| Shadow Realm | Peter | d12 | Ice |
-| Abyss | Robert | d20 | Wind |
-
-### Dialogue Points
-
-Die-Rector dialogue appears at:
-1. **Zone Selection** - Presents narrative fork options
-2. **Combat Start** - Brief domain-specific flavor
-3. **Victory** - Praise or acknowledgment
-4. **Defeat** - Taunt or consequence warning
-
-### NPC Chat System (Implemented)
-
-Client-side chatbase lookup at `apps/web/src/services/chatbase.ts`:
-
-**Features:**
-- Pool-based dialogue selection (greeting, idle, threat, gamblingTrashTalk, etc.)
-- Interest-score weighted random selection
-- Mood compatibility filtering based on player context
-- Template interpolation with game state ({score}, {goal}, {multiplier}, {turns})
-
-**Character Filtering:**
-- Filters out NPC-to-NPC dialogue (addresses to "Xtreme", "Maxwell", etc.)
-- Excludes group addresses ("gentlemen", "ladies", "colleagues")
-- Ensures dialogue is player-directed
-
-**Situational Triggers:**
-- Low health warnings
-- High score celebrations
-- Combo acknowledgments
-- Trade confirmations
-
-**Future:**
-- Trade/barter affects player stats
-- Dialogue choices influence meters
-- Adaptive response based on player behavior
 
 ## Future Systems
 
-### Nerd/Jock Meter
+### Favor System
 
-Balance meter affecting spell casting:
+Track standing with each Die-rector:
+- Actions in their domain affect favor
+- High favor unlocks special dialogue, items
+- Low favor increases domain difficulty
+- Trading affects cross-sibling relationships
 
-```typescript
-interface MeterState {
-  nerdMeter: number;  // 0-100
-  jockMeter: number;  // 0-100
-}
-```
+### Clone Memory
 
-**Triggers:**
-- Dialogue choices shift meters
-- Combat actions shift meters
-- Certain items provide buffs
-
-**Effects:**
-- Spells require meter balance
-- Imbalance causes spell failures
-- Some abilities scale with meter extremes
-
-### Text Adventure Intro
-
-Pre-first-combat narrative:
-
-```
-[Screen fades to dark]
-
-You stand at the threshold.
-The dice await.
-
-[Dice fall into frame, settle]
-
-Your journey begins...
-
-[Player input advances to Zone Select]
-```
-
-### Encounter Dialogue
-
-NPC encounters with consequence choices:
-
-```
-A wanderer blocks your path.
-
-"Looking for trouble, or just passing through?"
-
-- "Just passing" -> +calmBonus, no combat
-- "Let's go!" -> +jockMeter, combat possible
-- "What wisdom do you offer?" -> +nerdMeter, lore unlock
-```
+What persists between deaths:
+- Die-rector relationships (they remember you... or do they?)
+- Certain items (marked as "persists")
+- Meta-progression unlocks
+- The question: are you really the same Fixer?
 
 ## Files
 
-- `/apps/web/src/data/narrativeForks.ts` - Narrative templates
-- `/apps/web/src/games/meteor/components/NarrativeFork.tsx` - Selection UI
-- `/apps/web/src/data/wiki/entities/pantheon.ts` - Die-Rector data
-- `/apps/web/src/contexts/RunContext.tsx` - State integration
+| File | Purpose |
+|------|---------|
+| `/apps/web/src/data/narrativeForks.ts` | Narrative templates |
+| `/apps/web/src/data/wiki/entities/pantheon.ts` | Die-Rector data |
+| `/apps/web/src/services/chatbase.ts` | Dialogue lookup |
+| `/apps/web/src/contexts/RunContext.tsx` | State integration |
+| `/packages/ai-engine/src/npcs/` | NPC personality engine |

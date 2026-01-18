@@ -2,6 +2,16 @@
 
 A roguelike dice game where you throw meteors at a globe to score points. Balatro meets globe-smashing chaos.
 
+## The Story
+
+You are Guy "Never Die Guy" Smith, The Fixer - a clone sent on intergalactic squabbles by six siblings who control fate.
+
+The Die-rectors resurrect dead planets to harvest materials, then supply those same materials to you as weapons against their siblings. It's a circular economy of destruction and rebirth. You curry favor, trade with survivors, and question whether your immortality is even real anymore.
+
+The meteors you throw? Those are dice. The planets you destroy? They'll be back. The siblings you serve? They all want the same thing: to win.
+
+Welcome to NEVER DIE GUY.
+
 ## Current State (January 2026)
 
 The core gameplay loop is functional with polished UX:
