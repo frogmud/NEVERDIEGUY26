@@ -9,7 +9,7 @@
  */
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Box, Typography, Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Box, Typography, Button, Chip } from '@mui/material';
 import { PlayArrowSharp as PlayIcon, CheckCircleSharp as CheckIcon } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
 import { createSeededRng, getRequisitionPool } from '../../../../data/pools';
@@ -109,7 +109,6 @@ export function GameTabShop({
   const vendor = DOMAIN_VENDORS[domainId] || DOMAIN_VENDORS[2];
 
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
-  const [confirmItem, setConfirmItem] = useState<Item | null>(null);
   const [rerollCount, setRerollCount] = useState(0);
   const [rerollSeed, setRerollSeed] = useState(threadId);
 
@@ -146,18 +145,11 @@ export function GameTabShop({
     [gold, tier, favorTokens, purchasedItems, onPurchaseItem]
   );
 
-  // Handle item click
+  // Handle item click - purchase directly without confirmation
   const handleItemClick = (item: Item) => {
     const cost = calculateItemCost(item, tier, favorTokens);
     if (gold >= cost && !purchasedItems.includes(item.slug)) {
-      // Show confirmation for expensive items
-      const rarity = item.rarity || 'Common';
-      const isExpensive = ['Epic', 'Legendary', 'Unique'].includes(rarity) || (gold > 0 && cost > gold * 0.5);
-      if (isExpensive) {
-        setConfirmItem(item);
-      } else {
-        executePurchase(item);
-      }
+      executePurchase(item);
     }
   };
 
@@ -359,60 +351,6 @@ export function GameTabShop({
           START EVENT
         </Button>
       </Box>
-
-      {/* Confirmation Dialog */}
-      <Dialog
-        open={Boolean(confirmItem)}
-        onClose={() => setConfirmItem(null)}
-        PaperProps={{
-          sx: {
-            bgcolor: tokens.colors.background.paper,
-            border: `1px solid ${tokens.colors.border}`,
-            borderRadius: 2,
-            minWidth: 260,
-          },
-        }}
-      >
-        <DialogTitle sx={{ ...gamingFont, fontSize: '1rem', pb: 1 }}>Confirm Purchase</DialogTitle>
-        <DialogContent>
-          {confirmItem && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
-              <Box
-                component="img"
-                src={confirmItem.image || '/assets/items/placeholder.png'}
-                alt={confirmItem.name}
-                sx={{ width: 64, height: 64, objectFit: 'contain', imageRendering: 'pixelated' }}
-              />
-              <Typography sx={{ ...gamingFont, fontSize: '0.9rem' }}>{confirmItem.name}</Typography>
-              <Typography sx={{ ...gamingFont, fontSize: '1.1rem', color: tokens.colors.warning }}>
-                ${calculateItemCost(confirmItem, tier, favorTokens)}
-              </Typography>
-            </Box>
-          )}
-        </DialogContent>
-        <DialogActions sx={{ px: 2, pb: 2, justifyContent: 'center', gap: 1.5 }}>
-          <Button onClick={() => setConfirmItem(null)} sx={{ color: tokens.colors.text.secondary }}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              if (confirmItem) {
-                executePurchase(confirmItem);
-                setConfirmItem(null);
-              }
-            }}
-            sx={{
-              bgcolor: confirmItem ? RARITY_COLORS[confirmItem.rarity || 'Common'] : tokens.colors.primary,
-              ...gamingFont,
-              fontSize: '0.8rem',
-              px: 2.5,
-            }}
-          >
-            Buy
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 }
