@@ -920,3 +920,9 @@ export * from './multiplayer';
 // ============================================
 
 export * from './stream';
+
+// ============================================
+// Chatbase Restock Templates (Claude-generated NPC dialogue)
+// ============================================
+
+export { RESTOCK_TEMPLATES } from './data/chatbase-restock';
