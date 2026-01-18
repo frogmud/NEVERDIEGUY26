@@ -29,6 +29,7 @@ import {
   getRelationshipDialogue,
   type HomeGreeter,
 } from '../data/home-greeters';
+import { QUICK_PROMPTS, type QuickPrompt } from '../data/stream-prompts';
 
 // ============================================
 // Preloaded NPC Cache (stable, never changes)
@@ -1086,6 +1087,45 @@ export function HomeDashboard() {
     navigate('/play');
   };
 
+  const handleQuickPrompt = (prompt: QuickPrompt) => {
+    // Inject player question into stream
+    const playerQuestion: StreamMessage = {
+      id: `question-${Date.now()}`,
+      speakerId: 'player',
+      speakerName: playerAlias,
+      spriteKey: '/assets/ui/token.svg',
+      text: prompt.text,
+      type: 'system',
+      timestamp: Date.now(),
+    };
+    setMessages(prev => [playerQuestion, ...prev]);
+
+    // Get NPCs who should respond (filter to only those in the room)
+    const responderNpcs = participants.filter(p => prompt.responders.includes(p.id));
+
+    // If no responders in room, pick random NPCs from the responder list
+    const actualResponders = responderNpcs.length > 0
+      ? responderNpcs.slice(0, 1 + Math.floor(Math.random() * 2)) // 1-3 responders
+      : participants.slice(0, 1 + Math.floor(Math.random() * 2));
+
+    // Stagger NPC responses
+    actualResponders.forEach((npc, idx) => {
+      setTimeout(() => {
+        // Get response from questionResponses or fallback to ambient
+        const responses = npc.questionResponses?.[prompt.id];
+        const responseText = responses && responses.length > 0
+          ? responses[Math.floor(Math.random() * responses.length)]
+          : npc.ambient?.[Math.floor(Math.random() * (npc.ambient?.length || 1))] || '...';
+
+        const answerMsg = createNPCMessage(npc, responseText);
+        if (answerMsg) {
+          answerMsg.type = 'answer';
+          setMessages(prev => [answerMsg, ...prev]);
+        }
+      }, 800 + idx * 1200 + Math.random() * 800);
+    });
+  };
+
   // ============================================
   // Render
   // ============================================
@@ -1591,6 +1631,56 @@ export function HomeDashboard() {
                 </Box>
               )}
             </Box>
+
+            {/* Quick Prompts - NDG's questions */}
+            {bootPhase === 'active' && (
+              <Box sx={{
+                mt: 2,
+                pt: 2,
+                borderTop: `1px solid ${tokens.colors.border}`,
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+              }}>
+                <Typography sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '0.7rem',
+                  color: tokens.colors.text.disabled,
+                  width: '100%',
+                  mb: 0.5,
+                }}>
+                  Quick Questions
+                </Typography>
+                {QUICK_PROMPTS.map((prompt) => (
+                  <Box
+                    key={prompt.id}
+                    onClick={() => handleQuickPrompt(prompt)}
+                    sx={{
+                      px: 1.5,
+                      py: 0.75,
+                      borderRadius: `${tokens.radius.sm}px`,
+                      bgcolor: tokens.colors.background.paper,
+                      border: `1px solid ${tokens.colors.border}`,
+                      cursor: 'pointer',
+                      transition: 'all 150ms ease',
+                      '&:hover': {
+                        bgcolor: tokens.colors.background.elevated,
+                        borderColor: tokens.colors.primary,
+                        transform: 'translateY(-1px)',
+                      },
+                    }}
+                  >
+                    <Typography sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '0.85rem',
+                      color: tokens.colors.text.primary,
+                    }}>
+                      {prompt.label}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            )}
           </Box>
 
           {/* Stream Feed (newest on top) */}
