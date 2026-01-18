@@ -43,115 +43,115 @@ export const LOADOUT_ITEMS: Record<string, { rarity: number; category: string; i
   // ============================================
   // GLOBAL UTILITY ITEMS (available to all NPCs)
   // ============================================
-  'backpack': { rarity: 1, category: 'armor', image: '/assets/items/armor/backpack.png' },
-  'compass': { rarity: 1, category: 'armor', image: '/assets/items/armor/compass.png' },
-  'rations': { rarity: 1, category: 'consumable', image: '/assets/items/consumables/rations.png' },
-  'medkit': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/medkit.png' },
-  'health-potion': { rarity: 1, category: 'consumable', image: '/assets/items/consumables/health-potion.png' },
-  'lucky-clover': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/lucky-clover.png' },
-  'traders-talisman': { rarity: 2, category: 'armor', image: '/assets/items/armor/traders-talisman.png' },
-  'lockpick': { rarity: 1, category: 'quest', image: '/assets/items/quest/lockpick.png' },
-  'shovel': { rarity: 1, category: 'armor', image: '/assets/items/armor/shovel.png' },
-  'stopwatch': { rarity: 2, category: 'armor', image: '/assets/items/armor/stopwatch.png' },
-  'domain-map': { rarity: 1, category: 'quest', image: '/assets/items/quest/domain-map.png' },
+  'backpack': { rarity: 1, category: 'armor', image: '/assets/items/armor/backpack.svg' },
+  'compass': { rarity: 1, category: 'armor', image: '/assets/items/armor/compass.svg' },
+  'rations': { rarity: 1, category: 'consumable', image: '/assets/items/consumables/rations.svg' },
+  'medkit': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/medkit.svg' },
+  'health-potion': { rarity: 1, category: 'consumable', image: '/assets/items/consumables/health-potion.svg' },
+  'lucky-clover': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/lucky-clover.svg' },
+  'traders-talisman': { rarity: 2, category: 'armor', image: '/assets/items/armor/traders-talisman.svg' },
+  'lockpick': { rarity: 1, category: 'quest', image: '/assets/items/quest/lockpick.svg' },
+  'shovel': { rarity: 1, category: 'armor', image: '/assets/items/armor/shovel.svg' },
+  'stopwatch': { rarity: 2, category: 'armor', image: '/assets/items/armor/stopwatch.svg' },
+  'domain-map': { rarity: 1, category: 'quest', image: '/assets/items/quest/domain-map.svg' },
 
   // ============================================
   // EARTH DOMAIN ITEMS (Domain 1)
   // ============================================
-  'malachite': { rarity: 2, category: 'material', image: '/assets/items/materials/malachite.png' },
-  'gold-pebble': { rarity: 1, category: 'material', image: '/assets/items/materials/gold-pebble.png' },
-  'gold-ingot': { rarity: 3, category: 'material', image: '/assets/items/materials/gold-ingot.png' },
-  'iron-boots': { rarity: 2, category: 'armor', image: '/assets/items/armor/iron-boots.png' },
-  'turtle-shell': { rarity: 2, category: 'armor', image: '/assets/items/armor/turtle-shell.png' },
-  'shield-heavy': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/shield-heavy.png' },
-  'melee-crowbar': { rarity: 1, category: 'weapon', image: '/assets/items/weapons/melee-crowbar.png' },
+  'malachite': { rarity: 2, category: 'material', image: '/assets/items/materials/malachite.svg' },
+  'gold-pebble': { rarity: 1, category: 'material', image: '/assets/items/materials/gold-pebble.svg' },
+  'gold-ingot': { rarity: 3, category: 'material', image: '/assets/items/materials/gold-ingot.svg' },
+  'iron-boots': { rarity: 2, category: 'armor', image: '/assets/items/armor/iron-boots.svg' },
+  'turtle-shell': { rarity: 2, category: 'armor', image: '/assets/items/armor/turtle-shell.svg' },
+  'shield-heavy': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/shield-heavy.svg' },
+  'melee-crowbar': { rarity: 1, category: 'weapon', image: '/assets/items/weapons/melee-crowbar.svg' },
 
   // ============================================
   // FROST REACH ITEMS (Domain 2)
   // ============================================
-  'frost-crystal': { rarity: 2, category: 'material', image: '/assets/items/materials/frost-crystal.png' },
-  'frost-cluster': { rarity: 3, category: 'material', image: '/assets/items/materials/frost-cluster.png' },
-  'frost-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/frost-salts.png' },
-  'ice-cube': { rarity: 1, category: 'armor', image: '/assets/items/armor/ice-cube.png' },
-  'chronofrost-bomb': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/chronofrost-bomb.png' },
-  'throwable-ice-grenade': { rarity: 2, category: 'weapon', image: '/assets/items/weapons/throwable-ice-grenade.png' },
-  'ranged-ice-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-ice-bow.png' },
-  'sapphire': { rarity: 3, category: 'material', image: '/assets/items/materials/sapphire.png' },
+  'frost-crystal': { rarity: 2, category: 'material', image: '/assets/items/materials/frost-crystal.svg' },
+  'frost-cluster': { rarity: 3, category: 'material', image: '/assets/items/materials/frost-cluster.svg' },
+  'frost-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/frost-salts.svg' },
+  'ice-cube': { rarity: 1, category: 'armor', image: '/assets/items/armor/ice-cube.svg' },
+  'chronofrost-bomb': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/chronofrost-bomb.svg' },
+  'throwable-ice-grenade': { rarity: 2, category: 'weapon', image: '/assets/items/weapons/throwable-ice-grenade.svg' },
+  'ranged-ice-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-ice-bow.svg' },
+  'sapphire': { rarity: 3, category: 'material', image: '/assets/items/materials/sapphire.svg' },
 
   // ============================================
   // INFERNUS ITEMS (Domain 3)
   // ============================================
-  'ember-fragment': { rarity: 2, category: 'material', image: '/assets/items/materials/ember-fragment.png' },
-  'infernal-crystal': { rarity: 3, category: 'material', image: '/assets/items/materials/infernal-crystal.png' },
-  'infernal-crystal-cluster': { rarity: 4, category: 'material', image: '/assets/items/materials/infernal-crystal-cluster.png' },
-  'infernal-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/infernal-salts.png' },
-  'ruby': { rarity: 3, category: 'material', image: '/assets/items/materials/ruby.png' },
-  'throwable-fire-grenade': { rarity: 2, category: 'weapon', image: '/assets/items/weapons/throwable-fire-grenade.png' },
-  'throwable-molotov': { rarity: 1, category: 'weapon', image: '/assets/items/weapons/throwable-molotov.png' },
-  'ranged-infernal-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-infernal-bow.png' },
-  'ranged-blazecaster': { rarity: 4, category: 'weapon', image: '/assets/items/weapons/ranged-blazecaster.png' },
-  'alchemists-inferno': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/alchemists-inferno.png' },
+  'ember-fragment': { rarity: 2, category: 'material', image: '/assets/items/materials/ember-fragment.svg' },
+  'infernal-crystal': { rarity: 3, category: 'material', image: '/assets/items/materials/infernal-crystal.svg' },
+  'infernal-crystal-cluster': { rarity: 4, category: 'material', image: '/assets/items/materials/infernal-crystal-cluster.svg' },
+  'infernal-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/infernal-salts.svg' },
+  'ruby': { rarity: 3, category: 'material', image: '/assets/items/materials/ruby.svg' },
+  'throwable-fire-grenade': { rarity: 2, category: 'weapon', image: '/assets/items/weapons/throwable-fire-grenade.svg' },
+  'throwable-molotov': { rarity: 1, category: 'weapon', image: '/assets/items/weapons/throwable-molotov.svg' },
+  'ranged-infernal-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-infernal-bow.svg' },
+  'ranged-blazecaster': { rarity: 4, category: 'weapon', image: '/assets/items/weapons/ranged-blazecaster.svg' },
+  'alchemists-inferno': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/alchemists-inferno.svg' },
 
   // ============================================
   // SHADOW KEEP ITEMS (Domain 4)
   // ============================================
-  'shadow-shard': { rarity: 2, category: 'material', image: '/assets/items/materials/shadow-shard.png' },
-  'shadow-essence': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/shadow-essence.png' },
-  'essence-of-dark': { rarity: 3, category: 'material', image: '/assets/items/materials/essence-of-dark.png' },
-  'blood-vial': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/blood-vial.png' },
-  'glowing-blood-vial': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/glowing-blood-vial.png' },
-  'big-bones': { rarity: 1, category: 'armor', image: '/assets/items/armor/big-bones.png' },
-  'tombstone': { rarity: 2, category: 'armor', image: '/assets/items/armor/tombstone.png' },
-  'ranged-shadow-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-shadow-bow.png' },
-  'melee-shadowblade': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/melee-shadowblade.png' },
-  'soul-charge': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/soul-charge.png' },
+  'shadow-shard': { rarity: 2, category: 'material', image: '/assets/items/materials/shadow-shard.svg' },
+  'shadow-essence': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/shadow-essence.svg' },
+  'essence-of-dark': { rarity: 3, category: 'material', image: '/assets/items/materials/essence-of-dark.svg' },
+  'blood-vial': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/blood-vial.svg' },
+  'glowing-blood-vial': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/glowing-blood-vial.svg' },
+  'big-bones': { rarity: 1, category: 'armor', image: '/assets/items/armor/big-bones.svg' },
+  'tombstone': { rarity: 2, category: 'armor', image: '/assets/items/armor/tombstone.svg' },
+  'ranged-shadow-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-shadow-bow.svg' },
+  'melee-shadowblade': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/melee-shadowblade.svg' },
+  'soul-charge': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/soul-charge.svg' },
 
   // ============================================
   // NULL PROVIDENCE ITEMS (Domain 5)
   // ============================================
-  'void-crystal': { rarity: 3, category: 'material', image: '/assets/items/materials/void-crystal.png' },
-  'void-cluster': { rarity: 4, category: 'material', image: '/assets/items/materials/void-cluster.png' },
-  'void-orb': { rarity: 3, category: 'material', image: '/assets/items/materials/void-orb.png' },
-  'null-sphere': { rarity: 3, category: 'material', image: '/assets/items/materials/null-sphere.png' },
-  'void-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/void-salts.png' },
-  'essence-of-the-void': { rarity: 4, category: 'consumable', image: '/assets/items/consumables/essence-of-the-void.png' },
-  'amethyst': { rarity: 2, category: 'material', image: '/assets/items/materials/amethyst.png' },
-  'throwable-void-lantern': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/throwable-void-lantern.png' },
-  'throwable-void-mist-bomb': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/throwable-void-mist-bomb.png' },
-  'melee-void-axe': { rarity: 4, category: 'weapon', image: '/assets/items/weapons/melee-void-axe.png' },
-  'melee-axe-of-negation': { rarity: 4, category: 'weapon', image: '/assets/items/weapons/melee-axe-of-negation.png' },
+  'void-crystal': { rarity: 3, category: 'material', image: '/assets/items/materials/void-crystal.svg' },
+  'void-cluster': { rarity: 4, category: 'material', image: '/assets/items/materials/void-cluster.svg' },
+  'void-orb': { rarity: 3, category: 'material', image: '/assets/items/materials/void-orb.svg' },
+  'null-sphere': { rarity: 3, category: 'material', image: '/assets/items/materials/null-sphere.svg' },
+  'void-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/void-salts.svg' },
+  'essence-of-the-void': { rarity: 4, category: 'consumable', image: '/assets/items/consumables/essence-of-the-void.svg' },
+  'amethyst': { rarity: 2, category: 'material', image: '/assets/items/materials/amethyst.svg' },
+  'throwable-void-lantern': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/throwable-void-lantern.svg' },
+  'throwable-void-mist-bomb': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/throwable-void-mist-bomb.svg' },
+  'melee-void-axe': { rarity: 4, category: 'weapon', image: '/assets/items/weapons/melee-void-axe.svg' },
+  'melee-axe-of-negation': { rarity: 4, category: 'weapon', image: '/assets/items/weapons/melee-axe-of-negation.svg' },
 
   // ============================================
   // ABERRANT ITEMS (Domain 6)
   // ============================================
-  'ethereal-crystal': { rarity: 3, category: 'material', image: '/assets/items/materials/ethereal-crystal.png' },
-  'ethereal-crystal-cluster': { rarity: 4, category: 'material', image: '/assets/items/materials/ethereal-crystal-cluster.png' },
-  'ethereal-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/ethereal-salts.png' },
-  'cursed-eye': { rarity: 3, category: 'armor', image: '/assets/items/armor/cursed-eye.png' },
-  'cursed-whistle': { rarity: 2, category: 'armor', image: '/assets/items/armor/cursed-whistle.png' },
-  'ranged-aberrant-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-aberrant-bow.png' },
-  'ranged-windcutter': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-windcutter.png' },
-  'melee-aberrant-edge': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/melee-aberrant-edge.png' },
-  'evolutionary-catalyst': { rarity: 4, category: 'consumable', image: '/assets/items/consumables/evolutionary-catalyst.png' },
+  'ethereal-crystal': { rarity: 3, category: 'material', image: '/assets/items/materials/ethereal-crystal.svg' },
+  'ethereal-crystal-cluster': { rarity: 4, category: 'material', image: '/assets/items/materials/ethereal-crystal-cluster.svg' },
+  'ethereal-salts': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/ethereal-salts.svg' },
+  'cursed-eye': { rarity: 3, category: 'armor', image: '/assets/items/armor/cursed-eye.svg' },
+  'cursed-whistle': { rarity: 2, category: 'armor', image: '/assets/items/armor/cursed-whistle.svg' },
+  'ranged-aberrant-bow': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-aberrant-bow.svg' },
+  'ranged-windcutter': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/ranged-windcutter.svg' },
+  'melee-aberrant-edge': { rarity: 3, category: 'weapon', image: '/assets/items/weapons/melee-aberrant-edge.svg' },
+  'evolutionary-catalyst': { rarity: 4, category: 'consumable', image: '/assets/items/consumables/evolutionary-catalyst.svg' },
 
   // ============================================
   // NPC-SPECIFIC ITEMS
   // ============================================
-  'stitch-up-cocktail-1-bottle': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/stitch-up-cocktail-1-bottle.png' },
-  'stitch-up-cocktail-2-bottle': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/stitch-up-cocktail-2-bottle.png' },
-  'war-banner': { rarity: 3, category: 'armor', image: '/assets/items/armor/war-banner.png' },
-  'war-horn': { rarity: 2, category: 'armor', image: '/assets/items/armor/war-horn.png' },
-  'king-james-crown': { rarity: 5, category: 'armor', image: '/assets/items/armor/king-james-crown.png' },
-  'maxwells-textbook': { rarity: 3, category: 'quest', image: '/assets/items/quest/maxwells-textbook.png' },
-  'dr-voss-diary': { rarity: 3, category: 'quest', image: '/assets/items/quest/dr-voss-diary.png' },
-  'audio-stream-enhancer': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/audio-stream-enhancer.png' },
-  'beat-booster': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/beat-booster.png' },
-  'aviators': { rarity: 2, category: 'armor', image: '/assets/items/armor/aviators.png' },
-  'rocket-boots': { rarity: 3, category: 'armor', image: '/assets/items/armor/rocket-boots.png' },
-  'hero-boots': { rarity: 2, category: 'armor', image: '/assets/items/armor/hero-boots.png' },
-  'crutch': { rarity: 1, category: 'armor', image: '/assets/items/armor/crutch.png' },
-  'eyepatch': { rarity: 1, category: 'armor', image: '/assets/items/armor/eyepatch.png' },
-  'currency-token': { rarity: 1, category: 'material', image: '/assets/items/materials/currency-token.png' },
+  'stitch-up-cocktail-1-bottle': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/stitch-up-cocktail-1-bottle.svg' },
+  'stitch-up-cocktail-2-bottle': { rarity: 3, category: 'consumable', image: '/assets/items/consumables/stitch-up-cocktail-2-bottle.svg' },
+  'war-banner': { rarity: 3, category: 'armor', image: '/assets/items/armor/war-banner.svg' },
+  'war-horn': { rarity: 2, category: 'armor', image: '/assets/items/armor/war-horn.svg' },
+  'king-james-crown': { rarity: 5, category: 'armor', image: '/assets/items/armor/king-james-crown.svg' },
+  'maxwells-textbook': { rarity: 3, category: 'quest', image: '/assets/items/quest/maxwells-textbook.svg' },
+  'dr-voss-diary': { rarity: 3, category: 'quest', image: '/assets/items/quest/dr-voss-diary.svg' },
+  'audio-stream-enhancer': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/audio-stream-enhancer.svg' },
+  'beat-booster': { rarity: 2, category: 'consumable', image: '/assets/items/consumables/beat-booster.svg' },
+  'aviators': { rarity: 2, category: 'armor', image: '/assets/items/armor/aviators.svg' },
+  'rocket-boots': { rarity: 3, category: 'armor', image: '/assets/items/armor/rocket-boots.svg' },
+  'hero-boots': { rarity: 2, category: 'armor', image: '/assets/items/armor/hero-boots.svg' },
+  'crutch': { rarity: 1, category: 'armor', image: '/assets/items/armor/crutch.svg' },
+  'eyepatch': { rarity: 1, category: 'armor', image: '/assets/items/armor/eyepatch.svg' },
+  'currency-token': { rarity: 1, category: 'material', image: '/assets/items/materials/currency-token.svg' },
 };
 
 // ============================================
@@ -323,7 +323,7 @@ export function getQualityAdjective(quality: LoadoutQuality, seed: string): stri
 
 export function getItemImage(slug: string): string {
   const item = LOADOUT_ITEMS[slug];
-  return item?.image || '/assets/items/placeholder.png';
+  return item?.image || '/assets/items/placeholder.svg';
 }
 
 // ============================================
@@ -333,19 +333,34 @@ export function getItemImage(slug: string): string {
 /**
  * Generate a starting loadout for an NPC + domain combo
  *
- * Note: Starting items removed - players now start empty and acquire items in-game.
- * The NPC/domain/seed info is kept for reproducibility and future features.
+ * Picks 3 items from the NPC's pool (global + domain-specific).
+ * Same NPC + domain + seed = identical loadout.
  */
 export function generateLoadout(npcId: string, domainId: number, seed?: string): StartingLoadout {
   const actualSeed = seed || generateThreadId();
+  const rng = createSeededRng(actualSeed);
 
-  // No starting items - players acquire items during the run
+  // Get NPC's item pool (fallback to willy if unknown NPC)
+  const npcPool = NPC_ITEM_POOLS[npcId] || NPC_ITEM_POOLS['willy'];
+
+  // Build available items: global + domain-specific
+  const availableItems = [
+    ...npcPool.global,
+    ...(npcPool.domainSpecific[domainId] || []),
+  ];
+
+  // Pick 3 unique items using the RNG's pickN method
+  const selectedItems = rng.pickN('loadout-items', availableItems, 3);
+
+  // Calculate quality based on item rarities
+  const quality = calculateLoadoutQuality(selectedItems);
+
   return {
     npcId,
     domain: domainId,
     seed: actualSeed,
-    items: [],
-    quality: 'low',
+    items: selectedItems,
+    quality,
   };
 }
 
