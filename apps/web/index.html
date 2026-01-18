@@ -16,7 +16,17 @@
         font-style: normal;
         font-display: swap;
       }
+      /* APL385 Unicode font for ASCII globe rendering */
+      @font-face {
+        font-family: 'APL385 Unicode';
+        src: url('/fonts/APL385.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
     </style>
+    <!-- Preload APL font for globe rendering -->
+    <link rel="preload" href="/fonts/APL385.ttf" as="font" type="font/ttf" crossorigin />
     <!-- FOUC Prevention: Apply user settings before React hydration -->
     <script>
       (function() {
