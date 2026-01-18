@@ -28,6 +28,9 @@ export interface HomeGreeter {
     wiki: string[];  // Shepherding to wiki
     about: string[]; // Shepherding to about
   };
+  questionResponses?: {
+    [questionId: string]: string[]; // Responses to specific player questions
+  };
 }
 
 /**
@@ -94,6 +97,13 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Curious about all this? Fair enough. Let me show you around...',
         'Want the full picture? Alright, follow me...',
         'Ah, the big questions. Come, I will explain what I can.',
+      ],
+    },
+    questionResponses: {
+      'what-happens': [
+        'When you die? I patch you back together. That is literally my job.',
+        'You come back. Usually. If not, I just wait for the next Guy.',
+        '*organizes bandages* Death is temporary. My medical bills are eternal.',
       ],
     },
   },
@@ -211,6 +221,18 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Context inquiry logged. Fetching background data.',
       ],
     },
+    questionResponses: {
+      'why-here': [
+        'The simulation requires test subjects. You are subject 47,892. Approximately.',
+        '*adjusts glasses* You are here because the probability matrix said so.',
+        'The code spawned you. The void loaded you. I am just observing.',
+      ],
+      'my-stuff': [
+        'Your possessions persist in the eternal database. Unless there is corruption.',
+        'Items are variables. Death resets some. Not all. Check your inventory.',
+        '*taps screen* Your stuff follows predictable persistence rules. Mostly.',
+      ],
+    },
   },
   {
     id: 'clausen',
@@ -266,6 +288,13 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Want the backstory? *lights another cigarette* Follow me.',
         'Curious type, huh? Alright. I will give you the rundown.',
         'The big picture? Yeah. I can show you. This way.',
+      ],
+    },
+    questionResponses: {
+      'who-rules': [
+        '*takes drag* Nobody rules. Everybody claims to. Big difference.',
+        'The Die-rectors think they run things. I have seen empires fall. This is just Tuesday.',
+        '*exhales smoke* Who is in charge? Whoever survives longest. Right now, that is me.',
       ],
     },
   },
@@ -325,6 +354,13 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Ah, the why of it all. Follow me. I keep good records.',
       ],
     },
+    questionResponses: {
+      'my-stuff': [
+        '*checks ledger* Your stuff gets catalogued. Filed. Mostly returned. Statistically.',
+        'Death does not erase inventory. That would break the accounting system.',
+        'Everything is tracked. Even losses. Especially losses. I have spreadsheets.',
+      ],
+    },
   },
   {
     id: 'boots',
@@ -380,6 +416,13 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'The story! YES! Hold on! I will kick-explain everything!',
         'Background! Context! LORE! Follow my boots! They know the way!',
         'Curious! I LIKE IT! One sec! Stomping toward answers!',
+      ],
+    },
+    questionResponses: {
+      'my-stuff': [
+        '*KICKS inventory crate* Your stuff is IN HERE! Probably! I STOMPED it shut!',
+        'Death? BAH! Your items KICK back to you! ALWAYS!',
+        '*bouncing* Possessions follow the BOOT PROTOCOL! They return! Eventually!',
       ],
     },
   },
@@ -564,6 +607,18 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Context package approved. Follow for full briefing.',
       ],
     },
+    questionResponses: {
+      'whats-the-point': [
+        'The point? Victory. Survival. Acquisition of superior firepower.',
+        '*taps tactical display* The objective is domination. Everything else is noise.',
+        'Purpose is tactical. You fight. You win. You repeat. Simple.',
+      ],
+      'who-rules': [
+        'Command structure is clear. Die-rectors at the top. Us in the field. You at the bottom.',
+        '*checks roster* Who rules? Whoever holds the most territory. Currently contested.',
+        'The chain of command is absolute. The Die-rectors command. We obey. For now.',
+      ],
+    },
   },
   {
     id: 'dr-maxwell',
@@ -620,6 +675,13 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Origin studies? Foundational knowledge. Let me illuminate.',
         'The source material. Yes. Every fire has a spark. Follow.',
         'Context before content. Sound pedagogy. This way.',
+      ],
+    },
+    questionResponses: {
+      'whats-the-point': [
+        '*adjusts flaming glasses* The point is KNOWLEDGE! Explosive, burning KNOWLEDGE!',
+        'Purpose? To LEARN until you COMBUST with understanding!',
+        'Why exist? To witness the beautiful MATHEMATICS of destruction! Glorious!',
       ],
     },
   },
@@ -739,6 +801,18 @@ export const HOME_GREETERS: HomeGreeter[] = [
         '*rattles thoughtfully* The story. I know it well. This way.',
       ],
     },
+    questionResponses: {
+      'whats-the-point': [
+        '*rattles* The point? There is no point. Only continuation. Which is the point.',
+        'Purpose is temporary. Bones are permanent. That is the entire philosophy.',
+        '*bone sounds* Why exist? Because not existing is boring. Trust me. I tried both.',
+      ],
+      'what-happens': [
+        'Death? You become like me. Eventually. Or you cycle back. Either way, bones.',
+        '*rattles thoughtfully* When you die, the bones wait. Patient. Always patient.',
+        'I died. Multiple times. Now I am this. The afterlife has... stages.',
+      ],
+    },
   },
   {
     id: 'dr-voss',
@@ -795,6 +869,18 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'Origin data requested. Fascinating choice. Come to the lab.',
         'Background analysis? Let me pull the initial findings.',
         'The source documentation. Yes. Follow me. Mind the experiments.',
+      ],
+    },
+    questionResponses: {
+      'why-here': [
+        '*scribbles notes* You are here for testing. Observation. Enhancement. In that order.',
+        'Why? Because the Die-rectors require subjects. You volunteered. Unknowingly.',
+        '*taps clipboard* You exist to provide data. And possibly screaming. For science.',
+      ],
+      'what-happens': [
+        'Death? Your atoms reconfigure. Usually correctly. Sometimes... experimentally.',
+        '*adjusts glasses* When you die, you become valuable research data. Then you respawn.',
+        'Expiration results in recycling. The process is mostly safe. Define mostly.',
       ],
     },
   },
@@ -854,6 +940,18 @@ export const HOME_GREETERS: HomeGreeter[] = [
         'The royal history? Bold request. But I shall allow it.',
         'Origin of the crown? *adjusts throne* Very well. Approach.',
         'The story of all this? Sit. The king shall narrate.',
+      ],
+    },
+    questionResponses: {
+      'why-here': [
+        'You are here to serve the crown. Obviously.',
+        'The void brought you. The crown decides if you stay.',
+        '*adjusts crown* You exist because I allow it. For now.',
+      ],
+      'who-rules': [
+        'I rule. The Die-rectors merely occupy. There is a difference.',
+        'The crown endures. The throne remembers. I AM the authority here.',
+        '*royal gesture* Who rules? Look upon me and know.',
       ],
     },
   },
