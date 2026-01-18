@@ -210,8 +210,8 @@ export function GlobeScene({
       onMouseDown={onInteraction}
       onTouchStart={onInteraction}
     >
-      <Canvas shadows style={{ background: skyConfig.fog }}>
-        <Suspense fallback={null}>
+      <Canvas shadows style={{ background: skyConfig.fog }} gl={{ preserveDrawingBuffer: true }}>
+        <Suspense fallback={<color attach="background" args={[skyConfig.fog]} />}>
           {/* Track camera distance and center target for zoom-aware UI */}
           <CameraTracker
             onDistanceChange={onCameraChange}

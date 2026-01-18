@@ -6,7 +6,8 @@
  * Disliked items reduce favor. Favor affects combat multipliers and NPC relationships.
  */
 
-import type { Element } from '../../../apps/web/src/data/wiki/types';
+// Element type matches wiki/types.ts but defined locally to avoid cross-package imports
+export type Element = 'Fire' | 'Ice' | 'Earth' | 'Wind' | 'Death' | 'Void';
 
 // ============================================
 // Configuration

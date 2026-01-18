@@ -103,11 +103,18 @@ const popUp = keyframes`
   100% { transform: translateY(0) scale(1); opacity: 1; }
 `;
 
-// Balatro-style card entrance with slight rotation variance
+// Balatro-style card entrance with dramatic entrance
 const cardDeal = keyframes`
   0% {
     opacity: 0;
-    transform: translateY(40px) scale(0.8) rotate(var(--card-rotation, 0deg));
+    transform: translateY(60px) scale(0.7) rotate(calc(var(--card-rotation, 0deg) * 3));
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.05) rotate(var(--card-rotation, 0deg));
+  }
+  80% {
+    transform: translateY(4px) scale(0.98) rotate(calc(var(--card-rotation, 0deg) * 0.5));
   }
   100% {
     opacity: 1;
@@ -134,10 +141,14 @@ const blink = keyframes`
 const messageSlideIn = keyframes`
   0% {
     opacity: 0;
-    transform: translateX(20px) scale(0.95);
+    transform: translateX(30px) scale(0.9);
   }
-  60% {
-    transform: translateX(0) scale(1.02);
+  50% {
+    opacity: 1;
+    transform: translateX(-4px) scale(1.03);
+  }
+  70% {
+    transform: translateX(2px) scale(0.99);
   }
   100% {
     opacity: 1;
@@ -1378,8 +1389,8 @@ export function HomeDashboard() {
               const isRare = rarity >= 3;
               const isUncommon = rarity >= 2;
 
-              // Slight rotation variance for "dealt" feel (-1 to +1 deg)
-              const cardRotation = (Math.random() * 2 - 1);
+              // Stable rotation variance based on index for "dealt" feel (-3 to +3 deg)
+              const cardRotation = (i - 1) * 2; // -2, 0, +2 degrees
 
               return (
                 <Box
@@ -1390,12 +1401,12 @@ export function HomeDashboard() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     borderRadius: 2,
-                    border: `1px solid ${isRare ? 'rgba(168, 85, 247, 0.4)' : isUncommon ? 'rgba(74, 222, 128, 0.3)' : tokens.colors.border}`,
+                    border: `2px solid ${isRare ? 'rgba(168, 85, 247, 0.5)' : isUncommon ? 'rgba(74, 222, 128, 0.4)' : tokens.colors.border}`,
                     bgcolor: tokens.colors.background.paper,
                     p: 2,
                     gap: 2,
                     '--card-rotation': `${cardRotation}deg`,
-                    animation: `${cardDeal} 600ms ${EASING.organic} ${400 + i * 100}ms both`,
+                    animation: bootPhase === 'active' ? `${cardDeal} 700ms ${EASING.organic} ${200 + i * 150}ms both` : 'none',
                     transition: 'transform 150ms ease, box-shadow 150ms ease',
                     '&:hover': {
                       transform: 'translateY(-4px) scale(1.02)',
@@ -1463,14 +1474,14 @@ export function HomeDashboard() {
               bgcolor: tokens.colors.primary,
               border: `3px solid ${tokens.colors.primary}`,
               cursor: 'pointer',
-              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
-              animation: `${uiFadeIn} 500ms ${EASING.organic} 1.2s both`,
+              opacity: bootPhase === 'active' ? 1 : 0, // Hidden until boot complete
+              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease, opacity 300ms ease`,
+              animation: bootPhase === 'active' ? `${uiFadeIn} 600ms ${EASING.organic} 700ms forwards` : 'none',
               boxShadow: `0 4px 12px rgba(233, 4, 65, 0.3)`,
               '&:hover': {
                 filter: 'brightness(1.15)',
                 transform: 'scale(1.05) translateY(-2px)',
                 boxShadow: `0 8px 20px rgba(233, 4, 65, 0.5)`,
-                animation: `${buttonWiggle} 300ms ease-in-out`,
               },
               '&:active': {
                 transform: 'scale(0.98)',
@@ -1952,7 +1963,7 @@ export function HomeDashboard() {
                   px: 2,
                   py: msg.type === 'quip' || msg.type === 'system' ? 0.5 : 1.5,
                   borderBottom: msg.type === 'quip' || msg.type === 'system' ? 'none' : `1px solid ${tokens.colors.border}`,
-                  animation: i === 0 ? `${messageSlideIn} 400ms ${EASING.organic}` : 'none',
+                  animation: i === 0 ? `${messageSlideIn} 500ms ${EASING.organic}` : 'none',
                   bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.05)' : msg.type === 'answer' ? 'rgba(255,200,0,0.03)' : 'transparent',
                   transition: 'background-color 150ms ease',
                   '&:hover': { bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.08)' : msg.type === 'system' ? 'transparent' : tokens.colors.background.paper },

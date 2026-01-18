@@ -349,3 +349,25 @@ export type {
   TunedChannel,
   ClaudeTuningConfig,
 } from './claude-tuning';
+
+// ============================================
+// Greeting Refinement (Multi-Pass Uniqueness)
+// ============================================
+
+export {
+  // Core refinement
+  refineGreeting,
+  refineGreetingAsync,
+  refineGreetings,
+  // Cache management
+  clearRefinementCache,
+  getRefinementCacheStats,
+  // Config
+  DEFAULT_REFINEMENT_CONFIG as DEFAULT_GREETING_REFINEMENT_CONFIG,
+} from './greeting-refinement';
+
+export type {
+  GreetingRefinementResult,
+  RefinementConfig as GreetingRefinementConfig,
+  RefinementPass,
+} from './greeting-refinement';
