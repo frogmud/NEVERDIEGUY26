@@ -2036,7 +2036,7 @@ export function HomeDashboard() {
                   px: 2,
                   py: msg.type === 'quip' || msg.type === 'system' ? 0.5 : 1.5,
                   borderBottom: msg.type === 'quip' || msg.type === 'system' ? 'none' : `1px solid ${tokens.colors.border}`,
-                  animation: i === 0 ? `${messageSlideIn} 500ms ${EASING.organic}` : 'none',
+                  // No animation - prevents horizontal overflow
                   bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.05)' : msg.type === 'answer' ? 'rgba(255,200,0,0.03)' : 'transparent',
                   transition: 'background-color 150ms ease',
                   '&:hover': { bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.08)' : msg.type === 'system' ? 'transparent' : tokens.colors.background.paper },
