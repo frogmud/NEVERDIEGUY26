@@ -10,6 +10,7 @@ import { LOADOUT_PRESETS, type LoadoutPreset } from '../../../../data/loadouts';
 import { getEntity } from '../../../../data/wiki';
 import { itemPersistsAcrossDomains } from '../../../../data/items/combat-effects';
 import type { Item, Rarity } from '../../../../data/wiki/types';
+import { DiceBagIcon } from '../DiceBagIcon';
 
 // Rarity colors (matches Shop.tsx)
 const RARITY_COLORS: Record<Rarity, string> = {
@@ -54,6 +55,23 @@ export function BagTab({ isLobby = false, selectedLoadout, onLoadoutSelect, play
 
   return (
     <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2, height: '100%', overflow: 'auto' }}>
+      {/* Dice Bag - shown during gameplay */}
+      {!isLobby && (
+        <Box>
+          <Typography
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.8rem',
+              color: tokens.colors.text.secondary,
+              mb: 1.5,
+            }}
+          >
+            Dice Collection
+          </Typography>
+          <DiceBagIcon defaultExpanded />
+        </Box>
+      )}
+
       {/* Active Inventory - shown during gameplay */}
       {!isLobby && inventoryItems.length > 0 && (
         <Box>
