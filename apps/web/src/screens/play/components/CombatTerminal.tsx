@@ -25,7 +25,7 @@ import { ReportGameDialog } from '../../../components/ReportGameDialog';
 import { TokenIcon } from '../../../components/TokenIcon';
 import { GlobeScene } from '../../../games/globe-meteor/GlobeScene';
 import { CombatHUD } from '../../../games/meteor/components';
-import { useAmbientChat } from '../../../hooks/useAmbientChat';
+// import { useAmbientChat } from '../../../hooks/useAmbientChat'; // DISABLED - NPC chatter removed from mid-game
 import { useKeyboardShortcuts } from '../../../hooks/useKeyboardShortcuts';
 import { useSoundContext } from '../../../contexts/SoundContext';
 import { useGameSettings } from '../../../contexts/GameSettingsContext';
@@ -629,29 +629,42 @@ export function CombatTerminal({
     };
   }, [engineState, eventType, domain, currentDomainSlug]);
 
-  // Ambient NPC chat - Die-rectors and NPCs comment during gameplay
-  const {
-    currentMessage,
-    onDomainEnter,
-    onVictory,
-    onDefeat,
-    onDiceRoll,
-    onCloseToGoal,
-    onFinalTurn,
-    onBigRoll,
-    onGuardianSlain,
-    clearMessage,
-  } = useAmbientChat({
-    threadId: `combat-${domain}-${tier}`,
-    currentDomain: currentDomainSlug,
-    roomNumber: engineState?.turnNumber ?? 1,
-    inCombat: true,
-    inShop: false,
-    playerStats: {
-      heat: 0,
-    },
-    gameState,
-  });
+  // Ambient NPC chat - DISABLED for MVP to reduce mid-game chatter
+  // Homepage Eternal Stream still works via HomeDashboard
+  // const {
+  //   currentMessage,
+  //   onDomainEnter,
+  //   onVictory,
+  //   onDefeat,
+  //   onDiceRoll,
+  //   onCloseToGoal,
+  //   onFinalTurn,
+  //   onBigRoll,
+  //   onGuardianSlain,
+  //   clearMessage,
+  // } = useAmbientChat({
+  //   threadId: `combat-${domain}-${tier}`,
+  //   currentDomain: currentDomainSlug,
+  //   roomNumber: engineState?.turnNumber ?? 1,
+  //   inCombat: true,
+  //   inShop: false,
+  //   playerStats: {
+  //     heat: 0,
+  //   },
+  //   gameState,
+  // });
+
+  // Stub functions to replace disabled useAmbientChat
+  const currentMessage = null;
+  const onDomainEnter = () => {};
+  const onVictory = () => {};
+  const onDefeat = () => {};
+  const onDiceRoll = () => {};
+  const onCloseToGoal = () => {};
+  const onFinalTurn = () => {};
+  const onBigRoll = () => {};
+  const onGuardianSlain = () => {};
+  const clearMessage = () => {};
 
   // Fire domain enter on mount (Die-rector greets player)
   const domainEnterFired = useRef(false);
