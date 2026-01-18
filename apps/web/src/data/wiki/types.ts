@@ -169,6 +169,12 @@ export interface Item extends WikiEntity {
   // Domain-scoped inventory: items expire on domain clear unless they persist
   // Legendary/Unique/Epic always persist. Rare items need this flag set to true.
   persistsAcrossDomains?: boolean;
+
+  // Favor system: items are eternal treasures, not combat stat sticks
+  // Items affect Die-rector favor when gifted, which provides combat bonuses
+  favorValue?: number;         // Base favor value when gifted (overrides auto-calculation)
+  collectibleBy?: string[];    // Die-rector slugs who particularly want this item
+  loreSignificance?: string;   // Why Die-rectors collect this (for wiki/dialogue)
 }
 
 // Domain (game world/location)
@@ -232,6 +238,12 @@ export interface Pantheon extends WikiEntity {
   dialogue?: string[];
   // Invisible dice-themed stats (divine power levels)
   baseStats?: BaseStats;
+
+  // Item preferences (for bargaining and favor system)
+  preferredItems?: string[];       // Item slugs they love to collect
+  dislikedItems?: string[];        // Item slugs they dislike
+  preferredElements?: Element[];   // Elements they favor in items
+  collectsCategory?: ItemType[];   // Item types they hoard
 }
 
 // Wanderer (mobile NPC)
