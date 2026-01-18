@@ -61,6 +61,24 @@ import type {
   EntityMap,
 } from '@ndg/ai-engine';
 
+// Dice bag system for persistent dice across run
+import type { DiceBag, DieConfig } from '@ndg/ai-engine';
+import {
+  createDiceBag,
+  drawDiceBagHand,
+  throwDiceBagDice,
+  tradeDiceBagDice,
+  endDiceBagEvent,
+  resetDiceBagForEvent,
+  addDiceFromConfig,
+  removeDiceBagDice,
+  rollDiceBagHand,
+  toggleDiceBagHold,
+  getBagSummary,
+  DEFAULT_STARTING_DICE,
+  createSeededRng,
+} from '@ndg/ai-engine';
+
 // Center panel states (Balatro-style swapping)
 // 'portals' replaces doors - shown after combat win (D1-5)
 // 'summary' is ONLY for final victory after D6
@@ -121,6 +139,8 @@ export interface RunState extends GameState {
   runEnded: boolean;
   // Combat integration
   combatState: RunCombatState | null;
+  // Dice bag (persistent dice collection across run)
+  diceBag: DiceBag | null;
   // Practice mode (Battle Now) - single combat, no progression
   practiceMode: boolean;
   // Flume transition (domain-to-domain)
@@ -180,6 +200,18 @@ interface RunContextValue {
   throwDice: (rollResults: Die[]) => void;
   endCombatTurn: () => void;
 
+  // Dice bag actions (persistent dice collection)
+  initDiceBag: (startingDice?: DieConfig[]) => void;
+  drawDiceBagHand: () => void;
+  throwDiceBag: () => void;
+  tradeDiceBag: (count?: number) => void;
+  endDiceBagEvent: () => void;
+  addDiceToBag: (configs: DieConfig[]) => void;
+  removeDiceFromBag: (dieIds: string[]) => void;
+  toggleDiceBagHold: (dieId: string) => void;
+  rollDiceBag: () => void;
+  getDiceBagSummary: () => ReturnType<typeof getBagSummary> | null;
+
   // Shop callbacks
   purchase: (cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => void;
   continueFromShop: () => void;
@@ -224,7 +256,17 @@ type RunAction =
   | { type: 'UPDATE_COMBAT_SCORE'; score: number; enemiesSquished?: number; friendlyHits?: number }
   | { type: 'SET_PENDING_VICTORY'; payload: PendingVictory }
   // Flume transition
-  | { type: 'COMPLETE_FLUME_TRANSITION' };
+  | { type: 'COMPLETE_FLUME_TRANSITION' }
+  // Dice bag actions
+  | { type: 'INIT_DICE_BAG'; startingDice?: DieConfig[] }
+  | { type: 'DRAW_DICE_BAG_HAND' }
+  | { type: 'THROW_DICE_BAG' }
+  | { type: 'TRADE_DICE_BAG'; count?: number }
+  | { type: 'END_DICE_BAG_EVENT' }
+  | { type: 'ADD_DICE_TO_BAG'; configs: DieConfig[] }
+  | { type: 'REMOVE_DICE_FROM_BAG'; dieIds: string[] }
+  | { type: 'TOGGLE_DICE_BAG_HOLD'; dieId: string }
+  | { type: 'ROLL_DICE_BAG' };
 
 // Initial state
 function createInitialRunState(): RunState {
@@ -241,6 +283,7 @@ function createInitialRunState(): RunState {
     lastRoomBonus: null,
     runEnded: false,
     combatState: null,
+    diceBag: null,
     practiceMode: false,
     showingFlume: false,
     flumeToDomain: null,
@@ -266,13 +309,88 @@ function runReducer(state: RunState, action: RunAction): RunState {
     case 'SET_TRANSITION_PHASE':
       return { ...state, transitionPhase: action.phase };
 
-    case 'TRANSITION_TO_PANEL':
-      // Start transition sequence - set pending panel and begin exit phase
+    case 'TRANSITION_TO_PANEL': {
+      // Immediate panel swap (no wipe animation)
+      // Apply pending victory data if transitioning to portals/summary
+      if ((action.panel === 'portals' || action.panel === 'summary') && state.pendingVictory) {
+        // Mark zone as cleared in domain state
+        const updatedDomainState = state.domainState && state.selectedZone
+          ? {
+              ...state.domainState,
+              zones: state.domainState.zones.map((z) =>
+                z.id === state.selectedZone?.id ? { ...z, cleared: true } : z
+              ),
+              clearedCount: state.domainState.clearedCount + 1,
+            }
+          : state.domainState;
+
+        // Calculate early finish bonus
+        const turnsRemaining = state.pendingVictory.turnsRemaining;
+        const bonusMultiplier = getEarlyFinishBonus(turnsRemaining);
+        const baseGold = state.pendingVictory.gold;
+        const totalGold = Math.floor(baseGold * bonusMultiplier);
+        const bonusGold = totalGold - baseGold;
+
+        // Store bonus info for UI (only if there's a bonus)
+        const roomBonus: RoomBonus | null = turnsRemaining > 0 ? {
+          turnsRemaining,
+          bonusMultiplier,
+          bonusGold,
+        } : null;
+
+        // Calculate event time for performance stats
+        const eventTimeMs = state.eventStartTime > 0 ? Date.now() - state.eventStartTime : 0;
+        const newEventTimes = [...(state.runStats.eventTimesMs || []), eventTimeMs];
+        const avgEventTimeMs = newEventTimes.length > 0
+          ? Math.round(newEventTimes.reduce((a, b) => a + b, 0) / newEventTimes.length)
+          : 0;
+        const fastestEventMs = newEventTimes.length > 0
+          ? Math.min(...newEventTimes.filter(t => t > 0))
+          : 0;
+
+        // Update best roll if this event had a better one
+        const bestThrowScore = state.pendingVictory.bestThrowScore || 0;
+        const newBestRoll = Math.max(state.runStats.bestRoll || 0, bestThrowScore);
+
+        // End dice bag event - consumes exhausted dice permanently
+        const updatedDiceBag = state.diceBag ? endDiceBagEvent(state.diceBag) : null;
+
+        return {
+          ...state,
+          centerPanel: action.panel,
+          transitionPhase: 'idle',
+          pendingPanel: null,
+          domainState: updatedDomainState,
+          selectedZone: null,
+          lastRoomScore: state.pendingVictory.score,
+          lastRoomGold: totalGold,
+          lastRoomBonus: roomBonus,
+          totalScore: state.totalScore + state.pendingVictory.score,
+          gold: state.gold + calculateGoldGain(totalGold, state.gold),
+          pendingVictory: null,
+          diceBag: updatedDiceBag,
+          runStats: {
+            ...state.runStats,
+            npcsSquished: state.runStats.npcsSquished + state.pendingVictory.stats.npcsSquished,
+            diceThrown: state.runStats.diceThrown + state.pendingVictory.stats.diceThrown,
+            eventsCompleted: state.runStats.eventsCompleted + 1,
+            totalTimeMs: state.runStartTime > 0 ? Date.now() - state.runStartTime : 0,
+            avgEventTimeMs,
+            fastestEventMs: fastestEventMs > 0 ? fastestEventMs : 0,
+            eventTimesMs: newEventTimes,
+            bestRoll: newBestRoll,
+          },
+        };
+      }
+
+      // Simple panel swap (no pending victory)
       return {
         ...state,
-        transitionPhase: 'exit',
-        pendingPanel: action.panel,
+        centerPanel: action.panel,
+        transitionPhase: 'idle',
+        pendingPanel: null,
       };
+    }
 
     case 'COMPLETE_TRANSITION': {
       // Wipe completed - swap to pending panel and reset transition state
@@ -391,6 +509,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         directorAffinity: null,  // Set when first die is picked
         travelMultipliers: { scoreMultiplier: 1.0, goldMultiplier: 1.0 },
         hp: 100,
+        // Initialize dice bag for the run
+        diceBag: createDiceBag(action.threadId, DEFAULT_STARTING_DICE),
       };
     }
 
@@ -407,6 +527,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         practiceMode: true,
         currentDomain: randomDomainId,
         domainState: generateDomain(randomDomainId),
+        // Initialize dice bag for practice mode
+        diceBag: createDiceBag(threadId, DEFAULT_STARTING_DICE),
       };
     }
 
@@ -862,6 +984,94 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
+    // ============================================
+    // Dice Bag Actions
+    // ============================================
+
+    case 'INIT_DICE_BAG': {
+      const startingDice = action.startingDice || DEFAULT_STARTING_DICE;
+      const runId = state.threadId || `run-${Date.now()}`;
+      const newBag = createDiceBag(runId, startingDice);
+      return {
+        ...state,
+        diceBag: newBag,
+      };
+    }
+
+    case 'DRAW_DICE_BAG_HAND': {
+      if (!state.diceBag) return state;
+      const rng = createSeededRng(state.threadId || 'default');
+      const updatedBag = drawDiceBagHand(state.diceBag, rng);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'THROW_DICE_BAG': {
+      if (!state.diceBag) return state;
+      const updatedBag = throwDiceBagDice(state.diceBag);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'TRADE_DICE_BAG': {
+      if (!state.diceBag) return state;
+      const updatedBag = tradeDiceBagDice(state.diceBag, action.count || 0);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'END_DICE_BAG_EVENT': {
+      if (!state.diceBag) return state;
+      const updatedBag = endDiceBagEvent(state.diceBag);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'ADD_DICE_TO_BAG': {
+      if (!state.diceBag) return state;
+      const updatedBag = addDiceFromConfig(state.diceBag, action.configs);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'REMOVE_DICE_FROM_BAG': {
+      if (!state.diceBag) return state;
+      const updatedBag = removeDiceBagDice(state.diceBag, action.dieIds);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'TOGGLE_DICE_BAG_HOLD': {
+      if (!state.diceBag) return state;
+      const updatedBag = toggleDiceBagHold(state.diceBag, action.dieId);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
+    case 'ROLL_DICE_BAG': {
+      if (!state.diceBag) return state;
+      const rng = createSeededRng(state.threadId || 'default');
+      const updatedBag = rollDiceBagHand(state.diceBag, rng);
+      return {
+        ...state,
+        diceBag: updatedBag,
+      };
+    }
+
     default:
       return state;
   }
@@ -1009,6 +1219,48 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'END_COMBAT_TURN' });
   }, []);
 
+  // Dice bag actions
+  const initDiceBag = useCallback((startingDice?: DieConfig[]) => {
+    dispatch({ type: 'INIT_DICE_BAG', startingDice });
+  }, []);
+
+  const drawDiceBagHandAction = useCallback(() => {
+    dispatch({ type: 'DRAW_DICE_BAG_HAND' });
+  }, []);
+
+  const throwDiceBagAction = useCallback(() => {
+    dispatch({ type: 'THROW_DICE_BAG' });
+  }, []);
+
+  const tradeDiceBagAction = useCallback((count?: number) => {
+    dispatch({ type: 'TRADE_DICE_BAG', count });
+  }, []);
+
+  const endDiceBagEventAction = useCallback(() => {
+    dispatch({ type: 'END_DICE_BAG_EVENT' });
+  }, []);
+
+  const addDiceToBag = useCallback((configs: DieConfig[]) => {
+    dispatch({ type: 'ADD_DICE_TO_BAG', configs });
+  }, []);
+
+  const removeDiceFromBag = useCallback((dieIds: string[]) => {
+    dispatch({ type: 'REMOVE_DICE_FROM_BAG', dieIds });
+  }, []);
+
+  const toggleDiceBagHoldAction = useCallback((dieId: string) => {
+    dispatch({ type: 'TOGGLE_DICE_BAG_HOLD', dieId });
+  }, []);
+
+  const rollDiceBagAction = useCallback(() => {
+    dispatch({ type: 'ROLL_DICE_BAG' });
+  }, []);
+
+  const getDiceBagSummaryValue = useCallback(() => {
+    if (!state.diceBag) return null;
+    return getBagSummary(state.diceBag);
+  }, [state.diceBag]);
+
   const purchase = useCallback((cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => {
     logShopPurchase(itemId, cost, state.gold - cost);
     dispatch({ type: 'PURCHASE', cost, itemId, category });
@@ -1101,6 +1353,17 @@ export function RunProvider({ children }: { children: ReactNode }) {
     toggleHoldDie,
     throwDice,
     endCombatTurn,
+    // Dice bag
+    initDiceBag,
+    drawDiceBagHand: drawDiceBagHandAction,
+    throwDiceBag: throwDiceBagAction,
+    tradeDiceBag: tradeDiceBagAction,
+    endDiceBagEvent: endDiceBagEventAction,
+    addDiceToBag,
+    removeDiceFromBag,
+    toggleDiceBagHold: toggleDiceBagHoldAction,
+    rollDiceBag: rollDiceBagAction,
+    getDiceBagSummary: getDiceBagSummaryValue,
     purchase,
     continueFromShop,
     selectPortal,
@@ -1128,6 +1391,17 @@ export function RunProvider({ children }: { children: ReactNode }) {
     toggleHoldDie,
     throwDice,
     endCombatTurn,
+    // Dice bag
+    initDiceBag,
+    drawDiceBagHandAction,
+    throwDiceBagAction,
+    tradeDiceBagAction,
+    endDiceBagEventAction,
+    addDiceToBag,
+    removeDiceFromBag,
+    toggleDiceBagHoldAction,
+    rollDiceBagAction,
+    getDiceBagSummaryValue,
     purchase,
     continueFromShop,
     selectPortal,

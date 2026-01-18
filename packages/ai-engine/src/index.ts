@@ -774,6 +774,46 @@ export type {
   ComboResult,
   ElementComboResult,
   TurnSummary,
+  // Dice Bag types
+  DiceBag,
+  DieConfig,
+  DieRarity,
+} from './combat';
+
+// ============================================
+// Dice Bag System (Persistent dice across run)
+// ============================================
+
+export {
+  DEFAULT_HAND_SIZE,
+  DEFAULT_STARTING_DICE,
+  createDie,
+  createDiceBag,
+  drawDiceBagHand,
+  throwDiceBagDice,
+  tradeDiceBagDice,
+  endDiceBagEvent,
+  resetDiceBagForEvent,
+  addDiceBagDice,
+  addDiceFromConfig,
+  removeDiceBagDice,
+  toggleDiceBagHold,
+  rollDiceBagHand,
+  getTotalDiceCount,
+  getAvailableCount,
+  getDiceBagHand,
+  getDiceBagHandTotal,
+  getDiceBagHeldCount,
+  getUnheldDice,
+  getExhaustedCount,
+  getConsumedCount,
+  isBagEmpty,
+  canDraw,
+  canTrade,
+  getBagSummary,
+  groupBySides,
+  groupByElement,
+  groupByRarity,
 } from './combat';
 
 // ============================================

@@ -88,6 +88,11 @@ const pulse = keyframes`
   50% { opacity: 1; }
 `;
 
+const pulseGlow = keyframes`
+  0%, 100% { filter: drop-shadow(0 0 15px rgba(233, 4, 65, 0.5)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 30px rgba(233, 4, 65, 0.8)); transform: scale(1.02); }
+`;
+
 const slideUp = keyframes`
   0% { transform: translateY(100%); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
@@ -187,7 +192,7 @@ const itemDropIn = keyframes`
 
 // Boot sequence phases
 // New sequence: skull-hero -> ui-reveal -> items-drop -> active
-type BootPhase = 'slide' | 'skull-hero' | 'ui-reveal' | 'items-drop' | 'active';
+type BootPhase = 'slide' | 'skull-hero' | 'ui-reveal' | 'items-drop' | 'active' | 'launching';
 
 /**
  * ASCII Skull - NDG skull dome logo (from ndg-skull-ascii.txt)
@@ -755,6 +760,7 @@ export function HomeDashboard() {
       'ui-reveal': { next: 'items-drop', delay: 600 },     // Top rail + stream slide in
       'items-drop': { next: 'active', delay: 900 },        // Items drop, skull explodes
       active: { next: null, delay: 0 },
+      launching: { next: null, delay: 0 },                  // Launching state (handled by handlePlay)
     };
     // Total: 100 + 1800 + 600 + 900 = 3400ms
 
@@ -1192,12 +1198,19 @@ export function HomeDashboard() {
   // ============================================
 
   const handlePlay = () => {
+    // Show launching skull animation
+    setBootPhase('launching');
+
     // Quick launch: skip zone selection and go straight to combat
     sessionStorage.setItem('ndg-starting-loadout', JSON.stringify({
       ...currentLoadout,
       quickLaunch: true,
     }));
-    navigate('/play');
+
+    // Brief delay to show skull, then navigate
+    setTimeout(() => {
+      navigate('/play');
+    }, 600);
   };
 
   const handleQuickPrompt = (prompt: QuickPrompt) => {
@@ -2295,6 +2308,71 @@ export function HomeDashboard() {
           </Box>
         </DialogContent>
       </Dialog>
+
+      {/* Launching Overlay - Full screen skull when generating new seed */}
+      {bootPhase === 'launching' && (
+        <Box
+          sx={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            bgcolor: tokens.colors.background.default,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            animation: `${fadeIn} 200ms ease-out`,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              filter: 'drop-shadow(0 0 20px rgba(233, 4, 65, 0.7))',
+              animation: `${pulseGlow} 600ms ease-in-out infinite`,
+            }}
+          >
+            {ASCII_SKULL.map((row, rowIdx) => (
+              <Box
+                key={rowIdx}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  height: '0.8rem',
+                }}
+              >
+                {row.split('').map((char, charIdx) => (
+                  <Box
+                    key={charIdx}
+                    component="span"
+                    sx={{
+                      fontFamily: 'monospace',
+                      fontSize: '0.75rem',
+                      lineHeight: 1,
+                      color: tokens.colors.primary,
+                      whiteSpace: 'pre',
+                    }}
+                  >
+                    {char}
+                  </Box>
+                ))}
+              </Box>
+            ))}
+          </Box>
+          <Typography
+            sx={{
+              mt: 3,
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1rem',
+              color: tokens.colors.text.secondary,
+              opacity: 0.8,
+            }}
+          >
+            Generating fate...
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 }
