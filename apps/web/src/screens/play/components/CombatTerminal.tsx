@@ -421,7 +421,7 @@ function EventTimer({
 }
 
 /** Feed entry types for sidebar history */
-export type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
+export type FeedEntryType = 'npc_chat' | 'roll' | 'trade' | 'victory' | 'defeat';
 
 export interface FeedEntry {
   id: string;
@@ -438,6 +438,9 @@ export interface FeedEntry {
   // Trade fields
   diceTraded?: number;
   multiplierGained?: number;
+  // Victory/Defeat fields
+  finalScore?: number;
+  domains?: number;
 }
 
 /** Game state exposed to parent for sidebar display */

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Box, Typography, Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes } from '@mui/material';
+import { Box, Typography, Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, keyframes, Snackbar } from '@mui/material';
 import {
   ArrowForwardSharp as ContinueIcon,
   CheckCircleSharp as CheckIcon,
@@ -16,6 +16,15 @@ const gamingFont = { fontFamily: tokens.fonts.gaming };
 const slideIn = keyframes`
   0% { opacity: 0; transform: translateX(-30px); }
   100% { opacity: 1; transform: translateX(0); }
+`;
+
+// Shake animation for "can't afford" feedback
+const shake = keyframes`
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
 `;
 
 // Domain-specific shop vendors
@@ -138,6 +147,10 @@ export function Shop({
   const [purchasingItem, setPurchasingItem] = useState<string | null>(null);
   const [confirmItem, setConfirmItem] = useState<Item | null>(null);
 
+  // "Can't afford" feedback state
+  const [showBrokeMessage, setShowBrokeMessage] = useState(false);
+  const [brokeShake, setBrokeShake] = useState(false);
+
   // Vendor sprite animation
   const vendor = DOMAIN_VENDORS[domainId] || DOMAIN_VENDORS[1];
   const [spriteFrame, setSpriteFrame] = useState(1);
@@ -210,15 +223,28 @@ export function Shop({
     [gold, tier, favorTokens, purchasedItems, purchasingItem, onPurchaseItem]
   );
 
+  // Trigger "can't afford" feedback
+  const triggerBrokeFeedback = useCallback(() => {
+    setShowBrokeMessage(true);
+    setBrokeShake(true);
+    setTimeout(() => setBrokeShake(false), 500);
+  }, []);
+
   // Handle purchase click - show confirmation for expensive items (Round 31)
   const handlePurchaseWikiItem = (item: Item) => {
+    if (purchasedItems.includes(item.slug) || purchasingItem) return;
+
     const cost = calculateItemCost(item, tier, favorTokens);
-    if (gold >= cost && !purchasedItems.includes(item.slug) && !purchasingItem) {
-      if (requiresConfirmation(item, cost)) {
-        setConfirmItem(item);
-      } else {
-        executePurchase(item);
-      }
+    if (gold < cost) {
+      // Can't afford - show feedback
+      triggerBrokeFeedback();
+      return;
+    }
+
+    if (requiresConfirmation(item, cost)) {
+      setConfirmItem(item);
+    } else {
+      executePurchase(item);
     }
   };
 
@@ -245,8 +271,11 @@ export function Shop({
       onPurchase(rerollCost, 'reroll', 'powerup');
       setRerollCount((prev) => prev + 1);
       setRerollSeed(`${threadId}-reroll-${rerollCount + 1}`);
+    } else {
+      // Can't afford reroll
+      triggerBrokeFeedback();
     }
-  }, [gold, threadId, rerollCount, onPurchase]);
+  }, [gold, rerollCost, threadId, rerollCount, onPurchase, triggerBrokeFeedback]);
 
   // Generate items with reroll seed
   const displayItems = useMemo(() => {
@@ -389,17 +418,17 @@ export function Shop({
           return (
             <Box
               key={item.slug}
-              onClick={() => !isPurchased && !isPurchasing && canAfford && handlePurchaseWikiItem(item)}
+              onClick={() => handlePurchaseWikiItem(item)}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                cursor: isPurchased || !canAfford ? 'default' : 'pointer',
+                cursor: isPurchased ? 'default' : 'pointer',
                 opacity: isPurchased ? 0.5 : 1,
                 transition: 'all 150ms ease',
                 minWidth: { xs: 100, sm: 120, md: 140 },
                 '&:hover': {
-                  transform: isPurchased || !canAfford ? 'none' : 'scale(1.05)',
+                  transform: isPurchased ? 'none' : 'scale(1.05)',
                 },
               }}
             >
@@ -412,7 +441,14 @@ export function Shop({
                   mb: 1,
                 }}
               >
-                {isPurchased ? <CheckIcon sx={{ fontSize: 24 }} /> : `$${cost}`}
+                {isPurchased ? (
+                  <CheckIcon sx={{ fontSize: 24 }} />
+                ) : (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 18, height: 18 }} />
+                    {cost}
+                  </Box>
+                )}
               </Typography>
 
               {/* Big Item Sprite */}
@@ -478,17 +514,17 @@ export function Shop({
 
         {/* Reroll Requisition slot */}
         <Box
-          onClick={() => gold >= rerollCost && handleReroll()}
+          onClick={handleReroll}
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            cursor: gold >= rerollCost ? 'pointer' : 'default',
-            opacity: gold >= rerollCost ? 1 : 0.4,
+            cursor: 'pointer',
+            opacity: gold >= rerollCost ? 1 : 0.6,
             transition: 'all 150ms ease',
             minWidth: { xs: 100, sm: 120, md: 140 },
             '&:hover': {
-              transform: gold >= rerollCost ? 'scale(1.05)' : 'none',
+              transform: 'scale(1.05)',
             },
           }}
         >
@@ -501,7 +537,10 @@ export function Shop({
               mb: 1,
             }}
           >
-            ${rerollCost}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 18, height: 18 }} />
+              {rerollCost}
+            </Box>
           </Typography>
 
           {/* Reroll text area - no icon */}
@@ -601,12 +640,21 @@ export function Shop({
                   color: RARITY_COLORS[confirmItem.rarity || 'Common'],
                 }}
               />
-              <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: tokens.colors.warning }}>
-                ${calculateItemCost(confirmItem, tier, favorTokens)}
-              </Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
-                Remaining: ${gold - calculateItemCost(confirmItem, tier, favorTokens)}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 20, height: 20 }} />
+                <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: tokens.colors.warning }}>
+                  {calculateItemCost(confirmItem, tier, favorTokens)}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
+                  Remaining:
+                </Typography>
+                <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 12, height: 12 }} />
+                <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
+                  {gold - calculateItemCost(confirmItem, tier, favorTokens)}
+                </Typography>
+              </Box>
             </Box>
           )}
         </DialogContent>
@@ -628,6 +676,40 @@ export function Shop({
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* "Not enough gold" snackbar */}
+      <Snackbar
+        open={showBrokeMessage}
+        autoHideDuration={2000}
+        onClose={() => setShowBrokeMessage(false)}
+        message={
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography sx={{ ...gamingFont, fontSize: '0.9rem' }}>
+              Not enough gold!
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                animation: brokeShake ? `${shake} 0.5s ease` : 'none',
+              }}
+            >
+              <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 16, height: 16 }} />
+              <Typography sx={{ ...gamingFont, fontSize: '1rem', color: tokens.colors.warning }}>
+                {gold}
+              </Typography>
+            </Box>
+          </Box>
+        }
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            bgcolor: tokens.colors.background.elevated,
+            border: `1px solid ${tokens.colors.error}50`,
+          },
+        }}
+      />
     </Box>
   );
 }

@@ -21,7 +21,7 @@ interface RollHistoryEntry {
 }
 
 /** Feed entry types for sidebar history */
-type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
+type FeedEntryType = 'npc_chat' | 'roll' | 'trade' | 'victory' | 'defeat';
 
 interface FeedEntry {
   id: string;
@@ -38,6 +38,9 @@ interface FeedEntry {
   // Trade fields
   diceTraded?: number;
   multiplierGained?: number;
+  // Victory/Defeat fields
+  finalScore?: number;
+  domains?: number;
 }
 
 interface GameState {

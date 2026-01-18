@@ -1,289 +1,282 @@
 /**
  * PortalSelection - Distance-based domain travel after combat victory
  *
- * Shows available portals with:
- * - Domain name & element
- * - Distance (1-5 sectors) and travel damage
- * - Score/gold multipliers for risk/reward
- * - Finale shows "???" until committed
+ * Simplified UI:
+ * - Animated flume backgrounds
+ * - Click to select, Travel button above cards
+ * - Unselected cards fade when one is picked
  *
  * NEVER DIE GUY
  */
 
-import { useMemo, useCallback } from 'react';
-import { Box, Typography, Button, Chip, Alert, keyframes } from '@mui/material';
-import {
-  TravelExploreSharp as PortalIcon,
-  FavoriteSharp as HeartIcon,
-  StarSharp as ScoreIcon,
-  MonetizationOnSharp as GoldIcon,
-  WarningAmberSharp as WarningIcon,
-  HelpOutlineSharp as UnknownIcon,
-} from '@mui/icons-material';
+import { useMemo, useCallback, useState, useEffect } from 'react';
+import { Box, Typography, Button, keyframes } from '@mui/material';
 import { tokens } from '../../theme';
 import { useRun } from '../../contexts/RunContext';
-import {
-  getAvailablePortals,
-  type PortalOption,
-  DISTANCE_TABLE,
-} from '../../data/portal-config';
-import { getExpiringItems } from '../../data/balance-config';
-import { DOMAIN_CONFIGS } from '../../data/domains';
+import { getAvailablePortals, type PortalOption } from '../../data/portal-config';
+import { DOMAIN_PLANET_CONFIG } from '../../games/globe-meteor/config';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
-// Element colors for portal cards
-const ELEMENT_COLORS: Record<string, string> = {
-  Earth: '#8B4513',
-  Ice: '#00CED1',
-  Fire: '#FF4500',
-  Death: '#4B0082',
-  Void: '#1a1a2e',
-  Wind: '#98FB98',
-  Neutral: '#808080',
+// Staggered card entrance
+const slideIn = keyframes`
+  0% { opacity: 0; transform: translateY(40px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
+// Planet glow pulse
+const planetPulse = keyframes`
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+`;
+
+// Mystery glow for finale
+const mysteryPulse = keyframes`
+  0%, 100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(138, 43, 226, 0.7); }
+`;
+
+// Map domain IDs to visually distinct flume sequences
+// Spread across all 12 sequences for variety, with different start frames and speeds
+const DOMAIN_FLUME_CONFIG: Record<number, { dir: string; startFrame: number; step: number; interval: number; loop: boolean }> = {
+  1: { dir: 'flume-00001', startFrame: 1, step: 2, interval: 120, loop: true },   // Earth - organic
+  2: { dir: 'flume-00007', startFrame: 25, step: 3, interval: 100, loop: true },  // Frost - crystalline
+  3: { dir: 'flume-00003', startFrame: 50, step: 2, interval: 90, loop: true },   // Infernus - fiery
+  4: { dir: 'flume-00004', startFrame: 10, step: 2, interval: 130, loop: true },  // Shadow - dark wisps
+  5: { dir: 'flume-00010', startFrame: 1, step: 2, interval: 140, loop: false },  // Null - void (no loop)
+  6: { dir: 'flume-00005', startFrame: 70, step: 2, interval: 110, loop: true },  // Aberrant - weird
 };
 
-// Portal card entrance animation
-const fadeInUp = keyframes`
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-`;
+const FRAME_COUNT = 100;
 
-// Glow animation for finale portal
-const mysteryGlow = keyframes`
-  0%, 100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(138, 43, 226, 0.6); }
-`;
+// Animated flume background with per-domain variation
+function AnimatedFlumeBackground({ domainId, isHovered }: { domainId: number; isHovered: boolean }) {
+  const config = DOMAIN_FLUME_CONFIG[domainId];
+  const [frameIndex, setFrameIndex] = useState(config?.startFrame || 1);
+  const [hasError, setHasError] = useState(false);
+  const [stopped, setStopped] = useState(false);
+
+  useEffect(() => {
+    if (hasError || !config || stopped) return;
+    const interval = setInterval(() => {
+      setFrameIndex(prev => {
+        const next = prev + config.step;
+        if (next > FRAME_COUNT) {
+          if (config.loop) {
+            return 1;
+          } else {
+            setStopped(true);
+            return FRAME_COUNT;
+          }
+        }
+        return next;
+      });
+    }, config.interval);
+    return () => clearInterval(interval);
+  }, [hasError, config, stopped]);
+
+  if (hasError || !config) return null;
+
+  return (
+    <Box
+      component="img"
+      src={`/assets/flumes-svg/cursed/${config.dir}/frame-${String(frameIndex).padStart(2, '0')}.svg`}
+      alt=""
+      onError={() => setHasError(true)}
+      sx={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        // Dull when not hovered, vibrant on hover
+        opacity: isHovered ? 0.9 : 0.5,
+        filter: isHovered ? 'saturate(1) brightness(1)' : 'saturate(0.4) brightness(0.7)',
+        transition: 'opacity 300ms ease, filter 300ms ease',
+      }}
+    />
+  );
+}
 
 interface PortalCardProps {
   portal: PortalOption;
   currentHp: number;
+  isSelected: boolean;
+  hasSelection: boolean;
   onSelect: () => void;
   index: number;
 }
 
-function PortalCard({ portal, currentHp, onSelect, index }: PortalCardProps) {
-  const config = DOMAIN_CONFIGS[portal.domainId];
-  const elementColor = ELEMENT_COLORS[portal.element] || ELEMENT_COLORS.Neutral;
+function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, index }: PortalCardProps) {
+  const planetConfig = DOMAIN_PLANET_CONFIG[portal.domainId];
   const hpAfterTravel = Math.max(1, currentHp - portal.travelDamage);
   const isLowHp = hpAfterTravel <= 25;
+  const isSafe = portal.travelDamage === 0;
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Button
+    <Box
       onClick={onSelect}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        p: 2,
-        minWidth: 180,
-        maxWidth: 220,
-        bgcolor: 'background.paper',
-        border: `2px solid ${elementColor}`,
+        justifyContent: 'flex-end',
+        p: 0,
+        width: 180,
+        height: 240,
+        bgcolor: tokens.colors.background.paper,
+        border: isSelected ? `2px solid ${tokens.colors.text.primary}` : `2px solid ${tokens.colors.border}`,
         borderRadius: '12px',
-        textTransform: 'none',
-        animation: `${fadeInUp} 400ms ease-out`,
-        animationDelay: `${index * 100}ms`,
-        animationFillMode: 'backwards',
-        transition: 'all 150ms ease',
-        ...(portal.isUnknown && {
-          animation: `${fadeInUp} 400ms ease-out, ${mysteryGlow} 2s ease-in-out infinite`,
-          animationDelay: `${index * 100}ms, 0ms`,
-        }),
+        opacity: 0,
+        animation: `${slideIn} 500ms ease-out forwards`,
+        animationDelay: `${index * 200}ms`,
+        transition: 'all 200ms ease',
+        overflow: 'hidden',
+        position: 'relative',
+        cursor: 'pointer',
+        // Fade non-selected when one is picked
+        filter: hasSelection && !isSelected ? 'brightness(0.5)' : 'brightness(1)',
+        transform: isSelected ? 'scale(1.05)' : 'scale(1)',
         '&:hover': {
-          transform: 'scale(1.05)',
-          bgcolor: 'background.elevated',
-          borderColor: tokens.colors.primary,
+          transform: isSelected ? 'scale(1.05)' : 'scale(1.02)',
+          borderColor: tokens.colors.text.secondary,
         },
       }}
     >
-      {/* Domain name */}
-      <Typography
-        variant="h6"
-        sx={{
-          ...gamingFont,
-          color: elementColor,
-          fontWeight: 700,
-          mb: 1,
-        }}
-      >
-        {portal.domainName}
-      </Typography>
+      {/* Full-bleed animated background */}
+      {!portal.isUnknown && <AnimatedFlumeBackground domainId={portal.domainId} isHovered={isHovered || isSelected} />}
 
-      {/* Element badge */}
-      <Chip
-        label={portal.element}
-        size="small"
+      {/* Unknown portal background */}
+      {portal.isUnknown && (
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(circle at 50% 30%, #6a5acd, #1a0a2e)',
+            animation: `${mysteryPulse} 2s ease-in-out infinite`,
+          }}
+        />
+      )}
+
+      {/* Dark gradient for text readability */}
+      <Box
         sx={{
-          bgcolor: elementColor,
-          color: 'white',
-          fontWeight: 600,
-          mb: 2,
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 80%)',
+          pointerEvents: 'none',
         }}
       />
 
-      {/* Distance and stats */}
-      {portal.isUnknown ? (
-        // Finale: Unknown distance
-        <Box sx={{ textAlign: 'center', mb: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
-            <UnknownIcon sx={{ color: tokens.colors.rarity.epic }} />
-            <Typography sx={{ ...gamingFont, fontSize: '1.1rem', color: tokens.colors.rarity.epic }}>
-              ??? SECTORS
-            </Typography>
-          </Box>
-          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-            Distance revealed on arrival
-          </Typography>
-        </Box>
-      ) : (
-        // Normal portal: Show distance stats
-        <Box sx={{ textAlign: 'center', mb: 2 }}>
-          {/* Distance */}
-          <Typography sx={{ ...gamingFont, fontSize: '1.3rem', fontWeight: 700, mb: 1 }}>
-            {portal.distance} {portal.distance === 1 ? 'SECTOR' : 'SECTORS'}
-          </Typography>
-
-          {/* Affinity bonus indicator */}
-          {portal.hasAffinityBonus && (
-            <Chip
-              label="AFFINITY -1"
-              size="small"
-              sx={{
-                bgcolor: tokens.colors.success,
-                color: 'white',
-                fontSize: '0.65rem',
-                height: 18,
-                mb: 1,
-              }}
-            />
-          )}
-
-          {/* HP cost */}
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5, mb: 0.5 }}>
-            <HeartIcon sx={{ fontSize: 16, color: isLowHp ? tokens.colors.error : tokens.colors.error }} />
-            <Typography
-              sx={{
-                fontSize: '0.9rem',
-                color: isLowHp ? tokens.colors.error : 'text.primary',
-                fontWeight: isLowHp ? 700 : 400,
-              }}
-            >
-              {portal.travelDamage > 0 ? `-${portal.travelDamage} HP` : 'Safe (0 HP)'}
-            </Typography>
-          </Box>
-
-          {/* HP after travel preview */}
-          {portal.travelDamage > 0 && (
-            <Typography
-              variant="caption"
-              sx={{
-                color: isLowHp ? tokens.colors.error : 'text.secondary',
-                display: 'block',
-                mb: 1,
-              }}
-            >
-              ({hpAfterTravel} HP after)
-            </Typography>
-          )}
-
-          {/* Multipliers */}
-          <Box sx={{ display: 'flex', gap: 1.5, justifyContent: 'center' }}>
-            {portal.scoreMultiplier > 1 && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
-                <ScoreIcon sx={{ fontSize: 14, color: tokens.colors.secondary }} />
-                <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.secondary }}>
-                  +{Math.round((portal.scoreMultiplier - 1) * 100)}%
-                </Typography>
-              </Box>
-            )}
-            {portal.goldMultiplier > 1 && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
-                <GoldIcon sx={{ fontSize: 14, color: tokens.colors.warning }} />
-                <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.warning }}>
-                  +{Math.round((portal.goldMultiplier - 1) * 100)}%
-                </Typography>
-              </Box>
-            )}
-            {portal.scoreMultiplier === 1 && portal.goldMultiplier === 1 && (
-              <Typography sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
-                No bonus
-              </Typography>
-            )}
-          </Box>
-        </Box>
-      )}
-
-      {/* Select button */}
+      {/* Planet circle */}
       <Box
         sx={{
-          mt: 'auto',
-          py: 0.5,
-          px: 2,
-          bgcolor: elementColor,
-          borderRadius: '8px',
-          opacity: 0.9,
+          position: 'absolute',
+          top: '30%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 60,
+          height: 60,
+          borderRadius: '50%',
+          background: portal.isUnknown
+            ? 'radial-gradient(circle at 30% 30%, #8b7ec8, #4a3a6e)'
+            : `radial-gradient(circle at 30% 30%, ${planetConfig?.glowColor || '#666'}, ${planetConfig?.color || '#333'})`,
+          boxShadow: portal.isUnknown
+            ? '0 0 20px rgba(138, 43, 226, 0.5)'
+            : `0 4px 16px ${planetConfig?.color || '#333'}60`,
+          animation: `${planetPulse} 3s ease-in-out infinite`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1,
         }}
       >
-        <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: 'white' }}>
-          TRAVEL
-        </Typography>
+        {portal.isUnknown && (
+          <Typography sx={{ fontSize: '1.5rem', fontWeight: 700, color: 'rgba(255,255,255,0.9)', fontFamily: tokens.fonts.gaming }}>
+            ?
+          </Typography>
+        )}
       </Box>
-    </Button>
+
+      {/* Content */}
+      <Box sx={{ position: 'relative', zIndex: 2, p: 1.5, width: '100%', textAlign: 'center' }}>
+        <Typography
+          sx={{
+            ...gamingFont,
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            color: tokens.colors.text.primary,
+            mb: 0.5,
+            textShadow: '0 2px 4px rgba(0,0,0,0.7)',
+          }}
+        >
+          {portal.domainName}
+        </Typography>
+
+        {portal.isUnknown ? (
+          <Typography sx={{ ...gamingFont, fontSize: '0.8rem', color: tokens.colors.rarity.epic, textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+            ???
+          </Typography>
+        ) : (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+            <Typography sx={{ ...gamingFont, fontSize: '0.85rem', color: tokens.colors.text.secondary, textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+              {portal.distance} {portal.distance === 1 ? 'sector' : 'sectors'}
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
+              <Box
+                component="img"
+                src="/assets/items/consumables/Heart-Half.svg"
+                alt=""
+                sx={{ width: 10, height: 10 }}
+              />
+              <Typography
+                sx={{
+                  fontSize: '0.7rem',
+                  color: isSafe ? tokens.colors.success : isLowHp ? tokens.colors.error : tokens.colors.text.disabled,
+                }}
+              >
+                {isSafe ? '+' : `-${portal.travelDamage}`}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 }
 
 export default function PortalSelection() {
   const { state, selectPortal } = useRun();
-  const { currentDomain, visitedDomains, hp, inventory } = state;
+  const { currentDomain, visitedDomains, hp } = state;
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  // Generate available portals
   const portals = useMemo(() => {
-    // Use thread ID + domain for deterministic seed
     const seed = `${state.threadId}-portal-${currentDomain}`;
     return getAvailablePortals(
       currentDomain,
       visitedDomains,
-      state.inventory?.powerups?.length || 0, // Use powerup count as proxy for favor
+      state.inventory?.powerups?.length || 0,
       state.directorAffinity,
       seed
     );
   }, [currentDomain, visitedDomains, state.threadId, state.directorAffinity, state.inventory?.powerups?.length]);
 
-  // Check for expiring items (for warning)
-  const expiringItems = useMemo(() => {
-    const powerups = inventory?.powerups || [];
-    // Simple check - items without Epic+ rarity expire
-    // In real implementation, would check actual item data
-    return powerups.filter(slug => {
-      // Common/Uncommon items expire (simplified check)
-      return !slug.includes('epic') && !slug.includes('legendary') && !slug.includes('unique');
-    });
-  }, [inventory?.powerups]);
+  const selectedPortal = portals.find(p => p.domainId === selectedId);
 
-  const handleSelectPortal = useCallback((portal: PortalOption) => {
-    selectPortal(portal);
-  }, [selectPortal]);
+  const handleCardClick = useCallback((domainId: number) => {
+    setSelectedId(prev => prev === domainId ? null : domainId);
+  }, []);
 
-  if (portals.length === 0) {
-    // No portals = victory (shouldn't happen, finale should have 1 portal)
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-          p: 4,
-        }}
-      >
-        <Typography variant="h4" sx={{ ...gamingFont }}>
-          Victory!
-        </Typography>
-      </Box>
-    );
-  }
+  const handleTravel = useCallback(() => {
+    if (selectedPortal) {
+      selectPortal(selectedPortal);
+    }
+  }, [selectedPortal, selectPortal]);
+
+  if (portals.length === 0) return null;
 
   return (
     <Box
@@ -291,100 +284,69 @@ export default function PortalSelection() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
         p: 4,
         height: '100%',
+        minHeight: 400,
       }}
     >
       {/* Header */}
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-          <PortalIcon sx={{ fontSize: 32, color: tokens.colors.primary }} />
-          <Typography variant="h4" sx={{ ...gamingFont, fontWeight: 700 }}>
-            Choose Your Path
+      <Typography variant="h5" sx={{ ...gamingFont, fontWeight: 700, mb: 0.5, color: tokens.colors.text.primary }}>
+        Choose Your Path
+      </Typography>
+      <Typography sx={{ fontSize: '0.85rem', color: tokens.colors.text.secondary, mb: 3 }}>
+        Farther journeys yield greater rewards
+      </Typography>
+
+      {/* Travel button - only shows when selected */}
+      <Box sx={{ height: 48, mb: 2, display: 'flex', alignItems: 'center' }}>
+        {selectedPortal ? (
+          <Button
+            variant="contained"
+            onClick={handleTravel}
+            sx={{
+              ...gamingFont,
+              px: 4,
+              py: 1,
+              fontSize: '1rem',
+              bgcolor: tokens.colors.text.primary,
+              color: tokens.colors.background.default,
+              borderRadius: '8px',
+              '&:hover': {
+                bgcolor: tokens.colors.text.secondary,
+              },
+            }}
+          >
+            TRAVEL TO {selectedPortal.domainName.toUpperCase()}
+          </Button>
+        ) : (
+          <Typography sx={{ fontSize: '0.8rem', color: tokens.colors.text.disabled }}>
+            Select a destination
           </Typography>
-        </Box>
-        <Typography sx={{ color: 'text.secondary' }}>
-          Farther destinations offer greater rewards... at a cost
-        </Typography>
+        )}
       </Box>
 
-      {/* Current HP indicator */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-        <HeartIcon sx={{ color: tokens.colors.error }} />
-        <Typography sx={{ ...gamingFont, fontSize: '1.1rem' }}>
-          Current HP: {hp}/100
+      {/* Current HP */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 3 }}>
+        <Box component="img" src="/assets/items/consumables/Heart-Full.svg" alt="" sx={{ width: 16, height: 16 }} />
+        <Typography sx={{ ...gamingFont, fontSize: '0.9rem' }}>
+          {hp}
         </Typography>
       </Box>
 
       {/* Portal cards */}
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 3,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          mb: 4,
-        }}
-      >
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
         {portals.map((portal, index) => (
           <PortalCard
             key={portal.domainId}
             portal={portal}
             currentHp={hp}
-            onSelect={() => handleSelectPortal(portal)}
+            isSelected={selectedId === portal.domainId}
+            hasSelection={selectedId !== null}
+            onSelect={() => handleCardClick(portal.domainId)}
             index={index}
           />
         ))}
-      </Box>
-
-      {/* Expiring items warning */}
-      {expiringItems.length > 0 && (
-        <Alert
-          severity="warning"
-          icon={<WarningIcon />}
-          sx={{
-            maxWidth: 500,
-            bgcolor: 'rgba(255, 152, 0, 0.1)',
-            border: '1px solid rgba(255, 152, 0, 0.3)',
-          }}
-        >
-          <Typography variant="body2">
-            <strong>{expiringItems.length} item{expiringItems.length > 1 ? 's' : ''}</strong> will expire on teleport.
-            Common and Uncommon items do not survive portal travel.
-          </Typography>
-        </Alert>
-      )}
-
-      {/* Distance legend */}
-      <Box
-        sx={{
-          mt: 4,
-          p: 2,
-          bgcolor: 'background.paper',
-          borderRadius: '8px',
-          border: '1px solid',
-          borderColor: 'divider',
-          maxWidth: 600,
-        }}
-      >
-        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 1 }}>
-          Distance Reference:
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
-          {Object.entries(DISTANCE_TABLE).map(([dist, stats]) => (
-            <Box key={dist} sx={{ textAlign: 'center', minWidth: 80 }}>
-              <Typography sx={{ fontSize: '0.75rem', fontWeight: 600 }}>
-                {dist} {parseInt(dist) === 1 ? 'sector' : 'sectors'}
-              </Typography>
-              <Typography sx={{ fontSize: '0.65rem', color: 'text.secondary' }}>
-                {stats.damage > 0 ? `-${stats.damage} HP` : 'Safe'}
-              </Typography>
-              <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.warning }}>
-                {stats.gold > 1 ? `+${Math.round((stats.gold - 1) * 100)}% gold` : '-'}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
       </Box>
     </Box>
   );

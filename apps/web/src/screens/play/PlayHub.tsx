@@ -231,24 +231,45 @@ export function PlayHub() {
   const [combatGameState, setCombatGameState] = useState<GameStateUpdate | null>(null);
 
   // Build game state for sidebar - uses live combat state when available
-  // Use granular dependencies to ensure score updates trigger re-renders
+  // When run ends, use final state values (don't let combatGameState reset cause flicker)
   // Event number: clearedCount + 1 (next event to play), or +1 more if zone selected
   const currentEvent = (state.domainState?.clearedCount ?? 0) + (state.selectedZone ? 1 : 0);
-  const gameState = useMemo(() => ({
-    enemySprite: '/assets/enemies/shadow-knight.png',
-    scoreToBeat: combatGameState?.goal || 1000,
-    score: combatGameState?.score ?? state.totalScore ?? 0,
-    multiplier: combatGameState?.multiplier ?? 1,
-    goal: combatGameState?.goal ?? 1000,
-    throws: combatGameState?.throws ?? 3,
-    trades: combatGameState?.trades ?? 3,
-    gold: state.gold ?? 0,
-    domain: state.currentDomain ?? 1,
-    totalDomains: 6,
-    event: currentEvent,
-    totalEvents: state.domainState?.totalZones ?? 3,
-    rollHistory: [],
-  }), [
+  const gameState = useMemo(() => {
+    // When run ended, show final stats from state, not live combat
+    if (state.runEnded) {
+      return {
+        enemySprite: '/assets/enemies/shadow-knight.png',
+        scoreToBeat: 0,
+        score: state.totalScore ?? 0,
+        multiplier: 1,
+        goal: 0,
+        throws: 0,
+        trades: 0,
+        gold: state.gold ?? 0,
+        domain: state.currentDomain ?? 1,
+        totalDomains: 6,
+        event: currentEvent,
+        totalEvents: state.domainState?.totalZones ?? 3,
+        rollHistory: [],
+      };
+    }
+    return {
+      enemySprite: '/assets/enemies/shadow-knight.png',
+      scoreToBeat: combatGameState?.goal || 1000,
+      score: combatGameState?.score ?? state.totalScore ?? 0,
+      multiplier: combatGameState?.multiplier ?? 1,
+      goal: combatGameState?.goal ?? 1000,
+      throws: combatGameState?.throws ?? 3,
+      trades: combatGameState?.trades ?? 3,
+      gold: state.gold ?? 0,
+      domain: state.currentDomain ?? 1,
+      totalDomains: 6,
+      event: currentEvent,
+      totalEvents: state.domainState?.totalZones ?? 3,
+      rollHistory: [],
+    };
+  }, [
+    state.runEnded,
     combatGameState?.score,
     combatGameState?.goal,
     combatGameState?.throws,
@@ -387,6 +408,21 @@ export function PlayHub() {
     practiceModeRef.current = state.practiceMode;
   }, [state.practiceMode]);
 
+  // Add victory/defeat entry to combat feed when run ends
+  useEffect(() => {
+    if (state.runEnded) {
+      const resultEntry: FeedEntry = {
+        id: `result-${Date.now()}`,
+        type: state.gameWon ? 'victory' : 'defeat',
+        timestamp: Date.now(),
+        finalScore: state.totalScore || 0,
+        // Victory = cleared all 6 domains, defeat = how far they got
+        domains: state.gameWon ? 6 : (state.currentDomain || 1),
+      };
+      setCombatFeed(prev => [resultEntry, ...prev]);
+    }
+  }, [state.runEnded, state.gameWon, state.totalScore, state.currentDomain]);
+
   // Handle combat win - trigger skull wipe then complete room
   // Uses refs instead of state to keep callback reference stable
   // Victory data is stored in context and applied atomically when transition completes
@@ -451,7 +487,8 @@ export function PlayHub() {
         }}
       >
         {/* Minimal progress strip - thin bar at top edge */}
-        {state.phase !== 'event_select' && (
+        {/* Hide during event select, show 100% on victory */}
+        {state.phase !== 'event_select' && !state.runEnded && (
           <Box sx={{ position: 'relative', zIndex: 200, flexShrink: 0 }}>
             <Box
               sx={{
@@ -460,14 +497,14 @@ export function PlayHub() {
                 position: 'relative',
               }}
             >
-              {/* Progress fill */}
+              {/* Progress fill - based on domains CLEARED, not domain ID */}
               <Box
                 sx={{
                   position: 'absolute',
                   left: 0,
                   top: 0,
                   height: '100%',
-                  width: `${(((state.currentDomain || 1) - 1) / 6) * 100 + ((state.domainState?.clearedCount || 0) / 3 / 6) * 100}%`,
+                  width: `${((state.visitedDomains?.length || 0) / 6) * 100}%`,
                   bgcolor: tokens.colors.primary,
                   transition: 'width 0.5s ease',
                 }}
@@ -526,18 +563,7 @@ export function PlayHub() {
           </Box>
         ) : (
           <>
-            {/* Tinted overlay on game over - covers center area only, sidebar stays visible */}
-            {state.runEnded && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  bgcolor: state.gameWon ? 'rgba(48, 209, 88, 0.35)' : 'rgba(233, 4, 65, 0.35)',
-                  zIndex: 90,
-                  pointerEvents: 'none',
-                }}
-              />
-            )}
+            {/* CombatTerminal always renders - frozen in lobby mode when run ends */}
             <CombatTerminal
               domain={state.currentDomain || 1}
               eventType={state.selectedZone?.eventType || 'big'}
@@ -545,7 +571,7 @@ export function PlayHub() {
               scoreGoal={getFlatScoreGoal(state.currentDomain || 1)}
               onWin={handleCombatWin}
               onLose={failRoom}
-              isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat'}
+              isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat' || state.runEnded}
               currentDomain={state.currentDomain || 1}
               totalDomains={6}
               currentRoom={state.roomNumber || 1}
@@ -560,38 +586,45 @@ export function PlayHub() {
               loadoutStats={state.loadoutStats}
             />
 
-            {/* Game Over Modal - contained within center area so sidebar stays visible */}
+            {/* Victory/Defeat overlay */}
             {state.runEnded && (
-              <GameOverModal
-                open={true}
-                isWin={state.gameWon}
-                stats={{
-                  // Combat stats
-                  bestRoll: state.runStats?.bestRoll || 0,
-                  mostRolled: state.runStats?.mostRolled || 'd20',
-                  diceRolled: state.runStats?.diceThrown || 0,
-                  totalScore: state.totalScore || 0,
-                  // Progress stats
-                  domains: state.currentDomain || 1,
-                  rooms: state.runStats?.eventsCompleted || 1,
-                  // Economy stats
-                  purchases: state.runStats?.purchases || 0,
-                  shopRemixes: state.runStats?.shopRemixes || 0,
-                  goldEarned: state.gold || 0,
-                  // Performance stats (placeholder until tracking added)
-                  totalTimeMs: state.runStats?.totalTimeMs || 0,
-                  avgEventTimeMs: state.runStats?.avgEventTimeMs || 0,
-                  fastestEventMs: state.runStats?.fastestEventMs || 0,
-                  // Variant breakdown (placeholder until tracking added)
-                  variantCounts: state.runStats?.variantCounts || { swift: 0, standard: 0, grueling: 0 },
-                  // Meta
-                  seed: state.threadId || 'RANDOM',
-                  killedBy: state.runStats?.killedBy,
-                }}
-                onNewRun={resetRun}
-                onMainMenu={handleMainMenu}
-                contained
-              />
+              <>
+                {/* Dim overlay */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    bgcolor: state.gameWon ? 'rgba(20, 60, 20, 0.7)' : 'rgba(60, 20, 20, 0.7)',
+                    backdropFilter: 'blur(4px)',
+                    zIndex: 80,
+                  }}
+                />
+                {/* GameOverModal on top */}
+                <GameOverModal
+                  open={true}
+                  isWin={state.gameWon}
+                  stats={{
+                    bestRoll: state.runStats?.bestRoll || 0,
+                    mostRolled: state.runStats?.mostRolled || 'd20',
+                    diceRolled: state.runStats?.diceThrown || 0,
+                    totalScore: state.totalScore || 0,
+                    domains: state.currentDomain || 1,
+                    rooms: state.runStats?.eventsCompleted || 1,
+                    purchases: state.runStats?.purchases || 0,
+                    shopRemixes: state.runStats?.shopRemixes || 0,
+                    goldEarned: state.gold || 0,
+                    totalTimeMs: state.runStats?.totalTimeMs || 0,
+                    avgEventTimeMs: state.runStats?.avgEventTimeMs || 0,
+                    fastestEventMs: state.runStats?.fastestEventMs || 0,
+                    variantCounts: state.runStats?.variantCounts || { swift: 0, standard: 0, grueling: 0 },
+                    seed: state.threadId || 'RANDOM',
+                    killedBy: state.runStats?.killedBy,
+                  }}
+                  onNewRun={resetRun}
+                  onMainMenu={handleMainMenu}
+                  contained
+                />
+              </>
             )}
           </>
         )}

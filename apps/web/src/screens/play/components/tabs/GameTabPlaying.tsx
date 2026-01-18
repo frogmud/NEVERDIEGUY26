@@ -22,7 +22,7 @@ interface RollHistoryEntry {
 }
 
 /** Feed entry types for sidebar history */
-type FeedEntryType = 'npc_chat' | 'roll' | 'trade';
+type FeedEntryType = 'npc_chat' | 'roll' | 'trade' | 'victory' | 'defeat';
 
 interface FeedEntry {
   id: string;
@@ -39,6 +39,9 @@ interface FeedEntry {
   // Trade fields
   diceTraded?: number;
   multiplierGained?: number;
+  // Victory/Defeat fields
+  finalScore?: number;
+  domains?: number;
 }
 
 // NPC colors by slug (Die-rectors have domain colors)
@@ -222,6 +225,56 @@ export function GameTabPlaying({
                     }}
                   >
                     Traded {entry.diceTraded} dice for x{entry.multiplierGained} mult
+                  </Typography>
+                </Box>
+              )}
+
+              {/* Victory Entry */}
+              {entry.type === 'victory' && (
+                <Box sx={{ textAlign: 'center', py: 1 }}>
+                  <Typography
+                    sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '1.2rem',
+                      color: tokens.colors.success,
+                      fontWeight: 700,
+                      mb: 0.5,
+                    }}
+                  >
+                    VICTORY
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.85rem',
+                      color: tokens.colors.text.secondary,
+                    }}
+                  >
+                    {entry.domains}/6 Domains - {entry.finalScore?.toLocaleString()} pts
+                  </Typography>
+                </Box>
+              )}
+
+              {/* Defeat Entry */}
+              {entry.type === 'defeat' && (
+                <Box sx={{ textAlign: 'center', py: 1 }}>
+                  <Typography
+                    sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '1.2rem',
+                      color: tokens.colors.primary,
+                      fontWeight: 700,
+                      mb: 0.5,
+                    }}
+                  >
+                    YOU DIED
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.85rem',
+                      color: tokens.colors.text.secondary,
+                    }}
+                  >
+                    {entry.domains}/6 Domains - {entry.finalScore?.toLocaleString()} pts
                   </Typography>
                 </Box>
               )}
@@ -421,9 +474,13 @@ export function GameTabPlaying({
             p: 1.5,
             borderRadius: 2,
             border: `1px solid ${tokens.colors.border}`,
-            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 0.75,
           }}
         >
+          <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 20, height: 20 }} />
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
@@ -431,7 +488,7 @@ export function GameTabPlaying({
               color: tokens.colors.warning,
             }}
           >
-            ${gold.toLocaleString()}
+            {gold.toLocaleString()}
           </Typography>
         </Box>
       </Box>

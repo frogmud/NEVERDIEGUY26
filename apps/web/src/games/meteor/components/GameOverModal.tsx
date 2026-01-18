@@ -179,7 +179,7 @@ export function GameOverModal({
             <StatBox label="Domains" value={`${stats.domains}/6`} />
             <StatBox label="Events" value={stats.rooms.toString()} />
             <StatBox label="Run Time" value={formatTime(stats.totalTimeMs)} />
-            <StatBox label="Gold" value={`$${stats.goldEarned.toLocaleString()}`} color="#C4A000" />
+            <StatBox label="Gold" value={stats.goldEarned.toLocaleString()} color="#C4A000" icon="/assets/ui/currency-svg/coin.svg" />
           </Box>
 
           {/* Death info */}
@@ -210,33 +210,40 @@ export function GameOverModal({
         </Box>
 
         {/* Buttons */}
-        <Box sx={{ p: 2.5, pt: 1.5, display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Box sx={{ p: 2.5, pt: 1.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <Button
             variant="contained"
             fullWidth
             onClick={onNewRun}
             sx={{
-              bgcolor: accentColor,
-              color: '#fff',
+              bgcolor: tokens.colors.text.primary,
+              color: tokens.colors.background.default,
               ...gamingFont,
-              fontSize: '1.1rem',
-              py: 1.25,
-              '&:hover': { bgcolor: isWin ? '#28a745' : '#b8033a' },
+              fontSize: '1.2rem',
+              py: 1.5,
+              borderRadius: '8px',
+              fontWeight: 700,
+              '&:hover': { bgcolor: tokens.colors.text.secondary },
             }}
           >
             New Run
           </Button>
           <Button
-            variant="contained"
+            variant="outlined"
             fullWidth
             onClick={onMainMenu}
             sx={{
-              bgcolor: accentColor,
-              color: '#fff',
+              borderColor: tokens.colors.text.secondary,
+              color: tokens.colors.text.primary,
               ...gamingFont,
               fontSize: '1.1rem',
               py: 1.25,
-              '&:hover': { bgcolor: isWin ? '#28a745' : '#b8033a' },
+              borderRadius: '8px',
+              borderWidth: 2,
+              '&:hover': {
+                bgcolor: 'rgba(255,255,255,0.1)',
+                borderColor: tokens.colors.text.primary,
+              },
             }}
           >
             Main Menu
@@ -325,11 +332,13 @@ function StatBox({
   value,
   color,
   fullWidth,
+  icon,
 }: {
   label: string;
   value: string;
   color?: string;
   fullWidth?: boolean;
+  icon?: string;
 }) {
   return (
     <Box
@@ -346,9 +355,12 @@ function StatBox({
       <Typography sx={{ ...gamingFont, fontSize: '0.8rem', color: tokens.colors.text.secondary }}>
         {label}
       </Typography>
-      <Typography sx={{ ...gamingFont, fontSize: '1rem', color: color || tokens.colors.text.primary }}>
-        {value}
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        {icon && <Box component="img" src={icon} alt="" sx={{ width: 16, height: 16 }} />}
+        <Typography sx={{ ...gamingFont, fontSize: '1rem', color: color || tokens.colors.text.primary }}>
+          {value}
+        </Typography>
+      </Box>
     </Box>
   );
 }
