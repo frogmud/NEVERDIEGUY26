@@ -3,11 +3,19 @@
  *
  * Provides unified styling for all dialogs in the app.
  * Wraps MUI Dialog with dialogPaperProps and optional DialogHeader.
+ * Balatro-style entrance animation.
  */
 
-import { Dialog, DialogProps } from '@mui/material';
+import { Dialog, DialogProps, keyframes } from '@mui/material';
 import { tokens } from '../../theme';
 import { DialogHeader } from '../DialogHeader';
+import { MODAL, EASING } from '../../utils/transitions';
+
+// Modal entrance animation
+const modalEnter = keyframes`
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+`;
 
 interface BaseDialogProps extends Omit<DialogProps, 'title'> {
   title?: string;
@@ -35,6 +43,8 @@ export function BaseDialog({
         sx: {
           bgcolor: tokens.colors.background.paper,
           border: `1px solid ${tokens.colors.border}`,
+          // Balatro-style entrance animation
+          animation: `${modalEnter} ${MODAL.enter}ms ${EASING.smooth}`,
         },
       }}
       {...dialogProps}

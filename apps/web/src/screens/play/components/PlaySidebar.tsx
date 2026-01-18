@@ -1,6 +1,13 @@
 import { useState, useCallback } from 'react';
-import { Box, Tabs, Tab } from '@mui/material';
+import { Box, Tabs, Tab, keyframes } from '@mui/material';
 import { tokens } from '../../../theme';
+import { DURATION, EASING } from '../../../utils/transitions';
+
+// Tab content fade animation
+const tabContentFade = keyframes`
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+`;
 import { GameTab } from './tabs/GameTab';
 import { GameTabLaunch, type ZoneInfo } from './tabs/GameTabLaunch';
 import { GameTabPlaying } from './tabs/GameTabPlaying';
@@ -209,9 +216,11 @@ export function PlaySidebar({
           sx={{
             height: tabHeight,
             minHeight: tabHeight,
+            // Balatro-style indicator slide
             '& .MuiTabs-indicator': {
               backgroundColor: tokens.colors.text.primary,
               height: 2,
+              transition: `all ${DURATION.normal}ms ${EASING.organic}`,
             },
             '& .MuiTabs-flexContainer': {
               height: tabHeight,
@@ -223,8 +232,14 @@ export function PlaySidebar({
               fontSize: isMobile ? '1rem' : '0.875rem',
               textTransform: 'none',
               color: tokens.colors.text.secondary,
+              transition: `all ${DURATION.fast}ms ease`,
               '&.Mui-selected': {
                 color: tokens.colors.text.primary,
+              },
+              // Tab hover highlight
+              '&:hover:not(.Mui-selected)': {
+                color: tokens.colors.text.primary,
+                bgcolor: 'rgba(255,255,255,0.03)',
               },
             },
           }}
@@ -235,8 +250,16 @@ export function PlaySidebar({
         </Tabs>
       </Box>
 
-      {/* Tab Content */}
-      <Box sx={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
+      {/* Tab Content - fade animation on switch */}
+      <Box
+        key={activeTab}
+        sx={{
+          flex: 1,
+          overflow: 'hidden',
+          minHeight: 0,
+          animation: `${tabContentFade} 200ms ${EASING.smooth}`,
+        }}
+      >
         {activeTab === 'game' && (
           phase === 'playing' ? (
             <GameTabPlaying
