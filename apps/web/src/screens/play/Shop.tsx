@@ -4,7 +4,8 @@ import {
   ArrowForwardSharp as ContinueIcon,
   CheckCircleSharp as CheckIcon,
 } from '@mui/icons-material';
-import { DURATION } from '../../utils/transitions';
+import { DURATION, EASING, GLOW } from '../../utils/transitions';
+import { useStaggeredEntrance } from '../../hooks';
 import { tokens } from '../../theme';
 import { createSeededRng, getRequisitionPool, getEmptyPoolMessage } from '../../data/pools';
 import { applyFavorDiscount, getTierPriceMultiplier, SHOP_PRICING, applyRerollCalmReduction, type LuckySynergyLevel } from '../../data/balance-config';
@@ -155,6 +156,13 @@ export function Shop({
   const vendor = DOMAIN_VENDORS[domainId] || DOMAIN_VENDORS[1];
   const [spriteFrame, setSpriteFrame] = useState(1);
   const [showVendor, setShowVendor] = useState(false);
+
+  // Staggered entrance for shop items (3 items + 1 reroll = 4 slots)
+  const { getItemStyle } = useStaggeredEntrance({
+    itemCount: 4,
+    delayPerItem: 80,
+    initialDelay: 300, // After vendor slides in
+  });
 
   // Animate vendor on mount
   useEffect(() => {
@@ -407,13 +415,14 @@ export function Shop({
             maxWidth: 1000,
           }}
         >
-        {/* Display first 3 items */}
-        {displayItems.slice(0, 3).map((item) => {
+        {/* Display first 3 items - staggered entrance with enhanced hover */}
+        {displayItems.slice(0, 3).map((item, index) => {
           const isPurchased = purchasedItems.includes(item.slug);
           const isPurchasing = purchasingItem === item.slug;
           const cost = calculateItemCost(item, tier, favorTokens);
           const canAfford = gold >= cost;
           const rarityColor = RARITY_COLORS[item.rarity || 'Common'];
+          const staggerStyle = getItemStyle(index);
 
           return (
             <Box
@@ -424,11 +433,15 @@ export function Shop({
                 flexDirection: 'column',
                 alignItems: 'center',
                 cursor: isPurchased ? 'default' : 'pointer',
-                opacity: isPurchased ? 0.5 : 1,
-                transition: 'all 150ms ease',
                 minWidth: { xs: 100, sm: 120, md: 140 },
-                '&:hover': {
-                  transform: isPurchased ? 'none' : 'scale(1.05)',
+                // Staggered entrance animation
+                opacity: isPurchased ? 0.5 : staggerStyle.opacity,
+                transform: staggerStyle.transform,
+                transition: staggerStyle.transition,
+                // Balatro-style hover with glow
+                '&:hover': isPurchased ? {} : {
+                  transform: 'scale(1.05) translateY(-4px)',
+                  filter: `drop-shadow(${GLOW.normal(rarityColor)})`,
                 },
               }}
             >
@@ -512,7 +525,7 @@ export function Shop({
           );
         })}
 
-        {/* Reroll Requisition slot */}
+        {/* Reroll Requisition slot - staggered as 4th item */}
         <Box
           onClick={handleReroll}
           sx={{
@@ -520,11 +533,14 @@ export function Shop({
             flexDirection: 'column',
             alignItems: 'center',
             cursor: 'pointer',
-            opacity: gold >= rerollCost ? 1 : 0.6,
-            transition: 'all 150ms ease',
             minWidth: { xs: 100, sm: 120, md: 140 },
+            // Staggered entrance (index 3)
+            ...getItemStyle(3),
+            opacity: gold >= rerollCost ? getItemStyle(3).opacity : 0.6 * getItemStyle(3).opacity,
+            // Balatro-style hover
             '&:hover': {
-              transform: 'scale(1.05)',
+              transform: 'scale(1.05) translateY(-4px)',
+              filter: `drop-shadow(${GLOW.subtle(tokens.colors.text.secondary)})`,
             },
           }}
         >
@@ -587,7 +603,7 @@ export function Shop({
         </Box>
       )}
 
-      {/* Next Event button */}
+      {/* Next Event button - Balatro-style */}
       <Button
         variant="contained"
         onClick={onContinue}
@@ -600,7 +616,16 @@ export function Shop({
           fontWeight: 700,
           px: { xs: 4, sm: 6 },
           py: 1.5,
-          '&:hover': { filter: 'brightness(0.85)' },
+          transition: `all ${DURATION.fast}ms ${EASING.organic}`,
+          boxShadow: `0 4px 16px ${tokens.colors.success}66`,
+          '&:hover': {
+            transform: 'scale(1.03) translateY(-2px)',
+            boxShadow: GLOW.normal(tokens.colors.success),
+          },
+          '&:active': {
+            transform: 'scale(0.97) translateY(2px)',
+            transition: 'all 50ms ease-out',
+          },
         }}
       >
         Next Event

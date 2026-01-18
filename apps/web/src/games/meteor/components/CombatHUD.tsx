@@ -23,6 +23,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { CardSection } from '../../../components/CardSection';
 import { DiceShape } from '../../../components/DiceShapes';
 import { tokens } from '../../../theme';
+import { DURATION, EASING, GLOW } from '../../../utils/transitions';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { Die } from '@ndg/ai-engine';
 import {
@@ -92,6 +93,7 @@ interface CombatHUDProps {
 
 /**
  * Action Button - Large rounded button for Roll/Hold
+ * Balatro-style: fast hover (150ms), immediate press feedback (50ms)
  */
 function ActionButton({
   label,
@@ -126,14 +128,16 @@ function ActionButton({
         minWidth: isSmall ? 100 : 140,
         cursor: disabled ? 'default' : 'pointer',
         opacity: disabled ? 0.4 : 1,
-        transition: 'all 0.2s ease-out',
+        transition: `all ${DURATION.fast}ms ${EASING.organic}`,
         boxShadow: disabled ? 'none' : `0 4px 16px ${color}66`,
         '&:hover:not(:disabled)': {
-          transform: 'translateY(-2px)',
-          boxShadow: `0 6px 20px ${color}88`,
+          transform: 'scale(1.03) translateY(-2px)',
+          boxShadow: GLOW.normal(color),
         },
         '&:active:not(:disabled)': {
-          transform: 'translateY(0)',
+          transform: 'scale(0.97) translateY(2px)',
+          transition: 'all 50ms ease-out',
+          boxShadow: GLOW.subtle(color),
         },
       }}
     >
@@ -198,6 +202,7 @@ function HoldingToggle({
 
 /**
  * Dice Hand Row - Shows dice with hold toggles
+ * Balatro-style: click pulse feedback before state change
  */
 function DiceHandRow({
   hand,
@@ -220,6 +225,20 @@ function DiceHandRow({
   guardianDieTypes?: number[];
   npcCount?: number;
 }) {
+  // Track click pulse for immediate feedback
+  const [clickedDieId, setClickedDieId] = useState<string | null>(null);
+
+  // Handle dice click with pulse feedback
+  const handleDieClick = (dieId: string) => {
+    if (disabled) return;
+    setClickedDieId(dieId);
+    // Clear pulse after 100ms, then trigger the actual toggle
+    setTimeout(() => {
+      setClickedDieId(null);
+      onToggleHold(dieId);
+    }, 100);
+  };
+
   // Track which guardian types have been claimed by unheld dice (for "Hits Guardian" display)
   const guardianTargetCounts: Record<number, number> = {};
   for (const dt of guardianDieTypes) {
@@ -315,19 +334,31 @@ function DiceHandRow({
             disableHoverListener={!npcCount}
           >
           <Box
-            onClick={() => !disabled && onToggleHold(die.id)}
+            onClick={() => handleDieClick(die.id)}
             sx={{
               cursor: disabled ? 'default' : 'pointer',
-              // HELD = raised up, UNHELD = pressed down (ready to throw)
-              transform: isHeld ? 'scale(1.02) translateY(-4px)' : 'scale(0.95) translateY(4px)',
-              transition: isRolling ? 'none' : 'all 0.15s ease-out',
+              // Click pulse -> HELD (raised) / UNHELD (pressed down)
+              transform: clickedDieId === die.id
+                ? 'scale(0.85)'  // Click pulse - immediate shrink
+                : isHeld
+                  ? 'scale(1.02) translateY(-4px)'
+                  : 'scale(0.95) translateY(4px)',
+              transition: clickedDieId === die.id
+                ? 'all 50ms ease-out'  // Fast pulse
+                : isRolling
+                  ? 'none'
+                  : `all ${DURATION.fast}ms ${EASING.organic}`,
               opacity: 1,
               position: 'relative',
               // Subtle shadow only, no glow
               filter: isSelected ? `drop-shadow(0 2px 6px ${dieColor}44)` : 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
               animation: isRolling && isSelected ? `${diceRoll} 0.3s ease-in-out` : 'none',
               '&:hover': {
-                transform: isHeld ? 'scale(1.05) translateY(-4px)' : 'scale(1) translateY(0)',
+                transform: clickedDieId === die.id
+                  ? 'scale(0.85)'
+                  : isHeld
+                    ? 'scale(1.05) translateY(-4px)'
+                    : 'scale(1) translateY(0)',
               },
             }}
           >
