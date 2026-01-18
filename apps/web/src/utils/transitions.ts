@@ -144,3 +144,43 @@ export const WIGGLE = {
     75% { transform: rotate(8deg); }
   `,
 } as const;
+
+// Glow utilities for hover/focus states
+export const GLOW = {
+  subtle: (color: string) => `0 0 8px ${color}40`,
+  normal: (color: string) => `0 0 12px ${color}60, 0 0 24px ${color}30`,
+  intense: (color: string) => `0 0 20px ${color}80, 0 0 40px ${color}40`,
+  pulse: (color: string) => `0 0 30px ${color}, 0 0 60px ${color}80`,
+} as const;
+
+// Press feedback for immediate button response
+export const PRESS = {
+  transform: 'scale(0.97) translateY(2px)',
+  transition: 'all 50ms ease-out',
+} as const;
+
+// Modal animation timing
+export const MODAL = {
+  enter: 300,
+  exit: 200,
+} as const;
+
+// Keyframe patterns (for use with MUI keyframes function)
+export const KEYFRAMES = {
+  fadeSlideUp: `
+    0% { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  `,
+  modalEnter: `
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  `,
+  itemReveal: `
+    0% { opacity: 0; transform: translateY(12px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  `,
+  glowPulse: `
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  `,
+} as const;

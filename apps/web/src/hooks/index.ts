@@ -20,3 +20,13 @@ export { useEternalStream } from './useEternalStream';
 export type { UseEternalStreamOptions, UseEternalStreamReturn } from './useEternalStream';
 
 export { usePartyBridge } from './usePartyBridge';
+
+// Animation hooks
+export { useStaggeredEntrance } from './useStaggeredEntrance';
+export type { UseStaggeredEntranceOptions, UseStaggeredEntranceReturn } from './useStaggeredEntrance';
+
+export { useButtonFeedback } from './useButtonFeedback';
+export type { UseButtonFeedbackOptions, UseButtonFeedbackReturn } from './useButtonFeedback';
+
+export { useScoreCascade } from './useScoreCascade';
+export type { UseScoreCascadeOptions, UseScoreCascadeReturn } from './useScoreCascade';
