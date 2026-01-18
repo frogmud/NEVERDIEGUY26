@@ -393,3 +393,132 @@ export function getLoadoutDomainSlug(loadout: StartingLoadout): string {
   const config = DOMAIN_CONFIGS[loadout.domain];
   return config?.slug || 'earth';
 }
+
+// ============================================
+// Item Display Name
+// ============================================
+
+/**
+ * Convert item slug to display name
+ * e.g., 'health-potion' -> 'Health Potion'
+ */
+export function getItemName(slug: string): string {
+  return slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+// ============================================
+// Seed-Based Item Buffs (Balatro-style)
+// ============================================
+
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+
+export interface ItemBuff {
+  stat: string;
+  value: number;
+  isPercent: boolean;
+}
+
+export interface SeededItemStats {
+  rarity: ItemRarity;
+  rarityColor: string;
+  buffs: ItemBuff[];
+  edition: string | null;  // 'foil' | 'holographic' | 'polychrome' | null
+  flavorText: string;
+}
+
+const RARITY_COLORS: Record<ItemRarity, string> = {
+  common: '#9E9E9E',
+  uncommon: '#4CAF50',
+  rare: '#2196F3',
+  epic: '#9C27B0',
+  legendary: '#FF9800',
+};
+
+const BUFF_POOLS = {
+  damage: ['+5 Damage', '+10 Damage', '+15 Damage', '+20 Damage', '+25% Damage'],
+  defense: ['+5 Defense', '+10 Defense', '+15% Defense'],
+  luck: ['+5% Luck', '+10% Luck', '+15% Luck'],
+  gold: ['+10% Gold', '+20% Gold', '+50 Gold on Kill'],
+  crit: ['+5% Crit', '+10% Crit', '+15% Crit'],
+  speed: ['+10% Speed', '+20% Speed'],
+  lifesteal: ['+5% Lifesteal', '+10% Lifesteal'],
+  thorns: ['+5 Thorns', '+10 Thorns'],
+};
+
+const EDITIONS = ['Foil', 'Holographic', 'Polychrome', 'Negative'];
+
+const FLAVOR_TEXTS = [
+  'Smells faintly of victory.',
+  'Previously owned by a guy who died.',
+  'Surprisingly heavy for its size.',
+  'The previous owner left a note: "Good luck."',
+  'Inscribed: "Property of NEVER DIE GUY"',
+  'Warm to the touch.',
+  'Makes a satisfying sound when shaken.',
+  'Probably cursed. Probably fine.',
+  'Found in a dumpster behind the arena.',
+  'Legend says it grants immortality. Legend lies.',
+  'Certified pre-owned.',
+  'Batteries not included.',
+  'Handle with existential dread.',
+  'May contain traces of souls.',
+];
+
+/**
+ * Generate seed-based stats for an item instance
+ * Same seed + item = identical stats
+ */
+export function generateItemStats(itemSlug: string, seed: string, index: number): SeededItemStats {
+  const rng = createSeededRng(`${seed}-${itemSlug}-${index}`);
+  const baseItem = LOADOUT_ITEMS[itemSlug];
+  const baseRarity = baseItem?.rarity || 1;
+
+  // Roll for rarity upgrade based on base rarity
+  const rarityRoll = rng.random('rarity-roll');
+  let rarity: ItemRarity = 'common';
+  if (baseRarity >= 4 || rarityRoll > 0.95) {
+    rarity = 'legendary';
+  } else if (baseRarity >= 3 || rarityRoll > 0.85) {
+    rarity = 'epic';
+  } else if (baseRarity >= 2 || rarityRoll > 0.65) {
+    rarity = 'rare';
+  } else if (rarityRoll > 0.35) {
+    rarity = 'uncommon';
+  }
+
+  // Generate buffs based on rarity
+  const numBuffs = rarity === 'legendary' ? 3 : rarity === 'epic' ? 2 : rarity === 'rare' ? 2 : 1;
+  const buffCategories = Object.keys(BUFF_POOLS) as (keyof typeof BUFF_POOLS)[];
+  const selectedCategories = rng.pickN('buff-cats', buffCategories, numBuffs);
+
+  const buffs: ItemBuff[] = selectedCategories.map(cat => {
+    const pool = BUFF_POOLS[cat];
+    const buffStr = rng.pick(`buff-${cat}`, pool) || pool[0];
+    const isPercent = buffStr.includes('%');
+    const value = parseInt(buffStr.match(/\d+/)?.[0] || '0', 10);
+    return { stat: cat, value, isPercent };
+  });
+
+  // Roll for special edition (rare)
+  const editionRoll = rng.random('edition-roll');
+  let edition: string | null = null;
+  if (rarity === 'legendary' && editionRoll > 0.5) {
+    edition = rng.pick('edition', EDITIONS) || null;
+  } else if (rarity === 'epic' && editionRoll > 0.8) {
+    edition = rng.pick('edition', EDITIONS) || null;
+  }
+
+  // Pick flavor text
+  const flavorText = rng.pick('flavor', FLAVOR_TEXTS) || FLAVOR_TEXTS[0];
+
+  return {
+    rarity,
+    rarityColor: RARITY_COLORS[rarity],
+    buffs,
+    edition,
+    flavorText,
+  };
+}
