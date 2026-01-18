@@ -1897,56 +1897,6 @@ const handleSort = (column: string) => {
 // Compact badge
 <LuckyNumberBadge value={3} size="md" showLabel />`,
   },
-
-  'transition-wipe': {
-    examples: (
-      <Box>
-        <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mb: 3 }}>
-          TransitionWipe provides a Balatro-inspired NDG skull wipe transition between game panels.
-        </Typography>
-
-        <Typography variant="subtitle2" sx={{ mb: 2 }}>Transition Phases</Typography>
-        <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
-          {(['idle', 'exit', 'wipe', 'enter'] as const).map((phase) => (
-            <Box key={phase} sx={{ textAlign: 'center' }}>
-              <Box sx={{ width: 60, height: 40, bgcolor: phase === 'wipe' ? tokens.colors.background.default : tokens.colors.background.paper, border: `1px solid ${tokens.colors.border}`, borderRadius: 0.5, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
-                {phase === 'wipe' && <Typography sx={{ fontSize: '0.5rem', color: tokens.colors.primary }}>NDG</Typography>}
-              </Box>
-              <Typography variant="caption">{phase}</Typography>
-            </Box>
-          ))}
-        </Stack>
-
-        <Typography variant="subtitle2" sx={{ mb: 2 }}>Features</Typography>
-        <Stack direction="row" spacing={1}>
-          <Chip label="Fade in/out" size="small" variant="outlined" />
-          <Chip label="Skull pulse glow" size="small" variant="outlined" />
-          <Chip label="Configurable duration" size="small" variant="outlined" />
-        </Stack>
-      </Box>
-    ),
-    props: [
-      { name: 'phase', type: "'idle' | 'exit' | 'wipe' | 'enter'", default: '-', description: 'Current transition phase' },
-      { name: 'onWipeComplete', type: '() => void', default: '-', description: 'Called when wipe animation finishes' },
-      { name: 'duration', type: 'number', default: '300', description: 'Animation duration in ms' },
-    ],
-    code: `import { TransitionWipe, TransitionPhase } from '../../components/TransitionWipe';
-
-const [phase, setPhase] = useState<TransitionPhase>('idle');
-
-const handleTransition = () => {
-  setPhase('wipe');
-};
-
-<TransitionWipe
-  phase={phase}
-  onWipeComplete={() => {
-    setPhase('enter');
-    // Load new content
-  }}
-  duration={300}
-/>`,
-  },
 };
 
 // ============================================

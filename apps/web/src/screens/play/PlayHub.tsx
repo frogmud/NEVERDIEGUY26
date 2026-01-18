@@ -24,7 +24,6 @@ import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteo
 import { useRun } from '../../contexts';
 import { useAuth } from '../../contexts/AuthContext';
 import { GameOverModal } from '../../games/meteor/components';
-import { TransitionWipe } from '../../components/TransitionWipe';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
@@ -96,8 +95,6 @@ export function PlayHub() {
     endRun,
     setPanel,
     transitionToPanel,
-    setTransitionPhase,
-    completeTransition,
     setPendingVictory,
     failRoom,
     continueFromSummary,
@@ -167,16 +164,6 @@ export function PlayHub() {
     navigate('/');
   }, [resetRun, navigate]);
 
-  // Handle transition phases: exit → wipe → complete
-  useEffect(() => {
-    if (state.transitionPhase === 'exit') {
-      // Brief delay then show wipe
-      const timer = setTimeout(() => {
-        setTransitionPhase('wipe');
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [state.transitionPhase, setTransitionPhase]);
 
   // Auto-select zone when new run starts (quick launch mode)
   // This effect only handles zone selection, not the transition
@@ -802,12 +789,6 @@ export function PlayHub() {
           onShopContinue={handleShopContinue}
         />
       )}
-
-      {/* Transition Wipe */}
-      <TransitionWipe
-        phase={state.transitionPhase}
-        onWipeComplete={completeTransition}
-      />
 
       {/* Options Modal */}
       <PlayOptionsModal

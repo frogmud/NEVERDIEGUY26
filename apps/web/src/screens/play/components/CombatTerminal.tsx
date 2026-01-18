@@ -655,15 +655,18 @@ export function CombatTerminal({
   // });
 
   // Stub functions to replace disabled useAmbientChat
-  const currentMessage = null;
-  const onDomainEnter = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onDomainEnter = (_slug?: string) => {};
   const onVictory = () => {};
   const onDefeat = () => {};
-  const onDiceRoll = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onDiceRoll = (_payload?: unknown) => {};
   const onCloseToGoal = () => {};
   const onFinalTurn = () => {};
-  const onBigRoll = () => {};
-  const onGuardianSlain = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onBigRoll = (_total?: number) => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onGuardianSlain = (_dieType?: number) => {};
   const clearMessage = () => {};
 
   // Fire domain enter on mount (Die-rector greets player)
@@ -1358,24 +1361,7 @@ export function CombatTerminal({
     return `${parts.join(' + ')} = ${total}`;
   }, [engineState?.phase, engineState?.hand]);
 
-  // Add NPC messages to feed when they occur
-  const lastNpcMessageIdRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (currentMessage && currentMessage.id !== lastNpcMessageIdRef.current) {
-      lastNpcMessageIdRef.current = currentMessage.id;
-      const entry: FeedEntry = {
-        id: `npc-${currentMessage.id}`,
-        type: 'npc_chat',
-        timestamp: currentMessage.timestamp,
-        npcSlug: currentMessage.npcSlug,
-        npcName: currentMessage.npcName,
-        text: currentMessage.text,
-        mood: currentMessage.mood,
-      };
-      feedRef.current = [entry, ...feedRef.current];
-      onFeedUpdate?.(feedRef.current);
-    }
-  }, [currentMessage, onFeedUpdate]);
+  // NPC message feed disabled - see useAmbientChat for re-enabling
 
   // Add roll notation to feed when thrown
   const lastRollNotationRef = useRef<string | null>(null);

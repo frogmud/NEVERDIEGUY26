@@ -874,13 +874,6 @@ const LuckyNumberPickerPreview = () => (
   </Stack>
 );
 
-const TransitionWipePreview = () => (
-  <Box sx={{ position: 'relative', width: 60, height: 30, bgcolor: tokens.colors.background.default, borderRadius: 0.5, overflow: 'hidden' }}>
-    <Box sx={{ position: 'absolute', inset: 0, bgcolor: tokens.colors.background.paper, opacity: 0.7 }} />
-    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '0.5rem', color: tokens.colors.primary }}>NDG</Box>
-  </Box>
-);
-
 const SortableHeaderPreview = () => (
   <Box sx={{ display: 'flex', gap: 1 }}>
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
@@ -1339,12 +1332,5 @@ export const componentRegistry: ComponentInfo[] = [
     category: 'Game UI',
     description: 'Die-rector patron selection grid',
     preview: <LuckyNumberPickerPreview />,
-  },
-  {
-    id: 'transition-wipe',
-    name: 'TransitionWipe',
-    category: 'Game UI',
-    description: 'NDG skull wipe transition effect',
-    preview: <TransitionWipePreview />,
   },
 ];
