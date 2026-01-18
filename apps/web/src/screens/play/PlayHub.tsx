@@ -10,10 +10,11 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, Drawer, Fab, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Drawer, Fab, useMediaQuery, useTheme, keyframes } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { tokens } from '../../theme';
+import { EASING, FADE } from '../../utils/transitions';
 import { PlaySidebar } from './components';
 import { RunSummary } from './components/RunSummary';
 import { PlayOptionsModal } from './components/PlayOptionsModal';
@@ -39,6 +40,39 @@ const SIDEBAR_WIDTH = 320;
 
 // Generate a random 6-char hex thread ID
 const generateThreadId = () => Math.random().toString(16).slice(2, 8).toUpperCase();
+
+// Panel transition animations - exit before enter pattern
+const panelExit = keyframes`
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+`;
+
+const panelEnter = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+// Victory/Defeat overlay entrance
+const overlayEnter = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
 
 // Preview parking spots for lobby (shows available landing zones)
@@ -543,22 +577,37 @@ export function PlayHub() {
         >
         {isInSummary ? (
           /* Victory Summary (only after D6 finale) */
-          <RunSummary
-            score={state.lastRoomScore}
-            gold={state.lastRoomGold}
-            totalScore={state.totalScore}
-            totalGold={state.gold}
-            domainName={state.domainState?.name}
-            domainProgress={{
-              cleared: state.domainState?.clearedCount || 0,
-              total: state.domainState?.totalZones || 3,
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              animation: `${panelEnter} 0.4s ${EASING.smooth} forwards`,
             }}
-            eventType="small"
-            onContinue={continueFromSummary}
-          />
+          >
+            <RunSummary
+              score={state.lastRoomScore}
+              gold={state.lastRoomGold}
+              totalScore={state.totalScore}
+              totalGold={state.gold}
+              domainName={state.domainState?.name}
+              domainProgress={{
+                cleared: state.domainState?.clearedCount || 0,
+                total: state.domainState?.totalZones || 3,
+              }}
+              eventType="small"
+              onContinue={continueFromSummary}
+            />
+          </Box>
         ) : isInPortals ? (
           /* Portal Selection (after D1-5 combat win) */
-          <Box sx={{ width: '100%', height: '100%', overflow: 'auto' }}>
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              overflow: 'auto',
+              animation: `${panelEnter} 0.4s ${EASING.smooth} forwards`,
+            }}
+          >
             <PortalSelection />
           </Box>
         ) : (
@@ -589,7 +638,7 @@ export function PlayHub() {
             {/* Victory/Defeat overlay */}
             {state.runEnded && (
               <>
-                {/* Dim overlay */}
+                {/* Dim overlay with fade entrance */}
                 <Box
                   sx={{
                     position: 'absolute',
@@ -597,10 +646,23 @@ export function PlayHub() {
                     bgcolor: state.gameWon ? 'rgba(20, 60, 20, 0.7)' : 'rgba(60, 20, 20, 0.7)',
                     backdropFilter: 'blur(4px)',
                     zIndex: 80,
+                    animation: `${overlayEnter} 0.5s ${EASING.smooth} forwards`,
                   }}
                 />
-                {/* GameOverModal on top */}
-                <GameOverModal
+                {/* GameOverModal on top with delayed entrance */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    zIndex: 85,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    animation: `${panelEnter} 0.4s ${EASING.organic} 0.2s forwards`,
+                    opacity: 0,
+                  }}
+                >
+                  <GameOverModal
                   open={true}
                   isWin={state.gameWon}
                   stats={{
@@ -620,10 +682,11 @@ export function PlayHub() {
                     seed: state.threadId || 'RANDOM',
                     killedBy: state.runStats?.killedBy,
                   }}
-                  onNewRun={resetRun}
-                  onMainMenu={handleMainMenu}
-                  contained
-                />
+                    onNewRun={resetRun}
+                    onMainMenu={handleMainMenu}
+                    contained
+                  />
+                </Box>
               </>
             )}
           </>

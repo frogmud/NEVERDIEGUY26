@@ -9,17 +9,18 @@ import { DiceRoll } from '@dice-roller/rpg-dice-roller';
 import { DiceShape } from '../../../components/DiceShapes';
 import { tokens } from '../../../theme';
 import { getDiceTypes, DieSides } from '../../../data/dice';
+import { stagger, EASING, POP } from '../../../utils/transitions';
 
 // Dice configurations from Die-rector system
 const DICE_TYPES = getDiceTypes();
 
 type DiceTypeConfig = typeof DICE_TYPES[number];
 
-// Animation keyframes
+// Animation keyframes - organic motion with overshoot
 const rollPop = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(${POP.strong}); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 `;
 
 const rollShake = keyframes`
@@ -33,6 +34,22 @@ const rollShake = keyframes`
 const fadeIn = keyframes`
   0% { opacity: 0; transform: scale(0.8); }
   100% { opacity: 1; transform: scale(1); }
+`;
+
+// Dice enter animation with organic bounce
+const diceEnter = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(-20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(${POP.normal}) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 `;
 
 interface DiceCount {
@@ -242,8 +259,8 @@ export function DiceBuilder({ onRoll, initialModifier = 0 }: DiceBuilderProps) {
               sx={{
                 animation: isRolling
                   ? `${rollShake} 0.12s ease-in-out infinite`
-                  : `${rollPop} 0.3s ease-out`,
-                animationDelay: isRolling ? '0s' : `${idx * 0.05}s`,
+                  : `${rollPop} 0.4s ${EASING.organic}`,
+                ...stagger(idx, 40), // 40ms stagger for beat-by-beat reveal
               }}
             >
               <DiceShape
@@ -255,9 +272,16 @@ export function DiceBuilder({ onRoll, initialModifier = 0 }: DiceBuilderProps) {
             </Box>
           ))
         ) : totalDice > 0 ? (
-          // Show placeholder dice before first roll
+          // Show placeholder dice before first roll with staggered entrance
           buildDiceArray().map((die, idx) => (
-            <Box key={idx} sx={{ opacity: 0.5 }}>
+            <Box
+              key={idx}
+              sx={{
+                opacity: 0.5,
+                animation: `${diceEnter} 0.3s ${EASING.organic} forwards`,
+                ...stagger(idx, 30),
+              }}
+            >
               <DiceShape
                 sides={die.sides}
                 size={diceSize}
