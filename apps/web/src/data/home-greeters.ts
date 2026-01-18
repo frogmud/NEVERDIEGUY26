@@ -802,8 +802,8 @@ export const HOME_GREETERS: HomeGreeter[] = [
     id: 'king-james',
     name: 'King James',
     portrait: '/assets/characters/portraits/240px/shop-portrait-kingjames-01.svg',
-    sprite: '/assets/market-svg/king-james/idle-01.svg',
-    sprite2: '/assets/market-svg/king-james/idle-02.svg',
+    sprite: '/assets/characters/shops/sprite-king-james.png',
+    sprite2: '/assets/characters/shops/king-james.png',
     wikiSlug: 'characters/king-james',
     ambient: [
       '*adjusts crown* The realm persists. As do I.',

@@ -10,32 +10,66 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, keyframes, Tooltip } from '@mui/material';
+import { Box, Typography, keyframes, Tooltip, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useNavigate, Link as RouterLink, useOutletContext } from 'react-router-dom';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import type { ShellContext } from './Shell';
 import { tokens } from '../theme';
 import {
   HOME_GREETERS,
   getRandomGreeting,
-  getNpcsForDomain,
   getGreeterById,
   getDomainSlugFromId,
   getRelationshipDialogue,
   type HomeGreeter,
 } from '../data/home-greeters';
+
+// ============================================
+// Preloaded NPC Cache (stable, never changes)
+// ============================================
+
+/**
+ * Static NPC lookup map - precomputed at module load.
+ * This ensures message rendering is NEVER affected by
+ * dynamic participant changes (joins/leaves/refreshes).
+ */
+const NPC_CACHE: Map<string, HomeGreeter> = new Map();
+const VALID_NPCS: HomeGreeter[] = [];
+
+// Preload all valid NPCs at module initialization
+(() => {
+  for (const npc of HOME_GREETERS) {
+    if (npc?.id && npc?.name && npc?.ambient?.length) {
+      NPC_CACHE.set(npc.id, npc);
+      NPC_CACHE.set(npc.name.toLowerCase(), npc); // Also index by lowercase name
+      VALID_NPCS.push(npc);
+    }
+  }
+})();
+
+/** Get NPC from preloaded cache by id or name */
+function getNpcFromCache(idOrName: string): HomeGreeter | undefined {
+  return NPC_CACHE.get(idOrName) || NPC_CACHE.get(idOrName.toLowerCase());
+}
+
+/** Get all valid NPCs (have id, name, and ambient messages) */
+function getValidNpcs(): HomeGreeter[] {
+  return VALID_NPCS;
+}
 import {
-  getConversationPartners,
   selectNextSpeaker,
   createMultiNPCConversation,
   addConversationTurn,
   type MultiNPCConversationState,
 } from '@ndg/ai-engine';
 import { hasSavedRun, loadSavedRun } from '../data/player/storage';
-import { generateLoadout, getItemImage, getLoadoutDomainName, LOADOUT_ITEMS, type StartingLoadout } from '../data/decrees';
+import { generateLoadout, getItemImage, LOADOUT_ITEMS, type StartingLoadout } from '../data/decrees';
 
 // ============================================
 // Animations
@@ -56,13 +90,75 @@ const slideUp = keyframes`
   100% { transform: translateY(0); opacity: 1; }
 `;
 
+const slideDown = keyframes`
+  0% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+`;
+
+const popUp = keyframes`
+  0% { transform: translateY(20px) scale(0.95); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+`;
+
+const streamSlideIn = keyframes`
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+`;
+
+const uiFadeIn = keyframes`
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+`;
+
 const blink = keyframes`
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 `;
 
 // Boot sequence phases
-type BootPhase = 'slide' | 'loading1' | 'waking' | 'loading2' | 'active';
+type BootPhase = 'slide' | 'loading1' | 'ascii' | 'skeleton' | 'active';
+
+/**
+ * ASCII Boot: Skull + THIS IS NEVER DIE GUY
+ */
+function generateAsciiBoot(): string[] {
+  return [
+    '        ████████',
+    '      ████████████',
+    '    ████████████████',
+    '  ████████████████████',
+    '  ████████████████████',
+    '████████████████████████',
+    '████████████████████████',
+    '████      ████      ████',
+    '████      ████      ████',
+    '████      ████      ████',
+    '  ████          ████',
+    '  ██████  ██  ██████',
+    '    ████████████████',
+    '    ██  ████████  ██',
+    '    ██  ████████  ██',
+    '      ████████████',
+    '',
+    '     THIS IS NEVER',
+    '      DIE GUY[TM]',
+    '',
+    '  a pantheon production',
+  ];
+}
+
+/**
+ * Generate a funny player alias from seed
+ * e.g., "guy_12345", "xX_guy12345_Xx", "guy.12345.exe"
+ */
+function generatePlayerAlias(seed: string): string {
+  const prefixes = ['guy_', 'xX_guy', 'the_guy_', 'l33t_guy', 'pro_guy_', 'guy.', 'not_a_guy_', ''];
+  const suffixes = ['', '_Xx', '.exe', '_pro', '_main', '_irl', '_2024', '_real'];
+  const seedNum = parseInt(seed, 10) || 0;
+  const prefix = prefixes[seedNum % prefixes.length];
+  const suffix = suffixes[Math.floor(seedNum / 100) % suffixes.length];
+  return `${prefix}${seed}${suffix}`;
+}
 
 // ============================================
 // Types
@@ -83,10 +179,86 @@ interface StreamMessage {
   spriteKey: string;
   wikiSlug?: string;
   text: string;
-  type: 'npc' | 'system' | 'answer' | 'quip';
+  type: 'npc' | 'system' | 'answer' | 'quip' | 'ad';
   timestamp: number;
   reactions?: EmojiReaction[];
+  // Ad-specific fields
+  adImage?: string;
+  adLink?: string;
+  adSubtitle?: string;
 }
+
+/** Inline ad definition */
+interface StreamAd {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  link: string;
+  domains: number[]; // Which domains this ad is relevant to (empty = all)
+}
+
+// Domain-relevant wiki ads
+const STREAM_ADS: StreamAd[] = [
+  // Daily Wiki - Earth domain starter guide
+  {
+    id: 'daily-wiki',
+    title: 'Daily Wiki',
+    subtitle: 'Earth Domain guide +100g',
+    image: '/assets/items/quest/diepedia-vol1.svg',
+    link: '/wiki/domains/earth',
+    domains: [],
+  },
+  // Domain-specific ads
+  {
+    id: 'wiki-earth',
+    title: 'Earth Domain',
+    subtitle: 'Learn the basics',
+    image: '/illustrations/newgame.svg',
+    link: '/wiki/domains/earth',
+    domains: [1],
+  },
+  {
+    id: 'wiki-frost',
+    title: 'Frost Reach',
+    subtitle: 'Survive the cold',
+    image: '/illustrations/weaknesses.svg',
+    link: '/wiki/domains/frost-reach',
+    domains: [2],
+  },
+  {
+    id: 'wiki-infernus',
+    title: 'Infernus',
+    subtitle: 'Embrace the flames',
+    image: '/illustrations/deaths.svg',
+    link: '/wiki/domains/infernus',
+    domains: [3],
+  },
+  {
+    id: 'wiki-shadow',
+    title: 'Shadow Keep',
+    subtitle: 'Face the darkness',
+    image: '/illustrations/history.svg',
+    link: '/wiki/domains/shadow-keep',
+    domains: [4],
+  },
+  {
+    id: 'wiki-null',
+    title: 'Null Providence',
+    subtitle: 'Enter the void',
+    image: '/illustrations/review.svg',
+    link: '/wiki/domains/null-providence',
+    domains: [5],
+  },
+  {
+    id: 'wiki-aberrant',
+    title: 'Aberrant',
+    subtitle: 'Reality bends here',
+    image: '/illustrations/options.svg',
+    link: '/wiki/domains/aberrant',
+    domains: [6],
+  },
+  ];
 
 // Reaction emoji pool (using text emoji since no actual emojis per rules)
 const REACTION_EMOJIS = ['skull', 'fire', 'eyes', 'think', 'laugh', 'hmm', 'wow'];
@@ -114,56 +286,112 @@ const FALLBACK_AMBIENT = [
 ];
 
 /**
- * Render message text with @mentions highlighted
- * @mentions are formatted as @NpcName and link to wiki
+ * Render message text with @mentions AND bare NPC names highlighted.
+ * Uses the STATIC NPC_CACHE for lookups - completely independent of
+ * who is currently in the room. This prevents blank messages when
+ * NPCs join/leave/refresh.
+ *
+ * Only links the FIRST mention of each NPC - subsequent mentions
+ * of the same name are rendered as plain text.
+ *
+ * Also highlights player alias mentions (e.g., "@guy_12345")
  */
-function renderMessageWithMentions(
-  text: string,
-  participants: HomeGreeter[],
-  navigate: ReturnType<typeof useNavigate>
-): React.ReactNode {
-  // Find @mentions in text (case insensitive)
-  const mentionRegex = /@([A-Za-z\s]+?)(?=[\s,!?.;:]|$)/g;
+function renderMessageWithMentions(text: string, playerAlias?: string): React.ReactNode {
+  if (!text) return text;
+
+  // Use all valid NPCs from the static cache for matching
+  const allNpcs = getValidNpcs();
+
+  // Build patterns for NPCs + player alias
+  // Sort by name length descending to match longer names first
+  const sortedNpcs = [...allNpcs].sort((a, b) => b.name.length - a.name.length);
+  const namePatterns = sortedNpcs.map(p => p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+  // Add player alias pattern if provided
+  if (playerAlias) {
+    namePatterns.unshift(playerAlias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  }
+
+  if (namePatterns.length === 0) return text;
+
+  const combinedPattern = new RegExp(`@?(${namePatterns.join('|')})`, 'gi');
+
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
   let match;
+  let keyCounter = 0;
 
-  while ((match = mentionRegex.exec(text)) !== null) {
-    // Add text before the mention
+  // Track which NPCs have already been linked (by lowercase name)
+  const alreadyMentioned = new Set<string>();
+
+  while ((match = combinedPattern.exec(text)) !== null) {
+    // Add text before the match
     if (match.index > lastIndex) {
       parts.push(text.slice(lastIndex, match.index));
     }
 
-    const mentionName = match[1].trim();
-    const mentionedNpc = participants.find(
-      p => p.name.toLowerCase().includes(mentionName.toLowerCase())
-    );
+    const matchedName = match[1];
+    const hasAtSymbol = match[0].startsWith('@');
+    const nameLower = matchedName.toLowerCase();
 
-    if (mentionedNpc) {
+    // Check if this is the player alias
+    const isPlayerMention = playerAlias && nameLower === playerAlias.toLowerCase();
+
+    if (isPlayerMention) {
+      // Always link player mentions (they're special)
       parts.push(
         <Box
           component="span"
-          key={match.index}
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/wiki/${mentionedNpc.wikiSlug}`);
-          }}
+          key={`mention-${keyCounter++}`}
           sx={{
-            color: tokens.colors.secondary,
-            cursor: 'pointer',
-            fontWeight: 600,
-            '&:hover': { textDecoration: 'underline' },
+            color: tokens.colors.warning,
+            fontWeight: 700,
+            textDecoration: 'underline',
+            textUnderlineOffset: '2px',
           }}
         >
-          @{mentionedNpc.name}
+          {hasAtSymbol ? '@' : ''}{playerAlias}
         </Box>
       );
     } else {
-      // Unknown mention, render as-is
-      parts.push(`@${mentionName}`);
+      // Look up NPC from static cache
+      const mentionedNpc = getNpcFromCache(matchedName);
+
+      if (mentionedNpc) {
+        // Only link the FIRST mention of this NPC
+        if (!alreadyMentioned.has(nameLower)) {
+          alreadyMentioned.add(nameLower);
+          parts.push(
+            <Box
+              component="a"
+              key={`mention-${keyCounter++}`}
+              href={`/wiki/${mentionedNpc.wikiSlug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
+              sx={{
+                color: tokens.colors.secondary,
+                cursor: 'pointer',
+                fontWeight: 600,
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+                '&:hover': { color: tokens.colors.primary },
+              }}
+            >
+              {hasAtSymbol ? '@' : ''}{mentionedNpc.name}
+            </Box>
+          );
+        } else {
+          // Already mentioned - render as plain text (no link)
+          parts.push(matchedName);
+        }
+      } else {
+        // Fallback
+        parts.push(match[0]);
+      }
     }
 
-    lastIndex = mentionRegex.lastIndex;
+    lastIndex = combinedPattern.lastIndex;
   }
 
   // Add remaining text
@@ -178,17 +406,63 @@ function renderMessageWithMentions(
 // Helper Functions
 // ============================================
 
-function createNPCMessage(greeter: HomeGreeter, text: string): StreamMessage {
+function createNPCMessage(greeter: HomeGreeter, text: string): StreamMessage | null {
+  // Guard against blank messages
+  const safeText = text?.trim();
+  if (!safeText) return null;
+
   return {
     id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     speakerId: greeter.id,
     speakerName: greeter.name,
     spriteKey: greeter.sprite || '/assets/characters/placeholder.svg',
     wikiSlug: greeter.wikiSlug,
-    text,
+    text: safeText,
     type: 'npc',
     timestamp: Date.now(),
   };
+}
+
+function createAdMessage(ad: StreamAd): StreamMessage {
+  return {
+    id: `ad-${ad.id}-${Date.now()}`,
+    speakerId: 'system',
+    speakerName: ad.title,
+    spriteKey: ad.image,
+    text: ad.title,
+    type: 'ad',
+    timestamp: Date.now(),
+    adImage: ad.image,
+    adLink: ad.link,
+    adSubtitle: ad.subtitle,
+  };
+}
+
+function getRelevantAds(domainId: number): StreamAd[] {
+  return STREAM_ADS.filter(ad =>
+    ad.domains.length === 0 || ad.domains.includes(domainId)
+  );
+}
+
+function pickRandomAd(domainId: number, excludeIds: string[] = []): StreamAd | null {
+  const relevant = getRelevantAds(domainId).filter(ad => !excludeIds.includes(ad.id));
+  if (relevant.length === 0) return null;
+  return relevant[Math.floor(Math.random() * relevant.length)];
+}
+
+// Daily Wiki cooldown (1 hour)
+const DAILY_WIKI_COOLDOWN_KEY = 'ndg-daily-wiki-clicked';
+const DAILY_WIKI_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
+
+function isDailyWikiOnCooldown(): boolean {
+  const lastClicked = localStorage.getItem(DAILY_WIKI_COOLDOWN_KEY);
+  if (!lastClicked) return false;
+  const elapsed = Date.now() - parseInt(lastClicked, 10);
+  return elapsed < DAILY_WIKI_COOLDOWN_MS;
+}
+
+function markDailyWikiClicked(): void {
+  localStorage.setItem(DAILY_WIKI_COOLDOWN_KEY, Date.now().toString());
 }
 
 // ============================================
@@ -200,13 +474,14 @@ export function HomeDashboard() {
   useOutletContext<ShellContext>(); // Required for layout
   const streamRef = useRef<HTMLDivElement>(null);
 
-  // Always start at domain 1 - no persistence or random jumping
+  // Always Earth (domain 1) - but each refresh is a different "day" in eternity
+  // NPCs from across the cosmos visit, items shift, the eternal stream flows on
   const selectedDomain = 1;
 
-  // Pick a random NPC from domain 1 residents
-  const [selectedNpcId] = useState<string>(() => {
-    const available = getNpcsForDomain(selectedDomain);
-    return available[Math.floor(Math.random() * available.length)] || 'mr-kevin';
+  // Pick a random NPC - can be from any domain (visitors through eternity)
+  const [selectedNpcId, setSelectedNpcId] = useState<string>(() => {
+    const validNpcs = getValidNpcs();
+    return validNpcs[Math.floor(Math.random() * validNpcs.length)]?.id || 'mr-kevin';
   });
 
   // Generate loadout for display (seed only - items acquired in-run)
@@ -222,17 +497,11 @@ export function HomeDashboard() {
 
   const greeterDomain = useMemo(() => getDomainSlugFromId(selectedDomain), [selectedDomain]);
 
-  // Multi-NPC participants for this domain's stream
+  // Multi-NPC participants - shuffled from all domains (visitors through eternity)
   const [participants, setParticipants] = useState<HomeGreeter[]>(() => {
-    const domainNpcs = getNpcsForDomain(selectedDomain);
-    const partners = getConversationPartners({
-      domainSlug: greeterDomain,
-      domainResidents: domainNpcs,
-      maxCount: Math.min(6, domainNpcs.length),
-    });
-    return partners
-      .map(id => getGreeterById(id))
-      .filter((g): g is HomeGreeter => g !== undefined);
+    const validNpcs = getValidNpcs();
+    const shuffledNpcs = [...validNpcs].sort(() => Math.random() - 0.5);
+    return shuffledNpcs.slice(0, 6);
   });
 
   // Conversation engine state
@@ -241,9 +510,10 @@ export function HomeDashboard() {
   );
 
   // Stream messages - newest first (prepend new messages)
-  const [messages, setMessages] = useState<StreamMessage[]>(() => [
-    createNPCMessage(greeter, getRandomGreeting(greeter)),
-  ]);
+  const [messages, setMessages] = useState<StreamMessage[]>(() => {
+    const initialMsg = createNPCMessage(greeter, getRandomGreeting(greeter));
+    return initialMsg ? [initialMsg] : [];
+  });
 
   const [currentSpeaker, setCurrentSpeaker] = useState<HomeGreeter>(greeter);
   const [isTyping, setIsTyping] = useState(false);
@@ -254,13 +524,28 @@ export function HomeDashboard() {
   // Boot sequence state
   const [bootPhase, setBootPhase] = useState<BootPhase>('slide');
   const [bootText, setBootText] = useState('');
-  const [bootFullText, setBootFullText] = useState('');
+  const [asciiRowsVisible, setAsciiRowsVisible] = useState(0);
+
+  // Player alias based on seed (for NPC mentions)
+  const playerAlias = useMemo(() => generatePlayerAlias(currentLoadout.seed), [currentLoadout.seed]);
 
   // Multi-NPC typing indicators (Slack-style)
   const [typingNpcs, setTypingNpcs] = useState<string[]>([]);
 
   // Stream visibility (can be hidden by user)
   const [streamEnabled, setStreamEnabled] = useState(true);
+
+  // Stream minimized state (starts minimized, expands after boot)
+  const [streamMinimized, setStreamMinimized] = useState(true);
+
+  // Unread message count (accumulates when minimized)
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Track last message count to detect new messages
+  const lastMessageCountRef = useRef(0);
+
+  // Invite modal state
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
   // Player state (would come from context in real app)
   const [playerGold] = useState(100);
@@ -273,38 +558,74 @@ export function HomeDashboard() {
     return null;
   }, []);
 
+  // Get available NPCs to invite (not already in stream)
+  const availableToInvite = useMemo(() => {
+    const currentIds = participants.map(p => p.id);
+    return getValidNpcs().filter(g => !currentIds.includes(g.id));
+  }, [participants]);
+
+  // ============================================
+  // Invite NPC Handler
+  // ============================================
+
+  const handleInviteNpc = (npc: HomeGreeter) => {
+    setInviteModalOpen(false);
+
+    // Add a player invite message
+    const inviteMsg: StreamMessage = {
+      id: `invite-${Date.now()}`,
+      speakerId: 'player',
+      speakerName: 'You',
+      spriteKey: '/assets/ui/token.svg',
+      text: `invited ${npc.name} to the stream.`,
+      type: 'system',
+      timestamp: Date.now(),
+    };
+    setMessages(prev => [inviteMsg, ...prev]);
+
+    // Add the NPC to participants
+    setParticipants(prev => [...prev, npc]);
+
+    // After a short delay, have the NPC say hello
+    setTimeout(() => {
+      const greeting = getRandomGreeting(npc);
+      const greetMsg = createNPCMessage(npc, greeting || `*${npc.name} waves*`);
+      if (greetMsg) {
+        setMessages(prev => [greetMsg, ...prev]);
+      }
+    }, 800 + Math.random() * 500);
+  };
+
   // ============================================
   // Refresh Handler - Rerolls everything
   // ============================================
 
   const handleRefresh = () => {
-    // Pick random domain (1-6)
-    const newDomain = Math.floor(Math.random() * 6) + 1;
+    // New "day" in eternity - same destination (Earth), but different cosmic configuration
+    // Pick a random NPC to lead the stream (from preloaded cache)
+    const validNpcs = getValidNpcs();
+    const newNpcId = validNpcs[Math.floor(Math.random() * validNpcs.length)]?.id || 'mr-kevin';
+    setSelectedNpcId(newNpcId);
 
-    // Generate new loadout with new seed
-    const newLoadout = generateLoadout(selectedNpcId, newDomain);
+    // Generate new loadout with new seed (always Earth)
+    const newLoadout = generateLoadout(newNpcId, selectedDomain);
     setCurrentLoadout(newLoadout);
 
     // Reset boot sequence to replay
     setBootPhase('slide');
     setBootText('');
-    setBootFullText('');
+    setAsciiRowsVisible(0);
     setMessages([]);
     setAmbientIndex(0);
     setIsTyping(false);
 
-    // Update participants for new domain
-    const domainSlug = getDomainSlugFromId(newDomain);
-    const domainNpcs = getNpcsForDomain(newDomain);
-    const partners = getConversationPartners({
-      domainSlug,
-      domainResidents: domainNpcs,
-      maxCount: Math.min(6, domainNpcs.length),
-    });
-    const newParticipants = partners
-      .map(id => getGreeterById(id))
-      .filter((g): g is HomeGreeter => g !== undefined);
+    // Shuffle NPCs from preloaded cache - visitors through eternity
+    const shuffledNpcs = [...validNpcs].sort(() => Math.random() - 0.5);
+    const newParticipants = shuffledNpcs.slice(0, 6);
     setParticipants(newParticipants);
+
+    // Reset conversation state
+    const domainSlug = getDomainSlugFromId(selectedDomain);
     setConversationState(createMultiNPCConversation(newParticipants.map(p => p.id), domainSlug, null));
   };
 
@@ -313,12 +634,12 @@ export function HomeDashboard() {
   // ============================================
 
   useEffect(() => {
-    // Boot sequence timing
+    // Boot sequence timing - ASCII then skeleton loader
     const timings: Record<BootPhase, { next: BootPhase | null; delay: number; text?: string }> = {
       slide: { next: 'loading1', delay: 600 },
-      loading1: { next: 'waking', delay: 1000, text: 'loading...' },
-      waking: { next: 'loading2', delay: 0, text: `never die guy ${currentLoadout.seed} wakes up` },
-      loading2: { next: 'active', delay: 500, text: 'loading...' },
+      loading1: { next: 'ascii', delay: 1200, text: 'loading...' },
+      ascii: { next: 'skeleton', delay: 5000 }, // Skull + welcome (20 rows x 200ms + pause)
+      skeleton: { next: 'active', delay: 1800 }, // Skeleton loader for stream
       active: { next: null, delay: 0 },
     };
 
@@ -326,41 +647,105 @@ export function HomeDashboard() {
     if (!current.next) return;
 
     // Set boot text if specified
-    if (current.text && bootPhase !== 'waking') {
+    if (current.text) {
       setBootText(current.text);
-    } else if (bootPhase === 'waking') {
-      // Typewriter effect for "wakes up" message
-      setBootFullText(current.text || '');
-      setBootText('');
     }
 
     const timer = setTimeout(() => {
       if (current.next) {
         setBootPhase(current.next);
+        setAsciiRowsVisible(0); // Reset for next phase
       }
     }, current.delay);
 
     return () => clearTimeout(timer);
   }, [bootPhase, currentLoadout.seed]);
 
-  // Boot typewriter effect for "wakes up" message
-  useEffect(() => {
-    if (bootPhase !== 'waking' || !bootFullText) return;
+  // ============================================
+  // ASCII Row-by-Row Animation
+  // ============================================
 
-    if (bootText.length < bootFullText.length) {
+  useEffect(() => {
+    if (bootPhase !== 'ascii') return;
+
+    const lines = generateAsciiBoot();
+
+    // Reveal rows one by one
+    if (asciiRowsVisible < lines.length) {
       const timer = setTimeout(() => {
-        setBootText(bootFullText.slice(0, bootText.length + 1));
-      }, 35); // Slightly slower for dramatic effect
-      return () => clearTimeout(timer);
-    } else {
-      // Typewriter complete, advance to next phase
-      const timer = setTimeout(() => setBootPhase('loading2'), 800);
+        setAsciiRowsVisible(prev => prev + 1);
+      }, 200); // 200ms per row
       return () => clearTimeout(timer);
     }
-  }, [bootPhase, bootText, bootFullText]);
+  }, [bootPhase, asciiRowsVisible]);
 
   // ============================================
-  // Typewriter Effect
+  // Pre-warm NPC Conversation (during ASCII boot)
+  // ============================================
+
+  useEffect(() => {
+    if (bootPhase !== 'ascii') return;
+
+    // Pre-generate messages while ASCII art is showing
+    const warmupMessages: StreamMessage[] = [];
+    const usedSpeakers = new Set<string>();
+
+    // Generate 3-4 messages from different NPCs
+    const messageCount = 3 + Math.floor(Math.random() * 2);
+
+    for (let i = 0; i < messageCount; i++) {
+      // Pick a speaker we haven't used yet
+      const availableSpeakers = participants.filter(p => !usedSpeakers.has(p.id));
+      if (availableSpeakers.length === 0) break;
+
+      const speaker = availableSpeakers[Math.floor(Math.random() * availableSpeakers.length)];
+      usedSpeakers.add(speaker.id);
+
+      // Get a message from their ambient pool
+      const speakerAmbient = speaker.ambient || FALLBACK_AMBIENT;
+      const msgText = speakerAmbient[Math.floor(Math.random() * speakerAmbient.length)];
+
+      // Skip if blank
+      if (!msgText?.trim()) continue;
+
+      const msg = createNPCMessage(speaker, msgText);
+      if (msg) {
+        warmupMessages.push(msg);
+      }
+    }
+
+    // Queue these messages to appear when boot completes
+    if (warmupMessages.length > 0) {
+      setMessages(warmupMessages.reverse()); // Reverse so oldest is at bottom
+    }
+  }, [bootPhase, participants]);
+
+  // ============================================
+  // Player Joins Chat (after boot completes)
+  // ============================================
+
+  useEffect(() => {
+    if (bootPhase !== 'active') return;
+
+    // Add "GUY #seed has joined" message after a short delay
+    const timer = setTimeout(() => {
+      const joinMsg: StreamMessage = {
+        id: `player-join-${Date.now()}`,
+        speakerId: 'player',
+        speakerName: playerAlias,
+        spriteKey: '/assets/ui/token.svg',
+        text: `${playerAlias} has joined the chat.`,
+        type: 'system',
+        timestamp: Date.now(),
+      };
+      setMessages(prev => [joinMsg, ...prev]);
+    }, 800 + Math.random() * 500);
+
+    return () => clearTimeout(timer);
+  }, [bootPhase, playerAlias]);
+
+  // ============================================
+  // Typewriter Effect (for NPC messages)
   // ============================================
 
   useEffect(() => {
@@ -401,11 +786,24 @@ export function HomeDashboard() {
         }
       }
 
-      // Get message - 30% chance for relationship dialogue with @mention
-      let nextMessage: string;
-      const useRelationship = participants.length > 1 && Math.random() < 0.3;
+      // Get message - 30% chance for relationship dialogue, 15% chance to mention player
+      let nextMessage: string = '';
+      const roll = Math.random();
 
-      if (useRelationship) {
+      if (roll < 0.15) {
+        // 15% chance: Mention the player directly
+        const playerGreetings = [
+          `Hey @${playerAlias}, welcome to the stream.`,
+          `@${playerAlias} just joined? Fresh meat.`,
+          `*nods at @${playerAlias}*`,
+          `@${playerAlias}, you ready for this?`,
+          `Good to see you, @${playerAlias}.`,
+          `@${playerAlias}... interesting alias.`,
+          `Another Guy enters. Welcome, @${playerAlias}.`,
+        ];
+        nextMessage = playerGreetings[Math.floor(Math.random() * playerGreetings.length)];
+      } else if (roll < 0.45 && participants.length > 1) {
+        // 30% chance: Relationship dialogue with @mention
         const others = participants.filter(p => p.id !== nextSpeaker.id);
         const target = others[Math.floor(Math.random() * others.length)];
         const relLine = getRelationshipDialogue(nextSpeaker.id, target.id);
@@ -417,8 +815,14 @@ export function HomeDashboard() {
           nextMessage = nextSpeaker.ambient?.[ambientIndex % (nextSpeaker.ambient?.length || 1)] || FALLBACK_AMBIENT[ambientIndex % FALLBACK_AMBIENT.length];
         }
       } else {
+        // Regular ambient
         const speakerAmbient = nextSpeaker.ambient || FALLBACK_AMBIENT;
-        nextMessage = speakerAmbient[ambientIndex % speakerAmbient.length];
+        nextMessage = speakerAmbient[ambientIndex % speakerAmbient.length] || '';
+      }
+
+      // Guard: skip if message is blank (hydration safety)
+      if (!nextMessage?.trim()) {
+        nextMessage = FALLBACK_AMBIENT[Math.floor(Math.random() * FALLBACK_AMBIENT.length)];
       }
 
       // Start typing
@@ -436,12 +840,14 @@ export function HomeDashboard() {
     if (!isTyping || !fullTypingText) return;
     if (typingText.length < fullTypingText.length) return;
 
-    // Typing complete - add to stream
+    // Typing complete - add to stream (skip if blank)
     const newMsg = createNPCMessage(currentSpeaker, fullTypingText);
-    setMessages(prev => {
-      if (prev[0]?.text === fullTypingText) return prev; // Skip duplicates
-      return [newMsg, ...prev];
-    });
+    if (newMsg) {
+      setMessages(prev => {
+        if (prev[0]?.text === fullTypingText) return prev; // Skip duplicates
+        return [newMsg, ...prev];
+      });
+    }
 
     setConversationState(prev => addConversationTurn(prev, {
       speakerSlug: currentSpeaker.id,
@@ -452,26 +858,31 @@ export function HomeDashboard() {
       pool: 'idle',
     }));
 
-    // 30% chance for emoji reaction from another NPC
-    if (participants.length > 1 && Math.random() < 0.3) {
-      const reactors = participants.filter(p => p.id !== currentSpeaker.id);
-      const reactor = reactors[Math.floor(Math.random() * reactors.length)];
-      const emoji = REACTION_EMOJIS[Math.floor(Math.random() * REACTION_EMOJIS.length)];
-
-      // Add reaction to the most recent message after a delay
-      setTimeout(() => {
-        setMessages(prev => {
-          if (prev.length === 0) return prev;
-          const updated = [...prev];
-          const mostRecent = { ...updated[0] };
-          mostRecent.reactions = [
-            ...(mostRecent.reactions || []),
-            { emoji, npcId: reactor.id, npcName: reactor.name },
-          ];
-          updated[0] = mostRecent;
-          return updated;
-        });
-      }, 1000 + Math.random() * 1500);
+    // Each NPC has 20% chance to react - allows multiple reactions
+    if (participants.length > 1) {
+      const potentialReactors = participants.filter(p => p.id !== currentSpeaker.id);
+      potentialReactors.forEach((reactor, idx) => {
+        if (Math.random() < 0.2) {
+          const emoji = REACTION_EMOJIS[Math.floor(Math.random() * REACTION_EMOJIS.length)];
+          // Stagger reaction timing so they don't all appear at once
+          setTimeout(() => {
+            setMessages(prev => {
+              if (prev.length === 0) return prev;
+              const updated = [...prev];
+              const mostRecent = { ...updated[0] };
+              // Avoid duplicate reactions from same NPC
+              const existingReactorIds = (mostRecent.reactions || []).map(r => r.npcId);
+              if (existingReactorIds.includes(reactor.id)) return prev;
+              mostRecent.reactions = [
+                ...(mostRecent.reactions || []),
+                { emoji, npcId: reactor.id, npcName: reactor.name },
+              ];
+              updated[0] = mostRecent;
+              return updated;
+            });
+          }, 800 + idx * 400 + Math.random() * 800);
+        }
+      });
     }
 
     // 15% chance for a quick quip from another NPC
@@ -504,6 +915,165 @@ export function HomeDashboard() {
   }, [isTyping, typingText, fullTypingText, currentSpeaker, participants]);
 
   // ============================================
+  // Inline Ad Insertion
+  // ============================================
+
+  // Insert initial ad when boot completes
+  useEffect(() => {
+    if (bootPhase !== 'active') return;
+
+    // Insert Daily Wiki ad after a short delay (if not on cooldown)
+    const timer = setTimeout(() => {
+      if (!isDailyWikiOnCooldown()) {
+        const dailyWiki = STREAM_ADS.find(ad => ad.id === 'daily-wiki');
+        if (dailyWiki) {
+          setMessages(prev => [createAdMessage(dailyWiki), ...prev]);
+        }
+      } else {
+        // Show a different domain-relevant ad instead
+        const ad = pickRandomAd(currentLoadout.domain, ['daily-wiki']);
+        if (ad) {
+          setMessages(prev => [createAdMessage(ad), ...prev]);
+        }
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [bootPhase, currentLoadout.domain]);
+
+  // Periodic ad insertion (~60 seconds)
+  useEffect(() => {
+    if (bootPhase !== 'active') return;
+    if (!streamEnabled) return;
+
+    const interval = setInterval(() => {
+      // Get recent ad IDs to avoid repeating
+      const recentAdIds = messages
+        .filter(m => m.type === 'ad')
+        .slice(0, 3)
+        .map(m => m.speakerName);
+
+      // Exclude daily-wiki if on cooldown
+      const excludeIds = [...recentAdIds];
+      if (isDailyWikiOnCooldown()) {
+        excludeIds.push('daily-wiki');
+      }
+
+      // Pick a relevant ad for current domain
+      const ad = pickRandomAd(currentLoadout.domain, excludeIds);
+      if (ad) {
+        setMessages(prev => [createAdMessage(ad), ...prev]);
+      }
+    }, 30000); // Every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [bootPhase, streamEnabled, currentLoadout.domain, messages]);
+
+  // ============================================
+  // NPCs Coming and Going
+  // ============================================
+
+  useEffect(() => {
+    if (bootPhase !== 'active') return;
+    if (!streamEnabled) return;
+
+    // Every 15-25 seconds, an NPC might arrive or leave
+    const interval = setInterval(() => {
+      const action = Math.random();
+
+      if (action < 0.4 && participants.length > 2) {
+        // 40% chance: Someone leaves (if more than 2 participants)
+        const leaverIdx = Math.floor(Math.random() * participants.length);
+        const leaver = participants[leaverIdx];
+
+        // Guard: skip if leaver is invalid
+        if (!leaver?.name) return;
+
+        // Add a "left" system message
+        const leaveMsg: StreamMessage = {
+          id: `leave-${Date.now()}`,
+          speakerId: 'system',
+          speakerName: leaver.name,
+          spriteKey: leaver.sprite || '/assets/characters/placeholder.svg',
+          wikiSlug: leaver.wikiSlug,
+          text: `${leaver.name} has left the stream.`,
+          type: 'system',
+          timestamp: Date.now(),
+        };
+        setMessages(prev => [leaveMsg, ...prev]);
+        setParticipants(prev => prev.filter((_, i) => i !== leaverIdx));
+
+      } else if (action < 0.8 && participants.length < 8) {
+        // 40% chance: Someone arrives (if less than 8 participants)
+        const currentIds = participants.map(p => p.id);
+        const available = HOME_GREETERS.filter(g => g?.id && g?.name && g?.ambient?.length && !currentIds.includes(g.id));
+
+        if (available.length > 0) {
+          const newcomer = available[Math.floor(Math.random() * available.length)];
+
+          // Guard: skip if newcomer is invalid
+          if (!newcomer?.name) return;
+
+          // Add a "joined" system message
+          const joinMsg: StreamMessage = {
+            id: `join-${Date.now()}`,
+            speakerId: 'system',
+            speakerName: newcomer.name,
+            spriteKey: newcomer.sprite || '/assets/characters/placeholder.svg',
+            wikiSlug: newcomer.wikiSlug,
+            text: `${newcomer.name} has joined the stream.`,
+            type: 'system',
+            timestamp: Date.now(),
+          };
+          setMessages(prev => [joinMsg, ...prev]);
+          setParticipants(prev => [...prev, newcomer]);
+        }
+      }
+      // 20% chance: Nothing happens (quiet moment)
+    }, 15000 + Math.random() * 10000);
+
+    return () => clearInterval(interval);
+  }, [bootPhase, streamEnabled, participants]);
+
+  // ============================================
+  // Unread Count Tracking (when minimized)
+  // ============================================
+
+  useEffect(() => {
+    if (bootPhase !== 'active') return;
+
+    const currentCount = messages.length;
+    const newMessages = currentCount - lastMessageCountRef.current;
+
+    // If minimized and we have new messages, increment unread
+    if (streamMinimized && newMessages > 0) {
+      setUnreadCount(prev => prev + newMessages);
+    }
+
+    // Update the ref
+    lastMessageCountRef.current = currentCount;
+  }, [messages.length, streamMinimized, bootPhase]);
+
+  // Clear unread when expanded
+  useEffect(() => {
+    if (!streamMinimized) {
+      setUnreadCount(0);
+    }
+  }, [streamMinimized]);
+
+  // Auto-expand stream after boot completes
+  useEffect(() => {
+    if (bootPhase !== 'active') return;
+
+    // Delay expansion so other UI settles first
+    const timer = setTimeout(() => {
+      setStreamMinimized(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [bootPhase]);
+
+  // ============================================
   // Actions
   // ============================================
 
@@ -527,7 +1097,7 @@ export function HomeDashboard() {
       flexDirection: 'column',
       height: 'calc(100vh - 64px)',
       overflow: 'hidden',
-      animation: `${slideUp} 500ms ease-out forwards`,
+      position: 'relative',
     }}>
       {/* Top Rail - Chunky Toolbar */}
       <Box sx={{
@@ -536,6 +1106,7 @@ export function HomeDashboard() {
         gap: 2,
         px: 3,
         py: 1.5,
+        animation: `${uiFadeIn} 500ms ease-out 1.2s both`,
       }}>
         {/* Player Identity + Score Group */}
         <Box sx={{
@@ -672,14 +1243,15 @@ export function HomeDashboard() {
         </Box>
       </Box>
 
-      {/* Main 2-Column Layout */}
+      {/* Main Content Area */}
       <Box sx={{
         flex: 1,
         display: 'flex',
         overflow: 'hidden',
         minHeight: 0,
+        position: 'relative',
       }}>
-        {/* Center Column - Starting Loadout */}
+        {/* Center Column - Starting Loadout (full width now) */}
         <Box sx={{
           flex: 1,
           display: { xs: 'none', md: 'flex' },
@@ -689,21 +1261,6 @@ export function HomeDashboard() {
           p: 3,
           gap: 3,
         }}>
-          {/* Domain Title */}
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled, mb: 0.5 }}>
-              Destination
-            </Typography>
-            <Typography sx={{
-              fontFamily: tokens.fonts.gaming,
-              fontSize: '1.5rem',
-              color: tokens.colors.text.primary,
-              animation: `${fadeIn} 300ms ease-out`,
-            }}>
-              {getLoadoutDomainName(currentLoadout)}
-            </Typography>
-          </Box>
-
           {/* Item Cards - from loadout */}
           <Box sx={{ display: 'flex', alignItems: 'stretch', gap: 2 }}>
             {currentLoadout.items.map((itemSlug, i) => {
@@ -726,7 +1283,7 @@ export function HomeDashboard() {
                     bgcolor: tokens.colors.background.paper,
                     p: 2,
                     gap: 2,
-                    animation: `${fadeIn} 300ms ease-out ${i * 100}ms both`,
+                    animation: `${popUp} 500ms ease-out ${400 + i * 150}ms both`,
                   }}
                 >
                   {/* Item Sprite */}
@@ -765,7 +1322,12 @@ export function HomeDashboard() {
           </Box>
 
           {/* Seed Display */}
-          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.text.disabled }}>
+          <Typography sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: '0.75rem',
+            color: tokens.colors.text.disabled,
+            animation: `${uiFadeIn} 500ms ease-out 1.2s both`,
+          }}>
             seed: #{currentLoadout.seed}
           </Typography>
 
@@ -785,6 +1347,7 @@ export function HomeDashboard() {
               border: `2px solid ${tokens.colors.primary}`,
               cursor: 'pointer',
               transition: 'all 150ms ease',
+              animation: `${uiFadeIn} 500ms ease-out 1.2s both`,
               '&:hover': { filter: 'brightness(1.1)', transform: 'scale(1.02)' },
             }}
           >
@@ -794,128 +1357,168 @@ export function HomeDashboard() {
           </Box>
         </Box>
 
-        {/* Right Column - Eternal Stream (free floating with rounded corners) */}
+        {/* Floating Chat Window - Eternal Stream */}
         <Box sx={{
-          width: { xs: '100%', md: 360 },
-          flexShrink: 0,
+          position: 'absolute',
+          bottom: 16,
+          right: 16,
+          width: streamMinimized ? 'auto' : 380,
+          height: streamMinimized ? 'auto' : '70%',
           display: 'flex',
           flexDirection: 'column',
-          overflow: 'hidden',
-          height: '100%',
-          p: { md: 2 },
-          pl: { md: 1 },
+          zIndex: 100,
+          animation: `${streamSlideIn} 700ms ease-out both`,
         }}>
-        <Box sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          borderRadius: { md: `${tokens.radius.lg}px` },
-          bgcolor: tokens.colors.background.elevated,
-          border: { md: `1px solid ${tokens.colors.border}` },
-        }}>
-          {/* Stream Header - fixed height */}
-          <Box sx={{ p: 2, flexShrink: 0 }}>
-            {/* Title Row */}
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
-              <Box>
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.2rem', color: tokens.colors.text.primary }}>
-                  Eternal Stream
-                </Typography>
-                <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled, mt: 0.5 }}>
-                  NPCs hang out here between runs.
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
-                <Tooltip title="Reroll seed and NPCs" placement="bottom">
-                  <Box
-                    onClick={handleRefresh}
-                    sx={{
-                      width: 28,
-                      height: 28,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '50%',
-                      cursor: 'pointer',
-                      color: tokens.colors.text.disabled,
-                      transition: 'all 150ms ease',
-                      '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
-                    }}
-                  >
-                    <RefreshIcon sx={{ fontSize: 18 }} />
-                  </Box>
-                </Tooltip>
-                <Tooltip title={streamEnabled ? "Pause feed" : "Resume feed"} placement="bottom">
-                  <Box
-                    onClick={() => setStreamEnabled(prev => !prev)}
-                    sx={{
-                      width: 28,
-                      height: 28,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '50%',
-                      cursor: 'pointer',
-                      color: tokens.colors.text.disabled,
-                      transition: 'all 150ms ease',
-                      '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
-                    }}
-                  >
-                    {streamEnabled ? <PauseIcon sx={{ fontSize: 18 }} /> : <PlayArrowIcon sx={{ fontSize: 18 }} />}
-                  </Box>
-                </Tooltip>
-              </Box>
-            </Box>
-
-            {/* Daily Wiki Banner */}
+          {/* Minimized Tab */}
+          {streamMinimized ? (
             <Box
-              component={RouterLink}
-              to="/wiki"
+              onClick={() => setStreamMinimized(false)}
               sx={{
-                mt: 1.5,
-                px: 1.5,
-                py: 1.5,
-                borderRadius: `${tokens.radius.md}px`,
-                bgcolor: 'rgba(74, 222, 128, 0.08)',
-                border: '1px solid rgba(74, 222, 128, 0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1.5,
-                textDecoration: 'none',
+                px: 2,
+                py: 1.5,
+                borderRadius: `${tokens.radius.lg}px`,
+                bgcolor: tokens.colors.background.elevated,
+                border: `1px solid ${tokens.colors.border}`,
+                cursor: 'pointer',
                 transition: 'all 150ms ease',
-                '&:hover': { bgcolor: 'rgba(74, 222, 128, 0.12)', borderColor: 'rgba(74, 222, 128, 0.25)' },
+                '&:hover': { bgcolor: tokens.colors.background.paper, transform: 'translateY(-2px)' },
               }}
             >
-              <Box
-                component="img"
-                src="/assets/items/quest/diepedia-vol1.svg"
-                alt="diepedia"
-                sx={{ width: 36, height: 36, flexShrink: 0 }}
-              />
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.success }}>
-                  Daily Wiki
-                </Typography>
-                <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.success, opacity: 0.7 }}>
-                  +100g reward available
-                </Typography>
-              </Box>
-              <ChevronRightIcon sx={{ fontSize: 20, color: tokens.colors.success }} />
+              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.95rem', color: tokens.colors.text.primary }}>
+                Eternal Stream
+              </Typography>
+              {unreadCount > 0 && (
+                <Box sx={{
+                  minWidth: 22,
+                  height: 22,
+                  borderRadius: '11px',
+                  bgcolor: tokens.colors.primary,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  px: 0.75,
+                }}>
+                  <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.75rem', color: tokens.colors.text.primary }}>
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </Typography>
+                </Box>
+              )}
+              <KeyboardArrowUpIcon sx={{ fontSize: 20, color: tokens.colors.text.disabled, ml: 0.5 }} />
             </Box>
-
-            {/* NPC Avatar Row - who's in the room */}
+          ) : (
+            /* Expanded Chat Window */
             <Box sx={{
-              mt: 1.5,
+              height: '100%',
               display: 'flex',
-              alignItems: 'center',
-              gap: 0.75,
+              flexDirection: 'column',
+              overflow: 'hidden',
+              borderRadius: `${tokens.radius.lg}px`,
+              bgcolor: tokens.colors.background.elevated,
+              border: `1px solid ${tokens.colors.border}`,
+              boxShadow: '0 4px 32px rgba(0,0,0,0.3)',
             }}>
+              {/* Stream Header - fixed height, click to minimize */}
+              <Box
+                onClick={() => setStreamMinimized(true)}
+                sx={{
+                  px: 2,
+                  pt: 2,
+                  pb: 1.5,
+                  flexShrink: 0,
+                  borderBottom: `1px solid ${tokens.colors.border}`,
+                  cursor: 'pointer',
+                  transition: 'background-color 150ms ease',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.02)' },
+                }}
+              >
+                {/* Title Row */}
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
+                  <Box>
+                    <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.2rem', color: tokens.colors.text.primary }}>
+                      Eternal Stream
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled, mt: 0.5 }}>
+                      NPCs hang out here between runs.
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
+                    <Tooltip title="Reroll seed and NPCs" placement="bottom">
+                      <Box
+                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); handleRefresh(); }}
+                        sx={{
+                          width: 28,
+                          height: 28,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
+                          cursor: 'pointer',
+                          color: tokens.colors.text.disabled,
+                          transition: 'all 150ms ease',
+                          '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
+                        }}
+                      >
+                        <RefreshIcon sx={{ fontSize: 18 }} />
+                      </Box>
+                    </Tooltip>
+                    <Tooltip title={streamEnabled ? "Pause feed" : "Resume feed"} placement="bottom">
+                      <Box
+                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamEnabled(prev => !prev); }}
+                        sx={{
+                          width: 28,
+                          height: 28,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
+                          cursor: 'pointer',
+                          color: tokens.colors.text.disabled,
+                          transition: 'all 150ms ease',
+                          '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
+                        }}
+                      >
+                        {streamEnabled ? <PauseIcon sx={{ fontSize: 18 }} /> : <PlayArrowIcon sx={{ fontSize: 18 }} />}
+                      </Box>
+                    </Tooltip>
+                    <Tooltip title="Minimize" placement="bottom">
+                      <Box
+                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamMinimized(true); }}
+                        sx={{
+                          width: 28,
+                          height: 28,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
+                          cursor: 'pointer',
+                          color: tokens.colors.text.disabled,
+                          transition: 'all 150ms ease',
+                          '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
+                        }}
+                      >
+                        <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
+                      </Box>
+                    </Tooltip>
+                  </Box>
+                </Box>
+
+              {/* NPC Avatar Row - who's in the room */}
+              <Box sx={{
+                mt: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.75,
+              }}>
               {participants.slice(0, 6).map((npc) => (
                 <Box
                   key={npc.id}
-                  component={RouterLink}
-                  to={`/wiki/${npc.wikiSlug}`}
+                  component="a"
+                  href={`/wiki/${npc.wikiSlug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   sx={{
                     position: 'relative',
                     width: 32,
@@ -926,6 +1529,7 @@ export function HomeDashboard() {
                     border: `2px solid ${typingNpcs.includes(npc.id) ? tokens.colors.success : tokens.colors.border}`,
                     cursor: 'pointer',
                     transition: 'all 150ms ease',
+                    textDecoration: 'none',
                     '&:hover': { borderColor: tokens.colors.primary, transform: 'scale(1.1)' },
                   }}
                   title={npc.name}
@@ -959,6 +1563,33 @@ export function HomeDashboard() {
                   +{participants.length - 6}
                 </Typography>
               )}
+
+              {/* Invite NPC button */}
+              {availableToInvite.length > 0 && (
+                <Box
+                  onClick={() => setInviteModalOpen(true)}
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    bgcolor: tokens.colors.background.paper,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    ml: 0.5,
+                    transition: 'all 150ms ease',
+                    color: tokens.colors.text.disabled,
+                    flexShrink: 0,
+                    '&:hover': {
+                      color: tokens.colors.success,
+                      bgcolor: 'rgba(74, 222, 128, 0.15)',
+                    },
+                  }}
+                >
+                  <PersonAddIcon sx={{ fontSize: 16 }} />
+                </Box>
+              )}
             </Box>
           </Box>
 
@@ -969,169 +1600,215 @@ export function HomeDashboard() {
               flex: 1,
               minHeight: 0,
               overflowY: 'auto',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 0,
               scrollbarWidth: 'thin',
               '&::-webkit-scrollbar': { width: 4 },
               '&::-webkit-scrollbar-thumb': { bgcolor: tokens.colors.border, borderRadius: 2 },
             }}
           >
             {/* Boot Sequence Display */}
-            {bootPhase !== 'active' && (
+            {bootPhase !== 'active' && bootPhase !== 'skeleton' && (
               <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 py: 6,
-                gap: 1,
+                overflow: 'visible',
               }}>
-                <Typography sx={{
-                  fontFamily: 'monospace',
-                  fontSize: '0.85rem',
-                  color: tokens.colors.text.disabled,
-                  letterSpacing: '0.05em',
-                }}>
-                  {bootPhase === 'waking' ? bootText : bootText}
-                  {(bootPhase === 'loading1' || bootPhase === 'loading2') && (
-                    <Box
-                      component="span"
-                      sx={{
-                        display: 'inline-block',
-                        animation: `${blink} 1s step-end infinite`,
-                      }}
-                    >
-                      _
+                {/* ASCII: Skull + WELCOME TO NEVER DIE GUY */}
+                {bootPhase === 'ascii' && (
+                  <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    overflow: 'visible',
+                  }}>
+                    {generateAsciiBoot().map((line, i) => (
+                      <Typography
+                        key={i}
+                        sx={{
+                          fontFamily: 'monospace',
+                          fontSize: '0.75rem',
+                          color: tokens.colors.primary,
+                          letterSpacing: '0.01em',
+                          lineHeight: 1.15,
+                          whiteSpace: 'pre',
+                          opacity: i < asciiRowsVisible ? 1 : 0,
+                          transform: i < asciiRowsVisible ? 'translateY(0)' : 'translateY(-8px)',
+                          transition: 'all 200ms ease-out',
+                        }}
+                      >
+                        {line || '\u00A0'}
+                      </Typography>
+                    ))}
+                  </Box>
+                )}
+
+                {/* Loading text */}
+                {bootPhase !== 'ascii' && (
+                  <Typography sx={{
+                    fontFamily: 'monospace',
+                    fontSize: '0.85rem',
+                    color: tokens.colors.text.disabled,
+                    letterSpacing: '0.05em',
+                  }}>
+                    {bootText}
+                  </Typography>
+                )}
+              </Box>
+            )}
+
+            {/* Skeleton Loader for Chat Stream */}
+            {bootPhase === 'skeleton' && (
+              <Box sx={{ px: 2, py: 2 }}>
+                {[85, 70, 90, 65].map((width, i) => (
+                  <Box
+                    key={i}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 1.5,
+                      mb: 2,
+                      animation: `${pulse} 1.5s ease-in-out infinite`,
+                      animationDelay: `${i * 200}ms`,
+                    }}
+                  >
+                    {/* Avatar skeleton */}
+                    <Box sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      bgcolor: tokens.colors.background.paper,
+                      flexShrink: 0,
+                    }} />
+                    {/* Content skeleton */}
+                    <Box sx={{ flex: 1 }}>
+                      <Box sx={{
+                        width: 80,
+                        height: 12,
+                        borderRadius: 1,
+                        bgcolor: tokens.colors.background.paper,
+                        mb: 1,
+                      }} />
+                      <Box sx={{
+                        width: `${width}%`,
+                        height: 16,
+                        borderRadius: 1,
+                        bgcolor: tokens.colors.background.paper,
+                      }} />
                     </Box>
-                  )}
-                  {bootPhase === 'waking' && bootText.length < bootFullText.length && (
-                    <Box
-                      component="span"
-                      sx={{
-                        display: 'inline-block',
-                        width: '8px',
-                        height: '1em',
-                        bgcolor: tokens.colors.primary,
-                        ml: 0.25,
-                        animation: `${blink} 0.5s step-end infinite`,
-                        verticalAlign: 'text-bottom',
-                      }}
-                    />
-                  )}
-                </Typography>
+                  </Box>
+                ))}
               </Box>
             )}
 
-            {/* Paused Indicator */}
-            {bootPhase === 'active' && !streamEnabled && (
-              <Box sx={{
-                px: 2,
-                py: 1,
-                borderBottom: `1px solid ${tokens.colors.border}`,
-                bgcolor: 'rgba(255,255,255,0.02)',
-              }}>
-                <Typography sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '0.75rem',
-                  color: tokens.colors.text.disabled,
-                  fontStyle: 'italic',
-                }}>
-                  Feed paused
-                </Typography>
-              </Box>
-            )}
-
-            {/* Slack-style Typing Indicator */}
-            {bootPhase === 'active' && streamEnabled && isTyping && (
+            {/* Status Bar - Always rendered, content changes */}
+            {bootPhase === 'active' && (
               <Box sx={{
                 px: 2,
                 py: 1,
                 borderBottom: `1px solid ${tokens.colors.border}`,
                 bgcolor: 'transparent',
+                minHeight: 32, // Fixed height to prevent layout shift
+                display: 'flex',
+                alignItems: 'center',
               }}>
+                {/* Paused Indicator */}
                 <Typography sx={{
                   fontFamily: tokens.fonts.gaming,
                   fontSize: '0.75rem',
                   color: tokens.colors.text.disabled,
                   fontStyle: 'italic',
+                  opacity: !streamEnabled ? 1 : 0,
+                  position: !streamEnabled ? 'relative' : 'absolute',
+                  pointerEvents: !streamEnabled ? 'auto' : 'none',
+                  transition: 'opacity 150ms ease',
                 }}>
-                  {currentSpeaker.name} is typing
-                  <Box
-                    component="span"
-                    sx={{ animation: `${pulse} 1.2s ease-in-out infinite` }}
-                  >
-                    ...
-                  </Box>
+                  Feed paused
+                </Typography>
+
+                {/* Typing Indicator */}
+                <Typography sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '0.75rem',
+                  color: tokens.colors.text.disabled,
+                  fontStyle: 'italic',
+                  opacity: streamEnabled && isTyping ? 1 : 0,
+                  position: streamEnabled && isTyping ? 'relative' : 'absolute',
+                  pointerEvents: streamEnabled && isTyping ? 'auto' : 'none',
+                  transition: 'opacity 150ms ease',
+                }}>
+                  {currentSpeaker.name} is typing...
+                </Typography>
+
+                {/* Active but not typing - subtle indicator */}
+                <Typography sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '0.75rem',
+                  color: tokens.colors.text.disabled,
+                  fontStyle: 'italic',
+                  opacity: streamEnabled && !isTyping ? 0.5 : 0,
+                  position: streamEnabled && !isTyping ? 'relative' : 'absolute',
+                  pointerEvents: 'none',
+                  transition: 'opacity 150ms ease',
+                }}>
+                  {participants.length} online
                 </Typography>
               </Box>
             )}
 
-            {/* Active typing message at top */}
-            {bootPhase === 'active' && streamEnabled && isTyping && typingText && (
-              <Box sx={{ px: 2, py: 1.5, borderBottom: `1px solid ${tokens.colors.border}`, bgcolor: tokens.colors.background.paper }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                  <Box
-                    component="img"
-                    src={currentSpeaker.sprite || '/assets/characters/placeholder.svg'}
-                    alt={currentSpeaker.name}
-                    sx={{
-                      width: 56,
-                      height: 56,
-                      objectFit: 'contain',
-                      imageRendering: 'pixelated',
-                      flexShrink: 0,
-                    }}
-                  />
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Typography sx={{
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '0.7rem',
-                      color: tokens.colors.text.disabled,
-                      mb: 0.25,
-                    }}>
-                      {currentSpeaker.name}
-                    </Typography>
-                    <Typography sx={{
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '0.95rem',
-                      color: tokens.colors.text.primary,
-                      lineHeight: 1.4,
-                    }}>
-                      {typingText}
-                      <Box
-                        component="span"
-                        sx={{
-                          display: 'inline-block',
-                          width: '2px',
-                          height: '1em',
-                          bgcolor: tokens.colors.primary,
-                          ml: 0.25,
-                          animation: `${pulse} 0.5s ease-in-out infinite`,
-                          verticalAlign: 'text-bottom',
-                        }}
-                      />
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            )}
-
             {/* Messages (newest first) - only show after boot */}
-            {bootPhase === 'active' && messages.map((msg, i) => (
+            {bootPhase === 'active' && messages.filter(m => m.text?.trim()).map((msg, i) => (
               <Box
                 key={msg.id}
                 sx={{
                   px: 2,
-                  py: msg.type === 'quip' ? 0.75 : 1.5,
-                  borderBottom: msg.type === 'quip' ? 'none' : `1px solid ${tokens.colors.border}`,
+                  py: msg.type === 'quip' || msg.type === 'system' ? 0.5 : 1.5,
+                  borderBottom: msg.type === 'quip' || msg.type === 'system' ? 'none' : `1px solid ${tokens.colors.border}`,
                   animation: i === 0 ? `${fadeIn} 200ms ease-out` : 'none',
-                  bgcolor: msg.type === 'answer' ? 'rgba(255,200,0,0.03)' : 'transparent',
-                  '&:hover': { bgcolor: tokens.colors.background.paper },
+                  bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.05)' : msg.type === 'answer' ? 'rgba(255,200,0,0.03)' : 'transparent',
+                  '&:hover': { bgcolor: msg.type === 'ad' ? 'rgba(74, 222, 128, 0.08)' : msg.type === 'system' ? 'transparent' : tokens.colors.background.paper },
                 }}
               >
-                {/* Quip messages - compact, no avatar */}
-                {msg.type === 'quip' ? (
+                {/* Inline Ad */}
+                {msg.type === 'ad' ? (
+                  <Box
+                    component="a"
+                    href={msg.adLink || '/wiki'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      // Mark Daily Wiki as clicked for cooldown
+                      if (msg.id.startsWith('ad-daily-wiki')) {
+                        markDailyWikiClicked();
+                      }
+                    }}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.5,
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={msg.adImage}
+                      alt={msg.speakerName}
+                      sx={{ width: 36, height: 36, flexShrink: 0, objectFit: 'contain' }}
+                    />
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                      <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.8rem', color: tokens.colors.success }}>
+                        {msg.speakerName}
+                      </Typography>
+                      <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.success, opacity: 0.7 }}>
+                        {msg.adSubtitle}
+                      </Typography>
+                    </Box>
+                    <ChevronRightIcon sx={{ fontSize: 20, color: tokens.colors.success, flexShrink: 0 }} />
+                  </Box>
+                ) : msg.type === 'quip' ? (
+                  /* Quip messages - compact, no avatar */
                   <Box sx={{ pl: 8.5 }}>
                     <Typography sx={{
                       fontFamily: tokens.fonts.gaming,
@@ -1145,29 +1822,75 @@ export function HomeDashboard() {
                       {msg.text}
                     </Typography>
                   </Box>
-                ) : (
-                  /* Regular NPC messages */
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                ) : msg.type === 'system' ? (
+                  /* System messages - join/leave notifications */
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5 }}>
                     <Box
                       component="img"
                       src={msg.spriteKey}
                       alt={msg.speakerName}
                       sx={{
-                        width: 56,
-                        height: 56,
+                        width: 20,
+                        height: 20,
                         objectFit: 'contain',
                         imageRendering: 'pixelated',
-                        flexShrink: 0,
-                        opacity: i === 0 ? 1 : 0.6,
+                        opacity: 0.6,
+                        borderRadius: '50%',
                       }}
                     />
+                    <Typography sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '0.7rem',
+                      color: msg.text.includes('joined') ? tokens.colors.success : tokens.colors.text.disabled,
+                      fontStyle: 'italic',
+                    }}>
+                      {msg.text}
+                    </Typography>
+                  </Box>
+                ) : (
+                  /* Regular NPC messages */
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                    <Box
+                      component={msg.wikiSlug ? 'a' : 'div'}
+                      href={msg.wikiSlug ? `/wiki/${msg.wikiSlug}` : undefined}
+                      target={msg.wikiSlug ? '_blank' : undefined}
+                      rel={msg.wikiSlug ? 'noopener noreferrer' : undefined}
+                      sx={{ textDecoration: 'none' }}
+                    >
+                      <Box
+                        component="img"
+                        src={msg.spriteKey}
+                        alt={msg.speakerName}
+                        sx={{
+                          width: 56,
+                          height: 56,
+                          objectFit: 'contain',
+                          imageRendering: 'pixelated',
+                          flexShrink: 0,
+                          opacity: i === 0 ? 1 : 0.6,
+                          cursor: msg.wikiSlug ? 'pointer' : 'default',
+                          transition: 'transform 150ms ease',
+                          '&:hover': msg.wikiSlug ? { transform: 'scale(1.05)' } : {},
+                        }}
+                      />
+                    </Box>
                     <Box sx={{ flex: 1, minWidth: 0 }}>
-                      <Typography sx={{
-                        fontFamily: tokens.fonts.gaming,
-                        fontSize: '0.7rem',
-                        color: tokens.colors.text.disabled,
-                        mb: 0.25,
-                      }}>
+                      <Typography
+                        component={msg.wikiSlug ? 'a' : 'span'}
+                        href={msg.wikiSlug ? `/wiki/${msg.wikiSlug}` : undefined}
+                        target={msg.wikiSlug ? '_blank' : undefined}
+                        rel={msg.wikiSlug ? 'noopener noreferrer' : undefined}
+                        sx={{
+                          fontFamily: tokens.fonts.gaming,
+                          fontSize: '0.7rem',
+                          color: tokens.colors.text.disabled,
+                          mb: 0.25,
+                          display: 'block',
+                          textDecoration: 'none',
+                          cursor: msg.wikiSlug ? 'pointer' : 'default',
+                          '&:hover': msg.wikiSlug ? { color: tokens.colors.text.secondary } : {},
+                        }}
+                      >
                         {msg.speakerName}
                       </Typography>
                       <Typography
@@ -1180,7 +1903,7 @@ export function HomeDashboard() {
                           wordBreak: 'break-word',
                         }}
                       >
-                        {renderMessageWithMentions(msg.text, participants, navigate)}
+                        {renderMessageWithMentions(msg.text, playerAlias)}
                       </Typography>
                       {/* Emoji Reactions */}
                       {msg.reactions && msg.reactions.length > 0 && (
@@ -1214,11 +1937,92 @@ export function HomeDashboard() {
                   </Box>
                 )}
               </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
-        </Box>
+        )}
         </Box>
       </Box>
+
+      {/* Invite NPC Modal */}
+      <Dialog
+        open={inviteModalOpen}
+        onClose={() => setInviteModalOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: {
+            bgcolor: tokens.colors.background.elevated,
+            border: `1px solid ${tokens.colors.border}`,
+            borderRadius: `${tokens.radius.lg}px`,
+          },
+        }}
+      >
+        <DialogTitle sx={{
+          fontFamily: tokens.fonts.gaming,
+          fontSize: '1.1rem',
+          color: tokens.colors.text.primary,
+          borderBottom: `1px solid ${tokens.colors.border}`,
+          pb: 1.5,
+        }}>
+          Invite to Stream
+        </DialogTitle>
+        <DialogContent sx={{ p: 0 }}>
+          <Box sx={{ maxHeight: 400, overflowY: 'auto' }}>
+            {availableToInvite.map((npc) => (
+              <Box
+                key={npc.id}
+                onClick={() => handleInviteNpc(npc)}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                  px: 2.5,
+                  py: 1.5,
+                  cursor: 'pointer',
+                  borderBottom: `1px solid ${tokens.colors.border}`,
+                  transition: 'all 150ms ease',
+                  '&:hover': {
+                    bgcolor: tokens.colors.background.paper,
+                  },
+                  '&:last-child': { borderBottom: 'none' },
+                }}
+              >
+                <Box
+                  component="img"
+                  src={npc.portrait || npc.sprite || '/assets/characters/placeholder.svg'}
+                  alt={npc.name}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    imageRendering: 'pixelated',
+                    border: `2px solid ${tokens.colors.border}`,
+                  }}
+                />
+                <Box sx={{ flex: 1 }}>
+                  <Typography sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '0.95rem',
+                    color: tokens.colors.text.primary,
+                  }}>
+                    {npc.name}
+                  </Typography>
+                  <Typography sx={{
+                    fontSize: '0.7rem',
+                    color: tokens.colors.text.disabled,
+                    fontStyle: 'italic',
+                  }}>
+                    {npc.ambient?.[0]?.slice(0, 40)}...
+                  </Typography>
+                </Box>
+                <PersonAddIcon sx={{ fontSize: 20, color: tokens.colors.text.disabled }} />
+              </Box>
+            ))}
+          </Box>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 }
