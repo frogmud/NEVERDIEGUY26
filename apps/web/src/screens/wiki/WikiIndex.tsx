@@ -754,7 +754,7 @@ export function WikiIndex() {
                   height: 0,
                   borderLeft: '6px solid transparent',
                   borderRight: '6px solid transparent',
-                  borderTop: '6px solid #fff',
+                  borderTop: `6px solid ${tokens.colors.text.primary}`,
                 },
               },
             },

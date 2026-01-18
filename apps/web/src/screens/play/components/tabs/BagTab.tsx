@@ -16,7 +16,7 @@ const RARITY_COLORS: Record<Rarity, string> = {
   Common: tokens.colors.text.secondary,
   Uncommon: tokens.colors.success,
   Rare: tokens.colors.secondary,
-  Epic: '#a855f7',
+  Epic: tokens.colors.rarity.epic,
   Legendary: tokens.colors.warning,
   Unique: tokens.colors.error,
 };

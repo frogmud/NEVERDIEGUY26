@@ -72,7 +72,7 @@ const RARITY_COLORS: Record<Rarity, string> = {
   Common: tokens.colors.text.secondary,
   Uncommon: tokens.colors.success,
   Rare: tokens.colors.secondary,
-  Epic: '#a855f7',
+  Epic: tokens.colors.rarity.epic,
   Legendary: tokens.colors.warning,
   Unique: tokens.colors.error,
 };
@@ -334,8 +334,8 @@ export function Shop({
         {/* Speech bubble - no pointer triangle */}
         <Box
           sx={{
-            bgcolor: '#1a1a1a',
-            border: '2px solid #333',
+            bgcolor: tokens.colors.background.paper,
+            border: `2px solid ${tokens.colors.border}`,
             borderRadius: '12px',
             px: 4,
             py: 2.5,
@@ -408,7 +408,7 @@ export function Shop({
                 sx={{
                   ...gamingFont,
                   fontSize: { xs: '1.1rem', sm: '1.35rem' },
-                  color: isPurchased ? tokens.colors.success : canAfford ? '#c4a000' : tokens.colors.error,
+                  color: isPurchased ? tokens.colors.success : canAfford ? tokens.colors.warning : tokens.colors.error,
                   mb: 1,
                 }}
               >
@@ -497,7 +497,7 @@ export function Shop({
             sx={{
               ...gamingFont,
               fontSize: { xs: '1.1rem', sm: '1.35rem' },
-              color: gold >= rerollCost ? '#c4a000' : tokens.colors.text.disabled,
+              color: gold >= rerollCost ? tokens.colors.warning : tokens.colors.text.disabled,
               mb: 1,
             }}
           >
@@ -552,16 +552,16 @@ export function Shop({
       <Button
         variant="contained"
         onClick={onContinue}
-        endIcon={<ContinueIcon sx={{ color: '#000' }} />}
+        endIcon={<ContinueIcon sx={{ color: tokens.colors.background.default }} />}
         sx={{
           bgcolor: tokens.colors.success,
-          color: '#000',
+          color: tokens.colors.background.default,
           ...gamingFont,
           fontSize: { xs: '1rem', sm: '1.25rem' },
           fontWeight: 700,
           px: { xs: 4, sm: 6 },
           py: 1.5,
-          '&:hover': { bgcolor: '#1e8449' },
+          '&:hover': { filter: 'brightness(0.85)' },
         }}
       >
         Next Event
@@ -601,7 +601,7 @@ export function Shop({
                   color: RARITY_COLORS[confirmItem.rarity || 'Common'],
                 }}
               />
-              <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: '#c4a000' }}>
+              <Typography sx={{ ...gamingFont, fontSize: '1.25rem', color: tokens.colors.warning }}>
                 ${calculateItemCost(confirmItem, tier, favorTokens)}
               </Typography>
               <Typography sx={{ fontSize: '0.75rem', color: tokens.colors.text.disabled }}>

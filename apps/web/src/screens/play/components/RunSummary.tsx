@@ -40,9 +40,9 @@ export function RunSummary({
         ? 'ELITE CLEARED'
         : 'ROOM CLEARED';
   const titleColor = isDomainClear
-    ? '#00ffff' // Cyan for domain clear
+    ? tokens.colors.secondary // Cyan for domain clear
     : eventType === 'boss'
-      ? '#ff9800'
+      ? tokens.colors.rarity.legendary
       : eventType === 'big'
         ? tokens.colors.secondary
         : tokens.colors.success;
@@ -127,7 +127,7 @@ export function RunSummary({
               sx={{
                 fontFamily: tokens.fonts.gaming,
                 fontSize: '2.5rem',
-                color: '#ffd700',
+                color: tokens.colors.warning,
                 lineHeight: 1,
               }}
             >
@@ -152,7 +152,7 @@ export function RunSummary({
             Total Score: <span style={{ color: tokens.colors.primary }}>{totalScore.toLocaleString()}</span>
           </Typography>
           <Typography sx={{ fontSize: '0.875rem', color: tokens.colors.text.secondary }}>
-            Total Gold: <span style={{ color: '#ffd700' }}>{totalGold}</span>
+            Total Gold: <span style={{ color: tokens.colors.warning }}>{totalGold}</span>
           </Typography>
         </Box>
 
