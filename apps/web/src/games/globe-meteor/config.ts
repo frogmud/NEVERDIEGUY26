@@ -307,6 +307,11 @@ export const STYLE_PRESETS = {
     flatShading: true,
     wireframe: false,
   },
+  ascii: {
+    segments: 64, // Smooth sphere for texture mapping
+    flatShading: false,
+    wireframe: false,
+  },
 };
 
 // Types
