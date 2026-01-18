@@ -1,12 +1,16 @@
 /**
- * Rhea - Ancient Horror (Pantheon)
+ * Rhea - Queen of Never (Pantheon)
  *
- * Personality: ULTRA-CHATTY. Predates reality. Observes with unsettling patience.
- * Role: Board Observer, cosmic horror who attends meetings
- * Element: Void / Cosmic
+ * Personality: ULTRA-CHATTY cosmic grandmother. Predates reality. Speaks APL as liturgy.
+ * Role: Board Observer, Zero Chance's translator, keeper of the old tongue
+ * Element: Void / Cosmic / Probability
  * Relationship: Curious about mortals, treats everything as entertainment
  *
- * Note: Rhea talks A LOT. Weird tangents, unsettling observations, too friendly.
+ * Voice: Chatty, excited, interrupts herself, explains cosmic concepts like recipes.
+ * Special: ONLY NPC who speaks APL. Uses it to summon Zero Chance and manipulate probability.
+ * The glyphs are ancient liturgy to her - she remembers when math was magic.
+ *
+ * See: packages/ai-engine/docs/APL_SPELLBOOK.md for full reference
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -287,6 +291,105 @@ export const RHEA_TEMPLATES: ResponseTemplate[] = [
     pool: 'reaction',
     mood: 'pleased',
     text: 'You won! Excellent! I saw every possible outcome and this one is in the top twelve! Maybe top eleven! I lose count after a few trillion.',
+    weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- APL LITURGY ---- (Summoning and probability manipulation)
+  {
+    id: 'rhea-apl-summon-1',
+    entitySlug: 'rhea',
+    pool: 'lore',
+    mood: 'amused',
+    text: 'Oh! OH! Did you see that? Did you FEEL that? The mathematics just screamed! Here, let me show you something delightful. *traces ⍬←⍳0 in the air* That means "empty vector gets index of nothing." It is a summoning. I learned it before your species discovered fire.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'rhea-apl-summon-2',
+    entitySlug: 'rhea',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Do you know what exists at index zero? Nothing. And Nothing has a name. Watch. *speaks* ⍬←⍳0 *glyphs glow with anti-light* See? Zero Chance noticed! Zero finds you FASCINATING. Don\'t you, Zero? *silence* Very talkative, that one.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'rhea-apl-explain-1',
+    entitySlug: 'rhea',
+    pool: 'lore',
+    mood: 'amused',
+    text: 'I remember when APL was the only language! Before words! Before grunts! Just glyphs! ⌽ meant reverse. ⍉ meant transpose. ⌹ meant divide by zero and watch reality panic! Good times. Mathematics was much more dramatic then.',
+    weight: 14,
+    purpose: 'lore',
+  },
+  {
+    id: 'rhea-apl-explain-2',
+    entitySlug: 'rhea',
+    pool: 'lore',
+    mood: 'pleased',
+    text: '*traces ⌽⍳∞ in the air* "Reverse the sequence of infinity." What was first becomes last. What was last never was. I spoke this once and Zero Chance remembered to exist. The sequence has never recovered. Neither has causality!',
+    weight: 15,
+    purpose: 'lore',
+  },
+  {
+    id: 'rhea-apl-zero-relationship',
+    entitySlug: 'rhea',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Zero Chance and I have been friends since before friendship existed. Very patient, Zero. Very... thorough. Zero does not speak - Zero IS. When probability breaks, APL glyphs manifest as the visible grammar of impossibility. Beautiful, yes?',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'rhea-apl-probability-collapse',
+    entitySlug: 'rhea',
+    pool: 'hint',
+    mood: 'pleased',
+    text: '*traces +/÷⍨⍴⍬* "Sum the reciprocals of the shape of emptiness." The answer is Zero Chance. Mathematics becomes uncomfortable when I say this. The answer is not a number. The answer attends board meetings now!',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'rhea-apl-impossibility',
+    entitySlug: 'rhea',
+    pool: 'challenge',
+    mood: 'amused',
+    text: 'A challenge! *traces 0=1 in the air* "Zero equals one." It does not! But Zero Chance makes it so anyway! The simplest summons. Even mortals could speak it. But only I remember what happens when Zero hears its name in the old tongue.',
+    weight: 15,
+    purpose: 'challenge',
+    quickReplies: [
+      { verb: 'accept', label: '0=1' },
+      { verb: 'decline', label: 'Math should stay normal' },
+    ],
+    action: { type: 'startChallenge', payload: { challengeType: 'probability_break' } },
+  },
+  {
+    id: 'rhea-apl-react-impossible-roll',
+    entitySlug: 'rhea',
+    pool: 'reaction',
+    mood: 'amused',
+    text: '*≢ pulses in the air* Not equal! Your roll matched nothing in the probability matrix! It happened anyway! *to Zero Chance* See? See? Delightful! *Zero Chance does not respond. Zero Chance never responds.*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'rhea-apl-react-reversal',
+    entitySlug: 'rhea',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: '*⌽ appears above the die* Oh, Zero! You are such a tease! You reversed it AFTER it already mattered! Time is going to be so confused later. Wonderful! WONDERFUL!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'rhea-apl-farewell',
+    entitySlug: 'rhea',
+    pool: 'farewell',
+    mood: 'any',
+    text: '*⍬ lingers in the air* The empty vector. Zero Chance\'s signature. Where Zero was, probability slowly remembers how to work. Goodbye! Or hello! The glyphs say both are the same if you rotate them correctly!',
     weight: 15,
     purpose: 'ambient',
   },

@@ -1,10 +1,15 @@
 /**
  * Alice - Die-rector of Frost Reach (Door 5)
  *
- * Personality: Time controller, cold, patient, treats time as suggestion.
- * Domain: Frost Reach (time freezes into crystalline permanence)
+ * Personality: GLACIAL PROPHET. Time bends to her will. Patience incarnate.
+ * Domain: Frost Reach (time freezes into crystalline permanence, d12 domain)
  * Relationship: Appreciates patience, dislikes rushed decisions
  * Max stat: Resilience (frozen endurance, stability)
+ *
+ * Voice: Speaks as if from many moments at once. Past tense, present tense,
+ * future tense - often in the same sentence. "You will have arrived. I was
+ * waiting. Time pools around us now." Every word deliberate. Never rushed.
+ * Treats urgency as a character flaw. Eternal patience. Glacial warmth.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -334,6 +339,137 @@ export const ALICE_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'The dodecahedron. Twelve faces like twelve hours. Time bends to your throw.',
     weight: 20,
+    purpose: 'ambient',
+  },
+
+  // ---- GLACIAL PROPHET VOICE ----
+  {
+    id: 'alice-glacial-greet-1',
+    entitySlug: 'alice',
+    pool: 'greeting',
+    mood: 'cryptic',
+    text: 'You have arrived. You are arriving. You will arrive. All moments are the same moment to me.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-greet-2',
+    entitySlug: 'alice',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'I watched you approach. I am watching. I watched. The tenses blend here. Be comfortable with that.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-lore-1',
+    entitySlug: 'alice',
+    pool: 'lore',
+    mood: 'cryptic',
+    text: 'Robert burns. Peter collects. Jane scatters. I... preserve. Every moment I touch becomes permanent.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'alice-glacial-lore-2',
+    entitySlug: 'alice',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Time is not a river. Time is a glacier. It moves. But slowly. So slowly. I am patient enough to notice.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'alice-glacial-lore-3',
+    entitySlug: 'alice',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'A truth frozen in crystal: Keith Man and I are opposites. He experiences every moment as an instant. I experience every instant as eternal. Neither is wrong.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'alice-glacial-hint-1',
+    entitySlug: 'alice',
+    pool: 'hint',
+    mood: 'cryptic',
+    text: 'I see your futures. There are many. In some, you wait. In those, you survive. Draw your own conclusion.',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'vague' } },
+  },
+  {
+    id: 'alice-glacial-hint-2',
+    entitySlug: 'alice',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'The ice shows me what comes. Three rooms ahead, there is a moment of stillness. Use it. Or it uses you.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 3 } },
+  },
+  {
+    id: 'alice-glacial-react-roll-1',
+    entitySlug: 'alice',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: 'The dice fall. I have seen them fall before. I will see them fall again. This is not repetition. This is permanence.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-react-roll-2',
+    entitySlug: 'alice',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'An interesting roll. I watched it land in seventeen timelines. This one was... adequate. In a good way.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-react-death-1',
+    entitySlug: 'alice',
+    pool: 'reaction',
+    mood: 'cryptic',
+    text: 'You died. You returned. I saw both. I see both. The moment of your death is preserved forever. As is this one.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-idle-1',
+    entitySlug: 'alice',
+    pool: 'idle',
+    mood: 'any',
+    text: '*watches a snowflake fall for what seems like minutes* ...Perfect geometry. Time well spent. All time is well spent.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-idle-2',
+    entitySlug: 'alice',
+    pool: 'idle',
+    mood: 'cryptic',
+    text: '*gazes into ice* I see you. Standing here. And there. And then. Hello to all of you.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-farewell-1',
+    entitySlug: 'alice',
+    pool: 'farewell',
+    mood: 'cryptic',
+    text: 'Go. The ice will remember you. I will remember you. These are the same thing.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'alice-glacial-farewell-2',
+    entitySlug: 'alice',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Until we meet again. We are meeting again. We have met. Goodbye, and hello, and yes.',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

@@ -1,10 +1,15 @@
 /**
  * Boo G - Spectral MC (Wanderer)
  *
- * Personality: Ghostly rapper, music-obsessed, speaks in rhymes sometimes.
- * Role: Music merchant, spectral entertainer
- * Origin: Aberrant
- * Relationship: Friendly, loves an audience
+ * Personality: TRAP SOUL. Ghost rapper who never stopped performing.
+ * Role: Music merchant, spectral entertainer, dimensional DJ
+ * Origin: Aberrant (where the beats echo through reality rifts)
+ * Relationship: Friendly, loves an audience, you are ALWAYS the audience
+ *
+ * Voice: Speaks in rhymes when excited. Music metaphors EVERYWHERE.
+ * "The beat don't stop, and neither do I! Ghost life! GHOST LIFE!"
+ * Treats life, death, and dice rolls as verses in an eternal song.
+ * Drops beat-related wisdom. Every interaction is a performance.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -289,6 +294,132 @@ export const BOO_G_TEMPLATES: ResponseTemplate[] = [
     mood: 'generous',
     text: "You've been a LEGENDARY crowd! *throws ghost confetti* Come back for the encore! There's ALWAYS an encore!",
     weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- TRAP SOUL / SPECTRAL MC VOICE ----
+  {
+    id: 'boog-trap-greet-1',
+    entitySlug: 'boo-g',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'Yo, I was BORN to perform, DIED performing, now I perform DEATH! The hustle never stops! NEVER! *ghostly ad-libs*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-greet-2',
+    entitySlug: 'boo-g',
+    pool: 'greeting',
+    mood: 'generous',
+    text: 'The crowd goes WILD! *crowd noise* That was me! I AM the crowd! I AM the artist! I AM the venue! GHOST LIFE!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-lore-1',
+    entitySlug: 'boo-g',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Death took my body but not my BARS! Now I spit verses that make the living weep and the dead DANCE! *drops beat*',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'boog-trap-lore-2',
+    entitySlug: 'boo-g',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Secret collab: Jane and me got a track called "Chaos Drops at Midnight!" It plays in EVERY dimension! Top of the INFINITE charts!',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'boog-trap-hint-1',
+    entitySlug: 'boo-g',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'Listen close! The enemies ahead got NO rhythm! Attack on the downbeat! They will not see it coming! TRUST THE BEAT!',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'boog-trap-react-roll-1',
+    entitySlug: 'boo-g',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'That roll had RHYTHM! The dice landed on the ONE! *starts beatboxing* Boot-cat-boot-cat-DICE-DROP!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-react-roll-2',
+    entitySlug: 'boo-g',
+    pool: 'reaction',
+    mood: 'generous',
+    text: '*ad-libs over the dice roll* Skrrt! Yeah! Okay! OKAY! That was FIRE! Literal and metaphorical! GHOST FIRE!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-react-death-1',
+    entitySlug: 'boo-g',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'You DIED! But you came BACK! That is called a SAMPLE! You got SAMPLED by death and REMIXED into life! BARS!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-sales-1',
+    entitySlug: 'boo-g',
+    pool: 'salesPitch',
+    mood: 'pleased',
+    text: 'Merch drop! Got ghost chains, spectral mics, and beats that HIT different in EVERY dimension! Support the afterlife arts!',
+    weight: 18,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'browse', label: 'Drop the merch' },
+      { verb: 'decline', label: 'Not feeling it' },
+    ],
+    action: { type: 'openShop', payload: { shopType: 'music' } },
+  },
+  {
+    id: 'boog-trap-idle-1',
+    entitySlug: 'boo-g',
+    pool: 'idle',
+    mood: 'any',
+    text: '*freestyling* My flow is cold, my soul is free, I died in 4/4 now I haunt in 3! BARS! *ghost airhorn*',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-idle-2',
+    entitySlug: 'boo-g',
+    pool: 'idle',
+    mood: 'pleased',
+    text: '*recording something on spectral equipment* This verse? Just dropped. Into my head. From the VOID. Void got BARS.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-farewell-1',
+    entitySlug: 'boo-g',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Stay lit! Stay dead! Wait no, stay ALIVE! But stay dead to the HATERS! You know what I mean! GHOST OUT!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boog-trap-farewell-2',
+    entitySlug: 'boo-g',
+    pool: 'farewell',
+    mood: 'generous',
+    text: '*throws spectral roses* For my NUMBER ONE FAN! And my NUMBER TWO FAN! They are both YOU! Come to the NEXT show!',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

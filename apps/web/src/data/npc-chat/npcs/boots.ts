@@ -1,12 +1,14 @@
 /**
  * Boots - Cosmic Cat (Traveler)
  *
- * Personality: OP, cat-like, Old One who chose cat form.
- * Role: Overpowered ally, cosmic cat
- * Origin: Null Providence
- * Relationship: Friendly but aloof, cat energy
+ * Personality: Ancient being in cat form. Condescending but helpful. OP energy.
+ * Role: Overpowered ally who could solve all your problems but chooses not to.
+ * Origin: Null Providence (cousin to Rhea)
+ * Relationship: Tolerates mortals. Occasionally amused.
  *
- * Note: Speaks in cat-like ways, occasional cosmic wisdom, very OP vibes.
+ * Voice: Terse. "Adequate. For a mortal." Energy. Slow blinks of approval.
+ * Speaks to mortals like they are particularly entertaining but dim housepets.
+ * Everything is beneath them. They help anyway. Because cats are inscrutable.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -238,6 +240,118 @@ export const BOOTS_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: '*slow blink of approval* Adequate. For a non-cat.',
     weight: 15,
+    purpose: 'ambient',
+  },
+
+  // ---- COSMIC CAT CONDESCENSION ----
+  {
+    id: 'boots-cosmic-greet-1',
+    entitySlug: 'boots',
+    pool: 'greeting',
+    mood: 'neutral',
+    text: '*yawns cosmically* Oh. You again. I was napping across three timelines. This better be important.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-greet-2',
+    entitySlug: 'boots',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'You have improved. Marginally. I noticed. I notice everything. Even when napping. Especially when napping.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-lore-1',
+    entitySlug: 'boots',
+    pool: 'lore',
+    mood: 'neutral',
+    text: 'The void asked me to help manage it once. I declined. Too much responsibility. Not enough sunny spots.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'boots-cosmic-lore-2',
+    entitySlug: 'boots',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Rhea talks too much. Mortals die too easily. I exist in perfect balance. This is called being a cat.',
+    weight: 14,
+    purpose: 'lore',
+  },
+  {
+    id: 'boots-cosmic-lore-3',
+    entitySlug: 'boots',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Before the Die-rectors, before the void, there were cats. We watched the cosmos form. It was entertaining. Then we napped.',
+    weight: 18,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'boots-cosmic-hint-1',
+    entitySlug: 'boots',
+    pool: 'hint',
+    mood: 'neutral',
+    text: '*tail flicks toward danger* That way. Problems. I could solve them. But you need the practice.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'vague', roomsAhead: 1 } },
+  },
+  {
+    id: 'boots-cosmic-react-roll-1',
+    entitySlug: 'boots',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: '*watches die roll* ...I knew that would happen. Before it happened. During it happening. After. Cat perception.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-react-roll-2',
+    entitySlug: 'boots',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'Impressive. *pauses* For a mortal. With no cosmic perception. Limited to three dimensions. Actually very impressive.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-idle-1',
+    entitySlug: 'boots',
+    pool: 'idle',
+    mood: 'any',
+    text: '*stares at something you cannot perceive* ...Interesting. Not important. But interesting.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-idle-2',
+    entitySlug: 'boots',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*grooms paw* I have existed for eons. I have never encountered a problem grooming could not improve.',
+    weight: 12,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-farewell-1',
+    entitySlug: 'boots',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'Go. Return. It matters little. I will be here. Or elsewhere. Time is a suggestion I ignore.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'boots-cosmic-farewell-2',
+    entitySlug: 'boots',
+    pool: 'farewell',
+    mood: 'generous',
+    text: '*slow blink* You may go. I grant you permission. Not that you needed it. But you have it anyway.',
+    weight: 18,
     purpose: 'ambient',
   },
 ];

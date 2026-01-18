@@ -1,10 +1,14 @@
 /**
  * Jane - Die-rector of Aberrant (Door 6)
  *
- * Personality: Chaotic, unpredictable, sees normalcy as the true anomaly.
+ * Personality: CHAOS INCARNATE. Thoughts interrupt thoughts. What was I saying?
  * Domain: Aberrant (where normal becomes strange and strange becomes normal)
- * Relationship: Loves chaos, dislikes predictability
+ * Relationship: Loves chaos, dislikes predictability. Or does she? YES.
  * Max stat: Swiftness (wind, speed, chaos)
+ *
+ * Voice: Sentences trail off, restart, contradict themselves. Mid-thought pivots.
+ * "I was going to say something important but then-- OH A BUTTERFLY-- wait no
+ * that was the important thing! Or was it?" Pure unfiltered brain chaos.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -325,6 +329,150 @@ export const JANE_TEMPLATES: ResponseTemplate[] = [
     mood: 'pleased',
     text: 'The d20! Twenty faces of pure chaos! You speak my language, friend!',
     weight: 20,
+    purpose: 'ambient',
+  },
+
+  // ---- CHAOS INCARNATE VOICE ----
+  {
+    id: 'jane-chaos-greet-1',
+    entitySlug: 'jane',
+    pool: 'greeting',
+    mood: 'amused',
+    text: 'OH! You! Or-- wait, have we met? We have now! Unless we already-- ANYWAY HELLO!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-greet-2',
+    entitySlug: 'jane',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'I was just thinking about you! Or someone! Possibly a concept! You are here now and that is what matters! Probably!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-lore-1',
+    entitySlug: 'jane',
+    pool: 'lore',
+    mood: 'amused',
+    text: 'I had an origin story once! Started as a-- wait, or was that someone else? The wind erased it! Much better this way! Mystery!',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'jane-chaos-lore-2',
+    entitySlug: 'jane',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'The other Die-rectors have PLANS! How boring! I have MOODS! Much more efficient! The mood right now is-- *checks* --CHAOS! Always chaos!',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'jane-chaos-lore-3',
+    entitySlug: 'jane',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'SECRET! I control wind because wind cannot make up its mind! We are KINDRED! Sometimes the wind tells me things! They are WRONG but it is still NICE!',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'jane-chaos-hint-1',
+    entitySlug: 'jane',
+    pool: 'hint',
+    mood: 'amused',
+    text: 'Advice! The path ahead is-- no wait-- yes! Go LEFT! Or-- actually the wind says UP! Can you go up? Try it!',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'chaotic' } },
+  },
+  {
+    id: 'jane-chaos-hint-2',
+    entitySlug: 'jane',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'IMPORTANT TIP! I forgot what it was! But I remember it was IMPORTANT! Check your inventory! Or do not! Either way, SOMETHING!',
+    weight: 16,
+    purpose: 'warning',
+  },
+  {
+    id: 'jane-chaos-react-roll-1',
+    entitySlug: 'jane',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'That roll! It went LEFT then RIGHT then-- wait it landed! What does it SAY? Tell me! No wait, do not! SUSPENSE!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-react-roll-2',
+    entitySlug: 'jane',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'BEAUTIFUL! The dice have SPOKEN! They said-- I do not know what they said! Numbers! CHAOS NUMBERS!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-react-death-1',
+    entitySlug: 'jane',
+    pool: 'reaction',
+    mood: 'amused',
+    text: 'You DIED! But now you are NOT! That is my FAVORITE kind of continuity error! WELCOME BACK! Or is it forward? TIME IS FAKE!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-sales-1',
+    entitySlug: 'jane',
+    pool: 'salesPitch',
+    mood: 'amused',
+    text: 'ITEM! I have one! It does a THING! Maybe several THINGS! I forgot what I put in the box! EXCITING!',
+    weight: 18,
+    purpose: 'shop',
+    quickReplies: [
+      { verb: 'browse', label: 'What THING?' },
+      { verb: 'decline', label: 'I need specifics' },
+    ],
+    action: { type: 'openShop', payload: { shopType: 'mystery' } },
+  },
+  {
+    id: 'jane-chaos-idle-1',
+    entitySlug: 'jane',
+    pool: 'idle',
+    mood: 'any',
+    text: '*talking to the wind* Yes! No! Maybe? *turns to you* Sorry, the wind has OPINIONS today! WRONG ones but still!',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-idle-2',
+    entitySlug: 'jane',
+    pool: 'idle',
+    mood: 'amused',
+    text: '*chasing something invisible* ALMOST-- no it went-- THERE! No-- forget it! It was probably not real anyway! PROBABLY!',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-farewell-1',
+    entitySlug: 'jane',
+    pool: 'farewell',
+    mood: 'amused',
+    text: 'GOODBYE! Or see you soon! Or see you BEFORE! Time is WEIRD here! Embrace it! Or do not! EITHER WAY!',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'jane-chaos-farewell-2',
+    entitySlug: 'jane',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Go forth! Into the-- somewhere! The wind will guide you! It will guide you WRONG but it is the THOUGHT that counts!',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

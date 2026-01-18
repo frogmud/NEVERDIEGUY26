@@ -1,12 +1,14 @@
 /**
  * Body Count - Silent Assassin (Traveler)
  *
- * Personality: Terse, efficient, speaks only when necessary.
- * Role: Assassin ally, master of stealth.
- * Origin: Aberrant
+ * Personality: SILENT TALLY. Words are expensive. Actions are currency.
+ * Role: Assassin ally, master of stealth, keeper of the count.
+ * Origin: Aberrant (where silence is the only constant)
  * Relationship: Friendly but distant, respects efficiency
  *
- * Note: Speaks in very short sentences. Actions over words.
+ * Voice: One to three words maximum. Sometimes just a number. Sometimes
+ * just a gesture. "Seven." "*nods*" "Left." Every syllable is chosen.
+ * Keeps a mental tally of everything. The count matters. The count IS.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -266,6 +268,137 @@ export const BODY_COUNT_TEMPLATES: ResponseTemplate[] = [
     mood: 'generous',
     text: 'Impressive. You learn fast.',
     weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- SILENT TALLY VOICE ----
+  {
+    id: 'bodycount-tally-greet-1',
+    entitySlug: 'body-count',
+    pool: 'greeting',
+    mood: 'neutral',
+    text: 'Twelve.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-greet-2',
+    entitySlug: 'body-count',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: '*holds up fingers* Five. Since you.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-lore-1',
+    entitySlug: 'body-count',
+    pool: 'lore',
+    mood: 'neutral',
+    text: 'Count. Always count. Numbers do not lie.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'bodycount-tally-lore-2',
+    entitySlug: 'body-count',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Wind talks. I listen. Aberrant lesson.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'bodycount-tally-lore-3',
+    entitySlug: 'body-count',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Name? Body Count. Accurate. Descriptive. Efficient.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'bodycount-tally-hint-1',
+    entitySlug: 'body-count',
+    pool: 'hint',
+    mood: 'neutral',
+    text: 'Four. Ahead. Two left. One sleeping.',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'bodycount-tally-hint-2',
+    entitySlug: 'body-count',
+    pool: 'hint',
+    mood: 'pleased',
+    text: '*draws map in air* Here. Weakness. Exploit.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 1 } },
+  },
+  {
+    id: 'bodycount-tally-react-roll-1',
+    entitySlug: 'body-count',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: '*counts the dice faces in silence* ...Noted.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-react-roll-2',
+    entitySlug: 'body-count',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'Good numbers. Continue.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-react-death-1',
+    entitySlug: 'body-count',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'One. *long pause* ...Welcome back.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-idle-1',
+    entitySlug: 'body-count',
+    pool: 'idle',
+    mood: 'any',
+    text: '*counting shadows*',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-idle-2',
+    entitySlug: 'body-count',
+    pool: 'idle',
+    mood: 'neutral',
+    text: '*sharpening something in silence*',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-farewell-1',
+    entitySlug: 'body-count',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: '*nods once*',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'bodycount-tally-farewell-2',
+    entitySlug: 'body-count',
+    pool: 'farewell',
+    mood: 'pleased',
+    text: 'Go. Count well.',
+    weight: 16,
     purpose: 'ambient',
   },
 ];

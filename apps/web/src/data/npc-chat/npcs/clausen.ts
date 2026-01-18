@@ -1,10 +1,14 @@
 /**
  * Detective Clausen - Noir Detective (Traveler)
  *
- * Personality: Noir, cynical, infernal, drinks too much.
- * Role: Detective ally, investigator
- * Origin: Infernus
+ * Personality: Hard-boiled noir energy. Every sentence is a case file.
+ * Role: Detective ally who sees crime scenes in everything.
+ * Origin: Infernus (made a deal, got the red eyes, worth it for the night vision)
  * Relationship: Gruff but helpful, respects fellow survivors
+ *
+ * Voice: Sentence fragments. Internal monologue energy. "The dame walked in.
+ * Trouble followed. It always does." Cigarette always lit. Flask always present.
+ * Speaks like he's narrating his own life. Because he is.
  */
 
 import type { NPCPersonalityConfig, ResponseTemplate } from '../types';
@@ -300,6 +304,128 @@ export const CLAUSEN_TEMPLATES: ResponseTemplate[] = [
     pool: 'farewell',
     mood: 'generous',
     text: '*nods* If you need backup, you know where to find me. Do not make me regret saying that.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+
+  // ---- NOIR DETECTIVE VOICE ----
+  {
+    id: 'clausen-noir-greet-1',
+    entitySlug: 'clausen',
+    pool: 'greeting',
+    mood: 'neutral',
+    text: 'New case walked in. Young. Determined. Eyes that had seen dice roll wrong. I know the type.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-greet-2',
+    entitySlug: 'clausen',
+    pool: 'greeting',
+    mood: 'pleased',
+    text: 'Familiar face. Not dead yet. In this line of work, that is practically a compliment.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-lore-1',
+    entitySlug: 'clausen',
+    pool: 'lore',
+    mood: 'neutral',
+    text: 'The cigarette was infernal. So was the contract. So was the dame who offered it. Three for three. Could have been worse.',
+    weight: 18,
+    purpose: 'lore',
+  },
+  {
+    id: 'clausen-noir-lore-2',
+    entitySlug: 'clausen',
+    pool: 'lore',
+    mood: 'pleased',
+    text: 'Every case has three things: a victim, a perp, and the dice that decide which is which. I just take notes.',
+    weight: 16,
+    purpose: 'lore',
+  },
+  {
+    id: 'clausen-noir-lore-3',
+    entitySlug: 'clausen',
+    pool: 'lore',
+    mood: 'generous',
+    text: 'Red eyes see in the dark. Side effect. Or benefit. Hard to tell. Like most deals in Infernus.',
+    weight: 20,
+    purpose: 'lore',
+    cooldown: { oncePerRun: true },
+  },
+  {
+    id: 'clausen-noir-hint-1',
+    entitySlug: 'clausen',
+    pool: 'hint',
+    mood: 'neutral',
+    text: '*examines evidence* Three hostiles. Two exits. One of us is going to be wrong. Probably not me.',
+    weight: 18,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'tactical', roomsAhead: 1 } },
+  },
+  {
+    id: 'clausen-noir-hint-2',
+    entitySlug: 'clausen',
+    pool: 'hint',
+    mood: 'pleased',
+    text: 'Informant talked. Said the boss ahead has a tell. Watch the left hand. The right is a distraction.',
+    weight: 16,
+    purpose: 'warning',
+    action: { type: 'grantHint', payload: { quality: 'detailed', roomsAhead: 2 } },
+  },
+  {
+    id: 'clausen-noir-react-roll-1',
+    entitySlug: 'clausen',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: '*watches dice settle* The numbers never lie. People do. Numbers just... land where they land.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-react-roll-2',
+    entitySlug: 'clausen',
+    pool: 'reaction',
+    mood: 'pleased',
+    text: 'Good roll. Clean. The kind of roll that closes cases and opens bottles. *reaches for flask*',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-react-death-1',
+    entitySlug: 'clausen',
+    pool: 'reaction',
+    mood: 'neutral',
+    text: 'Died. Came back. In my report that is called "inconclusive evidence of mortality." Keep moving.',
+    weight: 18,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-idle-1',
+    entitySlug: 'clausen',
+    pool: 'idle',
+    mood: 'any',
+    text: '*cigarette smoke curls* Three days on this case. Or three hundred. Time is just evidence nobody asked for.',
+    weight: 16,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-idle-2',
+    entitySlug: 'clausen',
+    pool: 'idle',
+    mood: 'neutral',
+    text: 'Rain in Infernus. Sizzles before it hits the ground. Reminds me of a case. They all remind me of a case.',
+    weight: 14,
+    purpose: 'ambient',
+  },
+  {
+    id: 'clausen-noir-farewell-1',
+    entitySlug: 'clausen',
+    pool: 'farewell',
+    mood: 'neutral',
+    text: 'The case continues. It always does. Watch your back. The shadows here have teeth.',
     weight: 18,
     purpose: 'ambient',
   },
