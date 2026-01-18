@@ -589,28 +589,42 @@ export function HomeChatter() {
     }
   }, [pendingInterrupt]);
 
-  // Initial animation sequence
+  // Initial animation sequence - uses double-RAF to ensure skeleton is painted
+  // before transitioning to content (prevents stagger/pop from paint timing race)
   useEffect(() => {
-    // Brief loading state for skeleton display
-    const loadingTimer = setTimeout(() => setIsLoading(false), 150);
-    const buttonsTimer = setTimeout(() => setShowButtons(true), 700);
+    let rafId1: number;
+    let rafId2: number;
+    let loadingTimer: ReturnType<typeof setTimeout>;
+    let buttonsTimer: ReturnType<typeof setTimeout>;
+    let twitchTimer: ReturnType<typeof setTimeout>;
+    let twitchEndTimer: ReturnType<typeof setTimeout>;
 
-    // Initial greeting twitch
-    if (greeter.sprite2) {
-      const twitchTimer = setTimeout(() => {
-        setSpriteFrame(2);
-        setTimeout(() => setSpriteFrame(1), 150);
-      }, 500);
-      return () => {
-        clearTimeout(loadingTimer);
-        clearTimeout(buttonsTimer);
-        clearTimeout(twitchTimer);
-      };
-    }
+    // Wait 100ms for skeleton to display, then use double-RAF to ensure paint
+    loadingTimer = setTimeout(() => {
+      rafId1 = requestAnimationFrame(() => {
+        rafId2 = requestAnimationFrame(() => {
+          // Now skeleton has been painted - safe to transition
+          setIsLoading(false);
+          // Buttons follow after a beat (total ~350ms from mount)
+          buttonsTimer = setTimeout(() => setShowButtons(true), 250);
+          // Twitch shortly after (total ~400ms from mount)
+          if (greeter.sprite2) {
+            twitchTimer = setTimeout(() => {
+              setSpriteFrame(2);
+              twitchEndTimer = setTimeout(() => setSpriteFrame(1), 150);
+            }, 300);
+          }
+        });
+      });
+    }, 100);
 
     return () => {
       clearTimeout(loadingTimer);
       clearTimeout(buttonsTimer);
+      clearTimeout(twitchTimer);
+      clearTimeout(twitchEndTimer);
+      cancelAnimationFrame(rafId1);
+      cancelAnimationFrame(rafId2);
     };
   }, [greeter.sprite2]);
 
