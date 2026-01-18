@@ -163,37 +163,81 @@ const buttonWiggle = keyframes`
   75% { transform: rotate(1deg); }
 `;
 
+// Items drop in from top with heavy impact
+const itemDropIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-120vh) rotate(calc(var(--card-rotation, 0deg) * 8)) scale(0.8);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(30px) rotate(calc(var(--card-rotation, 0deg) * -2)) scale(1.08);
+  }
+  70% {
+    transform: translateY(-12px) rotate(calc(var(--card-rotation, 0deg) * 1)) scale(0.98);
+  }
+  85% {
+    transform: translateY(4px) rotate(calc(var(--card-rotation, 0deg) * -0.3)) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+`;
+
 // Boot sequence phases
-type BootPhase = 'slide' | 'loading1' | 'ascii' | 'skeleton' | 'active';
+// New sequence: skull-hero -> ui-reveal -> items-drop -> active
+type BootPhase = 'slide' | 'skull-hero' | 'ui-reveal' | 'items-drop' | 'active';
 
 /**
- * ASCII Boot: Skull + THIS IS NEVER DIE GUY
+ * ASCII Skull - NDG skull dome logo (from ndg-skull-ascii.txt)
  */
-function generateAsciiBoot(): string[] {
-  return [
-    '        ████████',
-    '      ████████████',
-    '    ████████████████',
-    '  ████████████████████',
-    '  ████████████████████',
-    '████████████████████████',
-    '████████████████████████',
-    '████      ████      ████',
-    '████      ████      ████',
-    '████      ████      ████',
-    '  ████          ████',
-    '  ██████  ██  ██████',
-    '    ████████████████',
-    '    ██  ████████  ██',
-    '    ██  ████████  ██',
-    '      ████████████',
-    '',
-    '     THIS IS NEVER',
-    '      DIE GUY[TM]',
-    '',
-    '  a pantheon production',
-  ];
-}
+const ASCII_SKULL = [
+  '                 @@@@@@@@@@@@@@                 ',
+  '            @@@@@@@@@@@@@@@@@@@@@@@@            ',
+  '         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@         ',
+  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
+  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
+  '    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    ',
+  '    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    ',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@          @@@@@@          @@@@@@@@@@@',
+  '@@@@@@@@@@           @@@@@@           @@@@@@@@@@',
+  '@@@@@@@              @@@@@@              @@@@@@@',
+  '@@@@@@@              @@@@@@              @@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@',
+  '@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@',
+  '    @@@@@@@@@@@@@@@          @@@@@@@@@@@@@@@    ',
+  '    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    ',
+  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
+  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
+  '        @@@@@@@  @@@@@@@@@@@@@@@ @@@@@@@        ',
+  '        @@@@@@@  @@@@@@@@@@@@@@@ @@@@@@@        ',
+  '         @@@@@   @@@@@@@@@@@@@@@  @@@@@         ',
+  '                 @@@@@@  @@@@@@                 ',
+];
+
+// Pixel explosion - toned down, more gravity
+const pixelExplode = keyframes`
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc((var(--ex, 0) - 0.5) * 150px),
+      calc((var(--ey, 0) - 0.3) * 200px + 100px)
+    ) scale(0.5);
+  }
+`;
 
 /**
  * Generate a funny player alias from seed
@@ -594,7 +638,6 @@ export function HomeDashboard() {
 
   // Boot sequence state
   const [bootPhase, setBootPhase] = useState<BootPhase>('slide');
-  const [bootText, setBootText] = useState('');
   const [asciiRowsVisible, setAsciiRowsVisible] = useState(0);
 
   // Player alias based on seed (for NPC mentions)
@@ -682,9 +725,8 @@ export function HomeDashboard() {
     const newLoadout = generateLoadout(newNpcId, selectedDomain);
     setCurrentLoadout(newLoadout);
 
-    // Reset boot sequence to replay
+    // Reset boot sequence to replay the new intro
     setBootPhase('slide');
-    setBootText('');
     setAsciiRowsVisible(0);
     setMessages([]);
     setAmbientIndex(0);
@@ -705,27 +747,23 @@ export function HomeDashboard() {
   // ============================================
 
   useEffect(() => {
-    // Boot sequence timing - ASCII then skeleton loader
-    const timings: Record<BootPhase, { next: BootPhase | null; delay: number; text?: string }> = {
-      slide: { next: 'loading1', delay: 600 },
-      loading1: { next: 'ascii', delay: 1200, text: 'loading...' },
-      ascii: { next: 'skeleton', delay: 5000 }, // Skull + welcome (20 rows x 200ms + pause)
-      skeleton: { next: 'active', delay: 1800 }, // Skeleton loader for stream
+    // Boot sequence timing - ASCII skull loads -> UI slides in -> items drop, skull explodes
+    // ASCII: 29 rows × 25ms = 725ms, then hold to admire
+    const timings: Record<BootPhase, { next: BootPhase | null; delay: number }> = {
+      slide: { next: 'skull-hero', delay: 100 },           // Brief setup
+      'skull-hero': { next: 'ui-reveal', delay: 1800 },    // ASCII loads (725ms) + nice hold (~1s)
+      'ui-reveal': { next: 'items-drop', delay: 600 },     // Top rail + stream slide in
+      'items-drop': { next: 'active', delay: 900 },        // Items drop, skull explodes
       active: { next: null, delay: 0 },
     };
+    // Total: 100 + 1800 + 600 + 900 = 3400ms
 
     const current = timings[bootPhase];
     if (!current.next) return;
 
-    // Set boot text if specified
-    if (current.text) {
-      setBootText(current.text);
-    }
-
     const timer = setTimeout(() => {
       if (current.next) {
         setBootPhase(current.next);
-        setAsciiRowsVisible(0); // Reset for next phase
       }
     }, current.delay);
 
@@ -733,33 +771,29 @@ export function HomeDashboard() {
   }, [bootPhase, currentLoadout.seed]);
 
   // ============================================
-  // ASCII Row-by-Row Animation
+  // ASCII Skull Row-by-Row Reveal
   // ============================================
 
   useEffect(() => {
-    if (bootPhase !== 'ascii') return;
+    // Keep drawing skull during skull-hero AND ui-reveal phases
+    if (bootPhase !== 'skull-hero' && bootPhase !== 'ui-reveal') return;
 
-    const lines = generateAsciiBoot();
-
-    // Reveal rows one by one with variable speed
-    if (asciiRowsVisible < lines.length) {
-      // Faster for skull (first 16 lines), slower for text (last 5 lines)
-      const delay = asciiRowsVisible < 16 ? 120 : 200;
+    if (asciiRowsVisible < ASCII_SKULL.length) {
       const timer = setTimeout(() => {
         setAsciiRowsVisible(prev => prev + 1);
-      }, delay);
+      }, 12); // 12ms per row = ~350ms for 29 rows (super fast!)
       return () => clearTimeout(timer);
     }
   }, [bootPhase, asciiRowsVisible]);
 
   // ============================================
-  // Pre-warm NPC Conversation (during ASCII boot)
+  // Pre-warm NPC Conversation (during skull-hero phase)
   // ============================================
 
   useEffect(() => {
-    if (bootPhase !== 'ascii') return;
+    if (bootPhase !== 'skull-hero') return;
 
-    // Pre-generate messages while ASCII art is showing
+    // Pre-generate messages while skull is showing
     const warmupMessages: StreamMessage[] = [];
     const usedSpeakers = new Set<string>();
 
@@ -1225,7 +1259,10 @@ export function HomeDashboard() {
         gap: 2,
         px: 3,
         py: 1.5,
-        animation: `${uiFadeIn} 500ms ease-out 1.2s both`,
+        // Fade in during ui-reveal phase
+        opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+        transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(-10px)' : 'translateY(0)',
+        transition: 'opacity 400ms ease-out, transform 400ms ease-out',
       }}>
         {/* Player Identity + Score Group */}
         <Box sx={{
@@ -1370,7 +1407,7 @@ export function HomeDashboard() {
         minHeight: 0,
         position: 'relative',
       }}>
-        {/* Center Column - Starting Loadout (full width now) */}
+        {/* Center Column - Skull Hero + Starting Loadout */}
         <Box sx={{
           flex: 1,
           display: { xs: 'none', md: 'flex' },
@@ -1379,120 +1416,194 @@ export function HomeDashboard() {
           justifyContent: 'center',
           p: 3,
           gap: 3,
+          position: 'relative',
+          overflow: 'hidden',
         }}>
-          {/* Item Cards - from loadout */}
-          <Box sx={{ display: 'flex', alignItems: 'stretch', gap: 2 }}>
-            {currentLoadout.items.map((itemSlug, i) => {
-              const itemData = LOADOUT_ITEMS[itemSlug];
-              const rarity = itemData?.rarity || 1;
-              const rarityLabel = rarity >= 3 ? 'Rare' : rarity >= 2 ? 'Uncommon' : 'Common';
-              const isRare = rarity >= 3;
-              const isUncommon = rarity >= 2;
-
-              // Stable rotation variance based on index for "dealt" feel (-3 to +3 deg)
-              const cardRotation = (i - 1) * 2; // -2, 0, +2 degrees
-
-              return (
+          {/* ASCII Skull - loads row by row, explodes when items hit */}
+          {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal' || bootPhase === 'items-drop') && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: bootPhase === 'items-drop' ? 1 : 10,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                filter: bootPhase !== 'items-drop' ? 'drop-shadow(0 0 15px rgba(233, 4, 65, 0.6))' : 'none',
+              }}
+            >
+              {ASCII_SKULL.map((row, rowIdx) => (
                 <Box
-                  key={`${itemSlug}-${i}`}
+                  key={rowIdx}
                   sx={{
-                    width: 160,
                     display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    borderRadius: 2,
-                    border: `2px solid ${isRare ? 'rgba(168, 85, 247, 0.5)' : isUncommon ? 'rgba(74, 222, 128, 0.4)' : tokens.colors.border}`,
-                    bgcolor: tokens.colors.background.paper,
-                    p: 2,
-                    gap: 2,
-                    '--card-rotation': `${cardRotation}deg`,
-                    animation: bootPhase === 'active' ? `${cardDeal} 700ms ${EASING.organic} ${200 + i * 150}ms both` : 'none',
-                    transition: 'transform 150ms ease, box-shadow 150ms ease',
-                    '&:hover': {
-                      transform: 'translateY(-4px) scale(1.02)',
-                      boxShadow: `0 8px 16px rgba(0,0,0,0.3)`,
-                    },
+                    justifyContent: 'center',
+                    height: '0.65rem',
+                    // Row entrance
+                    opacity: rowIdx < asciiRowsVisible ? 1 : 0,
+                    transform: rowIdx < asciiRowsVisible ? 'scaleY(1)' : 'scaleY(0)',
+                    transition: 'opacity 40ms ease-out, transform 40ms ease-out',
                   }}
                 >
-                  {/* Item Sprite */}
-                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
-                    <Box
-                      component="img"
-                      src={getItemImage(itemSlug)}
-                      alt={itemSlug}
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        objectFit: 'contain',
-                        imageRendering: 'pixelated',
-                      }}
-                    />
-                  </Box>
-                  {/* Rarity Badge */}
-                  <Box sx={{
-                    px: 2.5,
-                    py: 0.75,
-                    borderRadius: '20px',
-                    bgcolor: isRare ? 'rgba(168, 85, 247, 0.15)' : isUncommon ? 'rgba(74, 222, 128, 0.15)' : tokens.colors.background.elevated,
-                    border: `1px solid ${isRare ? 'rgba(168, 85, 247, 0.3)' : isUncommon ? 'rgba(74, 222, 128, 0.3)' : tokens.colors.border}`,
-                  }}>
-                    <Typography sx={{
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '0.85rem',
-                      color: isRare ? '#a855f7' : isUncommon ? tokens.colors.success : tokens.colors.text.secondary,
-                    }}>
-                      {rarityLabel}
-                    </Typography>
-                  </Box>
+                  {row.split('').map((char, charIdx) => {
+                    // Stable-ish random for explosion (seeded by position)
+                    const seed = rowIdx * 100 + charIdx;
+                    const ex = ((seed * 9301 + 49297) % 233280) / 233280;
+                    const ey = ((seed * 49297 + 9301) % 233280) / 233280;
+                    const delay = rowIdx * 15 + charIdx * 3;
+
+                    return (
+                      <Box
+                        key={charIdx}
+                        component="span"
+                        sx={{
+                          fontFamily: 'monospace',
+                          fontSize: '0.6rem',
+                          lineHeight: 1,
+                          color: tokens.colors.primary,
+                          whiteSpace: 'pre',
+                          display: 'inline-block',
+                          '--ex': ex,
+                          '--ey': ey,
+                          animation: bootPhase === 'items-drop' && char !== ' '
+                            ? `${pixelExplode} 600ms ease-out ${delay}ms forwards`
+                            : 'none',
+                        }}
+                      >
+                        {char}
+                      </Box>
+                    );
+                  })}
                 </Box>
-              );
-            })}
-          </Box>
+              ))}
+            </Box>
+          )}
 
-          {/* Seed Display */}
-          <Typography sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.75rem',
-            color: tokens.colors.text.disabled,
-            animation: `${uiFadeIn} 500ms ease-out 1.2s both`,
-          }}>
-            seed: #{currentLoadout.seed}
-          </Typography>
+          {/* Item Cards - from loadout (only render during items-drop and active) */}
+          {(bootPhase === 'items-drop' || bootPhase === 'active') && (
+            <Box sx={{ display: 'flex', alignItems: 'stretch', gap: 2, zIndex: 5 }}>
+              {currentLoadout.items.map((itemSlug, i) => {
+                const itemData = LOADOUT_ITEMS[itemSlug];
+                const rarity = itemData?.rarity || 1;
+                const rarityLabel = rarity >= 3 ? 'Rare' : rarity >= 2 ? 'Uncommon' : 'Common';
+                const isRare = rarity >= 3;
+                const isUncommon = rarity >= 2;
 
-          {/* Begin Button */}
-          <Box
-            onClick={handlePlay}
-            sx={{
-              width: '100%',
-              maxWidth: 520,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minHeight: 100,
-              py: 3,
-              borderRadius: '12px',
-              bgcolor: tokens.colors.primary,
-              border: `3px solid ${tokens.colors.primary}`,
-              cursor: 'pointer',
-              opacity: bootPhase === 'active' ? 1 : 0, // Hidden until boot complete
-              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease, opacity 300ms ease`,
-              animation: bootPhase === 'active' ? `${uiFadeIn} 600ms ${EASING.organic} 700ms forwards` : 'none',
-              boxShadow: `0 4px 12px rgba(233, 4, 65, 0.3)`,
-              '&:hover': {
-                filter: 'brightness(1.15)',
-                transform: 'scale(1.05) translateY(-2px)',
-                boxShadow: `0 8px 20px rgba(233, 4, 65, 0.5)`,
-              },
-              '&:active': {
-                transform: 'scale(0.98)',
-                boxShadow: `0 2px 8px rgba(233, 4, 65, 0.4)`,
-              },
-            }}
-          >
-            <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', color: tokens.colors.text.primary }}>
-              Begin
+                // Stable rotation variance based on index for "dealt" feel (-3 to +3 deg)
+                const cardRotation = (i - 1) * 3; // -3, 0, +3 degrees for more drama
+
+                return (
+                  <Box
+                    key={`${itemSlug}-${i}`}
+                    sx={{
+                      width: 160,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      borderRadius: 2,
+                      border: `2px solid ${isRare ? 'rgba(168, 85, 247, 0.5)' : isUncommon ? 'rgba(74, 222, 128, 0.4)' : tokens.colors.border}`,
+                      bgcolor: tokens.colors.background.paper,
+                      p: 2,
+                      gap: 2,
+                      '--card-rotation': `${cardRotation}deg`,
+                      // Items drop in during items-drop phase with stagger
+                      // Use ease-out for Safari compatibility
+                      animation: bootPhase === 'items-drop'
+                        ? `${itemDropIn} 700ms ease-out ${i * 80}ms both`
+                        : 'none',
+                      transition: 'transform 150ms ease, box-shadow 150ms ease',
+                      '&:hover': {
+                        transform: 'translateY(-4px) scale(1.02)',
+                        boxShadow: `0 8px 16px rgba(0,0,0,0.3)`,
+                      },
+                    }}
+                  >
+                    {/* Item Sprite */}
+                    <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
+                      <Box
+                        component="img"
+                        src={getItemImage(itemSlug)}
+                        alt={itemSlug}
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          objectFit: 'contain',
+                          imageRendering: 'pixelated',
+                        }}
+                      />
+                    </Box>
+                    {/* Rarity Badge */}
+                    <Box sx={{
+                      px: 2.5,
+                      py: 0.75,
+                      borderRadius: '20px',
+                      bgcolor: isRare ? 'rgba(168, 85, 247, 0.15)' : isUncommon ? 'rgba(74, 222, 128, 0.15)' : tokens.colors.background.elevated,
+                      border: `1px solid ${isRare ? 'rgba(168, 85, 247, 0.3)' : isUncommon ? 'rgba(74, 222, 128, 0.3)' : tokens.colors.border}`,
+                    }}>
+                      <Typography sx={{
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '0.85rem',
+                        color: isRare ? '#a855f7' : isUncommon ? tokens.colors.success : tokens.colors.text.secondary,
+                      }}>
+                        {rarityLabel}
+                      </Typography>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
+
+          {/* Seed Display - appears after items */}
+          {(bootPhase === 'items-drop' || bootPhase === 'active') && (
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.75rem',
+              color: tokens.colors.text.disabled,
+              opacity: bootPhase === 'active' ? 1 : 0,
+              transition: 'opacity 300ms ease',
+            }}>
+              seed: #{currentLoadout.seed}
             </Typography>
-          </Box>
+          )}
+
+          {/* Begin Button - appears last */}
+          {(bootPhase === 'items-drop' || bootPhase === 'active') && (
+            <Box
+              onClick={bootPhase === 'active' ? handlePlay : undefined}
+              sx={{
+                width: '100%',
+                maxWidth: 520,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 100,
+                py: 3,
+                borderRadius: '12px',
+                bgcolor: tokens.colors.primary,
+                border: `3px solid ${tokens.colors.primary}`,
+                cursor: bootPhase === 'active' ? 'pointer' : 'default',
+                opacity: bootPhase === 'active' ? 1 : 0,
+                transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease, opacity 400ms ease 600ms`,
+                boxShadow: `0 4px 12px rgba(233, 4, 65, 0.3)`,
+                '&:hover': bootPhase === 'active' ? {
+                  filter: 'brightness(1.15)',
+                  transform: 'scale(1.05) translateY(-2px)',
+                  boxShadow: `0 8px 20px rgba(233, 4, 65, 0.5)`,
+                } : {},
+                '&:active': bootPhase === 'active' ? {
+                  transform: 'scale(0.98)',
+                  boxShadow: `0 2px 8px rgba(233, 4, 65, 0.4)`,
+                } : {},
+              }}
+            >
+              <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '2rem', color: tokens.colors.text.primary }}>
+                Begin
+              </Typography>
+            </Box>
+          )}
         </Box>
 
         {/* Floating Chat Window - Eternal Stream */}
@@ -1505,7 +1616,10 @@ export function HomeDashboard() {
           display: 'flex',
           flexDirection: 'column',
           zIndex: 100,
-          animation: `${streamSlideIn} 700ms ease-out both`,
+          // Slide up during ui-reveal phase
+          opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+          transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(100%)' : 'translateY(0)',
+          transition: 'opacity 500ms ease-out, transform 500ms ease-out',
         }}>
           {/* Minimized Tab */}
           {streamMinimized ? (
@@ -1710,7 +1824,10 @@ export function HomeDashboard() {
               {/* Invite NPC button */}
               {availableToInvite.length > 0 && (
                 <Box
-                  onClick={() => setInviteModalOpen(true)}
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    setInviteModalOpen(true);
+                  }}
                   sx={{
                     width: 32,
                     height: 32,
@@ -1757,7 +1874,10 @@ export function HomeDashboard() {
                 {QUICK_PROMPTS.map((prompt, idx) => (
                   <Box
                     key={prompt.id}
-                    onClick={() => handleQuickPrompt(prompt)}
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation(); // Prevent stream header minimize
+                      handleQuickPrompt(prompt);
+                    }}
                     sx={{
                       px: 1.5,
                       py: 0.75,
@@ -1803,61 +1923,8 @@ export function HomeDashboard() {
               '&::-webkit-scrollbar-thumb': { bgcolor: tokens.colors.border, borderRadius: 2 },
             }}
           >
-            {/* Boot Sequence Display */}
-            {bootPhase !== 'active' && bootPhase !== 'skeleton' && (
-              <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                py: 6,
-                overflow: 'visible',
-              }}>
-                {/* ASCII: Skull + WELCOME TO NEVER DIE GUY */}
-                {bootPhase === 'ascii' && (
-                  <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    overflow: 'visible',
-                  }}>
-                    {generateAsciiBoot().map((line, i) => (
-                      <Typography
-                        key={i}
-                        sx={{
-                          fontFamily: 'monospace',
-                          fontSize: '0.75rem',
-                          color: tokens.colors.primary,
-                          letterSpacing: '0.01em',
-                          lineHeight: 1.15,
-                          whiteSpace: 'pre',
-                          opacity: i < asciiRowsVisible ? 1 : 0,
-                          transform: i < asciiRowsVisible ? 'translateY(0) scale(1)' : 'translateY(-12px) scale(0.9)',
-                          transition: `all 250ms ${EASING.organic}`,
-                        }}
-                      >
-                        {line || '\u00A0'}
-                      </Typography>
-                    ))}
-                  </Box>
-                )}
-
-                {/* Loading text */}
-                {bootPhase !== 'ascii' && (
-                  <Typography sx={{
-                    fontFamily: 'monospace',
-                    fontSize: '0.85rem',
-                    color: tokens.colors.text.disabled,
-                    letterSpacing: '0.05em',
-                  }}>
-                    {bootText}
-                  </Typography>
-                )}
-              </Box>
-            )}
-
-            {/* Skeleton Loader for Chat Stream */}
-            {bootPhase === 'skeleton' && (
+            {/* Skeleton Loader for Chat Stream - chess.com style staggered reveal */}
+            {(bootPhase === 'ui-reveal' || bootPhase === 'items-drop') && (
               <Box sx={{ px: 2, py: 2 }}>
                 {[85, 70, 90, 65].map((width, i) => (
                   <Box
@@ -1867,8 +1934,8 @@ export function HomeDashboard() {
                       alignItems: 'flex-start',
                       gap: 1.5,
                       mb: 2,
-                      animation: `${pulse} 1.5s ease-in-out infinite`,
-                      animationDelay: `${i * 200}ms`,
+                      opacity: 0,
+                      animation: `${fadeIn} 300ms ease-out ${i * 100}ms forwards`,
                     }}
                   >
                     {/* Avatar skeleton */}
@@ -1878,6 +1945,8 @@ export function HomeDashboard() {
                       borderRadius: '50%',
                       bgcolor: tokens.colors.background.paper,
                       flexShrink: 0,
+                      animation: `${pulse} 1.5s ease-in-out infinite`,
+                      animationDelay: `${i * 200}ms`,
                     }} />
                     {/* Content skeleton */}
                     <Box sx={{ flex: 1 }}>
@@ -1887,12 +1956,16 @@ export function HomeDashboard() {
                         borderRadius: 1,
                         bgcolor: tokens.colors.background.paper,
                         mb: 1,
+                        animation: `${pulse} 1.5s ease-in-out infinite`,
+                        animationDelay: `${i * 200 + 50}ms`,
                       }} />
                       <Box sx={{
                         width: `${width}%`,
                         height: 16,
                         borderRadius: 1,
                         bgcolor: tokens.colors.background.paper,
+                        animation: `${pulse} 1.5s ease-in-out infinite`,
+                        animationDelay: `${i * 200 + 100}ms`,
                       }} />
                     </Box>
                   </Box>
