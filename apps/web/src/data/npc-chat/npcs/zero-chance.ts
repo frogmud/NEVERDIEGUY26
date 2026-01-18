@@ -376,7 +376,7 @@ export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
     mood: 'cryptic',
     text: '÷0 *division imminent*',
     weight: 15,
-    purpose: 'threat',
+    purpose: 'warning',
   },
   {
     id: 'zero-threat-2',
@@ -385,7 +385,7 @@ export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
     mood: 'cryptic',
     text: '⍵←⍬ *reduction to empty*',
     weight: 12,
-    purpose: 'threat',
+    purpose: 'warning',
   },
   {
     id: 'zero-threat-3',
@@ -394,7 +394,7 @@ export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
     mood: 'any',
     text: '0 *probability: zero*',
     weight: 18,
-    purpose: 'threat',
+    purpose: 'warning',
   },
   {
     id: 'zero-threat-4',
@@ -403,7 +403,7 @@ export const ZERO_CHANCE_TEMPLATES: ResponseTemplate[] = [
     mood: 'cryptic',
     text: '⌹0 *invert nothing*',
     weight: 10,
-    purpose: 'threat',
+    purpose: 'warning',
   },
 
   // ---- FAREWELL ----
