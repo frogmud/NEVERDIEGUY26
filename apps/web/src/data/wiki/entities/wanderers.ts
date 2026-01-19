@@ -48,7 +48,7 @@ export const wanderers: Wanderer[] = [
     description: 'Mr. Bones operates as Death\'s personal accountant, managing supernatural commerce from his mobile office at The Dying Saucer. This skeletal merchant monopolizes death documentation and elemental imports across all domains.',
     origin: 'Frost Reach',
     species: 'Skeleton',
-    locations: ['the-dying-saucer', 'frost-reach'],
+    locations: ['frost-reach'],
     services: [
       'Death certificate processing',
       'Soul appraisal and trades',
@@ -82,7 +82,7 @@ export const wanderers: Wanderer[] = [
     origin: 'Aberrant',
     species: 'Ghost',
     birthday: 'May 21, 1972',
-    locations: ['the-dying-saucer', 'aberrant'],
+    locations: ['aberrant'],
     services: [
       'Ghost writing: lyrics by actual ghost',
       'Spectral backup vocals',

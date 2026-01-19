@@ -30,35 +30,6 @@ interface WikiItemProps {
   entity?: AnyEntity;
 }
 
-// Default item data
-const defaultItemInfo = {
-  name: 'Void Essence',
-  rarity: 'Epic',
-  type: 'Material',
-  value: '500 Gold',
-  stackSize: '20',
-  weight: '0.1',
-  source: 'Boss Drop',
-};
-
-const defaultStats = [
-  { label: 'Void Power', value: 85, max: 100 },
-  { label: 'Purity', value: 70, max: 100 },
-  { label: 'Stability', value: 45, max: 100 },
-];
-
-const defaultEffects = [
-  { name: 'Void Infusion', description: 'Adds void damage to weapons when used in crafting' },
-  { name: 'Soul Binding', description: 'Required for high-tier soul-based equipment' },
-];
-
-const defaultObtainMethods = [
-  { type: 'enemy', name: 'Void Lord', location: 'Crimson Domain', rate: '15%' },
-  { type: 'enemy', name: 'Shadow Sentinel', location: 'Void Realm', rate: '5%' },
-  { type: 'location', name: 'Ancient Chest', location: 'Lost Temple', rate: '10%' },
-];
-
-
 // Section configuration - dynamically built based on available data
 const getItemSections = (hasStats: boolean, hasObtainMethods: boolean, hasCraftingRecipe: boolean, hasUsedIn: boolean): WikiSection[] => {
   const sections: WikiSection[] = [
@@ -75,12 +46,23 @@ const getItemSections = (hasStats: boolean, hasObtainMethods: boolean, hasCrafti
 export function WikiItem({ entity }: WikiItemProps) {
   const { category } = useParams();
 
+  // Guard: entity should always exist (WikiEntity shows 404 for missing entities)
+  // This is defensive - we should never reach here without an entity
+  if (!entity) {
+    return null;
+  }
+
   // Handle both items and trophies categories
-  const itemData = (entity?.category === 'items' || entity?.category === 'trophies')
+  const itemData = (entity.category === 'items' || entity.category === 'trophies')
     ? (entity as Item)
     : undefined;
 
-  const itemInfo = itemData ? {
+  // If entity exists but isn't an item/trophy, show nothing (shouldn't happen with proper routing)
+  if (!itemData) {
+    return null;
+  }
+
+  const itemInfo = {
     name: itemData.name,
     rarity: itemData.rarity || 'Common',
     type: itemData.itemType || 'Unknown',
@@ -94,10 +76,10 @@ export function WikiItem({ entity }: WikiItemProps) {
     level: itemData.level || 1,
     preferredDice: itemData.preferredDice,
     description: itemData.description,
-  } : { ...defaultItemInfo, element: 'Neutral', tier: 1, level: 1, preferredDice: undefined, subtype: undefined, description: undefined };
+  };
 
-  const stats = itemData?.stats || defaultStats;
-  const effects = itemData?.effects || defaultEffects;
+  const stats = itemData.stats || [];
+  const effects = itemData.effects || [];
   const obtainMethods = itemData?.obtainMethods?.map(m => ({
     type: m.type,
     slug: m.source,

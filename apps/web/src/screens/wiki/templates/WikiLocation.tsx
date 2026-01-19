@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -34,36 +33,6 @@ interface WikiLocationProps {
   entity?: AnyEntity;
 }
 
-// Default location data
-const defaultLocationInfo = {
-  name: 'Crimson Domain',
-  region: 'Northern Wastes',
-  difficulty: 'Hard',
-  levelRange: '25-35',
-  requirements: 'Complete "Shadow\'s End" quest',
-  type: 'Domain',
-};
-
-const defaultNpcs = [
-  { name: 'Merchant Galen', role: 'Shop Keeper', hasQuest: true },
-  { name: 'Elder Thorne', role: 'Quest Giver', hasQuest: true },
-  { name: 'Guard Captain', role: 'Dialogue', hasQuest: false },
-];
-
-const defaultEnemies = [
-  { name: 'Shadow Wraith', type: 'Normal', level: '25-28' },
-  { name: 'Dark Knight', type: 'Elite', level: '28-32' },
-  { name: 'Crimson Sentinel', type: 'Normal', level: '26-30' },
-  { name: 'Void Lord', type: 'Boss', level: '35' },
-];
-
-const defaultItemsByRarity = {
-  Common: ['Soul Fragment', 'Iron Ore', 'Healing Herb'],
-  Uncommon: ['Frost Crystal', 'Shadow Essence', 'Magic Scroll'],
-  Rare: ['Ancient Rune', 'Crimson Blade Fragment'],
-  Epic: ['Void Essence'],
-};
-
 interface DisplayConnectedArea {
   slug: string;
   name: string;
@@ -71,7 +40,6 @@ interface DisplayConnectedArea {
   level: string;
 }
 
-const defaultConnectedAreas: DisplayConnectedArea[] = [];
 
 // Dynamic section configuration based on available data
 const getLocationSections = (
@@ -91,32 +59,18 @@ const getLocationSections = (
   return sections;
 };
 
-// Dying Saucer animation frames
-const DYING_SAUCER_FRAMES = Array.from({ length: 12 }, (_, i) =>
-  `/assets/enemies/dying-saucer/main_ufo_frames/ufo-${String(i + 1).padStart(2, '0')}.png`
-);
-
-
 export function WikiLocation({ entity }: WikiLocationProps) {
   const { category } = useParams();
   const navigate = useNavigate();
 
-  // Animation state for Dying Saucer
-  const isDyingSaucer = entity?.slug === 'the-dying-saucer';
-  const isBoardRoom = entity?.slug === 'the-board-room';
-  const [saucerFrame, setSaucerFrame] = useState(0);
-
-  useEffect(() => {
-    if (!isDyingSaucer) return;
-    const interval = setInterval(() => {
-      setSaucerFrame(prev => (prev + 1) % DYING_SAUCER_FRAMES.length);
-    }, 100); // 100ms per frame = ~10fps
-    return () => clearInterval(interval);
-  }, [isDyingSaucer]);
+  // Guard: entity should always exist (WikiEntity shows 404 for missing entities)
+  if (!entity) {
+    return null;
+  }
 
   // Type-specific data extraction
-  const isDomain = entity?.category === 'domains';
-  const isShop = entity?.category === 'shops';
+  const isDomain = entity.category === 'domains';
+  const isShop = entity.category === 'shops';
 
   const domainData = isDomain ? (entity as Domain) : undefined;
   const shopData = isShop ? (entity as Shop) : undefined;
@@ -126,14 +80,14 @@ export function WikiLocation({ entity }: WikiLocationProps) {
   const travelPattern = shopData?.travelPattern || [];
 
   // Map entity data to locationInfo format
-  const locationInfo = entity ? {
+  const locationInfo = {
     name: entity.name,
     region: isMobileVendor ? 'Mobile Vendor' : (domainData?.region || shopData?.location || '-'),
     difficulty: domainData?.difficulty || 'Normal',
     levelRange: domainData?.levelRange || '-',
     requirements: domainData?.requirements || '-',
     type: entity.category.charAt(0).toUpperCase() + entity.category.slice(1, -1),
-  } : defaultLocationInfo;
+  };
 
   // Map NPCs from domain.npcs slugs to real wanderer entities
   // For shops, use the proprietor as the NPC
@@ -219,7 +173,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
     name: slugToName(conn.area),
     direction: conn.direction || '-',
     level: conn.levelRange || '-',
-  })) || (isDomain || isShop ? [] : defaultConnectedAreas);
+  })) || [];
 
   // Determine which sections have data
   const hasEnemies = enemies.length > 0;
@@ -238,80 +192,25 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           textAlign: 'center',
         }}
       >
-        {isDyingSaucer ? (
-          // Animated Dying Saucer
-          <Box sx={{ p: 3 }}>
-            <Box sx={{
-              backgroundColor: tokens.colors.background.elevated,
-              borderRadius: '18px',
-              height: 180,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img
-                src={DYING_SAUCER_FRAMES[saucerFrame]}
-                alt="The Dying Saucer"
-                style={{
-                  width: 'auto',
-                  height: '75%',
-                  maxWidth: '100%',
-                  objectFit: 'contain',
-                  imageRendering: 'pixelated',
-                }}
-              />
-            </Box>
+        <Box sx={{ p: 3 }}>
+          <Box sx={{
+            backgroundColor: tokens.colors.background.elevated,
+            borderRadius: '18px',
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <AssetImage
+              src={entity.image || entity.portrait || ''}
+              alt={locationInfo.name}
+              category={(entity.category || 'domains') as 'domains' | 'shops'}
+              width="100%"
+              height={isShop ? 220 : 180}
+              fallback="placeholder"
+            />
           </Box>
-        ) : isBoardRoom ? (
-          // Board Room - circular crop
-          <Box sx={{ p: 3 }}>
-            <Box sx={{
-              backgroundColor: tokens.colors.background.elevated,
-              borderRadius: '18px',
-              p: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Box sx={{
-                width: 160,
-                height: 160,
-                borderRadius: '50%',
-                overflow: 'hidden',
-              }}>
-                <img
-                  src={entity?.image || ''}
-                  alt="The Board Room"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                />
-              </Box>
-            </Box>
-          </Box>
-        ) : (
-          <Box sx={{ p: 3 }}>
-            <Box sx={{
-              backgroundColor: tokens.colors.background.elevated,
-              borderRadius: '18px',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <AssetImage
-                src={entity?.image || entity?.portrait || ''}
-                alt={locationInfo.name}
-                category={(entity?.category || 'domains') as 'domains' | 'shops'}
-                width="100%"
-                height={isShop ? 220 : 180}
-                fallback="placeholder"
-              />
-            </Box>
-          </Box>
-        )}
+        </Box>
         {/* Only show "view full map" for domains, not shops */}
         {isDomain && (
           <Box sx={{ pb: 2 }}>

@@ -19,6 +19,11 @@ export function WikiEntity() {
   // Get entity from config
   const entity = id ? getEntity(id) : undefined;
 
+  // If ID was provided but entity doesn't exist, show 404
+  if (id && !entity) {
+    return <WikiNotFound slug={id} category={category} />;
+  }
+
   // If we have an entity, use its category; otherwise use URL category
   const effectiveCategory = entity?.category || lowerCategory;
 

@@ -167,7 +167,7 @@ export const factions: Faction[] = [
     image: '/assets/factions/faction-icon-board-room.svg',
     motto: 'All numbers. All doors. All possibilities.',
     founder: 'the-one',
-    homeBase: 'the-board-room',
+    homeBase: undefined, // Transcends the six doors - no physical domain
     element: 'Neutral',
     description: 'An elite faction that transcends the six doors. The Board Room serves all Die-rectors equally and has access to powers from every domain. Membership is by invitation only.',
     members: ['mr-kevin'],
@@ -179,7 +179,7 @@ export const factions: Faction[] = [
       'Can use abilities from any faction once per match',
     ],
     lore: 'Legend says the Board Room existed before the six doors were numbered. Its members sit at the table where reality itself is decided by dice rolls.',
-    seeAlso: ['the-one', 'mr-kevin', 'the-board-room'],
+    seeAlso: ['the-one', 'mr-kevin'],
   },
 
   // Wandering Stars - Independent travelers

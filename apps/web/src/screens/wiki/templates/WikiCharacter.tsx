@@ -47,53 +47,6 @@ interface WikiCharacterProps {
   entity?: AnyEntity;
 }
 
-// Fallback data for when no entity is provided
-const defaultCharacterInfo = {
-  name: 'Void Lord',
-  health: '25,000',
-  level: '35',
-  type: 'Boss',
-  location: 'Crimson Domain',
-  weakness: 'Light',
-  resistance: 'Dark',
-  defense: '450',
-};
-
-const defaultPhases = [
-  { phase: 1, name: 'Awakening', health: '100% - 70%', description: 'Standard attacks, occasional void bolts' },
-  { phase: 2, name: 'Enrage', health: '70% - 40%', description: 'Increased speed, summons shadow minions' },
-  { phase: 3, name: 'Desperation', health: '40% - 0%', description: 'Devastating AoE attacks, must dodge carefully' },
-];
-
-const defaultAbilities = [
-  { name: 'Void Strike', damage: '150-200', type: 'Physical', cooldown: '5s', description: 'A powerful melee attack that deals heavy damage' },
-  { name: 'Soul Drain', damage: '100-150', type: 'Magic', cooldown: '10s', description: 'Drains life from the target, healing the Void Lord' },
-  { name: 'Dark Nova', damage: '300-400', type: 'AoE', cooldown: '30s', description: 'Massive area attack, get behind cover!' },
-  { name: 'Shadow Minions', damage: '-', type: 'Summon', cooldown: '45s', description: 'Summons 3 shadow creatures to fight' },
-];
-
-const defaultDrops = [
-  { name: 'Soul Fragment', rate: 100, rarity: 'Common' },
-  { name: 'Dark Essence', rate: 45, rarity: 'Uncommon' },
-  { name: 'Ancient Rune', rate: 25, rarity: 'Uncommon' },
-  { name: 'Void Essence', rate: 15, rarity: 'Epic' },
-  { name: 'Crimson Blade', rate: 5, rarity: 'Rare' },
-  { name: 'Void Lord Trophy', rate: 1, rarity: 'Legendary' },
-];
-
-const recommendedStats = [
-  { stat: 'Attack', value: 75, min: 60 },
-  { stat: 'Defense', value: 65, min: 50 },
-  { stat: 'Health', value: 80, min: 70 },
-  { stat: 'Light Damage', value: 50, min: 30 },
-];
-
-const defaultLocations = [
-  { name: 'Crimson Domain', type: 'Primary', level: '25-35' },
-  { name: 'Void Realm', type: 'Alternate', level: '40+' },
-];
-
-
 // Entity type enum for cleaner logic
 type CharacterType = 'traveler' | 'enemy' | 'wanderer' | 'pantheon' | 'faction';
 
@@ -156,8 +109,13 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   // Sprite zoom modal state
   const [zoomedSprite, setZoomedSprite] = useState<string | null>(null);
 
+  // Guard: entity should always exist (WikiEntity shows 404 for missing entities)
+  if (!entity) {
+    return null;
+  }
+
   // Determine character type
-  const isEnemy = entity?.category === 'enemies';
+  const isEnemy = entity.category === 'enemies';
   const isTraveler = entity?.category === 'travelers';
   const isWanderer = entity?.category === 'wanderers';
   const isPantheon = entity?.category === 'pantheon';
@@ -176,7 +134,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const pantheonData = isPantheon ? (entity as Pantheon) : undefined;
   const factionData = isFaction ? (entity as Faction) : undefined;
 
-  const characterInfo = entity ? {
+  const characterInfo = {
     name: entity.name,
     health: enemyData?.hp?.toString() || '-',
     level: '-',
@@ -186,7 +144,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
     resistance: enemyData?.resistances?.[0] || '-',
     defense: enemyData?.defense?.toString() || '-',
     rarity: entity.rarity || 'Common',
-  } : { ...defaultCharacterInfo, rarity: 'Common' };
+  };
 
   // Traveler-specific data
   const travelerInfo = travelerData ? {
@@ -240,9 +198,10 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
     name: p.name,
     health: p.healthRange,
     description: p.description || '',
-  })) || (isEnemy ? [] : defaultPhases);
+  })) || [];
 
-  const abilities = (enemyData?.abilities || travelerData?.abilities || defaultAbilities).map(a => ({
+  const rawAbilities = enemyData?.abilities || travelerData?.abilities || [];
+  const abilities = rawAbilities.map(a => ({
     name: a.name,
     damage: a.damage || '-',
     type: a.type || 'Unknown',
@@ -1554,44 +1513,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         </WikiSectionAnchor>
       )}
 
-      {/* Strategy Guide - for enemies only */}
-      {!isTraveler && !isWanderer && !isPantheon && !isFaction && (
-        <WikiSectionAnchor id={toAnchorId('Strategy Guide')}>
-          <SectionHeader title="Strategy Guide" sx={{ mb: 2 }} />
-          <BaseCard sx={{ mb: 4 }}>
-            <TextBlock lines={3} />
-            <Typography variant="subtitle2" sx={{ mt: 3, mb: 2 }}>Recommended Stats</Typography>
-            <Grid container spacing={2}>
-              {recommendedStats.map((req) => (
-                <Grid size={{ xs: 6, sm: 3 }} key={req.stat}>
-                  <Box
-                    sx={{
-                      p: 2,
-                      bgcolor: tokens.colors.background.elevated,
-                      borderRadius: 1,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>{req.value}+</Typography>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>{req.stat}</Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={req.value}
-                      sx={{
-                        mt: 1,
-                        height: 4,
-                        borderRadius: 1,
-                        bgcolor: tokens.colors.background.paper,
-                        '& .MuiLinearProgress-bar': { bgcolor: tokens.colors.text.secondary },
-                      }}
-                    />
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </BaseCard>
-        </WikiSectionAnchor>
-      )}
+      {/* Strategy Guide - placeholder section hidden until real data available */}
 
       {/* Encountered In - for enemies only */}
       {!isTraveler && !isWanderer && !isPantheon && !isFaction && hasLocations && (
