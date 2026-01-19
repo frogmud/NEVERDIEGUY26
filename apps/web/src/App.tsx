@@ -64,9 +64,6 @@ const SettingsIndex = lazy(() => import('./screens/settings/SettingsIndex').then
 const PlayHub = lazy(() => import('./screens/play/PlayHub').then(m => ({ default: m.PlayHub })));
 const PlayResults = lazy(() => import('./screens/play/PlayResults').then(m => ({ default: m.PlayResults })));
 const DiceMeteor = lazy(() => import('./screens/play/DiceMeteor').then(m => ({ default: m.DiceMeteor })));
-// MVP: Multiplayer features hidden until backend ready
-// const ReplayList = lazy(() => import('./screens/play/ReplayList').then(m => ({ default: m.ReplayList })));
-// const TournamentBracket = lazy(() => import('./screens/play/TournamentBracket').then(m => ({ default: m.TournamentBracket })));
 const ExitGameConfirm = lazy(() => import('./screens/play/ExitGameConfirm').then(m => ({ default: m.ExitGameConfirm })));
 const ExitGameSummary = lazy(() => import('./screens/play/ExitGameSummary').then(m => ({ default: m.ExitGameSummary })));
 const Inventory = lazy(() => import('./screens/play/Inventory').then(m => ({ default: m.Inventory })));
