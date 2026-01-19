@@ -146,6 +146,7 @@ export function generateWeightedPool(
  * Draw dice from pool to fill hand
  * Held dice stay, empty slots filled from pool
  * New dice start UNHELD - ready to throw immediately
+ * Automatically recycles exhausted dice if pool is insufficient
  */
 export function drawHand(
   pool: DicePool,
@@ -156,9 +157,17 @@ export function drawHand(
   const heldDice = currentHand.filter((d) => d.isHeld);
   const drawCount = MAX_HAND_SIZE - heldDice.length;
 
+  // FIX: Recycle exhausted dice if pool is insufficient
+  let available = [...pool.available];
+  let exhausted = [...pool.exhausted];
+  if (available.length < drawCount && exhausted.length > 0) {
+    available = rng.shuffle([...available, ...exhausted]);
+    exhausted = [];
+  }
+
   // Draw from pool
-  const drawn = pool.available.slice(0, drawCount);
-  const remaining = pool.available.slice(drawCount);
+  const drawn = available.slice(0, drawCount);
+  const remaining = available.slice(drawCount);
 
   // New dice start UNHELD (ready to throw immediately)
   const newDice = drawn.map((d) => ({
@@ -171,7 +180,7 @@ export function drawHand(
     hand: [...heldDice, ...newDice],
     pool: {
       available: remaining,
-      exhausted: [...pool.exhausted],
+      exhausted,
     },
   };
 }
@@ -215,7 +224,8 @@ export function toggleHold(
 
 /**
  * Discard played dice (non-held) and draw new ones
- * New dice start HELD - player must unhold to select for throwing
+ * New dice start UNHELD - ready to throw immediately
+ * Automatically recycles exhausted dice if pool is insufficient
  */
 export function discardAndDraw(
   hand: Die[],
@@ -226,12 +236,22 @@ export function discardAndDraw(
   const discarded = hand.filter((d) => !d.isHeld);
 
   // Move discarded to exhausted
-  const newExhausted = [...pool.exhausted, ...discarded];
+  let newExhausted = [...pool.exhausted, ...discarded];
+  let available = [...pool.available];
 
-  // Draw new dice
+  // Calculate how many we need to draw
   const drawCount = MAX_HAND_SIZE - heldDice.length;
-  const drawn = pool.available.slice(0, drawCount);
-  const remaining = pool.available.slice(drawCount);
+
+  // FIX: Recycle exhausted dice if pool is insufficient
+  if (available.length < drawCount && newExhausted.length > 0) {
+    // Shuffle exhausted back into available
+    available = rng.shuffle([...available, ...newExhausted]);
+    newExhausted = [];
+  }
+
+  // Draw new dice (now from potentially recycled pool)
+  const drawn = available.slice(0, drawCount);
+  const remaining = available.slice(drawCount);
 
   // New dice start UNHELD (ready to throw immediately)
   const newDice = drawn.map((d) => ({

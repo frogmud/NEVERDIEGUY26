@@ -631,6 +631,8 @@ async function main() {
   // Save results
   const fs = await import('fs');
   const path = await import('path');
+  const { fileURLToPath } = await import('url');
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const outputPath = path.join(__dirname, 'economy-sim-results.json');
 
   fs.writeFileSync(

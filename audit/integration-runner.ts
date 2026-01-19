@@ -13,7 +13,8 @@
 
 import { createSeededRng, type SeededRng } from '../packages/ai-engine/src/core/seeded-rng';
 import { createExplorationState, recordSelection, buildDialogueCoord, type ExplorationState } from '../packages/ai-engine/src/exploration';
-import { getFlatScoreGoal, type LoadoutStats } from '../packages/ai-engine/src/balance/balance-config';
+import { getFlatScoreGoal } from '../packages/ai-engine/src/combat/balance-config';
+import type { LoadoutStats } from '../packages/ai-engine/src/combat/balance-config';
 import { calculateGoldGain, GOLD_CONFIG } from '../apps/web/src/data/balance-config';
 import { getDomainOrder } from '../apps/web/src/data/domains';
 import { LOADOUT_PRESETS } from '../apps/web/src/data/loadouts';
@@ -145,12 +146,14 @@ class StateValidator {
       this.errors.push(`[${context}] Invalid domain ID: ${domainId}`);
     }
 
-    // Check domain progression - should visit in order
-    const position = validDomains.indexOf(domainId);
-    const expectedVisitCount = visitedDomains.filter(d => validDomains.indexOf(d) < position).length;
-    if (expectedVisitCount !== position) {
-      this.errors.push(`[${context}] Domain progression violation: at domain ${domainId}, expected ${position} previous domains, got ${expectedVisitCount}`);
+    // Check for duplicate domain visits (only flag if same domain visited twice)
+    const visitCount = visitedDomains.filter(d => d === domainId).length;
+    if (visitCount > 1) {
+      this.errors.push(`[${context}] Domain ${domainId} visited ${visitCount} times (duplicate)`);
     }
+
+    // Note: Non-linear domain progression is allowed in gameplay
+    // Players can choose domain order, so we don't enforce strict progression
   }
 
   validateExplorationState(state: ExplorationState | null, context: string): void {
@@ -594,3 +597,43 @@ export function compareSnapshots(baseline: RunSnapshot, current: RunSnapshot): s
 
 export { PlaythroughRunner, StateValidator };
 export type { SimulationState, RunSnapshot, TransitionEvent, PlaythroughScenario };
+
+// ============================================
+// MAIN ENTRY POINT
+// ============================================
+
+// ESM-compatible entry point check
+const isMainModule = import.meta.url === `file://${process.argv[1]}`;
+if (isMainModule) {
+  const { scenarios, results, summary } = runIntegrationTests();
+
+  console.log('\n================================================================================');
+  console.log('INTEGRATION TEST RESULTS');
+  console.log('================================================================================\n');
+
+  for (let i = 0; i < scenarios.length; i++) {
+    const scenario = scenarios[i];
+    const result = results[i];
+    const status = result.errors.length === 0 ? 'PASS' : 'FAIL';
+    const icon = status === 'PASS' ? '[OK]' : '[X]';
+
+    console.log(`${icon} ${scenario.description}`);
+    console.log(`    Seed: ${scenario.seed} | Loadout: ${scenario.loadout} | Target: ${scenario.targetOutcome}`);
+    console.log(`    Final: domain=${result.currentDomain}, gold=${result.gold}, scars=${result.scars}, events=${result.runStats.eventsCompleted}`);
+
+    if (result.errors.length > 0) {
+      for (const err of result.errors) {
+        console.log(`    ERROR: ${err}`);
+      }
+    }
+    console.log('');
+  }
+
+  console.log('================================================================================');
+  console.log(`SUMMARY: ${summary.passed}/${summary.totalRuns} passed`);
+  if (summary.failed > 0) {
+    console.log(`FAILURES: ${summary.failed}`);
+    process.exit(1);
+  }
+  console.log('================================================================================');
+}

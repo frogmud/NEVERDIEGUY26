@@ -1,0 +1,3861 @@
+{
+  "timestamp": "2026-01-19T05:17:58.485Z",
+  "config": {
+    "runs": 10000,
+    "seed": "economy-1768799878304",
+    "verbose": false
+  },
+  "stats": {
+    "totalRuns": 10000,
+    "byLoadout": {
+      "warrior": {
+        "runs": 2500,
+        "winRate": 0.9384,
+        "avgDomainsCleared": 5.924,
+        "avgRoomsCleared": 17.442,
+        "avgScore": 7465.238,
+        "avgGold": 1000,
+        "avgDeaths": 0.492,
+        "avgTimePressure": 0.966037783963362,
+        "goldDistribution": {
+          "min": 1000,
+          "max": 1000,
+          "mean": 1000,
+          "median": 1000,
+          "stdDev": 0
+        },
+        "scoreDistribution": {
+          "min": 3605,
+          "max": 10170,
+          "mean": 7465.238,
+          "median": 7431,
+          "stdDev": 822.2526116443787
+        }
+      },
+      "rogue": {
+        "runs": 2500,
+        "winRate": 0.812,
+        "avgDomainsCleared": 5.722,
+        "avgRoomsCleared": 16.632,
+        "avgScore": 6869.1008,
+        "avgGold": 1000,
+        "avgDeaths": 1.0204,
+        "avgTimePressure": 0.9592172229939046,
+        "goldDistribution": {
+          "min": 1000,
+          "max": 1000,
+          "mean": 1000,
+          "median": 1000,
+          "stdDev": 0
+        },
+        "scoreDistribution": {
+          "min": 2684,
+          "max": 9787,
+          "mean": 6869.1008,
+          "median": 6983.5,
+          "stdDev": 1147.696131316719
+        }
+      },
+      "mage": {
+        "runs": 2500,
+        "winRate": 0.9756,
+        "avgDomainsCleared": 5.9708,
+        "avgRoomsCleared": 17.6836,
+        "avgScore": 7739.9784,
+        "avgGold": 1000,
+        "avgDeaths": 0.2948,
+        "avgTimePressure": 0.9699112096505264,
+        "goldDistribution": {
+          "min": 1000,
+          "max": 1000,
+          "mean": 1000,
+          "median": 1000,
+          "stdDev": 0
+        },
+        "scoreDistribution": {
+          "min": 4279,
+          "max": 10188,
+          "mean": 7739.9784,
+          "median": 7683,
+          "stdDev": 789.9034074704573
+        }
+      },
+      "survivor": {
+        "runs": 2500,
+        "winRate": 0.6112,
+        "avgDomainsCleared": 5.3992,
+        "avgRoomsCleared": 15.2956,
+        "avgScore": 6039.5492,
+        "avgGold": 999.8856,
+        "avgDeaths": 1.8028,
+        "avgTimePressure": 0.9512989303610296,
+        "goldDistribution": {
+          "min": 933,
+          "max": 1000,
+          "mean": 999.8856,
+          "median": 1000,
+          "stdDev": 2.6856121536810993
+        },
+        "scoreDistribution": {
+          "min": 2240,
+          "max": 9461,
+          "mean": 6039.5492,
+          "median": 6329,
+          "stdDev": 1443.9191136553875
+        }
+      }
+    },
+    "byDomain": {
+      "1": {
+        "survivalRate": 1,
+        "avgGoldEarned": 360.475,
+        "avgScoreEarned": 795.3464,
+        "avgHPRemaining": 432.4651
+      },
+      "2": {
+        "survivalRate": 1,
+        "avgGoldEarned": 301.5437,
+        "avgScoreEarned": 1395.8231,
+        "avgHPRemaining": 147.6703
+      },
+      "3": {
+        "survivalRate": 1,
+        "avgGoldEarned": 311.6037,
+        "avgScoreEarned": 1025.2744,
+        "avgHPRemaining": 61.2771
+      },
+      "4": {
+        "survivalRate": 0.9921,
+        "avgGoldEarned": 26.167825824009675,
+        "avgScoreEarned": 1212.2448341901018,
+        "avgHPRemaining": 6.135470214696099
+      },
+      "5": {
+        "survivalRate": 0.9276,
+        "avgGoldEarned": 0.016062958171625702,
+        "avgScoreEarned": 1379.727899956878,
+        "avgHPRemaining": 0.1402544200086244
+      },
+      "6": {
+        "survivalRate": 0.8343,
+        "avgGoldEarned": 0,
+        "avgScoreEarned": 1477.2983339326381,
+        "avgHPRemaining": 0.01702025650245715
+      }
+    },
+    "goldCapAnalysis": {
+      "runsHittingSoftCap": 10000,
+      "runsHittingHardCap": 9992,
+      "avgGoldLostToCap": 0
+    },
+    "luckySynergyAnalysis": {
+      "avgBonusGold": 77.9794,
+      "percentOfTotalGold": 7.798163027462586
+    },
+    "outliers": [
+      {
+        "loadout": "survivor",
+        "luckyNumber": 0,
+        "finalGold": 933,
+        "finalScore": 2419,
+        "domainsCleared": 5,
+        "reason": "Low gold"
+      },
+      {
+        "loadout": "survivor",
+        "luckyNumber": 0,
+        "finalGold": 933,
+        "finalScore": 2313,
+        "domainsCleared": 6,
+        "reason": "Low gold"
+      },
+      {
+        "loadout": "survivor",
+        "luckyNumber": 3,
+        "finalGold": 991,
+        "finalScore": 2426,
+        "domainsCleared": 6,
+        "reason": "Low gold"
+      },
+      {
+        "loadout": "survivor",
+        "luckyNumber": 0,
+        "finalGold": 933,
+        "finalScore": 2334,
+        "domainsCleared": 6,
+        "reason": "Low gold"
+      },
+      {
+        "loadout": "survivor",
+        "luckyNumber": 0,
+        "finalGold": 933,
+        "finalScore": 2347,
+        "domainsCleared": 6,
+        "reason": "Low gold"
+      }
+    ]
+  },
+  "sampleResults": [
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7350,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        360,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        689,
+        1498,
+        1093,
+        1180,
+        1390,
+        1500
+      ],
+      "hpAtDomainEnd": [
+        460,
+        164,
+        44,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9640198412698413,
+      "totalLuckySynergyGold": 106
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7276,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        360,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        763,
+        1490,
+        1060,
+        1145,
+        1320,
+        1498
+      ],
+      "hpAtDomainEnd": [
+        453,
+        123,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9571494708994709,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 6596,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        212,
+        458,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        772,
+        983,
+        1106,
+        1281,
+        1483,
+        971
+      ],
+      "hpAtDomainEnd": [
+        453,
+        217,
+        83,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9481878306878309,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8593,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        484,
+        216,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        871,
+        1676,
+        1076,
+        1332,
+        1694,
+        1944
+      ],
+      "hpAtDomainEnd": [
+        460,
+        156,
+        54,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9663346560846562,
+      "totalLuckySynergyGold": 98
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7556,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        375,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        909,
+        1450,
+        1013,
+        1192,
+        1407,
+        1585
+      ],
+      "hpAtDomainEnd": [
+        471,
+        201,
+        90,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9788346560846564,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8589,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        447,
+        179,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        944,
+        1818,
+        992,
+        1248,
+        1843,
+        1744
+      ],
+      "hpAtDomainEnd": [
+        481,
+        202,
+        154,
+        32,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9756018518518519,
+      "totalLuckySynergyGold": 202
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 4,
+      "roomsCleared": 12,
+      "finalScore": 4907,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        410,
+        90,
+        474,
+        26
+      ],
+      "scorePerDomain": [
+        807,
+        549,
+        1099,
+        1392
+      ],
+      "hpAtDomainEnd": [
+        464,
+        339,
+        205,
+        12
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9498492063492063,
+      "totalLuckySynergyGold": 51
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7419,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        300,
+        53,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        890,
+        1533,
+        1154,
+        996,
+        1207,
+        1639
+      ],
+      "hpAtDomainEnd": [
+        471,
+        116,
+        41,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9756415343915344,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7079,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        300,
+        75,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        695,
+        1598,
+        1112,
+        1032,
+        1145,
+        1497
+      ],
+      "hpAtDomainEnd": [
+        471,
+        184,
+        82,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9762499999999998,
+      "totalLuckySynergyGold": 8
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7270,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        330,
+        45,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        784,
+        1461,
+        912,
+        1252,
+        1444,
+        1417
+      ],
+      "hpAtDomainEnd": [
+        464,
+        168,
+        93,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9656481481481483,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7022,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        663,
+        1518,
+        851,
+        1258,
+        1368,
+        1364
+      ],
+      "hpAtDomainEnd": [
+        481,
+        262,
+        196,
+        113,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.988361111111111,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6461,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        288,
+        330,
+        8,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        663,
+        1442,
+        882,
+        1033,
+        1403,
+        1038
+      ],
+      "hpAtDomainEnd": [
+        460,
+        130,
+        32,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.963686507936508,
+      "totalLuckySynergyGold": 109
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7252,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        380,
+        300,
+        20,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        747,
+        1533,
+        883,
+        1025,
+        1445,
+        1619
+      ],
+      "hpAtDomainEnd": [
+        478,
+        250,
+        175,
+        48,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9810000000000001,
+      "totalLuckySynergyGold": 77
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6865,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        676,
+        1477,
+        879,
+        981,
+        1345,
+        1507
+      ],
+      "hpAtDomainEnd": [
+        460,
+        88,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9599193121693121,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8703,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        341,
+        249,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        973,
+        1780,
+        1269,
+        1362,
+        1611,
+        1708
+      ],
+      "hpAtDomainEnd": [
+        464,
+        143,
+        54,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9669920634920636,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 7167,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        660,
+        1637,
+        876,
+        1302,
+        929,
+        1763
+      ],
+      "hpAtDomainEnd": [
+        460,
+        122,
+        29,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9643174603174605,
+      "totalLuckySynergyGold": 29
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7373,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        360,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        750,
+        1620,
+        982,
+        1168,
+        1437,
+        1416
+      ],
+      "hpAtDomainEnd": [
+        460,
+        164,
+        53,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9671574074074072,
+      "totalLuckySynergyGold": 106
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8099,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        1167,
+        1611,
+        1033,
+        1115,
+        1349,
+        1824
+      ],
+      "hpAtDomainEnd": [
+        464,
+        287,
+        234,
+        140,
+        14,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9881018518518521,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 6897,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        669,
+        1627,
+        1116,
+        1291,
+        1067,
+        1127
+      ],
+      "hpAtDomainEnd": [
+        478,
+        140,
+        15,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.954585978835979,
+      "totalLuckySynergyGold": 29
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8247,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        661,
+        1848,
+        925,
+        1304,
+        1587,
+        1922
+      ],
+      "hpAtDomainEnd": [
+        467,
+        154,
+        56,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9639378306878308,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 6218,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        671,
+        1485,
+        845,
+        1173,
+        1562,
+        482
+      ],
+      "hpAtDomainEnd": [
+        460,
+        62,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9464484126984127,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 5,
+      "roomsCleared": 15,
+      "finalScore": 6543,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        506,
+        153,
+        341,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        820,
+        1114,
+        1083,
+        1445,
+        988
+      ],
+      "hpAtDomainEnd": [
+        443,
+        190,
+        65,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9382103174603174,
+      "totalLuckySynergyGold": 135
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8021,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        484,
+        216,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        928,
+        1685,
+        1048,
+        1238,
+        1359,
+        1763
+      ],
+      "hpAtDomainEnd": [
+        471,
+        201,
+        103,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9761296296296295,
+      "totalLuckySynergyGold": 98
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7344,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        660,
+        1691,
+        1069,
+        1161,
+        1312,
+        1451
+      ],
+      "hpAtDomainEnd": [
+        471,
+        116,
+        23,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9690396825396825,
+      "totalLuckySynergyGold": 29
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 6213,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        645,
+        1499,
+        962,
+        1111,
+        1500,
+        496
+      ],
+      "hpAtDomainEnd": [
+        471,
+        124,
+        13,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9540502645502646,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7303,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        288,
+        338,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        738,
+        1452,
+        974,
+        1288,
+        1372,
+        1479
+      ],
+      "hpAtDomainEnd": [
+        453,
+        98,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9608359788359788,
+      "totalLuckySynergyGold": 109
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6807,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        330,
+        45,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        768,
+        1419,
+        1007,
+        1057,
+        1258,
+        1298
+      ],
+      "hpAtDomainEnd": [
+        460,
+        139,
+        37,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9733716931216931,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6789,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        380,
+        300,
+        20,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        748,
+        1410,
+        965,
+        1074,
+        1201,
+        1391
+      ],
+      "hpAtDomainEnd": [
+        460,
+        215,
+        140,
+        2,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9871388888888889,
+      "totalLuckySynergyGold": 77
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 5,
+      "roomsCleared": 15,
+      "finalScore": 6702,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        506,
+        45,
+        449,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        825,
+        506,
+        1072,
+        1509,
+        1703
+      ],
+      "hpAtDomainEnd": [
+        453,
+        311,
+        168,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9343584656084656,
+      "totalLuckySynergyGold": 145
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6609,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        451,
+        114,
+        360,
+        75,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        830,
+        973,
+        939,
+        1081,
+        1315,
+        1471
+      ],
+      "hpAtDomainEnd": [
+        443,
+        241,
+        130,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9562513227513227,
+      "totalLuckySynergyGold": 44
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8014,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        438,
+        262,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        761,
+        1665,
+        1146,
+        1144,
+        1619,
+        1679
+      ],
+      "hpAtDomainEnd": [
+        471,
+        184,
+        86,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9721388888888891,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 7996,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        306,
+        284,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        956,
+        1199,
+        1366,
+        1567,
+        1721,
+        1187
+      ],
+      "hpAtDomainEnd": [
+        453,
+        192,
+        63,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9521917989417992,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7057,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        709,
+        1469,
+        889,
+        1218,
+        1367,
+        1405
+      ],
+      "hpAtDomainEnd": [
+        460,
+        105,
+        16,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9597619047619048,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 7003,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        135,
+        396,
+        59,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        828,
+        995,
+        1077,
+        1150,
+        1484,
+        1469
+      ],
+      "hpAtDomainEnd": [
+        450,
+        248,
+        141,
+        8,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9623902116402117,
+      "totalLuckySynergyGold": 51
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 5,
+      "roomsCleared": 15,
+      "finalScore": 6116,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        451,
+        69,
+        432,
+        48,
+        0
+      ],
+      "scorePerDomain": [
+        854,
+        473,
+        1114,
+        1279,
+        1413
+      ],
+      "hpAtDomainEnd": [
+        453,
+        311,
+        168,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9454497354497354,
+      "totalLuckySynergyGold": 44
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7714,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        380,
+        320,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        720,
+        1717,
+        985,
+        1147,
+        1398,
+        1747
+      ],
+      "hpAtDomainEnd": [
+        488,
+        175,
+        73,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9738240740740741,
+      "totalLuckySynergyGold": 77
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8975,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        447,
+        179,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        796,
+        1630,
+        1396,
+        1308,
+        1906,
+        1939
+      ],
+      "hpAtDomainEnd": [
+        488,
+        243,
+        159,
+        48,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9748082010582012,
+      "totalLuckySynergyGold": 202
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7712,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        380,
+        320,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        776,
+        1567,
+        1117,
+        1238,
+        1298,
+        1716
+      ],
+      "hpAtDomainEnd": [
+        495,
+        259,
+        188,
+        66,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9803425925925929,
+      "totalLuckySynergyGold": 77
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 4,
+      "roomsCleared": 12,
+      "finalScore": 5252,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        451,
+        69,
+        480,
+        0
+      ],
+      "scorePerDomain": [
+        959,
+        523,
+        1357,
+        1492
+      ],
+      "hpAtDomainEnd": [
+        453,
+        311,
+        123,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9368015873015874,
+      "totalLuckySynergyGold": 44
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6953,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        330,
+        45,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        707,
+        1473,
+        894,
+        1125,
+        1300,
+        1454
+      ],
+      "hpAtDomainEnd": [
+        460,
+        122,
+        47,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9681772486772486,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7893,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        438,
+        262,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        674,
+        1732,
+        1199,
+        1170,
+        1391,
+        1727
+      ],
+      "hpAtDomainEnd": [
+        471,
+        286,
+        197,
+        64,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9814814814814817,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6983,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        776,
+        1526,
+        933,
+        1025,
+        1174,
+        1549
+      ],
+      "hpAtDomainEnd": [
+        460,
+        88,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9608915343915346,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8082,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        315,
+        275,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        808,
+        1673,
+        903,
+        1290,
+        1575,
+        1833
+      ],
+      "hpAtDomainEnd": [
+        471,
+        141,
+        43,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9607632275132274,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 7950,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        414,
+        176,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        900,
+        2060,
+        1303,
+        1478,
+        1677,
+        532
+      ],
+      "hpAtDomainEnd": [
+        450,
+        137,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9425886243386243,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6961,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        212,
+        360,
+        98,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        704,
+        995,
+        915,
+        1141,
+        1480,
+        1726
+      ],
+      "hpAtDomainEnd": [
+        460,
+        224,
+        113,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.950154761904762,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7818,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        506,
+        337,
+        157,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        800,
+        1809,
+        1030,
+        1252,
+        1297,
+        1630
+      ],
+      "hpAtDomainEnd": [
+        481,
+        287,
+        221,
+        94,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9833981481481483,
+      "totalLuckySynergyGold": 203
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7256,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        300,
+        53,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        806,
+        1532,
+        1078,
+        984,
+        1272,
+        1584
+      ],
+      "hpAtDomainEnd": [
+        443,
+        190,
+        74,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9696309523809524,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7036,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        300,
+        53,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        742,
+        1524,
+        1058,
+        1185,
+        1179,
+        1348
+      ],
+      "hpAtDomainEnd": [
+        474,
+        187,
+        85,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9850291005291005,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 5,
+      "roomsCleared": 14,
+      "finalScore": 5687,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        451,
+        294,
+        255,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        820,
+        1660,
+        942,
+        1320,
+        401
+      ],
+      "hpAtDomainEnd": [
+        446,
+        31,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9435252100840337,
+      "totalLuckySynergyGold": 44
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6797,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        451,
+        114,
+        435,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        885,
+        955,
+        955,
+        1248,
+        1319,
+        1435
+      ],
+      "hpAtDomainEnd": [
+        453,
+        234,
+        136,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9616137566137568,
+      "totalLuckySynergyGold": 131
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8879,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        484,
+        216,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        833,
+        1938,
+        1093,
+        1518,
+        1524,
+        1973
+      ],
+      "hpAtDomainEnd": [
+        467,
+        188,
+        99,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9751018518518522,
+      "totalLuckySynergyGold": 98
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6567,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        288,
+        330,
+        8,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        767,
+        1480,
+        874,
+        932,
+        1176,
+        1338
+      ],
+      "hpAtDomainEnd": [
+        460,
+        105,
+        3,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9666587301587302,
+      "totalLuckySynergyGold": 109
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8060,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        664,
+        1519,
+        1020,
+        1332,
+        1528,
+        1997
+      ],
+      "hpAtDomainEnd": [
+        471,
+        133,
+        80,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9695952380952382,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 7739,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        771,
+        1729,
+        1197,
+        1290,
+        1454,
+        1298
+      ],
+      "hpAtDomainEnd": [
+        460,
+        122,
+        20,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9622645502645505,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8714,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        341,
+        249,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        838,
+        1661,
+        1243,
+        1414,
+        1602,
+        1956
+      ],
+      "hpAtDomainEnd": [
+        471,
+        158,
+        65,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9633359788359789,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8656,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        382,
+        208,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        1189,
+        1730,
+        1091,
+        1429,
+        1579,
+        1638
+      ],
+      "hpAtDomainEnd": [
+        471,
+        192,
+        112,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9762592592592593,
+      "totalLuckySynergyGold": 78
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 7029,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        157,
+        360,
+        73,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        797,
+        1077,
+        1157,
+        1129,
+        1393,
+        1476
+      ],
+      "hpAtDomainEnd": [
+        478,
+        310,
+        244,
+        111,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.978287037037037,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6728,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        392,
+        278,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        648,
+        1664,
+        970,
+        1139,
+        1330,
+        977
+      ],
+      "hpAtDomainEnd": [
+        460,
+        45,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9518280423280425,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 4,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8526,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        683,
+        1790,
+        972,
+        1339,
+        1815,
+        1927
+      ],
+      "hpAtDomainEnd": [
+        460,
+        96,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9644272486772487,
+      "totalLuckySynergyGold": 0
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7284,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        820,
+        1536,
+        980,
+        1060,
+        1340,
+        1548
+      ],
+      "hpAtDomainEnd": [
+        474,
+        221,
+        132,
+        27,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9819537037037036,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7868,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        392,
+        278,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        733,
+        1673,
+        1091,
+        1164,
+        1478,
+        1729
+      ],
+      "hpAtDomainEnd": [
+        453,
+        98,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9613452380952382,
+      "totalLuckySynergyGold": 89
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 7161,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        317,
+        383,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        727,
+        1188,
+        1316,
+        1367,
+        1543,
+        1020
+      ],
+      "hpAtDomainEnd": [
+        460,
+        139,
+        37,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9548928571428572,
+      "totalLuckySynergyGold": 37
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6530,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        717,
+        1449,
+        891,
+        995,
+        1142,
+        1336
+      ],
+      "hpAtDomainEnd": [
+        450,
+        112,
+        14,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9670026455026455,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 6986,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        90,
+        474,
+        26,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        852,
+        477,
+        1160,
+        1272,
+        1507,
+        1718
+      ],
+      "hpAtDomainEnd": [
+        443,
+        335,
+        224,
+        47,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9635105820105822,
+      "totalLuckySynergyGold": 51
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 7461,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        451,
+        114,
+        435,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        815,
+        1071,
+        1091,
+        1295,
+        1571,
+        1618
+      ],
+      "hpAtDomainEnd": [
+        453,
+        251,
+        135,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9557804232804232,
+      "totalLuckySynergyGold": 131
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 7101,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        288,
+        338,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        735,
+        1493,
+        1017,
+        1557,
+        1754,
+        545
+      ],
+      "hpAtDomainEnd": [
+        460,
+        122,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9475793650793651,
+      "totalLuckySynergyGold": 109
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7630,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        910,
+        1715,
+        848,
+        1248,
+        1467,
+        1442
+      ],
+      "hpAtDomainEnd": [
+        471,
+        175,
+        118,
+        24,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9817222222222224,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6931,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        353,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        752,
+        1482,
+        1038,
+        1241,
+        1454,
+        964
+      ],
+      "hpAtDomainEnd": [
+        478,
+        148,
+        73,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9690000000000002,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 5,
+      "roomsCleared": 14,
+      "finalScore": 6249,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        451,
+        294,
+        255,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        846,
+        1729,
+        1187,
+        1506,
+        981
+      ],
+      "hpAtDomainEnd": [
+        443,
+        28,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9365364145658263,
+      "totalLuckySynergyGold": 44
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6934,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        451,
+        114,
+        360,
+        75,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        834,
+        1002,
+        1072,
+        1170,
+        1328,
+        1528
+      ],
+      "hpAtDomainEnd": [
+        443,
+        224,
+        113,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9523994708994709,
+      "totalLuckySynergyGold": 44
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7639,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        288,
+        338,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        717,
+        1489,
+        1080,
+        1210,
+        1516,
+        1627
+      ],
+      "hpAtDomainEnd": [
+        460,
+        139,
+        19,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9555317460317462,
+      "totalLuckySynergyGold": 109
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8156,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        658,
+        1629,
+        1067,
+        1276,
+        1620,
+        1906
+      ],
+      "hpAtDomainEnd": [
+        460,
+        130,
+        19,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9600291005291006,
+      "totalLuckySynergyGold": 29
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 9260,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        341,
+        249,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        935,
+        1724,
+        1215,
+        1591,
+        1780,
+        2015
+      ],
+      "hpAtDomainEnd": [
+        471,
+        167,
+        56,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9577791005291005,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8267,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        341,
+        249,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        994,
+        1790,
+        1031,
+        1207,
+        1499,
+        1746
+      ],
+      "hpAtDomainEnd": [
+        464,
+        143,
+        63,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9745568783068782,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7366,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        330,
+        45,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        841,
+        1492,
+        961,
+        1175,
+        1439,
+        1458
+      ],
+      "hpAtDomainEnd": [
+        471,
+        192,
+        126,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9803796296296297,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 5,
+      "roomsCleared": 14,
+      "finalScore": 6362,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        506,
+        45,
+        449,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        771,
+        464,
+        1314,
+        1525,
+        1653
+      ],
+      "hpAtDomainEnd": [
+        464,
+        339,
+        174,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.942780112044818,
+      "totalLuckySynergyGold": 145
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7549,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        300,
+        53,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        649,
+        1667,
+        996,
+        1165,
+        1388,
+        1684
+      ],
+      "hpAtDomainEnd": [
+        460,
+        224,
+        122,
+        28,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9823161375661377,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8902,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        438,
+        262,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        718,
+        1776,
+        1191,
+        1491,
+        1671,
+        2055
+      ],
+      "hpAtDomainEnd": [
+        495,
+        148,
+        55,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9683624338624343,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 9327,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        506,
+        337,
+        157,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        946,
+        1812,
+        1254,
+        1580,
+        1726,
+        2009
+      ],
+      "hpAtDomainEnd": [
+        471,
+        243,
+        150,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9745291005291007,
+      "totalLuckySynergyGold": 203
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7420,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        300,
+        53,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        692,
+        1478,
+        998,
+        1159,
+        1518,
+        1575
+      ],
+      "hpAtDomainEnd": [
+        460,
+        181,
+        97,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9780833333333333,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 5,
+      "roomsCleared": 15,
+      "finalScore": 6610,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        451,
+        294,
+        255,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        833,
+        1586,
+        1118,
+        1497,
+        1020
+      ],
+      "hpAtDomainEnd": [
+        457,
+        93,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9480846560846561,
+      "totalLuckySynergyGold": 95
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6782,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        330,
+        45,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        671,
+        1442,
+        982,
+        1091,
+        1240,
+        1356
+      ],
+      "hpAtDomainEnd": [
+        471,
+        192,
+        108,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9770092592592593,
+      "totalLuckySynergyGold": 42
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 6881,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        451,
+        114,
+        435,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        796,
+        1016,
+        1022,
+        1243,
+        1293,
+        1511
+      ],
+      "hpAtDomainEnd": [
+        471,
+        286,
+        193,
+        44,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.966021164021164,
+      "totalLuckySynergyGold": 131
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7597,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        392,
+        278,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        698,
+        1715,
+        1041,
+        1194,
+        1248,
+        1701
+      ],
+      "hpAtDomainEnd": [
+        450,
+        95,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9601706349206347,
+      "totalLuckySynergyGold": 89
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 5,
+      "roomsCleared": 15,
+      "finalScore": 6548,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        300,
+        325,
+        375,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        733,
+        1664,
+        1130,
+        1458,
+        1031
+      ],
+      "hpAtDomainEnd": [
+        467,
+        163,
+        43,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9565859788359791,
+      "totalLuckySynergyGold": 37
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7397,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        995,
+        1561,
+        872,
+        1154,
+        1387,
+        1428
+      ],
+      "hpAtDomainEnd": [
+        471,
+        260,
+        176,
+        109,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.986712962962963,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8144,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        506,
+        337,
+        157,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        957,
+        1852,
+        1002,
+        1299,
+        1387,
+        1647
+      ],
+      "hpAtDomainEnd": [
+        481,
+        211,
+        154,
+        43,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9841031746031746,
+      "totalLuckySynergyGold": 203
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 7,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 8694,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        374,
+        343,
+        283,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        999,
+        1558,
+        1128,
+        1463,
+        1480,
+        2066
+      ],
+      "hpAtDomainEnd": [
+        467,
+        205,
+        116,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9724272486772487,
+      "totalLuckySynergyGold": 204
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 5,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 6990,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        347,
+        300,
+        53,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        803,
+        1489,
+        949,
+        1006,
+        1215,
+        1528
+      ],
+      "hpAtDomainEnd": [
+        478,
+        191,
+        120,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9743240740740742,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7632,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        360,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        730,
+        1523,
+        939,
+        1309,
+        1454,
+        1677
+      ],
+      "hpAtDomainEnd": [
+        460,
+        122,
+        2,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9498174603174603,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7592,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        360,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        797,
+        1456,
+        960,
+        1246,
+        1454,
+        1679
+      ],
+      "hpAtDomainEnd": [
+        471,
+        116,
+        5,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9573174603174603,
+      "totalLuckySynergyGold": 107
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 9075,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        506,
+        84,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        852,
+        1937,
+        1064,
+        1715,
+        1739,
+        1768
+      ],
+      "hpAtDomainEnd": [
+        471,
+        167,
+        92,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9766865079365079,
+      "totalLuckySynergyGold": 102
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7700,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        310,
+        300,
+        60,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        753,
+        1469,
+        931,
+        1250,
+        1534,
+        1763
+      ],
+      "hpAtDomainEnd": [
+        460,
+        105,
+        7,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.953366402116402,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7836,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        392,
+        278,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        645,
+        1604,
+        978,
+        1353,
+        1613,
+        1643
+      ],
+      "hpAtDomainEnd": [
+        467,
+        103,
+        19,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.956973544973545,
+      "totalLuckySynergyGold": 89
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 0,
+      "domainsCleared": 5,
+      "roomsCleared": 14,
+      "finalScore": 5975,
+      "finalGold": 1000,
+      "deaths": 3,
+      "victory": false,
+      "goldPerDomain": [
+        330,
+        392,
+        278,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        720,
+        1621,
+        1191,
+        1300,
+        1143
+      ],
+      "hpAtDomainEnd": [
+        460,
+        79,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9467605042016807,
+      "totalLuckySynergyGold": 33
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 6,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 9100,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        410,
+        506,
+        84,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        999,
+        1969,
+        1108,
+        1382,
+        1792,
+        1850
+      ],
+      "hpAtDomainEnd": [
+        467,
+        129,
+        49,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9713915343915345,
+      "totalLuckySynergyGold": 102
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 16,
+      "finalScore": 7498,
+      "finalGold": 1000,
+      "deaths": 2,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        407,
+        293,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        764,
+        1795,
+        1103,
+        1611,
+        1030,
+        1195
+      ],
+      "hpAtDomainEnd": [
+        464,
+        160,
+        49,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9585568783068784,
+      "totalLuckySynergyGold": 29
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 1,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7831,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        506,
+        270,
+        224,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        838,
+        1603,
+        923,
+        1209,
+        1529,
+        1729
+      ],
+      "hpAtDomainEnd": [
+        453,
+        55,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9528095238095238,
+      "totalLuckySynergyGold": 125
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 2,
+      "domainsCleared": 6,
+      "roomsCleared": 17,
+      "finalScore": 7536,
+      "finalGold": 1000,
+      "deaths": 1,
+      "victory": true,
+      "goldPerDomain": [
+        330,
+        392,
+        278,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        725,
+        1740,
+        1002,
+        1254,
+        1708,
+        1107
+      ],
+      "hpAtDomainEnd": [
+        453,
+        98,
+        0,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9514933862433863,
+      "totalLuckySynergyGold": 89
+    },
+    {
+      "loadoutId": "warrior",
+      "luckyNumber": 3,
+      "domainsCleared": 6,
+      "roomsCleared": 18,
+      "finalScore": 7638,
+      "finalGold": 1000,
+      "deaths": 0,
+      "victory": true,
+      "goldPerDomain": [
+        300,
+        325,
+        375,
+        0,
+        0,
+        0
+      ],
+      "scorePerDomain": [
+        638,
+        1486,
+        972,
+        1340,
+        1521,
+        1681
+      ],
+      "hpAtDomainEnd": [
+        467,
+        180,
+        73,
+        0,
+        0,
+        0
+      ],
+      "highestTier": 5,
+      "avgTimePressure": 0.9625291005291005,
+      "totalLuckySynergyGold": 37
+    }
+  ]
+}

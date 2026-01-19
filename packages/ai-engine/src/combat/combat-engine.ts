@@ -15,6 +15,7 @@ import {
 import {
   TIMER_CONFIG,
   SCORE_CONFIG,
+  COMBAT_CAPS,
   getTimePressureMultiplier,
   isInGracePeriod,
   getEarlyFinishBonus,
@@ -611,8 +612,11 @@ export class CombatEngine {
     this.state.hand = hand;
     this.state.pool = pool;
 
-    // Add traded dice count to multiplier
-    this.state.multiplier += unheldCount;
+    // Add traded dice count to multiplier (capped at maxMultiplier)
+    this.state.multiplier = Math.min(
+      COMBAT_CAPS.maxMultiplier,
+      this.state.multiplier + unheldCount
+    );
 
     // Check if player is out of throws (trades can't help score)
     if (this.state.throwsRemaining <= 0) {

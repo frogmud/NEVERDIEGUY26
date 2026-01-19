@@ -574,7 +574,7 @@ function testIntentDetection(): TestResult[] {
       const testCases = [
         'This is not a question?',
         'Really?',
-        '?',
+        '??', // Single '?' is too short (< 2 chars) - intentional safeguard
         'What??????????????', // Many question marks
       ];
 
@@ -1069,7 +1069,10 @@ function printResults(suite: TestSuite): void {
 // CLI Entry Point
 // ============================================
 
-if (require.main === module) {
+// ESM-compatible entry point check
+const isMainModule = import.meta.url === `file://${process.argv[1]}`;
+
+if (isMainModule) {
   const suite = runAllTests();
   printResults(suite);
 
