@@ -437,80 +437,13 @@ function runReducer(state: RunState, action: RunAction): RunState {
 
     case 'COMPLETE_TRANSITION': {
       // Wipe completed - swap to pending panel and reset transition state
+      // Victory data already applied in TRANSITION_TO_PANEL - no duplicate application
       const newState = {
         ...state,
         centerPanel: state.pendingPanel || state.centerPanel,
         transitionPhase: 'idle' as const,
         pendingPanel: null,
       };
-
-      // If transitioning to portals or summary with pending victory, apply it atomically
-      // This prevents the double-render flicker (component gets all data in one render)
-      if ((state.pendingPanel === 'portals' || state.pendingPanel === 'summary') && state.pendingVictory) {
-        // Mark zone as cleared in domain state
-        const updatedDomainState = state.domainState && state.selectedZone
-          ? {
-              ...state.domainState,
-              zones: state.domainState.zones.map((z) =>
-                z.id === state.selectedZone?.id ? { ...z, cleared: true } : z
-              ),
-              clearedCount: state.domainState.clearedCount + 1,
-            }
-          : state.domainState;
-
-        // Calculate early finish bonus
-        const turnsRemaining = state.pendingVictory.turnsRemaining;
-        const bonusMultiplier = getEarlyFinishBonus(turnsRemaining);
-        const baseGold = state.pendingVictory.gold;
-        const totalGold = Math.floor(baseGold * bonusMultiplier);
-        const bonusGold = totalGold - baseGold;
-
-        // Store bonus info for UI (only if there's a bonus)
-        const roomBonus: RoomBonus | null = turnsRemaining > 0 ? {
-          turnsRemaining,
-          bonusMultiplier,
-          bonusGold,
-        } : null;
-
-        // Calculate event time for performance stats
-        const eventTimeMs = state.eventStartTime > 0 ? Date.now() - state.eventStartTime : 0;
-        const newEventTimes = [...(state.runStats.eventTimesMs || []), eventTimeMs];
-        const avgEventTimeMs = newEventTimes.length > 0
-          ? Math.round(newEventTimes.reduce((a, b) => a + b, 0) / newEventTimes.length)
-          : 0;
-        const fastestEventMs = newEventTimes.length > 0
-          ? Math.min(...newEventTimes.filter(t => t > 0))
-          : 0;
-
-        // Update best roll if this event had a better one
-        const bestThrowScore = state.pendingVictory.bestThrowScore || 0;
-        const newBestRoll = Math.max(state.runStats.bestRoll || 0, bestThrowScore);
-
-        return {
-          ...newState,
-          domainState: updatedDomainState,
-          selectedZone: null,
-          lastRoomScore: state.pendingVictory.score,
-          lastRoomGold: totalGold,
-          lastRoomBonus: roomBonus,
-          totalScore: state.totalScore + state.pendingVictory.score,
-          gold: state.gold + calculateGoldGain(totalGold, state.gold),
-          pendingVictory: null,
-          runStats: {
-            ...state.runStats,
-            npcsSquished: state.runStats.npcsSquished + state.pendingVictory.stats.npcsSquished,
-            diceThrown: state.runStats.diceThrown + state.pendingVictory.stats.diceThrown,
-            eventsCompleted: state.runStats.eventsCompleted + 1,
-            // Timing stats
-            totalTimeMs: state.runStartTime > 0 ? Date.now() - state.runStartTime : 0,
-            avgEventTimeMs,
-            fastestEventMs: fastestEventMs > 0 ? fastestEventMs : 0,
-            eventTimesMs: newEventTimes,
-            // Best roll
-            bestRoll: newBestRoll,
-          },
-        };
-      }
 
       return newState;
     }
@@ -787,6 +720,12 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
 
     case 'PURCHASE': {
+      // Validate gold before purchase
+      if (state.gold < action.cost) {
+        console.warn('Purchase attempted with insufficient gold');
+        return state;
+      }
+
       const shopBuyEvent = createShopBuyEvent(action.itemId, action.cost, state.tier);
       const newInventory = { ...state.inventory };
 
@@ -1108,6 +1047,16 @@ function runReducer(state: RunState, action: RunAction): RunState {
         ...state,
         activeEnemyEncounter: null,
         enemyEncounterIndex: state.enemyEncounterIndex + 1,
+      };
+    }
+
+    case 'COMPLETE_FLUME_TRANSITION': {
+      // Flume animation completed - clear flume state
+      // Domain transition should already be applied when flume started
+      return {
+        ...state,
+        showingFlume: false,
+        flumeToDomain: null,
       };
     }
 
