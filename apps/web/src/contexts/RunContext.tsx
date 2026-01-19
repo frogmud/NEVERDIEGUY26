@@ -28,6 +28,8 @@ import {
   saveHeatData,
   incrementHeat,
   resetHeat,
+  loadCorruptionData,
+  saveCorruptionData,
   type SavedRunState,
 } from '../data/player/storage';
 import {
@@ -185,6 +187,8 @@ export interface RunState extends Omit<GameState, 'currentEncounter'> {
   activeEnemyEncounter: EnemyEncounter | null;  // Active encounter during flume
   enemyEncounterIndex: number;                   // Counter for seeded encounter generation
   enemyEncounterResults: EncounterResult[];      // History of encounter outcomes this run
+  // Corruption system (0-100, affects Trinity encounter chance)
+  corruption: number;
 }
 
 // Run context value
@@ -334,6 +338,8 @@ function createInitialRunState(): RunState {
     activeEnemyEncounter: null,
     enemyEncounterIndex: 0,
     enemyEncounterResults: [],
+    // Corruption system
+    corruption: 0,
   };
 }
 
@@ -523,6 +529,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
       const loadoutStats: LoadoutStats = loadout?.statBonus || {};
       // Load heat from storage (persistent streak)
       const heatData = loadHeatData();
+      // Load corruption from storage (persistent across runs)
+      const corruptionData = loadCorruptionData();
       return {
         ...initialState,
         centerPanel: 'globe',
@@ -552,6 +560,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         diceBag: createDiceBag(action.threadId, DEFAULT_STARTING_DICE),
         // Heat system - load current streak
         heat: heatData.currentHeat,
+        // Corruption system - load from homepage
+        corruption: corruptionData.level,
       };
     }
 
@@ -597,6 +607,13 @@ function runReducer(state: RunState, action: RunAction): RunState {
       // Reset heat on death (streak broken)
       if (!action.won && !state.practiceMode) {
         saveHeatData(resetHeat(loadHeatData()));
+      }
+      // Persist corruption to storage (carries over to next run)
+      if (!state.practiceMode) {
+        saveCorruptionData({
+          level: state.corruption,
+          updatedAt: Date.now(),
+        });
       }
       return {
         ...state,
@@ -646,6 +663,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
           ...saved.runStats,
         },
         scars: saved.scars ?? 0,  // Restore scar count (default 0 for old saves)
+        corruption: saved.corruption ?? 0,  // Restore corruption (default 0 for old saves)
       };
     }
 
@@ -1059,7 +1077,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       for (const effect of action.result.effects) {
         switch (effect.type) {
           case 'corruption':
-            // Corruption is tracked elsewhere but we can increment here
+            newState.corruption = Math.min(100, (newState.corruption || 0) + effect.value);
             break;
           case 'grit':
             newState.loadoutStats = {
@@ -1399,7 +1417,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
       encounterIndex: state.enemyEncounterIndex,
       currentDomain: state.currentDomain || 1,
       playerHealth: state.hp,
-      corruption: 0, // TODO: integrate with corruption system
+      corruption: state.corruption,
       deathCount: state.scars,
       grit: state.loadoutStats.grit || 0,
       favorStates: {}, // TODO: integrate with favor system
@@ -1408,7 +1426,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
 
     const encounter = generateEncounter(encounterCtx);
     dispatch({ type: 'TRIGGER_ENCOUNTER', encounter });
-  }, [state.threadId, state.enemyEncounterIndex, state.currentDomain, state.hp, state.scars, state.loadoutStats.grit]);
+  }, [state.threadId, state.enemyEncounterIndex, state.currentDomain, state.hp, state.corruption, state.scars, state.loadoutStats.grit]);
 
   const completeEncounter = useCallback((result: EncounterResult) => {
     dispatch({ type: 'COMPLETE_ENCOUNTER', result });
@@ -1463,11 +1481,12 @@ export function RunProvider({ children }: { children: ReactNode }) {
         purchases: state.runStats.purchases,
       },
       scars: state.scars,
+      corruption: state.corruption,
       savedAt: Date.now(),
     };
 
     saveRunState(runState);
-  }, [state.phase, state.threadId, state.currentDomain, state.roomNumber, state.gold, state.totalScore, state.tier, state.centerPanel, state.domainState, state.selectedZone, state.inventory, state.runStats, state.scars]);
+  }, [state.phase, state.threadId, state.currentDomain, state.roomNumber, state.gold, state.totalScore, state.tier, state.centerPanel, state.domainState, state.selectedZone, state.inventory, state.runStats, state.scars, state.corruption]);
 
   const value = useMemo<RunContextValue>(() => ({
     state,

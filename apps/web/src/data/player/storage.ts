@@ -294,6 +294,8 @@ export interface SavedRunState {
   };
   // Scar system (4 scars = game over)
   scars: number;
+  // Corruption system (0-100)
+  corruption: number;
   savedAt: number;
 }
 
