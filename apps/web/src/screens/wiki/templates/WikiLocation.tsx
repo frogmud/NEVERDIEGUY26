@@ -71,11 +71,7 @@ interface DisplayConnectedArea {
   level: string;
 }
 
-const defaultConnectedAreas: DisplayConnectedArea[] = [
-  { slug: '', name: 'Frozen Pass', direction: 'North', level: '28-35' },
-  { slug: '', name: 'Shadow Valley', direction: 'East', level: '20-28' },
-  { slug: '', name: 'Crystal Cave', direction: 'Underground', level: '18-25' },
-];
+const defaultConnectedAreas: DisplayConnectedArea[] = [];
 
 // Dynamic section configuration based on available data
 const getLocationSections = (
@@ -164,10 +160,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
         sprite: wanderer?.sprites?.[0] || wanderer?.portrait || '',
       }];
     }
-    if (isDomain || isShop) {
-      return [];
-    }
-    return defaultNpcs.map(n => ({ ...n, slug: '', sprite: '' }));
+    return [];
   })();
 
   // Map enemies from domain.enemies slugs to real enemy entities
@@ -180,7 +173,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
       level: enemy?.level?.toString() || domainData.levelRange || '-',
       sprite: enemy?.sprites?.[0] || enemy?.image || '',
     };
-  }) || ((isDomain || isShop) ? [] : defaultEnemies.map(e => ({ ...e, slug: '', sprite: '' })));
+  }) || [];
 
   // Map items from domain.items or shop.inventory to real item entities, grouped by rarity
   const locationItems = (() => {
@@ -216,14 +209,6 @@ export function WikiLocation({ entity }: WikiLocationProps) {
       }
       itemsByRarity[item.rarity].push({ slug: item.slug, name: item.name });
     }
-  } else if (!isDomain && !isShop) {
-    // Use default for non-domain, non-shop pages
-    Object.assign(itemsByRarity, {
-      Common: defaultItemsByRarity.Common.map(name => ({ slug: '', name })),
-      Uncommon: defaultItemsByRarity.Uncommon.map(name => ({ slug: '', name })),
-      Rare: defaultItemsByRarity.Rare.map(name => ({ slug: '', name })),
-      Epic: defaultItemsByRarity.Epic.map(name => ({ slug: '', name })),
-    });
   }
 
   // Order rarities for display

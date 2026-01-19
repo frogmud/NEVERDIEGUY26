@@ -104,7 +104,7 @@ export function WikiItem({ entity }: WikiItemProps) {
     name: slugToName(m.source),
     location: m.location || '-',
     rate: m.rate || '-',
-  })) || defaultObtainMethods.map(m => ({ ...m, slug: '' }));
+  })) || [];
 
   // Additional entity-aware data
   const craftingRecipe = itemData?.craftingRecipe || null;

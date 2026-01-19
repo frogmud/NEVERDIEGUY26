@@ -259,7 +259,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       rarity: item?.rarity || d.rarity || 'Common',
       image: item?.image || '',
     };
-  }) || (isEnemy ? [] : defaultDrops.map(d => ({ ...d, slug: '', image: '' })));
+  }) || [];
 
   const locations = enemyData?.locations?.map(loc => {
     const domain = getEntity(loc) as Domain | undefined;
@@ -270,7 +270,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       level: domain?.levelRange || '-',
       image: domain?.image || '',
     };
-  }) || (isEnemy ? [] : defaultLocations.map(l => ({ ...l, slug: '', image: '' })));
+  }) || [];
 
   // Determine which sections have data
   const hasPhases = phases.length > 0;
