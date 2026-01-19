@@ -425,9 +425,9 @@ function testMemorySystem(): TestResult[] {
     }
   ));
 
-  // Test 2: Important events lost due to threshold
+  // Test 2: Important events (weight=5) now promoted (P1 fix)
   results.push(runTest(
-    'Important events (weight=5) not promoted',
+    'Important events (weight=5) now promoted',
     'Memory',
     () => {
       let memory = createDefaultMemory('threshold-test');
@@ -437,11 +437,12 @@ function testMemorySystem(): TestResult[] {
         timestamp: Date.now(),
         involvedNPCs: ['threshold-test'],
         details: 'Important conversation',
-        emotionalWeight: 5, // Just below threshold
+        emotionalWeight: 5, // Now meets threshold (P1 fix lowered from 6 to 5)
       });
 
-      if (memory.longTerm.length !== 0) {
-        return { expected: 0, actual: memory.longTerm.length };
+      // Weight=5 events should now be promoted to long-term memory
+      if (memory.longTerm.length !== 1) {
+        return { expected: 1, actual: memory.longTerm.length };
       }
     }
   ));

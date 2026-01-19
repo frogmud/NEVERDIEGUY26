@@ -14,7 +14,8 @@ import type { MemoryEvent, NPCMemory } from './types';
 const MAX_SHORT_TERM = 10;
 const MAX_LONG_TERM = 20;
 const TRAUMA_BOND_THRESHOLD = 30;
-const EMOTIONAL_WEIGHT_FOR_LONG_TERM = 6;
+// P1 FIX: Lowered from 6 to 5 so "bad trade" events (weight=5) are remembered
+const EMOTIONAL_WEIGHT_FOR_LONG_TERM = 5;
 
 // ============================================
 // Factory Functions
@@ -63,9 +64,11 @@ export function addMemoryEvent(
   }
 
   // Update trauma bonds
+  // P1 FIX: Deduplicate involvedNPCs to prevent duplicate NPCs doubling trauma bond increment
   let traumaBonds = { ...memory.traumaBonds };
   if (event.type === 'death' || event.type === 'witnessed_death' || event.type === 'conflict') {
-    for (const npcSlug of event.involvedNPCs) {
+    const uniqueNPCs = [...new Set(event.involvedNPCs)];
+    for (const npcSlug of uniqueNPCs) {
       if (npcSlug !== memory.slug) {
         traumaBonds[npcSlug] = (traumaBonds[npcSlug] || 0) + event.emotionalWeight;
       }

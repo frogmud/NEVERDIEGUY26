@@ -18,16 +18,34 @@ export interface SeededRng {
 }
 
 /**
- * Simple but effective hash function for seed generation
+ * Maximum seed length to prevent DoS attacks (P1 fix)
+ * 1M char seeds can block event loop 500ms+
+ */
+const MAX_SEED_LENGTH = 1000;
+
+/**
+ * FNV-1a hash function - better distribution, fewer collisions than djb2
+ * P1 FIX: Replaces simple hash to reduce 3-7% collision rate
  */
 function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
+  // DoS protection: truncate excessively long seeds
+  const safeSeed = str.length > MAX_SEED_LENGTH ? str.slice(0, MAX_SEED_LENGTH) : str;
+
+  const FNV_OFFSET_BASIS = 2166136261;
+  const FNV_PRIME = 16777619;
+
+  let hash = FNV_OFFSET_BASIS;
+
+  for (let i = 0; i < safeSeed.length; i++) {
+    hash ^= safeSeed.charCodeAt(i);
+    hash = Math.imul(hash, FNV_PRIME);
   }
-  return Math.abs(hash);
+
+  // Convert to unsigned 32-bit integer
+  hash = hash >>> 0;
+
+  // Ensure non-zero (edge case)
+  return hash === 0 ? 1 : hash;
 }
 
 /**

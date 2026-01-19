@@ -439,11 +439,14 @@ export function rollHandWithPity(
   });
 
   // Update pity counter
+  // P1 FIX: Only count pity when 3+ dice are thrown to prevent farming exploit
+  const thrownCount = newHand.filter(d => !d.isHeld && d.rollValue !== null).length;
+
   if (shouldApplyPity || hadHighRoll) {
     // Reset on pity consumption or natural high roll
     newPityState.consecutiveLowRolls = 0;
-  } else if (allLowRolls && newHand.some(d => !d.isHeld)) {
-    // Increment if all thrown dice were low
+  } else if (allLowRolls && thrownCount >= 3) {
+    // Increment only if 3+ thrown dice were all low (prevents hold-4-throw-1 farming)
     newPityState.consecutiveLowRolls++;
   }
 
