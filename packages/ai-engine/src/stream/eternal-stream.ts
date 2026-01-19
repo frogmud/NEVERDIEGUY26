@@ -59,8 +59,15 @@ export function generateDayStream(
   seed: string,
   domainSlug: string,
   count: number,
-  config: StreamConfig = DEFAULT_STREAM_CONFIG
+  config: StreamConfig = DEFAULT_STREAM_CONFIG,
+  _recursionDepth: number = 0 // P0-005 FIX: Track recursion depth
 ): StreamEntry[] {
+  // P0-005 FIX: Prevent infinite recursion if 'earth' domain is also missing
+  if (_recursionDepth > 2) {
+    console.error(`[generateDayStream] Max recursion depth reached for domain: ${domainSlug}`);
+    return [];
+  }
+
   // Create deterministic RNG from seed + domain
   const streamSeed = `eternal:${seed}:${domainSlug}`;
   const rng = createSeededRng(streamSeed);
@@ -68,8 +75,9 @@ export function generateDayStream(
   // Get domain context
   const domain = getDomainContext(domainSlug);
   if (!domain) {
-    // Fallback to earth if domain not found
-    return generateDayStream(seed, 'earth', count, config);
+    // Fallback to earth if domain not found (with recursion guard)
+    console.warn(`[generateDayStream] Invalid domain: ${domainSlug}, falling back to earth`);
+    return generateDayStream(seed, 'earth', count, config, _recursionDepth + 1);
   }
 
   // Get active NPCs for this domain

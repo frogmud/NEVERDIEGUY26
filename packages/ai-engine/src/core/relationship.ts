@@ -69,8 +69,11 @@ export function modifyStat(
   sourceNPC: string,
   reason: string
 ): { relationship: NPCRelationship; change: ObservedStatChange } {
-  const previousValue = relationship.stats[stat];
-  const newValue = clampStat(stat, previousValue + change);
+  // P0-006 FIX: Guard against null/NaN values
+  const rawPreviousValue = relationship.stats[stat];
+  const previousValue = Number.isFinite(rawPreviousValue) ? rawPreviousValue : 0;
+  const validChange = Number.isFinite(change) ? change : 0;
+  const newValue = clampStat(stat, previousValue + validChange);
   const actualChange = newValue - previousValue;
 
   const observedChange: ObservedStatChange = {

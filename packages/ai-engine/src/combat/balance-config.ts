@@ -72,7 +72,8 @@ export function getTimePressureMultiplier(
   const decayTurns = turnNumber - config.graceTurns;
   const decay = decayTurns * config.decayPerTurn;
 
-  return Math.max(config.minMultiplier, 1.0 - decay);
+  // P0-003 FIX: Cap multiplier at 1.0 to prevent inflation from config corruption
+  return Math.min(1.0, Math.max(config.minMultiplier, 1.0 - decay));
 }
 
 /**

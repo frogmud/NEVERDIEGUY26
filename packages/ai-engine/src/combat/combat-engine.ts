@@ -253,6 +253,11 @@ export class CombatEngine {
   private listeners: Set<(state: CombatState) => void> = new Set();
 
   constructor(config: CombatConfig, rng: SeededRng) {
+    // P0-004 FIX: Validate domain ID (must be 1-6)
+    if (config.domainId < 1 || config.domainId > 6) {
+      throw new Error(`Invalid domain ID: ${config.domainId}. Must be 1-6.`);
+    }
+
     this.rng = rng;
     const fullConfig = { ...DEFAULT_CONFIG, ...config };
 
@@ -438,7 +443,8 @@ export class CombatEngine {
     // Apply turn-based time pressure multiplier
     scoreGain = Math.round(scoreGain * this.state.timePressureMultiplier);
 
-    this.state.currentScore += scoreGain;
+    // P0-001 FIX: Prevent negative scores from friendly fire penalties
+    this.state.currentScore = Math.max(0, this.state.currentScore + scoreGain);
 
     this.setPhase('throw');
 
@@ -554,16 +560,21 @@ export class CombatEngine {
       this.state.roomType
     );
 
-    // Discard and draw
+    // P0-002 FIX: Recycle exhausted pool BEFORE drawing to ensure full hand
+    const heldCount = this.state.hand.filter(d => d.isHeld).length;
+    const needed = MAX_HAND_SIZE - heldCount;
+    if (this.state.pool.available.length < needed) {
+      this.state.pool.available = this.rng.shuffle([
+        ...this.state.pool.available,
+        ...this.state.pool.exhausted,
+      ]);
+      this.state.pool.exhausted = [];
+    }
+
+    // Now discard and draw with recycled pool
     const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);
     this.state.hand = hand;
     this.state.pool = pool;
-
-    // If pool is empty, recycle exhausted
-    if (this.state.pool.available.length < MAX_HAND_SIZE - this.state.hand.filter(d => d.isHeld).length) {
-      this.state.pool.available = this.rng.shuffle([...this.state.pool.exhausted]);
-      this.state.pool.exhausted = [];
-    }
 
     this.setPhase('draw');
   }
@@ -584,6 +595,17 @@ export class CombatEngine {
     // Consume a trade
     this.state.holdsRemaining--;
 
+    // P0-002 FIX: Recycle exhausted pool BEFORE drawing to ensure full hand
+    const heldCountTrade = this.state.hand.filter(d => d.isHeld).length;
+    const neededTrade = MAX_HAND_SIZE - heldCountTrade;
+    if (this.state.pool.available.length < neededTrade) {
+      this.state.pool.available = this.rng.shuffle([
+        ...this.state.pool.available,
+        ...this.state.pool.exhausted,
+      ]);
+      this.state.pool.exhausted = [];
+    }
+
     // Discard unheld dice, draw new ones
     const { hand, pool } = discardAndDraw(this.state.hand, this.state.pool, this.rng);
     this.state.hand = hand;
@@ -591,15 +613,6 @@ export class CombatEngine {
 
     // Add traded dice count to multiplier
     this.state.multiplier += unheldCount;
-
-    // If pool is low, recycle exhausted
-    if (this.state.pool.available.length < MAX_HAND_SIZE) {
-      this.state.pool.available = this.rng.shuffle([
-        ...this.state.pool.available,
-        ...this.state.pool.exhausted,
-      ]);
-      this.state.pool.exhausted = [];
-    }
 
     // Check if player is out of throws (trades can't help score)
     if (this.state.throwsRemaining <= 0) {
