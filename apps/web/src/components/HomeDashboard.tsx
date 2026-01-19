@@ -193,24 +193,24 @@ const idleWiggle = keyframes`
   }
 `;
 
-// Items drop in from top - land centered on skull, THEN spread to final positions
+// Items drop in from top - start big (1.25x), cut through skull, land below then settle up
 const itemDropIn = keyframes`
   0% {
     opacity: 0;
-    transform: translateX(var(--center-offset, 0px)) translateY(-120vh) rotate(calc(var(--card-rotation, 0deg) * 8)) scale(0.8);
+    transform: translateX(var(--center-offset, 0px)) translateY(-120vh) rotate(calc(var(--card-rotation, 0deg) * 8)) scale(1.25);
   }
-  45% {
+  40% {
     opacity: 1;
-    transform: translateX(var(--center-offset, 0px)) translateY(30px) rotate(calc(var(--card-rotation, 0deg) * -2)) scale(1.08);
+    transform: translateX(var(--center-offset, 0px)) translateY(60px) rotate(calc(var(--card-rotation, 0deg) * -2)) scale(1.15);
   }
   55% {
-    transform: translateX(var(--center-offset, 0px)) translateY(-8px) rotate(0deg) scale(1.02);
+    transform: translateX(var(--center-offset, 0px)) translateY(40px) rotate(0deg) scale(1.05);
   }
   70% {
-    transform: translateX(0px) translateY(-4px) rotate(calc(var(--card-rotation, 0deg) * 0.5)) scale(0.99);
+    transform: translateX(0px) translateY(20px) rotate(calc(var(--card-rotation, 0deg) * 0.5)) scale(1.02);
   }
   85% {
-    transform: translateX(0px) translateY(2px) rotate(calc(var(--card-rotation, 0deg) * -0.2)) scale(1.005);
+    transform: translateX(0px) translateY(5px) rotate(calc(var(--card-rotation, 0deg) * -0.2)) scale(1.005);
   }
   100% {
     opacity: 1;
@@ -2017,7 +2017,7 @@ export function HomeDashboard() {
               fontSize: '1.5rem',
               color: tokens.colors.text.primary,
             }}>
-              New Run
+              Die
             </Typography>
           </Box>
 
@@ -2025,6 +2025,7 @@ export function HomeDashboard() {
           <Box
             onClick={handleReroll}
             sx={{
+              position: 'relative',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -2062,6 +2063,55 @@ export function HomeDashboard() {
             }}>
               {corruptionData.level >= 100 ? 'MAX CORRUPTION' : `+${getRerollCorruptionCost(rerollCount)}% corruption`}
             </Typography>
+
+            {/* Reroll stack sprite - only shows when stacked */}
+            {rerollCount > 0 && (
+              <Box sx={{
+                position: 'absolute',
+                right: -36,
+                top: '50%',
+                transform: 'translateY(-50%)',
+              }}>
+                <Box
+                  component="img"
+                  src="/assets/factions/faction-icon-void-seekers.svg"
+                  alt="Reroll stacks"
+                  sx={{
+                    width: 64,
+                    height: 64,
+                    filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.5))',
+                  }}
+                />
+                {/* Stack count bubble */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: -4,
+                    right: -8,
+                    minWidth: 24,
+                    height: 24,
+                    borderRadius: '12px',
+                    bgcolor: '#9333ea',
+                    border: '2px solid rgba(255,255,255,0.9)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    px: 0.75,
+                    boxShadow: '0 0 12px rgba(147, 51, 234, 0.6)',
+                  }}
+                >
+                  <Typography sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    color: '#fff',
+                    lineHeight: 1,
+                  }}>
+                    x{rerollCount}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
           </Box>
 
           {/* Continue Button - Disabled Gray (or active if saved run exists) */}
@@ -2069,9 +2119,10 @@ export function HomeDashboard() {
             onClick={savedRun ? () => navigate('/play?continue=true') : undefined}
             sx={{
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              py: 2.5,
+              py: savedRun ? 1.5 : 2.5,
               borderRadius: '16px',
               bgcolor: savedRun ? tokens.colors.background.elevated : tokens.colors.background.paper,
               border: `2px solid ${savedRun ? tokens.colors.border : 'transparent'}`,
@@ -2091,6 +2142,16 @@ export function HomeDashboard() {
             }}>
               Continue
             </Typography>
+            {savedRun && (
+              <Typography sx={{
+                fontFamily: tokens.fonts.mono,
+                fontSize: '0.7rem',
+                color: tokens.colors.text.secondary,
+                mt: 0.25,
+              }}>
+                {savedRun.domainState?.name || `Domain ${savedRun.currentDomain}`} - Room {savedRun.roomNumber}
+              </Typography>
+            )}
           </Box>
 
           {/* Seed Display - Clickable to create new Guy */}

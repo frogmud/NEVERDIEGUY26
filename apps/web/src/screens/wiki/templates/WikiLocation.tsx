@@ -28,6 +28,7 @@ import { CardHeader, AssetImage } from '../../../components/ds';
 import { getDifficultyColor, getRarityColor, getEnemyTypeColor, slugToName } from '../../../data/wiki/helpers';
 import { getEntity } from '../../../data/wiki';
 import type { AnyEntity, Domain, Shop, WikiCategory, Wanderer, Enemy, Item } from '../../../data/wiki/types';
+import { AsciiDomainViewer } from '../../../components/AsciiDomainViewer';
 
 interface WikiLocationProps {
   entity?: AnyEntity;
@@ -81,12 +82,14 @@ const getLocationSections = (
   hasEnemies: boolean,
   hasConnectedAreas: boolean,
   isShop: boolean,
+  isDomain: boolean,
 ): WikiSection[] => {
   const sections: WikiSection[] = [
     { name: 'Quick Facts' },
     { name: isShop ? 'Proprietor' : 'NPCs' },
   ];
   if (hasEnemies) sections.push({ name: 'Enemies' });
+  if (isDomain) sections.push({ name: 'Domain View' });
   sections.push({ name: isShop ? 'Shop Inventory' : 'Items Found' });
   if (hasConnectedAreas) sections.push({ name: 'Connected Areas' });
   return sections;
@@ -402,7 +405,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
   const entityCategory = (entity?.category || category || 'domains') as WikiCategory;
 
   // Build dynamic sections based on available data
-  const sections = getLocationSections(hasEnemies, hasConnectedAreas, isShop);
+  const sections = getLocationSections(hasEnemies, hasConnectedAreas, isShop, isDomain);
 
   return (
     <WikiLayout
@@ -605,6 +608,19 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           </Grid>
         )}
       </Grid>
+
+      {/* Domain Viewer - ASCII 3D globe for domains only */}
+      {isDomain && entity?.slug && (
+        <WikiSectionAnchor id={toAnchorId('Domain View')}>
+          <SectionHeader title="Domain View" sx={{ mb: 2 }} />
+          <AsciiDomainViewer
+            domainSlug={entity.slug}
+            height={220}
+            cellSize={10}
+            autoRotate={true}
+          />
+        </WikiSectionAnchor>
+      )}
 
       {/* Items Found / Shop Inventory */}
       <WikiSectionAnchor id={toAnchorId(isShop ? 'Shop Inventory' : 'Items Found')}>

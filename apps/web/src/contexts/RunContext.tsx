@@ -37,6 +37,7 @@ import {
   createDoorPickEvent,
   createShopBuyEvent,
   type GameState,
+  type EncounterState,
   type ProtocolRoll,
   type LedgerEvent,
   DOMAINS,
@@ -139,6 +140,8 @@ export interface RoomBonus {
 
 // Extended run state with center panel
 export interface RunState extends GameState {
+  // Explicitly include to avoid type conflicts with EnemyEncounter
+  currentEncounter: EncounterState | null;
   centerPanel: CenterPanel;
   transitionPhase: TransitionPhase;
   pendingPanel: CenterPanel | null; // Panel to switch to after wipe
