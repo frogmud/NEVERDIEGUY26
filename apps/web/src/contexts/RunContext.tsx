@@ -65,6 +65,14 @@ import type {
   EntityMap,
 } from '@ndg/ai-engine';
 
+// Encounter system types from ai-engine
+import type {
+  EnemyEncounter,
+  EncounterResult,
+  EncounterContext,
+} from '@ndg/ai-engine';
+import { generateEncounter } from '@ndg/ai-engine';
+
 // Dice bag system for persistent dice across run
 import type { DiceBag, DieConfig } from '@ndg/ai-engine';
 import {
@@ -169,6 +177,10 @@ export interface RunState extends GameState {
   hp: number;                          // Current HP (100 max, travel damage reduces)
   // Heat system (streak-based difficulty)
   heat: number;                        // Current heat level (resets on death)
+  // Enemy encounter system (during flume transit)
+  activeEnemyEncounter: EnemyEncounter | null;  // Active encounter during flume
+  enemyEncounterIndex: number;                   // Counter for seeded encounter generation
+  enemyEncounterResults: EncounterResult[];      // History of encounter outcomes this run
 }
 
 // Run context value
@@ -231,6 +243,11 @@ interface RunContextValue {
   // Flume transitions
   completeFlumeTransition: () => void;
 
+  // Encounter system
+  triggerEncounter: () => void;
+  completeEncounter: (result: EncounterResult) => void;
+  skipEncounter: () => void;
+
   // Run persistence
   loadRun: () => boolean;
   hasSavedRun: () => boolean;
@@ -263,6 +280,10 @@ type RunAction =
   | { type: 'SET_PENDING_VICTORY'; payload: PendingVictory }
   // Flume transition
   | { type: 'COMPLETE_FLUME_TRANSITION' }
+  // Encounter actions
+  | { type: 'TRIGGER_ENCOUNTER'; encounter: EnemyEncounter }
+  | { type: 'COMPLETE_ENCOUNTER'; result: EncounterResult }
+  | { type: 'SKIP_ENCOUNTER' }
   // Dice bag actions
   | { type: 'INIT_DICE_BAG'; startingDice?: DieConfig[] }
   | { type: 'DRAW_DICE_BAG_HAND' }
@@ -305,6 +326,10 @@ function createInitialRunState(): RunState {
     hp: 100,  // Start at full HP
     // Heat system
     heat: 0,  // Loaded from storage on START_RUN
+    // Enemy encounter system
+    activeEnemyEncounter: null,
+    enemyEncounterIndex: 0,
+    enemyEncounterResults: [],
   };
 }
 
@@ -1013,6 +1038,58 @@ function runReducer(state: RunState, action: RunAction): RunState {
     }
 
     // ============================================
+    // Encounter Actions
+    // ============================================
+
+    case 'TRIGGER_ENCOUNTER': {
+      return {
+        ...state,
+        activeEnemyEncounter: action.encounter,
+      };
+    }
+
+    case 'COMPLETE_ENCOUNTER': {
+      // Apply encounter effects to player state
+      let newState = { ...state };
+
+      for (const effect of action.result.effects) {
+        switch (effect.type) {
+          case 'corruption':
+            // Corruption is tracked elsewhere but we can increment here
+            break;
+          case 'grit':
+            newState.loadoutStats = {
+              ...newState.loadoutStats,
+              grit: (newState.loadoutStats.grit || 0) + effect.value,
+            };
+            break;
+          case 'resource':
+            if (effect.target === 'health') {
+              newState.hp = Math.min(100, Math.max(0, newState.hp + effect.value));
+            }
+            break;
+          // favor, buff, debuff effects would integrate with NPC systems
+        }
+      }
+
+      return {
+        ...newState,
+        activeEnemyEncounter: null,
+        enemyEncounterIndex: state.enemyEncounterIndex + 1,
+        enemyEncounterResults: [...state.enemyEncounterResults, action.result],
+      };
+    }
+
+    case 'SKIP_ENCOUNTER': {
+      // Skip without any effects
+      return {
+        ...state,
+        activeEnemyEncounter: null,
+        enemyEncounterIndex: state.enemyEncounterIndex + 1,
+      };
+    }
+
+    // ============================================
     // Dice Bag Actions
     // ============================================
 
@@ -1310,6 +1387,33 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'COMPLETE_FLUME_TRANSITION' });
   }, []);
 
+  // Encounter callbacks
+  const triggerEncounter = useCallback(() => {
+    // Generate an encounter based on current game state
+    const encounterCtx: EncounterContext = {
+      runSeed: state.threadId || 'default',
+      encounterIndex: state.enemyEncounterIndex,
+      currentDomain: state.currentDomain || 1,
+      playerHealth: state.hp,
+      corruption: 0, // TODO: integrate with corruption system
+      deathCount: state.scars,
+      grit: state.loadoutStats.grit || 0,
+      favorStates: {}, // TODO: integrate with favor system
+      ignoredCounts: {}, // TODO: track ignored encounters
+    };
+
+    const encounter = generateEncounter(encounterCtx);
+    dispatch({ type: 'TRIGGER_ENCOUNTER', encounter });
+  }, [state.threadId, state.enemyEncounterIndex, state.currentDomain, state.hp, state.scars, state.loadoutStats.grit]);
+
+  const completeEncounter = useCallback((result: EncounterResult) => {
+    dispatch({ type: 'COMPLETE_ENCOUNTER', result });
+  }, []);
+
+  const skipEncounter = useCallback(() => {
+    dispatch({ type: 'SKIP_ENCOUNTER' });
+  }, []);
+
   // Load saved run from localStorage
   const loadRun = useCallback(() => {
     const savedRun = loadSavedRun();
@@ -1397,6 +1501,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     selectPortal,
     continueFromSummary,
     completeFlumeTransition,
+    // Encounter system
+    triggerEncounter,
+    completeEncounter,
+    skipEncounter,
     loadRun,
     hasSavedRun: checkHasSavedRun,
   }), [
@@ -1435,6 +1543,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     selectPortal,
     continueFromSummary,
     completeFlumeTransition,
+    // Encounter system
+    triggerEncounter,
+    completeEncounter,
+    skipEncounter,
     loadRun,
     checkHasSavedRun,
   ]);

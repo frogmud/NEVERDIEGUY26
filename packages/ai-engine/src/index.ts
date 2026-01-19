@@ -926,3 +926,9 @@ export * from './stream';
 // ============================================
 
 export { RESTOCK_TEMPLATES } from './data/chatbase-restock';
+
+// ============================================
+// Enemy Encounter System
+// ============================================
+
+export * from './encounters';

@@ -34,6 +34,10 @@
     "./stream": {
       "import": "./dist/stream/index.js",
       "types": "./dist/stream/index.d.ts"
+    },
+    "./encounters": {
+      "import": "./dist/encounters/index.js",
+      "types": "./dist/encounters/index.d.ts"
     }
   },
   "scripts": {
