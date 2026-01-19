@@ -9,11 +9,11 @@ interface NotificationsMenuProps {
 }
 
 const mockNotifications = [
-  { title: 'New achievement unlocked!', time: '2m ago' },
-  { title: 'Your order has shipped', time: '1h ago' },
-  { title: 'Welcome to NEVER DIE GUY', time: '2h ago' },
-  { title: 'New wiki entry added', time: '5h ago' },
-  { title: 'Level up! You reached level 42', time: '1d ago' },
+  { id: 'notif-1', title: 'New achievement unlocked!', time: '2m ago' },
+  { id: 'notif-2', title: 'Your order has shipped', time: '1h ago' },
+  { id: 'notif-3', title: 'Welcome to NEVER DIE GUY', time: '2h ago' },
+  { id: 'notif-4', title: 'New wiki entry added', time: '5h ago' },
+  { id: 'notif-5', title: 'Level up! You reached level 42', time: '1d ago' },
 ];
 
 export function NotificationsMenu({ anchorEl, open, onClose, onViewAll }: NotificationsMenuProps) {
@@ -31,9 +31,9 @@ export function NotificationsMenu({ anchorEl, open, onClose, onViewAll }: Notifi
       <Box sx={{ px: 2, py: 1, borderBottom: `1px solid ${tokens.colors.border}` }}>
         <Typography variant="subtitle2">Inbox</Typography>
       </Box>
-      {mockNotifications.map((notif, i) => (
+      {mockNotifications.map((notif) => (
         <MenuItem
-          key={i}
+          key={notif.id}
           onClick={onClose}
           sx={{ py: 1.5, borderBottom: `1px solid ${tokens.colors.border}` }}
         >

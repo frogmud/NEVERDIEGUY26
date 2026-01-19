@@ -533,7 +533,7 @@ export function PlayHub() {
               {/* Domain end markers - tick marks that extend below */}
               {Array.from({ length: 5 }).map((_, i) => (
                 <Box
-                  key={i}
+                  key={`domain-marker-${i}`}
                   sx={{
                     position: 'absolute',
                     left: `${((i + 1) / 6) * 100}%`,

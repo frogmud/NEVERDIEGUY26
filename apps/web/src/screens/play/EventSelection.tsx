@@ -128,7 +128,7 @@ function DoorCard({ door, onSelect }: DoorCardProps) {
           const promiseIcon = PROMISE_ICONS[promise];
           return (
             <Chip
-              key={i}
+              key={`promise-${promise}-${i}`}
               icon={promiseIcon as React.ReactElement}
               label={promiseConfig.label}
               size="small"
@@ -506,7 +506,7 @@ export function EventSelection({
         >
           {doors.map((door, index) => (
             <DoorCard
-              key={index}
+              key={`door-${door.doorType}-${door.label}-${index}`}
               door={door}
               onSelect={() => onSelectDoor?.(door)}
             />
@@ -517,7 +517,7 @@ export function EventSelection({
         <Box sx={{ mt: 4, display: 'flex', gap: 1 }}>
           {[0, 1, 2].map((i) => (
             <Box
-              key={i}
+              key={`event-progress-${i}`}
               sx={{
                 width: 8,
                 height: 8,
@@ -578,7 +578,7 @@ export function EventSelection({
       >
         {domain.events.map((event, index) => (
           <EventCard
-            key={index}
+            key={`event-${event.type}-${event.label}-${index}`}
             event={event}
             eventIndex={index}
             domainId={domainId}
