@@ -139,8 +139,9 @@ export interface RoomBonus {
 }
 
 // Extended run state with center panel
-export interface RunState extends GameState {
-  // Explicitly include to avoid type conflicts with EnemyEncounter
+// Use Omit to exclude currentEncounter from GameState before re-declaring
+// This avoids type conflict with EnemyEncounter from ai-engine
+export interface RunState extends Omit<GameState, 'currentEncounter'> {
   currentEncounter: EncounterState | null;
   centerPanel: CenterPanel;
   transitionPhase: TransitionPhase;
