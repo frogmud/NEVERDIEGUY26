@@ -26,6 +26,8 @@ import { deriveMoodFromRelationship } from './relationship';
 import { getOpinion, hasTraumaBond, hasRecentConflict } from './memory';
 import type { NPCBehaviorState } from '../personality/behavioral-patterns';
 import type { ConversationThread } from '../social/conversation-threading';
+import type { ExplorationState, DialogueCoord } from '../exploration/types';
+import { applyExplorationBonuses, buildDialogueCoord, getTensionBand } from '../exploration';
 
 // Stub types for removed search modules (MVP cleanup)
 type SearchConfig = Record<string, unknown>;
@@ -254,12 +256,18 @@ export interface SelectionInput {
   usage: UsageState;
   targetNPC?: string;
   variables?: Record<string, string | number>;
+  /** Exploration state for novelty bonuses (optional) */
+  explorationState?: ExplorationState;
+  /** Thread tension for exploration coord building (0-1) */
+  tension?: number;
 }
 
 export interface SelectionResult {
   message: ChatMessage | null;
   statChanges: ObservedStatChange[];
   usedTemplateId: string | null;
+  /** Dialogue coord used for exploration tracking (if explorationState was provided) */
+  explorationCoord?: DialogueCoord;
 }
 
 let messageIdCounter = 0;
@@ -275,6 +283,8 @@ export function selectResponse(input: SelectionInput): SelectionResult {
     usage,
     targetNPC,
     variables = {},
+    explorationState,
+    tension = 0,
   } = input;
 
   const seed = `${context.seed}:${npcSlug}:${context.turnNumber}:${pool}`;
@@ -313,7 +323,48 @@ export function selectResponse(input: SelectionInput): SelectionResult {
     ).filter((t) => t.mood === 'any');
   }
 
-  const template = weightedSelect(candidates, rng, `select:${pool}`);
+  // Apply exploration bonuses if state is provided
+  let template: ResponseTemplate | null;
+  let explorationCoord: DialogueCoord | undefined;
+
+  if (explorationState && candidates.length > 0) {
+    // Build dialogue coord for exploration tracking
+    const tensionBand = getTensionBand(tension);
+    explorationCoord = buildDialogueCoord({
+      npcSlug,
+      mood,
+      pool,
+      tensionBand,
+    });
+
+    // Apply exploration bonuses to adjust weights
+    const enhanced = applyExplorationBonuses(
+      candidates.map(t => ({ id: t.id, weight: t.weight, template: t })),
+      explorationState,
+      explorationCoord
+    );
+
+    // Weighted random selection with adjusted weights
+    const totalWeight = enhanced.reduce((sum, e) => sum + e.adjustedWeight, 0);
+    if (totalWeight <= 0) {
+      template = candidates[0] || null;
+    } else {
+      let random = rng.random(`select:${pool}:exploration`) * totalWeight;
+      template = null;
+      for (const entry of enhanced) {
+        random -= entry.adjustedWeight;
+        if (random <= 0) {
+          template = entry.candidate.template;
+          break;
+        }
+      }
+      if (!template) {
+        template = enhanced[enhanced.length - 1]?.candidate.template || null;
+      }
+    }
+  } else {
+    template = weightedSelect(candidates, rng, `select:${pool}`);
+  }
 
   if (!template) {
     return { message: null, statChanges: [], usedTemplateId: null };
@@ -363,6 +414,7 @@ export function selectResponse(input: SelectionInput): SelectionResult {
     message,
     statChanges,
     usedTemplateId: template.id,
+    explorationCoord,
   };
 }
 

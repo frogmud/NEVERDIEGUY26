@@ -76,6 +76,10 @@ import type {
 } from '@ndg/ai-engine';
 import { generateEncounter } from '@ndg/ai-engine';
 
+// Exploration bonus system from ai-engine
+import type { ExplorationState } from '@ndg/ai-engine';
+import { createExplorationState, recordSelection } from '@ndg/ai-engine';
+
 // Dice bag system for persistent dice across run
 import type { DiceBag, DieConfig } from '@ndg/ai-engine';
 import {
@@ -189,6 +193,8 @@ export interface RunState extends Omit<GameState, 'currentEncounter'> {
   enemyEncounterResults: EncounterResult[];      // History of encounter outcomes this run
   // Corruption system (0-100, affects Trinity encounter chance)
   corruption: number;
+  // Exploration bonus system (tracks dialogue variety)
+  explorationState: ExplorationState | null;
 }
 
 // Run context value
@@ -340,6 +346,8 @@ function createInitialRunState(): RunState {
     enemyEncounterResults: [],
     // Corruption system
     corruption: 0,
+    // Exploration bonus system
+    explorationState: null,
   };
 }
 
@@ -495,6 +503,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         heat: heatData.currentHeat,
         // Corruption system - load from homepage
         corruption: corruptionData.level,
+        // Exploration bonus - fresh state for each run
+        explorationState: createExplorationState(),
       };
     }
 
@@ -513,6 +523,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         domainState: generateDomain(randomDomainId),
         // Initialize dice bag for practice mode
         diceBag: createDiceBag(threadId, DEFAULT_STARTING_DICE),
+        // Exploration bonus - fresh state for practice
+        explorationState: createExplorationState(),
       };
     }
 

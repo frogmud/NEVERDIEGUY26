@@ -932,3 +932,34 @@ export { RESTOCK_TEMPLATES } from './data/chatbase-restock';
 // ============================================
 
 export * from './encounters';
+
+// ============================================
+// Exploration Bonus System
+// ============================================
+
+export type {
+  TensionBand,
+  DialogueCoord,
+  DialogueCoordComponents,
+  ExplorationState,
+  ExplorationConfig,
+  ExplorationBonus,
+} from './exploration';
+
+export {
+  DEFAULT_EXPLORATION_CONFIG,
+  createExplorationState,
+  getTensionBand,
+  buildDialogueCoord,
+  parseDialogueCoord,
+  recordSelection,
+  isCoordVisited,
+  getCoordHitCount,
+  getTemplateHitCount,
+  isTemplateRecent,
+  mergeExplorationStates,
+  calculateExplorationBonus,
+  applyExplorationBonuses,
+  selectWithExplorationBonus,
+  getExplorationStats,
+} from './exploration';
