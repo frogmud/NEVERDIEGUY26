@@ -193,21 +193,24 @@ const idleWiggle = keyframes`
   }
 `;
 
-// Items drop in from top with heavy impact
+// Items drop in from top - land centered on skull, THEN spread to final positions
 const itemDropIn = keyframes`
   0% {
     opacity: 0;
-    transform: translateY(-120vh) rotate(calc(var(--card-rotation, 0deg) * 8)) scale(0.8);
+    transform: translateX(var(--center-offset, 0px)) translateY(-120vh) rotate(calc(var(--card-rotation, 0deg) * 8)) scale(0.8);
+  }
+  45% {
+    opacity: 1;
+    transform: translateX(var(--center-offset, 0px)) translateY(30px) rotate(calc(var(--card-rotation, 0deg) * -2)) scale(1.08);
   }
   55% {
-    opacity: 1;
-    transform: translateY(30px) rotate(calc(var(--card-rotation, 0deg) * -2)) scale(1.08);
+    transform: translateX(var(--center-offset, 0px)) translateY(-8px) rotate(0deg) scale(1.02);
   }
   70% {
-    transform: translateY(-12px) rotate(calc(var(--card-rotation, 0deg) * 1)) scale(0.98);
+    transform: translateX(0px) translateY(-4px) rotate(calc(var(--card-rotation, 0deg) * 0.5)) scale(0.99);
   }
   85% {
-    transform: translateY(4px) rotate(calc(var(--card-rotation, 0deg) * -0.3)) scale(1.01);
+    transform: translateX(0px) translateY(2px) rotate(calc(var(--card-rotation, 0deg) * -0.2)) scale(1.005);
   }
   100% {
     opacity: 1;
@@ -263,18 +266,25 @@ const LOADING_STEPS = 8; // Total steps in the loading bar
 const ASCII_PROFILE: string[] = [];
 const ASCII_BUTTONS: string[] = [];
 
-// Pixel explosion - toned down, more gravity
+// Pixel explosion - bigger splat with more spread
 const pixelExplode = keyframes`
   0% {
     opacity: 1;
     transform: translate(0, 0) scale(1);
   }
+  30% {
+    opacity: 1;
+    transform: translate(
+      calc((var(--ex, 0) - 0.5) * 80px),
+      calc((var(--ey, 0) - 0.3) * 60px)
+    ) scale(1.5);
+  }
   100% {
     opacity: 0;
     transform: translate(
-      calc((var(--ex, 0) - 0.5) * 150px),
-      calc((var(--ey, 0) - 0.3) * 200px + 100px)
-    ) scale(0.5);
+      calc((var(--ex, 0) - 0.5) * 300px),
+      calc((var(--ey, 0) - 0.3) * 350px + 150px)
+    ) scale(0.3);
   }
 `;
 
@@ -384,15 +394,18 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
         cursor: 'pointer',
         '--card-rotation': `${baseRotation}deg`,
         '--base-rotation': `${baseRotation}deg`,
+        // Offset to center: left card (+), center (0), right card (-)
+        // 220px card + 24px gap = 244px between card centers
+        '--center-offset': `${(1 - index) * 244}px`,
         // Transform with tilt physics (stable when tooltip showing)
         transform: showTooltip
           ? 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(-32px) scale(1.05)'
           : isHovered || isPoked
           ? `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-24px) scale(1.03)`
           : 'perspective(600px) rotateX(0deg) rotateY(0deg)',
-        // Animation states
+        // Animation states - tighter stagger for unified impact at center
         animation: isDropping
-          ? `${itemDropIn} 700ms ease-out ${index * 100}ms both`
+          ? `${itemDropIn} 900ms ease-out ${index * 50}ms both`
           : isActive && !isHovered
           ? `${idleWiggle} ${3 + index * 0.5}s ease-in-out infinite ${index * 0.3}s`
           : 'none',
@@ -1178,7 +1191,7 @@ export function HomeDashboard() {
       slide: { next: 'skull-hero', delay: 100 },           // Brief setup
       'skull-hero': { next: 'ui-reveal', delay: 1800 },    // ASCII loads (725ms) + nice hold (~1s)
       'ui-reveal': { next: 'items-drop', delay: 600 },     // Top rail + stream slide in
-      'items-drop': { next: 'active', delay: 900 },        // Items drop, skull explodes
+      'items-drop': { next: 'active', delay: 1100 },       // Items drop centered, skull explodes, cards spread
       active: { next: null, delay: 0 },
       launching: { next: null, delay: 0 },                  // Launching state (handled by handlePlay)
     };
