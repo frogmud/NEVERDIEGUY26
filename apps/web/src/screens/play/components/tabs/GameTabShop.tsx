@@ -9,7 +9,7 @@
  */
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Box, Typography, Button, Chip } from '@mui/material';
+import { Box, Typography, Button, Chip, Tooltip } from '@mui/material';
 import { PlayArrowSharp as PlayIcon, CheckCircleSharp as CheckIcon } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
 import { createSeededRng, getRequisitionPool } from '../../../../data/pools';
@@ -78,6 +78,47 @@ function calculateItemCost(item: Item, tier: number, favorTokens: number = 0): n
   const tierMult = getTierPriceMultiplier(tier);
   const basePrice = Math.floor(base * tierMult);
   return applyFavorDiscount(basePrice, favorTokens);
+}
+
+// Generate tooltip content from item data
+function getItemTooltipContent(item: Item): React.ReactNode {
+  const lines: string[] = [];
+
+  // Effects
+  if (item.effects?.length) {
+    item.effects.forEach(effect => {
+      lines.push(`${effect.name}: ${effect.description}`);
+    });
+  }
+
+  // Dice effects
+  if (item.diceEffects?.length) {
+    item.diceEffects.forEach(de => {
+      lines.push(`Dice (d${de.die}): ${de.effect}`);
+    });
+  }
+
+  // Element affinity
+  if (item.element && item.element !== 'Neutral') {
+    lines.push(`Affinity: ${item.element}`);
+  }
+
+  // Persistence
+  if (item.persistsAcrossDomains) {
+    lines.push('Persists across domains');
+  }
+
+  if (lines.length === 0) return null;
+
+  return (
+    <Box sx={{ p: 0.5 }}>
+      {lines.map((line, i) => (
+        <Typography key={i} variant="body2" sx={{ fontSize: '0.75rem' }}>
+          {line}
+        </Typography>
+      ))}
+    </Box>
+  );
 }
 
 interface GameTabShopProps {
@@ -218,88 +259,96 @@ export function GameTabShop({
           const cost = calculateItemCost(item, tier, favorTokens);
           const canAfford = gold >= cost;
           const rarityColor = RARITY_COLORS[item.rarity || 'Common'];
+          const tooltipContent = getItemTooltipContent(item);
 
           return (
-            <Box
+            <Tooltip
               key={item.slug}
-              onClick={() => !isPurchased && canAfford && handleItemClick(item)}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                p: 1.5,
-                borderBottom: `1px solid ${tokens.colors.border}`,
-                cursor: isPurchased || !canAfford ? 'default' : 'pointer',
-                opacity: isPurchased ? 0.5 : 1,
-                bgcolor: isPurchased ? 'rgba(0,0,0,0.2)' : 'transparent',
-                transition: 'all 100ms ease',
-                '&:hover': {
-                  bgcolor: isPurchased || !canAfford ? undefined : tokens.colors.background.elevated,
-                },
-              }}
+              title={tooltipContent || ''}
+              placement="right"
+              arrow
+              disableHoverListener={!tooltipContent}
             >
-              {/* Item Sprite */}
               <Box
-                component="img"
-                src={item.image || '/assets/items/placeholder.png'}
-                alt=""
+                onClick={() => !isPurchased && canAfford && handleItemClick(item)}
                 sx={{
-                  width: 40,
-                  height: 40,
-                  objectFit: 'contain',
-                  imageRendering: 'pixelated',
-                  filter: isPurchased ? 'grayscale(50%)' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  p: 1.5,
+                  borderBottom: `1px solid ${tokens.colors.border}`,
+                  cursor: isPurchased || !canAfford ? 'default' : 'pointer',
+                  opacity: isPurchased ? 0.5 : 1,
+                  bgcolor: isPurchased ? 'rgba(0,0,0,0.2)' : 'transparent',
+                  transition: 'all 100ms ease',
+                  '&:hover': {
+                    bgcolor: isPurchased || !canAfford ? undefined : tokens.colors.background.elevated,
+                  },
                 }}
-                onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                  e.currentTarget.src = '/assets/items/placeholder.png';
-                }}
-              />
-
-              {/* Item Info */}
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography
+              >
+                {/* Item Sprite */}
+                <Box
+                  component="img"
+                  src={item.image || '/assets/items/placeholder.png'}
+                  alt=""
                   sx={{
-                    ...gamingFont,
-                    fontSize: '0.8rem',
-                    color: tokens.colors.text.primary,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
+                    width: 40,
+                    height: 40,
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                    filter: isPurchased ? 'grayscale(50%)' : 'none',
                   }}
-                >
-                  {item.name}
-                </Typography>
-                <Chip
-                  label={item.rarity || 'Common'}
-                  size="small"
-                  sx={{
-                    height: 18,
-                    fontSize: '0.6rem',
-                    bgcolor: `${rarityColor}20`,
-                    color: rarityColor,
-                    border: `1px solid ${rarityColor}50`,
-                    '& .MuiChip-label': { px: 1 },
+                  onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                    e.currentTarget.src = '/assets/items/placeholder.png';
                   }}
                 />
-              </Box>
 
-              {/* Price / Purchased */}
-              <Box sx={{ flexShrink: 0, textAlign: 'right' }}>
-                {isPurchased ? (
-                  <CheckIcon sx={{ color: tokens.colors.success, fontSize: 20 }} />
-                ) : (
+                {/* Item Info */}
+                <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography
                     sx={{
                       ...gamingFont,
-                      fontSize: '0.9rem',
-                      color: canAfford ? tokens.colors.warning : tokens.colors.error,
+                      fontSize: '0.8rem',
+                      color: tokens.colors.text.primary,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
-                    ${cost}
+                    {item.name}
                   </Typography>
-                )}
+                  <Chip
+                    label={item.rarity || 'Common'}
+                    size="small"
+                    sx={{
+                      height: 18,
+                      fontSize: '0.6rem',
+                      bgcolor: `${rarityColor}20`,
+                      color: rarityColor,
+                      border: `1px solid ${rarityColor}50`,
+                      '& .MuiChip-label': { px: 1 },
+                    }}
+                  />
+                </Box>
+
+                {/* Price / Purchased */}
+                <Box sx={{ flexShrink: 0, textAlign: 'right' }}>
+                  {isPurchased ? (
+                    <CheckIcon sx={{ color: tokens.colors.success, fontSize: 20 }} />
+                  ) : (
+                    <Typography
+                      sx={{
+                        ...gamingFont,
+                        fontSize: '0.9rem',
+                        color: canAfford ? tokens.colors.warning : tokens.colors.error,
+                      }}
+                    >
+                      ${cost}
+                    </Typography>
+                  )}
+                </Box>
               </Box>
-            </Box>
+            </Tooltip>
           );
         })}
 

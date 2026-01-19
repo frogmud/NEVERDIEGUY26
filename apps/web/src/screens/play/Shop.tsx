@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Box, Typography, Button, Chip, keyframes, Snackbar } from '@mui/material';
+import { Box, Typography, Button, Chip, keyframes, Snackbar, Tooltip } from '@mui/material';
 import {
   ArrowForwardSharp as ContinueIcon,
   CheckCircleSharp as CheckIcon,
@@ -108,6 +108,47 @@ function calculateBaseItemCost(item: Item, tier: number): number {
 function calculateItemCost(item: Item, tier: number, favorTokens: number = 0): number {
   const basePrice = calculateBaseItemCost(item, tier);
   return applyFavorDiscount(basePrice, favorTokens);
+}
+
+// Generate tooltip content from item data
+function getItemTooltipContent(item: Item): React.ReactNode {
+  const lines: string[] = [];
+
+  // Effects
+  if (item.effects?.length) {
+    item.effects.forEach(effect => {
+      lines.push(`${effect.name}: ${effect.description}`);
+    });
+  }
+
+  // Dice effects
+  if (item.diceEffects?.length) {
+    item.diceEffects.forEach(de => {
+      lines.push(`Dice (d${de.die}): ${de.effect}`);
+    });
+  }
+
+  // Element affinity
+  if (item.element && item.element !== 'Neutral') {
+    lines.push(`Affinity: ${item.element}`);
+  }
+
+  // Persistence
+  if (item.persistsAcrossDomains) {
+    lines.push('Persists across domains');
+  }
+
+  if (lines.length === 0) return null;
+
+  return (
+    <Box sx={{ p: 0.5 }}>
+      {lines.map((line, i) => (
+        <Typography key={i} variant="body2" sx={{ fontSize: '0.75rem' }}>
+          {line}
+        </Typography>
+      ))}
+    </Box>
+  );
 }
 
 
@@ -396,105 +437,113 @@ export function Shop({
           const canAfford = gold >= cost;
           const rarityColor = RARITY_COLORS[item.rarity || 'Common'];
           const staggerStyle = getItemStyle(index);
+          const tooltipContent = getItemTooltipContent(item);
 
           return (
-            <Box
+            <Tooltip
               key={item.slug}
-              onClick={() => handlePurchaseWikiItem(item)}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                cursor: isPurchased ? 'default' : 'pointer',
-                minWidth: { xs: 100, sm: 120, md: 140 },
-                // Staggered entrance animation
-                opacity: isPurchased ? 0.5 : staggerStyle.opacity,
-                transform: staggerStyle.transform,
-                transition: staggerStyle.transition,
-                // Balatro-style hover with glow
-                '&:hover': isPurchased ? {} : {
-                  transform: 'scale(1.05) translateY(-4px)',
-                  filter: `drop-shadow(${GLOW.normal(rarityColor)})`,
-                },
-              }}
+              title={tooltipContent || ''}
+              placement="top"
+              arrow
+              disableHoverListener={!tooltipContent}
             >
-              {/* Price */}
-              <Typography
-                sx={{
-                  ...gamingFont,
-                  fontSize: { xs: '1.1rem', sm: '1.35rem' },
-                  color: isPurchased ? tokens.colors.success : canAfford ? tokens.colors.warning : tokens.colors.error,
-                  mb: 1,
-                }}
-              >
-                {isPurchased ? (
-                  <CheckIcon sx={{ fontSize: 24 }} />
-                ) : (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 18, height: 18 }} />
-                    {cost}
-                  </Box>
-                )}
-              </Typography>
-
-              {/* Big Item Sprite */}
               <Box
+                onClick={() => handlePurchaseWikiItem(item)}
                 sx={{
-                  width: { xs: 80, sm: 100, md: 120 },
-                  height: { xs: 80, sm: 100, md: 120 },
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  mb: 1.5,
+                  cursor: isPurchased ? 'default' : 'pointer',
+                  minWidth: { xs: 100, sm: 120, md: 140 },
+                  // Staggered entrance animation
+                  opacity: isPurchased ? 0.5 : staggerStyle.opacity,
+                  transform: staggerStyle.transform,
+                  transition: staggerStyle.transition,
+                  // Balatro-style hover with glow
+                  '&:hover': isPurchased ? {} : {
+                    transform: 'scale(1.05) translateY(-4px)',
+                    filter: `drop-shadow(${GLOW.normal(rarityColor)})`,
+                  },
                 }}
               >
-                <Box
-                  component="img"
-                  src={item.image || '/assets/items/placeholder.png'}
-                  alt=""
+                {/* Price */}
+                <Typography
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    imageRendering: 'pixelated',
-                    filter: isPurchased ? 'grayscale(50%)' : 'none',
+                    ...gamingFont,
+                    fontSize: { xs: '1.1rem', sm: '1.35rem' },
+                    color: isPurchased ? tokens.colors.success : canAfford ? tokens.colors.warning : tokens.colors.error,
+                    mb: 1,
                   }}
-                  onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                    e.currentTarget.src = '/assets/items/placeholder.png';
+                >
+                  {isPurchased ? (
+                    <CheckIcon sx={{ fontSize: 24 }} />
+                  ) : (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Box component="img" src="/assets/ui/currency-svg/coin.svg" alt="" sx={{ width: 18, height: 18 }} />
+                      {cost}
+                    </Box>
+                  )}
+                </Typography>
+
+                {/* Big Item Sprite */}
+                <Box
+                  sx={{
+                    width: { xs: 80, sm: 100, md: 120 },
+                    height: { xs: 80, sm: 100, md: 120 },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mb: 1.5,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={item.image || '/assets/items/placeholder.png'}
+                    alt=""
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      imageRendering: 'pixelated',
+                      filter: isPurchased ? 'grayscale(50%)' : 'none',
+                    }}
+                    onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                      e.currentTarget.src = '/assets/items/placeholder.png';
+                    }}
+                  />
+                </Box>
+
+                {/* Item Name */}
+                <Typography
+                  sx={{
+                    ...gamingFont,
+                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                    color: tokens.colors.text.primary,
+                    textAlign: 'center',
+                    mb: 1,
+                    maxWidth: 140,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {item.name}
+                </Typography>
+
+                {/* Rarity Tag */}
+                <Chip
+                  label={item.rarity || 'Common'}
+                  size="small"
+                  sx={{
+                    height: 24,
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    bgcolor: `${rarityColor}20`,
+                    color: rarityColor,
+                    border: `1px solid ${rarityColor}50`,
+                    '& .MuiChip-label': { px: 1.5 },
                   }}
                 />
               </Box>
-
-              {/* Item Name */}
-              <Typography
-                sx={{
-                  ...gamingFont,
-                  fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                  color: tokens.colors.text.primary,
-                  textAlign: 'center',
-                  mb: 1,
-                  maxWidth: 140,
-                  lineHeight: 1.2,
-                }}
-              >
-                {item.name}
-              </Typography>
-
-              {/* Rarity Tag */}
-              <Chip
-                label={item.rarity || 'Common'}
-                size="small"
-                sx={{
-                  height: 24,
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  bgcolor: `${rarityColor}20`,
-                  color: rarityColor,
-                  border: `1px solid ${rarityColor}50`,
-                  '& .MuiChip-label': { px: 1.5 },
-                }}
-              />
-            </Box>
+            </Tooltip>
           );
         })}
 
