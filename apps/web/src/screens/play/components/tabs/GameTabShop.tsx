@@ -113,7 +113,7 @@ function getItemTooltipContent(item: Item): React.ReactNode {
   return (
     <Box sx={{ p: 0.5 }}>
       {lines.map((line, i) => (
-        <Typography key={i} variant="body2" sx={{ fontSize: '0.75rem' }}>
+        <Typography key={`tooltip-line-${i}-${line.slice(0, 20)}`} variant="body2" sx={{ fontSize: '0.75rem' }}>
           {line}
         </Typography>
       ))}

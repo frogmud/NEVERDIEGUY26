@@ -143,7 +143,7 @@ function getItemTooltipContent(item: Item): React.ReactNode {
   return (
     <Box sx={{ p: 0.5 }}>
       {lines.map((line, i) => (
-        <Typography key={i} variant="body2" sx={{ fontSize: '0.75rem' }}>
+        <Typography key={`tooltip-line-${i}-${line.slice(0, 20)}`} variant="body2" sx={{ fontSize: '0.75rem' }}>
           {line}
         </Typography>
       ))}
@@ -448,22 +448,24 @@ export function Shop({
               disableHoverListener={!tooltipContent}
             >
               <Box
-                onClick={() => handlePurchaseWikiItem(item)}
+                onClick={isPurchased || !canAfford ? undefined : () => handlePurchaseWikiItem(item)}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  cursor: isPurchased ? 'default' : 'pointer',
+                  cursor: isPurchased ? 'default' : canAfford ? 'pointer' : 'not-allowed',
                   minWidth: { xs: 100, sm: 120, md: 140 },
                   // Staggered entrance animation
                   opacity: isPurchased ? 0.5 : staggerStyle.opacity,
                   transform: staggerStyle.transform,
                   transition: staggerStyle.transition,
-                  // Balatro-style hover with glow
-                  '&:hover': isPurchased ? {} : {
-                    transform: 'scale(1.05) translateY(-4px)',
-                    filter: `drop-shadow(${GLOW.normal(rarityColor)})`,
-                  },
+                  // Balatro-style hover with glow (only when purchasable and affordable)
+                  ...(!isPurchased && canAfford && {
+                    '&:hover': {
+                      transform: 'scale(1.05) translateY(-4px)',
+                      filter: `drop-shadow(${GLOW.normal(rarityColor)})`,
+                    },
+                  }),
                 }}
               >
                 {/* Price */}
@@ -549,21 +551,23 @@ export function Shop({
 
         {/* Reroll Requisition slot - staggered as 4th item */}
         <Box
-          onClick={handleReroll}
+          onClick={gold >= rerollCost ? handleReroll : undefined}
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            cursor: 'pointer',
+            cursor: gold >= rerollCost ? 'pointer' : 'not-allowed',
             minWidth: { xs: 100, sm: 120, md: 140 },
             // Staggered entrance (index 3)
             ...getItemStyle(3),
             opacity: gold >= rerollCost ? getItemStyle(3).opacity : 0.6 * getItemStyle(3).opacity,
-            // Balatro-style hover
-            '&:hover': {
-              transform: 'scale(1.05) translateY(-4px)',
-              filter: `drop-shadow(${GLOW.subtle(tokens.colors.text.secondary)})`,
-            },
+            // Balatro-style hover (only when affordable)
+            ...(gold >= rerollCost && {
+              '&:hover': {
+                transform: 'scale(1.05) translateY(-4px)',
+                filter: `drop-shadow(${GLOW.subtle(tokens.colors.text.secondary)})`,
+              },
+            }),
           }}
         >
           {/* Price */}
