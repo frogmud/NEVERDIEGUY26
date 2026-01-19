@@ -18,7 +18,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import ForumIcon from '@mui/icons-material/Forum';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext, Link as RouterLink } from 'react-router-dom';
 import type { ShellContext } from './Shell';
 import { tokens } from '../theme';
 import {
@@ -2311,16 +2311,29 @@ export function HomeDashboard() {
                 const baseRotation = (i - 1) * 2; // -2, 0, +2 degrees for subtle tilt
 
                 return (
-                  <ItemCard
+                  <Box
                     key={`${itemSlug}-${i}`}
-                    itemSlug={itemSlug}
-                    itemName={itemName}
-                    itemStats={itemStats}
-                    category={baseItem?.category || 'misc'}
-                    baseRotation={baseRotation}
-                    index={i}
-                    bootPhase={bootPhase}
-                  />
+                    component={RouterLink}
+                    to={`/wiki/items/${itemSlug}`}
+                    sx={{
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      transition: 'transform 150ms ease',
+                      '&:hover': {
+                        transform: 'scale(1.02)',
+                      },
+                    }}
+                  >
+                    <ItemCard
+                      itemSlug={itemSlug}
+                      itemName={itemName}
+                      itemStats={itemStats}
+                      category={baseItem?.category || 'misc'}
+                      baseRotation={baseRotation}
+                      index={i}
+                      bootPhase={bootPhase}
+                    />
+                  </Box>
                 );
               })}
             </Box>
