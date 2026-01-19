@@ -667,6 +667,149 @@ export function getCurrentWeekDay(data: DailyRewardData): number {
 }
 
 // ============================================
+// Heat System Persistence (Streak-based difficulty)
+// ============================================
+
+const HEAT_STORAGE_KEY = 'ndg_heat';
+
+export interface HeatData {
+  currentHeat: number;      // Current streak level (resets on death)
+  maxHeatEver: number;      // Personal best streak
+  lastRunWon: boolean;      // Did last run end in victory?
+  updatedAt: number;
+}
+
+export function createDefaultHeatData(): HeatData {
+  return {
+    currentHeat: 0,
+    maxHeatEver: 0,
+    lastRunWon: false,
+    updatedAt: Date.now(),
+  };
+}
+
+export function loadHeatData(): HeatData {
+  try {
+    const stored = localStorage.getItem(HEAT_STORAGE_KEY);
+    if (!stored) {
+      return createDefaultHeatData();
+    }
+    return { ...createDefaultHeatData(), ...JSON.parse(stored) };
+  } catch (error) {
+    console.error('Failed to load heat data:', error);
+    return createDefaultHeatData();
+  }
+}
+
+export function saveHeatData(data: HeatData): void {
+  try {
+    localStorage.setItem(HEAT_STORAGE_KEY, JSON.stringify({
+      ...data,
+      updatedAt: Date.now(),
+    }));
+  } catch (error) {
+    console.error('Failed to save heat data:', error);
+  }
+}
+
+/**
+ * Increment heat after completing a domain.
+ * Also updates maxHeatEver if current streak is a new record.
+ */
+export function incrementHeat(data: HeatData): HeatData {
+  const newHeat = data.currentHeat + 1;
+  return {
+    ...data,
+    currentHeat: newHeat,
+    maxHeatEver: Math.max(data.maxHeatEver, newHeat),
+    lastRunWon: true,
+    updatedAt: Date.now(),
+  };
+}
+
+/**
+ * Reset heat to 0 after death.
+ * Preserves maxHeatEver for historical tracking.
+ */
+export function resetHeat(data: HeatData): HeatData {
+  return {
+    ...data,
+    currentHeat: 0,
+    lastRunWon: false,
+    updatedAt: Date.now(),
+  };
+}
+
+// ============================================
+// Corruption Persistence
+// ============================================
+
+const CORRUPTION_STORAGE_KEY = 'ndg_corruption';
+
+export interface CorruptionData {
+  level: number;  // 0-100
+  updatedAt: number;
+}
+
+export function createDefaultCorruptionData(): CorruptionData {
+  return {
+    level: 0,
+    updatedAt: Date.now(),
+  };
+}
+
+export function loadCorruptionData(): CorruptionData {
+  try {
+    const stored = localStorage.getItem(CORRUPTION_STORAGE_KEY);
+    if (!stored) {
+      return createDefaultCorruptionData();
+    }
+    return { ...createDefaultCorruptionData(), ...JSON.parse(stored) };
+  } catch (error) {
+    console.error('Failed to load corruption data:', error);
+    return createDefaultCorruptionData();
+  }
+}
+
+export function saveCorruptionData(data: CorruptionData): void {
+  try {
+    localStorage.setItem(CORRUPTION_STORAGE_KEY, JSON.stringify({
+      ...data,
+      updatedAt: Date.now(),
+    }));
+  } catch (error) {
+    console.error('Failed to save corruption data:', error);
+  }
+}
+
+/**
+ * Add corruption after rerolling loadout.
+ * Corruption is capped at 100.
+ */
+export function addCorruption(data: CorruptionData, amount: number): CorruptionData {
+  return {
+    level: Math.min(100, data.level + amount),
+    updatedAt: Date.now(),
+  };
+}
+
+/**
+ * Reset corruption to 0 when starting fresh (new seed).
+ */
+export function resetCorruption(): CorruptionData {
+  return createDefaultCorruptionData();
+}
+
+/**
+ * Get the corruption cost for a reroll based on how many times rerolled.
+ * Escalates: 5, 8, 12, 15 (capped at 15 for 4+ rerolls)
+ */
+export function getRerollCorruptionCost(rerollCount: number): number {
+  const costs = [5, 8, 12, 15];
+  return costs[Math.min(rerollCount, costs.length - 1)];
+}
+
+// ============================================
 // Run History Persistence
 // ============================================
 
@@ -688,6 +831,7 @@ export interface RunHistoryEntry {
     npcsSquished: number;
     purchases: number;
     killedBy?: string;
+    heatAtDeath?: number;  // Heat level when run ended
   };
   timestamp: number;
   duration?: number; // milliseconds
@@ -737,10 +881,16 @@ export function getRunHistoryStats(): {
   bestScore: number;
   avgScore: number;
   totalGoldEarned: number;
+  bestStreak: number;
 } {
   const history = loadRunHistory();
+  const heatData = loadHeatData();
+
   if (history.length === 0) {
-    return { totalRuns: 0, wins: 0, losses: 0, bestScore: 0, avgScore: 0, totalGoldEarned: 0 };
+    return {
+      totalRuns: 0, wins: 0, losses: 0, bestScore: 0, avgScore: 0,
+      totalGoldEarned: 0, bestStreak: heatData.maxHeatEver
+    };
   }
 
   const wins = history.filter(r => r.won).length;
@@ -755,6 +905,7 @@ export function getRunHistoryStats(): {
     bestScore,
     avgScore: Math.round(totalScore / history.length),
     totalGoldEarned: totalGold,
+    bestStreak: heatData.maxHeatEver,
   };
 }
 

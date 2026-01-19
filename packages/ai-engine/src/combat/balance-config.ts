@@ -129,18 +129,45 @@ export const FLAT_EVENT_CONFIG = {
   },
 } as const;
 
+// ============================================
+// HEAT SYSTEM (Streak-based difficulty scaling)
+// ============================================
+
+export const HEAT_CONFIG = {
+  /** Score goal multiplier per heat level (+10% per heat) */
+  scoreGoalMultiplier: 1.10,
+  /** Gold reward multiplier per heat level (+15% per heat) */
+  goldRewardMultiplier: 1.15,
+  /** Maximum heat level (caps scaling) */
+  maxHeat: 10,
+} as const;
+
 /**
  * Get score goal for a domain (flat structure)
+ * @param domainId - Domain number (1-6)
+ * @param heat - Current heat level (default 0)
+ * @returns Score goal with heat scaling applied
  */
-export function getFlatScoreGoal(domainId: number): number {
-  return FLAT_EVENT_CONFIG.goals[domainId] || 800;
+export function getFlatScoreGoal(domainId: number, heat: number = 0): number {
+  const baseGoal = FLAT_EVENT_CONFIG.goals[domainId] || 800;
+  if (heat === 0) return baseGoal;
+
+  const cappedHeat = Math.min(heat, HEAT_CONFIG.maxHeat);
+  return Math.floor(baseGoal * Math.pow(HEAT_CONFIG.scoreGoalMultiplier, cappedHeat));
 }
 
 /**
  * Get gold reward for a domain (flat structure)
+ * @param domainId - Domain number (1-6)
+ * @param heat - Current heat level (default 0)
+ * @returns Gold reward with heat scaling applied
  */
-export function getFlatGoldReward(domainId: number): number {
-  return FLAT_EVENT_CONFIG.goldRewards[domainId] || 75;
+export function getFlatGoldReward(domainId: number, heat: number = 0): number {
+  const baseReward = FLAT_EVENT_CONFIG.goldRewards[domainId] || 75;
+  if (heat === 0) return baseReward;
+
+  const cappedHeat = Math.min(heat, HEAT_CONFIG.maxHeat);
+  return Math.floor(baseReward * Math.pow(HEAT_CONFIG.goldRewardMultiplier, cappedHeat));
 }
 
 /**

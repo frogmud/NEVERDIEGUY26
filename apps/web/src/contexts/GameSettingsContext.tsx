@@ -15,6 +15,7 @@ const ANIMATIONS_ENABLED_KEY = 'ndg-animations-enabled';
 const MUSIC_ENABLED_KEY = 'ndg-music-enabled';
 const MASTER_VOLUME_KEY = 'ndg-master-volume';
 const SOUND_THEME_KEY = 'ndg-sound-theme';
+const ASCII_MODE_KEY = 'ndg-ascii-mode';
 
 // Sound theme options
 export type SoundTheme = 'synth' | 'medieval' | 'wooden' | 'stone';
@@ -25,6 +26,7 @@ const DEFAULT_ANIMATIONS_ENABLED = true;
 const DEFAULT_MUSIC_ENABLED = true;
 const DEFAULT_MASTER_VOLUME = 0.15; // Chess.com-style subtle volume
 const DEFAULT_SOUND_THEME: SoundTheme = 'synth';
+const DEFAULT_ASCII_MODE = true; // ASCII art rendering enabled by default
 
 interface GameSettingsContextValue {
   // Game speed (0.5 to 2)
@@ -46,6 +48,10 @@ interface GameSettingsContextValue {
   // Sound theme
   soundTheme: SoundTheme;
   setSoundTheme: (theme: SoundTheme) => void;
+
+  // ASCII art rendering mode
+  asciiMode: boolean;
+  setAsciiMode: (enabled: boolean) => void;
 
   // Helper to adjust delay based on game speed
   // Lower game speed = slower animations (higher delay)
@@ -101,6 +107,15 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     return DEFAULT_SOUND_THEME;
   });
 
+  // ASCII mode state
+  const [asciiMode, setAsciiModeState] = useState(() => {
+    const stored = localStorage.getItem(ASCII_MODE_KEY);
+    if (stored !== null) {
+      return stored === 'true';
+    }
+    return DEFAULT_ASCII_MODE;
+  });
+
   // Setters with localStorage persistence
   const setGameSpeed = useCallback((speed: number) => {
     const clampedSpeed = Math.max(0.5, Math.min(2, speed));
@@ -129,6 +144,11 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SOUND_THEME_KEY, theme);
   }, []);
 
+  const setAsciiMode = useCallback((enabled: boolean) => {
+    setAsciiModeState(enabled);
+    localStorage.setItem(ASCII_MODE_KEY, String(enabled));
+  }, []);
+
   // Helper to adjust delays based on game speed
   // gameSpeed 2 = delays cut in half (faster)
   // gameSpeed 0.5 = delays doubled (slower)
@@ -150,6 +170,8 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
         setMasterVolume,
         soundTheme,
         setSoundTheme,
+        asciiMode,
+        setAsciiMode,
         adjustDelay,
       }}
     >

@@ -1,33 +1,9 @@
-import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Button, IconButton } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
+import { Box, Typography, Button, Divider } from '@mui/material';
 import { tokens } from '../../theme';
-
-// Video data - add more videos here as needed
-const videos = [
-  { src: '/assets/video/about-demo.mp4' },
-  // Add more videos:
-  // { src: '/assets/video/combat-demo.mp4' },
-  // { src: '/assets/video/shop-demo.mp4' },
-];
 
 export function AboutUs() {
   const navigate = useNavigate();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   return (
     <Box
@@ -39,11 +15,7 @@ export function AboutUs() {
       }}
     >
       {/* Hero Section */}
-      <Box
-        sx={{
-          mb: { xs: 5, md: 7 },
-        }}
-      >
+      <Box sx={{ mb: { xs: 5, md: 7 } }}>
         {/* Heading */}
         <Typography
           sx={{
@@ -62,29 +34,15 @@ export function AboutUs() {
             fontSize: { xs: '0.95rem', md: '1rem' },
             color: tokens.colors.text.secondary,
             mb: 4,
-            maxWidth: 520,
-            lineHeight: 1.6,
+            maxWidth: 600,
+            lineHeight: 1.7,
           }}
         >
-          NEVER DIE GUY is a free, browser-based dice roguelike made by{' '}
-          <Box
-            component="a"
-            href="https://kgrz.design"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              color: tokens.colors.text.secondary,
-              textDecoration: 'underline',
-              '&:hover': { color: tokens.colors.text.primary },
-            }}
-          >
-            kgrz.design
-          </Box>
-          . Throw dice, clear zones, and collect loot in quick sessions with endless replayability.
+          NEVER DIE GUY is a free, browser-based dice roguelike. Throw meteors at planets, clear zones, and collect loot in quick sessions with endless replayability. Built with love by a small team of indie developers.
         </Typography>
 
         {/* Action Buttons */}
-        <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
           <Button
             variant="contained"
             size="large"
@@ -122,79 +80,134 @@ export function AboutUs() {
         </Box>
       </Box>
 
-      {/* Video Gallery */}
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            md: videos.length > 1 ? 'repeat(2, 1fr)' : '1fr',
-          },
-          gap: 3,
-        }}
-      >
-        {videos.map((video, index) => (
-          <Box
-            key={index}
-            onClick={togglePlay}
-            sx={{
-              borderRadius: 2,
-              overflow: 'hidden',
-              bgcolor: tokens.colors.background.elevated,
-              position: 'relative',
-              cursor: 'pointer',
-              '&:hover .play-overlay': {
-                opacity: 1,
-              },
-            }}
-          >
-            <Box
-              component="video"
-              ref={index === 0 ? videoRef : undefined}
-              src={video.src}
-              loop
-              muted
-              playsInline
+      <Divider sx={{ borderColor: tokens.colors.border, mb: 5 }} />
+
+      {/* Credits Section */}
+      <Box sx={{ mb: 5 }}>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: { xs: '1.4rem', md: '1.6rem' },
+            color: tokens.colors.text.primary,
+            mb: 3,
+          }}
+        >
+          Credits
+        </Typography>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {/* Creator */}
+          <Box>
+            <Typography
               sx={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-              }}
-            />
-            {/* Play/Pause overlay */}
-            <Box
-              className="play-overlay"
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: 'rgba(0,0,0,0.4)',
-                opacity: isPlaying ? 0 : 1,
-                transition: 'opacity 200ms ease',
+                fontSize: '0.85rem',
+                color: tokens.colors.text.disabled,
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+                mb: 0.5,
               }}
             >
-              <IconButton
-                sx={{
-                  bgcolor: 'rgba(0,0,0,0.6)',
-                  color: tokens.colors.text.primary,
-                  width: 72,
-                  height: 72,
-                  '&:hover': {
-                    bgcolor: 'rgba(0,0,0,0.8)',
-                  },
-                }}
-              >
-                {isPlaying ? (
-                  <PauseIcon sx={{ fontSize: 40 }} />
-                ) : (
-                  <PlayArrowIcon sx={{ fontSize: 40 }} />
-                )}
-              </IconButton>
+              Created by
+            </Typography>
+            <Box
+              component="a"
+              href="https://kgrz.design"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                fontSize: '1.1rem',
+                color: tokens.colors.text.primary,
+                textDecoration: 'none',
+                '&:hover': { textDecoration: 'underline' },
+              }}
+            >
+              kgrz.design
             </Box>
           </Box>
-        ))}
+
+          {/* Tech */}
+          <Box>
+            <Typography
+              sx={{
+                fontSize: '0.85rem',
+                color: tokens.colors.text.disabled,
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+                mb: 0.5,
+              }}
+            >
+              Built with
+            </Typography>
+            <Typography sx={{ fontSize: '1rem', color: tokens.colors.text.secondary }}>
+              React, Three.js, Material-UI
+            </Typography>
+          </Box>
+
+          {/* Special Thanks */}
+          <Box>
+            <Typography
+              sx={{
+                fontSize: '0.85rem',
+                color: tokens.colors.text.disabled,
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+                mb: 0.5,
+              }}
+            >
+              Special Thanks
+            </Typography>
+            <Typography sx={{ fontSize: '1rem', color: tokens.colors.text.secondary, lineHeight: 1.7 }}>
+              The roguelike community, Balatro for the inspiration, and everyone who playtests and provides feedback.
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      <Divider sx={{ borderColor: tokens.colors.border, mb: 5 }} />
+
+      {/* Contact / Links */}
+      <Box>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            fontSize: { xs: '1.4rem', md: '1.6rem' },
+            color: tokens.colors.text.primary,
+            mb: 3,
+          }}
+        >
+          Connect
+        </Typography>
+
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+          <Box
+            component="a"
+            href="https://github.com/kgrz"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              fontSize: '1rem',
+              color: tokens.colors.text.secondary,
+              textDecoration: 'none',
+              '&:hover': { color: tokens.colors.text.primary },
+            }}
+          >
+            GitHub
+          </Box>
+          <Box
+            component="a"
+            href="https://kgrz.design"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              fontSize: '1rem',
+              color: tokens.colors.text.secondary,
+              textDecoration: 'none',
+              '&:hover': { color: tokens.colors.text.primary },
+            }}
+          >
+            Portfolio
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

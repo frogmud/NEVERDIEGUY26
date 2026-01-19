@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { tokens } from '../../theme';
 
 const footerLinks = [
+  { label: 'Graveyard', path: '/graveyard' },
   { label: 'Terms', path: '/terms' },
   { label: 'Privacy', path: '/privacy' },
   { label: 'Help', path: '/help' },

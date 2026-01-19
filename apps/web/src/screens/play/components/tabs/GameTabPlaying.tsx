@@ -80,6 +80,9 @@ interface GameTabPlayingProps {
   event: number;
   totalEvents: number;
 
+  // Heat (streak-based difficulty)
+  heat?: number;
+
   // Roll history
   rollHistory: RollHistoryEntry[];
 
@@ -109,6 +112,7 @@ export function GameTabPlaying({
   onOptions,
   onInfo,
   combatFeed = [],
+  heat = 0,
 }: GameTabPlayingProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
@@ -462,16 +466,20 @@ export function GameTabPlaying({
         </Button>
       </Box>
 
-      {/* Gold */}
+      {/* Gold & Heat */}
       <Box
         sx={{
           p: 2,
           borderBottom: `1px solid ${tokens.colors.border}`,
           flexShrink: 0,
+          display: 'flex',
+          gap: 1,
         }}
       >
+        {/* Gold */}
         <Box
           sx={{
+            flex: 1,
             p: 1.5,
             borderRadius: 2,
             border: `1px solid ${tokens.colors.border}`,
@@ -492,6 +500,43 @@ export function GameTabPlaying({
             {gold.toLocaleString()}
           </Typography>
         </Box>
+
+        {/* Heat (only show when active) */}
+        {heat > 0 && (
+          <Box
+            sx={{
+              flex: 1,
+              p: 1.5,
+              borderRadius: 2,
+              border: `1px solid ${tokens.colors.primary}`,
+              bgcolor: 'rgba(255, 59, 63, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 0.75,
+            }}
+          >
+            <Box
+              component="img"
+              src="/icons/fire.svg"
+              alt=""
+              sx={{
+                width: 20,
+                height: 20,
+                imageRendering: 'pixelated',
+              }}
+            />
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '1.125rem',
+                color: tokens.colors.primary,
+              }}
+            >
+              Heat {heat}
+            </Typography>
+          </Box>
+        )}
       </Box>
 
       {/* Domain / Event / Info */}

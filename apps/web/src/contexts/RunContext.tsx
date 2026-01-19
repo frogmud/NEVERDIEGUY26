@@ -24,6 +24,10 @@ import {
   hasSavedRun,
   clearSavedRun,
   addRunToHistory,
+  loadHeatData,
+  saveHeatData,
+  incrementHeat,
+  resetHeat,
   type SavedRunState,
 } from '../data/player/storage';
 import {
@@ -163,6 +167,8 @@ export interface RunState extends GameState {
     goldMultiplier: number;           // 1.0 to 1.75
   };
   hp: number;                          // Current HP (100 max, travel damage reduces)
+  // Heat system (streak-based difficulty)
+  heat: number;                        // Current heat level (resets on death)
 }
 
 // Run context value
@@ -297,6 +303,8 @@ function createInitialRunState(): RunState {
     directorAffinity: null,
     travelMultipliers: { scoreMultiplier: 1.0, goldMultiplier: 1.0 },
     hp: 100,  // Start at full HP
+    // Heat system
+    heat: 0,  // Loaded from storage on START_RUN
   };
 }
 
@@ -484,6 +492,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
       // Get loadout stats from selected loadout
       const loadout = getLoadoutById(action.selectedLoadout || 'survivor');
       const loadoutStats: LoadoutStats = loadout?.statBonus || {};
+      // Load heat from storage (persistent streak)
+      const heatData = loadHeatData();
       return {
         ...initialState,
         centerPanel: 'globe',
@@ -511,6 +521,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         hp: 100,
         // Initialize dice bag for the run
         diceBag: createDiceBag(action.threadId, DEFAULT_STARTING_DICE),
+        // Heat system - load current streak
+        heat: heatData.currentHeat,
       };
     }
 
@@ -549,8 +561,13 @@ function runReducer(state: RunState, action: RunAction): RunState {
             npcsSquished: state.runStats.npcsSquished,
             purchases: state.runStats.purchases,
             killedBy: action.won ? undefined : state.runStats.killedBy,
+            heatAtDeath: action.won ? undefined : state.heat,
           },
         });
+      }
+      // Reset heat on death (streak broken)
+      if (!action.won && !state.practiceMode) {
+        saveHeatData(resetHeat(loadHeatData()));
       }
       return {
         ...state,
@@ -685,8 +702,13 @@ function runReducer(state: RunState, action: RunAction): RunState {
               npcsSquished: state.runStats.npcsSquished,
               purchases: state.runStats.purchases,
               killedBy: state.runStats.killedBy,
+              heatAtDeath: state.heat,
             },
           });
+        }
+        // Reset heat on death (streak broken)
+        if (!state.practiceMode) {
+          saveHeatData(resetHeat(loadHeatData()));
         }
         return {
           ...state,
@@ -838,6 +860,10 @@ function runReducer(state: RunState, action: RunAction): RunState {
       // Check if this is the finale (Null Providence)
       const isFinalePortal = isFinale(portal.domainId);
 
+      // Increment heat (completed a domain, moving to next)
+      const updatedHeatData = incrementHeat(loadHeatData());
+      saveHeatData(updatedHeatData);
+
       return {
         ...state,
         // Navigate to new domain
@@ -860,6 +886,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         // Reset room tracking for new domain
         roomNumber: 1,
         selectedZone: null,
+        // Heat incremented after domain completion
+        heat: updatedHeatData.currentHeat,
       };
     }
 
@@ -1196,7 +1224,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
       hand: [], // Will be populated by DiceMeteor component
       holdsRemaining: baseTrades + bonuses.bonusTrades,      // 2 base + item bonuses
       throwsRemaining: baseThrows + bonuses.bonusThrows,     // 3 base + item bonuses
-      targetScore: getFlatScoreGoal(domain),                  // Domain-based goals (800-4000)
+      targetScore: getFlatScoreGoal(domain, state.heat),      // Domain + heat scaling (800-4000 base)
       currentScore: bonuses.startingScore,                    // Start with bonus score
       multiplier: baseMultiplier * bonuses.scoreMultiplier,   // Base multiplier * item bonus
       turnsRemaining: 5,                                      // Flat structure: always 5 throws
@@ -1205,7 +1233,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
       friendlyHits: 0,
     };
     dispatch({ type: 'INIT_COMBAT', combatState });
-  }, [state.currentDomain, state.inventory]);
+  }, [state.currentDomain, state.inventory, state.heat]);
 
   const toggleHoldDie = useCallback((dieId: string) => {
     dispatch({ type: 'TOGGLE_HOLD_DIE', dieId });

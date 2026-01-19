@@ -7,15 +7,12 @@
  * NEVER DIE GUY
  */
 
-import { useRef, useMemo, useEffect } from 'react';
+import { useRef, useMemo, useEffect, useCallback } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // APL character set ordered by visual density (lightest to darkest)
 const APL_CHARS = ' .·∘⋄○⌽⊖⌾⍉←→↑↓⍳⍴~∊⊂⊃∩∪⌷⍸⌹⍟⍱⍲∧∨⊥⊤⌈⌊⍋⍒⍎⍕⌺⍝⎕⍞⌸⍷≡≢';
-
-// Precomputed character brightness values (0-1)
-const CHAR_BRIGHTNESS: number[] = [];
 
 interface AsciiEffectProps {
   /** Character cell size in pixels */
@@ -31,19 +28,6 @@ interface AsciiEffectProps {
 }
 
 /**
- * Precompute brightness values for each character
- * This is a simplified version - ideally we'd measure actual glyph density
- */
-function initCharBrightness() {
-  if (CHAR_BRIGHTNESS.length > 0) return;
-
-  for (let i = 0; i < APL_CHARS.length; i++) {
-    // Linear mapping based on position in density-sorted array
-    CHAR_BRIGHTNESS.push(i / (APL_CHARS.length - 1));
-  }
-}
-
-/**
  * Find the character that best matches a brightness value
  */
 function getCharForBrightness(brightness: number): string {
@@ -55,33 +39,53 @@ function getCharForBrightness(brightness: number): string {
  * AsciiEffect - Post-processing effect that converts 3D scene to ASCII
  */
 export function AsciiEffect({
-  cellSize = 12,
+  cellSize = 8,
   color = '#8b7355',
   glowColor = '#c4a882',
-  contrast = 1.8,
+  contrast = 1.6,
   enabled = true,
 }: AsciiEffectProps) {
   const { gl, scene, camera, size } = useThree();
 
-  // Initialize character brightness lookup
-  useMemo(() => initCharBrightness(), []);
+  // Use device pixel ratio for crisp rendering
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const width = Math.floor(size.width * dpr);
+  const height = Math.floor(size.height * dpr);
 
-  // Create render target for capturing the scene
-  const renderTarget = useMemo(() => {
-    return new THREE.WebGLRenderTarget(size.width, size.height, {
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      format: THREE.RGBAFormat,
-    });
-  }, [size.width, size.height]);
-
-  // Canvas for ASCII output
+  // Canvas and context refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 
+  // Pixel buffer ref (reuse to avoid allocation)
+  const pixelsRef = useRef<Uint8Array | null>(null);
+
+  // Create render target for capturing the scene
+  const renderTarget = useMemo(() => {
+    const rt = new THREE.WebGLRenderTarget(width, height, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+      format: THREE.RGBAFormat,
+      colorSpace: THREE.SRGBColorSpace,
+    });
+    return rt;
+  }, [width, height]);
+
+  // Create/update pixel buffer
+  useEffect(() => {
+    pixelsRef.current = new Uint8Array(width * height * 4);
+  }, [width, height]);
+
   // Create overlay canvas
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      // Remove canvas if disabled
+      if (canvasRef.current) {
+        canvasRef.current.remove();
+        canvasRef.current = null;
+        ctxRef.current = null;
+      }
+      return;
+    }
 
     // Create canvas element
     const canvas = document.createElement('canvas');
@@ -92,107 +96,118 @@ export function AsciiEffect({
     canvas.style.height = '100%';
     canvas.style.pointerEvents = 'none';
     canvas.style.zIndex = '10';
-    canvas.width = size.width;
-    canvas.height = size.height;
+    canvas.width = width;
+    canvas.height = height;
 
     // Get the canvas container
     const container = gl.domElement.parentElement;
     if (container) {
+      container.style.position = 'relative';
       container.appendChild(canvas);
     }
 
     canvasRef.current = canvas;
-    ctxRef.current = canvas.getContext('2d');
+    ctxRef.current = canvas.getContext('2d', { alpha: false });
 
     return () => {
-      if (container && canvas.parentElement === container) {
-        container.removeChild(canvas);
+      if (canvas.parentElement) {
+        canvas.parentElement.removeChild(canvas);
       }
       canvasRef.current = null;
       ctxRef.current = null;
     };
-  }, [enabled, gl.domElement, size.width, size.height]);
+  }, [enabled, gl.domElement, width, height]);
 
   // Update canvas size when viewport changes
   useEffect(() => {
     if (canvasRef.current) {
-      canvasRef.current.width = size.width;
-      canvasRef.current.height = size.height;
+      canvasRef.current.width = width;
+      canvasRef.current.height = height;
     }
-  }, [size.width, size.height]);
+  }, [width, height]);
 
-  // Render ASCII effect each frame
+  // Render ASCII effect - runs AFTER scene render (priority > 0)
   useFrame(() => {
-    if (!enabled || !ctxRef.current || !canvasRef.current) return;
+    if (!enabled || !ctxRef.current || !canvasRef.current || !pixelsRef.current) return;
 
     const ctx = ctxRef.current;
     const canvas = canvasRef.current;
+    const pixels = pixelsRef.current;
 
-    // Render scene to texture
+    // Store current render target
+    const currentRT = gl.getRenderTarget();
+
+    // Render scene to our target
     gl.setRenderTarget(renderTarget);
+    gl.clear();
     gl.render(scene, camera);
-    gl.setRenderTarget(null);
 
-    // Read pixels from render target
-    const pixels = new Uint8Array(size.width * size.height * 4);
-    gl.readRenderTargetPixels(renderTarget, 0, 0, size.width, size.height, pixels);
+    // Read pixels
+    gl.readRenderTargetPixels(renderTarget, 0, 0, width, height, pixels);
 
-    // Clear ASCII canvas
+    // Restore previous render target
+    gl.setRenderTarget(currentRT);
+
+    // Clear ASCII canvas with dark background
     ctx.fillStyle = '#050508';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Set up font
-    ctx.font = `${cellSize}px "APL385 Unicode", "IBM Plex Mono", monospace`;
+    // Set up font - use monospace for consistent character width
+    const fontSize = Math.floor(cellSize * dpr);
+    ctx.font = `${fontSize}px "IBM Plex Mono", "Menlo", monospace`;
     ctx.textBaseline = 'top';
 
-    const cols = Math.floor(size.width / (cellSize * 0.7));
-    const rows = Math.floor(size.height / cellSize);
-    const cellWidth = size.width / cols;
-    const cellHeight = size.height / rows;
+    // Calculate grid
+    const charWidth = fontSize * 0.6;
+    const charHeight = fontSize;
+    const cols = Math.floor(width / charWidth);
+    const rows = Math.floor(height / charHeight);
 
     // Process each cell
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        // Sample center of cell
-        const px = Math.floor((col + 0.5) * cellWidth);
-        const py = Math.floor((row + 0.5) * cellHeight);
+        // Sample center of cell in pixel coordinates
+        const px = Math.floor((col + 0.5) * charWidth);
+        const py = Math.floor((row + 0.5) * charHeight);
 
-        // Flip Y because WebGL texture is upside down
-        const flippedY = size.height - 1 - py;
-        const idx = (flippedY * size.width + px) * 4;
+        // WebGL textures are Y-flipped
+        const flippedY = height - 1 - py;
 
-        // Get RGB values
+        // Bounds check
+        if (px < 0 || px >= width || flippedY < 0 || flippedY >= height) continue;
+
+        const idx = (flippedY * width + px) * 4;
+
+        // Get RGB values (0-1)
         const r = pixels[idx] / 255;
         const g = pixels[idx + 1] / 255;
         const b = pixels[idx + 2] / 255;
 
-        // Calculate luminance
+        // Calculate luminance using standard coefficients
         let brightness = 0.299 * r + 0.587 * g + 0.114 * b;
 
-        // Apply contrast enhancement
+        // Apply contrast curve
         brightness = Math.pow(brightness, 1 / contrast);
 
-        // Get character
+        // Get character based on brightness
         const char = getCharForBrightness(brightness);
 
-        if (char === ' ') continue;
+        // Skip spaces (empty areas)
+        if (char === ' ' || brightness < 0.02) continue;
 
-        // Set color based on brightness
-        if (brightness > 0.6) {
-          ctx.fillStyle = glowColor;
-        } else {
-          ctx.fillStyle = color;
-        }
+        // Set color - brighter pixels get glow color
+        ctx.fillStyle = brightness > 0.5 ? glowColor : color;
+        ctx.globalAlpha = 0.6 + brightness * 0.4;
 
-        ctx.globalAlpha = 0.7 + brightness * 0.3;
-        ctx.fillText(char, col * cellWidth, row * cellHeight);
+        // Draw character
+        ctx.fillText(char, col * charWidth, row * charHeight);
       }
     }
 
     ctx.globalAlpha = 1;
-  }, 1); // Run after scene render
+  }, 100); // High priority number = runs later, after main render
 
-  // Cleanup render target
+  // Cleanup render target on unmount
   useEffect(() => {
     return () => {
       renderTarget.dispose();

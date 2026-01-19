@@ -11,7 +11,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { GLOBE_CONFIG, GlobeNPC, MeteorProjectile, ImpactZone } from './config';
+import { GLOBE_CONFIG, GlobeNPC, MeteorProjectile, ImpactZone, DOMAIN_PLANET_CONFIG } from './config';
 import { Planet } from './components/Planet';
 import { NPCMarker } from './components/NPCMarker';
 import { ZoneMarker } from './components/ZoneMarker';
@@ -22,6 +22,7 @@ import { ImpactEffect } from './components/ImpactEffect';
 import { GuardianGroup, type GuardianData } from './components/Guardian';
 import { VictoryExplosion } from './components/VictoryExplosion';
 import { BossSprite } from './components/BossSprite';
+import { AsciiEffect } from './effects/AsciiEffect';
 import { ZoneMarker as ZoneMarkerType } from '../../types/zones';
 import type { BossDefinition } from '../../data/boss-types';
 
@@ -70,6 +71,8 @@ interface GlobeSceneProps {
   bossCurrentScore?: number;
   /** True when boss was just hit (triggers shake animation) */
   bossIsHit?: boolean;
+  /** Enable ASCII art rendering mode */
+  asciiMode?: boolean;
 }
 
 /**
@@ -197,6 +200,7 @@ export function GlobeScene({
   boss,
   bossCurrentScore = 0,
   bossIsHit = false,
+  asciiMode = false,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -319,6 +323,17 @@ export function GlobeScene({
           )}
           {targetPosition && !reticleDieType && (
             <TargetReticle lat={targetPosition.lat} lng={targetPosition.lng} />
+          )}
+
+          {/* ASCII Art Post-Processing Effect */}
+          {asciiMode && (
+            <AsciiEffect
+              enabled={asciiMode}
+              cellSize={10}
+              color={DOMAIN_PLANET_CONFIG[domainId || 1]?.color || '#8b7355'}
+              glowColor={DOMAIN_PLANET_CONFIG[domainId || 1]?.glowColor || '#c4a882'}
+              contrast={1.8}
+            />
           )}
         </Suspense>
       </Canvas>

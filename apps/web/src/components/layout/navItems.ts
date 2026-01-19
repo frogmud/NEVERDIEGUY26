@@ -10,7 +10,7 @@ export type NavItem = {
   requiresAuth?: boolean; // If true, hide when not authenticated
 };
 
-// MVP Nav: 2 simple entries
+// MVP Nav: Core navigation entries (keep minimal)
 export const navItems: NavItem[] = [
   { label: 'Play', iconSrc: '/assets/nav/nav1-play.svg', path: '/play' },
   { label: 'Wiki', iconSrc: '/assets/nav/nav2-wiki.svg', path: '/wiki' },

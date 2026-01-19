@@ -516,7 +516,7 @@ export function CombatTerminal({
   const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion } = useSoundContext();
 
   // Game settings (speed affects animation timings)
-  const { adjustDelay, gameSpeed } = useGameSettings();
+  const { adjustDelay, gameSpeed, asciiMode } = useGameSettings();
 
   // Combat engine ref
   const engineRef = useRef<CombatEngine | null>(null);
@@ -1623,6 +1623,7 @@ export function CombatTerminal({
             boss={boss || undefined}
             bossCurrentScore={combatState.currentScore}
             bossIsHit={bossIsHit}
+            asciiMode={asciiMode}
           />
         </Box>
 

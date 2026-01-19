@@ -4,6 +4,7 @@ import {
   MusicNoteSharp as MusicIcon,
   SpeedSharp as SpeedIcon,
   Brightness6Sharp as ThemeIcon,
+  TerminalSharp as AsciiIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
 import { useSoundContext } from '../../../../contexts/SoundContext';
@@ -21,6 +22,8 @@ export function SettingsTab() {
     setAnimationsEnabled,
     musicEnabled,
     setMusicEnabled,
+    asciiMode,
+    setAsciiMode,
   } = useGameSettings();
 
   return (
@@ -108,6 +111,19 @@ export function SettingsTab() {
           <Switch
             checked={animationsEnabled}
             onChange={(e) => setAnimationsEnabled(e.target.checked)}
+            size="small"
+          />
+        }
+      />
+
+      {/* ASCII Graphics Toggle */}
+      <SettingRow
+        icon={<AsciiIcon sx={{ fontSize: 20 }} />}
+        label="ASCII Graphics"
+        control={
+          <Switch
+            checked={asciiMode}
+            onChange={(e) => setAsciiMode(e.target.checked)}
             size="small"
           />
         }

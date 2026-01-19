@@ -11,7 +11,6 @@ import {
   Tooltip,
   Collapse,
   IconButton,
-  Badge,
   Avatar,
   InputBase,
   Popover,
@@ -27,10 +26,10 @@ import {
   GroupSharp as FriendsIcon,
   SettingsSharp as SettingsIcon,
   HelpOutlineSharp as HelpIcon,
+  InfoOutlined as InfoIcon,
   LogoutSharp as LogoutIcon,
   ContrastSharp as ThemeIcon,
   TuneSharp as CustomizeIcon,
-  MailOutlineSharp as MailIcon,
 } from '@mui/icons-material';
 import { tokens, sxPatterns } from '../../theme';
 import { navItems, type NavItem, DRAWER_WIDTH_COLLAPSED, DRAWER_WIDTH_EXPANDED, HEADER_HEIGHT } from './navItems';
@@ -501,11 +500,29 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                   mr: expanded ? 0.75 : 0,
                 }}
               >
-                <Avatar
-                  src="/assets/characters/travelers/sprite-never-die-guy-1.png"
-                  alt={user.name}
-                  sx={{ width: 24, height: 24, bgcolor: tokens.colors.background.elevated, imageRendering: 'pixelated' }}
-                />
+                {/* Avatar cropped at shoulders */}
+                <Box sx={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  bgcolor: tokens.colors.background.elevated,
+                  flexShrink: 0,
+                }}>
+                  <Box
+                    component="img"
+                    src="/assets/characters/travelers/sprite-never-die-guy-1.png"
+                    alt={user.name}
+                    sx={{
+                      width: '140%',
+                      height: '140%',
+                      objectFit: 'cover',
+                      objectPosition: 'top center',
+                      imageRendering: 'pixelated',
+                      marginLeft: '-20%',
+                    }}
+                  />
+                </Box>
               </ListItemIcon>
               {expanded && (
                 <ListItemText
@@ -534,24 +551,26 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             py: 0.5,
           }}
         >
-          {/* Multiplayer */}
-          <Tooltip title="Multiplayer" placement={expanded ? 'top' : 'right'} arrow>
+          {/* Multiplayer - Coming Soon */}
+          <Tooltip title="Coming soon" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
-              onClick={() => navigate('/multiplayer')}
+              disabled
               sx={{
                 width: 36,
                 height: 36,
                 color: tokens.colors.text.disabled,
-                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
+                opacity: 0.5,
+                cursor: 'not-allowed',
               }}
             >
               <FriendsIcon sx={{ fontSize: 20 }} />
             </IconButton>
           </Tooltip>
 
-          {/* Inbox/Notifications */}
-          <Tooltip title="Inbox" placement={expanded ? 'top' : 'right'} arrow>
+          {/* About / Info */}
+          <Tooltip title="About" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
+              onClick={() => navigate('/about')}
               sx={{
                 width: 36,
                 height: 36,
@@ -559,9 +578,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                 '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <Badge badgeContent={35} color="error" sx={{ '& .MuiBadge-badge': { fontSize: 9, minWidth: 16, height: 16 } }}>
-                <MailIcon sx={{ fontSize: 20 }} />
-              </Badge>
+              <InfoIcon sx={{ fontSize: 20 }} />
             </IconButton>
           </Tooltip>
 

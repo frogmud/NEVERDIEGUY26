@@ -37,6 +37,12 @@ const mysteryPulse = keyframes`
   50% { box-shadow: 0 0 40px rgba(138, 43, 226, 0.7); }
 `;
 
+// ASCII scanline overlay animation
+const asciiScan = keyframes`
+  0% { background-position: 0 0; }
+  100% { background-position: 0 8px; }
+`;
+
 // Selected card glow pulse
 const selectedGlow = keyframes`
   0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
@@ -111,6 +117,50 @@ function AnimatedFlumeBackground({ domainId, isHovered }: { domainId: number; is
   );
 }
 
+// ASCII-style overlay with scanlines and character grid
+function AsciiOverlay({ isHovered, color }: { isHovered: boolean; color: string }) {
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        // Scanline effect
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          background: `repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 2px,
+            rgba(0,0,0,0.3) 2px,
+            rgba(0,0,0,0.3) 4px
+          )`,
+          animation: `${asciiScan} 0.5s linear infinite`,
+          opacity: isHovered ? 0.6 : 0.4,
+          transition: 'opacity 300ms ease',
+        },
+        // Character grid overlay
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          background: `repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 6px,
+            rgba(255,255,255,0.03) 6px,
+            rgba(255,255,255,0.03) 7px
+          )`,
+          opacity: isHovered ? 0.5 : 0.3,
+          transition: 'opacity 300ms ease',
+        },
+      }}
+    />
+  );
+}
+
 interface PortalCardProps {
   portal: PortalOption;
   currentHp: number;
@@ -165,6 +215,9 @@ function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, ind
     >
       {/* Full-bleed animated background */}
       {!portal.isUnknown && <AnimatedFlumeBackground domainId={portal.domainId} isHovered={isHovered || isSelected} />}
+
+      {/* ASCII scanline overlay */}
+      <AsciiOverlay isHovered={isHovered || isSelected} color={planetConfig?.color || '#666'} />
 
       {/* Unknown portal background */}
       {portal.isUnknown && (

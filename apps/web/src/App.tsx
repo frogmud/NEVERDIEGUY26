@@ -75,6 +75,9 @@ const LootDrop = lazy(() => import('./screens/play/LootDrop').then(m => ({ defau
 const Globe3D = lazy(() => import('./screens/play/Globe3D').then(m => ({ default: m.Globe3D })));
 const MultiplayerHub = lazy(() => import('./screens/play/MultiplayerHub').then(m => ({ default: m.MultiplayerHub })));
 
+// Graveyard (run history)
+const Graveyard = lazy(() => import('./screens/graveyard/Graveyard').then(m => ({ default: m.Graveyard })));
+
 // Game
 const LocationSelector = lazy(() => import('./screens/game/LocationSelector').then(m => ({ default: m.LocationSelector })));
 const FastTravel = lazy(() => import('./screens/game/FastTravel').then(m => ({ default: m.FastTravel })));
@@ -121,7 +124,7 @@ function App() {
         <Route path="/profile/*" element={<Navigate to="/" replace />} />
         <Route path="/user/*" element={<Navigate to="/" replace />} />
         <Route path="/leaderboard" element={<Navigate to="/" replace />} />
-        <Route path="/history" element={<Navigate to="/" replace />} />
+        <Route path="/history" element={<Navigate to="/graveyard" replace />} />
         <Route path="/rewards/*" element={<Navigate to="/" replace />} />
 
         {/* Routes with shell */}
@@ -146,6 +149,7 @@ function App() {
           <Route path="/play/exit-summary" element={<Suspense fallback={<RouteLoader />}><ExitGameSummary /></Suspense>} />
           <Route path="/inventory" element={<Suspense fallback={<RouteLoader />}><Inventory /></Suspense>} />
           <Route path="/loot" element={<Suspense fallback={<RouteLoader />}><LootDrop /></Suspense>} />
+          <Route path="/graveyard" element={<Suspense fallback={<RouteLoader />}><Graveyard /></Suspense>} />
 
           {/* Wiki */}
           <Route path="/wiki" element={<Suspense fallback={<RouteLoader />}><WikiIndex /></Suspense>} />

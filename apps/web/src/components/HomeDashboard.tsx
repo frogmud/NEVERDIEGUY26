@@ -10,16 +10,14 @@
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Box, Typography, keyframes, Tooltip, Dialog, DialogTitle, DialogContent } from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { Box, Typography, keyframes, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import CloseIcon from '@mui/icons-material/Close';
 import ForumIcon from '@mui/icons-material/Forum';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import type { ShellContext } from './Shell';
 import { tokens } from '../theme';
@@ -72,7 +70,7 @@ import {
   type MultiNPCConversationState,
 } from '@ndg/ai-engine';
 import { refineGreeting } from '@ndg/ai-engine/stream';
-import { hasSavedRun, loadSavedRun } from '../data/player/storage';
+import { hasSavedRun, loadSavedRun, loadHeatData, getRunHistoryStats, loadCorruptionData, saveCorruptionData, addCorruption, resetCorruption, getRerollCorruptionCost, type CorruptionData } from '../data/player/storage';
 import { generateLoadout, getItemImage, getItemName, generateItemStats, LOADOUT_ITEMS, type StartingLoadout, type SeededItemStats } from '../data/decrees';
 import { createSeededRng } from '../data/pools/seededRng';
 import { EASING, stagger } from '../utils/transitions';
@@ -99,6 +97,14 @@ const pulseGlow = keyframes`
 const slideUp = keyframes`
   0% { transform: translateY(100%); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
+`;
+
+const corruptionGlitch = keyframes`
+  0%, 100% { opacity: 0.3; transform: translate(0, 0); }
+  20% { opacity: 0.5; transform: translate(-1px, 1px); }
+  40% { opacity: 0.4; transform: translate(1px, -1px); }
+  60% { opacity: 0.6; transform: translate(-1px, 0); }
+  80% { opacity: 0.35; transform: translate(1px, 1px); }
 `;
 
 const slideDown = keyframes`
@@ -249,29 +255,13 @@ const ASCII_SKULL = [
 ];
 
 /**
- * ASCII UI Elements - Profile and buttons that load alongside skull
+ * Simple loading progress - replaces ASCII UI during boot
  */
-const ASCII_PROFILE = [
-  '+--------+',
-  '|  @@@@  |',
-  '|  @@@@  |',
-  '|   @@   |',
-  '+--------+ @guy_####',
-];
+const LOADING_STEPS = 8; // Total steps in the loading bar
 
-const ASCII_BUTTONS = [
-  '+=======================+',
-  '|      N E W  R U N     |',
-  '+=======================+',
-  '',
-  '+=======================+',
-  '|      R E R O L L      |',
-  '+=======================+',
-  '',
-  '+- - - - - - - - - - - -+',
-  '|     C O N T I N U E   |',
-  '+- - - - - - - - - - - -+',
-];
+// Placeholder for backwards compatibility (will be replaced with loading bar)
+const ASCII_PROFILE: string[] = [];
+const ASCII_BUTTONS: string[] = [];
 
 // Pixel explosion - toned down, more gravity
 const pixelExplode = keyframes`
@@ -959,7 +949,7 @@ function markDailyWikiClicked(): void {
 
 export function HomeDashboard() {
   const navigate = useNavigate();
-  useOutletContext<ShellContext>(); // Required for layout
+  const { sidebarExpanded } = useOutletContext<ShellContext>();
   const streamRef = useRef<HTMLDivElement>(null);
 
   // Always Earth (domain 1) - but each refresh is a different "day" in eternity
@@ -1048,6 +1038,17 @@ export function HomeDashboard() {
     return null;
   }, []);
 
+  // Load heat data (streak progress)
+  const heatData = useMemo(() => loadHeatData(), []);
+
+  // Load lifetime stats for earnings display
+  const lifetimeStats = useMemo(() => getRunHistoryStats(), []);
+
+  // Corruption state - tracks how corrupted the current Guy is
+  const [corruptionData, setCorruptionData] = useState<CorruptionData>(() => loadCorruptionData());
+  const [rerollCount, setRerollCount] = useState(0);
+  const [seedRefreshDialogOpen, setSeedRefreshDialogOpen] = useState(false);
+
   // Get available NPCs to invite (not already in stream)
   const availableToInvite = useMemo(() => {
     const currentIds = participants.map(p => p.id);
@@ -1087,17 +1088,27 @@ export function HomeDashboard() {
   };
 
   // ============================================
-  // Refresh Handler - Rerolls everything
+  // Reroll Handler - Same Guy, but asks Die-rectors for better loadout (causes corruption)
   // ============================================
 
-  const handleRefresh = () => {
-    // New "day" in eternity - same destination (Earth), but different cosmic configuration
+  const handleReroll = () => {
+    // Calculate corruption cost based on reroll count
+    const corruptionCost = getRerollCorruptionCost(rerollCount);
+
+    // Add corruption (Die-rectors notice your desperation)
+    const newCorruptionData = addCorruption(corruptionData, corruptionCost);
+    setCorruptionData(newCorruptionData);
+    saveCorruptionData(newCorruptionData);
+
+    // Increment reroll count for escalating costs
+    setRerollCount(prev => prev + 1);
+
     // Pick a random NPC to lead the stream (from preloaded cache)
     const validNpcs = getValidNpcs();
     const newNpcId = validNpcs[Math.floor(Math.random() * validNpcs.length)]?.id || 'mr-kevin';
     setSelectedNpcId(newNpcId);
 
-    // Generate new loadout with new seed (always Earth)
+    // Generate new loadout with new seed (always Earth) - same Guy, different roll
     const newLoadout = generateLoadout(newNpcId, selectedDomain);
     setCurrentLoadout(newLoadout);
 
@@ -1109,6 +1120,44 @@ export function HomeDashboard() {
     setIsTyping(false);
 
     // Shuffle NPCs from preloaded cache - visitors through eternity
+    const shuffledNpcs = [...validNpcs].sort(() => Math.random() - 0.5);
+    const newParticipants = shuffledNpcs.slice(0, 6);
+    setParticipants(newParticipants);
+
+    // Reset conversation state
+    const domainSlug = getDomainSlugFromId(selectedDomain);
+    setConversationState(createMultiNPCConversation(newParticipants.map(p => p.id), domainSlug, null));
+  };
+
+  // ============================================
+  // Seed Refresh Handler - Creates a NEW Guy instance (resets corruption)
+  // ============================================
+
+  const handleSeedRefresh = () => {
+    setSeedRefreshDialogOpen(false);
+
+    // Reset corruption - new Guy, clean slate
+    const freshCorruption = resetCorruption();
+    setCorruptionData(freshCorruption);
+    setRerollCount(0);
+
+    // Pick a random NPC to lead the stream
+    const validNpcs = getValidNpcs();
+    const newNpcId = validNpcs[Math.floor(Math.random() * validNpcs.length)]?.id || 'mr-kevin';
+    setSelectedNpcId(newNpcId);
+
+    // Generate new loadout with new seed - entirely new Guy
+    const newLoadout = generateLoadout(newNpcId, selectedDomain);
+    setCurrentLoadout(newLoadout);
+
+    // Reset boot sequence
+    setBootPhase('slide');
+    setAsciiRowsVisible(0);
+    setMessages([]);
+    setAmbientIndex(0);
+    setIsTyping(false);
+
+    // Shuffle NPCs
     const shuffledNpcs = [...validNpcs].sort(() => Math.random() - 0.5);
     const newParticipants = shuffledNpcs.slice(0, 6);
     setParticipants(newParticipants);
@@ -1641,8 +1690,8 @@ export function HomeDashboard() {
       position: 'relative',
     }}>
       {/* Top: Player Identity + Badges */}
-      <Box sx={{ position: 'relative', px: 3, pt: 2, pb: 0 }}>
-        {/* ASCII Profile - loads during skull-hero */}
+      <Box sx={{ position: 'relative', px: sidebarExpanded ? 2 : 3, pt: 2, pb: 0, transition: 'padding 200ms ease' }}>
+        {/* Loading Bar - shows during skull-hero */}
         {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal') && (
           <Box sx={{
             position: 'absolute',
@@ -1650,27 +1699,34 @@ export function HomeDashboard() {
             left: 24,
             display: 'flex',
             flexDirection: 'column',
-            fontFamily: 'monospace',
-            fontSize: '0.7rem',
-            lineHeight: 1.2,
-            color: tokens.colors.primary,
+            gap: 0.5,
             opacity: bootPhase === 'ui-reveal' ? 0 : 1,
             transition: 'opacity 300ms ease-out',
-            filter: 'drop-shadow(0 0 8px rgba(233, 4, 65, 0.5))',
           }}>
-            {ASCII_PROFILE.map((row, rowIdx) => (
-              <Box
-                key={rowIdx}
-                sx={{
-                  opacity: rowIdx < uiAsciiRowsVisible ? 1 : 0,
-                  transform: rowIdx < uiAsciiRowsVisible ? 'scaleY(1)' : 'scaleY(0)',
-                  transition: 'opacity 30ms ease-out, transform 30ms ease-out',
-                  whiteSpace: 'pre',
-                }}
-              >
-                {row}
-              </Box>
-            ))}
+            <Typography sx={{
+              fontFamily: 'monospace',
+              fontSize: '0.75rem',
+              color: tokens.colors.primary,
+              filter: 'drop-shadow(0 0 8px rgba(233, 4, 65, 0.5))',
+            }}>
+              Loading...
+            </Typography>
+            <Box sx={{
+              width: 120,
+              height: 4,
+              bgcolor: 'rgba(233, 4, 65, 0.2)',
+              borderRadius: 2,
+              overflow: 'hidden',
+            }}>
+              <Box sx={{
+                width: `${Math.min(100, (asciiRowsVisible / ASCII_SKULL.length) * 100)}%`,
+                height: '100%',
+                bgcolor: tokens.colors.primary,
+                borderRadius: 2,
+                transition: 'width 50ms ease-out',
+                boxShadow: '0 0 8px rgba(233, 4, 65, 0.6)',
+              }} />
+            </Box>
           </Box>
         )}
 
@@ -1686,20 +1742,58 @@ export function HomeDashboard() {
         }}>
           {/* Left: Avatar + Username */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            {/* Avatar - Always use NDG sprite */}
-            <Box
-              component="img"
-              src="/assets/characters/travelers/sprite-never-die-guy-1.png"
-              alt="player"
-              sx={{
+            {/* Avatar - NDG sprite cropped at shoulders with corruption overlay */}
+            <Tooltip title={corruptionData.level > 0 ? `Corruption: ${corruptionData.level}%` : 'Pure'} placement="bottom">
+              <Box sx={{
+                position: 'relative',
                 width: 56,
                 height: 56,
                 borderRadius: `${tokens.radius.md}px`,
-                border: `2px solid ${tokens.colors.border}`,
-                objectFit: 'cover',
-                imageRendering: 'pixelated',
-              }}
-            />
+                border: `2px solid ${corruptionData.level > 40 ? '#9333ea' : tokens.colors.border}`,
+                overflow: 'hidden',
+                flexShrink: 0,
+                transition: 'border-color 300ms ease',
+              }}>
+                <Box
+                  component="img"
+                  src="/assets/characters/travelers/sprite-never-die-guy-1.png"
+                  alt="player"
+                  sx={{
+                    width: '140%',
+                    height: '140%',
+                    objectFit: 'cover',
+                    objectPosition: 'top center',
+                    imageRendering: 'pixelated',
+                    marginLeft: '-20%',
+                  }}
+                />
+                {/* Corruption overlay - purple glitch effect */}
+                {corruptionData.level > 0 && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: `linear-gradient(135deg, rgba(147, 51, 234, ${corruptionData.level / 200}) 0%, rgba(88, 28, 135, ${corruptionData.level / 150}) 100%)`,
+                      mixBlendMode: 'overlay',
+                      animation: corruptionData.level > 60 ? `${corruptionGlitch} 2s ease-in-out infinite` : 'none',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                )}
+                {/* High corruption - additional glitch lines */}
+                {corruptionData.level > 60 && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(147, 51, 234, 0.1) 2px, rgba(147, 51, 234, 0.1) 4px)',
+                      pointerEvents: 'none',
+                      opacity: (corruptionData.level - 60) / 40,
+                    }}
+                  />
+                )}
+              </Box>
+            </Tooltip>
             {/* Username + Badges */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
               {/* Show loading state during boot, then reveal name */}
@@ -1789,27 +1883,6 @@ export function HomeDashboard() {
               </Box>
             </Tooltip>
 
-            {/* DM Inbox Icon */}
-            <Tooltip title="NPC Messages" placement="bottom">
-              <Box
-                sx={{
-                  width: 40,
-                  height: 40,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 150ms ease',
-                  '&:hover': {
-                    bgcolor: tokens.colors.background.paper,
-                    border: `1px solid ${tokens.colors.border}`,
-                  },
-                }}
-              >
-                <MailOutlineIcon sx={{ fontSize: 22, color: tokens.colors.text.secondary }} />
-              </Box>
-            </Tooltip>
           </Box>
         </Box>
       </Box>
@@ -1821,47 +1894,77 @@ export function HomeDashboard() {
         overflow: 'hidden',
         minHeight: 0,
         position: 'relative',
-        px: 3,
+        px: sidebarExpanded ? 2 : 3,
         py: 2,
-        gap: 4,
+        gap: sidebarExpanded ? 2 : 4,
+        transition: 'padding 200ms ease, gap 200ms ease',
       }}>
         {/* Left Column - Action Buttons */}
-        <Box sx={{ position: 'relative', width: 260, flexShrink: 0, pt: 6 }}>
-          {/* ASCII Buttons - loads during skull-hero */}
-          {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal') && (
-            <Box sx={{
-              position: 'absolute',
-              top: 48,
-              left: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              fontFamily: 'monospace',
-              fontSize: '0.75rem',
-              lineHeight: 1.3,
-              color: tokens.colors.primary,
-              opacity: bootPhase === 'ui-reveal' ? 0 : 1,
-              transition: 'opacity 300ms ease-out',
-              filter: 'drop-shadow(0 0 8px rgba(233, 4, 65, 0.5))',
-            }}>
-              {ASCII_BUTTONS.map((row, rowIdx) => {
-                const adjustedIdx = rowIdx + ASCII_PROFILE.length; // Start after profile rows
-                return (
-                  <Box
-                    key={rowIdx}
-                    sx={{
-                      opacity: adjustedIdx < uiAsciiRowsVisible ? 1 : 0,
-                      transform: adjustedIdx < uiAsciiRowsVisible ? 'scaleY(1)' : 'scaleY(0)',
-                      transition: 'opacity 30ms ease-out, transform 30ms ease-out',
-                      whiteSpace: 'pre',
-                      height: row === '' ? '0.8rem' : 'auto', // Spacing for empty rows
-                    }}
-                  >
-                    {row || ' '}
+        <Box sx={{ position: 'relative', width: sidebarExpanded ? 240 : 260, flexShrink: 0, transition: 'width 200ms ease' }}>
+          {/* Lifetime Earnings */}
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2.5,
+            mb: 4,
+            // Fade in during ui-reveal phase
+            opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+            transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateX(-20px)' : 'translateX(0)',
+            transition: 'opacity 400ms ease-out, transform 400ms ease-out',
+          }}>
+            {/* Coin icon - larger */}
+            <Box
+              component="img"
+              src="/assets/ui/token.svg"
+              alt=""
+              sx={{
+                width: 100,
+                height: 100,
+                imageRendering: 'pixelated',
+              }}
+            />
+            <Box>
+              <Typography sx={{
+                fontSize: '0.9rem',
+                color: tokens.colors.text.secondary,
+                mb: 0.5,
+              }}>
+                Lifetime Earnings
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                <Typography sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '3rem',
+                  color: tokens.colors.text.primary,
+                  lineHeight: 1,
+                }}>
+                  {lifetimeStats.totalGoldEarned >= 1000000
+                    ? `${(lifetimeStats.totalGoldEarned / 1000000).toFixed(1)}m`
+                    : lifetimeStats.totalGoldEarned >= 1000
+                    ? `${(lifetimeStats.totalGoldEarned / 1000).toFixed(1)}k`
+                    : lifetimeStats.totalGoldEarned.toLocaleString()}
+                </Typography>
+                {/* Fire streak indicator if active */}
+                {heatData.currentHeat > 0 && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
+                    <Box
+                      component="img"
+                      src="/icons/fire.svg"
+                      alt=""
+                      sx={{ width: 20, height: 20 }}
+                    />
+                    <Typography sx={{
+                      fontFamily: tokens.fonts.gaming,
+                      fontSize: '1rem',
+                      color: tokens.colors.primary,
+                    }}>
+                      {heatData.currentHeat}
+                    </Typography>
                   </Box>
-                );
-              })}
+                )}
+              </Box>
             </Box>
-          )}
+          </Box>
 
           {/* Real Buttons - fade in during ui-reveal */}
           <Box sx={{
@@ -1905,27 +2008,29 @@ export function HomeDashboard() {
             </Typography>
           </Box>
 
-          {/* Reroll Button - Warning/Gold */}
+          {/* Reroll Button - Warning/Gold with corruption cost subtitle */}
           <Box
-            onClick={handleRefresh}
+            onClick={handleReroll}
             sx={{
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              py: 2.5,
+              py: 2,
               borderRadius: '16px',
               bgcolor: tokens.colors.warning,
-              cursor: 'pointer',
+              cursor: corruptionData.level >= 100 ? 'default' : 'pointer',
+              opacity: corruptionData.level >= 100 ? 0.6 : 1,
               transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
               boxShadow: `0 4px 16px rgba(234, 179, 8, 0.3)`,
-              '&:hover': {
+              '&:hover': corruptionData.level < 100 ? {
                 filter: 'brightness(1.1)',
                 transform: 'scale(1.03) translateY(-2px)',
                 boxShadow: `0 8px 24px rgba(234, 179, 8, 0.4)`,
-              },
-              '&:active': {
+              } : {},
+              '&:active': corruptionData.level < 100 ? {
                 transform: 'scale(0.98)',
-              },
+              } : {},
             }}
           >
             <Typography sx={{
@@ -1934,6 +2039,15 @@ export function HomeDashboard() {
               color: tokens.colors.background.default,
             }}>
               Reroll
+            </Typography>
+            {/* Corruption cost subtitle */}
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.75rem',
+              color: 'rgba(0, 0, 0, 0.6)',
+              mt: 0.25,
+            }}>
+              {corruptionData.level >= 100 ? 'MAX CORRUPTION' : `+${getRerollCorruptionCost(rerollCount)}% corruption`}
             </Typography>
           </Box>
 
@@ -1966,16 +2080,49 @@ export function HomeDashboard() {
             </Typography>
           </Box>
 
-          {/* Seed Display */}
-          <Typography sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.75rem',
-            color: tokens.colors.text.disabled,
-            textAlign: 'center',
-            mt: 1,
-          }}>
-            seed: #{currentLoadout.seed}
-          </Typography>
+          {/* Seed Display - Clickable to create new Guy */}
+          <Tooltip title="Create new Guy (resets corruption)" placement="top">
+            <Box
+              onClick={() => setSeedRefreshDialogOpen(true)}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 0.5,
+                mt: 1,
+                cursor: 'pointer',
+                '&:hover': {
+                  '& .seed-text': {
+                    color: tokens.colors.text.secondary,
+                  },
+                  '& .refresh-icon': {
+                    opacity: 1,
+                  },
+                },
+              }}
+            >
+              <Typography
+                className="seed-text"
+                sx={{
+                  fontFamily: tokens.fonts.gaming,
+                  fontSize: '0.75rem',
+                  color: tokens.colors.text.disabled,
+                  transition: 'color 150ms ease',
+                }}
+              >
+                seed: #{currentLoadout.seed}
+              </Typography>
+              <RefreshIcon
+                className="refresh-icon"
+                sx={{
+                  fontSize: 14,
+                  color: tokens.colors.text.disabled,
+                  opacity: 0,
+                  transition: 'opacity 150ms ease',
+                }}
+              />
+            </Box>
+          </Tooltip>
           </Box>
         </Box>
 
@@ -1988,14 +2135,16 @@ export function HomeDashboard() {
           pt: 6,
           gap: 3,
           position: 'relative',
+          minWidth: 0,
+          overflow: 'hidden',
         }}>
           {/* ASCII Skull - loads row by row, explodes when items hit */}
           {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal' || bootPhase === 'items-drop') && (
             <Box
               sx={{
                 position: 'absolute',
-                top: '50%',
-                left: '50%',
+                top: '35%',
+                left: '35%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: bootPhase === 'items-drop' ? 1 : 10,
                 display: 'flex',
@@ -2056,11 +2205,28 @@ export function HomeDashboard() {
             <Box sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 3,
+              justifyContent: 'center',
+              gap: sidebarExpanded ? 2 : 3,
               zIndex: 5,
+              width: '100%',
               // Fade in during ui-reveal phase
               opacity: bootPhase === 'active' ? 1 : 0.8,
-              transition: 'opacity 600ms ease-out',
+              transition: 'opacity 600ms ease-out, transform 200ms ease-out, gap 200ms ease',
+              // Responsive scaling: shrink cards before stacking, tighter when sidebar expanded
+              transform: sidebarExpanded ? {
+                xs: 'scale(0.45)',
+                sm: 'scale(0.55)',
+                md: 'scale(0.65)',
+                lg: 'scale(0.75)',
+                xl: 'scale(0.85)',
+              } : {
+                xs: 'scale(0.5)',
+                sm: 'scale(0.65)',
+                md: 'scale(0.75)',
+                lg: 'scale(0.9)',
+                xl: 'scale(1)',
+              },
+              transformOrigin: 'center top',
             }}>
               {currentLoadout.items.map((itemSlug, i) => {
                 const itemName = getItemName(itemSlug);
@@ -2143,25 +2309,6 @@ export function HomeDashboard() {
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
-                    <Tooltip title="Reroll seed and NPCs" placement="bottom">
-                      <Box
-                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); handleRefresh(); }}
-                        sx={{
-                          width: 28,
-                          height: 28,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: '50%',
-                          cursor: 'pointer',
-                          color: tokens.colors.text.disabled,
-                          transition: 'all 150ms ease',
-                          '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
-                        }}
-                      >
-                        <RefreshIcon sx={{ fontSize: 18 }} />
-                      </Box>
-                    </Tooltip>
                     <Tooltip title={streamEnabled ? "Pause feed" : "Resume feed"} placement="bottom">
                       <Box
                         onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamEnabled(prev => !prev); }}
@@ -2197,7 +2344,7 @@ export function HomeDashboard() {
                           '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
                         }}
                       >
-                        <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
+                        <CloseIcon sx={{ fontSize: 18 }} />
                       </Box>
                     </Tooltip>
                   </Box>
@@ -2738,6 +2885,87 @@ export function HomeDashboard() {
             ))}
           </Box>
         </DialogContent>
+      </Dialog>
+
+      {/* Seed Refresh Confirmation Dialog */}
+      <Dialog
+        open={seedRefreshDialogOpen}
+        onClose={() => setSeedRefreshDialogOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: {
+            bgcolor: tokens.colors.background.elevated,
+            border: `1px solid ${tokens.colors.border}`,
+            borderRadius: `${tokens.radius.lg}px`,
+          },
+        }}
+      >
+        <DialogTitle sx={{
+          fontFamily: tokens.fonts.gaming,
+          fontSize: '1.1rem',
+          color: tokens.colors.text.primary,
+        }}>
+          Create New Guy?
+        </DialogTitle>
+        <DialogContent sx={{ px: 3, py: 2.5 }}>
+          <Typography sx={{
+            fontSize: '0.9rem',
+            color: tokens.colors.text.secondary,
+            mb: 2.5,
+          }}>
+            This will create a brand new Guy instance with:
+          </Typography>
+          <Box component="ul" sx={{ m: 0, pl: 3, color: tokens.colors.text.secondary }}>
+            <Typography component="li" sx={{ fontSize: '0.85rem', mb: 1 }}>
+              Fresh starting loadout
+            </Typography>
+            <Typography component="li" sx={{ fontSize: '0.85rem', mb: 1 }}>
+              New chat streams
+            </Typography>
+            <Typography component="li" sx={{ fontSize: '0.85rem', mb: 1 }}>
+              Reset stats
+            </Typography>
+            <Typography component="li" sx={{ fontSize: '0.85rem', color: '#22c55e' }}>
+              0% corruption (clean slate)
+            </Typography>
+          </Box>
+          {corruptionData.level > 0 && (
+            <Typography sx={{
+              fontSize: '0.8rem',
+              color: '#9333ea',
+              mt: 2.5,
+              fontStyle: 'italic',
+            }}>
+              Current corruption ({corruptionData.level}%) will be reset.
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 2.5, pb: 2 }}>
+          <Button
+            onClick={() => setSeedRefreshDialogOpen(false)}
+            sx={{
+              color: tokens.colors.text.disabled,
+              fontFamily: tokens.fonts.gaming,
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSeedRefresh}
+            variant="contained"
+            sx={{
+              bgcolor: tokens.colors.primary,
+              fontFamily: tokens.fonts.gaming,
+              '&:hover': {
+                bgcolor: tokens.colors.primary,
+                filter: 'brightness(1.1)',
+              },
+            }}
+          >
+            New Guy
+          </Button>
+        </DialogActions>
       </Dialog>
 
       {/* Launching Overlay - Full screen skull when generating new seed */}

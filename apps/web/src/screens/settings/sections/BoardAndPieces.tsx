@@ -7,13 +7,14 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Box, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Typography, ToggleButton, ToggleButtonGroup, Switch, FormControlLabel } from '@mui/material';
 import { tokens } from '../../../theme';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { CardSection } from '../../../components/CardSection';
 import { DiceShape } from '../../../components/DiceShapes';
 import { DICE_EFFECTS } from '../../../games/globe-meteor/config';
 import { loadBoardSettings, saveBoardSettings, type BoardSettingsData } from '../../../data/player/storage';
+import { useGameSettings } from '../../../contexts/GameSettingsContext';
 
 // ============================================
 // Color themes
@@ -59,6 +60,7 @@ const keyboardControls = [
 
 export function BoardAndPiecesSection() {
   const [settings, setSettings] = useState<BoardSettingsData>(loadBoardSettings);
+  const { asciiMode, setAsciiMode } = useGameSettings();
 
   // Persist on change
   useEffect(() => {
@@ -153,6 +155,32 @@ export function BoardAndPiecesSection() {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
+        </Box>
+      </CardSection>
+
+      {/* ASCII Graphics Mode */}
+      <CardSection sx={{ mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box>
+            <Typography variant="body1" sx={{ fontWeight: 600 }}>
+              ASCII Graphics
+            </Typography>
+            <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mt: 0.5 }}>
+              Render the 3D globe with APL characters
+            </Typography>
+          </Box>
+          <Switch
+            checked={asciiMode}
+            onChange={(e) => setAsciiMode(e.target.checked)}
+            sx={{
+              '& .MuiSwitch-switchBase.Mui-checked': {
+                color: tokens.colors.primary,
+              },
+              '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                backgroundColor: tokens.colors.primary,
+              },
+            }}
+          />
         </Box>
       </CardSection>
 
