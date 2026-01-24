@@ -15,7 +15,9 @@
     "sim:pantheon": "pnpm --filter @ndg/ai-engine sim:pantheon",
     "sim:eternal": "pnpm --filter @ndg/ai-engine sim:eternal",
     "sim:extract": "pnpm --filter @ndg/ai-engine sim:extract",
-    "sim:chatter": "pnpm --filter @ndg/ai-engine sim:chatter"
+    "sim:chatter": "pnpm --filter @ndg/ai-engine sim:chatter",
+    "dev:cms": "pnpm --filter @ndg/asset-cms dev",
+    "export:wiki": "npx tsx apps/web/scripts/export-wiki-data.ts"
   },
   "devDependencies": {
     "@vercel/node": "^5.5.23",

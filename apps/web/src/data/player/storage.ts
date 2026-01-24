@@ -981,6 +981,33 @@ export function getRunHistoryStats(): {
 }
 
 // ============================================
+// Current Seed Persistence (for username sync)
+// ============================================
+
+const CURRENT_SEED_KEY = 'ndg_current_seed';
+
+export function loadCurrentSeed(): string | null {
+  try {
+    return localStorage.getItem(CURRENT_SEED_KEY);
+  } catch (error) {
+    console.error('Failed to load current seed:', error);
+    return null;
+  }
+}
+
+export function saveCurrentSeed(seed: string): void {
+  try {
+    localStorage.setItem(CURRENT_SEED_KEY, seed);
+  } catch (error) {
+    console.error('Failed to save current seed:', error);
+  }
+}
+
+export function clearCurrentSeed(): void {
+  localStorage.removeItem(CURRENT_SEED_KEY);
+}
+
+// ============================================
 // Migration
 // ============================================
 

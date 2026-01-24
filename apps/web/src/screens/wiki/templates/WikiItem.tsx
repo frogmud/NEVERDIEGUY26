@@ -5,6 +5,7 @@ import {
   Paper,
   Chip,
   LinearProgress,
+  keyframes,
 } from '@mui/material';
 import {
   AttachMoneySharp as ValueIcon,
@@ -25,6 +26,26 @@ import { CardHeader, AssetImage } from '../../../components/ds';
 import { getRarityColor, slugToName } from '../../../data/wiki/helpers';
 import type { AnyEntity, Item, WikiCategory } from '../../../data/wiki/types';
 import { getEntity } from '../../../data/wiki';
+
+// Sparkle animation for elite items
+const sparkle = keyframes`
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+`;
+
+// Elite overlay styles - subtle animated sparkle effect
+const eliteOverlaySx = {
+  position: 'relative',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    borderRadius: 'inherit',
+    background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(255,255,255,0.3) 0%, transparent 35%)',
+    animation: `${sparkle} 2.5s ease-in-out infinite`,
+    pointerEvents: 'none',
+  },
+};
 
 interface WikiItemProps {
   entity?: AnyEntity;
@@ -126,10 +147,11 @@ export function WikiItem({ entity }: WikiItemProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              ...(itemData?.isElite && eliteOverlaySx),
             }}
           >
             <AssetImage
-              src={itemData?.image || ''}
+              src={itemData?.image || itemData?.sprites?.[0] || ''}
               alt={itemInfo.name}
               category="items"
               width="100%"
@@ -234,15 +256,17 @@ export function WikiItem({ entity }: WikiItemProps) {
             flexWrap: 'wrap',
           }}
         >
-          <AssetImage
-            src={itemData?.image || ''}
-            alt={itemInfo.name}
-            category="items"
-            width={64}
-            height={64}
-            fallback="placeholder"
-            sx={{ borderRadius: '16px', flexShrink: 0 }}
-          />
+          <Box sx={{ flexShrink: 0, borderRadius: '16px', ...(itemData?.isElite && eliteOverlaySx) }}>
+            <AssetImage
+              src={itemData?.image || itemData?.sprites?.[0] || ''}
+              alt={itemInfo.name}
+              category="items"
+              width={64}
+              height={64}
+              fallback="placeholder"
+              sx={{ borderRadius: '16px' }}
+            />
+          </Box>
           <Box sx={{ flex: 1, minWidth: 200 }}>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               {itemInfo.name}
@@ -430,7 +454,7 @@ export function WikiItem({ entity }: WikiItemProps) {
                 <Box key={mat.item} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Box sx={{ textAlign: 'center' }}>
                     <AssetImage
-                      src={matItem?.image || ''}
+                      src={matItem?.image || matItem?.sprites?.[0] || ''}
                       alt={matItem?.name || mat.item}
                       category="items"
                       width={56}
@@ -450,7 +474,7 @@ export function WikiItem({ entity }: WikiItemProps) {
               <Typography variant="h4" sx={{ color: tokens.colors.text.disabled, mx: 2 }}>=</Typography>
               <Box sx={{ textAlign: 'center' }}>
                 <AssetImage
-                  src={itemData?.image || ''}
+                  src={itemData?.image || itemData?.sprites?.[0] || ''}
                   alt={itemInfo.name}
                   category="items"
                   width={64}

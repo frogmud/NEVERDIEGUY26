@@ -13,6 +13,8 @@
 
 import { createSeededRng, generateThreadId } from './pools/seededRng';
 import { DOMAIN_CONFIGS } from './domains';
+import { getEntity } from './wiki';
+import type { Item } from './wiki/types';
 
 // ============================================
 // Types
@@ -323,7 +325,10 @@ export function getQualityAdjective(quality: LoadoutQuality, seed: string): stri
 
 export function getItemImage(slug: string): string {
   const item = LOADOUT_ITEMS[slug];
-  return item?.image || '/assets/items/placeholder.svg';
+  if (item?.image) return item.image;
+  // Fallback to wiki data for items not in manifest
+  const wikiItem = getEntity(slug) as Item | undefined;
+  return wikiItem?.image || wikiItem?.sprites?.[0] || '/assets/items/placeholder.svg';
 }
 
 // ============================================

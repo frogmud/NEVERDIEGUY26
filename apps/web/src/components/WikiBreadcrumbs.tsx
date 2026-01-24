@@ -1,6 +1,6 @@
 import { Breadcrumbs, Typography, Link as MuiLink } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { tokens } from '../theme';
 import type { WikiCategory } from '../data/wiki/types';
 import { getCategoryInfo } from '../data/wiki/helpers';
@@ -23,6 +23,9 @@ interface WikiBreadcrumbsProps {
  */
 export function WikiBreadcrumbs({ category, entityName }: WikiBreadcrumbsProps) {
   const categoryInfo = getCategoryInfo(category);
+  const location = useLocation();
+  // Use returnTo from navigation state if available (preserves page number)
+  const categoryUrl = (location.state as { returnTo?: string })?.returnTo ?? `/wiki/${category}`;
 
   return (
     <Breadcrumbs
@@ -47,7 +50,7 @@ export function WikiBreadcrumbs({ category, entityName }: WikiBreadcrumbsProps) 
       {/* Category */}
       <MuiLink
         component={RouterLink}
-        to={`/wiki/${category}`}
+        to={categoryUrl}
         sx={{
           color: tokens.colors.secondary,
           textDecoration: 'none',

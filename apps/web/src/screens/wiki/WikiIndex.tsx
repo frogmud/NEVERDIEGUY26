@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -44,7 +44,7 @@ import {
   type Shop,
   type Faction,
 } from '../../data/wiki';
-import { getRarityColor, getDifficultyColor, slugToName, getEnemyTypeColor } from '../../data/wiki/helpers';
+import { getRarityColor, getDifficultyColor, slugToName, getEnemyTypeColor, getElementInfo } from '../../data/wiki/helpers';
 
 // =============================================================================
 // CONSTANTS
@@ -64,7 +64,7 @@ const COL = {
 // Tab configuration - order matters for display
 const TABS = [
   { id: 'items', label: 'Items', categories: ['items'] as WikiCategory[] },
-  { id: 'enemies', label: 'Enemies', categories: ['enemies'] as WikiCategory[] },
+  { id: 'enemies', label: 'Monsters', categories: ['enemies'] as WikiCategory[] },
   { id: 'domains', label: 'Domains', categories: ['domains'] as WikiCategory[] },
   { id: 'characters', label: 'Characters', categories: ['travelers', 'wanderers', 'pantheon'] as WikiCategory[] },
   { id: 'factions', label: 'Factions', categories: ['factions'] as WikiCategory[] },
@@ -332,7 +332,8 @@ export function WikiIndex() {
   };
 
   const handleRowClick = (entity: AnyEntity) => {
-    navigate(`/wiki/${entity.category}/${entity.slug}`);
+    const returnTo = page > 1 ? `/wiki/${entity.category}?page=${page}` : `/wiki/${entity.category}`;
+    navigate(`/wiki/${entity.category}/${entity.slug}`, { state: { returnTo } });
   };
 
   // Get category counts for tab badges
@@ -350,7 +351,8 @@ export function WikiIndex() {
   // Common table row styles
   const rowSx = {
     cursor: 'pointer',
-    '& td': { borderColor: tokens.colors.border, py: 1.25 },
+    height: 72,
+    '& td': { borderColor: tokens.colors.border, py: 2, verticalAlign: 'middle' },
     '&:hover': { bgcolor: tokens.colors.background.elevated },
   };
 
@@ -446,7 +448,11 @@ export function WikiIndex() {
         {paginatedEntities.map((entity) => {
           const item = entity as Item;
           return (
-            <TableRow key={entity.slug} onClick={() => handleRowClick(entity)} sx={rowSx}>
+            <TableRow
+              key={entity.slug}
+              onClick={() => handleRowClick(entity)}
+              sx={rowSx}
+            >
               <TableCell>
                 <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="items" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
               </TableCell>
@@ -480,7 +486,11 @@ export function WikiIndex() {
         {paginatedEntities.map((entity) => {
           const enemy = entity as Enemy;
           return (
-            <TableRow key={entity.slug} onClick={() => handleRowClick(entity)} sx={rowSx}>
+            <TableRow
+              key={entity.slug}
+              onClick={() => handleRowClick(entity)}
+              sx={rowSx}
+            >
               <TableCell>
                 <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="enemies" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
               </TableCell>
@@ -516,9 +526,22 @@ export function WikiIndex() {
         {paginatedEntities.map((entity) => {
           const domain = entity as Domain;
           return (
-            <TableRow key={entity.slug} onClick={() => handleRowClick(entity)} sx={rowSx}>
+            <TableRow
+              key={entity.slug}
+              onClick={() => handleRowClick(entity)}
+              sx={rowSx}
+            >
               <TableCell>
-                <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="domains" width={48} height={48} fallback="placeholder" sx={{ borderRadius: '50%' }} />
+                <Box
+                  sx={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: '50%',
+                    backgroundColor: getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary,
+                    boxShadow: `0 0 12px ${getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary}50`,
+                    border: `2px solid ${getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary}`,
+                  }}
+                />
               </TableCell>
               <TableCell>
                 <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
@@ -558,7 +581,11 @@ export function WikiIndex() {
                            entity.category === 'pantheon' ? 'Pantheon' : '-';
 
           return (
-            <TableRow key={`${entity.category}-${entity.slug}`} onClick={() => handleRowClick(entity)} sx={rowSx}>
+            <TableRow
+              key={`${entity.category}-${entity.slug}`}
+              onClick={() => handleRowClick(entity)}
+              sx={rowSx}
+            >
               <TableCell>
                 <AssetImage src={entity.sprites?.[0] || entity.portrait || entity.image || ''} alt={entity.name} category={entity.category as 'travelers' | 'wanderers' | 'pantheon'} width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
               </TableCell>
@@ -598,7 +625,11 @@ export function WikiIndex() {
             const isMobile = shop.travelPattern && shop.travelPattern.length > 0;
 
             return (
-              <TableRow key={`shop-${entity.slug}`} onClick={() => handleRowClick(entity)} sx={rowSx}>
+              <TableRow
+                key={`shop-${entity.slug}`}
+                onClick={() => handleRowClick(entity)}
+                sx={rowSx}
+              >
                 <TableCell>
                   <AssetImage src={entity.sprites?.[0] || entity.portrait || entity.image || ''} alt={entity.name} category="shops" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
                 </TableCell>
@@ -632,7 +663,11 @@ export function WikiIndex() {
         {paginatedEntities.map((entity) => {
           const trophy = entity as Item;
           return (
-            <TableRow key={`trophy-${entity.slug}`} onClick={() => handleRowClick(entity)} sx={rowSx}>
+            <TableRow
+              key={`trophy-${entity.slug}`}
+              onClick={() => handleRowClick(entity)}
+              sx={rowSx}
+            >
               <TableCell>
                 <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="trophies" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
               </TableCell>
@@ -664,7 +699,11 @@ export function WikiIndex() {
         {paginatedEntities.map((entity) => {
           const faction = entity as Faction;
           return (
-            <TableRow key={`faction-${entity.slug}`} onClick={() => handleRowClick(entity)} sx={rowSx}>
+            <TableRow
+              key={`faction-${entity.slug}`}
+              onClick={() => handleRowClick(entity)}
+              sx={rowSx}
+            >
               <TableCell>
                 <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="factions" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
               </TableCell>
@@ -942,14 +981,18 @@ export function WikiIndex() {
                 return (
                   <Grid size={{ xs: 6, sm: 4, md: 3 }} key={`grid-${entity.category}-${entity.slug}`}>
                     <Paper
+                      component={RouterLink}
+                      to={`/wiki/${entity.category}/${entity.slug}`}
+                      state={{ returnTo: page > 1 ? `/wiki/${entity.category}?page=${page}` : `/wiki/${entity.category}` }}
                       elevation={0}
-                      onClick={() => handleRowClick(entity)}
                       sx={{
                         p: 2.5,
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         cursor: 'pointer',
+                        textDecoration: 'none',
+                        color: 'inherit',
                         bgcolor: tokens.colors.background.paper,
                         boxShadow: '0px 3px 1px 0px rgba(0,0,0,0.5)',
                         borderRadius: '20px',
@@ -977,8 +1020,22 @@ export function WikiIndex() {
                             sx={{ objectFit: 'contain', maxWidth: '100%' }}
                           />
                         </Box>
+                      ) : activeTab === 'domains' ? (
+                        // Domain cards: colored circle
+                        <Box
+                          sx={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: '50%',
+                            mx: 'auto',
+                            mb: 2,
+                            backgroundColor: getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary,
+                            boxShadow: `0 0 20px ${getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary}50`,
+                            border: `2px solid ${getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary}`,
+                          }}
+                        />
                       ) : (
-                        // Non-character cards: fixed size icons
+                        // Non-character/non-domain cards: fixed size icons
                         <AssetImage
                           src={imageSrc}
                           alt={entity.name}

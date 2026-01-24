@@ -70,7 +70,7 @@ import {
   type MultiNPCConversationState,
 } from '@ndg/ai-engine';
 import { refineGreeting } from '@ndg/ai-engine/stream';
-import { hasSavedRun, loadSavedRun, loadHeatData, getRunHistoryStats, loadCorruptionData, saveCorruptionData, addCorruption, resetCorruption, getRerollCorruptionCost, type CorruptionData } from '../data/player/storage';
+import { hasSavedRun, loadSavedRun, loadHeatData, getRunHistoryStats, loadCorruptionData, saveCorruptionData, addCorruption, resetCorruption, getRerollCorruptionCost, saveCurrentSeed, loadCurrentSeed, clearCurrentSeed, type CorruptionData } from '../data/player/storage';
 import { generateLoadout, getItemImage, getItemName, generateItemStats, LOADOUT_ITEMS, type StartingLoadout, type SeededItemStats } from '../data/decrees';
 import { createSeededRng } from '../data/pools/seededRng';
 import { EASING, stagger } from '../utils/transitions';
@@ -442,21 +442,15 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
 
     const handleGlobalMouseMove = (e: MouseEvent) => {
       let newX = e.clientX - dragStart.x;
-      let newY = e.clientY - dragStart.y;
 
-      // Bounds: prevent dragging too far up (invisible wall at top)
-      // Allow some movement up but not off screen
-      const maxUp = -150; // Can't go more than 150px up from start
-      const maxDown = 300; // Can go 300px down
+      // Horizontal only - lock Y axis
       const maxHorizontal = 400; // Can go 400px left or right
-
       newX = Math.max(-maxHorizontal, Math.min(maxHorizontal, newX));
-      newY = Math.max(maxUp, Math.min(maxDown, newY));
 
-      setDragOffset({ x: newX, y: newY });
-      // Dynamic tilt based on drag velocity/direction (clamped)
+      setDragOffset({ x: newX, y: 0 }); // Y locked to 0
+      // Dynamic tilt based on horizontal drag only
       setTilt({
-        x: Math.max(-15, Math.min(15, newY * 0.05)),
+        x: 0,
         y: Math.max(-15, Math.min(15, newX * -0.05))
       });
     };
@@ -526,6 +520,7 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
       sx={{
         width: 260,
         height: 360,
+        flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
         borderRadius: '16px',
@@ -537,9 +532,6 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
         userSelect: 'none',
         '--card-rotation': `${baseRotation}deg`,
         '--base-rotation': `${baseRotation}deg`,
-        // Offset to center: left card (+), center (0), right card (-)
-        // 260px card + 24px gap = 284px between card centers
-        '--center-offset': `${(1 - index) * 284}px`,
         // Transform with tilt physics and drag offset
         transform: getTransform(),
         // Animation states - disabled when dragging or has been dragged
@@ -1123,10 +1115,16 @@ export function HomeDashboard() {
   });
 
   // Generate loadout for display (seed only - items acquired in-run)
-  // Regenerates when filters change
-  const [currentLoadout, setCurrentLoadout] = useState<StartingLoadout>(() =>
-    generateLoadout(selectedNpcId, selectedDomain)
-  );
+  // Persists across sessions - only regenerates on explicit reroll or defeat
+  const [currentLoadout, setCurrentLoadout] = useState<StartingLoadout>(() => {
+    const savedSeed = loadCurrentSeed();
+    const loadout = generateLoadout(selectedNpcId, selectedDomain, savedSeed || undefined);
+    // Save the seed if it wasn't already saved
+    if (!savedSeed) {
+      saveCurrentSeed(loadout.seed);
+    }
+    return loadout;
+  });
 
   // Lead greeter (big sprite)
   const greeter = useMemo<HomeGreeter>(() => {
@@ -1160,8 +1158,8 @@ export function HomeDashboard() {
   const [fullTypingText, setFullTypingText] = useState('');
   const [ambientIndex, setAmbientIndex] = useState(0);
 
-  // Boot sequence state - skip ASCII skull, start at UI reveal (sidebar slides in)
-  const [bootPhase, setBootPhase] = useState<BootPhase>('ui-reveal');
+  // Boot sequence state - full animation on page load: slide → skull-hero → ui-reveal → items-drop → active
+  const [bootPhase, setBootPhase] = useState<BootPhase>('slide');
   const [asciiRowsVisible, setAsciiRowsVisible] = useState(0);
   const [uiAsciiRowsVisible, setUiAsciiRowsVisible] = useState(0);
 
@@ -1272,9 +1270,11 @@ export function HomeDashboard() {
     const newNpcId = validNpcs[Math.floor(Math.random() * validNpcs.length)]?.id || 'mr-kevin';
     setSelectedNpcId(newNpcId);
 
-    // Generate new loadout with new seed (always Earth) - same Guy, different roll
+    // Generate new loadout with new seed - reroll for new items
     const newLoadout = generateLoadout(newNpcId, selectedDomain);
     setCurrentLoadout(newLoadout);
+    // Save the new seed for persistence
+    saveCurrentSeed(newLoadout.seed);
 
     // Quick item swap - just replay the items-drop animation, no full loading screen
     // This keeps the UI responsive and only swaps the cards
@@ -1312,6 +1312,8 @@ export function HomeDashboard() {
     // Generate new loadout with new seed - entirely new Guy
     const newLoadout = generateLoadout(newNpcId, selectedDomain);
     setCurrentLoadout(newLoadout);
+    // Save the new seed for persistence
+    saveCurrentSeed(newLoadout.seed);
 
     // Reset boot sequence
     setBootPhase('slide');
@@ -1358,6 +1360,11 @@ export function HomeDashboard() {
 
     return () => clearTimeout(timer);
   }, [bootPhase, currentLoadout.seed]);
+
+  // Save seed to localStorage for sidebar sync
+  useEffect(() => {
+    saveCurrentSeed(currentLoadout.seed);
+  }, [currentLoadout.seed]);
 
   // ============================================
   // ASCII Skull Row-by-Row Reveal
@@ -1849,12 +1856,14 @@ export function HomeDashboard() {
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
-      height: '100vh', // Full viewport since top bar removed on desktop
+      height: '100%', // Fill parent container (Shell provides the height)
+      maxHeight: '100vh', // Cap at viewport height
       overflow: 'hidden',
+      overflowX: 'hidden', // Explicitly prevent horizontal scroll
       position: 'relative',
     }}>
       {/* Top: Player Identity + Badges */}
-      <Box sx={{ position: 'relative', px: sidebarExpanded ? 2 : 3, pt: 2, pb: 0, transition: 'padding 200ms ease' }}>
+      <Box sx={{ position: 'relative', px: sidebarExpanded ? 2 : 3, pt: 2, pb: 0, overflow: 'hidden', transition: 'padding 200ms ease' }}>
         {/* Profile - fades in during ui-reveal */}
         <Box sx={{
           display: 'flex',
@@ -1868,7 +1877,7 @@ export function HomeDashboard() {
           {/* Left: Avatar + Username */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {/* Avatar - NDG sprite cropped at shoulders with corruption overlay */}
-            <Tooltip title={corruptionData.level > 0 ? `Corruption: ${corruptionData.level}%` : 'Pure'} placement="bottom">
+            <Tooltip title={corruptionData.level > 0 ? `Corruption: ${corruptionData.level}% - Accumulated from rerolls. At 100%, run becomes cursed with harder modifiers.` : 'Pure - No corruption'} placement="bottom">
               <Box sx={{
                 position: 'relative',
                 width: 56,
@@ -2036,7 +2045,7 @@ export function HomeDashboard() {
         transition: 'padding 200ms ease, gap 200ms ease',
       }}>
         {/* Left Column - Action Buttons */}
-        <Box sx={{ position: 'relative', width: sidebarExpanded ? 240 : 260, flexShrink: 0, transition: 'width 200ms ease' }}>
+        <Box sx={{ position: 'relative', width: sidebarExpanded ? 240 : 260, minWidth: 200, flexShrink: 1, transition: 'width 200ms ease' }}>
           {/* Lifetime Earnings */}
           <Box sx={{
             display: 'flex',
@@ -2082,21 +2091,23 @@ export function HomeDashboard() {
                 </Typography>
                 {/* Fire streak indicator if active */}
                 {heatData.currentHeat > 0 && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
-                    <Box
-                      component="img"
-                      src="/icons/fire.svg"
-                      alt=""
-                      sx={{ width: 20, height: 20 }}
-                    />
-                    <Typography sx={{
-                      fontFamily: tokens.fonts.gaming,
-                      fontSize: '1rem',
-                      color: tokens.colors.primary,
-                    }}>
-                      {heatData.currentHeat}
-                    </Typography>
-                  </Box>
+                  <Tooltip title="Heat: Win streak bonus. Increases rewards but resets on death." arrow>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, cursor: 'help' }}>
+                      <Box
+                        component="img"
+                        src="/icons/fire.svg"
+                        alt=""
+                        sx={{ width: 20, height: 20 }}
+                      />
+                      <Typography sx={{
+                        fontFamily: tokens.fonts.gaming,
+                        fontSize: '1rem',
+                        color: tokens.colors.primary,
+                      }}>
+                        {heatData.currentHeat}
+                      </Typography>
+                    </Box>
+                  </Tooltip>
                 )}
               </Box>
             </Box>
@@ -2188,52 +2199,35 @@ export function HomeDashboard() {
               {corruptionData.level >= 100 ? 'MAX CORRUPTION' : `+${getRerollCorruptionCost(rerollCount)}% corruption`}
             </Typography>
 
-            {/* Reroll stack sprite - only shows when stacked */}
+            {/* Reroll stack sprites - stacked SVGs for silly effect */}
             {rerollCount > 0 && (
               <Box sx={{
                 position: 'absolute',
-                right: -36,
+                right: -40,
                 top: '50%',
                 transform: 'translateY(-50%)',
+                width: 48,
+                height: 48,
               }}>
-                <Box
-                  component="img"
-                  src="/assets/factions/faction-icon-void-seekers.svg"
-                  alt="Reroll stacks"
-                  sx={{
-                    width: 64,
-                    height: 64,
-                    filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.5))',
-                  }}
-                />
-                {/* Stack count bubble */}
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    top: -4,
-                    right: -8,
-                    minWidth: 24,
-                    height: 24,
-                    borderRadius: '12px',
-                    bgcolor: '#9333ea',
-                    border: '2px solid rgba(255,255,255,0.9)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    px: 0.75,
-                    boxShadow: '0 0 12px rgba(147, 51, 234, 0.6)',
-                  }}
-                >
-                  <Typography sx={{
-                    fontFamily: tokens.fonts.gaming,
-                    fontSize: '0.8rem',
-                    fontWeight: 700,
-                    color: '#fff',
-                    lineHeight: 1,
-                  }}>
-                    x{rerollCount}
-                  </Typography>
-                </Box>
+                {/* Stack SVGs on top of each other with offset and rotation */}
+                {Array.from({ length: Math.min(rerollCount, 6) }).map((_, i) => (
+                  <Box
+                    key={i}
+                    component="img"
+                    src="/assets/factions/faction-icon-void-seekers.svg"
+                    alt=""
+                    sx={{
+                      position: 'absolute',
+                      top: i * -4,
+                      left: i * 3,
+                      width: 40,
+                      height: 40,
+                      transform: `rotate(${(i - Math.floor(rerollCount / 2)) * 12}deg)`,
+                      filter: 'drop-shadow(0 2px 4px rgba(147, 51, 234, 0.5))',
+                      zIndex: rerollCount - i,
+                    }}
+                  />
+                ))}
               </Box>
             )}
           </Box>
@@ -2246,7 +2240,7 @@ export function HomeDashboard() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              py: savedRun ? 1.5 : 2.5,
+              py: 1.5,
               borderRadius: '16px',
               bgcolor: savedRun ? tokens.colors.background.elevated : tokens.colors.background.paper,
               border: `2px solid ${savedRun ? tokens.colors.border : 'transparent'}`,
@@ -2280,7 +2274,7 @@ export function HomeDashboard() {
             )}
           </Box>
 
-          {/* Race Button - Multiplayer mode */}
+          {/* Race Button - Multiplayer mode (matches Continue styling) */}
           <Box
             onClick={() => { playUIClick(); navigate('/play/multiplayer'); }}
             sx={{
@@ -2288,7 +2282,7 @@ export function HomeDashboard() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              py: 2.5,
+              py: 1.5,
               borderRadius: '16px',
               bgcolor: tokens.colors.background.elevated,
               border: `2px solid ${tokens.colors.border}`,
@@ -2381,7 +2375,7 @@ export function HomeDashboard() {
           gap: 3,
           position: 'relative',
           minWidth: 0,
-          overflow: 'hidden',
+          // overflow handled by scaled content fitting within container
         }}>
           {/* Oversized Item Cards with Grid Pattern - Balatro Style */}
           {(bootPhase === 'items-drop' || bootPhase === 'active') && (
@@ -2390,6 +2384,7 @@ export function HomeDashboard() {
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
+              minWidth: 'fit-content',
               px: 4,
               py: 3,
               zIndex: 5,
@@ -2404,24 +2399,14 @@ export function HomeDashboard() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                flexWrap: 'nowrap',
+                flexShrink: 0,
                 gap: sidebarExpanded ? 3 : 4.5,
                 // Fade in during ui-reveal phase
                 opacity: bootPhase === 'active' ? 1 : 0.8,
                 transition: 'opacity 600ms ease-out, transform 200ms ease-out, gap 200ms ease',
-                // Responsive scaling: shrink cards before stacking, tighter when sidebar expanded
-                transform: sidebarExpanded ? {
-                  xs: 'scale(0.45)',
-                  sm: 'scale(0.55)',
-                  md: 'scale(0.65)',
-                  lg: 'scale(0.75)',
-                  xl: 'scale(0.85)',
-                } : {
-                  xs: 'scale(0.5)',
-                  sm: 'scale(0.65)',
-                  md: 'scale(0.75)',
-                  lg: 'scale(0.9)',
-                  xl: 'scale(1)',
-                },
+                // Scale down to fit available space
+                transform: sidebarExpanded ? 'scale(0.7)' : 'scale(0.85)',
                 transformOrigin: 'center top',
               }}>
                 {currentLoadout.items.map((itemSlug, i) => {

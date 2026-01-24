@@ -14,7 +14,7 @@ export const shops: Shop[] = [
     proprietor: 'willy',
     // Mobile vendor - travels between domains
     travelPattern: ['frost-reach', 'shadow-keep', 'null-providence', 'aberrant'],
-    specialty: 'Interdimensional Goods & Crystals',
+    specialty: 'Crystals & Rare Goods',
     schedule: 'Whenever profitable opportunities manifest',
     position: { x: '12%', y: '55%' },
     availability: { chance: 70 }, // 70% chance - interdimensional unpredictability
@@ -40,7 +40,7 @@ export const shops: Shop[] = [
     description: 'Banco de Bones operates as the afterlife\'s premier financial institution. Mr. Bones, Death\'s personal accountant, runs this mobile operation from Frost Reach, providing currency exchange and elemental item imports across all domains.',
     proprietor: 'mr-bones',
     location: 'frost-reach',
-    specialty: 'Currency Exchange & Death Services',
+    specialty: 'Banking & Loans',
     schedule: '24/7 - Death never sleeps',
     position: { x: '75%', y: '40%' },
     availability: { always: true }, // Death never sleeps
@@ -66,7 +66,7 @@ export const shops: Shop[] = [
     description: 'B\'s Hits operates as the afterlife\'s premier music and audio equipment shop. Run by legendary spectral MC Boo G, the shop specializes in supernatural sound technology and ghost-written beats from his chaotic base in Aberrant.',
     proprietor: 'boo-g',
     location: 'aberrant',
-    specialty: 'Music Equipment & Audio Services',
+    specialty: 'Audio Equipment',
     schedule: '24/7 - Music never dies',
     position: { x: '8%', y: '20%' },
     availability: { times: ['dusk', 'night'] }, // Late night DJ vibes
@@ -91,7 +91,7 @@ export const shops: Shop[] = [
     description: 'The Null Throne Emporium operates as the premier void-touched merchandise retailer in Null Providence. Specializes in items that exist at the boundary between real and unreal, offering goods that defy conventional existence.',
     proprietor: 'king-james',
     location: 'null-providence',
-    specialty: 'Void Items & Royal Services',
+    specialty: 'Void Items',
     schedule: 'Exists when the kingdom needs commerce',
     position: { x: '42%', y: '15%' },
     availability: { times: ['day', 'dusk'] }, // Royal court hours
@@ -118,7 +118,7 @@ export const shops: Shop[] = [
     proprietor: 'dr-maxwell',
     // Mobile vendor - travels between fire-touched and scholarly domains
     travelPattern: ['infernus', 'shadow-keep', 'aberrant'],
-    specialty: 'Combustible Books & Fire Items',
+    specialty: 'Fire & Knowledge',
     schedule: 'Dawn to dusk - books glow in the dark',
     position: { x: '68%', y: '60%' },
     availability: { times: ['dawn', 'day'] }, // Scholarly hours
@@ -144,7 +144,7 @@ export const shops: Shop[] = [
     description: 'Command & Supply operates as the premier military equipment retailer and recruitment center across multiple domains. Run with military precision from Shadow Keep, the shop specializes in field-tested weapons, tactical gear, and military-grade supplies.',
     proprietor: 'the-general',
     location: 'shadow-keep',
-    specialty: 'Tactical Gear & Training',
+    specialty: 'Military Surplus',
     schedule: '0600-1800 daily - Military schedule',
     position: { x: '85%', y: '18%' },
     availability: { times: ['dawn', 'day'] }, // 0600-1800 military schedule
@@ -169,7 +169,7 @@ export const shops: Shop[] = [
     description: 'The Void Research Lab operates as both cutting-edge research facility and retail outlet for experimental void technologies. Dr. Voss turns theoretical void research into practical products for customers brave enough to beta-test reality-bending equipment.',
     proprietor: 'dr-voss',
     location: 'null-providence',
-    specialty: 'Experimental Void Equipment',
+    specialty: 'Void Research',
     schedule: 'When reality permits experimentation',
     position: { x: '55%', y: '42%' },
     availability: { always: true }, // Research never stops
@@ -195,7 +195,7 @@ export const shops: Shop[] = [
     description: 'X-treme\'s X-change operates as the multiverse\'s most thrilling shopping experience, where dice-based commerce meets high-stakes retail. Every price is determined by dice rolls, every item comes with double-or-nothing options.',
     proprietor: 'xtreme',
     location: 'infernus',
-    specialty: 'Dice-Based Commerce & Loot Boxes',
+    specialty: 'Gambling & Loot',
     schedule: '24/7 - Chaos never sleeps!',
     position: { x: '30%', y: '70%' },
     availability: { times: ['dusk', 'night'] }, // Gambling hours

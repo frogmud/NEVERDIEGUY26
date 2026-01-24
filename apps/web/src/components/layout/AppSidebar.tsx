@@ -23,10 +23,11 @@ import {
   ExpandMoreSharp as ExpandIcon,
   ExpandLessSharp as CollapseIcon,
   SearchSharp as SearchIcon,
-  GroupSharp as FriendsIcon,
-  SettingsSharp as SettingsIcon,
+  Group as FriendsIcon,
+  Settings as SettingsIcon,
+  Build as BuildIcon,
   HelpOutlineSharp as HelpIcon,
-  InfoOutlined as InfoIcon,
+  Info as InfoIcon,
   LogoutSharp as LogoutIcon,
   ContrastSharp as ThemeIcon,
   TuneSharp as CustomizeIcon,
@@ -36,7 +37,9 @@ import { navItems, type NavItem, DRAWER_WIDTH_COLLAPSED, DRAWER_WIDTH_EXPANDED, 
 import { useAuth } from '../../contexts';
 import { useSoundContext } from '../../contexts/SoundContext';
 import { searchEntities, type AnyEntity } from '../../data/wiki';
-import { SearchPopover } from './SearchPopover';
+import { getCategoryInfo, getElementInfo } from '../../data/wiki/helpers';
+import type { Domain } from '../../data/wiki/types';
+import { loadCurrentSeed } from '../../data/player/storage';
 
 interface AppSidebarProps {
   expanded: boolean;
@@ -51,7 +54,10 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
   const location = useLocation();
   const { playUIClick } = useSoundContext();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
-  const { isAuthenticated, user, playerNumber } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+
+  // Load seed for username display (synced with HomeDashboard)
+  const currentSeed = useMemo(() => loadCurrentSeed() || 'XXXXXX', []);
 
   // Search state
   const [searchAnchor, setSearchAnchor] = useState<null | HTMLElement>(null);
@@ -409,7 +415,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
               sx={{
                 minWidth: expanded ? 32 : 'auto',
                 mr: expanded ? 0.375 : 0,
-                color: tokens.colors.text.secondary,
+                color: tokens.colors.text.disabled,
               }}
             >
               <SearchIcon sx={{ fontSize: 22 }} />
@@ -421,23 +427,114 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                   fontSize: '0.85rem',
                   fontWeight: 600,
                   whiteSpace: 'nowrap',
-                  color: tokens.colors.text.secondary,
+                  color: tokens.colors.text.disabled,
                 }}
               />
             )}
           </ListItemButton>
         </Tooltip>
 
-        {/* Search Popover with Input */}
+        {/* Search Popover with Input and Results */}
         <Popover
           open={Boolean(searchAnchor)}
           anchorEl={searchAnchor}
-          onClose={() => { setSearchAnchor(null); setSearchValue(''); }}
-          anchorOrigin={{ vertical: 'center', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'center', horizontal: 'left' }}
-          sx={{ ml: 1 }}
+          onClose={() => { setSearchAnchor(null); setSearchValue(''); setSearchResults([]); }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          sx={{ ml: 1, mb: 1 }}
         >
-          <Paper sx={{ p: 1.5, bgcolor: tokens.colors.background.paper, width: 280 }}>
+          <Paper sx={{ p: 1.5, bgcolor: tokens.colors.background.paper, width: 300 }}>
+            {/* Results appear above the input */}
+            {searchResults.length > 0 && (
+              <Box sx={{ mb: 1.5 }}>
+                <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, mb: 1, display: 'block' }}>
+                  {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+                </Typography>
+                {searchResults.map((entity) => {
+                  const categoryInfo = getCategoryInfo(entity.category);
+                  const isDomainResult = entity.category === 'domains';
+                  const domainElement = isDomainResult ? (entity as Domain).element : undefined;
+                  const domainColor = domainElement ? getElementInfo(domainElement)?.color : undefined;
+                  return (
+                    <Box
+                      key={entity.slug}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        p: 1,
+                        borderRadius: 1,
+                        cursor: 'pointer',
+                        '&:hover': { bgcolor: tokens.colors.background.elevated },
+                      }}
+                      onClick={() => handleResultClick(entity)}
+                    >
+                      {isDomainResult && domainColor ? (
+                        <Box
+                          sx={{
+                            width: 32,
+                            height: 32,
+                            borderRadius: '50%',
+                            bgcolor: domainColor,
+                            boxShadow: `0 0 8px ${domainColor}50`,
+                            border: `2px solid ${domainColor}`,
+                            flexShrink: 0,
+                          }}
+                        />
+                      ) : (
+                        <Box
+                          component="img"
+                          src={entity.portrait || entity.sprites?.[0] || entity.image || ''}
+                          alt={entity.name}
+                          sx={{
+                            width: 32,
+                            height: 32,
+                            borderRadius: 0.5,
+                            bgcolor: tokens.colors.background.elevated,
+                            objectFit: 'contain',
+                          }}
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      )}
+                      <Box sx={{ flex: 1, minWidth: 0 }}>
+                        <Typography variant="body2" sx={{ fontWeight: 500, fontSize: '0.8rem' }} noWrap>
+                          {entity.name}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: categoryInfo.color, fontSize: '0.7rem' }}>
+                          {categoryInfo.label}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  );
+                })}
+                <Box
+                  sx={{
+                    pt: 1,
+                    mt: 1,
+                    borderTop: `1px solid ${tokens.colors.border}`,
+                    textAlign: 'center',
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: tokens.colors.primary,
+                      cursor: 'pointer',
+                      '&:hover': { textDecoration: 'underline' },
+                    }}
+                    onClick={handleSearchSubmit}
+                  >
+                    View all results
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            {searchValue.length > 1 && searchResults.length === 0 && (
+              <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, textAlign: 'center', py: 1, mb: 1 }}>
+                No results found
+              </Typography>
+            )}
+            {/* Search input at bottom */}
             <Box
               sx={{
                 display: 'flex',
@@ -473,20 +570,9 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           </Paper>
         </Popover>
 
-        {/* Search Results Popover */}
-        <SearchPopover
-          open={searchOpen}
-          anchorEl={searchAnchor}
-          onClose={() => { setSearchAnchor(null); setSearchValue(''); }}
-          searchValue={searchValue}
-          searchResults={searchResults}
-          onResultClick={handleResultClick}
-          onViewAll={handleSearchSubmit}
-        />
-
         {/* User info */}
         {isAuthenticated && (
-          <Tooltip title={!expanded ? `guy_${playerNumber}` : ''} placement="right" arrow enterDelay={300}>
+          <Tooltip title={!expanded ? `guy_${currentSeed}` : ''} placement="right" arrow enterDelay={300}>
             <ListItemButton
               onClick={() => { playUIClick(); navigate('/profile'); }}
               sx={{
@@ -501,14 +587,14 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             >
               <ListItemIcon
                 sx={{
-                  minWidth: expanded ? 40 : 'auto',
-                  mr: expanded ? 0.375 : 0,
+                  minWidth: expanded ? 32 : 'auto',
+                  mr: expanded ? 0.5 : 0,
                 }}
               >
                 {/* Avatar cropped at shoulders */}
                 <Box sx={{
-                  width: 32,
-                  height: 32,
+                  width: 24,
+                  height: 24,
                   borderRadius: '4px',
                   overflow: 'hidden',
                   bgcolor: tokens.colors.background.elevated,
@@ -531,12 +617,12 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
               </ListItemIcon>
               {expanded && (
                 <ListItemText
-                  primary={`guy_${playerNumber}`}
+                  primary={`guy_${currentSeed}`}
                   primaryTypographyProps={{
                     fontSize: '0.8rem',
                     fontWeight: 600,
                     whiteSpace: 'nowrap',
-                    color: tokens.colors.text.secondary,
+                    color: tokens.colors.text.primary,
                   }}
                 />
               )}
@@ -556,19 +642,18 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             py: 0.25,
           }}
         >
-          {/* Multiplayer - Coming Soon */}
-          <Tooltip title="Coming soon" placement={expanded ? 'top' : 'right'} arrow>
+          {/* Multiplayer */}
+          <Tooltip title="Multiplayer" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
-              disabled
+              onClick={() => { playUIClick(); navigate('/multiplayer'); }}
               sx={{
-                width: 44,
-                height: 44,
+                width: 32,
+                height: 32,
                 color: tokens.colors.text.disabled,
-                opacity: 0.5,
-                cursor: 'not-allowed',
+                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <FriendsIcon sx={{ fontSize: 22 }} />
+              <FriendsIcon sx={{ fontSize: 18 }} />
             </IconButton>
           </Tooltip>
 
@@ -577,13 +662,13 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             <IconButton
               onClick={() => { playUIClick(); navigate('/about'); }}
               sx={{
-                width: 44,
-                height: 44,
+                width: 32,
+                height: 32,
                 color: tokens.colors.text.disabled,
                 '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <InfoIcon sx={{ fontSize: 22 }} />
+              <InfoIcon sx={{ fontSize: 18 }} />
             </IconButton>
           </Tooltip>
 
@@ -592,13 +677,13 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             <IconButton
               onClick={() => { playUIClick(); navigate('/settings'); }}
               sx={{
-                width: 44,
-                height: 44,
+                width: 32,
+                height: 32,
                 color: tokens.colors.text.disabled,
                 '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <SettingsIcon sx={{ fontSize: 22 }} />
+              <BuildIcon sx={{ fontSize: 18 }} />
             </IconButton>
           </Tooltip>
         </Box>

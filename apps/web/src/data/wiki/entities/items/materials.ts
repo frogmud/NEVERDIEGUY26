@@ -847,6 +847,7 @@ export const materials: Item[] = [
     name: 'Soul Jar',
     category: 'items',
     itemType: 'Material',
+    isElite: true,
     sprites: ['/assets/items/consumables/soul-charge.svg'],
     luckyNumber: 3,
     rarity: 'Epic',
@@ -903,10 +904,10 @@ export const materials: Item[] = [
     seeAlso: ['peter', 'shadow-keep', 'mr-bones'],
   },
 
-  // Cursed Finger - Uncommon Material
+  // Cursed Finger Bone - Uncommon Material (crafting component)
   {
-    slug: 'cursed-finger',
-    name: 'Cursed Finger',
+    slug: 'cursed-finger-bone',
+    name: 'Cursed Finger Bone',
     category: 'items',
     sprites: ['/assets/items/consumables/cursed-finger.svg'],
     luckyNumber: 3,

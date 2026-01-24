@@ -595,6 +595,7 @@ export const artifacts: Item[] = [
     name: 'Lucky You',
     category: 'items',
     itemType: 'Artifact',
+    isElite: true,
     rarity: 'Epic',
     value: 400,
     element: 'Neutral',
@@ -1071,7 +1072,7 @@ export const artifacts: Item[] = [
   // SHOP-EXCLUSIVE ARTIFACTS
   // ============================================
 
-  // Arcane Grimoire - The Burning Pages (Arcane/Fire theme)
+  // Arcane Grimoire - The Burning Pages (Arcane/Fire theme) - Enhanced version of Maxwell's Book
   {
     slug: 'arcane-grimoire',
     name: 'Arcane Grimoire',
@@ -1079,6 +1080,7 @@ export const artifacts: Item[] = [
     itemType: 'Artifact',
     luckyNumber: 4,
     rarity: 'Epic',
+    isElite: true,
     value: 600,
     element: 'Fire',
     tier: 4,

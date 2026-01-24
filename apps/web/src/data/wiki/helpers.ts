@@ -180,12 +180,12 @@ export interface ElementInfo {
 
 export function getElementInfo(element: Element): ElementInfo | null {
   const elementMap: Record<Exclude<Element, 'Neutral'>, ElementInfo> = {
-    Void: { element: 'Void', icon: BlurOnSharp, color: '#7c4dff', dierector: 'The One', luckyNumber: 1 },
-    Earth: { element: 'Earth', icon: LandscapeSharp, color: '#4caf50', dierector: 'John', luckyNumber: 2 },
-    Death: { element: 'Death', icon: SentimentVeryDissatisfiedSharp, color: '#424242', dierector: 'Peter', luckyNumber: 3 },
+    Void: { element: 'Void', icon: BlurOnSharp, color: '#e8e8e8', dierector: 'The One', luckyNumber: 1 },
+    Earth: { element: 'Earth', icon: LandscapeSharp, color: '#8b7355', dierector: 'John', luckyNumber: 2 },
+    Death: { element: 'Death', icon: SentimentVeryDissatisfiedSharp, color: '#6a4a80', dierector: 'Peter', luckyNumber: 3 },
     Fire: { element: 'Fire', icon: LocalFireDepartmentSharp, color: '#ff5722', dierector: 'Robert', luckyNumber: 4 },
-    Ice: { element: 'Ice', icon: AcUnitSharp, color: '#00bcd4', dierector: 'Alice', luckyNumber: 5 },
-    Wind: { element: 'Wind', icon: AirSharp, color: '#03a9f4', dierector: 'Jane', luckyNumber: 6 },
+    Ice: { element: 'Ice', icon: AcUnitSharp, color: '#4a90d9', dierector: 'Alice', luckyNumber: 5 },
+    Wind: { element: 'Wind', icon: AirSharp, color: '#2a6a6a', dierector: 'Jane', luckyNumber: 6 },
   };
 
   return element === 'Neutral' ? null : elementMap[element];
@@ -208,8 +208,8 @@ export function getCategoryInfo(category: WikiCategory): CategoryInfo {
       color: tokens.colors.secondary,
     },
     enemies: {
-      label: 'Enemy',
-      pluralLabel: 'Enemies',
+      label: 'Monster',
+      pluralLabel: 'Monsters',
       description: 'Combat opponents and bosses',
       color: tokens.colors.primary,
     },
