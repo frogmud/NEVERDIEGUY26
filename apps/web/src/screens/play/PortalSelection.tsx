@@ -16,6 +16,7 @@ import { DURATION, EASING, GLOW } from '../../utils/transitions';
 import { useRun } from '../../contexts/RunContext';
 import { getAvailablePortals, type PortalOption } from '../../data/portal-config';
 import { DOMAIN_PLANET_CONFIG } from '../../games/globe-meteor/config';
+import { FLUME_ASCII_DATA } from '../../ascii/data/flumeAsciiData';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
@@ -100,6 +101,58 @@ function AsciiOverlay({ isHovered, color }: { isHovered: boolean; color: string 
   );
 }
 
+// Animated ASCII flume background for each domain
+function AsciiFlumeBackground({ domainId, isHovered }: { domainId: number; isHovered: boolean }) {
+  const [frameIndex, setFrameIndex] = useState(0);
+  const flumeData = FLUME_ASCII_DATA[domainId];
+
+  useEffect(() => {
+    if (!flumeData) return;
+    const interval = setInterval(() => {
+      setFrameIndex((prev) => (prev + 1) % flumeData.frames.length);
+    }, 200);
+    return () => clearInterval(interval);
+  }, [flumeData]);
+
+  if (!flumeData) return null;
+
+  const frame = flumeData.frames[frameIndex];
+
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        inset: 0,
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        opacity: isHovered ? 0.35 : 0.2,
+        transition: 'opacity 300ms ease',
+      }}
+    >
+      <Box
+        component="pre"
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontFamily: 'monospace',
+          fontSize: '6px',
+          lineHeight: 1.1,
+          color: flumeData.color,
+          textShadow: `0 0 4px ${flumeData.color}40`,
+          m: 0,
+          p: 0,
+          whiteSpace: 'pre',
+          userSelect: 'none',
+        }}
+      >
+        {frame.join('\n')}
+      </Box>
+    </Box>
+  );
+}
+
 interface PortalCardProps {
   portal: PortalOption;
   currentHp: number;
@@ -152,6 +205,11 @@ function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, ind
         },
       }}
     >
+      {/* Animated ASCII flume background */}
+      {!portal.isUnknown && (
+        <AsciiFlumeBackground domainId={portal.domainId} isHovered={isHovered || isSelected} />
+      )}
+
       {/* ASCII scanline overlay */}
       <AsciiOverlay isHovered={isHovered || isSelected} color={planetConfig?.color || '#666'} />
 
