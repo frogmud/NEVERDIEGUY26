@@ -73,7 +73,7 @@ function LiveAsciiRenderer({
   asciiCanvasRef: React.RefObject<HTMLCanvasElement>;
   enabled: boolean;
 }) {
-  const { gl } = useThree();
+  const { gl, scene, camera } = useThree();
   const frameCount = useRef(0);
 
   useFrame(() => {
@@ -87,6 +87,9 @@ function LiveAsciiRenderer({
     if (!asciiCanvas) return;
 
     const { cols, rows, charSet, threshold, color, charWidth, charHeight } = ASCII_LIVE_CONFIG;
+
+    // Force render before reading pixels (useFrame runs before render)
+    gl.render(scene, camera);
 
     // Read pixels from WebGL canvas directly
     const width = gl.domElement.width;
