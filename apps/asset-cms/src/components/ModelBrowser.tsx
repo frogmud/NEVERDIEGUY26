@@ -88,17 +88,10 @@ function LiveAsciiRenderer({
 
     const { cols, rows, charSet, threshold, color, charWidth, charHeight } = ASCII_LIVE_CONFIG;
 
-    // Read pixels from WebGL
+    // Read pixels from WebGL canvas directly
     const width = gl.domElement.width;
     const height = gl.domElement.height;
     const pixels = new Uint8Array(width * height * 4);
-    gl.readRenderTargetPixels(
-      null as any, // Read from default framebuffer
-      0, 0, width, height,
-      pixels
-    );
-
-    // Fallback: direct WebGL read if readRenderTargetPixels doesn't work
     const glCtx = gl.getContext();
     glCtx.readPixels(0, 0, width, height, glCtx.RGBA, glCtx.UNSIGNED_BYTE, pixels);
 
