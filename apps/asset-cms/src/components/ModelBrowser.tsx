@@ -433,6 +433,26 @@ export function ModelBrowser() {
               {/* Controls */}
               <div style={styles.controls}>
                 <span style={styles.modelName}>{selectedModel.name}</span>
+
+                {/* ASCII toggle switch */}
+                <label style={styles.switchLabel}>
+                  <span style={styles.switchText}>ASCII</span>
+                  <div
+                    onClick={() => setAsciiMode(!asciiMode)}
+                    style={{
+                      ...styles.switch,
+                      ...(asciiMode ? styles.switchOn : {}),
+                    }}
+                  >
+                    <div
+                      style={{
+                        ...styles.switchKnob,
+                        ...(asciiMode ? styles.switchKnobOn : {}),
+                      }}
+                    />
+                  </div>
+                </label>
+
                 <button
                   onClick={() => setAutoRotate(!autoRotate)}
                   style={{
@@ -441,15 +461,6 @@ export function ModelBrowser() {
                   }}
                 >
                   Auto-rotate
-                </button>
-                <button
-                  onClick={() => setAsciiMode(!asciiMode)}
-                  style={{
-                    ...styles.controlBtn,
-                    ...(asciiMode ? styles.controlBtnActive : {}),
-                  }}
-                >
-                  ASCII
                 </button>
                 <div style={styles.exportGroup}>
                   <select
@@ -582,7 +593,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '8px 12px',
+    padding: '10px 12px',
     background: '#141414',
     borderWidth: '1px',
     borderStyle: 'solid',
@@ -592,6 +603,8 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '0.8rem',
     cursor: 'pointer',
     textAlign: 'left',
+    flexShrink: 0,
+    minHeight: '40px',
   },
   categoryBtnActive: {
     background: '#1a1a1a',
@@ -616,7 +629,7 @@ const styles: Record<string, React.CSSProperties> = {
     gap: '2px',
   },
   modelBtn: {
-    padding: '6px 10px',
+    padding: '8px 10px',
     background: 'transparent',
     border: 'none',
     borderRadius: '4px',
@@ -627,6 +640,9 @@ const styles: Record<string, React.CSSProperties> = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    flexShrink: 0,
+    minHeight: '32px',
+    lineHeight: '16px',
   },
   modelBtnActive: {
     background: '#1a1a1a',
@@ -651,7 +667,43 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '0.9rem',
     fontWeight: 500,
     color: '#e0e0e0',
-    flex: 1,
+  },
+  switchLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    cursor: 'pointer',
+    marginRight: 'auto',
+  },
+  switchText: {
+    fontSize: '0.75rem',
+    color: '#888',
+    fontWeight: 500,
+  },
+  switch: {
+    width: '36px',
+    height: '20px',
+    background: '#333',
+    borderRadius: '10px',
+    position: 'relative',
+    transition: 'background 150ms ease',
+    cursor: 'pointer',
+  },
+  switchOn: {
+    background: '#E90441',
+  },
+  switchKnob: {
+    position: 'absolute',
+    top: '2px',
+    left: '2px',
+    width: '16px',
+    height: '16px',
+    background: '#fff',
+    borderRadius: '50%',
+    transition: 'left 150ms ease',
+  },
+  switchKnobOn: {
+    left: '18px',
   },
   controlBtn: {
     padding: '6px 12px',
