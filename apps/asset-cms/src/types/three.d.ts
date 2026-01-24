@@ -27,3 +27,22 @@ declare module 'three' {
     updateProjectionMatrix(): void;
   }
 }
+
+// React Three Fiber JSX intrinsic elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      ambientLight: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        intensity?: number;
+      };
+      directionalLight: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        position?: [number, number, number];
+        intensity?: number;
+        castShadow?: boolean;
+      };
+      primitive: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        object?: unknown;
+      };
+    }
+  }
+}
