@@ -28,27 +28,24 @@ function toModelUrl(absolutePath: string): string {
   return `/psx-models${relativePath}`;
 }
 
-// ASCII export settings (matching VideoAsciiTool defaults)
-const ASCII_CONFIG = {
-  cols: 120,
-  rows: 68,
-  charSet: ' .:#',
-  threshold: 0.0,
-  color: '#e0e0e0',
-  charWidth: 10,
-  charHeight: 14,
+// Grid presets for ASCII resolution
+type GridPreset = 'small' | 'medium' | 'large';
+
+const GRID_PRESETS: Record<GridPreset, { cols: number; rows: number }> = {
+  small: { cols: 60, rows: 34 },
+  medium: { cols: 80, rows: 45 },
+  large: { cols: 120, rows: 68 },
 };
 
-// Live preview uses lower resolution for performance
-const ASCII_LIVE_CONFIG = {
-  cols: 80,
-  rows: 45,
-  charSet: ' .:#',
-  threshold: 0.0,
-  color: '#e0e0e0',
-  charWidth: 10,
-  charHeight: 14,
+const GRID_LABELS: Record<GridPreset, string> = {
+  small: '60x34',
+  medium: '80x45',
+  large: '120x68',
 };
+
+// ASCII rendering constants
+const CHAR_WIDTH = 10;
+const CHAR_HEIGHT = 14;
 
 // Model component that loads and displays a GLB
 function Model({ path }: { path: string }) {
@@ -66,12 +63,23 @@ function Model({ path }: { path: string }) {
 }
 
 // Live ASCII renderer - captures frames and converts to ASCII
+interface AsciiSettings {
+  cols: number;
+  rows: number;
+  charSet: string;
+  threshold: number;
+  color: string;
+  contrast: number;
+}
+
 function LiveAsciiRenderer({
   asciiCanvasRef,
   enabled,
+  settings,
 }: {
   asciiCanvasRef: React.RefObject<HTMLCanvasElement>;
   enabled: boolean;
+  settings: AsciiSettings;
 }) {
   const { gl, scene, camera } = useThree();
   const frameCount = useRef(0);
@@ -86,7 +94,7 @@ function LiveAsciiRenderer({
     const asciiCanvas = asciiCanvasRef.current;
     if (!asciiCanvas) return;
 
-    const { cols, rows, charSet, threshold, color, charWidth, charHeight } = ASCII_LIVE_CONFIG;
+    const { cols, rows, charSet, threshold, color, contrast } = settings;
 
     // Force render before reading pixels (useFrame runs before render)
     gl.render(scene, camera);
@@ -103,8 +111,8 @@ function LiveAsciiRenderer({
     const cellHeight = height / rows;
 
     // Setup output canvas
-    const outWidth = cols * charWidth;
-    const outHeight = rows * charHeight;
+    const outWidth = cols * CHAR_WIDTH;
+    const outHeight = rows * CHAR_HEIGHT;
     if (asciiCanvas.width !== outWidth || asciiCanvas.height !== outHeight) {
       asciiCanvas.width = outWidth;
       asciiCanvas.height = outHeight;
@@ -118,12 +126,9 @@ function LiveAsciiRenderer({
     asciiCtx.fillRect(0, 0, outWidth, outHeight);
 
     // Draw ASCII
-    asciiCtx.font = `${charHeight}px monospace`;
+    asciiCtx.font = `${CHAR_HEIGHT}px monospace`;
     asciiCtx.fillStyle = color;
     asciiCtx.textBaseline = 'top';
-
-    // Debug: check if we have any non-zero pixels
-    let maxLum = 0;
 
     for (let y = 0; y < rows; y++) {
       let row = '';
@@ -138,10 +143,9 @@ function LiveAsciiRenderer({
         const b = pixels[i + 2] || 0;
 
         const rawLum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-        if (rawLum > maxLum) maxLum = rawLum;
 
-        // Boost contrast significantly (scene is very dark)
-        const luminance = Math.min(1, rawLum * 10);
+        // Apply contrast boost
+        const luminance = Math.min(1, rawLum * contrast);
 
         if (luminance < threshold) {
           row += ' ';
@@ -149,12 +153,7 @@ function LiveAsciiRenderer({
           row += luminanceToChar(luminance, charSet);
         }
       }
-      asciiCtx.fillText(row, 0, y * charHeight);
-    }
-
-    // Debug: show max luminance found
-    if (frameCount.current % 50 === 0) {
-      console.log('ASCII preview - canvas:', width, 'x', height, 'maxLum:', maxLum.toFixed(3));
+      asciiCtx.fillText(row, 0, y * CHAR_HEIGHT);
     }
   });
 
@@ -215,13 +214,27 @@ export function ModelBrowser() {
   // Persisted settings
   const [autoRotate, setAutoRotate] = usePersistedState('model:autoRotate', true);
   const [asciiMode, setAsciiMode] = usePersistedState('model:asciiMode', false);
+  const [gridPreset, setGridPreset] = usePersistedState<GridPreset>('model:gridPreset', 'medium');
+  const [charSetName, setCharSetName] = usePersistedState<CharSetName>('model:charSetName', 'minimal');
+  const [threshold, setThreshold] = usePersistedState('model:threshold', 0.0);
+  const [contrast, setContrast] = usePersistedState('model:contrast', 10);
+  const [color, setColor] = usePersistedState('model:color', '#e0e0e0');
+
+  // Build ASCII settings object
+  const asciiSettings: AsciiSettings = {
+    ...GRID_PRESETS[gridPreset],
+    charSet: CHAR_SETS[charSetName],
+    threshold,
+    contrast,
+    color,
+  };
 
   const categories = psxModels.categories;
   const models = selectedCategory
     ? psxModels.models.filter((m: ModelInfo) => m.category === selectedCategory)
     : [];
 
-  // ASCII capture from canvas
+  // ASCII capture from canvas (for export)
   const captureAsciiFrame = useCallback(() => {
     const canvas = canvasRef.current;
     const asciiCanvas = asciiCanvasRef.current;
@@ -230,8 +243,9 @@ export function ModelBrowser() {
     const ctx = canvas.getContext('webgl2') || canvas.getContext('webgl');
     if (!ctx) return null;
 
+    const { cols, rows, charSet, threshold, contrast, color } = asciiSettings;
+
     // Read pixels from WebGL
-    const { cols, rows } = ASCII_CONFIG;
     const width = canvas.width;
     const height = canvas.height;
     const pixels = new Uint8Array(width * height * 4);
@@ -242,8 +256,8 @@ export function ModelBrowser() {
     const cellHeight = height / rows;
 
     // Setup output canvas
-    const outWidth = cols * ASCII_CONFIG.charWidth;
-    const outHeight = rows * ASCII_CONFIG.charHeight;
+    const outWidth = cols * CHAR_WIDTH;
+    const outHeight = rows * CHAR_HEIGHT;
     asciiCanvas.width = outWidth;
     asciiCanvas.height = outHeight;
 
@@ -255,8 +269,8 @@ export function ModelBrowser() {
     asciiCtx.fillRect(0, 0, outWidth, outHeight);
 
     // Draw ASCII
-    asciiCtx.font = `${ASCII_CONFIG.charHeight}px monospace`;
-    asciiCtx.fillStyle = ASCII_CONFIG.color;
+    asciiCtx.font = `${CHAR_HEIGHT}px monospace`;
+    asciiCtx.fillStyle = color;
 
     for (let y = 0; y < rows; y++) {
       let row = '';
@@ -266,23 +280,24 @@ export function ModelBrowser() {
         const sampleY = Math.floor((rows - y - 0.5) * cellHeight);
         const i = (sampleY * width + sampleX) * 4;
 
-        const r = pixels[i];
-        const g = pixels[i + 1];
-        const b = pixels[i + 2];
+        const r = pixels[i] || 0;
+        const g = pixels[i + 1] || 0;
+        const b = pixels[i + 2] || 0;
 
-        let luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        const rawLum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        const luminance = Math.min(1, rawLum * contrast);
 
-        if (luminance < ASCII_CONFIG.threshold) {
+        if (luminance < threshold) {
           row += ' ';
         } else {
-          row += luminanceToChar(luminance, ASCII_CONFIG.charSet);
+          row += luminanceToChar(luminance, charSet);
         }
       }
-      asciiCtx.fillText(row, 0, (y + 1) * ASCII_CONFIG.charHeight - 2);
+      asciiCtx.fillText(row, 0, (y + 1) * CHAR_HEIGHT - 2);
     }
 
     return asciiCanvas;
-  }, []);
+  }, [asciiSettings]);
 
   // Export static PNG
   const exportPng = useCallback(async () => {
@@ -481,6 +496,90 @@ export function ModelBrowser() {
                 </div>
               </div>
 
+              {/* ASCII settings row - visible when ASCII mode on */}
+              {asciiMode && (
+                <div style={styles.settingsRow}>
+                  {/* Grid size */}
+                  <div style={styles.settingGroup}>
+                    <span style={styles.settingLabel}>Grid</span>
+                    <div style={styles.pills}>
+                      {(Object.keys(GRID_PRESETS) as GridPreset[]).map((p) => (
+                        <button
+                          key={p}
+                          onClick={() => setGridPreset(p)}
+                          style={{
+                            ...styles.pill,
+                            ...(gridPreset === p ? styles.pillActive : {}),
+                          }}
+                        >
+                          {GRID_LABELS[p]}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Char set */}
+                  <div style={styles.settingGroup}>
+                    <span style={styles.settingLabel}>Chars</span>
+                    <div style={styles.pills}>
+                      {(Object.keys(CHAR_SETS) as CharSetName[]).map((c) => (
+                        <button
+                          key={c}
+                          onClick={() => setCharSetName(c)}
+                          style={{
+                            ...styles.pill,
+                            ...(charSetName === c ? styles.pillActive : {}),
+                          }}
+                        >
+                          {c}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Contrast */}
+                  <div style={styles.settingGroup}>
+                    <span style={styles.settingLabel}>Contrast</span>
+                    <input
+                      type="range"
+                      min="1"
+                      max="20"
+                      step="1"
+                      value={contrast}
+                      onChange={(e) => setContrast(Number(e.target.value))}
+                      style={styles.slider}
+                    />
+                    <span style={styles.settingVal}>{contrast}x</span>
+                  </div>
+
+                  {/* Threshold */}
+                  <div style={styles.settingGroup}>
+                    <span style={styles.settingLabel}>Thresh</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="0.5"
+                      step="0.05"
+                      value={threshold}
+                      onChange={(e) => setThreshold(Number(e.target.value))}
+                      style={styles.slider}
+                    />
+                    <span style={styles.settingVal}>{threshold.toFixed(2)}</span>
+                  </div>
+
+                  {/* Color */}
+                  <div style={styles.settingGroup}>
+                    <span style={styles.settingLabel}>Color</span>
+                    <input
+                      type="color"
+                      value={color}
+                      onChange={(e) => setColor(e.target.value)}
+                      style={styles.colorPicker}
+                    />
+                  </div>
+                </div>
+              )}
+
               {/* 3D Canvas with ASCII overlay */}
               <div style={styles.canvasContainer}>
                 {/* 3D Canvas - always renders, ASCII canvas overlays on top */}
@@ -514,6 +613,7 @@ export function ModelBrowser() {
                     <LiveAsciiRenderer
                       asciiCanvasRef={asciiCanvasRef}
                       enabled={asciiMode}
+                      settings={asciiSettings}
                     />
                   </Suspense>
                 </Canvas>
@@ -704,6 +804,64 @@ const styles: Record<string, React.CSSProperties> = {
   },
   switchKnobOn: {
     left: '18px',
+  },
+  settingsRow: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '16px',
+    padding: '10px 12px',
+    background: '#0f0f0f',
+    borderRadius: '6px',
+    alignItems: 'center',
+  },
+  settingGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  settingLabel: {
+    fontSize: '0.65rem',
+    color: '#555',
+    textTransform: 'uppercase',
+    minWidth: '48px',
+  },
+  pills: {
+    display: 'flex',
+    gap: '4px',
+  },
+  pill: {
+    padding: '4px 8px',
+    background: '#1a1a1a',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#333',
+    borderRadius: '12px',
+    color: '#888',
+    fontSize: '0.65rem',
+    cursor: 'pointer',
+  },
+  pillActive: {
+    background: '#E90441',
+    borderColor: '#E90441',
+    color: 'white',
+  },
+  slider: {
+    width: '60px',
+    accentColor: '#E90441',
+  },
+  settingVal: {
+    fontSize: '0.65rem',
+    color: '#888',
+    fontFamily: 'monospace',
+    minWidth: '32px',
+  },
+  colorPicker: {
+    width: '28px',
+    height: '22px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    padding: 0,
   },
   controlBtn: {
     padding: '6px 12px',
