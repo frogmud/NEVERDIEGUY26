@@ -8,6 +8,8 @@ import { getVtracerCommand, VTRACER_PRESETS } from '../utils/vtracer';
 
 interface Props {
   assetPath?: string;
+  entity?: unknown;
+  assetsDir?: FileSystemDirectoryHandle | null;
 }
 
 const PRESET_LABELS: Record<VtracerPreset, string> = {

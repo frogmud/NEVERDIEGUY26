@@ -2,7 +2,7 @@
  * Custom hook for persisting state to localStorage
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export function usePersistedState<T>(
   key: string,

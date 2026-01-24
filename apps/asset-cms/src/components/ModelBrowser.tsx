@@ -77,7 +77,7 @@ function LiveAsciiRenderer({
   enabled,
   settings,
 }: {
-  asciiCanvasRef: React.RefObject<HTMLCanvasElement>;
+  asciiCanvasRef: React.RefObject<HTMLCanvasElement | null>;
   enabled: boolean;
   settings: AsciiSettings;
 }) {
@@ -349,9 +349,10 @@ export function ModelBrowser() {
     const duration = 3.6; // 360° rotation
     const totalFrames = Math.floor(fps * duration);
 
-    // Setup ASCII canvas size
-    const outWidth = ASCII_CONFIG.cols * ASCII_CONFIG.charWidth;
-    const outHeight = ASCII_CONFIG.rows * ASCII_CONFIG.charHeight;
+    // Setup ASCII canvas size using current settings
+    const { cols, rows } = asciiSettings;
+    const outWidth = cols * CHAR_WIDTH;
+    const outHeight = rows * CHAR_HEIGHT;
     asciiCanvas.width = outWidth;
     asciiCanvas.height = outHeight;
 

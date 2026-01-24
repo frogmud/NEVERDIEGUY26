@@ -16,6 +16,7 @@ import { usePersistedState } from '../utils/usePersistedState';
 interface Props {
   assetPath?: string;
   entity: WikiEntity;
+  assetsDir?: FileSystemDirectoryHandle | null;
 }
 
 const GRID_LABELS: Record<AsciiGridPreset, string> = {
