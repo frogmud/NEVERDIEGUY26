@@ -39,6 +39,17 @@ const ASCII_CONFIG = {
   charHeight: 14,
 };
 
+// Live preview uses lower resolution for performance
+const ASCII_LIVE_CONFIG = {
+  cols: 80,
+  rows: 45,
+  charSet: ' .:#',
+  threshold: 0.0,
+  color: '#e0e0e0',
+  charWidth: 10,
+  charHeight: 14,
+};
+
 // Model component that loads and displays a GLB
 function Model({ path }: { path: string }) {
   const modelUrl = toModelUrl(path);
@@ -52,6 +63,93 @@ function Model({ path }: { path: string }) {
       <primitive object={clonedScene} />
     </Center>
   );
+}
+
+// Live ASCII renderer - captures frames and converts to ASCII
+function LiveAsciiRenderer({
+  asciiCanvasRef,
+  enabled,
+}: {
+  asciiCanvasRef: React.RefObject<HTMLCanvasElement>;
+  enabled: boolean;
+}) {
+  const { gl } = useThree();
+  const frameCount = useRef(0);
+
+  useFrame(() => {
+    if (!enabled) return;
+
+    // Throttle to ~12 FPS for performance
+    frameCount.current++;
+    if (frameCount.current % 5 !== 0) return;
+
+    const asciiCanvas = asciiCanvasRef.current;
+    if (!asciiCanvas) return;
+
+    const { cols, rows, charSet, threshold, color, charWidth, charHeight } = ASCII_LIVE_CONFIG;
+
+    // Read pixels from WebGL
+    const width = gl.domElement.width;
+    const height = gl.domElement.height;
+    const pixels = new Uint8Array(width * height * 4);
+    gl.readRenderTargetPixels(
+      null as any, // Read from default framebuffer
+      0, 0, width, height,
+      pixels
+    );
+
+    // Fallback: direct WebGL read if readRenderTargetPixels doesn't work
+    const glCtx = gl.getContext();
+    glCtx.readPixels(0, 0, width, height, glCtx.RGBA, glCtx.UNSIGNED_BYTE, pixels);
+
+    // Sample down to ASCII grid
+    const cellWidth = width / cols;
+    const cellHeight = height / rows;
+
+    // Setup output canvas
+    const outWidth = cols * charWidth;
+    const outHeight = rows * charHeight;
+    if (asciiCanvas.width !== outWidth || asciiCanvas.height !== outHeight) {
+      asciiCanvas.width = outWidth;
+      asciiCanvas.height = outHeight;
+    }
+
+    const asciiCtx = asciiCanvas.getContext('2d');
+    if (!asciiCtx) return;
+
+    // Clear with black background
+    asciiCtx.fillStyle = '#000000';
+    asciiCtx.fillRect(0, 0, outWidth, outHeight);
+
+    // Draw ASCII
+    asciiCtx.font = `${charHeight}px monospace`;
+    asciiCtx.fillStyle = color;
+
+    for (let y = 0; y < rows; y++) {
+      let row = '';
+      for (let x = 0; x < cols; x++) {
+        // Sample center of each cell (flip Y for WebGL)
+        const sampleX = Math.floor((x + 0.5) * cellWidth);
+        const sampleY = Math.floor((rows - y - 0.5) * cellHeight);
+        const i = (sampleY * width + sampleX) * 4;
+
+        const r = pixels[i] || 0;
+        const g = pixels[i + 1] || 0;
+        const b = pixels[i + 2] || 0;
+
+        const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+
+        if (luminance < threshold) {
+          row += ' ';
+        } else {
+          row += luminanceToChar(luminance, charSet);
+        }
+      }
+      asciiCtx.fillText(row, 0, (y + 1) * charHeight - 2);
+    }
+  });
+
+  return null;
 }
 
 // Camera auto-fit component
@@ -107,6 +205,7 @@ export function ModelBrowser() {
 
   // Persisted settings
   const [autoRotate, setAutoRotate] = usePersistedState('model:autoRotate', true);
+  const [asciiMode, setAsciiMode] = usePersistedState('model:asciiMode', false);
 
   const categories = psxModels.categories;
   const models = selectedCategory
@@ -334,6 +433,15 @@ export function ModelBrowser() {
                 >
                   Auto-rotate
                 </button>
+                <button
+                  onClick={() => setAsciiMode(!asciiMode)}
+                  style={{
+                    ...styles.controlBtn,
+                    ...(asciiMode ? styles.controlBtnActive : {}),
+                  }}
+                >
+                  ASCII
+                </button>
                 <div style={styles.exportGroup}>
                   <select
                     value={exportType}
@@ -353,14 +461,24 @@ export function ModelBrowser() {
                 </div>
               </div>
 
-              {/* 3D Canvas */}
+              {/* 3D Canvas with ASCII overlay */}
               <div style={styles.canvasContainer}>
+                {/* 3D Canvas - always renders (hidden when ASCII mode) */}
                 <Canvas
                   ref={canvasRef}
                   shadows
                   camera={{ position: [0, 0, 5], fov: 50 }}
                   gl={{ preserveDrawingBuffer: true }}
-                  style={{ background: '#0a0a0a' }}
+                  style={{
+                    background: '#0a0a0a',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    opacity: asciiMode ? 0 : 1,
+                    pointerEvents: asciiMode ? 'none' : 'auto',
+                  }}
                 >
                   <ambientLight intensity={0.6} />
                   <directionalLight
@@ -375,12 +493,22 @@ export function ModelBrowser() {
                   <Suspense fallback={null}>
                     <Model path={selectedModel.path} />
                     <CameraController modelPath={selectedModel.path} />
+                    <LiveAsciiRenderer
+                      asciiCanvasRef={asciiCanvasRef}
+                      enabled={asciiMode}
+                    />
                   </Suspense>
                 </Canvas>
-              </div>
 
-              {/* Hidden ASCII canvas for export */}
-              <canvas ref={asciiCanvasRef} style={{ display: 'none' }} />
+                {/* ASCII canvas - visible when ASCII mode */}
+                <canvas
+                  ref={asciiCanvasRef}
+                  style={{
+                    ...styles.asciiCanvas,
+                    display: asciiMode ? 'block' : 'none',
+                  }}
+                />
+              </div>
             </>
           ) : (
             <div style={styles.placeholder}>
@@ -561,10 +689,22 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: 'pointer',
   },
   canvasContainer: {
+    position: 'relative',
     flex: 1,
     borderRadius: '8px',
     overflow: 'hidden',
     minHeight: '300px',
+    background: '#0a0a0a',
+  },
+  asciiCanvas: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'contain',
+    imageRendering: 'pixelated',
   },
   placeholder: {
     flex: 1,
