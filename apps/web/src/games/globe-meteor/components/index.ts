@@ -5,7 +5,6 @@ export { TargetReticle } from './TargetReticle';
 export { DiceReticle } from './DiceReticle';
 export { ImpactEffect } from './ImpactEffect';
 export { DiceHand } from './DiceHand';
-export { DiceHand3D } from './DiceHand3D';
 export { RollResult } from './RollResult';
 export { ZoneMarker } from './ZoneMarker';
 export { GridOverlay } from './GridOverlay';

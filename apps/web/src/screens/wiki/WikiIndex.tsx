@@ -351,7 +351,7 @@ export function WikiIndex() {
   // Common table row styles
   const rowSx = {
     cursor: 'pointer',
-    height: 72,
+    height: 90,
     '& td': { borderColor: tokens.colors.border, py: 2, verticalAlign: 'middle' },
     '&:hover': { bgcolor: tokens.colors.background.elevated },
   };

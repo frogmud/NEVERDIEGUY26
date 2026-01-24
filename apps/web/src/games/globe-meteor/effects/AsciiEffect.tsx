@@ -59,20 +59,34 @@ export function AsciiEffect({
   // Pixel buffer ref (reuse to avoid allocation)
   const pixelsRef = useRef<Uint8Array | null>(null);
 
-  // Create render target for capturing the scene
-  const renderTarget = useMemo(() => {
-    const rt = new THREE.WebGLRenderTarget(width, height, {
+  // Render target ref - managed manually to ensure proper disposal on resize
+  const renderTargetRef = useRef<THREE.WebGLRenderTarget | null>(null);
+
+  // Create/recreate render target on size change, disposing old one first
+  useEffect(() => {
+    // Dispose old render target if it exists
+    if (renderTargetRef.current) {
+      renderTargetRef.current.dispose();
+    }
+
+    // Create new render target
+    renderTargetRef.current = new THREE.WebGLRenderTarget(width, height, {
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
       format: THREE.RGBAFormat,
       colorSpace: THREE.SRGBColorSpace,
     });
-    return rt;
-  }, [width, height]);
 
-  // Create/update pixel buffer
-  useEffect(() => {
+    // Also update pixel buffer
     pixelsRef.current = new Uint8Array(width * height * 4);
+
+    // Cleanup on unmount
+    return () => {
+      if (renderTargetRef.current) {
+        renderTargetRef.current.dispose();
+        renderTargetRef.current = null;
+      }
+    };
   }, [width, height]);
 
   // Create overlay canvas
@@ -128,11 +142,12 @@ export function AsciiEffect({
 
   // Render ASCII effect - runs AFTER scene render (priority > 0)
   useFrame(() => {
-    if (!enabled || !ctxRef.current || !canvasRef.current || !pixelsRef.current) return;
+    if (!enabled || !ctxRef.current || !canvasRef.current || !pixelsRef.current || !renderTargetRef.current) return;
 
     const ctx = ctxRef.current;
     const canvas = canvasRef.current;
     const pixels = pixelsRef.current;
+    const renderTarget = renderTargetRef.current;
 
     // Store current render target
     const currentRT = gl.getRenderTarget();
@@ -206,13 +221,6 @@ export function AsciiEffect({
 
     ctx.globalAlpha = 1;
   }, 100); // High priority number = runs later, after main render
-
-  // Cleanup render target on unmount
-  useEffect(() => {
-    return () => {
-      renderTarget.dispose();
-    };
-  }, [renderTarget]);
 
   return null;
 }

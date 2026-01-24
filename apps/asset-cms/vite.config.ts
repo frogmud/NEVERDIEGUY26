@@ -14,7 +14,9 @@ function serveExternalAssets(): Plugin {
       server.middlewares.use((req, res, next) => {
         // Handle /psx-models/* requests
         if (req.url?.startsWith('/psx-models/')) {
-          const relativePath = decodeURIComponent(req.url.replace('/psx-models/', ''));
+          // Strip query string if present
+          const urlPath = req.url.split('?')[0];
+          const relativePath = decodeURIComponent(urlPath.replace('/psx-models/', ''));
           const filePath = path.join(PSX_MODELS_PATH, relativePath);
 
           if (fs.existsSync(filePath)) {

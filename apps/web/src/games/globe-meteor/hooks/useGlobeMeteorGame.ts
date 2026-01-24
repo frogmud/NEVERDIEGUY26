@@ -256,7 +256,10 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
     };
   }, []);
 
-  // Meteor animation loop
+  // Meteor animation - uses RAF ref shared with NPC loop
+  const meteorAnimationRef = useRef<number | undefined>(undefined);
+
+  // Handle game phase transitions when meteors land
   useEffect(() => {
     if (meteors.length === 0) {
       // All meteors have landed - transition to result phase, then select
@@ -265,13 +268,15 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
         // Auto-transition back to select after showing result
         setTimeout(() => setGamePhase('select'), 1500);
       }
-      return;
-    }
-
-    // At least one meteor in flight
-    if (gamePhase === 'firing') {
+    } else if (gamePhase === 'firing') {
+      // At least one meteor in flight
       setGamePhase('impact');
     }
+  }, [meteors.length, gamePhase]);
+
+  // Meteor animation loop - RAF based for smooth animation
+  useEffect(() => {
+    if (meteors.length === 0) return;
 
     const updateMeteors = () => {
       const now = Date.now();
@@ -312,11 +317,18 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
 
         return updatedMeteors;
       });
+
+      // Continue animation if meteors still exist
+      meteorAnimationRef.current = requestAnimationFrame(updateMeteors);
     };
 
-    const interval = setInterval(updateMeteors, 16); // ~60fps
-    return () => clearInterval(interval);
-  }, [meteors.length, gamePhase]);
+    meteorAnimationRef.current = requestAnimationFrame(updateMeteors);
+    return () => {
+      if (meteorAnimationRef.current) {
+        cancelAnimationFrame(meteorAnimationRef.current);
+      }
+    };
+  }, [meteors.length > 0]); // Only restart loop when meteors appear/disappear
 
   // Process impacts and check for NPC hits
   const processImpacts = useCallback(

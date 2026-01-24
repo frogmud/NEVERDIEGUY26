@@ -39,7 +39,12 @@ function toModelUrl(absolutePath: string): string {
   // Convert "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Decals/foo.glb"
   // to "/psx-models/Decals/foo.glb"
   const relativePath = absolutePath.replace(PSX_BASE_PATH, '');
-  return `/psx-models${relativePath}`;
+  // Encode each path segment to handle spaces and special chars like "&"
+  const encodedPath = relativePath
+    .split('/')
+    .map(segment => encodeURIComponent(segment))
+    .join('/');
+  return `/psx-models${encodedPath}`;
 }
 
 // Grid presets for ASCII resolution
@@ -256,6 +261,8 @@ export function ModelBrowser() {
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [exporting, setExporting] = useState(false);
   const [exportType, setExportType] = useState<'png' | 'webm'>('png');
+  const [batchExporting, setBatchExporting] = useState(false);
+  const [batchProgress, setBatchProgress] = useState({ current: 0, total: 0, name: '' });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const asciiCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -455,6 +462,70 @@ export function ModelBrowser() {
     mediaRecorder.stop();
   }, [selectedItem, captureAsciiFrame]);
 
+  // Batch export all models in current category as ASCII PNGs
+  const batchExportCategory = useCallback(async () => {
+    // Get items to export based on category
+    const items: SelectedItem[] = isGlobeCategory
+      ? DOMAIN_GLOBES.map(globe => ({ type: 'globe' as const, globe }))
+      : models.map(model => ({ type: 'model' as const, model }));
+
+    if (items.length === 0) return;
+
+    setBatchExporting(true);
+    setBatchProgress({ current: 0, total: items.length, name: '' });
+
+    // Enable ASCII mode for batch export
+    const wasAsciiMode = asciiMode;
+    if (!wasAsciiMode) setAsciiMode(true);
+
+    // Collect all blobs for zip
+    const exports: { name: string; blob: Blob }[] = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const itemName = item.type === 'globe' ? item.globe.name : item.model.name;
+      setBatchProgress({ current: i + 1, total: items.length, name: itemName });
+
+      // Select the item
+      setSelectedItem(item);
+
+      // Wait for model to load and render (longer for GLB models)
+      await new Promise(r => setTimeout(r, item.type === 'globe' ? 800 : 1500));
+
+      // Capture ASCII frame
+      const asciiCanvas = captureAsciiFrame();
+      if (asciiCanvas) {
+        const blob = await new Promise<Blob | null>(resolve =>
+          asciiCanvas.toBlob(resolve, 'image/png')
+        );
+        if (blob) {
+          const filename = item.type === 'globe'
+            ? `globe-${item.globe.name.toLowerCase().replace(/\s+/g, '-')}-ascii.png`
+            : `psx-${item.model.name}-ascii.png`;
+          exports.push({ name: filename, blob });
+        }
+      }
+    }
+
+    // Download all as individual files (could be zip later)
+    for (const { name, blob } of exports) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(url);
+      // Small delay between downloads
+      await new Promise(r => setTimeout(r, 100));
+    }
+
+    // Restore ASCII mode if it was off
+    if (!wasAsciiMode) setAsciiMode(false);
+
+    setBatchExporting(false);
+    setBatchProgress({ current: 0, total: 0, name: '' });
+  }, [isGlobeCategory, models, asciiMode, setAsciiMode, captureAsciiFrame]);
+
   return (
     <div style={styles.container}>
       {/* Header */}
@@ -463,6 +534,29 @@ export function ModelBrowser() {
         <span style={styles.subtitle}>
           {totalModels} models ({DOMAIN_GLOBES.length} globes + {totalModels - DOMAIN_GLOBES.length} trophies)
         </span>
+        {selectedCategory && !batchExporting && (
+          <button
+            onClick={batchExportCategory}
+            style={styles.batchExportBtn}
+          >
+            Batch Export {selectedCategory} ({isGlobeCategory ? DOMAIN_GLOBES.length : models.length})
+          </button>
+        )}
+        {batchExporting && (
+          <div style={styles.batchProgress}>
+            <span style={styles.batchProgressText}>
+              Exporting {batchProgress.current}/{batchProgress.total}: {batchProgress.name}
+            </span>
+            <div style={styles.batchProgressBar}>
+              <div
+                style={{
+                  ...styles.batchProgressFill,
+                  width: `${(batchProgress.current / batchProgress.total) * 100}%`,
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={styles.layout}>
@@ -778,7 +872,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   header: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
     gap: '12px',
   },
   title: {
@@ -1073,5 +1167,40 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '1rem',
     background: '#0a0a0a',
     borderRadius: '8px',
+  },
+  batchExportBtn: {
+    marginLeft: 'auto',
+    padding: '8px 16px',
+    background: '#2d5a2d',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#3d7a3d',
+    borderRadius: '6px',
+    color: '#8ddf8d',
+    fontSize: '0.75rem',
+    fontWeight: 500,
+    cursor: 'pointer',
+  },
+  batchProgress: {
+    marginLeft: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    minWidth: '200px',
+  },
+  batchProgressText: {
+    fontSize: '0.7rem',
+    color: '#888',
+  },
+  batchProgressBar: {
+    height: '4px',
+    background: '#222',
+    borderRadius: '2px',
+    overflow: 'hidden',
+  },
+  batchProgressFill: {
+    height: '100%',
+    background: '#E90441',
+    transition: 'width 200ms ease',
   },
 };
