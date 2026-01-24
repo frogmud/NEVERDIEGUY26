@@ -137,8 +137,11 @@ function LiveAsciiRenderer({
         const g = pixels[i + 1] || 0;
         const b = pixels[i + 2] || 0;
 
-        const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-        if (luminance > maxLum) maxLum = luminance;
+        const rawLum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        if (rawLum > maxLum) maxLum = rawLum;
+
+        // Boost contrast significantly (scene is very dark)
+        const luminance = Math.min(1, rawLum * 10);
 
         if (luminance < threshold) {
           row += ' ';
