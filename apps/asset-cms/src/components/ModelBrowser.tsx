@@ -1,3 +1,4 @@
+/// <reference path="../types/three.d.ts" />
 /**
  * Model Browser - Browse and preview PSX Mega Pack GLB models
  */
