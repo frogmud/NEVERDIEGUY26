@@ -434,12 +434,16 @@ function runReducer(state: RunState, action: RunAction): RunState {
         };
       }
 
+      // Start run timer on first combat launch
+      const shouldStartTimer = action.panel === 'combat' && state.runStartTime === 0;
+
       // Simple panel swap (no pending victory)
       return {
         ...state,
         centerPanel: action.panel,
         transitionPhase: 'idle',
         pendingPanel: null,
+        runStartTime: shouldStartTimer ? Date.now() : state.runStartTime,
       };
     }
 
@@ -490,7 +494,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
         // Set loadout stats for combat effects
         loadoutStats,
         gritImmunityUsed: false,
-        runStartTime: Date.now(),
+        runStartTime: 0, // Timer starts on first INIT_COMBAT (first launch)
         eventStartTime: 0,
         // Portal system - track starting domain as visited
         visitedDomains: [domainId],
@@ -903,6 +907,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
       return {
         ...state,
         combatState: action.combatState,
+        // Start run timer on first combat (if not already started)
+        runStartTime: state.runStartTime > 0 ? state.runStartTime : Date.now(),
       };
 
     case 'TOGGLE_HOLD_DIE': {
@@ -1545,4 +1551,9 @@ export function useRun(): RunContextValue {
     throw new Error('useRun must be used within a RunProvider');
   }
   return context;
+}
+
+// Optional hook - returns null if not in RunProvider (for components that may render outside game context)
+export function useRunOptional(): RunContextValue | null {
+  return useContext(RunContext);
 }

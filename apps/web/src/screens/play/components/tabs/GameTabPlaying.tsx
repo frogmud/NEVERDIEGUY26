@@ -9,9 +9,11 @@
  * - Domain/Event progress
  */
 
+import { useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { tokens } from '../../../../theme';
 import { TokenIcon } from '../../../../components/TokenIcon';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 interface RollHistoryEntry {
   id: number;
@@ -83,6 +85,9 @@ interface GameTabPlayingProps {
   // Heat (streak-based difficulty)
   heat?: number;
 
+  // Run timing
+  runStartTime?: number;
+
   // Roll history
   rollHistory: RollHistoryEntry[];
 
@@ -113,7 +118,29 @@ export function GameTabPlaying({
   onInfo,
   combatFeed = [],
   heat = 0,
+  runStartTime = 0,
 }: GameTabPlayingProps) {
+  // Live timer update
+  const [elapsedTime, setElapsedTime] = useState('0:00');
+
+  useEffect(() => {
+    if (!runStartTime || runStartTime === 0) {
+      setElapsedTime('0:00');
+      return;
+    }
+
+    const updateTimer = () => {
+      const elapsed = Date.now() - runStartTime;
+      const minutes = Math.floor(elapsed / 60000);
+      const seconds = Math.floor((elapsed % 60000) / 1000);
+      setElapsedTime(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+    };
+
+    updateTimer(); // Initial update
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, [runStartTime]);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Score To Beat - clean centered layout (hidden during shop) */}
@@ -319,6 +346,36 @@ export function GameTabPlaying({
               }}
             >
               {score.toLocaleString()}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Run Timer - visible and prominent */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1rem' }}>Time</Typography>
+          <Box
+            sx={{
+              flex: 1,
+              bgcolor: tokens.colors.background.elevated,
+              borderRadius: 1,
+              px: 1.5,
+              py: 0.75,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.75,
+            }}
+          >
+            <AccessTimeIcon sx={{ fontSize: 24, color: tokens.colors.text.secondary }} />
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontWeight: 700,
+                fontSize: '1.375rem',
+                letterSpacing: '0.05em',
+                color: runStartTime > 0 ? tokens.colors.text.primary : tokens.colors.text.disabled,
+              }}
+            >
+              {elapsedTime}
             </Typography>
           </Box>
         </Box>

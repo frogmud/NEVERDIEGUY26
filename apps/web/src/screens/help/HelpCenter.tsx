@@ -260,7 +260,6 @@ export function HelpCenter() {
       {[
         { label: 'Wiki', path: '/wiki' },
         { label: 'Settings', path: '/settings' },
-        { label: 'Sitemap', path: '/help/sitemap' },
       ].map((link) => (
         <Typography
           key={link.path}

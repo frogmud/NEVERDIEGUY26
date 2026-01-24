@@ -307,6 +307,7 @@ export function PlayHub() {
   const handleNewRun = (loadoutId: string, startingItems: string[]) => {
     const threadId = generateThreadId();
     startRun(threadId, undefined, undefined, loadoutId, startingItems);
+
     // After startRun, sidebar will show zone selection
     // User picks zone, then clicks Launch to start combat
   };
@@ -657,7 +658,7 @@ export function PlayHub() {
                     mostRolled: state.runStats?.mostRolled || 'd20',
                     diceRolled: state.runStats?.diceThrown || 0,
                     totalScore: state.totalScore || 0,
-                    domains: state.currentDomain || 1,
+                    domains: state.gameWon ? 6 : (state.currentDomain || 1),
                     rooms: state.runStats?.eventsCompleted || 1,
                     purchases: state.runStats?.purchases || 0,
                     shopRemixes: state.runStats?.shopRemixes || 0,
@@ -812,7 +813,6 @@ export function PlayHub() {
         loadoutStats={state.loadoutStats}
         inventoryItems={state.inventory?.powerups || []}
       />
-
 
     </Box>
   );

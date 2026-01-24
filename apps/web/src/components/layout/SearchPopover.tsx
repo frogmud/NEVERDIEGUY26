@@ -31,7 +31,7 @@ export function SearchPopover({
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       disableAutoFocus
       disableEnforceFocus
-      sx={{ mt: 1 }}
+      sx={{ mt: 1, zIndex: 1400 }}
     >
       <Paper sx={{ width: 320, p: 2, bgcolor: tokens.colors.background.paper }}>
         {searchResults.length > 0 ? (

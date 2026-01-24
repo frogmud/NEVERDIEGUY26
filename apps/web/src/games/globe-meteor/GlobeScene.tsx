@@ -73,6 +73,8 @@ interface GlobeSceneProps {
   bossIsHit?: boolean;
   /** Enable ASCII art rendering mode */
   asciiMode?: boolean;
+  /** Enable boot demo mode (auto-rotate + camera animation) */
+  demoMode?: boolean;
 }
 
 /**
@@ -150,6 +152,55 @@ function CameraTracker({
 }
 
 /**
+ * CameraAnimator - Animates camera for demo mode
+ * Smooth zoom in/out sequence to showcase 3D nature
+ */
+function CameraAnimator({ enabled }: { enabled: boolean }) {
+  const { camera } = useThree();
+  const startTime = useRef(Date.now());
+  const initialPosition = useRef(new THREE.Vector3(0, 0, 15));
+
+  useFrame(() => {
+    if (!enabled) return;
+
+    const elapsed = (Date.now() - startTime.current) / 1000; // seconds
+
+    // 8-second animation sequence
+    // 0-2s: normal view (z=15)
+    // 2-4s: zoom out (z=25)
+    // 4-6s: zoom in (z=10)
+    // 6-8s: return to normal (z=15)
+    // 8s+: stay at normal
+
+    let targetZ = 15; // default
+
+    if (elapsed < 2) {
+      targetZ = 15; // normal
+    } else if (elapsed < 4) {
+      // Zoom out
+      const t = (elapsed - 2) / 2; // 0 to 1
+      targetZ = 15 + (25 - 15) * t; // lerp from 15 to 25
+    } else if (elapsed < 6) {
+      // Zoom in
+      const t = (elapsed - 4) / 2; // 0 to 1
+      targetZ = 25 - (25 - 10) * t; // lerp from 25 to 10
+    } else if (elapsed < 8) {
+      // Return to normal
+      const t = (elapsed - 6) / 2; // 0 to 1
+      targetZ = 10 + (15 - 10) * t; // lerp from 10 to 15
+    } else {
+      targetZ = 15; // settled at normal
+    }
+
+    // Smooth lerp to target position
+    const targetPosition = new THREE.Vector3(0, 0, targetZ);
+    camera.position.lerp(targetPosition, 0.05); // smooth interpolation
+  });
+
+  return null;
+}
+
+/**
  * Loading fallback for Suspense
  */
 function LoadingFallback() {
@@ -201,6 +252,7 @@ export function GlobeScene({
   bossCurrentScore = 0,
   bossIsHit = false,
   asciiMode = false,
+  demoMode = false,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -214,7 +266,7 @@ export function GlobeScene({
       onMouseDown={onInteraction}
       onTouchStart={onInteraction}
     >
-      <Canvas shadows style={{ background: skyConfig.fog }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas shadows style={{ background: skyConfig.fog, cursor: 'pointer' }} gl={{ preserveDrawingBuffer: true }}>
         <Suspense fallback={<color attach="background" args={[skyConfig.fog]} />}>
           {/* Track camera distance and center target for zoom-aware UI */}
           <CameraTracker
@@ -222,6 +274,9 @@ export function GlobeScene({
             onCenterTargetChange={onCenterTargetChange}
             domainId={domainId}
           />
+
+          {/* Camera animator for demo mode */}
+          <CameraAnimator enabled={demoMode} />
 
           {/* Camera with orbit controls */}
           <PerspectiveCamera
@@ -235,8 +290,8 @@ export function GlobeScene({
             minDistance={GLOBE_CONFIG.camera.minDistance}
             maxDistance={GLOBE_CONFIG.camera.maxDistance}
             enablePan={false}
-            autoRotate={autoRotate}
-            autoRotateSpeed={0.5}
+            autoRotate={autoRotate || demoMode}
+            autoRotateSpeed={demoMode ? 0.3 : 0.5}
           />
 
           {/* Lighting - ambient color shifts based on event number */}

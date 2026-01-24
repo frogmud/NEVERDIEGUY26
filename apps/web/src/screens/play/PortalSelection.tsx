@@ -55,67 +55,6 @@ const buttonFadeIn = keyframes`
   100% { opacity: 1; transform: scale(1) translateY(0); }
 `;
 
-// Map domain IDs to visually distinct flume sequences
-// Spread across all 12 sequences for variety, with different start frames and speeds
-const DOMAIN_FLUME_CONFIG: Record<number, { dir: string; startFrame: number; step: number; interval: number; loop: boolean }> = {
-  1: { dir: 'flume-00001', startFrame: 1, step: 2, interval: 120, loop: true },   // Earth - organic
-  2: { dir: 'flume-00007', startFrame: 25, step: 3, interval: 100, loop: true },  // Frost - crystalline
-  3: { dir: 'flume-00003', startFrame: 50, step: 2, interval: 90, loop: true },   // Infernus - fiery
-  4: { dir: 'flume-00004', startFrame: 10, step: 2, interval: 130, loop: true },  // Shadow - dark wisps
-  5: { dir: 'flume-00010', startFrame: 1, step: 2, interval: 140, loop: false },  // Null - void (no loop)
-  6: { dir: 'flume-00005', startFrame: 70, step: 2, interval: 110, loop: true },  // Aberrant - weird
-};
-
-const FRAME_COUNT = 100;
-
-// Animated flume background with per-domain variation
-function AnimatedFlumeBackground({ domainId, isHovered }: { domainId: number; isHovered: boolean }) {
-  const config = DOMAIN_FLUME_CONFIG[domainId];
-  const [frameIndex, setFrameIndex] = useState(config?.startFrame || 1);
-  const [hasError, setHasError] = useState(false);
-  const [stopped, setStopped] = useState(false);
-
-  useEffect(() => {
-    if (hasError || !config || stopped) return;
-    const interval = setInterval(() => {
-      setFrameIndex(prev => {
-        const next = prev + config.step;
-        if (next > FRAME_COUNT) {
-          if (config.loop) {
-            return 1;
-          } else {
-            setStopped(true);
-            return FRAME_COUNT;
-          }
-        }
-        return next;
-      });
-    }, config.interval);
-    return () => clearInterval(interval);
-  }, [hasError, config, stopped]);
-
-  if (hasError || !config) return null;
-
-  return (
-    <Box
-      component="img"
-      src={`/assets/flumes-svg/cursed/${config.dir}/frame-${String(frameIndex).padStart(2, '0')}.svg`}
-      alt=""
-      onError={() => setHasError(true)}
-      sx={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        // Dull when not hovered, vibrant on hover
-        opacity: isHovered ? 0.9 : 0.5,
-        filter: isHovered ? 'saturate(1) brightness(1)' : 'saturate(0.4) brightness(0.7)',
-        transition: 'opacity 300ms ease, filter 300ms ease',
-      }}
-    />
-  );
-}
 
 // ASCII-style overlay with scanlines and character grid
 function AsciiOverlay({ isHovered, color }: { isHovered: boolean; color: string }) {
@@ -213,9 +152,6 @@ function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, ind
         },
       }}
     >
-      {/* Full-bleed animated background */}
-      {!portal.isUnknown && <AnimatedFlumeBackground domainId={portal.domainId} isHovered={isHovered || isSelected} />}
-
       {/* ASCII scanline overlay */}
       <AsciiOverlay isHovered={isHovered || isSelected} color={planetConfig?.color || '#666'} />
 

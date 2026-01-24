@@ -125,24 +125,6 @@ export function AboutUs() {
             </Box>
           </Box>
 
-          {/* Tech */}
-          <Box>
-            <Typography
-              sx={{
-                fontSize: '0.85rem',
-                color: tokens.colors.text.disabled,
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-                mb: 0.5,
-              }}
-            >
-              Built with
-            </Typography>
-            <Typography sx={{ fontSize: '1rem', color: tokens.colors.text.secondary }}>
-              React, Three.js, Material-UI
-            </Typography>
-          </Box>
-
           {/* Special Thanks */}
           <Box>
             <Typography
@@ -151,64 +133,50 @@ export function AboutUs() {
                 color: tokens.colors.text.disabled,
                 textTransform: 'uppercase',
                 letterSpacing: 1,
-                mb: 0.5,
+                mb: 1,
               }}
             >
               Special Thanks
             </Typography>
-            <Typography sx={{ fontSize: '1rem', color: tokens.colors.text.secondary, lineHeight: 1.7 }}>
-              The roguelike community, Balatro for the inspiration, and everyone who playtests and provides feedback.
-            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+              {[
+                { name: 'React', url: 'https://github.com/facebook/react' },
+                { name: 'Three.js', url: 'https://github.com/mrdoob/three.js' },
+                { name: 'React Three Fiber', url: 'https://github.com/pmndrs/react-three-fiber' },
+                { name: 'Drei', url: 'https://github.com/pmndrs/drei' },
+                { name: 'MUI', url: 'https://github.com/mui/material-ui' },
+                { name: 'Phaser', url: 'https://github.com/phaserjs/phaser' },
+                { name: 'Vite', url: 'https://github.com/vitejs/vite' },
+                { name: 'React Router', url: 'https://github.com/remix-run/react-router' },
+              ].map((lib) => (
+                <Box
+                  key={lib.name}
+                  component="a"
+                  href={lib.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    fontSize: '0.9rem',
+                    color: tokens.colors.text.secondary,
+                    textDecoration: 'none',
+                    px: 1.5,
+                    py: 0.5,
+                    borderRadius: '6px',
+                    border: `1px solid ${tokens.colors.border}`,
+                    '&:hover': {
+                      color: tokens.colors.text.primary,
+                      borderColor: tokens.colors.text.secondary,
+                    },
+                  }}
+                >
+                  {lib.name}
+                </Box>
+              ))}
+            </Box>
           </Box>
         </Box>
       </Box>
 
-      <Divider sx={{ borderColor: tokens.colors.border, mb: 5 }} />
-
-      {/* Contact / Links */}
-      <Box>
-        <Typography
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: { xs: '1.4rem', md: '1.6rem' },
-            color: tokens.colors.text.primary,
-            mb: 3,
-          }}
-        >
-          Connect
-        </Typography>
-
-        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
-          <Box
-            component="a"
-            href="https://github.com/kgrz"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              fontSize: '1rem',
-              color: tokens.colors.text.secondary,
-              textDecoration: 'none',
-              '&:hover': { color: tokens.colors.text.primary },
-            }}
-          >
-            GitHub
-          </Box>
-          <Box
-            component="a"
-            href="https://kgrz.design"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              fontSize: '1rem',
-              color: tokens.colors.text.secondary,
-              textDecoration: 'none',
-              '&:hover': { color: tokens.colors.text.primary },
-            }}
-          >
-            Portfolio
-          </Box>
-        </Box>
-      </Box>
     </Box>
   );
 }
