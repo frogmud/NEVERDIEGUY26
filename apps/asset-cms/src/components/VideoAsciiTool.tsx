@@ -4,6 +4,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { CHAR_SETS, luminanceToChar, type CharSetName } from '../utils/charSets';
+import { usePersistedState } from '../utils/usePersistedState';
 
 type GridPreset = 'small' | 'medium' | 'large';
 
@@ -22,14 +23,16 @@ const GRID_LABELS: Record<GridPreset, string> = {
 export function VideoAsciiTool() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [gridPreset, setGridPreset] = useState<GridPreset>('large');
-  const [charSetName, setCharSetName] = useState<CharSetName>('minimal');
-  const [threshold, setThreshold] = useState(0.0);
-  const [color, setColor] = useState('#e0e0e0');
-  const [fps, setFps] = useState(10);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  // Persisted settings
+  const [gridPreset, setGridPreset] = usePersistedState<GridPreset>('video:gridPreset', 'large');
+  const [charSetName, setCharSetName] = usePersistedState<CharSetName>('video:charSetName', 'minimal');
+  const [threshold, setThreshold] = usePersistedState('video:threshold', 0.0);
+  const [color, setColor] = usePersistedState('video:color', '#e0e0e0');
+  const [fps, setFps] = usePersistedState('video:fps', 10);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

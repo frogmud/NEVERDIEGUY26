@@ -2,8 +2,9 @@
  * Image ASCII Tool - Convert images to ASCII art with video-style settings
  */
 
-import { useState, useRef, useCallback, useEffect, WheelEvent, MouseEvent } from 'react';
+import { useState, useRef, useCallback, useEffect, MouseEvent } from 'react';
 import { CHAR_SETS, luminanceToChar, type CharSetName } from '../utils/charSets';
+import { usePersistedState } from '../utils/usePersistedState';
 
 type GridPreset = 'small' | 'medium' | 'large';
 
@@ -22,11 +23,13 @@ const GRID_LABELS: Record<GridPreset, string> = {
 export function ImageAsciiTool() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [gridPreset, setGridPreset] = useState<GridPreset>('large');
-  const [charSetName, setCharSetName] = useState<CharSetName>('minimal');
-  const [threshold, setThreshold] = useState(0.0);
-  const [color, setColor] = useState('#e0e0e0');
   const [asciiText, setAsciiText] = useState<string | null>(null);
+
+  // Persisted settings
+  const [gridPreset, setGridPreset] = usePersistedState<GridPreset>('image:gridPreset', 'large');
+  const [charSetName, setCharSetName] = usePersistedState<CharSetName>('image:charSetName', 'minimal');
+  const [threshold, setThreshold] = usePersistedState('image:threshold', 0.0);
+  const [color, setColor] = usePersistedState('image:color', '#e0e0e0');
 
   // Pan/zoom state
   const [zoom, setZoom] = useState(1);
@@ -76,11 +79,17 @@ export function ImageAsciiTool() {
     const asciiCanvas = asciiCanvasRef.current;
     if (!img || !canvas || !asciiCanvas || !imageUrl) return;
 
-    const { cols, rows } = GRID_PRESETS[gridPreset];
+    const { cols } = GRID_PRESETS[gridPreset];
     const charSet = CHAR_SETS[charSetName];
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const asciiCtx = asciiCanvas.getContext('2d');
     if (!ctx || !asciiCtx) return;
+
+    // Calculate rows based on image aspect ratio
+    // Account for character aspect ratio (chars are ~1.4x taller than wide)
+    const charAspect = 0.5; // width/height of a monospace char
+    const imgAspect = img.naturalWidth / img.naturalHeight;
+    const rows = Math.round(cols / imgAspect * charAspect);
 
     // Set sampling canvas size
     canvas.width = cols;
@@ -170,11 +179,19 @@ export function ImageAsciiTool() {
     }
   }, [asciiText]);
 
-  // Zoom handler
-  const handleWheel = useCallback((e: WheelEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom((z) => Math.max(0.25, Math.min(4, z * delta)));
+  // Zoom handler - use native event listener to support preventDefault
+  useEffect(() => {
+    const preview = previewRef.current;
+    if (!preview) return;
+
+    const handleWheel = (e: globalThis.WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      setZoom((z) => Math.max(0.25, Math.min(4, z * delta)));
+    };
+
+    preview.addEventListener('wheel', handleWheel, { passive: false });
+    return () => preview.removeEventListener('wheel', handleWheel);
   }, []);
 
   // Pan handlers
@@ -294,7 +311,6 @@ export function ImageAsciiTool() {
           <div
             ref={previewRef}
             style={styles.preview}
-            onWheel={handleWheel}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}

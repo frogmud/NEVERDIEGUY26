@@ -7,6 +7,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, Center, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { CHAR_SETS, luminanceToChar, type CharSetName } from '../utils/charSets';
+import { usePersistedState } from '../utils/usePersistedState';
 
 // Import model index
 import psxModels from '../data/psx-models.json';
@@ -99,11 +100,13 @@ function CameraController({ modelPath }: { modelPath: string }) {
 export function ModelBrowser() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<ModelInfo | null>(null);
-  const [autoRotate, setAutoRotate] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [exportType, setExportType] = useState<'png' | 'webm'>('png');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const asciiCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Persisted settings
+  const [autoRotate, setAutoRotate] = usePersistedState('model:autoRotate', true);
 
   const categories = psxModels.categories;
   const models = selectedCategory
