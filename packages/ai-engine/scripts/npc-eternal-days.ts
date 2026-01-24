@@ -1238,6 +1238,10 @@ interface CeeloMatchOutput {
 function playCeeloMatch(input: CeeloMatchInput): CeeloMatchOutput {
   const { npc1, npc2, stake, location, weather, rng, matchKey } = input;
 
+  // Get stats for stat-based bonuses
+  const p1Stats = npc1.baseStats;
+  const p2Stats = npc2.baseStats;
+
   // Check turf advantages
   const p1Home = isHomeTurf(npc1.luckyDie, location);
   const p2Home = isHomeTurf(npc2.luckyDie, location);
@@ -1257,15 +1261,18 @@ function playCeeloMatch(input: CeeloMatchInput): CeeloMatchOutput {
 
   let p1Roll = rollCeelo(rng, `${matchKey}-p1-1`);
   let p2Roll = rollCeelo(rng, `${matchKey}-p2-1`);
-  let rerolls = 0;
 
-  // Reroll until both have results
-  while (p1Roll.result === 'reroll' && rerolls < 5) {
+  // GRIT: Extra reroll attempts (0-4 bonus based on grit/25)
+  const p1MaxRerolls = 5 + Math.floor(p1Stats.grit / 25);
+  const p2MaxRerolls = 5 + Math.floor(p2Stats.grit / 25);
+
+  let rerolls = 0;
+  while (p1Roll.result === 'reroll' && rerolls < p1MaxRerolls) {
     p1Roll = rollCeelo(rng, `${matchKey}-p1-${rerolls + 2}`);
     rerolls++;
   }
   rerolls = 0;
-  while (p2Roll.result === 'reroll' && rerolls < 5) {
+  while (p2Roll.result === 'reroll' && rerolls < p2MaxRerolls) {
     p2Roll = rollCeelo(rng, `${matchKey}-p2-${rerolls + 2}`);
     rerolls++;
   }
@@ -1278,9 +1285,13 @@ function playCeeloMatch(input: CeeloMatchInput): CeeloMatchOutput {
   if (p1Home && p1Roll.result === 'point') p1Point += 1;
   if (p2Home && p2Roll.result === 'point') p2Point += 1;
 
-  // Enemy turf: -1 effective point (can't go below 1)
-  if (p1Enemy && p1Roll.result === 'point') p1Point = Math.max(1, p1Point - 1);
-  if (p2Enemy && p2Roll.result === 'point') p2Point = Math.max(1, p2Point - 1);
+  // RESILIENCE: High resilience (>60) ignores enemy turf penalty
+  if (p1Enemy && p1Roll.result === 'point' && p1Stats.resilience <= 60) {
+    p1Point = Math.max(1, p1Point - 1);
+  }
+  if (p2Enemy && p2Roll.result === 'point' && p2Stats.resilience <= 60) {
+    p2Point = Math.max(1, p2Point - 1);
+  }
 
   // Weather boost: reroll losing dice once
   if (p1WeatherBoost && p1Roll.result === 'reroll') {
@@ -1292,41 +1303,86 @@ function playCeeloMatch(input: CeeloMatchInput): CeeloMatchOutput {
     p2Point = p2Roll.point || 0;
   }
 
+  // ESSENCE: Chance to reroll a losing point (stat/200 = 0-50% chance)
+  if (p1Roll.result === 'point' && p2Roll.result === 'point' && p1Point < p2Point) {
+    if (rng.random(`${matchKey}-essence-p1`) < p1Stats.essence / 200) {
+      p1Roll = rollCeelo(rng, `${matchKey}-p1-essence-reroll`);
+      if (p1Roll.result === 'point') p1Point = p1Roll.point || 0;
+      if (p1Home && p1Roll.result === 'point') p1Point += 1;
+    }
+  }
+  if (p2Roll.result === 'point' && p1Roll.result === 'point' && p2Point < p1Point) {
+    if (rng.random(`${matchKey}-essence-p2`) < p2Stats.essence / 200) {
+      p2Roll = rollCeelo(rng, `${matchKey}-p2-essence-reroll`);
+      if (p2Roll.result === 'point') p2Point = p2Roll.point || 0;
+      if (p2Home && p2Roll.result === 'point') p2Point += 1;
+    }
+  }
+
   // Determine winner
   let winner: string;
   let description: string;
 
+  // FURY: Bonus effectiveness on instant wins (fury > 70)
   if (p1Roll.result === 'instant_win' && p2Roll.result !== 'instant_win') {
     winner = npc1.slug;
-    description = 'instant win';
+    description = p1Stats.fury > 70 ? 'instant win (fury!)' : 'instant win';
   } else if (p2Roll.result === 'instant_win' && p1Roll.result !== 'instant_win') {
     winner = npc2.slug;
-    description = 'instant win';
+    description = p2Stats.fury > 70 ? 'instant win (fury!)' : 'instant win';
   } else if (p1Roll.result === 'instant_loss') {
     winner = npc2.slug;
     description = '1-2-3 loss';
   } else if (p2Roll.result === 'instant_loss') {
     winner = npc1.slug;
     description = '1-2-3 loss';
-  } else if (p1Point > p2Point) {
-    winner = npc1.slug;
-    const turfNote = p1Home ? ' (home turf)' : p2Enemy ? ' (enemy territory)' : '';
-    description = `point ${p1Roll.point}${turfNote} vs ${p2Roll.point}`;
-  } else if (p2Point > p1Point) {
-    winner = npc2.slug;
-    const turfNote = p2Home ? ' (home turf)' : p1Enemy ? ' (enemy territory)' : '';
-    description = `point ${p2Roll.point}${turfNote} vs ${p1Roll.point}`;
   } else {
-    // Tie - home turf wins, otherwise coin flip
-    if (p1Home && !p2Home) {
+    // FURY: +1 effective point when winning by points (fury > 70)
+    let p1EffectivePoint = p1Point;
+    let p2EffectivePoint = p2Point;
+    if (p1Stats.fury > 70 && p1Point > p2Point) p1EffectivePoint += 1;
+    if (p2Stats.fury > 70 && p2Point > p1Point) p2EffectivePoint += 1;
+
+    if (p1EffectivePoint > p2EffectivePoint) {
       winner = npc1.slug;
-      description = 'tiebreaker (home turf)';
-    } else if (p2Home && !p1Home) {
+      const furyNote = p1Stats.fury > 70 ? ' (fury!)' : '';
+      const turfNote = p1Home ? ' (home turf)' : p2Enemy ? ' (enemy territory)' : '';
+      description = `point ${p1Roll.point}${furyNote}${turfNote} vs ${p2Roll.point}`;
+    } else if (p2EffectivePoint > p1EffectivePoint) {
       winner = npc2.slug;
-      description = 'tiebreaker (home turf)';
+      const furyNote = p2Stats.fury > 70 ? ' (fury!)' : '';
+      const turfNote = p2Home ? ' (home turf)' : p1Enemy ? ' (enemy territory)' : '';
+      description = `point ${p2Roll.point}${furyNote}${turfNote} vs ${p1Roll.point}`;
     } else {
-      winner = rng.random(`${matchKey}-tiebreak`) > 0.5 ? npc1.slug : npc2.slug;
-      description = 'tiebreaker';
+      // Tie resolution with SHADOW and SWIFTNESS bonuses
+      // SHADOW: Tiebreaker bonus (shadow/100 = 0-1 effective advantage)
+      const p1Shadow = p1Stats.shadow / 100;
+      const p2Shadow = p2Stats.shadow / 100;
+      // SWIFTNESS: Win ties if swiftness > opponent by 20+
+      const swiftAdvantage = p1Stats.swiftness - p2Stats.swiftness;
+
+      if (p1Home && !p2Home) {
+        winner = npc1.slug;
+        description = 'tiebreaker (home turf)';
+      } else if (p2Home && !p1Home) {
+        winner = npc2.slug;
+        description = 'tiebreaker (home turf)';
+      } else if (swiftAdvantage >= 20) {
+        winner = npc1.slug;
+        description = 'tiebreaker (swiftness)';
+      } else if (swiftAdvantage <= -20) {
+        winner = npc2.slug;
+        description = 'tiebreaker (swiftness)';
+      } else if (p1Shadow > p2Shadow + 0.2) {
+        winner = npc1.slug;
+        description = 'tiebreaker (shadow)';
+      } else if (p2Shadow > p1Shadow + 0.2) {
+        winner = npc2.slug;
+        description = 'tiebreaker (shadow)';
+      } else {
+        winner = rng.random(`${matchKey}-tiebreak`) > 0.5 ? npc1.slug : npc2.slug;
+        description = 'tiebreaker';
+      }
     }
   }
 
