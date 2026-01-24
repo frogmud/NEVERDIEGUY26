@@ -10,6 +10,7 @@
  */
 
 import type { ResponseTemplate } from '../types';
+import { GENERATED_TEMPLATES as ETERNAL_DAYS_GENERATED } from './chatbase-eternal-days';
 
 // ============================================
 // THE ONE - Extracted Pantheon Dialogue
@@ -611,6 +612,7 @@ export const ALL_CHATBASE_EXTRACTED: ResponseTemplate[] = [
   ...CHATTER_EXTRACTED,
   ...EXPANDED_CHATTER,
   ...CONTEXT_AWARE_TEMPLATES,
+  ...ETERNAL_DAYS_GENERATED,
 ];
 
-// Total chatbase-extracted templates: ~270+ (all player-directed, 20 context-aware)
+// Total chatbase-extracted templates: ~570+ (270 player-directed, 20 context-aware, 303 eternal days NPC banter)
