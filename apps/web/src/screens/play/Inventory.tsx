@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogContent,
   Button,
+  Tooltip,
 } from '@mui/material';
 import {
   AutoAwesomeSharp as RareIcon,
@@ -21,6 +22,7 @@ import { PageHeader } from '../../components/Placeholder';
 import { CardSection } from '../../components/CardSection';
 import { usePlayerData } from '../../hooks/usePlayerData';
 import { getEntity, type Item } from '../../data/wiki';
+import { getItemTooltipContent, hasTooltipContent } from '../../utils/itemTooltips';
 
 // Map wiki ItemType to display categories
 function getItemCategory(itemType?: string): string {
@@ -61,6 +63,7 @@ interface InventoryDisplayItem {
   quantity: number;
   description?: string;
   value?: number | string;
+  wikiItem?: Item; // Full wiki item for tooltip
 }
 
 interface ItemCardProps {
@@ -71,7 +74,11 @@ interface ItemCardProps {
 function ItemCard({ item, onClick }: ItemCardProps) {
   const rarity = rarityConfig[item.rarity] || rarityConfig.common;
 
-  return (
+  // Generate tooltip content from wiki item data
+  const tooltipContent = item.wikiItem ? getItemTooltipContent(item.wikiItem) : null;
+  const hasTooltip = item.wikiItem ? hasTooltipContent(item.wikiItem) : false;
+
+  const cardContent = (
     <Box
       onClick={onClick}
       sx={{
@@ -149,6 +156,42 @@ function ItemCard({ item, onClick }: ItemCardProps) {
       )}
     </Box>
   );
+
+  // Wrap in tooltip if item has tooltip-worthy content
+  if (hasTooltip && tooltipContent) {
+    return (
+      <Tooltip
+        title={tooltipContent}
+        placement="top"
+        arrow
+        enterDelay={400}
+        enterNextDelay={400}
+        slotProps={{
+          tooltip: {
+            sx: {
+              bgcolor: tokens.colors.background.paper,
+              border: `2px solid ${rarity.color}`,
+              boxShadow: `0 4px 20px rgba(0,0,0,0.5)`,
+              borderRadius: 2,
+              p: 0,
+            },
+          },
+          arrow: {
+            sx: {
+              color: tokens.colors.background.paper,
+              '&::before': {
+                border: `2px solid ${rarity.color}`,
+              },
+            },
+          },
+        }}
+      >
+        {cardContent}
+      </Tooltip>
+    );
+  }
+
+  return cardContent;
 }
 
 interface ItemDetailDialogProps {
@@ -284,6 +327,7 @@ export function Inventory() {
         quantity: stashItem.quantity,
         description: wikiItem?.description,
         value: wikiItem?.value,
+        wikiItem, // Include full wiki item for tooltip
       };
     });
   }, [stash]);

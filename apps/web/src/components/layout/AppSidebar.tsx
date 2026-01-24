@@ -395,7 +395,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             sx={{
               mx: 0.5,
               borderRadius: 1,
-              mb: 0.5,
+              mb: 0.25,
               justifyContent: expanded ? 'flex-start' : 'center',
               px: expanded ? 1.5 : 1,
               py: 0.75,
@@ -404,7 +404,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             <ListItemIcon
               sx={{
                 minWidth: expanded ? 32 : 'auto',
-                mr: expanded ? 0.75 : 0,
+                mr: expanded ? 0.375 : 0,
                 color: tokens.colors.text.secondary,
               }}
             >
@@ -488,7 +488,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
               sx={{
                 mx: 0.5,
                 borderRadius: 1,
-                mb: 0.5,
+                mb: 0.25,
                 justifyContent: expanded ? 'flex-start' : 'center',
                 px: expanded ? 1.5 : 1,
                 py: 0.75,
@@ -497,7 +497,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
               <ListItemIcon
                 sx={{
                   minWidth: expanded ? 32 : 'auto',
-                  mr: expanded ? 0.75 : 0,
+                  mr: expanded ? 0.375 : 0,
                 }}
               >
                 {/* Avatar cropped at shoulders */}
@@ -548,7 +548,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             alignItems: 'center',
             gap: expanded ? 0.25 : 0.5,
             px: expanded ? 1.5 : 0.5,
-            py: 0.5,
+            py: 0.25,
           }}
         >
           {/* Multiplayer - Coming Soon */}
@@ -582,15 +582,14 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             </IconButton>
           </Tooltip>
 
-          {/* Settings with Flyout */}
-          <Tooltip title={settingsOpen ? '' : 'Settings'} placement={expanded ? 'top' : 'right'} arrow>
+          {/* Settings - Direct to All Settings */}
+          <Tooltip title="All Settings" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
-              onClick={(e) => setSettingsAnchor(e.currentTarget)}
+              onClick={() => navigate('/settings')}
               sx={{
                 width: 36,
                 height: 36,
-                color: settingsOpen ? tokens.colors.text.primary : tokens.colors.text.disabled,
-                bgcolor: settingsOpen ? tokens.colors.background.elevated : 'transparent',
+                color: tokens.colors.text.disabled,
                 '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >

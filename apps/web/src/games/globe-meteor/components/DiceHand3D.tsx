@@ -118,7 +118,7 @@ function Die3D({
           }}
           onPointerOut={() => {
             setHovered(false);
-            document.body.style.cursor = 'auto';
+            document.body.style.cursor = '';
           }}
         >
           <meshStandardMaterial

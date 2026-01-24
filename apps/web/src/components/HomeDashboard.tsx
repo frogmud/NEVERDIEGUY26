@@ -30,6 +30,7 @@ import {
   type HomeGreeter,
 } from '../data/home-greeters';
 import { QUICK_PROMPTS, type QuickPrompt } from '../data/stream-prompts';
+import { TutorialOverlay } from './TutorialOverlay';
 
 // ============================================
 // Preloaded NPC Cache (stable, never changes)
@@ -105,6 +106,20 @@ const corruptionGlitch = keyframes`
   40% { opacity: 0.4; transform: translate(1px, -1px); }
   60% { opacity: 0.6; transform: translate(-1px, 0); }
   80% { opacity: 0.35; transform: translate(1px, 1px); }
+`;
+
+// Flickering artifact animation - random glitch stars
+const artifactFlicker = keyframes`
+  0%, 100% { opacity: 0; }
+  10% { opacity: 0.8; }
+  15% { opacity: 0; }
+  25% { opacity: 0.6; }
+  30% { opacity: 0; }
+  50% { opacity: 0.9; }
+  55% { opacity: 0.2; }
+  70% { opacity: 0; }
+  85% { opacity: 0.7; }
+  90% { opacity: 0; }
 `;
 
 const slideDown = keyframes`
@@ -193,28 +208,24 @@ const idleWiggle = keyframes`
   }
 `;
 
-// Items drop in from top - start big (1.25x), cut through skull, land below then settle up
+// Items fly up from bottom - straight path to final position (planet selection style)
+// Start at 10% opacity, reach full opacity mid-flight, lock into final position
+// After animation completes, card physics (hover/drag/tilt) take over
 const itemDropIn = keyframes`
   0% {
-    opacity: 0;
-    transform: translateX(var(--center-offset, 0px)) translateY(-120vh) rotate(calc(var(--card-rotation, 0deg) * 8)) scale(1.25);
+    opacity: 0.1;
+    transform: translateY(120vh) scale(1.2);
   }
-  40% {
+  50% {
+    opacity: 0.8;
+  }
+  80% {
     opacity: 1;
-    transform: translateX(var(--center-offset, 0px)) translateY(60px) rotate(calc(var(--card-rotation, 0deg) * -2)) scale(1.15);
-  }
-  55% {
-    transform: translateX(var(--center-offset, 0px)) translateY(40px) rotate(0deg) scale(1.05);
-  }
-  70% {
-    transform: translateX(0px) translateY(20px) rotate(calc(var(--card-rotation, 0deg) * 0.5)) scale(1.02);
-  }
-  85% {
-    transform: translateX(0px) translateY(5px) rotate(calc(var(--card-rotation, 0deg) * -0.2)) scale(1.005);
+    transform: translateY(20px) scale(1.05);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) rotate(0deg) scale(1);
+    transform: translateY(0) scale(1);
   }
 `;
 
@@ -223,38 +234,39 @@ const itemDropIn = keyframes`
 type BootPhase = 'slide' | 'skull-hero' | 'ui-reveal' | 'items-drop' | 'active' | 'launching';
 
 /**
- * ASCII Skull - NDG skull dome logo (from ndg-skull-ascii.txt)
+ * ASCII Skull - NDG skull dome logo with 3D shading
+ * Light source from top-left: l,1 (bright) -> U,V,n (mid) -> C,E,@ (dark)
  */
 const ASCII_SKULL = [
-  '                 @@@@@@@@@@@@@@                 ',
-  '            @@@@@@@@@@@@@@@@@@@@@@@@            ',
-  '         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@         ',
-  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
-  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
-  '    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    ',
-  '    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    ',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@          @@@@@@          @@@@@@@@@@@',
-  '@@@@@@@@@@           @@@@@@           @@@@@@@@@@',
-  '@@@@@@@              @@@@@@              @@@@@@@',
-  '@@@@@@@              @@@@@@              @@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@',
-  '@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@',
-  '    @@@@@@@@@@@@@@@          @@@@@@@@@@@@@@@    ',
-  '    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    ',
-  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
-  '        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        ',
-  '        @@@@@@@  @@@@@@@@@@@@@@@ @@@@@@@        ',
-  '        @@@@@@@  @@@@@@@@@@@@@@@ @@@@@@@        ',
-  '         @@@@@   @@@@@@@@@@@@@@@  @@@@@         ',
-  '                 @@@@@@  @@@@@@                 ',
+  '                 llllllllllllll                 ',
+  '            ll111UUUUUUUUUUUU111ll             ',
+  '         l1UUVVVVVVVVVVVVVVVVVVVVUUl1          ',
+  '        1UVVnnnnnnnnnnnnnnnnnnnnnnVVU1         ',
+  '       1UVnnnnnnnnnnnnnnnnnnnnnnnnnVU1        ',
+  '    l1UVnnnnnnnnnnnnnnnnnnnnnnnnnnnnVU1l      ',
+  '    1UVnnnnnnnnnnnnnnnnnnnnnnnnnnnnnVU1       ',
+  'l1UUVnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnVUU1l   ',
+  '1UVnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnVU1    ',
+  'UVnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnVU   ',
+  'VnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnV    ',
+  'VnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnCV    ',
+  'VnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnCV    ',
+  'Vnnnnnnn          nnnnnn          nnnnnnnCV   ',
+  'Cnnnnnn            nnnn            nnnnnnEC   ',
+  'Cnnnnn             nnnn             nnnnnEC   ',
+  'Ennnnn             nnnn             nnnnnCE   ',
+  'CnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnEC   ',
+  'EnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnCE    ',
+  'CnnnnnnnnnnnnnnnnnnnCC  CCnnnnnnnnnnnnnnnEC   ',
+  'EnnnnnnnnnnnnnnnnnnnCC  CCnnnnnnnnnnnnnnnCE   ',
+  '    Ennnnnnnnnnnnnn        nnnnnnnnnnnnEC     ',
+  '    CnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnEC      ',
+  '        EnnnnnnnnnnnnnnnnnnnnnnnnnnnE         ',
+  '        CnnnnnnnnnnnnnnnnnnnnnnnnnnnC         ',
+  '        Ennn@@  nnnnnnnnnnnnn  @@nnnE         ',
+  '        Cnnn@@  nnnnnnnnnnnnn  @@nnnC         ',
+  '         Enn    nnnnnnnnnnnnn    nnE          ',
+  '                 nnnn  nnnn                   ',
 ];
 
 /**
@@ -288,6 +300,62 @@ const pixelExplode = keyframes`
   }
 `;
 
+// ============================================
+// Flickering Artifacts Component - glitchy red stars during loading
+// ============================================
+
+const ARTIFACT_CHARS = ['@', '.', '+', '*', 'x', ':', ';', '#', '%'];
+const ARTIFACT_COUNT = 40;
+
+function FlickeringArtifacts({ active }: { active: boolean }) {
+  const artifacts = useMemo(() => {
+    return Array.from({ length: ARTIFACT_COUNT }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      char: ARTIFACT_CHARS[Math.floor(Math.random() * ARTIFACT_CHARS.length)],
+      delay: Math.random() * 3000,
+      duration: 1500 + Math.random() * 2000,
+      size: 0.5 + Math.random() * 0.5,
+      opacity: 0.3 + Math.random() * 0.7,
+    }));
+  }, []);
+
+  if (!active) return null;
+
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        zIndex: 5,
+        overflow: 'hidden',
+      }}
+    >
+      {artifacts.map((artifact) => (
+        <Box
+          key={artifact.id}
+          sx={{
+            position: 'absolute',
+            left: `${artifact.x}%`,
+            top: `${artifact.y}%`,
+            fontFamily: 'monospace',
+            fontSize: `${artifact.size}rem`,
+            color: tokens.colors.primary,
+            opacity: 0,
+            animation: `${artifactFlicker} ${artifact.duration}ms ease-in-out ${artifact.delay}ms infinite`,
+            textShadow: `0 0 4px ${tokens.colors.primary}, 0 0 8px ${tokens.colors.primary}50`,
+            filter: 'blur(0.3px)',
+          }}
+        >
+          {artifact.char}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
 /**
  * Generate a funny player alias from seed
  * e.g., "guy_12345", "xX_guy12345_Xx", "guy.12345.exe"
@@ -320,6 +388,9 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
   const [isHovered, setIsHovered] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [isPoked, setIsPoked] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
   const tooltipTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -353,8 +424,62 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
     }, 400);
   };
 
-  // Handle click for "poke" effect
+  // Handle mouse down for drag start
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
+    // Clear tooltip on drag start
+    setShowTooltip(false);
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+  };
+
+  // Handle mouse move for dragging with bounds
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      let newX = e.clientX - dragStart.x;
+      let newY = e.clientY - dragStart.y;
+
+      // Bounds: prevent dragging too far up (invisible wall at top)
+      // Allow some movement up but not off screen
+      const maxUp = -150; // Can't go more than 150px up from start
+      const maxDown = 300; // Can go 300px down
+      const maxHorizontal = 400; // Can go 400px left or right
+
+      newX = Math.max(-maxHorizontal, Math.min(maxHorizontal, newX));
+      newY = Math.max(maxUp, Math.min(maxDown, newY));
+
+      setDragOffset({ x: newX, y: newY });
+      // Dynamic tilt based on drag velocity/direction (clamped)
+      setTilt({
+        x: Math.max(-15, Math.min(15, newY * 0.05)),
+        y: Math.max(-15, Math.min(15, newX * -0.05))
+      });
+    };
+
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+      // Snap back with momentum feel
+      setTilt({ x: 0, y: 0 });
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [isDragging, dragStart]);
+
+  // Handle click for "poke" effect (only if not dragging)
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // If we dragged, don't poke
+    if (Math.abs(dragOffset.x) > 5 || Math.abs(dragOffset.y) > 5) return;
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
@@ -374,47 +499,68 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
   const isDropping = bootPhase === 'items-drop';
   const isActive = bootPhase === 'active';
 
+  // Build transform string based on state
+  // Note: Cards maintain horizontal spacing via flexbox gap, not translateX
+  const getTransform = () => {
+    const dragTranslate = `translate(${dragOffset.x}px, ${dragOffset.y}px)`;
+    if (isDragging) {
+      return `${dragTranslate} perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.08)`;
+    }
+    if (showTooltip) {
+      return `${dragTranslate} perspective(600px) rotateX(0deg) rotateY(0deg) translateY(-32px) scale(1.05)`;
+    }
+    if (isHovered || isPoked) {
+      return `${dragTranslate} perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-24px) scale(1.03)`;
+    }
+    return `${dragTranslate} perspective(600px) rotateX(0deg) rotateY(0deg)`;
+  };
+
   return (
     <Box
       ref={cardRef}
-      onMouseMove={handleMouseMove}
+      onMouseMove={isDragging ? undefined : handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
       onClick={handleClick}
       sx={{
-        width: 220,
-        height: 300,
+        width: 260,
+        height: 360,
         display: 'flex',
         flexDirection: 'column',
         borderRadius: '16px',
-        border: `2px solid ${isHovered ? itemStats.rarityColor : tokens.colors.border}`,
+        border: `2px solid ${isDragging ? tokens.colors.primary : isHovered ? itemStats.rarityColor : tokens.colors.border}`,
         bgcolor: tokens.colors.background.paper,
         overflow: 'visible',
         position: 'relative',
-        cursor: 'pointer',
+        cursor: isDragging ? 'grabbing' : 'grab',
+        userSelect: 'none',
         '--card-rotation': `${baseRotation}deg`,
         '--base-rotation': `${baseRotation}deg`,
         // Offset to center: left card (+), center (0), right card (-)
-        // 220px card + 24px gap = 244px between card centers
-        '--center-offset': `${(1 - index) * 244}px`,
-        // Transform with tilt physics (stable when tooltip showing)
-        transform: showTooltip
-          ? 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(-32px) scale(1.05)'
-          : isHovered || isPoked
-          ? `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-24px) scale(1.03)`
-          : 'perspective(600px) rotateX(0deg) rotateY(0deg)',
-        // Animation states - tighter stagger for unified impact at center
-        animation: isDropping
+        // 260px card + 24px gap = 284px between card centers
+        '--center-offset': `${(1 - index) * 284}px`,
+        // Transform with tilt physics and drag offset
+        transform: getTransform(),
+        // Animation states - disabled when dragging or has been dragged
+        animation: isDragging || (dragOffset.x !== 0 || dragOffset.y !== 0)
+          ? 'none'
+          : isDropping
           ? `${itemDropIn} 900ms ease-out ${index * 50}ms both`
           : isActive && !isHovered
           ? `${idleWiggle} ${3 + index * 0.5}s ease-in-out infinite ${index * 0.3}s`
           : 'none',
-        transition: isPoked
+        transition: isDragging
+          ? 'border-color 100ms ease, box-shadow 100ms ease'
+          : isPoked
           ? 'transform 100ms ease-out, border-color 200ms ease, box-shadow 200ms ease'
           : 'transform 200ms ease-out, border-color 200ms ease, box-shadow 200ms ease',
-        boxShadow: isHovered
+        boxShadow: isDragging
+          ? `0 20px 50px rgba(0,0,0,0.5), 0 0 30px ${tokens.colors.primary}40`
+          : isHovered
           ? `0 12px 32px rgba(0,0,0,0.4), 0 0 20px ${itemStats.rarityColor}40`
           : '0 4px 12px rgba(0,0,0,0.2)',
+        zIndex: isDragging ? 100 : 'auto',
         '&::before': itemStats.edition ? {
           content: '""',
           position: 'absolute',
@@ -478,8 +624,8 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
           src={getItemImage(itemSlug)}
           alt={itemSlug}
           sx={{
-            width: 100,
-            height: 100,
+            width: 120,
+            height: 120,
             objectFit: 'contain',
             imageRendering: 'pixelated',
             filter: `
@@ -1013,8 +1159,8 @@ export function HomeDashboard() {
   const [fullTypingText, setFullTypingText] = useState('');
   const [ambientIndex, setAmbientIndex] = useState(0);
 
-  // Boot sequence state
-  const [bootPhase, setBootPhase] = useState<BootPhase>('slide');
+  // Boot sequence state - skip ASCII skull, start at UI reveal (sidebar slides in)
+  const [bootPhase, setBootPhase] = useState<BootPhase>('ui-reveal');
   const [asciiRowsVisible, setAsciiRowsVisible] = useState(0);
   const [uiAsciiRowsVisible, setUiAsciiRowsVisible] = useState(0);
 
@@ -1105,6 +1251,9 @@ export function HomeDashboard() {
   // ============================================
 
   const handleReroll = () => {
+    // Guard: Can't reroll at max corruption
+    if (corruptionData.level >= 100) return;
+
     // Calculate corruption cost based on reroll count
     const corruptionCost = getRerollCorruptionCost(rerollCount);
 
@@ -1125,12 +1274,10 @@ export function HomeDashboard() {
     const newLoadout = generateLoadout(newNpcId, selectedDomain);
     setCurrentLoadout(newLoadout);
 
-    // Reset boot sequence to replay the new intro
-    setBootPhase('slide');
-    setAsciiRowsVisible(0);
-    setMessages([]);
-    setAmbientIndex(0);
-    setIsTyping(false);
+    // Quick item swap - just replay the items-drop animation, no full loading screen
+    // This keeps the UI responsive and only swaps the cards
+    setBootPhase('items-drop');
+    setTimeout(() => setBootPhase('active'), 1100);
 
     // Shuffle NPCs from preloaded cache - visitors through eternity
     const shuffledNpcs = [...validNpcs].sort(() => Math.random() - 0.5);
@@ -1704,8 +1851,8 @@ export function HomeDashboard() {
     }}>
       {/* Top: Player Identity + Badges */}
       <Box sx={{ position: 'relative', px: sidebarExpanded ? 2 : 3, pt: 2, pb: 0, transition: 'padding 200ms ease' }}>
-        {/* Loading Bar - shows during skull-hero */}
-        {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal') && (
+        {/* Loading Bar - shows during skull-hero only */}
+        {bootPhase === 'skull-hero' && (
           <Box sx={{
             position: 'absolute',
             top: 16,
@@ -1808,7 +1955,18 @@ export function HomeDashboard() {
               </Box>
             </Tooltip>
             {/* Username + Badges */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box
+              onClick={() => navigate('/profile')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5,
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+            >
               {/* Show loading state during boot, then reveal name */}
               {bootPhase === 'ui-reveal' ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -1979,15 +2137,11 @@ export function HomeDashboard() {
             </Box>
           </Box>
 
-          {/* Real Buttons - fade in during ui-reveal */}
+          {/* Real Buttons - staggered fade in */}
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             gap: 2,
-            // Fade in during ui-reveal phase
-            opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-            transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateX(-20px)' : 'translateX(0)',
-            transition: 'opacity 400ms ease-out 100ms, transform 400ms ease-out 100ms',
           }}>
           {/* New Run Button - Primary Pink */}
           <Box
@@ -2000,7 +2154,10 @@ export function HomeDashboard() {
               borderRadius: '16px',
               bgcolor: tokens.colors.primary,
               cursor: bootPhase === 'active' ? 'pointer' : 'default',
-              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
+              // Staggered fade in - 100ms delay
+              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              transition: `opacity 300ms ease-out 100ms, transform 300ms ease-out 100ms, filter 150ms ease, box-shadow 150ms ease`,
               boxShadow: `0 4px 16px rgba(233, 4, 65, 0.4)`,
               '&:hover': bootPhase === 'active' ? {
                 filter: 'brightness(1.15)',
@@ -2034,8 +2191,10 @@ export function HomeDashboard() {
               borderRadius: '16px',
               bgcolor: tokens.colors.warning,
               cursor: corruptionData.level >= 100 ? 'default' : 'pointer',
-              opacity: corruptionData.level >= 100 ? 0.6 : 1,
-              transition: `transform 150ms ${EASING.organic}, filter 150ms ease, box-shadow 150ms ease`,
+              // Staggered fade in - 200ms delay (base opacity affected by corruption)
+              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : (corruptionData.level >= 100 ? 0.6 : 1),
+              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              transition: `opacity 300ms ease-out 200ms, transform 300ms ease-out 200ms, filter 150ms ease, box-shadow 150ms ease`,
               boxShadow: `0 4px 16px rgba(234, 179, 8, 0.3)`,
               '&:hover': corruptionData.level < 100 ? {
                 filter: 'brightness(1.1)',
@@ -2127,8 +2286,10 @@ export function HomeDashboard() {
               bgcolor: savedRun ? tokens.colors.background.elevated : tokens.colors.background.paper,
               border: `2px solid ${savedRun ? tokens.colors.border : 'transparent'}`,
               cursor: savedRun ? 'pointer' : 'default',
-              opacity: savedRun ? 1 : 0.5,
-              transition: `transform 150ms ${EASING.organic}, background-color 150ms ease`,
+              // Staggered fade in - 300ms delay (base opacity affected by savedRun)
+              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : (savedRun ? 1 : 0.5),
+              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              transition: `opacity 300ms ease-out 300ms, transform 300ms ease-out 300ms, background-color 150ms ease`,
               '&:hover': savedRun ? {
                 bgcolor: tokens.colors.background.elevated,
                 transform: 'scale(1.02)',
@@ -2165,6 +2326,10 @@ export function HomeDashboard() {
                 gap: 0.5,
                 mt: 1,
                 cursor: 'pointer',
+                // Staggered fade in - 400ms delay
+                opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+                transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(10px)' : 'translateY(0)',
+                transition: 'opacity 300ms ease-out 400ms, transform 300ms ease-out 400ms',
                 '&:hover': {
                   '& .seed-text': {
                     color: tokens.colors.text.secondary,
@@ -2212,8 +2377,11 @@ export function HomeDashboard() {
           minWidth: 0,
           overflow: 'hidden',
         }}>
-          {/* ASCII Skull - loads row by row, explodes when items hit */}
-          {(bootPhase === 'skull-hero' || bootPhase === 'ui-reveal' || bootPhase === 'items-drop') && (
+          {/* Flickering red artifacts - glitchy stars during loading (skull-hero only) */}
+          <FlickeringArtifacts active={bootPhase === 'skull-hero'} />
+
+          {/* ASCII Skull - loads row by row, explodes when items hit (skull-hero only) */}
+          {bootPhase === 'skull-hero' && (
             <Box
               sx={{
                 position: 'absolute',
@@ -2280,29 +2448,42 @@ export function HomeDashboard() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: sidebarExpanded ? 2 : 3,
-              zIndex: 5,
               width: '100%',
-              // Fade in during ui-reveal phase
-              opacity: bootPhase === 'active' ? 1 : 0.8,
-              transition: 'opacity 600ms ease-out, transform 200ms ease-out, gap 200ms ease',
-              // Responsive scaling: shrink cards before stacking, tighter when sidebar expanded
-              transform: sidebarExpanded ? {
-                xs: 'scale(0.45)',
-                sm: 'scale(0.55)',
-                md: 'scale(0.65)',
-                lg: 'scale(0.75)',
-                xl: 'scale(0.85)',
-              } : {
-                xs: 'scale(0.5)',
-                sm: 'scale(0.65)',
-                md: 'scale(0.75)',
-                lg: 'scale(0.9)',
-                xl: 'scale(1)',
-              },
-              transformOrigin: 'center top',
+              px: 4,
+              py: 3,
+              zIndex: 5,
             }}>
-              {currentLoadout.items.map((itemSlug, i) => {
+              {/* Dealer's mat background */}
+              <Box sx={{
+                bgcolor: 'rgba(30, 30, 35, 0.6)',
+                borderRadius: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                px: 6,
+                py: 4,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: sidebarExpanded ? 3 : 4.5,
+                // Fade in during ui-reveal phase
+                opacity: bootPhase === 'active' ? 1 : 0.8,
+                transition: 'opacity 600ms ease-out, transform 200ms ease-out, gap 200ms ease',
+                // Responsive scaling: shrink cards before stacking, tighter when sidebar expanded
+                transform: sidebarExpanded ? {
+                  xs: 'scale(0.45)',
+                  sm: 'scale(0.55)',
+                  md: 'scale(0.65)',
+                  lg: 'scale(0.75)',
+                  xl: 'scale(0.85)',
+                } : {
+                  xs: 'scale(0.5)',
+                  sm: 'scale(0.65)',
+                  md: 'scale(0.75)',
+                  lg: 'scale(0.9)',
+                  xl: 'scale(1)',
+                },
+                transformOrigin: 'center top',
+              }}>
+                {currentLoadout.items.map((itemSlug, i) => {
                 const itemName = getItemName(itemSlug);
                 const itemStats = generateItemStats(itemSlug, currentLoadout.seed, i);
                 const baseItem = LOADOUT_ITEMS[itemSlug];
@@ -2311,31 +2492,19 @@ export function HomeDashboard() {
                 const baseRotation = (i - 1) * 2; // -2, 0, +2 degrees for subtle tilt
 
                 return (
-                  <Box
+                  <ItemCard
                     key={`${itemSlug}-${i}`}
-                    component={RouterLink}
-                    to={`/wiki/items/${itemSlug}`}
-                    sx={{
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                      transition: 'transform 150ms ease',
-                      '&:hover': {
-                        transform: 'scale(1.02)',
-                      },
-                    }}
-                  >
-                    <ItemCard
-                      itemSlug={itemSlug}
-                      itemName={itemName}
-                      itemStats={itemStats}
-                      category={baseItem?.category || 'misc'}
-                      baseRotation={baseRotation}
-                      index={i}
-                      bootPhase={bootPhase}
-                    />
-                  </Box>
+                    itemSlug={itemSlug}
+                    itemName={itemName}
+                    itemStats={itemStats}
+                    category={baseItem?.category || 'misc'}
+                    baseRotation={baseRotation}
+                    index={i}
+                    bootPhase={bootPhase}
+                  />
                 );
-              })}
+                })}
+              </Box>
             </Box>
           )}
         </Box>
@@ -2989,7 +3158,8 @@ export function HomeDashboard() {
         }}
       >
         <DialogTitle sx={{
-          fontFamily: tokens.fonts.gaming,
+          fontFamily: '"Inter", sans-serif',
+          fontWeight: 600,
           fontSize: '1.1rem',
           color: tokens.colors.text.primary,
         }}>
@@ -3013,20 +3183,10 @@ export function HomeDashboard() {
             <Typography component="li" sx={{ fontSize: '0.85rem', mb: 1 }}>
               Reset stats
             </Typography>
-            <Typography component="li" sx={{ fontSize: '0.85rem', color: '#22c55e' }}>
-              0% corruption (clean slate)
+            <Typography component="li" sx={{ fontSize: '0.85rem' }}>
+              Reset corruption
             </Typography>
           </Box>
-          {corruptionData.level > 0 && (
-            <Typography sx={{
-              fontSize: '0.8rem',
-              color: '#9333ea',
-              mt: 2.5,
-              fontStyle: 'italic',
-            }}>
-              Current corruption ({corruptionData.level}%) will be reset.
-            </Typography>
-          )}
         </DialogContent>
         <DialogActions sx={{ px: 2.5, pb: 2 }}>
           <Button
@@ -3119,6 +3279,9 @@ export function HomeDashboard() {
           </Typography>
         </Box>
       )}
+
+      {/* Tutorial Overlay - shows on first visit when no saved run exists */}
+      <TutorialOverlay />
     </Box>
   );
 }

@@ -280,6 +280,7 @@ export function PlaySidebar({
               onInfo={onInfo}
               combatFeed={combatFeed}
               heat={runState.heat}
+              runStartTime={runState.runStartTime}
             />
           ) : phase === 'shop' && threadId && onPurchaseItem && onSpendGold && onShopContinue ? (
             <GameTabShop

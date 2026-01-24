@@ -10,6 +10,7 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import { SettingsProvider } from './contexts/SettingsContext';
 import { SoundProvider } from './contexts/SoundContext';
 import { GameSettingsProvider } from './contexts/GameSettingsContext';
+import { TutorialProvider } from './contexts/TutorialContext';
 
 const globalStyles = (
   <GlobalStyles
@@ -90,7 +91,9 @@ createRoot(document.getElementById('root')!).render(
               <AuthProvider>
                 <NotificationProvider>
                   <CartProvider>
-                    <App />
+                    <TutorialProvider>
+                      <App />
+                    </TutorialProvider>
                   </CartProvider>
                 </NotificationProvider>
               </AuthProvider>

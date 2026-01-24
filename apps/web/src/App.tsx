@@ -52,7 +52,6 @@ function FactionRedirect() {
 const HelpCenter = lazy(() => import('./screens/help/HelpCenter').then(m => ({ default: m.HelpCenter })));
 const FAQ = lazy(() => import('./screens/help/FAQ').then(m => ({ default: m.FAQ })));
 const Contact = lazy(() => import('./screens/help/Contact').then(m => ({ default: m.Contact })));
-const Sitemap = lazy(() => import('./screens/help/Sitemap').then(m => ({ default: m.Sitemap })));
 const GettingStarted = lazy(() => import('./screens/help/GettingStarted').then(m => ({ default: m.GettingStarted })));
 const DiceTypes = lazy(() => import('./screens/help/DiceTypes').then(m => ({ default: m.DiceTypes })));
 const CombatSystem = lazy(() => import('./screens/help/CombatSystem').then(m => ({ default: m.CombatSystem })));
@@ -75,9 +74,10 @@ const MultiplayerHub = lazy(() => import('./screens/play/MultiplayerHub').then(m
 // Graveyard (run history)
 const Graveyard = lazy(() => import('./screens/graveyard/Graveyard').then(m => ({ default: m.Graveyard })));
 
-// Game
-const LocationSelector = lazy(() => import('./screens/game/LocationSelector').then(m => ({ default: m.LocationSelector })));
-const FastTravel = lazy(() => import('./screens/game/FastTravel').then(m => ({ default: m.FastTravel })));
+// Character Profile
+const CharacterProfile = lazy(() => import('./screens/profile/CharacterProfile').then(m => ({ default: m.CharacterProfile })));
+
+// Game (archived: LocationSelector, FastTravel moved to codex/deprecated/)
 
 // Search
 const SearchPage = lazy(() => import('./screens/search/SearchPage').then(m => ({ default: m.SearchPage })));
@@ -118,7 +118,6 @@ function App() {
         {/* Removed routes redirect to home */}
         <Route path="/progress/*" element={<Navigate to="/" replace />} />
         <Route path="/shop/*" element={<Navigate to="/" replace />} />
-        <Route path="/profile/*" element={<Navigate to="/" replace />} />
         <Route path="/user/*" element={<Navigate to="/" replace />} />
         <Route path="/leaderboard" element={<Navigate to="/" replace />} />
         <Route path="/history" element={<Navigate to="/graveyard" replace />} />
@@ -147,6 +146,7 @@ function App() {
           <Route path="/inventory" element={<Suspense fallback={<RouteLoader />}><Inventory /></Suspense>} />
           <Route path="/loot" element={<Suspense fallback={<RouteLoader />}><LootDrop /></Suspense>} />
           <Route path="/graveyard" element={<Suspense fallback={<RouteLoader />}><Graveyard /></Suspense>} />
+          <Route path="/profile" element={<Suspense fallback={<RouteLoader />}><CharacterProfile /></Suspense>} />
 
           {/* Wiki */}
           <Route path="/wiki" element={<Suspense fallback={<RouteLoader />}><WikiIndex /></Suspense>} />
@@ -161,9 +161,8 @@ function App() {
           <Route path="/notifications" element={<Suspense fallback={<RouteLoader />}><NotificationCenter /></Suspense>} />
           <Route path="/notifications/level-up" element={<Suspense fallback={<RouteLoader />}><LevelUp /></Suspense>} />
 
-          {/* Game */}
-          <Route path="/game/location" element={<Suspense fallback={<RouteLoader />}><LocationSelector /></Suspense>} />
-          <Route path="/game/fast-travel" element={<Suspense fallback={<RouteLoader />}><FastTravel /></Suspense>} />
+          {/* Game - routes archived, redirect to home */}
+          <Route path="/game/*" element={<Navigate to="/" replace />} />
 
           {/* Settings */}
           <Route path="/settings" element={<Suspense fallback={<RouteLoader />}><SettingsIndex /></Suspense>} />
@@ -172,7 +171,6 @@ function App() {
           <Route path="/help" element={<Suspense fallback={<RouteLoader />}><HelpCenter /></Suspense>} />
           <Route path="/help/faq" element={<Suspense fallback={<RouteLoader />}><FAQ /></Suspense>} />
           <Route path="/help/contact" element={<Suspense fallback={<RouteLoader />}><Contact /></Suspense>} />
-          <Route path="/help/sitemap" element={<Suspense fallback={<RouteLoader />}><Sitemap /></Suspense>} />
           <Route path="/help/guide/basics" element={<Suspense fallback={<RouteLoader />}><GettingStarted /></Suspense>} />
           <Route path="/help/guide/dice" element={<Suspense fallback={<RouteLoader />}><DiceTypes /></Suspense>} />
           <Route path="/help/guide/combat" element={<Suspense fallback={<RouteLoader />}><CombatSystem /></Suspense>} />

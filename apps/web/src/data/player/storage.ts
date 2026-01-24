@@ -812,6 +812,75 @@ export function getRerollCorruptionCost(rerollCount: number): number {
 }
 
 // ============================================
+// Favor System (NPC Relationships)
+// ============================================
+
+const FAVOR_STORAGE_KEY = 'ndg_favor';
+
+export interface FavorData {
+  [dieRectorSlug: string]: number; // -100 to 100
+  updatedAt: number;
+}
+
+export function createDefaultFavorData(): FavorData {
+  return {
+    'the-one': 0,
+    'john': 0,
+    'peter': 0,
+    'robert': 0,
+    'alice': 0,
+    'jane': 0,
+    updatedAt: Date.now(),
+  };
+}
+
+export function loadFavorData(): FavorData {
+  try {
+    const stored = localStorage.getItem(FAVOR_STORAGE_KEY);
+    if (!stored) {
+      return createDefaultFavorData();
+    }
+    return { ...createDefaultFavorData(), ...JSON.parse(stored) };
+  } catch (error) {
+    console.error('Failed to load favor data:', error);
+    return createDefaultFavorData();
+  }
+}
+
+export function saveFavorData(data: FavorData): void {
+  try {
+    localStorage.setItem(FAVOR_STORAGE_KEY, JSON.stringify({
+      ...data,
+      updatedAt: Date.now(),
+    }));
+  } catch (error) {
+    console.error('Failed to save favor data:', error);
+  }
+}
+
+/**
+ * Update favor for a specific Die-rector.
+ * Favor is capped at -100 to 100.
+ */
+export function updateFavor(slug: string, delta: number): FavorData {
+  const data = loadFavorData();
+  const current = data[slug] || 0;
+  data[slug] = Math.max(-100, Math.min(100, current + delta));
+  data.updatedAt = Date.now();
+  saveFavorData(data);
+  return data;
+}
+
+/**
+ * Reset all favor to 0 (neutral).
+ */
+export function resetFavor(): FavorData {
+  const data = createDefaultFavorData();
+  saveFavorData(data);
+  return data;
+}
+
+// ============================================
 // Run History Persistence
 // ============================================
 
