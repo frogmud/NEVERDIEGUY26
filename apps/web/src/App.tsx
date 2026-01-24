@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
-import { Box, CircularProgress, GlobalStyles } from '@mui/material';
+import { Box, GlobalStyles, Typography } from '@mui/material';
 import { Analytics } from '@vercel/analytics/react';
 import { Shell } from './components/Shell';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { AsciiGalaxy } from './components/AsciiGalaxy';
 import { tokens } from './theme';
 import { RunProvider, PartyProvider } from './contexts';
 
@@ -24,11 +25,37 @@ const globalAnimations = {
   },
 };
 
-// Loading fallback for lazy routes
+// Loading fallback for lazy routes - interactive ASCII galaxy
 function RouteLoader() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 400 }}>
-      <CircularProgress sx={{ color: tokens.colors.primary }} />
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: 400,
+        height: '60vh',
+      }}
+    >
+      <AsciiGalaxy mode="interactive" opacity={0.5} starCount={150} />
+      <Typography
+        variant="h6"
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          color: tokens.colors.primary,
+          fontFamily: tokens.fonts.gaming,
+          textShadow: `0 0 20px ${tokens.colors.primary}40`,
+          animation: 'pulse 2s ease-in-out infinite',
+          '@keyframes pulse': {
+            '0%, 100%': { opacity: 0.6 },
+            '50%': { opacity: 1 },
+          },
+        }}
+      >
+        LOADING
+      </Typography>
     </Box>
   );
 }
