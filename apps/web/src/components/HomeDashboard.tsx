@@ -2275,6 +2275,47 @@ export function HomeDashboard() {
             )}
           </Box>
 
+          {/* Race Button - Multiplayer mode */}
+          <Box
+            onClick={() => navigate('/play/multiplayer')}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              py: 2.5,
+              borderRadius: '16px',
+              bgcolor: tokens.colors.background.elevated,
+              border: `2px solid ${tokens.colors.border}`,
+              cursor: 'pointer',
+              // Staggered fade in - 350ms delay
+              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
+              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              transition: `opacity 300ms ease-out 350ms, transform 300ms ease-out 350ms, background-color 150ms ease`,
+              '&:hover': {
+                bgcolor: tokens.colors.background.elevated,
+                transform: 'scale(1.02)',
+                borderColor: tokens.colors.primary,
+              },
+            }}
+          >
+            <Typography sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '1.5rem',
+              color: tokens.colors.text.primary,
+            }}>
+              Race
+            </Typography>
+            <Typography sx={{
+              fontFamily: tokens.fonts.mono,
+              fontSize: '0.7rem',
+              color: tokens.colors.text.secondary,
+              mt: 0.25,
+            }}>
+              Multiplayer
+            </Typography>
+          </Box>
+
           {/* Seed Display - Clickable to create new Guy */}
           <Tooltip title="Create new Guy (resets corruption)" placement="top">
             <Box
