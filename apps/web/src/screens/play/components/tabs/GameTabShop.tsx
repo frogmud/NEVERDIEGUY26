@@ -289,7 +289,7 @@ export function GameTabShop({
                 {/* Item Sprite */}
                 <Box
                   component="img"
-                  src={item.image || '/assets/items/placeholder.png'}
+                  src={item.image || item.sprites?.[0] || '/assets/items/placeholder.png'}
                   alt=""
                   sx={{
                     width: 40,

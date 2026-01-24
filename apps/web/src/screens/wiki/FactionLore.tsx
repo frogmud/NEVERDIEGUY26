@@ -251,7 +251,7 @@ export function FactionLore() {
       </Grid>
 
       {/* Philosophy */}
-      <SectionHeader title="Philosophy" icon={<PhilosophyIcon />} sx={{ mb: 2 }} />
+      <SectionHeader title="Philosophy" sx={{ mb: 2 }} />
       <CardSection sx={{ mb: 4 }}>
         <Typography variant="body1" sx={{ color: tokens.colors.text.secondary }}>
           {faction.philosophy}
@@ -273,7 +273,7 @@ export function FactionLore() {
       </CardSection>
 
       {/* Goals */}
-      <SectionHeader title="Faction Goals" icon={<GoalIcon />} sx={{ mb: 2 }} />
+      <SectionHeader title="Faction Goals" sx={{ mb: 2 }} />
       <CardSection sx={{ mb: 4 }}>
         {faction.goals.map((goal, i) => (
           <Box
@@ -308,7 +308,7 @@ export function FactionLore() {
       </CardSection>
 
       {/* Notable Members */}
-      <SectionHeader title="Notable Members" icon={<MembersIcon />} sx={{ mb: 2 }} />
+      <SectionHeader title="Notable Members" sx={{ mb: 2 }} />
       <Grid container spacing={2} sx={{ mb: 4 }}>
         {faction.notableMembers.map((member) => {
           const rarityColor = RARITY_COLORS[member.rarity.toLowerCase() as keyof typeof RARITY_COLORS] || tokens.colors.text.primary;

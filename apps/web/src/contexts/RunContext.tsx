@@ -30,6 +30,7 @@ import {
   resetHeat,
   loadCorruptionData,
   saveCorruptionData,
+  clearCurrentSeed,
   type SavedRunState,
 } from '../data/player/storage';
 import {
@@ -101,8 +102,9 @@ import {
 // Center panel states (Balatro-style swapping)
 // 'portals' replaces doors - shown after combat win (D1-5)
 // 'summary' is ONLY for final victory after D6
+// 'briefing' is The General's mission briefing (shown once at run start)
 // shop is now in sidebar (not a center panel)
-export type CenterPanel = 'globe' | 'combat' | 'portals' | 'summary';
+export type CenterPanel = 'globe' | 'combat' | 'portals' | 'summary' | 'briefing';
 
 // Transition phases for orchestrated panel swaps
 export type TransitionPhase = 'idle' | 'exit' | 'wipe' | 'enter';
@@ -195,6 +197,8 @@ export interface RunState extends Omit<GameState, 'currentEncounter'> {
   corruption: number;
   // Exploration bonus system (tracks dialogue variety)
   explorationState: ExplorationState | null;
+  // Mission briefing modal (The General)
+  showBriefing: boolean;
 }
 
 // Run context value
@@ -263,6 +267,9 @@ interface RunContextValue {
   completeEncounter: (result: EncounterResult) => void;
   skipEncounter: () => void;
 
+  // Mission briefing
+  dismissBriefing: () => void;
+
   // Run persistence
   loadRun: () => boolean;
   hasSavedRun: () => boolean;
@@ -309,7 +316,9 @@ type RunAction =
   | { type: 'ADD_DICE_TO_BAG'; configs: DieConfig[] }
   | { type: 'REMOVE_DICE_FROM_BAG'; dieIds: string[] }
   | { type: 'TOGGLE_DICE_BAG_HOLD'; dieId: string }
-  | { type: 'ROLL_DICE_BAG' };
+  | { type: 'ROLL_DICE_BAG' }
+  // Mission briefing
+  | { type: 'DISMISS_BRIEFING' };
 
 // Initial state
 function createInitialRunState(): RunState {
@@ -350,6 +359,8 @@ function createInitialRunState(): RunState {
     corruption: 0,
     // Exploration bonus system
     explorationState: null,
+    // Mission briefing modal (not shown initially)
+    showBriefing: false,
   };
 }
 
@@ -358,6 +369,10 @@ function runReducer(state: RunState, action: RunAction): RunState {
   switch (action.type) {
     case 'SET_PANEL':
       return { ...state, centerPanel: action.panel };
+
+    case 'DISMISS_BRIEFING':
+      // Hide the briefing modal
+      return { ...state, showBriefing: false };
 
     case 'SET_TRANSITION_PHASE':
       return { ...state, transitionPhase: action.phase };
@@ -481,6 +496,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       return {
         ...initialState,
         centerPanel: 'globe',
+        showBriefing: true,  // Show The General's briefing modal on launch
         threadId: action.threadId,
         protocolRoll: action.protocolRoll,
         ledger: [threadStartEvent],
@@ -707,6 +723,8 @@ function runReducer(state: RunState, action: RunAction): RunState {
         // Reset heat on death (streak broken)
         if (!state.practiceMode) {
           saveHeatData(resetHeat(loadHeatData()));
+          // Clear saved seed so next run gets a fresh Guy
+          clearCurrentSeed();
         }
         return {
           ...state,
@@ -1251,6 +1269,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'START_PRACTICE' });
   }, []);
 
+  const dismissBriefing = useCallback(() => {
+    dispatch({ type: 'DISMISS_BRIEFING' });
+  }, []);
+
   const endRun = useCallback((won: boolean) => {
     logRunEnd(
       won,
@@ -1512,6 +1534,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     completeTransition,
     startRun,
     startPractice,
+    dismissBriefing,
     endRun,
     resetRun,
     selectZone,
@@ -1555,6 +1578,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     completeTransition,
     startRun,
     startPractice,
+    dismissBriefing,
     endRun,
     resetRun,
     selectZone,

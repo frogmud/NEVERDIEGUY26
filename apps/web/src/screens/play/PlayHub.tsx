@@ -20,6 +20,7 @@ import { RunSummary } from './components/RunSummary';
 import { PlayOptionsModal } from './components/PlayOptionsModal';
 import { DomainInfoModal } from './components/DomainInfoModal';
 import PortalSelection from './PortalSelection';
+import MissionBriefing from './MissionBriefing';
 import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteorGame';
 import { useRun } from '../../contexts';
 import { useAuth } from '../../contexts/AuthContext';
@@ -33,6 +34,8 @@ import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
 import { applyHeatReward } from '../../data/balance-config';
 import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
 import { isFinale } from '../../data/portal-config';
+import { getItemImage, getItemName, LOADOUT_ITEMS } from '../../data/decrees';
+import { Tooltip } from '@mui/material';
 import type { Item } from '../../data/wiki/types';
 
 // Layout constants
@@ -559,6 +562,51 @@ export function PlayHub() {
           </Box>
         )}
 
+        {/* Item Bar - Shows loadout items with hover tooltips */}
+        {state.inventory?.powerups && state.inventory.powerups.length > 0 && state.phase !== 'event_select' && !state.runEnded && (
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 1,
+            py: 0.75,
+            px: 2,
+            flexShrink: 0,
+            bgcolor: 'rgba(0,0,0,0.2)',
+            borderBottom: `1px solid ${tokens.colors.border}`,
+          }}>
+            {state.inventory.powerups.map((itemSlug, idx) => {
+              const itemData = LOADOUT_ITEMS[itemSlug];
+              const itemName = getItemName(itemSlug);
+              return (
+                <Tooltip
+                  key={`${itemSlug}-${idx}`}
+                  title={itemName}
+                  arrow
+                  placement="bottom"
+                >
+                  <Box
+                    component="img"
+                    src={getItemImage(itemSlug)}
+                    alt={itemName}
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
+                      transition: 'transform 150ms ease',
+                      cursor: 'help',
+                      '&:hover': {
+                        transform: 'scale(1.15)',
+                      },
+                    }}
+                  />
+                </Tooltip>
+              );
+            })}
+          </Box>
+        )}
+
         {/* Center Content: Summary, Shop, or Combat Terminal */}
         <Box
           sx={{
@@ -828,6 +876,11 @@ export function PlayHub() {
         loadoutStats={state.loadoutStats}
         inventoryItems={state.inventory?.powerups || []}
       />
+
+      {/* Mission Briefing Modal (The General) */}
+      {state.showBriefing && (
+        <MissionBriefing />
+      )}
 
     </Box>
   );

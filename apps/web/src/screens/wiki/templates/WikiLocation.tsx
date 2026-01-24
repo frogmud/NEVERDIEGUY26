@@ -15,6 +15,7 @@ import {
   PestControlSharp as EnemyIcon,
   Inventory2Sharp as ItemIcon,
   ArrowForwardSharp as ArrowIcon,
+  StorefrontSharp as ShopIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 import { PageHeader } from '../../../components/Placeholder';
@@ -24,7 +25,7 @@ import { WikiLink } from '../../../components/WikiLink';
 import { BaseCard } from '../../../components/BaseCard';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { CardHeader, AssetImage } from '../../../components/ds';
-import { getDifficultyColor, getRarityColor, getEnemyTypeColor, slugToName } from '../../../data/wiki/helpers';
+import { getDifficultyColor, getRarityColor, getEnemyTypeColor, slugToName, getElementInfo } from '../../../data/wiki/helpers';
 import { getEntity } from '../../../data/wiki';
 import type { AnyEntity, Domain, Shop, WikiCategory, Wanderer, Enemy, Item } from '../../../data/wiki/types';
 import { AsciiDomainViewer } from '../../../components/AsciiDomainViewer';
@@ -52,7 +53,7 @@ const getLocationSections = (
     { name: 'Quick Facts' },
     { name: isShop ? 'Proprietor' : 'NPCs' },
   ];
-  if (hasEnemies) sections.push({ name: 'Enemies' });
+  if (hasEnemies) sections.push({ name: 'Monsters' });
   if (isDomain) sections.push({ name: 'Domain View' });
   sections.push({ name: isShop ? 'Shop Inventory' : 'Items Found' });
   if (hasConnectedAreas) sections.push({ name: 'Connected Areas' });
@@ -193,23 +194,68 @@ export function WikiLocation({ entity }: WikiLocationProps) {
         }}
       >
         <Box sx={{ p: 3 }}>
-          <Box sx={{
-            backgroundColor: tokens.colors.background.elevated,
-            borderRadius: '18px',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <AssetImage
-              src={entity.image || entity.portrait || ''}
-              alt={locationInfo.name}
-              category={(entity.category || 'domains') as 'domains' | 'shops'}
-              width="100%"
-              height={isShop ? 220 : 180}
-              fallback="placeholder"
-            />
-          </Box>
+          {isDomain && domainData?.element ? (
+            // Domain: Colored circle with ASCII flume background
+            <Box sx={{
+              position: 'relative',
+              borderRadius: '18px',
+              overflow: 'hidden',
+              height: 180,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#0a0a0f',
+            }}>
+              {/* ASCII Flume Background */}
+              <Box
+                component="img"
+                src={`/assets/flumes/${entity.slug}-ascii.svg`}
+                alt=""
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: 0.6,
+                }}
+                onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              {/* Colored Circle (Planet) */}
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: 100,
+                  height: 100,
+                  borderRadius: '50%',
+                  backgroundColor: getElementInfo(domainData.element)?.color || tokens.colors.primary,
+                  boxShadow: `0 0 40px ${getElementInfo(domainData.element)?.color || tokens.colors.primary}60, 0 0 80px ${getElementInfo(domainData.element)?.color || tokens.colors.primary}30`,
+                  border: `3px solid ${getElementInfo(domainData.element)?.color || tokens.colors.primary}`,
+                }}
+              />
+            </Box>
+          ) : (
+            // Shop: Keep original image display
+            <Box sx={{
+              backgroundColor: tokens.colors.background.elevated,
+              borderRadius: '18px',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <AssetImage
+                src={entity.image || entity.portrait || ''}
+                alt={locationInfo.name}
+                category={(entity.category || 'domains') as 'domains' | 'shops'}
+                width="100%"
+                height={220}
+                fallback="placeholder"
+              />
+            </Box>
+          )}
         </Box>
         {/* Only show "view full map" for domains, not shops */}
         {isDomain && (
@@ -231,29 +277,57 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           overflow: 'hidden',
         }}
       >
-        <CardHeader title="Location Info" />
+        <CardHeader title={isShop ? 'Shop Info' : 'Location Info'} />
         <Box sx={{ p: 3 }}>
-          {[
-            { icon: RegionIcon, label: 'Region', value: locationInfo.region },
-            { icon: DifficultyIcon, label: 'Difficulty', value: locationInfo.difficulty, color: getDifficultyColor(locationInfo.difficulty) },
-            { icon: LocationIcon, label: 'Level', value: locationInfo.levelRange },
-            { icon: RequirementIcon, label: 'Unlock', value: locationInfo.requirements },
-          ].map((item) => {
-            const Icon = item.icon;
-            return (
-              <Box key={item.label} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, '&:last-child': { mb: 0 } }}>
-                <Icon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
-                <Box>
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, display: 'block' }}>
-                    {item.label}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: item.color || tokens.colors.text.primary }}>
-                    {item.value}
-                  </Typography>
-                </Box>
-              </Box>
-            );
-          })}
+          {isShop ? (
+            // Shop-specific info
+            <>
+              {[
+                { icon: RegionIcon, label: 'Location', value: isMobileVendor ? 'Mobile Vendor' : (shopData?.location ? slugToName(shopData.location) : 'Unknown') },
+                { icon: ShopIcon, label: 'Specialty', value: shopData?.specialty || 'General Goods' },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Box key={item.label} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, '&:last-child': { mb: 0 } }}>
+                    <Icon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
+                    <Box>
+                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, display: 'block' }}>
+                        {item.label}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: tokens.colors.text.primary }}>
+                        {item.value}
+                      </Typography>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </>
+          ) : (
+            // Domain-specific info
+            <>
+              {[
+                { icon: RegionIcon, label: 'Region', value: locationInfo.region },
+                { icon: DifficultyIcon, label: 'Difficulty', value: locationInfo.difficulty, color: getDifficultyColor(locationInfo.difficulty) },
+                { icon: LocationIcon, label: 'Level', value: locationInfo.levelRange },
+                { icon: RequirementIcon, label: 'Unlock', value: locationInfo.requirements },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Box key={item.label} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, '&:last-child': { mb: 0 } }}>
+                    <Icon sx={{ fontSize: 18, color: tokens.colors.text.disabled }} />
+                    <Box>
+                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, display: 'block' }}>
+                        {item.label}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: item.color || tokens.colors.text.primary }}>
+                        {item.value}
+                      </Typography>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </>
+          )}
         </Box>
       </Paper>
 
@@ -356,12 +430,12 @@ export function WikiLocation({ entity }: WikiLocationProps) {
         </Paper>
       </WikiSectionAnchor>
 
-      {/* Two Columns: NPCs | Enemies */}
+      {/* Two Columns: NPCs | Monsters */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {/* NPCs / Proprietor Column */}
         <Grid size={{ xs: 12, md: 6 }}>
           <WikiSectionAnchor id={toAnchorId(isShop ? 'Proprietor' : 'NPCs')}>
-            <SectionHeader title={isShop ? 'Proprietor' : 'NPCs'} icon={<NPCIcon />} sx={{ mb: 2 }} />
+            <SectionHeader title={isShop ? 'Proprietor' : 'NPCs'} sx={{ mb: 2 }} />
             <BaseCard padding={0}>
               {npcs.length > 0 ? npcs.map((npc, i) => (
                 <Box
@@ -427,11 +501,11 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           </WikiSectionAnchor>
         </Grid>
 
-        {/* Enemies Column - only show if there are enemies */}
+        {/* Monsters Column - only show if there are monsters */}
         {hasEnemies && (
           <Grid size={{ xs: 12, md: 6 }}>
-            <WikiSectionAnchor id={toAnchorId('Enemies')}>
-              <SectionHeader title="Enemies" icon={<EnemyIcon />} sx={{ mb: 2 }} />
+            <WikiSectionAnchor id={toAnchorId('Monsters')}>
+              <SectionHeader title="Monsters" sx={{ mb: 2 }} />
               <BaseCard padding={0}>
                 {enemies.map((enemy, i) => (
                   <Box
@@ -508,7 +582,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
 
       {/* Items Found / Shop Inventory */}
       <WikiSectionAnchor id={toAnchorId(isShop ? 'Shop Inventory' : 'Items Found')}>
-        <SectionHeader title={isShop ? 'Shop Inventory' : 'Items Found'} icon={<ItemIcon />} sx={{ mb: 2 }} />
+        <SectionHeader title={isShop ? 'Shop Inventory' : 'Items Found'} sx={{ mb: 2 }} />
         {isShop && shopData?.inventory ? (
           // Shop inventory with images and prices
           <Grid container spacing={2} sx={{ mb: 4 }}>
@@ -529,7 +603,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
                     }}
                   >
                     <AssetImage
-                      src={item?.image || ''}
+                      src={item?.image || item?.sprites?.[0] || ''}
                       alt={item?.name || slugToName(inv.item)}
                       category="items"
                       width={64}
@@ -622,7 +696,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
                   }}
                 >
                   <AssetImage
-                    src={areaEntity?.image || ''}
+                    src={areaEntity?.image || areaEntity?.sprites?.[0] || ''}
                     alt={area.name}
                     category="domains"
                     width="100%"

@@ -163,6 +163,9 @@ export interface Item extends WikiEntity {
   level?: number;
   tier?: 1 | 2 | 3 | 4 | 5 | 6;
 
+  // Elite variant (sparkle overlay in UI)
+  isElite?: boolean;
+
   // Dice-based effects
   diceEffects?: DiceEffect[];
 

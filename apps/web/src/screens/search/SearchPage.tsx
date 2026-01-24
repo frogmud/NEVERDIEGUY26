@@ -40,7 +40,7 @@ import { getCategoryInfo } from '../../data/wiki/helpers';
 const filterOptions = [
   { id: 'all', label: 'All' },
   { id: 'items', label: 'Items' },
-  { id: 'enemies', label: 'Enemies' },
+  { id: 'enemies', label: 'Monsters' },
   { id: 'shops', label: 'Shops' },
   { id: 'domains', label: 'Domains' },
   { id: 'pantheon', label: 'Pantheon' },

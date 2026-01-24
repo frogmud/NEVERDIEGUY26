@@ -1043,6 +1043,7 @@ export const consumables: Item[] = [
     category: 'items',
     itemType: 'Consumable',
     subtype: 'Throwable',
+    isElite: true,
     luckyNumber: 4,
     rarity: 'Uncommon',
     value: 120,

@@ -415,6 +415,30 @@ export const questItems: Item[] = [
     ],
   },
   {
+    slug: 'diepedia-vol-3',
+    name: 'Diepedia Vol. 3',
+    category: 'items',
+    itemType: 'Quest',
+    rarity: 'Epic',
+    value: 150,
+    element: 'Neutral',
+    tier: 4,
+    level: 1,
+    image: '/assets/items/quest/diepedia-vol3.svg',
+    description: 'The forbidden third volume. Chronicles the Die-rectors and their domains in unsettling detail.',
+    effects: [
+      { name: 'Divine Knowledge', description: 'Reveals Die-rector vulnerabilities when equipped.' },
+      { name: 'Collector', description: 'Part of the Diepedia set.' },
+    ],
+    obtainMethods: [
+      { type: 'shop', source: 'the-burning-pages', rate: 'Very Rare Stock' },
+    ],
+    seeAlso: ['dr-maxwell', 'the-burning-pages', 'the-one'],
+    diceEffects: [
+      { trigger: 'onMax', die: 6, effect: 'Forbidden Insight: Reveal Die-rector secret weakness' },
+    ],
+  },
+  {
     slug: 'dr-voss-diary',
     name: "Dr. Voss' Diary",
     category: 'items',

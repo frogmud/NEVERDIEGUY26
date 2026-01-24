@@ -489,7 +489,7 @@ function InventoryItemCard({ slug, willPersist }: InventoryItemCardProps) {
       {/* Sprite */}
       <Box
         component="img"
-        src={item.image || '/assets/items/placeholder.png'}
+        src={item.image || item.sprites?.[0] || '/assets/items/placeholder.png'}
         alt=""
         sx={{
           width: 56,

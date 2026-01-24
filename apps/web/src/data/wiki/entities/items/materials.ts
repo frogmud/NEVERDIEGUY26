@@ -847,6 +847,7 @@ export const materials: Item[] = [
     name: 'Soul Jar',
     category: 'items',
     itemType: 'Material',
+    isElite: true,
     sprites: ['/assets/items/consumables/soul-charge.svg'],
     luckyNumber: 3,
     rarity: 'Epic',

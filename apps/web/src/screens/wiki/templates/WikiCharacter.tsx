@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -8,10 +8,7 @@ import {
   LinearProgress,
   Grid,
   Tooltip,
-  Modal,
-  IconButton,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   FavoriteSharp as HealthIcon,
   PlaceSharp as LocationIcon,
@@ -29,6 +26,7 @@ import {
   WarningAmberSharp as CorruptionIcon,
   GroupsSharp as FactionIcon,
   FavoriteSharp as AllyIcon,
+  InfoOutlined as InfoIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 import { PageHeader, TextBlock } from '../../../components/Placeholder';
@@ -63,22 +61,19 @@ const getCharacterSections = (
 
   switch (characterType) {
     case 'traveler':
-      sections.push({ name: 'Overview' });
       sections.push({ name: 'Base Stats' });
-      sections.push({ name: 'Abilities' });
-      if (hasLoadout) sections.push({ name: 'Starting Loadout' });
+      sections.push({ name: 'Affiliations' });
+      if (hasLoadout) sections.push({ name: 'Favorite Items' });
       break;
 
     case 'wanderer':
-      sections.push({ name: 'Overview' });
+      sections.push({ name: 'Affiliations' });
       if (hasLocations) sections.push({ name: 'Locations' });
       break;
 
     case 'pantheon':
-      sections.push({ name: 'Overview' });
       sections.push({ name: 'Base Stats' });
-      if (hasFavorEffects) sections.push({ name: 'Divine Favor' });
-      sections.push({ name: 'Corruption Effects' });
+      sections.push({ name: 'Affiliations' });
       break;
 
     case 'faction':
@@ -92,8 +87,7 @@ const getCharacterSections = (
     default:
       sections.push({ name: 'Combat Overview' });
       if (hasPhases) sections.push({ name: 'Battle Phases' });
-      sections.push({ name: 'Abilities & Attacks' });
-      if (hasDrops) sections.push({ name: 'Drops & Rewards' });
+      if (hasDrops) sections.push({ name: 'Favorite Items' });
       sections.push({ name: 'Strategy Guide' });
       if (hasLocations) sections.push({ name: 'Encountered In' });
       break;
@@ -106,8 +100,24 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const { category } = useParams();
   const navigate = useNavigate();
 
-  // Sprite zoom modal state
-  const [zoomedSprite, setZoomedSprite] = useState<string | null>(null);
+  // Typewriter effect for faction motto
+  const factionMotto = (entity as Faction)?.motto || '';
+  const [displayedMotto, setDisplayedMotto] = useState('');
+
+  useEffect(() => {
+    if (!factionMotto) return;
+    setDisplayedMotto('');
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < factionMotto.length) {
+        setDisplayedMotto(factionMotto.slice(0, i + 1));
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, [factionMotto]);
 
   // Guard: entity should always exist (WikiEntity shows 404 for missing entities)
   if (!entity) {
@@ -136,13 +146,13 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
 
   const characterInfo = {
     name: entity.name,
-    health: enemyData?.hp?.toString() || '-',
-    level: '-',
+    health: enemyData?.hp?.toString() || enemyData?.baseHp?.toString() || '-',
+    level: enemyData?.level?.toString() || '-',
     type: enemyData?.enemyType || travelerData?.availability || wandererData?.role || pantheonData?.role || entity.rarity || 'Unknown',
     location: enemyData?.domain ? slugToName(enemyData.domain) : '-',
-    weakness: enemyData?.weaknesses?.[0] || '-',
+    weakness: enemyData?.weaknesses?.[0] || enemyData?.element || '-',
     resistance: enemyData?.resistances?.[0] || '-',
-    defense: enemyData?.defense?.toString() || '-',
+    defense: enemyData?.defense?.toString() || enemyData?.baseDefense?.toString() || '-',
     rarity: entity.rarity || 'Common',
   };
 
@@ -216,7 +226,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       name: item?.name || slugToName(d.item),
       rate: d.rate,
       rarity: item?.rarity || d.rarity || 'Common',
-      image: item?.image || '',
+      image: item?.image || item?.sprites?.[0] || '',
     };
   }) || [];
 
@@ -227,7 +237,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       name: domain?.name || slugToName(loc),
       type: 'Location',
       level: domain?.levelRange || '-',
-      image: domain?.image || '',
+      image: domain?.image || domain?.sprites?.[0] || '',
     };
   }) || [];
 
@@ -277,7 +287,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               justifyContent: 'center',
             }}>
               <AssetImage
-                src={entity?.image || ''}
+                src={entity?.image || entity?.sprites?.[0] || ''}
                 alt={characterInfo.name}
                 category="factions"
                 width={110}
@@ -298,7 +308,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               overflow: 'hidden',
             }}>
               <AssetImage
-                src={entity?.portrait || entity?.image || ''}
+                src={entity?.portrait || entity?.sprites?.[0] || entity?.image || ''}
                 alt={characterInfo.name}
                 category={category as 'enemies' | 'travelers' | 'wanderers' | 'pantheon'}
                 width="100%"
@@ -330,29 +340,26 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         {(travelerData?.sprites || pantheonData?.sprites) && (
           <Box sx={{ mt: 2, display: 'flex', gap: 0.5, justifyContent: 'center', flexWrap: 'wrap' }}>
             {(travelerData?.sprites || pantheonData?.sprites || []).map((sprite, i) => (
-              <Tooltip key={i} title="Click to enlarge" placement="top" arrow>
-                <Box
-                  onClick={() => setZoomedSprite(sprite)}
-                  sx={{
-                    cursor: 'zoom-in',
-                    transition: 'transform 150ms ease',
-                    '&:hover': {
-                      transform: 'scale(1.4)',
-                      zIndex: 10,
-                    },
-                  }}
-                >
-                  <AssetImage
-                    src={sprite}
-                    alt={`${characterInfo.name} sprite ${i + 1}`}
-                    category={category as 'travelers' | 'pantheon'}
-                    width={40}
-                    height={40}
-                    fallback="placeholder"
-                    sx={{ objectFit: 'contain', filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0.5))' }}
-                  />
-                </Box>
-              </Tooltip>
+              <Box
+                key={i}
+                sx={{
+                  transition: 'transform 150ms ease',
+                  '&:hover': {
+                    transform: 'scale(1.4)',
+                    zIndex: 10,
+                  },
+                }}
+              >
+                <AssetImage
+                  src={sprite}
+                  alt={`${characterInfo.name} sprite ${i + 1}`}
+                  category={category as 'travelers' | 'pantheon'}
+                  width={40}
+                  height={40}
+                  fallback="placeholder"
+                  sx={{ objectFit: 'contain', filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0.5))' }}
+                />
+              </Box>
             ))}
           </Box>
         )}
@@ -381,7 +388,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               {[
                 { icon: OriginIcon, label: 'Origin', value: travelerInfo.origin },
                 { icon: PlayStyleIcon, label: 'Play Style', value: travelerInfo.playStyle },
-                { icon: DiceIcon, label: 'Lucky Die', value: travelerData?.luckyDie?.toUpperCase() || 'None' },
+                { icon: DiceIcon, label: 'Lucky Number', value: travelerData?.luckyNumber === 7 ? 'ALL' : String(travelerData?.luckyNumber || '-') },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -425,7 +432,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                 { icon: LocationIcon, label: 'Domain', value: slugToName(pantheonInfo.domain) },
                 { icon: FavorIcon, label: 'Element', value: pantheonInfo.element },
                 { icon: DiceIcon, label: 'Door', value: pantheonInfo.door ? `Door ${pantheonInfo.door}` : 'None' },
-                { icon: DiceIcon, label: 'Lucky Die', value: pantheonData?.luckyDie?.toUpperCase() || 'None' },
+                { icon: DiceIcon, label: 'Lucky Number', value: pantheonData?.luckyNumber === 7 ? 'ALL' : String(pantheonData?.luckyNumber || '-') },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -447,7 +454,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
               {[
                 { icon: FavorIcon, label: 'Element', value: factionInfo.element },
                 { icon: LocationIcon, label: 'Home Base', value: factionInfo.homeBase ? slugToName(factionInfo.homeBase) : 'Various' },
-                { icon: DiceIcon, label: 'Lucky Die', value: entity?.luckyDie?.toUpperCase() || 'None' },
+                { icon: DiceIcon, label: 'Lucky Number', value: factionData?.luckyNumber === 7 ? 'ALL' : String(factionData?.luckyNumber ?? '-') },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -491,105 +498,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         </Box>
       </Paper>
 
-      {/* Affiliations - Show relationships at a glance */}
-      {!isEnemy && hasAffiliations && (
-        <Paper
-          sx={{
-            mt: 2,
-            backgroundColor: tokens.colors.background.paper,
-            border: `1px solid ${tokens.colors.border}`,
-            borderRadius: '30px',
-            overflow: 'hidden',
-          }}
-        >
-          <CardHeader title="Affiliations" />
-          <Box sx={{ p: 2 }}>
-            {/* Faction Membership */}
-            {factionMemberships.length > 0 && (
-              <Box sx={{ mb: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <FactionIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    Faction
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {factionMemberships.map((faction) => (
-                    <WikiLink key={faction.slug} slug={faction.slug} variant="chip" category="factions" />
-                  ))}
-                </Box>
-              </Box>
-            )}
-
-            {/* Domain Control (Pantheon only) */}
-            {controlledDomain && (
-              <Box sx={{ mb: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <LocationIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    Controls
-                  </Typography>
-                </Box>
-                <WikiLink slug={controlledDomain.slug} variant="chip" category="domains" />
-              </Box>
-            )}
-
-            {/* Wanderer Locations */}
-            {wandererDomains.length > 0 && (
-              <Box sx={{ mb: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <LocationIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    Appears In
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {wandererDomains.map((domain) => (
-                    <WikiLink key={domain.slug} slug={domain.slug} variant="chip" category="domains" />
-                  ))}
-                </Box>
-              </Box>
-            )}
-
-            {/* Related Characters */}
-            {relatedCharacters.length > 0 && (
-              <Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <AllyIcon sx={{ fontSize: 16, color: tokens.colors.text.disabled }} />
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    Related
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {relatedCharacters.slice(0, 6).map((char) => (
-                    <Tooltip key={char.slug} title={char.name} placement="top" arrow>
-                      <Box
-                        onClick={() => navigate(`/wiki/${char.category}/${char.slug}`)}
-                        sx={{
-                          cursor: 'pointer',
-                          transition: 'transform 150ms ease',
-                          '&:hover': { transform: 'scale(1.1)' },
-                        }}
-                      >
-                        <AssetImage
-                          src={char.portrait || char.image || ''}
-                          alt={char.name}
-                          category={char.category as 'travelers' | 'wanderers' | 'pantheon'}
-                          width={32}
-                          height={32}
-                          fallback="placeholder"
-                          sx={{ borderRadius: '50%', border: `2px solid ${tokens.colors.border}` }}
-                        />
-                      </Box>
-                    </Tooltip>
-                  ))}
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </Paper>
-      )}
-
     </Box>
   );
 
@@ -621,173 +529,10 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         title={characterInfo.name}
       />
 
-      {/* Traveler Overview - for travelers only */}
-      {isTraveler && travelerInfo && (
-        <WikiSectionAnchor id={toAnchorId('Overview')}>
-          <Paper
-            sx={{
-              mb: 4,
-              backgroundColor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-              borderRadius: '30px',
-              overflow: 'hidden',
-            }}
-          >
-            <CardHeader title="Overview" />
-            <Box sx={{ p: 3 }}>
-            <Grid container spacing={3}>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Origin</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{travelerInfo.origin}</Typography>
-                  </Box>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Play Style</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{travelerInfo.playStyle}</Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box
-                  sx={{
-                    p: 2,
-                    bgcolor: tokens.colors.background.elevated,
-                    borderRadius: 1,
-                    textAlign: 'center',
-                  }}
-                >
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Die</Typography>
-                  <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                    {travelerData?.luckyDie?.toUpperCase() || 'None'}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    {travelerData?.luckyDie === 'all' ? 'All dice affinity' : travelerData?.luckyDie ? `${travelerData.luckyDie.toUpperCase()} affinity` : 'No affinity'}
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-            </Box>
-          </Paper>
-        </WikiSectionAnchor>
-      )}
 
-      {/* Wanderer Overview - for wanderers only */}
-      {isWanderer && wandererInfo && (
-        <WikiSectionAnchor id={toAnchorId('Overview')}>
-          <Paper
-            sx={{
-              mb: 4,
-              backgroundColor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-              borderRadius: '30px',
-              overflow: 'hidden',
-            }}
-          >
-            <CardHeader title="Overview" />
-            <Box sx={{ p: 3 }}>
-            <Grid container spacing={3}>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Role</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{wandererInfo.role}</Typography>
-                  </Box>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Origin</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{wandererInfo.origin}</Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
-                {hasServices && (
-                  <Box
-                    sx={{
-                      p: 2,
-                      bgcolor: tokens.colors.background.elevated,
-                      borderRadius: 1,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <ServicesIcon sx={{ fontSize: 32, color: tokens.colors.text.secondary, mb: 1 }} />
-                    <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                      {services.length}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                      Available {services.length === 1 ? 'Service' : 'Services'}
-                    </Typography>
-                  </Box>
-                )}
-              </Grid>
-            </Grid>
-            </Box>
-          </Paper>
-        </WikiSectionAnchor>
-      )}
-
-      {/* Pantheon Overview - for pantheon only */}
-      {isPantheon && pantheonInfo && (
-        <WikiSectionAnchor id={toAnchorId('Overview')}>
-          <Paper
-            sx={{
-              mb: 4,
-              backgroundColor: tokens.colors.background.paper,
-              border: `1px solid ${tokens.colors.border}`,
-              borderRadius: '30px',
-              overflow: 'hidden',
-            }}
-          >
-            <CardHeader title="Overview" />
-            <Box sx={{ p: 3 }}>
-            <Grid container spacing={3}>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Role</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{pantheonInfo.role}</Typography>
-                  </Box>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Domain</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{slugToName(pantheonInfo.domain)}</Typography>
-                  </Box>
-                  <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Element</Typography>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>{pantheonInfo.element}</Typography>
-                  </Box>
-                  {pantheonInfo.door && (
-                    <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Door</Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>Door {pantheonInfo.door}</Typography>
-                    </Box>
-                  )}
-                </Box>
-              </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box
-                  sx={{
-                    p: 2,
-                    bgcolor: tokens.colors.background.elevated,
-                    borderRadius: 1,
-                    textAlign: 'center',
-                  }}
-                >
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Die</Typography>
-                  <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                    {pantheonData?.luckyDie?.toUpperCase() || 'None'}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                    {pantheonData?.luckyDie === 'all' ? 'All dice affinity' : pantheonData?.luckyDie ? `${pantheonData.luckyDie.toUpperCase()} affinity` : 'No affinity'}
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-            </Box>
-          </Paper>
-        </WikiSectionAnchor>
-      )}
 
       {/* Faction Overview - for factions only */}
-      {isFaction && factionInfo && (
+      {isFaction && factionInfo && (factionInfo.motto || factionInfo.founder || factionInfo.lore) && (
         <WikiSectionAnchor id={toAnchorId('Overview')}>
           <Paper
             sx={{
@@ -802,63 +547,28 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
             <Box sx={{ p: 3 }}>
               {factionInfo.motto && (
                 <Typography
-                  variant="h6"
+                  variant="h4"
                   sx={{
-                    fontStyle: 'italic',
+                    fontFamily: tokens.fonts.gaming,
                     color: tokens.colors.text.secondary,
-                    mb: 3,
+                    mb: factionInfo.founder || factionInfo.lore ? 3 : 0,
                     textAlign: 'center',
+                    fontSize: '1.75rem',
                   }}
                 >
-                  "{factionInfo.motto}"
+                  "{displayedMotto}"
                 </Typography>
               )}
-              <Grid container spacing={3}>
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                    <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                      <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Element</Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>{factionInfo.element}</Typography>
-                    </Box>
-                    {factionInfo.homeBase && (
-                      <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                        <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Home Base</Typography>
-                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                          <WikiLink slug={factionInfo.homeBase} category="domains" />
-                        </Typography>
-                      </Box>
-                    )}
-                    {factionInfo.founder && (
-                      <Box sx={{ flex: '1 1 45%', minWidth: 120 }}>
-                        <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Founder</Typography>
-                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                          <WikiLink slug={factionInfo.founder} />
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <Box
-                    sx={{
-                      p: 2,
-                      bgcolor: tokens.colors.background.elevated,
-                      borderRadius: 1,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Lucky Die</Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming }}>
-                      {entity?.luckyDie?.toUpperCase() || 'None'}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                      {entity?.luckyDie === 'all' ? 'All dice affinity' : entity?.luckyDie ? `${entity.luckyDie.toUpperCase()} affinity` : 'No affinity'}
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
+              {factionInfo.founder && (
+                <Box sx={{ mb: factionInfo.lore ? 2 : 0 }}>
+                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Founded by</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                    <WikiLink slug={factionInfo.founder} />
+                  </Typography>
+                </Box>
+              )}
               {factionInfo.lore && (
-                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary, mt: 3 }}>
+                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>
                   {factionInfo.lore}
                 </Typography>
               )}
@@ -891,7 +601,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                   }}
                 >
                   <AssetImage
-                    src={memberEntity?.image || ''}
+                    src={memberEntity?.portrait || memberEntity?.sprites?.[0] || memberEntity?.image || ''}
                     alt={memberEntity?.name || slugToName(memberSlug)}
                     category={memberEntity?.category as 'travelers' | 'wanderers' | 'pantheon'}
                     width={40}
@@ -946,7 +656,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       {/* Faction Bonuses - for factions only */}
       {isFaction && factionInfo && factionInfo.bonuses.length > 0 && (
         <WikiSectionAnchor id={toAnchorId('Faction Bonuses')}>
-          <SectionHeader title="Faction Bonuses" icon={<FavorIcon />} sx={{ mb: 2 }} />
+          <SectionHeader title="Faction Bonuses" sx={{ mb: 2 }} />
           <BaseCard sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
               {factionInfo.bonuses.map((bonus, i) => (
@@ -1071,128 +781,190 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       {/* Base Stats - for travelers and pantheon */}
       {(isTraveler || isPantheon) && baseStats && (
         <WikiSectionAnchor id={toAnchorId('Base Stats')}>
-          <SectionHeader title="Base Stats" sx={{ mb: 2 }} />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+            <SectionHeader title="Base Stats" sx={{ mb: 0 }} />
+            <Tooltip
+              title="All characters in NEVER DIE GUY are eternal, but stats give insight into their personalities and how they approach challenges. Use these to understand combat synergies and team composition."
+              placement="top"
+              arrow
+              slotProps={{
+                tooltip: {
+                  sx: {
+                    bgcolor: '#1a1a1a',
+                    border: `1px solid ${tokens.colors.border}`,
+                    fontSize: '0.8rem',
+                    maxWidth: 280,
+                    p: 1.5,
+                  },
+                },
+                arrow: { sx: { color: '#1a1a1a' } },
+              }}
+            >
+              <InfoIcon sx={{ fontSize: 18, color: tokens.colors.text.disabled, cursor: 'help' }} />
+            </Tooltip>
+          </Box>
           <BaseCard sx={{ mb: 4 }}>
-            <Grid container spacing={2}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {Object.entries(baseStats).map(([stat, value]) => {
-                const statConfig: Record<string, { label: string; icon: string; color: string; tooltip: string }> = {
-                  luck: {
-                    label: 'Luck',
-                    icon: '/icons/stat-luck.svg',
-                    color: '#FFD700',
-                    tooltip: 'Affects critical hit chance, rare drops, and bonus roll opportunities. Higher luck means more favorable RNG.',
-                  },
-                  essence: {
-                    label: 'Essence',
-                    icon: '/icons/stat-essence.svg',
-                    color: '#FF1744',
-                    tooltip: 'Core vitality and life force. Determines max health pool and recovery rate between encounters.',
-                  },
-                  grit: {
-                    label: 'Grit',
-                    icon: '/icons/stat-grit.svg',
-                    color: '#FFA726',
-                    tooltip: 'Mental fortitude and determination. Reduces damage from consecutive hits and improves comeback mechanics.',
-                  },
-                  shadow: {
-                    label: 'Shadow',
-                    icon: '/icons/stat-shadow.svg',
-                    color: '#7C4DFF',
-                    tooltip: 'Stealth and evasion capability. Higher shadow increases dodge chance and sneak attack damage.',
-                  },
-                  fury: {
-                    label: 'Fury',
-                    icon: '/icons/stat-fury.svg',
-                    color: '#4CAF50',
-                    tooltip: 'Raw offensive power. Directly multiplies damage output and affects dice roll bonuses.',
-                  },
-                  resilience: {
-                    label: 'Resilience',
-                    icon: '/icons/stat-resilience.svg',
-                    color: '#00E5FF',
-                    tooltip: 'Defensive capability and damage reduction. Higher resilience means less damage taken per hit.',
-                  },
-                  swiftness: {
-                    label: 'Swiftness',
-                    icon: '/icons/stat-swiftness.svg',
-                    color: '#FFEB3B',
-                    tooltip: 'Speed and agility. Affects turn order, action economy, and chance to act first in combat.',
-                  },
+                const mutedBar = tokens.colors.text.disabled;
+                const statConfig: Record<string, { label: string; color: string; tooltip: string }> = {
+                  luck: { label: 'Luck', color: mutedBar, tooltip: 'Favorable RNG and bonus rolls' },
+                  essence: { label: 'Essence', color: mutedBar, tooltip: 'Vitality and life force' },
+                  grit: { label: 'Grit', color: mutedBar, tooltip: 'Mental fortitude' },
+                  shadow: { label: 'Shadow', color: mutedBar, tooltip: 'Stealth and evasion' },
+                  fury: { label: 'Fury', color: mutedBar, tooltip: 'Raw offensive power' },
+                  resilience: { label: 'Resilience', color: mutedBar, tooltip: 'Damage reduction' },
+                  swiftness: { label: 'Swiftness', color: mutedBar, tooltip: 'Speed and agility' },
                 };
-                const config = statConfig[stat] || { label: stat, icon: '', color: tokens.colors.text.secondary, tooltip: '' };
+                const config = statConfig[stat] || { label: stat, color: mutedBar, tooltip: '' };
+                const numValue = typeof value === 'number' ? value : 0;
                 return (
-                  <Grid size={{ xs: 6, sm: 4, md: 3 }} key={stat}>
-                    <Tooltip
-                      title={config.tooltip}
-                      placement="top"
-                      arrow
-                      slotProps={{
-                        tooltip: {
-                          sx: {
-                            bgcolor: '#1a1a1a',
-                            border: `1px solid ${tokens.colors.border}`,
-                            fontSize: '0.8rem',
-                            maxWidth: 220,
-                            p: 1.5,
-                          },
-                        },
-                        arrow: {
-                          sx: { color: '#1a1a1a' },
-                        },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          p: 2,
-                          bgcolor: tokens.colors.background.elevated,
-                          borderRadius: 1,
-                          textAlign: 'center',
-                          cursor: 'help',
-                          transition: 'transform 150ms ease, box-shadow 150ms ease',
-                          '&:hover': {
-                            transform: 'translateY(-2px)',
-                            boxShadow: `0 4px 12px ${config.color}33`,
-                          },
-                        }}
+                  <Tooltip key={stat} title={config.tooltip} placement="top" arrow>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, cursor: 'help' }}>
+                      <Typography
+                        variant="body2"
+                        sx={{ width: 80, flexShrink: 0, color: tokens.colors.text.secondary, fontWeight: 500 }}
                       >
-                        {config.icon && (
-                          <Box
-                            component="img"
-                            src={config.icon}
-                            alt={config.label}
-                            sx={{
-                              width: 24,
-                              height: 24,
-                              mb: 1,
-                              filter: 'brightness(0) invert(1)',
-                              opacity: 0.8,
-                            }}
-                          />
-                        )}
-                        <Typography variant="h5" sx={{ fontWeight: 600, fontFamily: tokens.fonts.gaming, color: config.color }}>
-                          {value}
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-                          {config.label}
-                        </Typography>
+                        {config.label}
+                      </Typography>
+                      <Box sx={{ flex: 1, position: 'relative' }}>
                         <LinearProgress
                           variant="determinate"
-                          value={typeof value === 'number' ? value : 0}
+                          value={numValue}
                           sx={{
-                            mt: 1,
-                            height: 4,
+                            height: 20,
                             borderRadius: 1,
-                            bgcolor: tokens.colors.background.paper,
-                            '& .MuiLinearProgress-bar': { bgcolor: config.color },
+                            bgcolor: tokens.colors.background.elevated,
+                            '& .MuiLinearProgress-bar': {
+                              bgcolor: config.color,
+                              borderRadius: 1,
+                            },
                           }}
                         />
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            position: 'absolute',
+                            left: 8,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            fontWeight: 600,
+                            color: numValue > 15 ? '#000' : tokens.colors.text.primary,
+                            textShadow: numValue > 15 ? 'none' : '0 1px 2px rgba(0,0,0,0.5)',
+                          }}
+                        >
+                          {value}
+                        </Typography>
                       </Box>
-                    </Tooltip>
-                  </Grid>
+                    </Box>
+                  </Tooltip>
                 );
               })}
-            </Grid>
+            </Box>
           </BaseCard>
+        </WikiSectionAnchor>
+      )}
+
+      {/* Affiliations - for travelers, wanderers, and pantheon (no main header, implied) */}
+      {!isEnemy && !isFaction && hasAffiliations && (
+        <WikiSectionAnchor id={toAnchorId('Affiliations')}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 4 }}>
+            {/* Faction Membership */}
+            {factionMemberships.length > 0 && (
+              <BaseCard>
+                <Box sx={{ mb: 1.5 }}>
+                  <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, fontWeight: 500 }}>
+                    Faction
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+                  {factionMemberships.map((faction) => (
+                    <WikiLink key={faction.slug} slug={faction.slug} variant="chip" category="factions" />
+                  ))}
+                </Box>
+              </BaseCard>
+            )}
+
+            {/* Domain Control (Pantheon only) */}
+            {controlledDomain && (
+              <BaseCard>
+                <Box sx={{ mb: 1.5 }}>
+                  <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, fontWeight: 500 }}>
+                    Controls
+                  </Typography>
+                </Box>
+                <WikiLink slug={controlledDomain.slug} variant="chip" category="domains" />
+              </BaseCard>
+            )}
+
+            {/* Wanderer Locations - own container, no icon */}
+            {wandererDomains.length > 0 && (
+              <BaseCard>
+                <Box sx={{ mb: 1.5 }}>
+                  <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, fontWeight: 500 }}>
+                    Appears In
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+                  {wandererDomains.map((domain) => (
+                    <WikiLink key={domain.slug} slug={domain.slug} variant="chip" category="domains" />
+                  ))}
+                </Box>
+              </BaseCard>
+            )}
+
+            {/* Related Characters - own container, no icon, use portraits */}
+            {relatedCharacters.length > 0 && (
+              <BaseCard>
+                <Box sx={{ mb: 1.5 }}>
+                  <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, fontWeight: 500 }}>
+                    Related Characters
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                  {relatedCharacters.slice(0, 8).map((char) => (
+                    <Tooltip key={char.slug} title={char.name} placement="top" arrow>
+                      <Box
+                        onClick={() => navigate(`/wiki/${char.category}/${char.slug}`)}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          gap: 0.5,
+                          cursor: 'pointer',
+                          transition: 'transform 150ms ease',
+                          '&:hover': { transform: 'scale(1.05)' },
+                        }}
+                      >
+                        <AssetImage
+                          src={char.portrait || char.image || char.sprites?.[0] || ''}
+                          alt={char.name}
+                          category={char.category as 'travelers' | 'wanderers' | 'pantheon'}
+                          width={64}
+                          height={64}
+                          fallback="placeholder"
+                          sx={{ borderRadius: '12px', border: `2px solid ${tokens.colors.border}` }}
+                        />
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: tokens.colors.text.secondary,
+                            maxWidth: 70,
+                            textAlign: 'center',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {char.name}
+                        </Typography>
+                      </Box>
+                    </Tooltip>
+                  ))}
+                </Box>
+              </BaseCard>
+            )}
+          </Box>
         </WikiSectionAnchor>
       )}
 
@@ -1268,54 +1040,11 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         </WikiSectionAnchor>
       )}
 
-      {/* Abilities - for travelers and enemies only */}
-      {(isTraveler || (!isWanderer && !isPantheon && !isFaction)) && (
-      <WikiSectionAnchor id={toAnchorId(isTraveler ? 'Abilities' : 'Abilities & Attacks')}>
-        <SectionHeader title={isTraveler ? 'Abilities' : 'Abilities & Attacks'} sx={{ mb: 2 }} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
-          {abilities.map((ability) => (
-            <BaseCard key={ability.name}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                    {ability.name}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>
-                    {ability.description}
-                  </Typography>
-                </Box>
-                <Chip
-                  label={ability.type}
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    borderColor: tokens.colors.border,
-                    color: tokens.colors.text.secondary,
-                  }}
-                />
-              </Box>
-              <Box sx={{ display: 'flex', gap: 4, mt: 2 }}>
-                <Box>
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Damage</Typography>
-                  <Typography variant="body2" sx={{ color: ability.damage === '-' ? tokens.colors.text.disabled : tokens.colors.text.primary, fontWeight: 500 }}>
-                    {ability.damage}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Cooldown</Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>{ability.cooldown}</Typography>
-                </Box>
-              </Box>
-            </BaseCard>
-          ))}
-        </Box>
-      </WikiSectionAnchor>
-      )}
 
-      {/* Starting Loadout - for travelers only */}
+      {/* Favorite Items - for travelers only */}
       {isTraveler && hasLoadout && (
-        <WikiSectionAnchor id={toAnchorId('Starting Loadout')}>
-          <SectionHeader title="Starting Loadout" icon={<LoadoutIcon />} sx={{ mb: 2 }} />
+        <WikiSectionAnchor id={toAnchorId('Favorite Items')}>
+          <SectionHeader title="Favorite Items" sx={{ mb: 2 }} />
           <BaseCard padding={0} sx={{ mb: 4 }}>
             {startingLoadout.map((itemSlug, i) => {
               const loadoutItem = getEntity(itemSlug) as Item | undefined;
@@ -1336,7 +1065,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                 }}
               >
                 <AssetImage
-                  src={loadoutItem?.image || ''}
+                  src={loadoutItem?.image || loadoutItem?.sprites?.[0] || ''}
                   alt={loadoutItem?.name || slugToName(itemSlug)}
                   category="items"
                   width={40}
@@ -1358,7 +1087,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       {/* Locations - for wanderers only */}
       {isWanderer && wandererLocations.length > 0 && (
         <WikiSectionAnchor id={toAnchorId('Locations')}>
-          <SectionHeader title="Locations" icon={<LocationIcon />} sx={{ mb: 2 }} />
+          <SectionHeader title="Locations" sx={{ mb: 2 }} />
           <BaseCard padding={0} sx={{ mb: 4 }}>
             {wandererLocations.map((loc, i) => {
               const locEntity = getEntity(loc);
@@ -1404,62 +1133,11 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
         </WikiSectionAnchor>
       )}
 
-      {/* Divine Favor - for pantheon only */}
-      {isPantheon && hasFavorEffects && (
-        <WikiSectionAnchor id={toAnchorId('Divine Favor')}>
-          <SectionHeader title="Divine Favor" icon={<FavorIcon />} sx={{ mb: 2 }} />
-          <BaseCard sx={{ mb: 4 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-              {favorEffects.map((favor, i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                  }}
-                >
-                  <FavorIcon sx={{ color: tokens.colors.success, fontSize: 18 }} />
-                  <Typography variant="body2" sx={{ color: tokens.colors.text.primary }}>
-                    {favor.effect}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </BaseCard>
-        </WikiSectionAnchor>
-      )}
 
-      {/* Corruption Effects - for pantheon only */}
-      {isPantheon && corruptionEffects.length > 0 && (
-        <WikiSectionAnchor id={toAnchorId('Corruption Effects')}>
-          <SectionHeader title="Corruption Effects" icon={<CorruptionIcon />} sx={{ mb: 2 }} />
-          <BaseCard sx={{ mb: 4 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-              {corruptionEffects.map((effect, i) => (
-                <Box
-                  key={i}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                  }}
-                >
-                  <CorruptionIcon sx={{ color: tokens.colors.error, fontSize: 18 }} />
-                  <Typography variant="body2" sx={{ color: tokens.colors.text.primary }}>
-                    {effect}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </BaseCard>
-        </WikiSectionAnchor>
-      )}
-
-      {/* Drops & Rewards - for enemies only */}
+      {/* Favorite Items - for enemies only */}
       {!isTraveler && !isWanderer && !isPantheon && !isFaction && hasDrops && (
-        <WikiSectionAnchor id={toAnchorId('Drops & Rewards')}>
-          <SectionHeader title="Drops & Rewards" sx={{ mb: 2 }} />
+        <WikiSectionAnchor id={toAnchorId('Favorite Items')}>
+          <SectionHeader title="Favorite Items" sx={{ mb: 2 }} />
           <BaseCard sx={{ mb: 4 }}>
             {drops.map((drop, i) => (
               <Box
@@ -1518,7 +1196,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       {/* Encountered In - for enemies only */}
       {!isTraveler && !isWanderer && !isPantheon && !isFaction && hasLocations && (
         <WikiSectionAnchor id={toAnchorId('Encountered In')}>
-          <SectionHeader title="Encountered In" icon={<LocationIcon />} sx={{ mb: 2 }} />
+          <SectionHeader title="Encountered In" sx={{ mb: 2 }} />
           <BaseCard padding={0} sx={{ mb: 4 }}>
             {locations.map((loc, i) => (
               <Box
@@ -1561,58 +1239,6 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           </BaseCard>
         </WikiSectionAnchor>
       )}
-
-      {/* Sprite Zoom Modal */}
-      <Modal
-        open={!!zoomedSprite}
-        onClose={() => setZoomedSprite(null)}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Box
-          onClick={() => setZoomedSprite(null)}
-          sx={{
-            position: 'relative',
-            outline: 'none',
-            cursor: 'zoom-out',
-          }}
-        >
-          <IconButton
-            onClick={() => setZoomedSprite(null)}
-            sx={{
-              position: 'absolute',
-              top: -40,
-              right: -40,
-              color: tokens.colors.text.primary,
-              bgcolor: 'rgba(0,0,0,0.5)',
-              '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          {zoomedSprite && (
-            <Box
-              component="img"
-              src={zoomedSprite}
-              alt="Zoomed sprite"
-              sx={{
-                maxWidth: '80vw',
-                maxHeight: '80vh',
-                width: 'auto',
-                height: 'auto',
-                minWidth: 200,
-                minHeight: 200,
-                objectFit: 'contain',
-                imageRendering: 'pixelated',
-                filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.5))',
-              }}
-            />
-          )}
-        </Box>
-      </Modal>
 
     </WikiLayout>
   );
