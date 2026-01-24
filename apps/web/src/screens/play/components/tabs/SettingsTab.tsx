@@ -40,7 +40,7 @@ export function SettingsTab() {
         control={
           <Switch
             checked={soundEnabled}
-            onChange={(e) => setSoundEnabled(e.target.checked)}
+            onChange={(e) => { playUIClick(); setSoundEnabled(e.target.checked); }}
             size="small"
           />
         }
@@ -53,7 +53,7 @@ export function SettingsTab() {
         control={
           <Switch
             checked={musicEnabled}
-            onChange={(e) => setMusicEnabled(e.target.checked)}
+            onChange={(e) => { playUIClick(); setMusicEnabled(e.target.checked); }}
             size="small"
           />
         }
@@ -86,6 +86,7 @@ export function SettingsTab() {
         <Slider
           value={gameSpeed}
           onChange={(_, value) => setGameSpeed(value as number)}
+          onChangeCommitted={() => playUIClick()}
           min={0.5}
           max={2}
           step={0.25}
@@ -110,7 +111,7 @@ export function SettingsTab() {
         control={
           <Switch
             checked={animationsEnabled}
-            onChange={(e) => setAnimationsEnabled(e.target.checked)}
+            onChange={(e) => { playUIClick(); setAnimationsEnabled(e.target.checked); }}
             size="small"
           />
         }
@@ -123,7 +124,7 @@ export function SettingsTab() {
         control={
           <Switch
             checked={asciiMode}
-            onChange={(e) => setAsciiMode(e.target.checked)}
+            onChange={(e) => { playUIClick(); setAsciiMode(e.target.checked); }}
             size="small"
           />
         }

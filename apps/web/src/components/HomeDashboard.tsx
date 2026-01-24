@@ -74,6 +74,7 @@ import { hasSavedRun, loadSavedRun, loadHeatData, getRunHistoryStats, loadCorrup
 import { generateLoadout, getItemImage, getItemName, generateItemStats, LOADOUT_ITEMS, type StartingLoadout, type SeededItemStats } from '../data/decrees';
 import { createSeededRng } from '../data/pools/seededRng';
 import { EASING, stagger } from '../utils/transitions';
+import { useSoundContext } from '../contexts/SoundContext';
 
 // ============================================
 // Animations
@@ -1108,6 +1109,7 @@ function markDailyWikiClicked(): void {
 export function HomeDashboard() {
   const navigate = useNavigate();
   const { sidebarExpanded } = useOutletContext<ShellContext>();
+  const { playUIClick } = useSoundContext();
   const streamRef = useRef<HTMLDivElement>(null);
 
   // Always Earth (domain 1) - but each refresh is a different "day" in eternity
@@ -1252,6 +1254,7 @@ export function HomeDashboard() {
   const handleReroll = () => {
     // Guard: Can't reroll at max corruption
     if (corruptionData.level >= 100) return;
+    playUIClick();
 
     // Calculate corruption cost based on reroll count
     const corruptionCost = getRerollCorruptionCost(rerollCount);
@@ -1293,6 +1296,7 @@ export function HomeDashboard() {
   // ============================================
 
   const handleSeedRefresh = () => {
+    playUIClick();
     setSeedRefreshDialogOpen(false);
 
     // Reset corruption - new Guy, clean slate
@@ -1781,6 +1785,7 @@ export function HomeDashboard() {
   // ============================================
 
   const handlePlay = () => {
+    playUIClick();
     // Show launching skull animation
     setBootPhase('launching');
 
@@ -2235,7 +2240,7 @@ export function HomeDashboard() {
 
           {/* Continue Button - Disabled Gray (or active if saved run exists) */}
           <Box
-            onClick={savedRun ? () => navigate('/play?continue=true') : undefined}
+            onClick={savedRun ? () => { playUIClick(); navigate('/play?continue=true'); } : undefined}
             sx={{
               display: 'flex',
               flexDirection: 'column',
@@ -2277,7 +2282,7 @@ export function HomeDashboard() {
 
           {/* Race Button - Multiplayer mode */}
           <Box
-            onClick={() => navigate('/play/multiplayer')}
+            onClick={() => { playUIClick(); navigate('/play/multiplayer'); }}
             sx={{
               display: 'flex',
               flexDirection: 'column',
@@ -2319,7 +2324,7 @@ export function HomeDashboard() {
           {/* Seed Display - Clickable to create new Guy */}
           <Tooltip title="Create new Guy (resets corruption)" placement="top">
             <Box
-              onClick={() => setSeedRefreshDialogOpen(true)}
+              onClick={() => { playUIClick(); setSeedRefreshDialogOpen(true); }}
               sx={{
                 display: 'flex',
                 alignItems: 'center',

@@ -23,6 +23,7 @@ import PortalSelection from './PortalSelection';
 import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteorGame';
 import { useRun } from '../../contexts';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSoundContext } from '../../contexts/SoundContext';
 import { GameOverModal } from '../../games/meteor/components';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { ZoneInfo } from './components/tabs/GameTabLaunch';
@@ -107,6 +108,7 @@ export function PlayHub() {
   } = useRun();
 
   const { markGameStarted } = useAuth();
+  const { playUIClick } = useSoundContext();
   const navigate = useNavigate();
   const location = useLocation();
   const navState = location.state as { practiceMode?: boolean } | null;
@@ -694,7 +696,7 @@ export function PlayHub() {
           {/* Mobile FAB toggle - large for 44px+ touch target */}
           <Fab
             size="large"
-            onClick={() => setDrawerOpen(!drawerOpen)}
+            onClick={() => { playUIClick(); setDrawerOpen(!drawerOpen); }}
             sx={{
               position: 'fixed',
               bottom: 16,

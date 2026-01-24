@@ -34,6 +34,7 @@ import {
 import { tokens, sxPatterns } from '../../theme';
 import { navItems, type NavItem, DRAWER_WIDTH_COLLAPSED, DRAWER_WIDTH_EXPANDED, HEADER_HEIGHT } from './navItems';
 import { useAuth } from '../../contexts';
+import { useSoundContext } from '../../contexts/SoundContext';
 import { searchEntities, type AnyEntity } from '../../data/wiki';
 import { SearchPopover } from './SearchPopover';
 
@@ -48,6 +49,7 @@ interface AppSidebarProps {
 export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onToggleExpand, isMobile = false }: AppSidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { playUIClick } = useSoundContext();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const { isAuthenticated, user, playerNumber } = useAuth();
 
@@ -141,7 +143,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             borderBottom: `1px solid ${tokens.colors.border}`,
             '&:hover': { opacity: 0.8 },
           }}
-          onClick={() => { navigate('/'); onMobileClose?.(); }}
+          onClick={() => { playUIClick(); navigate('/'); onMobileClose?.(); }}
         >
           <Box
             component="img"
@@ -161,6 +163,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                   key={item.label}
                   onClick={() => {
                     if (item.path) {
+                      playUIClick();
                       navigate(item.path);
                       onMobileClose?.();
                     }
@@ -221,7 +224,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           borderBottom: `1px solid ${tokens.colors.border}`,
           '&:hover': { opacity: 0.8 },
         }}
-        onClick={() => navigate('/')}
+        onClick={() => { playUIClick(); navigate('/'); }}
       >
         <Box
           component="img"
@@ -254,6 +257,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                 <Tooltip title={!expanded ? item.label : ''} placement="right" arrow enterDelay={300} enterNextDelay={300}>
                   <ListItemButton
                     onClick={() => {
+                      playUIClick();
                       if (hasChildren) {
                         toggleMenu(item.label);
                       } else if (item.path) {
@@ -333,7 +337,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                         return (
                           <ListItemButton
                             key={child.label}
-                            onClick={() => child.path && navigate(child.path)}
+                            onClick={() => { if (child.path) { playUIClick(); navigate(child.path); } }}
                             selected={isChildActive}
                             sx={{
                               mx: 1,
@@ -391,7 +395,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         {/* Search */}
         <Tooltip title={!expanded ? 'Search' : ''} placement="right" arrow enterDelay={300}>
           <ListItemButton
-            onClick={(e) => setSearchAnchor(e.currentTarget)}
+            onClick={(e) => { playUIClick(); setSearchAnchor(e.currentTarget); }}
             sx={{
               mx: 0.5,
               borderRadius: 1,
@@ -484,7 +488,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         {isAuthenticated && (
           <Tooltip title={!expanded ? `guy_${playerNumber}` : ''} placement="right" arrow enterDelay={300}>
             <ListItemButton
-              onClick={() => navigate('/profile')}
+              onClick={() => { playUIClick(); navigate('/profile'); }}
               sx={{
                 mx: 0.5,
                 borderRadius: 1,
@@ -571,7 +575,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {/* About / Info */}
           <Tooltip title="About" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
-              onClick={() => navigate('/about')}
+              onClick={() => { playUIClick(); navigate('/about'); }}
               sx={{
                 width: 44,
                 height: 44,
@@ -586,7 +590,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {/* Settings - Direct to All Settings */}
           <Tooltip title="All Settings" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
-              onClick={() => navigate('/settings')}
+              onClick={() => { playUIClick(); navigate('/settings'); }}
               sx={{
                 width: 44,
                 height: 44,

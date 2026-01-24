@@ -8,6 +8,7 @@ import { Dialog, DialogContent, Typography, Button, Box } from '@mui/material';
 import { CheckCircleOutline as SuccessIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import { CircleIcon } from '../CircleIcon';
+import { useSoundContext } from '../../contexts/SoundContext';
 
 // Use dialogPaperProps style directly since we don't need header
 const dialogPaperProps = {
@@ -37,6 +38,8 @@ export function SuccessDialog({
   message,
   actions,
 }: SuccessDialogProps) {
+  const { playUIClick } = useSoundContext();
+
   return (
     <Dialog
       open={open}
@@ -60,7 +63,7 @@ export function SuccessDialog({
             {actions}
           </Box>
         ) : (
-          <Button variant="contained" fullWidth onClick={onClose}>
+          <Button variant="contained" fullWidth onClick={() => { playUIClick(); onClose(); }}>
             Done
           </Button>
         )}
