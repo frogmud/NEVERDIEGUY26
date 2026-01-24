@@ -1,5 +1,59 @@
 # NEVER DIE GUY - Changelog
 
+## [0.5.0] - 2026-01-24
+
+### Production Polish & Audio System
+
+Production readiness improvements, comprehensive audio feedback, and accessibility fixes.
+
+#### Added
+
+**Error Handling & SEO**
+- ErrorBoundary component wrapping App for graceful crash recovery
+- Open Graph and Twitter Card meta tags for social sharing
+- Security headers in vercel.json (X-Frame-Options, CSP, etc.)
+
+**Audio System Enhancements**
+- Music toggle now functional (loops at 30% master volume)
+- UI click sounds on high-priority buttons (homepage, sidebar, dialogs)
+- Combat sound feedback: die holds, end turn, guardian destruction, draw events
+- Sound effects respect masterVolume and soundEnabled settings
+
+**Skip Events Feature**
+- SKIP_ROOM action for forfeiting events without rewards
+- Skip button in pause menu (non-boss zones only)
+- +15 skip pressure penalty per skip
+
+**Draw Event Bonuses**
+- Straights, triples, and other patterns now apply score bonuses
+- Visual feedback when bonus patterns detected
+
+**Inventory Limits**
+- Maximum 8 powerups enforced
+- Maximum 6 upgrades enforced
+- Purchase blocked when at capacity
+
+**Analytics**
+- Vercel Analytics integration for page views and web vitals
+
+#### Changed
+
+**Accessibility (WCAG)**
+- Touch targets increased to 44px minimum
+- AppSidebar IconButtons: 36px to 44px
+- PlayHub FAB: medium to large (56px)
+- Avatar tap targets: 24px to 32px with minHeight 44
+
+**Fast Mode Improvements**
+- Timer now scales with gameSpeed setting
+- Animations use adjustDelay() for consistent timing
+
+#### Fixed
+- Draw events detected but bonuses not applied
+- Boss system disabled for MVP (was causing edge cases)
+
+---
+
 ## [0.4.0] - 2026-01-16
 
 ### Bullet Mode & QOL Polish

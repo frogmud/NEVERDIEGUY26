@@ -8,7 +8,7 @@ NEVER DIE GUY is a roguelike dice game where you throw meteors at a 3D globe. Ba
 
 **Narrative:** You're Guy "Never Die Guy" Smith, The Fixer - a clone sent by six siblings (Die-rectors) to settle their squabbles. They resurrect dead planets to harvest meteors (dice), then give those same meteors to you to destroy their siblings' planets. Immortality is questioned - you're a clone of a clone.
 
-**Current Focus:** Polishing the Arena game mode (solo roguelike, 6 domains x 3 rooms).
+**Current Focus:** Production polish for Arena mode (solo roguelike, 6 domains x 3 rooms). v0.5.0 adds comprehensive audio, analytics, and accessibility.
 
 ## Worktree Structure
 
@@ -61,7 +61,7 @@ NEVERDIEGUY26/
 | Context | Purpose |
 |---------|---------|
 | `RunContext` | Game state machine (phases, panels, scores, combat flow) |
-| `SoundContext` | Audio effects (dice roll, impact, victory, defeat) |
+| `SoundContext` | Audio system (dice roll, impact, victory, defeat, explosion, UI click, music) |
 | `GameSettingsContext` | Persistent settings (speed, animations, music, masterVolume) |
 | `CartContext` | Shop/economy state |
 | `NotificationContext` | In-game notifications |
@@ -194,6 +194,11 @@ Located in `packages/ai-engine/src/balance/balance-config.ts` and `apps/web/src/
 - **Standard**: 1.0x all (20s)
 - **Grueling**: 1.5x goal, 1.5x timer (30s), 1.8x gold
 
+### Inventory Limits
+- **Powerups**: Max 8
+- **Upgrades**: Max 6
+- **Skip Pressure**: +15 per skipped event
+
 ## Documentation
 
 - [Gameplay Loop](docs/ux/GAMEPLAY_LOOP.md) - Full run structure
@@ -234,4 +239,5 @@ Located in `packages/ai-engine/src/balance/balance-config.ts` and `apps/web/src/
 - **State**: React Context (RunContext, SoundContext, GameSettingsContext)
 - **Monorepo**: Turborepo 2.7, pnpm 9.15 workspaces
 - **Deployment**: Vercel (serverless functions in `/api`)
+- **Analytics**: Vercel Analytics (page views, web vitals)
 - **AI**: Anthropic SDK (dynamic import for Vercel cold start optimization)

@@ -124,6 +124,32 @@ Guardians are orbital enemies that protect the planet:
 - Unmatched dice hit the planet and score points
 - HUD shows which dice target guardians vs planet
 
+### Draw Event Bonuses
+
+Certain dice patterns apply score bonuses when thrown:
+- **Straight**: 3+ consecutive values (e.g., 3-4-5)
+- **Triple**: 3 dice showing same value
+- **Double**: 2 dice showing same value
+- **Full House**: Triple + Double
+
+Bonuses stack and are applied automatically with visual feedback.
+
+### Skip Events
+
+Players can forfeit difficult events without rewards:
+- Available via pause menu "Skip Event" button
+- Not available on boss zones
+- **+15 skip pressure** penalty per skip
+- No score or gold earned
+- Proceeds to next zone or domain
+
+### Inventory Limits
+
+- Maximum **8 powerups** in inventory
+- Maximum **6 upgrades** in inventory
+- Shop purchases blocked when at capacity
+- Items display current count vs max
+
 ### Sound & Visual Feedback
 
 **Sound Effects (SoundContext):**
@@ -131,6 +157,8 @@ Guardians are orbital enemies that protect the planet:
 - `playImpact()` - On meteor hit
 - `playVictory()` - On room complete
 - `playDefeat()` - On game over
+- `playExplosion()` - On guardian destruction
+- `playUIClick()` - On die hold, end turn, draw event bonus
 
 **Visual Effects:**
 - Meteor trails with die-colored streaks

@@ -12,27 +12,38 @@ The meteors you throw? Those are dice. The planets you destroy? They'll be back.
 
 Welcome to NEVER DIE GUY.
 
-## Current State (January 2026)
+## Current State (v0.5.0 - January 2026)
 
-The core gameplay loop is functional with polished UX:
+The core gameplay loop is polished and production-ready:
 
 ### Combat System
 - **3 throws per turn** - reroll unheld dice up to 3 times
 - **Trades** - sacrifice dice for multiplier boosts
 - **6 die types** (d4-d20) - each with unique colors and meteor effects
 - **Guardians** - orbital enemies that absorb matching dice
-- **Target scores** - scale with domain (1-6) and room difficulty
+- **Draw event bonuses** - straights, triples, and patterns apply score bonuses
+- **Skip events** - forfeit difficult rooms (with skip pressure penalty)
+- **Inventory limits** - max 8 powerups, 6 upgrades
 
-### Audio & Settings
-- **Sound effects** - dice roll, impact, victory, defeat sounds
+### Audio System
+- **Sound effects** - dice roll, impact, victory, defeat, explosion sounds
+- **UI feedback** - click sounds on buttons, holds, and combat actions
+- **Music toggle** - background music support (loops at 30% master volume)
 - **Persistent settings** - game speed, animations, music saved to localStorage
-- **Adjustable game speed** - 0.5x to 2x animation speed
+
+### Accessibility & Production
+- **WCAG touch targets** - 44px minimum on all interactive elements
+- **Error boundary** - graceful crash recovery
+- **SEO meta tags** - Open Graph, Twitter Cards for social sharing
+- **Security headers** - CSP, X-Frame-Options in vercel.json
+- **Vercel Analytics** - page views and web vitals tracking
 
 ### Visual Polish
 - **Overall progress bar** - domain/room/score/gold at top of play area
 - **Damage visualization** - localized flash effect + floating damage numbers
 - **Meteor targeting** - tight clustering around center reticle
 - **Domain-themed planets** - unique colors per domain
+- **Fast mode** - timer and animations scale with game speed (0.5x-2x)
 
 ### NPC System
 - **Domain-bound NPCs** - each domain has its own Die-rector

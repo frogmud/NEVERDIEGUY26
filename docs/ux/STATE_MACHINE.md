@@ -14,6 +14,8 @@ stateDiagram-v2
 
     Combat --> Summary: completeRoom() [win]
     Combat --> GameOver: failRoom() [lose]
+    Combat --> ZoneSelect: skipRoom() [non-boss, zones remain]
+    Combat --> NextDomain: skipRoom() [non-boss, domain cleared]
 
     Summary --> Shop: continueFromSummary()
 
@@ -42,9 +44,8 @@ Controls what's visible in the main game area:
 ```typescript
 type CenterPanel =
   | 'globe'    // 3D planet with zone markers
-  | 'combat'   // Phaser game canvas
-  | 'shop'     // Requisition interface
-  | 'doors'    // Door selection (deprecated -> Narrative Fork)
+  | 'combat'   // Combat terminal with dice HUD
+  | 'portals'  // Domain selection portals
   | 'summary'  // Post-combat score display
 ```
 
@@ -108,6 +109,7 @@ interface RunState extends GameState {
 | `transitionToPanel('combat')` | ZoneSelect | Combat | Start Phaser game |
 | `completeRoom(score, stats)` | Combat | Summary | Record score, gold |
 | `failRoom()` | Combat | GameOver | Set runEnded=true |
+| `skipRoom()` | Combat | ZoneSelect/NextDomain | +15 skip pressure, no rewards |
 | `continueFromSummary()` | Summary | Shop | Load shop items |
 | `continueFromShop()` | Shop | (varies) | Check progress |
 | `resetRun()` | GameOver | Lobby | Clear run state |
@@ -141,12 +143,12 @@ interface RunState extends GameState {
 | globe | playing | GameTabLaunch: Zone list + Launch button |
 | combat | playing | GameTabPlaying: Score, throws, trades, combat feed |
 | summary | event_complete | (hidden - summary in center) |
-| shop | shop | (hidden - shop in center) |
+| portals | shop | ShopTab: Item offerings + gold balance |
 
 **Sidebar Tabs (always available):**
 - **Game** - Phase-specific content (see above)
-- **Bag** - Inventory, loadout selection (lobby only)
-- **Settings** - Sound, music, game speed, animations, Back to Menu
+- **Bag** - Inventory, loadout selection (lobby only), max 8 powerups / 6 upgrades
+- **Settings** - Sound, music, game speed, animations, Skip Event (non-boss), Back to Menu
 
 ## Encounter Interrupts
 
@@ -181,7 +183,9 @@ State saved to localStorage at:
 - Score, gold, run stats
 
 **SoundContext** - Audio system
-- `playDiceRoll()`, `playImpact()`, `playVictory()`, `playDefeat()`
+- Combat: `playDiceRoll()`, `playImpact()`, `playVictory()`, `playDefeat()`, `playExplosion()`
+- UI: `playUIClick()` for buttons, holds, settings
+- Music: `playMusic()`, `stopMusic()` (loops at 30% master volume)
 - `soundEnabled` toggle (persisted)
 
 **GameSettingsContext** - Persistent settings
