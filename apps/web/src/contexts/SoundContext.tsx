@@ -97,7 +97,7 @@ const SoundContext = createContext<SoundContextValue | null>(null);
 const STORAGE_KEY = 'ndg-sound-enabled';
 
 export function SoundProvider({ children }: { children: ReactNode }) {
-  const { masterVolume, soundTheme } = useGameSettings();
+  const { masterVolume, soundTheme, musicEnabled } = useGameSettings();
 
   const [soundEnabled, setSoundEnabledState] = useState(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -105,6 +105,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   });
 
   const audioContextRef = useRef<AudioContext | null>(null);
+  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // Persist sound enabled state
   const setSoundEnabled = useCallback((enabled: boolean) => {
@@ -278,11 +279,49 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     });
   }, [soundEnabled, masterVolume]);
 
+  // Background music playback
+  const playMusic = useCallback(() => {
+    if (!musicAudioRef.current) {
+      musicAudioRef.current = new Audio('/music/ambient-loop.mp3');
+      musicAudioRef.current.loop = true;
+    }
+    musicAudioRef.current.volume = masterVolume * 0.3; // 30% of master for background
+    musicAudioRef.current.play().catch(() => {
+      // Ignore autoplay restrictions
+    });
+  }, [masterVolume]);
+
+  const stopMusic = useCallback(() => {
+    if (musicAudioRef.current) {
+      musicAudioRef.current.pause();
+    }
+  }, []);
+
+  // React to musicEnabled changes
+  useEffect(() => {
+    if (musicEnabled) {
+      playMusic();
+    } else {
+      stopMusic();
+    }
+  }, [musicEnabled, playMusic, stopMusic]);
+
+  // Update music volume when masterVolume changes
+  useEffect(() => {
+    if (musicAudioRef.current) {
+      musicAudioRef.current.volume = masterVolume * 0.3;
+    }
+  }, [masterVolume]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (audioContextRef.current) {
         audioContextRef.current.close();
+      }
+      if (musicAudioRef.current) {
+        musicAudioRef.current.pause();
+        musicAudioRef.current = null;
       }
     };
   }, []);
