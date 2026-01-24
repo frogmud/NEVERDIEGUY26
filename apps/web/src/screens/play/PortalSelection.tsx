@@ -55,61 +55,6 @@ const buttonFadeIn = keyframes`
   100% { opacity: 1; transform: scale(1) translateY(0); }
 `;
 
-import { FLUME_ASCII_DATA } from '../../ascii/data/flumeAsciiData';
-
-// ASCII flume background - renders domain-specific animated ASCII art
-function AsciiFlumeBackground({ domainId, isHovered }: { domainId: number; isHovered: boolean }) {
-  const config = FLUME_ASCII_DATA[domainId];
-  const [frameIndex, setFrameIndex] = useState(0);
-
-  // Animate through frames
-  useEffect(() => {
-    if (!config) return;
-    const interval = setInterval(() => {
-      setFrameIndex(prev => (prev + 1) % config.frames.length);
-    }, 300);
-    return () => clearInterval(interval);
-  }, [config]);
-
-  if (!config) return null;
-
-  const currentFrame = config.frames[frameIndex];
-
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        overflow: 'hidden',
-        opacity: isHovered ? 0.85 : 0.6,
-        transition: 'opacity 300ms ease',
-        pt: 0.5,
-      }}
-    >
-      {currentFrame.map((line, i) => (
-        <Box
-          key={i}
-          sx={{
-            fontFamily: 'monospace',
-            fontSize: '10px',
-            lineHeight: 1.1,
-            letterSpacing: '0.3px',
-            color: config.color,
-            whiteSpace: 'pre',
-            textShadow: isHovered ? `0 0 12px ${config.color}` : `0 0 6px ${config.color}60`,
-            transition: 'text-shadow 300ms ease',
-          }}
-        >
-          {line}
-        </Box>
-      ))}
-    </Box>
-  );
-}
 
 // ASCII-style overlay with scanlines and character grid
 function AsciiOverlay({ isHovered, color }: { isHovered: boolean; color: string }) {
@@ -207,9 +152,6 @@ function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, ind
         },
       }}
     >
-      {/* Full-bleed ASCII background */}
-      {!portal.isUnknown && <AsciiFlumeBackground domainId={portal.domainId} isHovered={isHovered || isSelected} />}
-
       {/* ASCII scanline overlay */}
       <AsciiOverlay isHovered={isHovered || isSelected} color={planetConfig?.color || '#666'} />
 

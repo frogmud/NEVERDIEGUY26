@@ -41,8 +41,6 @@ export { MarketSprite, MarketPortrait } from './MarketSprite';
 export { NotificationToast } from './NotificationToast';
 export { FavorEffectToast } from './FavorEffectToast';
 export { DrawEventToast, useDrawEventToast } from './DrawEventToast';
-export { TutorialOverlay } from './TutorialOverlay';
-export { TutorialModal } from './TutorialModal';
 
 // Dialogs & Sheets
 export { ShareSheet } from './ShareSheet';
