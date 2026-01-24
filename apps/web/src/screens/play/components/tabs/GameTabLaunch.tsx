@@ -6,7 +6,7 @@
  */
 
 import { Box, Typography, Button } from '@mui/material';
-import { PlayArrowSharp as PlayIcon } from '@mui/icons-material';
+import { PlayArrowSharp as PlayIcon, SkipNextSharp as SkipIcon } from '@mui/icons-material';
 import { tokens } from '../../../../theme';
 import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
 
@@ -20,10 +20,13 @@ interface GameTabLaunchProps {
   selectedZoneId?: string | null;
   onZoneSelect?: (zoneId: string) => void;
   onLaunch?: () => void;
+  onSkip?: () => void;
   onBack?: () => void;
   // Run progress
   currentDomain?: number;
   totalDomains?: number;
+  // Zone 3 is boss - can't skip
+  isBossZone?: boolean;
 }
 
 export function GameTabLaunch({
@@ -31,7 +34,9 @@ export function GameTabLaunch({
   selectedZoneId,
   onZoneSelect,
   onLaunch,
+  onSkip,
   currentDomain = 1,
+  isBossZone = false,
 }: GameTabLaunchProps) {
   const scoreGoal = getFlatScoreGoal(currentDomain);
   const goldReward = getFlatGoldReward(currentDomain);
@@ -155,6 +160,29 @@ export function GameTabLaunch({
       >
         LAUNCH
       </Button>
+
+      {/* Skip Button - disabled for boss zones */}
+      {onSkip && !isBossZone && (
+        <Button
+          variant="text"
+          fullWidth
+          onClick={onSkip}
+          startIcon={<SkipIcon />}
+          sx={{
+            mt: 1,
+            py: 1,
+            fontFamily: tokens.fonts.mono,
+            fontSize: '0.8rem',
+            color: tokens.colors.text.secondary,
+            '&:hover': {
+              color: tokens.colors.text.primary,
+              bgcolor: 'transparent',
+            },
+          }}
+        >
+          Skip Zone (no reward)
+        </Button>
+      )}
     </Box>
   );
 }

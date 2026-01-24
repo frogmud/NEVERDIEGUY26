@@ -796,7 +796,9 @@ export function CombatTerminal({
     const timerInterval = setInterval(() => {
       if (isTimerPaused || !timerStartRef.current) return;
 
-      const elapsed = Date.now() - timerStartRef.current - pausedTimeRef.current;
+      // Scale elapsed time with gameSpeed (2x speed = timer runs twice as fast)
+      const realElapsed = Date.now() - timerStartRef.current - pausedTimeRef.current;
+      const elapsed = realElapsed * gameSpeed;
       const remaining = Math.max(0, totalTimerMs - elapsed);
       setTimeRemainingMs(remaining);
 
@@ -811,7 +813,7 @@ export function CombatTerminal({
     }, 100);
 
     return () => clearInterval(timerInterval);
-  }, [isLobby, onLose, totalTimerMs]);
+  }, [isLobby, onLose, totalTimerMs, gameSpeed]);
 
   // Pause timer during throw animations
   const pauseStartRef = useRef<number | null>(null);
@@ -1261,10 +1263,10 @@ export function CombatTerminal({
             // Trigger boss hit animation if in boss zone
             if (boss) {
               setBossIsHit(true);
-              setTimeout(() => setBossIsHit(false), 200);
+              setTimeout(() => setBossIsHit(false), adjustDelay(200));
             }
           }
-        }, 100);
+        }, adjustDelay(100));
       }
     }
   }, [engineState?.phase, isLobby, guardians, domain, centerTarget, domainScale, onGuardianSlain, boss]);

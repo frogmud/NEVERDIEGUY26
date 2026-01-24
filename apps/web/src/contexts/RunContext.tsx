@@ -247,6 +247,7 @@ interface RunContextValue {
   // Shop callbacks
   purchase: (cost: number, itemId: string, category: 'dice' | 'powerup' | 'upgrade') => void;
   continueFromShop: () => void;
+  skipRoom: () => void;
 
   // Portal selection (replaces doors)
   selectPortal: (portal: PortalOption) => void;
@@ -280,6 +281,7 @@ type RunAction =
   | { type: 'SELECT_ZONE'; zone: ZoneMarker }
   | { type: 'COMPLETE_ROOM'; score: number; gold: number; stats: { npcsSquished: number; diceThrown: number } }
   | { type: 'FAIL_ROOM' }
+  | { type: 'SKIP_ROOM' }
   | { type: 'PURCHASE'; cost: number; itemId: string; category: 'dice' | 'powerup' | 'upgrade' }
   | { type: 'CONTINUE_FROM_SHOP' }
   | { type: 'SELECT_PORTAL'; portal: PortalOption }
@@ -723,6 +725,37 @@ function runReducer(state: RunState, action: RunAction): RunState {
         selectedZone: null,
         centerPanel: 'globe',  // Back to zone selection
         combatState: null,     // Clear combat state
+      };
+    }
+
+    case 'SKIP_ROOM': {
+      // Skip event - mark as cleared but no rewards, increase skip pressure
+      const updatedDomainState = state.domainState && state.selectedZone
+        ? {
+            ...state.domainState,
+            zones: state.domainState.zones.map((z) =>
+              z.id === state.selectedZone?.id ? { ...z, cleared: true } : z
+            ),
+            clearedCount: state.domainState.clearedCount + 1,
+          }
+        : state.domainState;
+
+      // Check if domain is complete after skipping
+      const allZonesCleared = updatedDomainState
+        ? updatedDomainState.clearedCount >= updatedDomainState.totalZones
+        : false;
+
+      return {
+        ...state,
+        centerPanel: allZonesCleared ? 'shop' : 'globe',
+        domainState: updatedDomainState,
+        selectedZone: null,
+        skipPressure: state.skipPressure + 15, // Penalty: increased skip pressure
+        combatState: null,
+        runStats: {
+          ...state.runStats,
+          eventsCompleted: state.runStats.eventsCompleted + 1, // Still counts as completed
+        },
       };
     }
 
@@ -1374,6 +1407,10 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'CONTINUE_FROM_SHOP' });
   }, []);
 
+  const skipRoom = useCallback(() => {
+    dispatch({ type: 'SKIP_ROOM' });
+  }, []);
+
   const selectPortal = useCallback((portal: PortalOption) => {
     dispatch({ type: 'SELECT_PORTAL', portal });
   }, []);
@@ -1498,6 +1535,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     getDiceBagSummary: getDiceBagSummaryValue,
     purchase,
     continueFromShop,
+    skipRoom,
     selectPortal,
     continueFromSummary,
     completeFlumeTransition,
@@ -1540,6 +1578,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
     getDiceBagSummaryValue,
     purchase,
     continueFromShop,
+    skipRoom,
     selectPortal,
     continueFromSummary,
     completeFlumeTransition,

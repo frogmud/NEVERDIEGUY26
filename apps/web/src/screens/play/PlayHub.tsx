@@ -99,6 +99,7 @@ export function PlayHub() {
     failRoom,
     continueFromSummary,
     continueFromShop,
+    skipRoom,
     completeFlumeTransition,
     purchase,
     loadRun,
@@ -326,6 +327,11 @@ export function PlayHub() {
   // Handle Launch (start combat after zone selection)
   const handleLaunch = () => {
     transitionToPanel('combat');
+  };
+
+  // Handle Skip (skip event without playing - no reward)
+  const handleSkip = () => {
+    skipRoom();
   };
 
   // Handle Back (return to lobby from zone select)
@@ -730,8 +736,13 @@ export function PlayHub() {
                 handleLaunch();
                 setDrawerOpen(false); // Close drawer on launch
               }}
+              onSkip={() => {
+                handleSkip();
+                setDrawerOpen(false); // Close drawer on skip
+              }}
               onBack={handleBack}
               zones={zonesForSidebar}
+              isBossZone={(state.roomNumber || 1) === 3}
               selectedZoneId={state.selectedZone?.id}
               onZoneSelect={handleZoneSelectFromSidebar}
               seedHash={state.threadId?.slice(0, 6)}
@@ -766,8 +777,10 @@ export function PlayHub() {
           onNewRun={handleNewRun}
           onContinue={handleContinue}
           onLaunch={handleLaunch}
+          onSkip={handleSkip}
           onBack={handleBack}
           zones={zonesForSidebar}
+          isBossZone={(state.roomNumber || 1) === 3}
           selectedZoneId={state.selectedZone?.id}
           onZoneSelect={handleZoneSelectFromSidebar}
           seedHash={state.threadId?.slice(0, 6)}

@@ -74,9 +74,11 @@ interface PlaySidebarProps {
   onNewRun?: (loadoutId: string, startingItems: string[]) => void;
   onContinue?: () => void;
   onLaunch?: () => void;
+  onSkip?: () => void;
   onBack?: () => void;
   // Zone selection
   zones?: ZoneInfo[];
+  isBossZone?: boolean;
   selectedZoneId?: string | null;
   onZoneSelect?: (zoneId: string) => void;
   seedHash?: string;
@@ -124,8 +126,10 @@ export function PlaySidebar({
   onNewRun,
   onContinue,
   onLaunch,
+  onSkip,
   onBack,
   zones = [],
+  isBossZone = false,
   selectedZoneId,
   onZoneSelect,
   seedHash,
@@ -301,7 +305,9 @@ export function PlaySidebar({
               selectedZoneId={selectedZoneId}
               onZoneSelect={onZoneSelect}
               onLaunch={onLaunch}
+              onSkip={onSkip}
               currentDomain={currentDomain}
+              isBossZone={isBossZone}
             />
           ) : (
             <GameTab
