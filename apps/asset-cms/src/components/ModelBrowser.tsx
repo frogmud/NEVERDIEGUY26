@@ -120,6 +120,10 @@ function LiveAsciiRenderer({
     // Draw ASCII
     asciiCtx.font = `${charHeight}px monospace`;
     asciiCtx.fillStyle = color;
+    asciiCtx.textBaseline = 'top';
+
+    // Debug: check if we have any non-zero pixels
+    let maxLum = 0;
 
     for (let y = 0; y < rows; y++) {
       let row = '';
@@ -134,6 +138,7 @@ function LiveAsciiRenderer({
         const b = pixels[i + 2] || 0;
 
         const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        if (luminance > maxLum) maxLum = luminance;
 
         if (luminance < threshold) {
           row += ' ';
@@ -141,7 +146,12 @@ function LiveAsciiRenderer({
           row += luminanceToChar(luminance, charSet);
         }
       }
-      asciiCtx.fillText(row, 0, (y + 1) * charHeight - 2);
+      asciiCtx.fillText(row, 0, y * charHeight);
+    }
+
+    // Debug: show max luminance found
+    if (frameCount.current % 50 === 0) {
+      console.log('ASCII preview - canvas:', width, 'x', height, 'maxLum:', maxLum.toFixed(3));
     }
   });
 
@@ -459,7 +469,7 @@ export function ModelBrowser() {
 
               {/* 3D Canvas with ASCII overlay */}
               <div style={styles.canvasContainer}>
-                {/* 3D Canvas - always renders (hidden when ASCII mode) */}
+                {/* 3D Canvas - always renders, ASCII canvas overlays on top */}
                 <Canvas
                   ref={canvasRef}
                   shadows
@@ -472,8 +482,6 @@ export function ModelBrowser() {
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    opacity: asciiMode ? 0 : 1,
-                    pointerEvents: asciiMode ? 'none' : 'auto',
                   }}
                 >
                   <ambientLight intensity={0.6} />
@@ -694,12 +702,11 @@ const styles: Record<string, React.CSSProperties> = {
   },
   asciiCanvas: {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: '100%',
-    maxHeight: '100%',
-    objectFit: 'contain',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: '#0a0a0a',
     imageRendering: 'pixelated',
   },
   placeholder: {
