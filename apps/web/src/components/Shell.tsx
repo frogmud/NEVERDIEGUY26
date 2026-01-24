@@ -6,6 +6,7 @@ import { AppSidebar } from './layout/AppSidebar';
 import { AppTopbar } from './layout/AppTopbar';
 import { AppFooter } from './layout/AppFooter';
 import { BackToTop } from './BackToTop';
+import { AsciiGalaxy } from './AsciiGalaxy';
 import { DRAWER_WIDTH_EXPANDED, DRAWER_WIDTH_COLLAPSED } from './layout/navItems';
 
 // Context for child components to know sidebar state
@@ -33,8 +34,25 @@ export function Shell() {
   // Homepage hides footer (has fixed chat input at bottom)
   const isHomepage = location.pathname === '/';
 
+  // Show interactive galaxy on loading screens (future), ambient everywhere else
+  const showGalaxy = !isPlayRoute; // Don't show on 3D globe screens (avoid double canvas)
+
   return (
-    <Box sx={{ display: 'flex', width: '100%' }}>
+    <Box sx={{ display: 'flex', width: '100%', position: 'relative' }}>
+      {/* ASCII Galaxy background - fixed position behind everything */}
+      {showGalaxy && (
+        <Box
+          sx={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 0,
+            pointerEvents: 'none',
+          }}
+        >
+          <AsciiGalaxy mode="ambient" opacity={0.35} starCount={250} />
+        </Box>
+      )}
+
       {/* Sidebar - hidden on mobile */}
       <AppSidebar
         expanded={sidebarExpanded}
@@ -68,7 +86,8 @@ export function Shell() {
           sx={{
             flex: 1,
             p: isPlayRoute ? 0 : (isMobile ? 0 : 3),
-            backgroundColor: tokens.colors.background.default,
+            // Transparent background to show galaxy, play routes keep solid bg
+            backgroundColor: isPlayRoute ? tokens.colors.background.default : 'transparent',
             overflow: isPlayRoute ? 'hidden' : 'auto',
             position: 'relative',
             minHeight: 0,
