@@ -711,6 +711,7 @@ const styles: Record<string, React.CSSProperties> = {
     height: '100%',
     background: '#0a0a0a',
     imageRendering: 'pixelated',
+    pointerEvents: 'none', // Let mouse events pass through to 3D canvas
   },
   placeholder: {
     flex: 1,
