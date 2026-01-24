@@ -747,7 +747,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
 
       return {
         ...state,
-        centerPanel: allZonesCleared ? 'shop' : 'globe',
+        centerPanel: allZonesCleared ? 'portals' : 'globe',
         domainState: updatedDomainState,
         selectedZone: null,
         skipPressure: state.skipPressure + 15, // Penalty: increased skip pressure
