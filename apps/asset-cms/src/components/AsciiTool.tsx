@@ -11,6 +11,7 @@ import {
   type AsciiGridPreset,
 } from '../utils/ascii';
 import { CHAR_SETS, type CharSetName } from '../utils/charSets';
+import { usePersistedState } from '../utils/usePersistedState';
 
 interface Props {
   assetPath?: string;
@@ -24,14 +25,15 @@ const GRID_LABELS: Record<AsciiGridPreset, string> = {
 };
 
 export function AsciiTool({ assetPath, entity }: Props) {
-  const [gridPreset, setGridPreset] = useState<AsciiGridPreset>('medium');
-  const [charSetName, setCharSetName] = useState<CharSetName>('dense');
-  const [threshold, setThreshold] = useState(0.15);
-  const [color, setColor] = useState('#e0e0e0');
-
   const [asciiGrid, setAsciiGrid] = useState<string[] | null>(null);
   const [svgOutput, setSvgOutput] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
+
+  // Persisted settings
+  const [gridPreset, setGridPreset] = usePersistedState<AsciiGridPreset>('entity:gridPreset', 'medium');
+  const [charSetName, setCharSetName] = usePersistedState<CharSetName>('entity:charSetName', 'dense');
+  const [threshold, setThreshold] = usePersistedState('entity:threshold', 0.15);
+  const [color, setColor] = usePersistedState('entity:color', '#e0e0e0');
 
   const generate = async () => {
     if (!assetPath) return;
@@ -53,9 +55,10 @@ export function AsciiTool({ assetPath, entity }: Props) {
     }
   };
 
+  // Auto-regenerate when settings or asset changes
   useEffect(() => {
     if (assetPath) generate();
-  }, [assetPath]);
+  }, [assetPath, gridPreset, charSetName, threshold, color]);
 
   const save = async () => {
     if (!svgOutput) return;
@@ -138,10 +141,8 @@ export function AsciiTool({ assetPath, entity }: Props) {
           />
         </div>
 
-        {/* Actions */}
-        <button onClick={generate} disabled={generating} style={styles.btn}>
-          {generating ? '...' : 'Generate'}
-        </button>
+        {/* Loading indicator */}
+        {generating && <span style={styles.loading}>...</span>}
       </div>
 
       {/* Preview */}
@@ -249,15 +250,10 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: 'pointer',
     padding: 0,
   },
-  btn: {
+  loading: {
     marginLeft: 'auto',
-    padding: '6px 12px',
-    background: '#333',
-    border: 'none',
-    borderRadius: '4px',
-    color: '#e0e0e0',
-    fontSize: '0.7rem',
-    cursor: 'pointer',
+    color: '#666',
+    fontSize: '0.75rem',
   },
   preview: {
     display: 'grid',
