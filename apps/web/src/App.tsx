@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, GlobalStyles } from '@mui/material';
+import { Analytics } from '@vercel/analytics/react';
 import { Shell } from './components/Shell';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { tokens } from './theme';
@@ -197,6 +198,7 @@ function App() {
         </Route>
       </Routes>
       </Box>
+      <Analytics />
     </ErrorBoundary>
   );
 }

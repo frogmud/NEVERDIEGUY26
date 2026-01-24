@@ -10,15 +10,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ndg/ai-engine": "workspace:*",
-    "@ndg/shared": "workspace:*",
     "@dice-roller/rpg-dice-roller": "^5.5.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
+    "@ndg/ai-engine": "workspace:*",
+    "@ndg/shared": "workspace:*",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "@vercel/analytics": "^1.6.1",
     "jszip": "^3.10.1",
     "phaser": "^3.90.0",
     "react": "^19.1.0",
