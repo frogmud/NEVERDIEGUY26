@@ -29,6 +29,40 @@ importers:
         specifier: ~5.8.3
         version: 5.8.3
 
+  apps/asset-cms:
+    dependencies:
+      '@react-three/drei':
+        specifier: ^10.7.7
+        version: 10.7.7(@react-three/fiber@9.5.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(three@0.182.0))(@types/react@19.2.7)(@types/three@0.182.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(three@0.182.0)
+      '@react-three/fiber':
+        specifier: ^9.4.2
+        version: 9.5.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(three@0.182.0)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.3
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.3(react@19.2.3)
+      three:
+        specifier: ^0.182.0
+        version: 0.182.0
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.7)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.4
+        version: 4.7.0(vite@6.4.1(@types/node@22.19.3)(tsx@4.21.0))
+      typescript:
+        specifier: ^5.8.0
+        version: 5.8.3
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.1(@types/node@22.19.3)(tsx@4.21.0)
+
   apps/web:
     dependencies:
       '@dice-roller/rpg-dice-roller':

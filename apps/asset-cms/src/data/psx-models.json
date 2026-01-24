@@ -1,0 +1,2664 @@
+{
+  "basePath": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB",
+  "generatedAt": "2026-01-24T21:07:27.369Z",
+  "categories": [
+    {
+      "name": "Decals",
+      "path": "Decals",
+      "count": 4
+    },
+    {
+      "name": "Electronics & Misc",
+      "path": "Electronics & Misc",
+      "count": 30
+    },
+    {
+      "name": "Furniture",
+      "path": "Furniture",
+      "count": 133
+    },
+    {
+      "name": "Items & Weapons",
+      "path": "Items & Weapons",
+      "count": 97
+    },
+    {
+      "name": "Large Props",
+      "path": "Large Props",
+      "count": 22
+    },
+    {
+      "name": "Lighting",
+      "path": "Lighting",
+      "count": 30
+    },
+    {
+      "name": "Modular Structures",
+      "path": "Modular Structures",
+      "count": 83
+    },
+    {
+      "name": "Small Props",
+      "path": "Small Props",
+      "count": 37
+    }
+  ],
+  "models": [
+    {
+      "name": "cobweb_1",
+      "file": "cobweb_1.glb",
+      "category": "Decals",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Decals/cobweb_1.glb"
+    },
+    {
+      "name": "cobweb_2",
+      "file": "cobweb_2.glb",
+      "category": "Decals",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Decals/cobweb_2.glb"
+    },
+    {
+      "name": "cobweb_4",
+      "file": "cobweb_4.glb",
+      "category": "Decals",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Decals/cobweb_4.glb"
+    },
+    {
+      "name": "cobweb_5",
+      "file": "cobweb_5.glb",
+      "category": "Decals",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Decals/cobweb_5.glb"
+    },
+    {
+      "name": "button_12",
+      "file": "button_12.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/button_12.glb"
+    },
+    {
+      "name": "ceiling_fan_mp_1",
+      "file": "ceiling_fan_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/ceiling_fan_mp_1.glb"
+    },
+    {
+      "name": "ceiling_fan_mp_1_1_light_off",
+      "file": "ceiling_fan_mp_1_1_light_off.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/ceiling_fan_mp_1_1_light_off.glb"
+    },
+    {
+      "name": "ceiling_fan_mp_1_1_light_on",
+      "file": "ceiling_fan_mp_1_1_light_on.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/ceiling_fan_mp_1_1_light_on.glb"
+    },
+    {
+      "name": "ceiling_fan_mp_2",
+      "file": "ceiling_fan_mp_2.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/ceiling_fan_mp_2.glb"
+    },
+    {
+      "name": "ceiling_fan_mp_2_1_light_off",
+      "file": "ceiling_fan_mp_2_1_light_off.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/ceiling_fan_mp_2_1_light_off.glb"
+    },
+    {
+      "name": "ceiling_fan_mp_2_1_light_on",
+      "file": "ceiling_fan_mp_2_1_light_on.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/ceiling_fan_mp_2_1_light_on.glb"
+    },
+    {
+      "name": "electrical_outlet_1",
+      "file": "electrical_outlet_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/electrical_outlet_1.glb"
+    },
+    {
+      "name": "elevator_buttons_1",
+      "file": "elevator_buttons_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/elevator_buttons_1.glb"
+    },
+    {
+      "name": "elevator_call_button_1",
+      "file": "elevator_call_button_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/elevator_call_button_1.glb"
+    },
+    {
+      "name": "elevator_screen_1",
+      "file": "elevator_screen_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/elevator_screen_1.glb"
+    },
+    {
+      "name": "elevator_sign_1",
+      "file": "elevator_sign_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/elevator_sign_1.glb"
+    },
+    {
+      "name": "light_switch_1",
+      "file": "light_switch_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/light_switch_1.glb"
+    },
+    {
+      "name": "monitoring_screen_mp_1",
+      "file": "monitoring_screen_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/monitoring_screen_mp_1.glb"
+    },
+    {
+      "name": "monitoring_screen_mp_1_1",
+      "file": "monitoring_screen_mp_1_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/monitoring_screen_mp_1_1.glb"
+    },
+    {
+      "name": "mouse_pad_mp_1",
+      "file": "mouse_pad_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/mouse_pad_mp_1.glb"
+    },
+    {
+      "name": "pc_keyboard_mp_1",
+      "file": "pc_keyboard_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_keyboard_mp_1.glb"
+    },
+    {
+      "name": "pc_keyboard_mp_2",
+      "file": "pc_keyboard_mp_2.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_keyboard_mp_2.glb"
+    },
+    {
+      "name": "pc_keyboard_mp_3",
+      "file": "pc_keyboard_mp_3.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_keyboard_mp_3.glb"
+    },
+    {
+      "name": "pc_monitor_mp_1",
+      "file": "pc_monitor_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_monitor_mp_1.glb"
+    },
+    {
+      "name": "pc_mouse_mp_1",
+      "file": "pc_mouse_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_mouse_mp_1.glb"
+    },
+    {
+      "name": "pc_mouse_mp_2",
+      "file": "pc_mouse_mp_2.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_mouse_mp_2.glb"
+    },
+    {
+      "name": "pc_mp_1",
+      "file": "pc_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/pc_mp_1.glb"
+    },
+    {
+      "name": "tv_mp_1",
+      "file": "tv_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/tv_mp_1.glb"
+    },
+    {
+      "name": "tv_mp_1_1",
+      "file": "tv_mp_1_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/tv_mp_1_1.glb"
+    },
+    {
+      "name": "tv_mp_1_2",
+      "file": "tv_mp_1_2.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/tv_mp_1_2.glb"
+    },
+    {
+      "name": "vent_1",
+      "file": "vent_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/vent_1.glb"
+    },
+    {
+      "name": "vent_2",
+      "file": "vent_2.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/vent_2.glb"
+    },
+    {
+      "name": "vent_3",
+      "file": "vent_3.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/vent_3.glb"
+    },
+    {
+      "name": "vent_mp_1",
+      "file": "vent_mp_1.glb",
+      "category": "Electronics & Misc",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Electronics & Misc/vent_mp_1.glb"
+    },
+    {
+      "name": "bed_1",
+      "file": "bed_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_1.glb"
+    },
+    {
+      "name": "bed_1_frame",
+      "file": "bed_1_frame.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_1_frame.glb"
+    },
+    {
+      "name": "bed_2",
+      "file": "bed_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_2.glb"
+    },
+    {
+      "name": "bed_2_1",
+      "file": "bed_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_2_1.glb"
+    },
+    {
+      "name": "bed_3",
+      "file": "bed_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3.glb"
+    },
+    {
+      "name": "bed_3_1",
+      "file": "bed_3_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_1.glb"
+    },
+    {
+      "name": "bed_3_2",
+      "file": "bed_3_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_2.glb"
+    },
+    {
+      "name": "bed_3_3",
+      "file": "bed_3_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_3.glb"
+    },
+    {
+      "name": "bed_3_a_1_made",
+      "file": "bed_3_a_1_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_a_1_made.glb"
+    },
+    {
+      "name": "bed_3_a_2_made",
+      "file": "bed_3_a_2_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_a_2_made.glb"
+    },
+    {
+      "name": "bed_3_a_3_made",
+      "file": "bed_3_a_3_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_a_3_made.glb"
+    },
+    {
+      "name": "bed_3_a_made",
+      "file": "bed_3_a_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_a_made.glb"
+    },
+    {
+      "name": "bed_3_b_1_made",
+      "file": "bed_3_b_1_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_b_1_made.glb"
+    },
+    {
+      "name": "bed_3_b_2_made",
+      "file": "bed_3_b_2_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_b_2_made.glb"
+    },
+    {
+      "name": "bed_3_b_3_made",
+      "file": "bed_3_b_3_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_b_3_made.glb"
+    },
+    {
+      "name": "bed_3_b_made",
+      "file": "bed_3_b_made.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_3_b_made.glb"
+    },
+    {
+      "name": "bed_4",
+      "file": "bed_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_4.glb"
+    },
+    {
+      "name": "bed_4_1",
+      "file": "bed_4_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_4_1.glb"
+    },
+    {
+      "name": "bed_4_2",
+      "file": "bed_4_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_4_2.glb"
+    },
+    {
+      "name": "bed_4_3",
+      "file": "bed_4_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_4_3.glb"
+    },
+    {
+      "name": "bed_5",
+      "file": "bed_5.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_5.glb"
+    },
+    {
+      "name": "bed_5_1",
+      "file": "bed_5_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_5_1.glb"
+    },
+    {
+      "name": "bed_5_2",
+      "file": "bed_5_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_5_2.glb"
+    },
+    {
+      "name": "bed_5_3",
+      "file": "bed_5_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_5_3.glb"
+    },
+    {
+      "name": "bed_5_4",
+      "file": "bed_5_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bed_5_4.glb"
+    },
+    {
+      "name": "bedside_table_1",
+      "file": "bedside_table_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_1.glb"
+    },
+    {
+      "name": "bedside_table_1_1",
+      "file": "bedside_table_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_1_1.glb"
+    },
+    {
+      "name": "bedside_table_1_2",
+      "file": "bedside_table_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_1_2.glb"
+    },
+    {
+      "name": "bedside_table_1_3",
+      "file": "bedside_table_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_1_3.glb"
+    },
+    {
+      "name": "bedside_table_1_4",
+      "file": "bedside_table_1_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_1_4.glb"
+    },
+    {
+      "name": "bedside_table_2",
+      "file": "bedside_table_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_2.glb"
+    },
+    {
+      "name": "bedside_table_2_1",
+      "file": "bedside_table_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_2_1.glb"
+    },
+    {
+      "name": "bedside_table_2_2",
+      "file": "bedside_table_2_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_2_2.glb"
+    },
+    {
+      "name": "bedside_table_2_3",
+      "file": "bedside_table_2_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_2_3.glb"
+    },
+    {
+      "name": "bedside_table_2_4",
+      "file": "bedside_table_2_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/bedside_table_2_4.glb"
+    },
+    {
+      "name": "chair_mp_1",
+      "file": "chair_mp_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_1.glb"
+    },
+    {
+      "name": "chair_mp_1_1",
+      "file": "chair_mp_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_1_1.glb"
+    },
+    {
+      "name": "chair_mp_1_2",
+      "file": "chair_mp_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_1_2.glb"
+    },
+    {
+      "name": "chair_mp_1_3",
+      "file": "chair_mp_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_1_3.glb"
+    },
+    {
+      "name": "chair_mp_1_4",
+      "file": "chair_mp_1_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_1_4.glb"
+    },
+    {
+      "name": "chair_mp_2",
+      "file": "chair_mp_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_2.glb"
+    },
+    {
+      "name": "chair_mp_2_1",
+      "file": "chair_mp_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_2_1.glb"
+    },
+    {
+      "name": "chair_mp_2_2",
+      "file": "chair_mp_2_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_2_2.glb"
+    },
+    {
+      "name": "chair_mp_2_3",
+      "file": "chair_mp_2_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_2_3.glb"
+    },
+    {
+      "name": "chair_mp_2_4",
+      "file": "chair_mp_2_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_2_4.glb"
+    },
+    {
+      "name": "chair_mp_3",
+      "file": "chair_mp_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_3.glb"
+    },
+    {
+      "name": "chair_mp_3_1",
+      "file": "chair_mp_3_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_3_1.glb"
+    },
+    {
+      "name": "chair_mp_3_2",
+      "file": "chair_mp_3_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_3_2.glb"
+    },
+    {
+      "name": "chair_mp_3_3",
+      "file": "chair_mp_3_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_3_3.glb"
+    },
+    {
+      "name": "chair_mp_3_4",
+      "file": "chair_mp_3_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_3_4.glb"
+    },
+    {
+      "name": "chair_mp_4",
+      "file": "chair_mp_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_4.glb"
+    },
+    {
+      "name": "chair_mp_4_1",
+      "file": "chair_mp_4_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_4_1.glb"
+    },
+    {
+      "name": "chair_mp_4_2",
+      "file": "chair_mp_4_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_4_2.glb"
+    },
+    {
+      "name": "chair_mp_4_3",
+      "file": "chair_mp_4_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/chair_mp_4_3.glb"
+    },
+    {
+      "name": "coffee_table_1",
+      "file": "coffee_table_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/coffee_table_1.glb"
+    },
+    {
+      "name": "coffee_table_1_1",
+      "file": "coffee_table_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/coffee_table_1_1.glb"
+    },
+    {
+      "name": "coffee_table_1_2",
+      "file": "coffee_table_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/coffee_table_1_2.glb"
+    },
+    {
+      "name": "coffee_table_1_3",
+      "file": "coffee_table_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/coffee_table_1_3.glb"
+    },
+    {
+      "name": "coffee_table_1_4",
+      "file": "coffee_table_1_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/coffee_table_1_4.glb"
+    },
+    {
+      "name": "old_mattress_mp_1",
+      "file": "old_mattress_mp_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/old_mattress_mp_1.glb"
+    },
+    {
+      "name": "pillow_mp_1",
+      "file": "pillow_mp_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/pillow_mp_1.glb"
+    },
+    {
+      "name": "pillow_mp_2",
+      "file": "pillow_mp_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/pillow_mp_2.glb"
+    },
+    {
+      "name": "shelf_mp_1",
+      "file": "shelf_mp_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_1.glb"
+    },
+    {
+      "name": "shelf_mp_1_1",
+      "file": "shelf_mp_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_1_1.glb"
+    },
+    {
+      "name": "shelf_mp_1_2",
+      "file": "shelf_mp_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_1_2.glb"
+    },
+    {
+      "name": "shelf_mp_1_3",
+      "file": "shelf_mp_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_1_3.glb"
+    },
+    {
+      "name": "shelf_mp_1_4",
+      "file": "shelf_mp_1_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_1_4.glb"
+    },
+    {
+      "name": "shelf_mp_2",
+      "file": "shelf_mp_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_2.glb"
+    },
+    {
+      "name": "shelf_mp_2_1",
+      "file": "shelf_mp_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_2_1.glb"
+    },
+    {
+      "name": "shelf_mp_2_2",
+      "file": "shelf_mp_2_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_2_2.glb"
+    },
+    {
+      "name": "shelf_mp_2_3",
+      "file": "shelf_mp_2_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_2_3.glb"
+    },
+    {
+      "name": "shelf_mp_2_4",
+      "file": "shelf_mp_2_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_2_4.glb"
+    },
+    {
+      "name": "shelf_mp_3",
+      "file": "shelf_mp_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_3.glb"
+    },
+    {
+      "name": "shelf_mp_3_1",
+      "file": "shelf_mp_3_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_3_1.glb"
+    },
+    {
+      "name": "shelf_mp_3_2",
+      "file": "shelf_mp_3_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_3_2.glb"
+    },
+    {
+      "name": "shelf_mp_3_3",
+      "file": "shelf_mp_3_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_3_3.glb"
+    },
+    {
+      "name": "shelf_mp_3_4",
+      "file": "shelf_mp_3_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_3_4.glb"
+    },
+    {
+      "name": "shelf_mp_4",
+      "file": "shelf_mp_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_4.glb"
+    },
+    {
+      "name": "shelf_mp_4_1",
+      "file": "shelf_mp_4_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_4_1.glb"
+    },
+    {
+      "name": "shelf_mp_4_2",
+      "file": "shelf_mp_4_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_4_2.glb"
+    },
+    {
+      "name": "shelf_mp_4_3",
+      "file": "shelf_mp_4_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_4_3.glb"
+    },
+    {
+      "name": "shelf_mp_4_4",
+      "file": "shelf_mp_4_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_4_4.glb"
+    },
+    {
+      "name": "shelf_mp_5",
+      "file": "shelf_mp_5.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_5.glb"
+    },
+    {
+      "name": "shelf_mp_5_1",
+      "file": "shelf_mp_5_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_5_1.glb"
+    },
+    {
+      "name": "shelf_mp_5_2",
+      "file": "shelf_mp_5_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_5_2.glb"
+    },
+    {
+      "name": "shelf_mp_5_3",
+      "file": "shelf_mp_5_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_5_3.glb"
+    },
+    {
+      "name": "shelf_mp_5_4",
+      "file": "shelf_mp_5_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/shelf_mp_5_4.glb"
+    },
+    {
+      "name": "sofa_1",
+      "file": "sofa_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_1.glb"
+    },
+    {
+      "name": "sofa_1_1",
+      "file": "sofa_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_1_1.glb"
+    },
+    {
+      "name": "sofa_1_2",
+      "file": "sofa_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_1_2.glb"
+    },
+    {
+      "name": "sofa_1_3",
+      "file": "sofa_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_1_3.glb"
+    },
+    {
+      "name": "sofa_2",
+      "file": "sofa_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_2.glb"
+    },
+    {
+      "name": "sofa_2_1",
+      "file": "sofa_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_2_1.glb"
+    },
+    {
+      "name": "sofa_2_2",
+      "file": "sofa_2_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_2_2.glb"
+    },
+    {
+      "name": "sofa_2_3",
+      "file": "sofa_2_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_2_3.glb"
+    },
+    {
+      "name": "sofa_3",
+      "file": "sofa_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_3.glb"
+    },
+    {
+      "name": "sofa_3_1",
+      "file": "sofa_3_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_3_1.glb"
+    },
+    {
+      "name": "sofa_3_2",
+      "file": "sofa_3_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_3_2.glb"
+    },
+    {
+      "name": "sofa_3_3",
+      "file": "sofa_3_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_3_3.glb"
+    },
+    {
+      "name": "sofa_4",
+      "file": "sofa_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_4.glb"
+    },
+    {
+      "name": "sofa_4_1",
+      "file": "sofa_4_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_4_1.glb"
+    },
+    {
+      "name": "sofa_4_2",
+      "file": "sofa_4_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_4_2.glb"
+    },
+    {
+      "name": "sofa_4_3",
+      "file": "sofa_4_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/sofa_4_3.glb"
+    },
+    {
+      "name": "table_large_2",
+      "file": "table_large_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_2.glb"
+    },
+    {
+      "name": "table_large_2_1",
+      "file": "table_large_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_2_1.glb"
+    },
+    {
+      "name": "table_large_2_2",
+      "file": "table_large_2_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_2_2.glb"
+    },
+    {
+      "name": "table_large_2_3",
+      "file": "table_large_2_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_2_3.glb"
+    },
+    {
+      "name": "table_large_2_4",
+      "file": "table_large_2_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_2_4.glb"
+    },
+    {
+      "name": "table_large_3",
+      "file": "table_large_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_3.glb"
+    },
+    {
+      "name": "table_large_3_1",
+      "file": "table_large_3_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_3_1.glb"
+    },
+    {
+      "name": "table_large_3_2",
+      "file": "table_large_3_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_3_2.glb"
+    },
+    {
+      "name": "table_large_3_3",
+      "file": "table_large_3_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_3_3.glb"
+    },
+    {
+      "name": "table_large_3_4",
+      "file": "table_large_3_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/table_large_3_4.glb"
+    },
+    {
+      "name": "tv_table_1",
+      "file": "tv_table_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_1.glb"
+    },
+    {
+      "name": "tv_table_1_1",
+      "file": "tv_table_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_1_1.glb"
+    },
+    {
+      "name": "tv_table_1_2",
+      "file": "tv_table_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_1_2.glb"
+    },
+    {
+      "name": "tv_table_1_3",
+      "file": "tv_table_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_1_3.glb"
+    },
+    {
+      "name": "tv_table_1_4",
+      "file": "tv_table_1_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_1_4.glb"
+    },
+    {
+      "name": "tv_table_4",
+      "file": "tv_table_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_4.glb"
+    },
+    {
+      "name": "tv_table_4_1",
+      "file": "tv_table_4_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_4_1.glb"
+    },
+    {
+      "name": "tv_table_4_2",
+      "file": "tv_table_4_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_4_2.glb"
+    },
+    {
+      "name": "tv_table_4_3",
+      "file": "tv_table_4_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_4_3.glb"
+    },
+    {
+      "name": "tv_table_4_4",
+      "file": "tv_table_4_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/tv_table_4_4.glb"
+    },
+    {
+      "name": "wardrobe_mp_1",
+      "file": "wardrobe_mp_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_1.glb"
+    },
+    {
+      "name": "wardrobe_mp_1_1",
+      "file": "wardrobe_mp_1_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_1_1.glb"
+    },
+    {
+      "name": "wardrobe_mp_1_2",
+      "file": "wardrobe_mp_1_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_1_2.glb"
+    },
+    {
+      "name": "wardrobe_mp_1_3",
+      "file": "wardrobe_mp_1_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_1_3.glb"
+    },
+    {
+      "name": "wardrobe_mp_1_4",
+      "file": "wardrobe_mp_1_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_1_4.glb"
+    },
+    {
+      "name": "wardrobe_mp_2",
+      "file": "wardrobe_mp_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_2.glb"
+    },
+    {
+      "name": "wardrobe_mp_2_1",
+      "file": "wardrobe_mp_2_1.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_2_1.glb"
+    },
+    {
+      "name": "wardrobe_mp_2_2",
+      "file": "wardrobe_mp_2_2.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_2_2.glb"
+    },
+    {
+      "name": "wardrobe_mp_2_3",
+      "file": "wardrobe_mp_2_3.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_2_3.glb"
+    },
+    {
+      "name": "wardrobe_mp_2_4",
+      "file": "wardrobe_mp_2_4.glb",
+      "category": "Furniture",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Furniture/wardrobe_mp_2_4.glb"
+    },
+    {
+      "name": "ammo_box_1",
+      "file": "ammo_box_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_1.glb"
+    },
+    {
+      "name": "ammo_box_1_1",
+      "file": "ammo_box_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_1_1.glb"
+    },
+    {
+      "name": "ammo_box_mp_1",
+      "file": "ammo_box_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_1.glb"
+    },
+    {
+      "name": "ammo_box_mp_1_1",
+      "file": "ammo_box_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_1_1.glb"
+    },
+    {
+      "name": "ammo_box_mp_2",
+      "file": "ammo_box_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_2.glb"
+    },
+    {
+      "name": "ammo_box_mp_2_1",
+      "file": "ammo_box_mp_2_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_2_1.glb"
+    },
+    {
+      "name": "ammo_box_mp_3",
+      "file": "ammo_box_mp_3.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_3.glb"
+    },
+    {
+      "name": "ammo_box_mp_3_1",
+      "file": "ammo_box_mp_3_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_3_1.glb"
+    },
+    {
+      "name": "ammo_box_mp_4",
+      "file": "ammo_box_mp_4.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_4.glb"
+    },
+    {
+      "name": "ammo_box_mp_4_1",
+      "file": "ammo_box_mp_4_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_4_1.glb"
+    },
+    {
+      "name": "ammo_box_mp_5",
+      "file": "ammo_box_mp_5.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_5.glb"
+    },
+    {
+      "name": "ammo_box_mp_5_1",
+      "file": "ammo_box_mp_5_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_box_mp_5_1.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_1pc_mp_1",
+      "file": "ammo_pistol_loose_1pc_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_1pc_mp_1.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_1pc_mp_2",
+      "file": "ammo_pistol_loose_1pc_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_1pc_mp_2.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_1pc_mp_3",
+      "file": "ammo_pistol_loose_1pc_mp_3.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_1pc_mp_3.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_2pcs_mp_2",
+      "file": "ammo_pistol_loose_2pcs_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_2pcs_mp_2.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_3pcs_mp_1",
+      "file": "ammo_pistol_loose_3pcs_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_3pcs_mp_1.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_4pcs_mp_3",
+      "file": "ammo_pistol_loose_4pcs_mp_3.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_4pcs_mp_3.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_5pcs_mp_1",
+      "file": "ammo_pistol_loose_5pcs_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_5pcs_mp_1.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_5pcs_mp_2",
+      "file": "ammo_pistol_loose_5pcs_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_5pcs_mp_2.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_mp_1_casing",
+      "file": "ammo_pistol_loose_mp_1_casing.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_mp_1_casing.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_mp_2_casing",
+      "file": "ammo_pistol_loose_mp_2_casing.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_mp_2_casing.glb"
+    },
+    {
+      "name": "ammo_pistol_loose_mp_3_casing",
+      "file": "ammo_pistol_loose_mp_3_casing.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/ammo_pistol_loose_mp_3_casing.glb"
+    },
+    {
+      "name": "battery_mp_1",
+      "file": "battery_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/battery_mp_1.glb"
+    },
+    {
+      "name": "battery_mp_1_1",
+      "file": "battery_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/battery_mp_1_1.glb"
+    },
+    {
+      "name": "battery_mp_2",
+      "file": "battery_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/battery_mp_2.glb"
+    },
+    {
+      "name": "battery_mp_2_1",
+      "file": "battery_mp_2_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/battery_mp_2_1.glb"
+    },
+    {
+      "name": "battery_mp_3_1",
+      "file": "battery_mp_3_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/battery_mp_3_1.glb"
+    },
+    {
+      "name": "battery_mp_3_2",
+      "file": "battery_mp_3_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/battery_mp_3_2.glb"
+    },
+    {
+      "name": "butcher_knife_mp_1",
+      "file": "butcher_knife_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/butcher_knife_mp_1.glb"
+    },
+    {
+      "name": "canned_food_mp_1",
+      "file": "canned_food_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/canned_food_mp_1.glb"
+    },
+    {
+      "name": "canned_food_mp_2",
+      "file": "canned_food_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/canned_food_mp_2.glb"
+    },
+    {
+      "name": "canned_food_mp_3",
+      "file": "canned_food_mp_3.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/canned_food_mp_3.glb"
+    },
+    {
+      "name": "canned_food_mp_4",
+      "file": "canned_food_mp_4.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/canned_food_mp_4.glb"
+    },
+    {
+      "name": "canned_food_mp_5_rusty",
+      "file": "canned_food_mp_5_rusty.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/canned_food_mp_5_rusty.glb"
+    },
+    {
+      "name": "cash_1",
+      "file": "cash_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cash_1.glb"
+    },
+    {
+      "name": "cash_2",
+      "file": "cash_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cash_2.glb"
+    },
+    {
+      "name": "cassette_tape_mp_1",
+      "file": "cassette_tape_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cassette_tape_mp_1.glb"
+    },
+    {
+      "name": "cassette_tape_mp_2",
+      "file": "cassette_tape_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cassette_tape_mp_2.glb"
+    },
+    {
+      "name": "cell_phone_1",
+      "file": "cell_phone_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cell_phone_1.glb"
+    },
+    {
+      "name": "cell_phone_2",
+      "file": "cell_phone_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cell_phone_2.glb"
+    },
+    {
+      "name": "cigs_packet_1",
+      "file": "cigs_packet_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/cigs_packet_1.glb"
+    },
+    {
+      "name": "dosimeter_1",
+      "file": "dosimeter_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/dosimeter_1.glb"
+    },
+    {
+      "name": "dosimeter_2",
+      "file": "dosimeter_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/dosimeter_2.glb"
+    },
+    {
+      "name": "dosimeter_4",
+      "file": "dosimeter_4.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/dosimeter_4.glb"
+    },
+    {
+      "name": "flashlight_1",
+      "file": "flashlight_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/flashlight_1.glb"
+    },
+    {
+      "name": "flashlight_mp_1",
+      "file": "flashlight_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/flashlight_mp_1.glb"
+    },
+    {
+      "name": "floppy_disc_1",
+      "file": "floppy_disc_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/floppy_disc_1.glb"
+    },
+    {
+      "name": "glass_bottle_1",
+      "file": "glass_bottle_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/glass_bottle_1.glb"
+    },
+    {
+      "name": "glass_bottle_2",
+      "file": "glass_bottle_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/glass_bottle_2.glb"
+    },
+    {
+      "name": "hand_saw_1",
+      "file": "hand_saw_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/hand_saw_1.glb"
+    },
+    {
+      "name": "key_mp_1",
+      "file": "key_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_1.glb"
+    },
+    {
+      "name": "key_mp_1_1",
+      "file": "key_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_1_1.glb"
+    },
+    {
+      "name": "key_mp_1_2",
+      "file": "key_mp_1_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_1_2.glb"
+    },
+    {
+      "name": "key_mp_2",
+      "file": "key_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_2.glb"
+    },
+    {
+      "name": "key_mp_2_1",
+      "file": "key_mp_2_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_2_1.glb"
+    },
+    {
+      "name": "key_mp_2_2",
+      "file": "key_mp_2_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_2_2.glb"
+    },
+    {
+      "name": "key_mp_3",
+      "file": "key_mp_3.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_3.glb"
+    },
+    {
+      "name": "key_mp_3_1",
+      "file": "key_mp_3_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_3_1.glb"
+    },
+    {
+      "name": "key_mp_3_2",
+      "file": "key_mp_3_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/key_mp_3_2.glb"
+    },
+    {
+      "name": "keycard_1",
+      "file": "keycard_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/keycard_1.glb"
+    },
+    {
+      "name": "lighter_mp_1",
+      "file": "lighter_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/lighter_mp_1.glb"
+    },
+    {
+      "name": "lighter_mp_1_1",
+      "file": "lighter_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/lighter_mp_1_1.glb"
+    },
+    {
+      "name": "lighter_mp_1_2",
+      "file": "lighter_mp_1_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/lighter_mp_1_2.glb"
+    },
+    {
+      "name": "matchbox_1",
+      "file": "matchbox_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/matchbox_1.glb"
+    },
+    {
+      "name": "matchbox_2",
+      "file": "matchbox_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/matchbox_2.glb"
+    },
+    {
+      "name": "meat_1",
+      "file": "meat_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/meat_1.glb"
+    },
+    {
+      "name": "nails_1",
+      "file": "nails_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/nails_1.glb"
+    },
+    {
+      "name": "nails_1_rusty",
+      "file": "nails_1_rusty.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/nails_1_rusty.glb"
+    },
+    {
+      "name": "notebook_1",
+      "file": "notebook_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/notebook_1.glb"
+    },
+    {
+      "name": "pills_1",
+      "file": "pills_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pills_1.glb"
+    },
+    {
+      "name": "pills_bottle_1",
+      "file": "pills_bottle_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pills_bottle_1.glb"
+    },
+    {
+      "name": "pills_bottle_1_1",
+      "file": "pills_bottle_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pills_bottle_1_1.glb"
+    },
+    {
+      "name": "pistol_mp_1",
+      "file": "pistol_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1.glb"
+    },
+    {
+      "name": "pistol_mp_1_1",
+      "file": "pistol_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_1.glb"
+    },
+    {
+      "name": "pistol_mp_1_1_mag_initial",
+      "file": "pistol_mp_1_1_mag_initial.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_1_mag_initial.glb"
+    },
+    {
+      "name": "pistol_mp_1_2",
+      "file": "pistol_mp_1_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_2.glb"
+    },
+    {
+      "name": "pistol_mp_1_3",
+      "file": "pistol_mp_1_3.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_3.glb"
+    },
+    {
+      "name": "pistol_mp_1_mag_empty",
+      "file": "pistol_mp_1_mag_empty.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_mag_empty.glb"
+    },
+    {
+      "name": "pistol_mp_1_mag_extended_empty",
+      "file": "pistol_mp_1_mag_extended_empty.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_mag_extended_empty.glb"
+    },
+    {
+      "name": "pistol_mp_1_mag_extended_loaded",
+      "file": "pistol_mp_1_mag_extended_loaded.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_mag_extended_loaded.glb"
+    },
+    {
+      "name": "pistol_mp_1_mag_loaded",
+      "file": "pistol_mp_1_mag_loaded.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/pistol_mp_1_mag_loaded.glb"
+    },
+    {
+      "name": "screwdriver_mp_1",
+      "file": "screwdriver_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/screwdriver_mp_1.glb"
+    },
+    {
+      "name": "screwdriver_mp_1_1",
+      "file": "screwdriver_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/screwdriver_mp_1_1.glb"
+    },
+    {
+      "name": "screwdriver_mp_1_2",
+      "file": "screwdriver_mp_1_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/screwdriver_mp_1_2.glb"
+    },
+    {
+      "name": "screwdriver_mp_2",
+      "file": "screwdriver_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/screwdriver_mp_2.glb"
+    },
+    {
+      "name": "screwdriver_mp_2_1",
+      "file": "screwdriver_mp_2_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/screwdriver_mp_2_1.glb"
+    },
+    {
+      "name": "screwdriver_mp_2_2",
+      "file": "screwdriver_mp_2_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/screwdriver_mp_2_2.glb"
+    },
+    {
+      "name": "shotgun_1",
+      "file": "shotgun_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/shotgun_1.glb"
+    },
+    {
+      "name": "shotgun_ammo_1",
+      "file": "shotgun_ammo_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/shotgun_ammo_1.glb"
+    },
+    {
+      "name": "shotgun_ammo_2",
+      "file": "shotgun_ammo_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/shotgun_ammo_2.glb"
+    },
+    {
+      "name": "shotgun_ammo_2_1",
+      "file": "shotgun_ammo_2_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/shotgun_ammo_2_1.glb"
+    },
+    {
+      "name": "suppressor_mp_1",
+      "file": "suppressor_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/suppressor_mp_1.glb"
+    },
+    {
+      "name": "suppressor_mp_2",
+      "file": "suppressor_mp_2.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/suppressor_mp_2.glb"
+    },
+    {
+      "name": "syringe_mp_1",
+      "file": "syringe_mp_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/syringe_mp_1.glb"
+    },
+    {
+      "name": "syringe_mp_1_1",
+      "file": "syringe_mp_1_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/syringe_mp_1_1.glb"
+    },
+    {
+      "name": "walkie_talkie_1",
+      "file": "walkie_talkie_1.glb",
+      "category": "Items & Weapons",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Items & Weapons/walkie_talkie_1.glb"
+    },
+    {
+      "name": "cardboard_box_1",
+      "file": "cardboard_box_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/cardboard_box_1.glb"
+    },
+    {
+      "name": "cardboard_box_2",
+      "file": "cardboard_box_2.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/cardboard_box_2.glb"
+    },
+    {
+      "name": "cardboard_box_2_1",
+      "file": "cardboard_box_2_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/cardboard_box_2_1.glb"
+    },
+    {
+      "name": "carpet_mp_1",
+      "file": "carpet_mp_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/carpet_mp_1.glb"
+    },
+    {
+      "name": "curtain_rod_mp_1",
+      "file": "curtain_rod_mp_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/curtain_rod_mp_1.glb"
+    },
+    {
+      "name": "metal_barrel_mp_1",
+      "file": "metal_barrel_mp_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/metal_barrel_mp_1.glb"
+    },
+    {
+      "name": "metal_barrel_mp_2",
+      "file": "metal_barrel_mp_2.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/metal_barrel_mp_2.glb"
+    },
+    {
+      "name": "metal_barrel_mp_3",
+      "file": "metal_barrel_mp_3.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/metal_barrel_mp_3.glb"
+    },
+    {
+      "name": "pipe_1",
+      "file": "pipe_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/pipe_1.glb"
+    },
+    {
+      "name": "pipe_1_corner",
+      "file": "pipe_1_corner.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/pipe_1_corner.glb"
+    },
+    {
+      "name": "pipe_1_cross",
+      "file": "pipe_1_cross.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/pipe_1_cross.glb"
+    },
+    {
+      "name": "pipe_1_short",
+      "file": "pipe_1_short.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/pipe_1_short.glb"
+    },
+    {
+      "name": "pipe_valve_holder_large_1",
+      "file": "pipe_valve_holder_large_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/pipe_valve_holder_large_1.glb"
+    },
+    {
+      "name": "toilet_mp_1",
+      "file": "toilet_mp_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/toilet_mp_1.glb"
+    },
+    {
+      "name": "toilet_mp_1_1",
+      "file": "toilet_mp_1_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/toilet_mp_1_1.glb"
+    },
+    {
+      "name": "vending_machine_1",
+      "file": "vending_machine_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/vending_machine_1.glb"
+    },
+    {
+      "name": "wooden_crate_1",
+      "file": "wooden_crate_1.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/wooden_crate_1.glb"
+    },
+    {
+      "name": "wooden_crate_2",
+      "file": "wooden_crate_2.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/wooden_crate_2.glb"
+    },
+    {
+      "name": "wooden_crate_3",
+      "file": "wooden_crate_3.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/wooden_crate_3.glb"
+    },
+    {
+      "name": "wooden_crate_4",
+      "file": "wooden_crate_4.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/wooden_crate_4.glb"
+    },
+    {
+      "name": "wooden_crate_5",
+      "file": "wooden_crate_5.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/wooden_crate_5.glb"
+    },
+    {
+      "name": "wooden_crate_6",
+      "file": "wooden_crate_6.glb",
+      "category": "Large Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Large Props/wooden_crate_6.glb"
+    },
+    {
+      "name": "ceiling_lamp_1_off",
+      "file": "ceiling_lamp_1_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_1_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_1_on",
+      "file": "ceiling_lamp_1_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_1_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_2_off",
+      "file": "ceiling_lamp_2_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_2_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_2_on",
+      "file": "ceiling_lamp_2_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_2_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_1_a_off",
+      "file": "ceiling_lamp_4_1_a_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_1_a_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_1_a_on",
+      "file": "ceiling_lamp_4_1_a_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_1_a_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_1_b_off",
+      "file": "ceiling_lamp_4_1_b_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_1_b_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_1_b_on",
+      "file": "ceiling_lamp_4_1_b_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_1_b_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_1_off",
+      "file": "ceiling_lamp_4_1_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_1_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_1_on",
+      "file": "ceiling_lamp_4_1_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_1_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_a_off",
+      "file": "ceiling_lamp_4_a_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_a_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_a_on",
+      "file": "ceiling_lamp_4_a_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_a_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_b_off",
+      "file": "ceiling_lamp_4_b_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_b_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_b_on",
+      "file": "ceiling_lamp_4_b_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_b_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_off",
+      "file": "ceiling_lamp_4_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_4_on",
+      "file": "ceiling_lamp_4_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_4_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_mp_1_1_off",
+      "file": "ceiling_lamp_mp_1_1_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_mp_1_1_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_mp_1_1_on",
+      "file": "ceiling_lamp_mp_1_1_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_mp_1_1_on.glb"
+    },
+    {
+      "name": "ceiling_lamp_mp_1_off",
+      "file": "ceiling_lamp_mp_1_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_mp_1_off.glb"
+    },
+    {
+      "name": "ceiling_lamp_mp_1_on",
+      "file": "ceiling_lamp_mp_1_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/ceiling_lamp_mp_1_on.glb"
+    },
+    {
+      "name": "fake_light_window_2_double",
+      "file": "fake_light_window_2_double.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/fake_light_window_2_double.glb"
+    },
+    {
+      "name": "fake_light_window_2_single",
+      "file": "fake_light_window_2_single.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/fake_light_window_2_single.glb"
+    },
+    {
+      "name": "lamp_1_off",
+      "file": "lamp_1_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_1_off.glb"
+    },
+    {
+      "name": "lamp_1_on",
+      "file": "lamp_1_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_1_on.glb"
+    },
+    {
+      "name": "lamp_2_off",
+      "file": "lamp_2_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_2_off.glb"
+    },
+    {
+      "name": "lamp_2_on",
+      "file": "lamp_2_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_2_on.glb"
+    },
+    {
+      "name": "lamp_3_1_off",
+      "file": "lamp_3_1_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_3_1_off.glb"
+    },
+    {
+      "name": "lamp_3_1_on",
+      "file": "lamp_3_1_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_3_1_on.glb"
+    },
+    {
+      "name": "lamp_3_off",
+      "file": "lamp_3_off.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_3_off.glb"
+    },
+    {
+      "name": "lamp_3_on",
+      "file": "lamp_3_on.glb",
+      "category": "Lighting",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Lighting/lamp_3_on.glb"
+    },
+    {
+      "name": "arc_1_wall_1",
+      "file": "arc_1_wall_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_1_wall_1.glb"
+    },
+    {
+      "name": "arc_1_wall_1_plain",
+      "file": "arc_1_wall_1_plain.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_1_wall_1_plain.glb"
+    },
+    {
+      "name": "arc_1_wall_2_1",
+      "file": "arc_1_wall_2_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_1_wall_2_1.glb"
+    },
+    {
+      "name": "arc_1_wall_2_2",
+      "file": "arc_1_wall_2_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_1_wall_2_2.glb"
+    },
+    {
+      "name": "arc_2_wall_1",
+      "file": "arc_2_wall_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_2_wall_1.glb"
+    },
+    {
+      "name": "arc_2_wall_1_plain",
+      "file": "arc_2_wall_1_plain.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_2_wall_1_plain.glb"
+    },
+    {
+      "name": "arc_2_wall_2_1",
+      "file": "arc_2_wall_2_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_2_wall_2_1.glb"
+    },
+    {
+      "name": "arc_2_wall_2_2",
+      "file": "arc_2_wall_2_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/arc_2_wall_2_2.glb"
+    },
+    {
+      "name": "bars_metal_1",
+      "file": "bars_metal_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/bars_metal_1.glb"
+    },
+    {
+      "name": "bars_metal_2",
+      "file": "bars_metal_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/bars_metal_2.glb"
+    },
+    {
+      "name": "beam_1",
+      "file": "beam_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/beam_1.glb"
+    },
+    {
+      "name": "beam_2",
+      "file": "beam_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/beam_2.glb"
+    },
+    {
+      "name": "beam_4",
+      "file": "beam_4.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/beam_4.glb"
+    },
+    {
+      "name": "beam_5",
+      "file": "beam_5.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/beam_5.glb"
+    },
+    {
+      "name": "catwalk_1",
+      "file": "catwalk_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/catwalk_1.glb"
+    },
+    {
+      "name": "coin_mp_1",
+      "file": "coin_mp_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/coin_mp_1.glb"
+    },
+    {
+      "name": "door_4",
+      "file": "door_4.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/door_4.glb"
+    },
+    {
+      "name": "doorway_1",
+      "file": "doorway_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_1.glb"
+    },
+    {
+      "name": "doorway_1_1",
+      "file": "doorway_1_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_1_1.glb"
+    },
+    {
+      "name": "doorway_1_plain",
+      "file": "doorway_1_plain.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_1_plain.glb"
+    },
+    {
+      "name": "doorway_2",
+      "file": "doorway_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_2.glb"
+    },
+    {
+      "name": "doorway_2_1",
+      "file": "doorway_2_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_2_1.glb"
+    },
+    {
+      "name": "doorway_2_wide",
+      "file": "doorway_2_wide.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_2_wide.glb"
+    },
+    {
+      "name": "doorway_3_wide",
+      "file": "doorway_3_wide.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_3_wide.glb"
+    },
+    {
+      "name": "doorway_door_mp_1",
+      "file": "doorway_door_mp_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/doorway_door_mp_1.glb"
+    },
+    {
+      "name": "elevator_1",
+      "file": "elevator_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/elevator_1.glb"
+    },
+    {
+      "name": "elevator_2",
+      "file": "elevator_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/elevator_2.glb"
+    },
+    {
+      "name": "elevator_doorway_1",
+      "file": "elevator_doorway_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/elevator_doorway_1.glb"
+    },
+    {
+      "name": "elevator_doorway_2",
+      "file": "elevator_doorway_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/elevator_doorway_2.glb"
+    },
+    {
+      "name": "elevator_doorway_2_1",
+      "file": "elevator_doorway_2_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/elevator_doorway_2_1.glb"
+    },
+    {
+      "name": "elevator_doorway_3",
+      "file": "elevator_doorway_3.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/elevator_doorway_3.glb"
+    },
+    {
+      "name": "floor_ceiling_1",
+      "file": "floor_ceiling_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/floor_ceiling_1.glb"
+    },
+    {
+      "name": "floor_ceiling_2",
+      "file": "floor_ceiling_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/floor_ceiling_2.glb"
+    },
+    {
+      "name": "floor_ceiling_3",
+      "file": "floor_ceiling_3.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/floor_ceiling_3.glb"
+    },
+    {
+      "name": "hand_rail_1",
+      "file": "hand_rail_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/hand_rail_1.glb"
+    },
+    {
+      "name": "hand_rail_2",
+      "file": "hand_rail_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/hand_rail_2.glb"
+    },
+    {
+      "name": "hand_rail_3",
+      "file": "hand_rail_3.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/hand_rail_3.glb"
+    },
+    {
+      "name": "pillar_1",
+      "file": "pillar_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pillar_1.glb"
+    },
+    {
+      "name": "pillar_1_plain",
+      "file": "pillar_1_plain.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pillar_1_plain.glb"
+    },
+    {
+      "name": "pillar_1_plain_1",
+      "file": "pillar_1_plain_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pillar_1_plain_1.glb"
+    },
+    {
+      "name": "pillar_1_plain_2",
+      "file": "pillar_1_plain_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pillar_1_plain_2.glb"
+    },
+    {
+      "name": "pillar_2",
+      "file": "pillar_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pillar_2.glb"
+    },
+    {
+      "name": "pillar_3",
+      "file": "pillar_3.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pillar_3.glb"
+    },
+    {
+      "name": "pipe_valve_holder_large_2",
+      "file": "pipe_valve_holder_large_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pipe_valve_holder_large_2.glb"
+    },
+    {
+      "name": "pipe_valve_holder_large_2_1",
+      "file": "pipe_valve_holder_large_2_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pipe_valve_holder_large_2_1.glb"
+    },
+    {
+      "name": "pipes_holder_1",
+      "file": "pipes_holder_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/pipes_holder_1.glb"
+    },
+    {
+      "name": "stairs_1",
+      "file": "stairs_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/stairs_1.glb"
+    },
+    {
+      "name": "stairs_2",
+      "file": "stairs_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/stairs_2.glb"
+    },
+    {
+      "name": "stairs_3",
+      "file": "stairs_3.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/stairs_3.glb"
+    },
+    {
+      "name": "stairs_4",
+      "file": "stairs_4.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/stairs_4.glb"
+    },
+    {
+      "name": "toilet_cabin_mp_1",
+      "file": "toilet_cabin_mp_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/toilet_cabin_mp_1.glb"
+    },
+    {
+      "name": "tunnel_1",
+      "file": "tunnel_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/tunnel_1.glb"
+    },
+    {
+      "name": "wall_1",
+      "file": "wall_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1.glb"
+    },
+    {
+      "name": "wall_1_1_half",
+      "file": "wall_1_1_half.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_1_half.glb"
+    },
+    {
+      "name": "wall_1_1_rounded_corner_1",
+      "file": "wall_1_1_rounded_corner_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_1_rounded_corner_1.glb"
+    },
+    {
+      "name": "wall_1_2_half",
+      "file": "wall_1_2_half.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_2_half.glb"
+    },
+    {
+      "name": "wall_1_2_rounded_corner_1",
+      "file": "wall_1_2_rounded_corner_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_2_rounded_corner_1.glb"
+    },
+    {
+      "name": "wall_1_half",
+      "file": "wall_1_half.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_half.glb"
+    },
+    {
+      "name": "wall_1_plain",
+      "file": "wall_1_plain.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_plain.glb"
+    },
+    {
+      "name": "wall_1_rounded_corner",
+      "file": "wall_1_rounded_corner.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_rounded_corner.glb"
+    },
+    {
+      "name": "wall_1_rounded_corner_1",
+      "file": "wall_1_rounded_corner_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_rounded_corner_1.glb"
+    },
+    {
+      "name": "wall_1_tunnel_hole",
+      "file": "wall_1_tunnel_hole.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_tunnel_hole.glb"
+    },
+    {
+      "name": "wall_1_tunnel_hole_1",
+      "file": "wall_1_tunnel_hole_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_tunnel_hole_1.glb"
+    },
+    {
+      "name": "wall_1_tunnel_hole_2",
+      "file": "wall_1_tunnel_hole_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_1_tunnel_hole_2.glb"
+    },
+    {
+      "name": "wall_2_1",
+      "file": "wall_2_1.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_2_1.glb"
+    },
+    {
+      "name": "wall_2_2",
+      "file": "wall_2_2.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/wall_2_2.glb"
+    },
+    {
+      "name": "window_1_single",
+      "file": "window_1_single.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_1_single.glb"
+    },
+    {
+      "name": "window_1_single_frame_only",
+      "file": "window_1_single_frame_only.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_1_single_frame_only.glb"
+    },
+    {
+      "name": "window_1_single_no_glass",
+      "file": "window_1_single_no_glass.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_1_single_no_glass.glb"
+    },
+    {
+      "name": "window_2_1_double",
+      "file": "window_2_1_double.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_1_double.glb"
+    },
+    {
+      "name": "window_2_1_single",
+      "file": "window_2_1_single.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_1_single.glb"
+    },
+    {
+      "name": "window_2_1_single_frame_only",
+      "file": "window_2_1_single_frame_only.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_1_single_frame_only.glb"
+    },
+    {
+      "name": "window_2_1_single_no_glass",
+      "file": "window_2_1_single_no_glass.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_1_single_no_glass.glb"
+    },
+    {
+      "name": "window_2_2_double",
+      "file": "window_2_2_double.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_2_double.glb"
+    },
+    {
+      "name": "window_2_2_single",
+      "file": "window_2_2_single.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_2_single.glb"
+    },
+    {
+      "name": "window_2_2_single_frame_only",
+      "file": "window_2_2_single_frame_only.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_2_single_frame_only.glb"
+    },
+    {
+      "name": "window_2_2_single_no_glass",
+      "file": "window_2_2_single_no_glass.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_2_single_no_glass.glb"
+    },
+    {
+      "name": "window_2_double",
+      "file": "window_2_double.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_double.glb"
+    },
+    {
+      "name": "window_2_single",
+      "file": "window_2_single.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_single.glb"
+    },
+    {
+      "name": "window_2_single_frame_only",
+      "file": "window_2_single_frame_only.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_single_frame_only.glb"
+    },
+    {
+      "name": "window_2_single_no_glass",
+      "file": "window_2_single_no_glass.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_2_single_no_glass.glb"
+    },
+    {
+      "name": "window_metal_bars_double",
+      "file": "window_metal_bars_double.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_metal_bars_double.glb"
+    },
+    {
+      "name": "window_metal_bars_single",
+      "file": "window_metal_bars_single.glb",
+      "category": "Modular Structures",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Modular Structures/window_metal_bars_single.glb"
+    },
+    {
+      "name": "ashtray_1",
+      "file": "ashtray_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/ashtray_1.glb"
+    },
+    {
+      "name": "book_mp_1",
+      "file": "book_mp_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_1.glb"
+    },
+    {
+      "name": "book_mp_10",
+      "file": "book_mp_10.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_10.glb"
+    },
+    {
+      "name": "book_mp_2",
+      "file": "book_mp_2.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_2.glb"
+    },
+    {
+      "name": "book_mp_3",
+      "file": "book_mp_3.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_3.glb"
+    },
+    {
+      "name": "book_mp_4",
+      "file": "book_mp_4.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_4.glb"
+    },
+    {
+      "name": "book_mp_5",
+      "file": "book_mp_5.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_5.glb"
+    },
+    {
+      "name": "book_mp_6",
+      "file": "book_mp_6.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_6.glb"
+    },
+    {
+      "name": "book_mp_7",
+      "file": "book_mp_7.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_7.glb"
+    },
+    {
+      "name": "book_mp_8",
+      "file": "book_mp_8.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_8.glb"
+    },
+    {
+      "name": "book_mp_9",
+      "file": "book_mp_9.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/book_mp_9.glb"
+    },
+    {
+      "name": "brick",
+      "file": "brick.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/brick.glb"
+    },
+    {
+      "name": "car_battery_1",
+      "file": "car_battery_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/car_battery_1.glb"
+    },
+    {
+      "name": "cig_1",
+      "file": "cig_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/cig_1.glb"
+    },
+    {
+      "name": "cig_2",
+      "file": "cig_2.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/cig_2.glb"
+    },
+    {
+      "name": "cig_3",
+      "file": "cig_3.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/cig_3.glb"
+    },
+    {
+      "name": "clock_1",
+      "file": "clock_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/clock_1.glb"
+    },
+    {
+      "name": "clock_2",
+      "file": "clock_2.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/clock_2.glb"
+    },
+    {
+      "name": "concrete_block_1",
+      "file": "concrete_block_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/concrete_block_1.glb"
+    },
+    {
+      "name": "cross_1",
+      "file": "cross_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/cross_1.glb"
+    },
+    {
+      "name": "jerrycan_1",
+      "file": "jerrycan_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/jerrycan_1.glb"
+    },
+    {
+      "name": "keypad_1",
+      "file": "keypad_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/keypad_1.glb"
+    },
+    {
+      "name": "keypad_2",
+      "file": "keypad_2.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/keypad_2.glb"
+    },
+    {
+      "name": "padlock_1",
+      "file": "padlock_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_1.glb"
+    },
+    {
+      "name": "padlock_2",
+      "file": "padlock_2.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_2.glb"
+    },
+    {
+      "name": "padlock_2_knob",
+      "file": "padlock_2_knob.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_2_knob.glb"
+    },
+    {
+      "name": "padlock_3",
+      "file": "padlock_3.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_3.glb"
+    },
+    {
+      "name": "padlock_3_knob",
+      "file": "padlock_3_knob.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_3_knob.glb"
+    },
+    {
+      "name": "padlock_4",
+      "file": "padlock_4.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_4.glb"
+    },
+    {
+      "name": "padlock_4_knob",
+      "file": "padlock_4_knob.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/padlock_4_knob.glb"
+    },
+    {
+      "name": "painting_1",
+      "file": "painting_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/painting_1.glb"
+    },
+    {
+      "name": "plate_mp_1",
+      "file": "plate_mp_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/plate_mp_1.glb"
+    },
+    {
+      "name": "spoon_mp_1",
+      "file": "spoon_mp_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/spoon_mp_1.glb"
+    },
+    {
+      "name": "tin_can_mp_1_rusty",
+      "file": "tin_can_mp_1_rusty.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/tin_can_mp_1_rusty.glb"
+    },
+    {
+      "name": "tin_can_mp_1_rusty_1",
+      "file": "tin_can_mp_1_rusty_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/tin_can_mp_1_rusty_1.glb"
+    },
+    {
+      "name": "tv_remote_mp_1",
+      "file": "tv_remote_mp_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/tv_remote_mp_1.glb"
+    },
+    {
+      "name": "vhs_tape_1",
+      "file": "vhs_tape_1.glb",
+      "category": "Small Props",
+      "path": "/Users/kevin/Documents/PSX Mega Pack/Models/GLB/Small Props/vhs_tape_1.glb"
+    }
+  ]
+}
