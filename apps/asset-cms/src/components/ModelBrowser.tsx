@@ -174,9 +174,18 @@ function CameraController({ modelPath }: { modelPath: string }) {
 
       const maxDim = Math.max(size.x, size.y, size.z);
       const fov = (camera as THREE.PerspectiveCamera).fov * (Math.PI / 180);
-      let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * 1.5;
+      const distance = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * 1.5;
 
-      camera.position.set(center.x, center.y, center.z + cameraZ);
+      // Random angle for variety
+      const theta = Math.random() * Math.PI * 2; // Horizontal angle (0 to 2π)
+      const phi = Math.PI / 6 + Math.random() * Math.PI / 3; // Vertical angle (30° to 90°)
+
+      // Convert spherical to cartesian
+      const x = center.x + distance * Math.sin(phi) * Math.cos(theta);
+      const y = center.y + distance * Math.cos(phi);
+      const z = center.z + distance * Math.sin(phi) * Math.sin(theta);
+
+      camera.position.set(x, y, z);
       camera.lookAt(center);
       camera.updateProjectionMatrix();
 
