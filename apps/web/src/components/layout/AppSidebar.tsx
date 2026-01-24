@@ -492,18 +492,19 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
                 justifyContent: expanded ? 'flex-start' : 'center',
                 px: expanded ? 1.5 : 1,
                 py: 0.75,
+                minHeight: 44, // WCAG touch target minimum
               }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: expanded ? 32 : 'auto',
+                  minWidth: expanded ? 40 : 'auto',
                   mr: expanded ? 0.375 : 0,
                 }}
               >
                 {/* Avatar cropped at shoulders */}
                 <Box sx={{
-                  width: 24,
-                  height: 24,
+                  width: 32,
+                  height: 32,
                   borderRadius: '4px',
                   overflow: 'hidden',
                   bgcolor: tokens.colors.background.elevated,
@@ -556,14 +557,14 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             <IconButton
               disabled
               sx={{
-                width: 36,
-                height: 36,
+                width: 44,
+                height: 44,
                 color: tokens.colors.text.disabled,
                 opacity: 0.5,
                 cursor: 'not-allowed',
               }}
             >
-              <FriendsIcon sx={{ fontSize: 20 }} />
+              <FriendsIcon sx={{ fontSize: 22 }} />
             </IconButton>
           </Tooltip>
 
@@ -572,13 +573,13 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             <IconButton
               onClick={() => navigate('/about')}
               sx={{
-                width: 36,
-                height: 36,
+                width: 44,
+                height: 44,
                 color: tokens.colors.text.disabled,
                 '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <InfoIcon sx={{ fontSize: 20 }} />
+              <InfoIcon sx={{ fontSize: 22 }} />
             </IconButton>
           </Tooltip>
 
@@ -587,13 +588,13 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             <IconButton
               onClick={() => navigate('/settings')}
               sx={{
-                width: 36,
-                height: 36,
+                width: 44,
+                height: 44,
                 color: tokens.colors.text.disabled,
                 '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <SettingsIcon sx={{ fontSize: 20 }} />
+              <SettingsIcon sx={{ fontSize: 22 }} />
             </IconButton>
           </Tooltip>
         </Box>

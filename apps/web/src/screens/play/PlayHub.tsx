@@ -691,9 +691,9 @@ export function PlayHub() {
       {/* Right: Sidebar - Drawer on mobile, static on desktop */}
       {isMobile ? (
         <>
-          {/* Mobile FAB toggle */}
+          {/* Mobile FAB toggle - large for 44px+ touch target */}
           <Fab
-            size="medium"
+            size="large"
             onClick={() => setDrawerOpen(!drawerOpen)}
             sx={{
               position: 'fixed',
