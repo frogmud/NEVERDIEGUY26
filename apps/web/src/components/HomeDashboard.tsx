@@ -30,7 +30,6 @@ import {
   type HomeGreeter,
 } from '../data/home-greeters';
 import { QUICK_PROMPTS, type QuickPrompt } from '../data/stream-prompts';
-import { TutorialOverlay } from './TutorialOverlay';
 
 // ============================================
 // Preloaded NPC Cache (stable, never changes)
@@ -1851,46 +1850,7 @@ export function HomeDashboard() {
     }}>
       {/* Top: Player Identity + Badges */}
       <Box sx={{ position: 'relative', px: sidebarExpanded ? 2 : 3, pt: 2, pb: 0, transition: 'padding 200ms ease' }}>
-        {/* Loading Bar - shows during skull-hero only */}
-        {bootPhase === 'skull-hero' && (
-          <Box sx={{
-            position: 'absolute',
-            top: 16,
-            left: 24,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 0.5,
-            opacity: bootPhase === 'ui-reveal' ? 0 : 1,
-            transition: 'opacity 300ms ease-out',
-          }}>
-            <Typography sx={{
-              fontFamily: 'monospace',
-              fontSize: '0.75rem',
-              color: tokens.colors.primary,
-              filter: 'drop-shadow(0 0 8px rgba(233, 4, 65, 0.5))',
-            }}>
-              Loading...
-            </Typography>
-            <Box sx={{
-              width: 120,
-              height: 4,
-              bgcolor: 'rgba(233, 4, 65, 0.2)',
-              borderRadius: 2,
-              overflow: 'hidden',
-            }}>
-              <Box sx={{
-                width: `${Math.min(100, (asciiRowsVisible / ASCII_SKULL.length) * 100)}%`,
-                height: '100%',
-                bgcolor: tokens.colors.primary,
-                borderRadius: 2,
-                transition: 'width 50ms ease-out',
-                boxShadow: '0 0 8px rgba(233, 4, 65, 0.6)',
-              }} />
-            </Box>
-          </Box>
-        )}
-
-        {/* Real Profile - fades in during ui-reveal */}
+        {/* Profile - fades in during ui-reveal */}
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
@@ -2377,71 +2337,6 @@ export function HomeDashboard() {
           minWidth: 0,
           overflow: 'hidden',
         }}>
-          {/* Flickering red artifacts - glitchy stars during loading (skull-hero only) */}
-          <FlickeringArtifacts active={bootPhase === 'skull-hero'} />
-
-          {/* ASCII Skull - loads row by row, explodes when items hit (skull-hero only) */}
-          {bootPhase === 'skull-hero' && (
-            <Box
-              sx={{
-                position: 'absolute',
-                top: '35%',
-                left: '35%',
-                transform: 'translate(-50%, -50%)',
-                zIndex: bootPhase === 'items-drop' ? 1 : 10,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                filter: bootPhase !== 'items-drop' ? 'drop-shadow(0 0 15px rgba(233, 4, 65, 0.6))' : 'none',
-              }}
-            >
-              {ASCII_SKULL.map((row, rowIdx) => (
-                <Box
-                  key={rowIdx}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '0.65rem',
-                    // Row entrance
-                    opacity: rowIdx < asciiRowsVisible ? 1 : 0,
-                    transform: rowIdx < asciiRowsVisible ? 'scaleY(1)' : 'scaleY(0)',
-                    transition: 'opacity 40ms ease-out, transform 40ms ease-out',
-                  }}
-                >
-                  {row.split('').map((char, charIdx) => {
-                    // Stable-ish random for explosion (seeded by position)
-                    const seed = rowIdx * 100 + charIdx;
-                    const ex = ((seed * 9301 + 49297) % 233280) / 233280;
-                    const ey = ((seed * 49297 + 9301) % 233280) / 233280;
-                    const delay = rowIdx * 15 + charIdx * 3;
-
-                    return (
-                      <Box
-                        key={charIdx}
-                        component="span"
-                        sx={{
-                          fontFamily: 'monospace',
-                          fontSize: '0.6rem',
-                          lineHeight: 1,
-                          color: tokens.colors.primary,
-                          whiteSpace: 'pre',
-                          display: 'inline-block',
-                          '--ex': ex,
-                          '--ey': ey,
-                          animation: bootPhase === 'items-drop' && char !== ' '
-                            ? `${pixelExplode} 600ms ease-out ${delay}ms forwards`
-                            : 'none',
-                        }}
-                      >
-                        {char}
-                      </Box>
-                    );
-                  })}
-                </Box>
-              ))}
-            </Box>
-          )}
-
           {/* Oversized Item Cards with Grid Pattern - Balatro Style */}
           {(bootPhase === 'items-drop' || bootPhase === 'active') && (
             <Box sx={{
@@ -3280,8 +3175,6 @@ export function HomeDashboard() {
         </Box>
       )}
 
-      {/* Tutorial Overlay - shows on first visit when no saved run exists */}
-      <TutorialOverlay />
     </Box>
   );
 }
