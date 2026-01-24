@@ -591,7 +591,7 @@ export function ModelBrowser() {
 
               {/* 3D Canvas with ASCII overlay */}
               <div style={styles.canvasContainer}>
-                {/* 3D Canvas - always renders, ASCII canvas overlays on top */}
+                {/* 3D Canvas - always renders, hidden when ASCII mode to prevent flicker */}
                 <Canvas
                   ref={canvasRef}
                   shadows
@@ -604,6 +604,7 @@ export function ModelBrowser() {
                     left: 0,
                     width: '100%',
                     height: '100%',
+                    opacity: asciiMode ? 0 : 1,
                   }}
                 >
                   <ambientLight intensity={0.6} />
