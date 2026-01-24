@@ -23,9 +23,7 @@ import PortalSelection from './PortalSelection';
 import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteorGame';
 import { useRun } from '../../contexts';
 import { useAuth } from '../../contexts/AuthContext';
-import { useTutorial } from '../../contexts';
 import { GameOverModal } from '../../games/meteor/components';
-import { TutorialModal } from '../../components';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
 import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
@@ -108,7 +106,6 @@ export function PlayHub() {
   } = useRun();
 
   const { markGameStarted } = useAuth();
-  const { shouldShowNewRunTutorial } = useTutorial();
   const navigate = useNavigate();
   const location = useLocation();
   const navState = location.state as { practiceMode?: boolean } | null;
@@ -117,9 +114,6 @@ export function PlayHub() {
   const muiTheme = useTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('md')); // < 900px
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  // Tutorial modal state
-  const [showTutorialModal, setShowTutorialModal] = useState(false);
 
   // Mark that user has started a game (transforms home page from marketing LP)
   useEffect(() => {
@@ -313,11 +307,6 @@ export function PlayHub() {
   const handleNewRun = (loadoutId: string, startingItems: string[]) => {
     const threadId = generateThreadId();
     startRun(threadId, undefined, undefined, loadoutId, startingItems);
-
-    // Show tutorial modal for first-time players
-    if (shouldShowNewRunTutorial) {
-      setShowTutorialModal(true);
-    }
 
     // After startRun, sidebar will show zone selection
     // User picks zone, then clicks Launch to start combat
@@ -823,12 +812,6 @@ export function PlayHub() {
         gold={state.gold || 0}
         loadoutStats={state.loadoutStats}
         inventoryItems={state.inventory?.powerups || []}
-      />
-
-      {/* Tutorial Modal - shown on first "New Run" click */}
-      <TutorialModal
-        open={showTutorialModal}
-        onClose={() => setShowTutorialModal(false)}
       />
 
     </Box>
