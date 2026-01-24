@@ -4,7 +4,6 @@ import {
   Typography,
   Container,
   Button,
-  CircularProgress,
 } from '@mui/material';
 import {
   WifiOffSharp as OfflineIcon,
@@ -13,6 +12,7 @@ import {
   SignalWifiOffSharp as NoSignalIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
+import { AsciiGalaxy } from '../../components/AsciiGalaxy';
 
 interface NetworkErrorProps {
   type?: 'connection' | 'timeout' | 'server';
@@ -52,7 +52,10 @@ export function NetworkError({ type = 'connection', onRetry }: NetworkErrorProps
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{ position: 'relative' }}>
+      {/* Interactive galaxy background */}
+      {retrying && <AsciiGalaxy mode="interactive" opacity={0.4} starCount={120} />}
+
       <Box
         sx={{
           minHeight: '80vh',
@@ -62,6 +65,8 @@ export function NetworkError({ type = 'connection', onRetry }: NetworkErrorProps
           justifyContent: 'center',
           textAlign: 'center',
           py: 4,
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {/* Icon */}
@@ -97,7 +102,7 @@ export function NetworkError({ type = 'connection', onRetry }: NetworkErrorProps
         <Button
           variant="contained"
           size="large"
-          startIcon={retrying ? <CircularProgress size={20} color="inherit" /> : <RetryIcon />}
+          startIcon={<RetryIcon />}
           onClick={handleRetry}
           disabled={retrying}
           sx={{ minWidth: 160 }}

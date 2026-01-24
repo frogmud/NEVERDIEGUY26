@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Box, Typography, Button, CircularProgress } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { WifiOffSharp as OfflineIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
+import { AsciiGalaxy } from '../../components/AsciiGalaxy';
 
 export function OfflineState() {
   const [isRetrying, setIsRetrying] = useState(false);
@@ -19,6 +20,7 @@ export function OfflineState() {
   return (
     <Box
       sx={{
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -28,6 +30,9 @@ export function OfflineState() {
         px: 2,
       }}
     >
+      {/* Interactive galaxy background during retry */}
+      {isRetrying && <AsciiGalaxy mode="interactive" opacity={0.4} starCount={120} />}
+
       <OfflineIcon
         sx={{
           fontSize: 80,
@@ -48,8 +53,7 @@ export function OfflineState() {
         variant="contained"
         onClick={handleRetry}
         disabled={isRetrying}
-        startIcon={isRetrying ? <CircularProgress size={16} color="inherit" /> : null}
-        sx={{ minWidth: 180 }}
+        sx={{ minWidth: 180, position: 'relative', zIndex: 1 }}
       >
         {isRetrying ? 'Checking...' : 'Retry Connection'}
       </Button>
