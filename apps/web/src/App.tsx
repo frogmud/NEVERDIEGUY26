@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, GlobalStyles } from '@mui/material';
 import { Shell } from './components/Shell';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { tokens } from './theme';
 import { RunProvider, PartyProvider } from './contexts';
 
@@ -103,9 +104,10 @@ const ComponentDetail = lazy(() => import('./screens/design-system/ComponentDeta
 
 function App() {
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <GlobalStyles styles={globalAnimations} />
-      <Routes>
+    <ErrorBoundary>
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        <GlobalStyles styles={globalAnimations} />
+        <Routes>
         {/* Auth routes redirect to home (MVP: no login required) */}
         <Route path="/login" element={<Navigate to="/" replace />} />
         <Route path="/signup" element={<Navigate to="/" replace />} />
@@ -194,7 +196,8 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </Box>
+      </Box>
+    </ErrorBoundary>
   );
 }
 

@@ -55,7 +55,7 @@ import {
   logDefeat,
 } from '../utils/telemetry';
 import { getBonusesFromInventory, filterPersistentItems } from '../data/items/combat-effects';
-import { getEarlyFinishBonus, calculateGoldGain, filterPersistentItems as filterPersistentItemsByRarity } from '../data/balance-config';
+import { getEarlyFinishBonus, calculateGoldGain, filterPersistentItems as filterPersistentItemsByRarity, canAddToInventory } from '../data/balance-config';
 import { type PortalOption, calculateHpAfterTravel, getAvailablePortals, isFinale } from '../data/portal-config';
 import { getFlatScoreGoal, getFlatGoldReward, type LoadoutStats } from '@ndg/ai-engine';
 import { getLoadoutById, LOADOUT_PRESETS } from '../data/loadouts';
@@ -740,6 +740,16 @@ function runReducer(state: RunState, action: RunAction): RunState {
       if (state.gold < action.cost) {
         console.warn('Purchase attempted with insufficient gold');
         return state;
+      }
+
+      // Validate inventory capacity for powerups/upgrades
+      if (action.category === 'powerup' || action.category === 'upgrade') {
+        const currentPowerups = state.inventory.powerups.length;
+        const currentUpgrades = state.inventory.upgrades.length;
+        if (!canAddToInventory(currentPowerups, currentUpgrades, action.category)) {
+          console.warn(`Inventory full for ${action.category}`);
+          return state;
+        }
       }
 
       const shopBuyEvent = createShopBuyEvent(action.itemId, action.cost, state.tier);

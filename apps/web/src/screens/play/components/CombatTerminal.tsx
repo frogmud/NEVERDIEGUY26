@@ -538,6 +538,10 @@ export function CombatTerminal({
   const [lastScoreGain, setLastScoreGain] = useState(0);
   const [bossIsHit, setBossIsHit] = useState(false);
 
+  // Draw event bonuses (accumulated from special dice patterns)
+  const [drawEventBonus, setDrawEventBonus] = useState(0);
+  const [drawEventMultiplier, setDrawEventMultiplier] = useState(1);
+
   // Draw event toast disabled - reduces UI clutter
 
   // Event timer state (45s countdown)
@@ -857,11 +861,13 @@ export function CombatTerminal({
     return () => clearInterval(decayInterval);
   }, [isLobby, isTimerPaused, actualScoreGoal, totalTimerMs, statEffects.decayReduction]);
 
-  // Reset decay on new combat
+  // Reset decay and draw event bonuses on new combat
   useEffect(() => {
     if (!isLobby) {
       setAccumulatedDecay(0);
       lastDecayTickRef.current = Date.now();
+      setDrawEventBonus(0);
+      setDrawEventMultiplier(1);
     }
   }, [isLobby, domain, tier]);
 
@@ -907,9 +913,10 @@ export function CombatTerminal({
     }
   }, [isLobby, domain, tier]);
 
-  // Calculate effective score (raw score * fury multiplier - decay, floored at 0)
+  // Calculate effective score (raw score + draw bonuses) * multipliers - decay, floored at 0)
   const rawScore = engineState?.currentScore || 0;
-  const furyBoostedScore = rawScore * statEffects.scoreMultiplier;
+  const scoreWithDrawBonus = (rawScore + drawEventBonus) * drawEventMultiplier;
+  const furyBoostedScore = scoreWithDrawBonus * statEffects.scoreMultiplier;
   const effectiveScore = Math.max(0, Math.floor(furyBoostedScore - accumulatedDecay));
 
   // Victory lock: when effective score >= goal, win immediately (decay stops)
@@ -1456,10 +1463,14 @@ export function CombatTerminal({
           onDiceRoll(rollPayload);
         }
 
-        // Detect draw events (special dice patterns) - bonuses applied silently
-        // Toast disabled to reduce UI clutter during gameplay
+        // Detect draw events (special dice patterns) and apply bonuses
         const drawEvents = detectDrawEvents(newState.hand);
-        void drawEvents; // Detection available for future use
+        if (drawEvents.length > 0) {
+          const { totalBonus, totalMultiplier } = calculateEventBonuses(drawEvents);
+          // Accumulate bonuses (multipliers stack multiplicatively)
+          setDrawEventBonus(prev => prev + totalBonus);
+          setDrawEventMultiplier(prev => prev * totalMultiplier);
+        }
 
         // Fire situational triggers based on game state
         const scoreProgress = newState.targetScore > 0

@@ -236,6 +236,32 @@ export function calculateGoldGain(rawGold: number, currentGold: number): number 
   );
 }
 
+// ============================================================
+// INVENTORY LIMITS
+// Prevents unbounded item accumulation and ensures strategic choices
+// ============================================================
+
+export const INVENTORY_CONFIG = {
+  /** Max powerups player can hold */
+  maxPowerups: 8,
+  /** Max upgrades player can hold */
+  maxUpgrades: 6,
+} as const;
+
+/**
+ * Check if inventory can accept more items
+ */
+export function canAddToInventory(
+  currentPowerups: number,
+  currentUpgrades: number,
+  category: 'powerup' | 'upgrade'
+): boolean {
+  if (category === 'powerup') {
+    return currentPowerups < INVENTORY_CONFIG.maxPowerups;
+  }
+  return currentUpgrades < INVENTORY_CONFIG.maxUpgrades;
+}
+
 /**
  * Calculate gold reward for clearing a room
  * Uses domain POSITION (not raw ID) for scaling - ensures progression rewards align
