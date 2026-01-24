@@ -20,6 +20,19 @@ interface ModelInfo {
   path: string;
 }
 
+// Domain globe definitions (from main game config)
+const DOMAIN_GLOBES = [
+  { id: 1, name: 'Earth', color: '#8b7355', scale: 0.8, element: 'Earth', die: 6 },
+  { id: 2, name: 'Frost Reach', color: '#81d4fa', scale: 1.0, element: 'Ice', die: 12 },
+  { id: 3, name: 'Infernus', color: '#d84315', scale: 1.0, element: 'Fire', die: 10 },
+  { id: 4, name: 'Shadow Keep', color: '#4a3860', scale: 0.9, element: 'Death', die: 8 },
+  { id: 5, name: 'Null Providence', color: '#e8e8e8', scale: 0.7, element: 'Void', die: 4 },
+  { id: 6, name: 'Aberrant', color: '#1a4a4a', scale: 1.2, element: 'Chaos', die: 20 },
+];
+
+// Trophy-worthy PSX categories (filter out decorations)
+const TROPHY_CATEGORIES = ['Items & Weapons'];
+
 // Transform absolute paths to dev server URLs
 const PSX_BASE_PATH = '/Users/kevin/Documents/PSX Mega Pack/Models/GLB';
 function toModelUrl(absolutePath: string): string {
@@ -60,6 +73,26 @@ function Model({ path }: { path: string }) {
     <Center>
       <primitive object={clonedScene} />
     </Center>
+  );
+}
+
+// Procedural globe component for domain planets
+function Globe({ color, scale }: { color: string; scale: number }) {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  return (
+    // @ts-ignore - R3F intrinsic element
+    <mesh ref={meshRef} scale={scale}>
+      {/* @ts-ignore - R3F intrinsic element */}
+      <sphereGeometry args={[1.5, 64, 64]} />
+      {/* @ts-ignore - R3F intrinsic element */}
+      <meshStandardMaterial
+        color={color}
+        flatShading
+        roughness={0.7}
+        metalness={0.1}
+      />
+    </mesh>
   );
 }
 
@@ -162,7 +195,7 @@ function LiveAsciiRenderer({
 }
 
 // Camera auto-fit component
-function CameraController({ modelPath }: { modelPath: string }) {
+function CameraController({ modelKey }: { modelKey: string }) {
   const { camera, scene } = useThree();
   const controlsRef = useRef<any>(null);
 
@@ -197,7 +230,7 @@ function CameraController({ modelPath }: { modelPath: string }) {
     }, 100);
 
     return () => clearTimeout(timeout);
-  }, [modelPath, camera, scene]);
+  }, [modelKey, camera, scene]);
 
   return (
     <OrbitControls
@@ -213,9 +246,14 @@ function CameraController({ modelPath }: { modelPath: string }) {
   );
 }
 
+// Selected item type
+type SelectedItem =
+  | { type: 'globe'; globe: typeof DOMAIN_GLOBES[0] }
+  | { type: 'model'; model: ModelInfo };
+
 export function ModelBrowser() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState<ModelInfo | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [exporting, setExporting] = useState(false);
   const [exportType, setExportType] = useState<'png' | 'webm'>('png');
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -239,10 +277,23 @@ export function ModelBrowser() {
     color,
   };
 
-  const categories = psxModels.categories;
-  const models = selectedCategory
+  // Filter categories to trophy-worthy ones only
+  const psxCategories = psxModels.categories.filter(
+    (cat: { name: string }) => TROPHY_CATEGORIES.includes(cat.name)
+  );
+
+  // Get models for selected PSX category
+  const models = selectedCategory && selectedCategory !== 'Domain Globes'
     ? psxModels.models.filter((m: ModelInfo) => m.category === selectedCategory)
     : [];
+
+  // Check if viewing globes
+  const isGlobeCategory = selectedCategory === 'Domain Globes';
+
+  // Total model count
+  const totalModels = DOMAIN_GLOBES.length + psxCategories.reduce(
+    (sum: number, cat: { count: number }) => sum + cat.count, 0
+  );
 
   // ASCII capture from canvas (for export)
   const captureAsciiFrame = useCallback(() => {
@@ -309,9 +360,21 @@ export function ModelBrowser() {
     return asciiCanvas;
   }, [asciiSettings]);
 
+  // Get filename for exports
+  const getExportFilename = (ext: string) => {
+    if (!selectedItem) return `model-ascii.${ext}`;
+    if (selectedItem.type === 'globe') {
+      const slug = selectedItem.globe.name.toLowerCase().replace(/\s+/g, '-');
+      return `globe-${slug}-ascii.${ext}`;
+    } else {
+      const catSlug = selectedItem.model.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      return `psx-${catSlug}-${selectedItem.model.name}-ascii.${ext}`;
+    }
+  };
+
   // Export static PNG
   const exportPng = useCallback(async () => {
-    if (!selectedModel) return;
+    if (!selectedItem) return;
     setExporting(true);
 
     // Wait for render
@@ -331,18 +394,17 @@ export function ModelBrowser() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      const catSlug = selectedModel.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      a.download = `psx-${catSlug}-${selectedModel.name}-ascii.png`;
+      a.download = getExportFilename('png');
       a.click();
       URL.revokeObjectURL(url);
     }
 
     setExporting(false);
-  }, [selectedModel, captureAsciiFrame]);
+  }, [selectedItem, captureAsciiFrame]);
 
   // Export spinning WebM
   const exportWebm = useCallback(async () => {
-    if (!selectedModel || !canvasRef.current || !asciiCanvasRef.current) return;
+    if (!selectedItem || !canvasRef.current || !asciiCanvasRef.current) return;
     setExporting(true);
 
     const asciiCanvas = asciiCanvasRef.current;
@@ -375,8 +437,7 @@ export function ModelBrowser() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      const catSlug = selectedModel.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      a.download = `psx-${catSlug}-${selectedModel.name}-ascii.webm`;
+      a.download = getExportFilename('webm');
       a.click();
       URL.revokeObjectURL(url);
       setExporting(false);
@@ -392,7 +453,7 @@ export function ModelBrowser() {
     }
 
     mediaRecorder.stop();
-  }, [selectedModel, captureAsciiFrame]);
+  }, [selectedItem, captureAsciiFrame]);
 
   return (
     <div style={styles.container}>
@@ -400,7 +461,7 @@ export function ModelBrowser() {
       <div style={styles.header}>
         <h2 style={styles.title}>3D Models</h2>
         <span style={styles.subtitle}>
-          {psxModels.models.length} PSX models in {categories.length} categories
+          {totalModels} models ({DOMAIN_GLOBES.length} globes + {totalModels - DOMAIN_GLOBES.length} trophies)
         </span>
       </div>
 
@@ -410,12 +471,27 @@ export function ModelBrowser() {
           {/* Categories */}
           <div style={styles.categoryList}>
             <div style={styles.sectionLabel}>Categories</div>
-            {categories.map((cat: { name: string; count: number }) => (
+            {/* Domain Globes - special category */}
+            <button
+              onClick={() => {
+                setSelectedCategory('Domain Globes');
+                setSelectedItem(null);
+              }}
+              style={{
+                ...styles.categoryBtn,
+                ...(selectedCategory === 'Domain Globes' ? styles.categoryBtnActive : {}),
+              }}
+            >
+              Domain Globes
+              <span style={styles.count}>{DOMAIN_GLOBES.length}</span>
+            </button>
+            {/* PSX trophy categories */}
+            {psxCategories.map((cat: { name: string; count: number }) => (
               <button
                 key={cat.name}
                 onClick={() => {
                   setSelectedCategory(cat.name);
-                  setSelectedModel(null);
+                  setSelectedItem(null);
                 }}
                 style={{
                   ...styles.categoryBtn,
@@ -432,21 +508,43 @@ export function ModelBrowser() {
           {selectedCategory && (
             <div style={styles.modelList}>
               <div style={styles.sectionLabel}>
-                {selectedCategory} ({models.length})
+                {selectedCategory} ({isGlobeCategory ? DOMAIN_GLOBES.length : models.length})
               </div>
               <div style={styles.modelScroll}>
-                {models.map((model: ModelInfo) => (
-                  <button
-                    key={model.file}
-                    onClick={() => setSelectedModel(model)}
-                    style={{
-                      ...styles.modelBtn,
-                      ...(selectedModel?.file === model.file ? styles.modelBtnActive : {}),
-                    }}
-                  >
-                    {model.name}
-                  </button>
-                ))}
+                {isGlobeCategory ? (
+                  // Globe items
+                  DOMAIN_GLOBES.map((globe) => (
+                    <button
+                      key={globe.id}
+                      onClick={() => setSelectedItem({ type: 'globe', globe })}
+                      style={{
+                        ...styles.modelBtn,
+                        ...(selectedItem?.type === 'globe' && selectedItem.globe.id === globe.id
+                          ? styles.modelBtnActive
+                          : {}),
+                      }}
+                    >
+                      <span style={{ color: globe.color }}>{globe.name}</span>
+                      <span style={styles.globeTag}>d{globe.die}</span>
+                    </button>
+                  ))
+                ) : (
+                  // PSX model items
+                  models.map((model: ModelInfo) => (
+                    <button
+                      key={model.file}
+                      onClick={() => setSelectedItem({ type: 'model', model })}
+                      style={{
+                        ...styles.modelBtn,
+                        ...(selectedItem?.type === 'model' && selectedItem.model.file === model.file
+                          ? styles.modelBtnActive
+                          : {}),
+                      }}
+                    >
+                      {model.name}
+                    </button>
+                  ))
+                )}
               </div>
             </div>
           )}
@@ -454,11 +552,18 @@ export function ModelBrowser() {
 
         {/* Main - 3D Viewer */}
         <div style={styles.main}>
-          {selectedModel ? (
+          {selectedItem ? (
             <>
               {/* Controls */}
               <div style={styles.controls}>
-                <span style={styles.modelName}>{selectedModel.name}</span>
+                <span style={styles.modelName}>
+                  {selectedItem.type === 'globe' ? selectedItem.globe.name : selectedItem.model.name}
+                </span>
+                {selectedItem.type === 'globe' && (
+                  <span style={{ ...styles.globeInfo, color: selectedItem.globe.color }}>
+                    {selectedItem.globe.element}
+                  </span>
+                )}
 
                 {/* ASCII toggle switch */}
                 <label style={styles.switchLabel}>
@@ -623,8 +728,16 @@ export function ModelBrowser() {
                     intensity={0.3}
                   />
                   <Suspense fallback={null}>
-                    <Model path={selectedModel.path} />
-                    <CameraController modelPath={selectedModel.path} />
+                    {selectedItem.type === 'globe' ? (
+                      <Globe color={selectedItem.globe.color} scale={selectedItem.globe.scale} />
+                    ) : (
+                      <Model path={selectedItem.model.path} />
+                    )}
+                    <CameraController
+                      modelKey={selectedItem.type === 'globe'
+                        ? `globe-${selectedItem.globe.id}`
+                        : selectedItem.model.path}
+                    />
                     <LiveAsciiRenderer
                       asciiCanvasRef={asciiCanvasRef}
                       enabled={asciiMode}
@@ -744,6 +857,9 @@ const styles: Record<string, React.CSSProperties> = {
     gap: '2px',
   },
   modelBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
     padding: '8px 10px',
     background: 'transparent',
     border: 'none',
@@ -762,6 +878,16 @@ const styles: Record<string, React.CSSProperties> = {
   modelBtnActive: {
     background: '#1a1a1a',
     color: '#e0e0e0',
+  },
+  globeTag: {
+    marginLeft: 'auto',
+    fontSize: '0.6rem',
+    color: '#555',
+    fontFamily: 'monospace',
+  },
+  globeInfo: {
+    fontSize: '0.75rem',
+    fontWeight: 500,
   },
   main: {
     flex: 1,

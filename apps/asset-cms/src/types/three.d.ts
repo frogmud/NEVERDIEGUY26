@@ -20,6 +20,11 @@ declare module 'three' {
     clone(): this;
   }
 
+  export class Mesh extends Object3D {
+    geometry: any;
+    material: any;
+  }
+
   export class PerspectiveCamera {
     fov: number;
     position: Vector3;
@@ -42,6 +47,19 @@ declare global {
       };
       primitive: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         object?: unknown;
+      };
+      mesh: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        ref?: React.Ref<any>;
+        scale?: number | [number, number, number];
+      };
+      sphereGeometry: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        args?: [number, number, number];
+      };
+      meshStandardMaterial: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        color?: string;
+        flatShading?: boolean;
+        roughness?: number;
+        metalness?: number;
       };
     }
   }
