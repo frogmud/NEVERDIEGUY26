@@ -609,12 +609,15 @@ export function ModelBrowser() {
                     opacity: asciiMode ? 0 : 1,
                   }}
                 >
+                  {/* @ts-ignore - R3F intrinsic element */}
                   <ambientLight intensity={0.6} />
+                  {/* @ts-ignore - R3F intrinsic element */}
                   <directionalLight
                     position={[10, 10, 10]}
                     intensity={1}
                     castShadow
                   />
+                  {/* @ts-ignore - R3F intrinsic element */}
                   <directionalLight
                     position={[-5, -5, -5]}
                     intensity={0.3}
