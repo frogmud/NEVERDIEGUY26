@@ -513,7 +513,7 @@ export function CombatTerminal({
   const statEffects = useMemo(() => calculateStatEffects(loadoutStats), [loadoutStats]);
 
   // Sound effects
-  const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion } = useSoundContext();
+  const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion, playUIClick } = useSoundContext();
 
   // Game settings (speed affects animation timings)
   const { adjustDelay, gameSpeed, asciiMode } = useGameSettings();
@@ -1233,6 +1233,7 @@ export function CombatTerminal({
 
       // Destroy targeted guardians and fire NPC triggers
       if (guardiansToDestroy.length > 0) {
+        playExplosion(); // Guardian destruction sound
         // Fire guardian slain trigger for each destroyed guardian
         for (const guardianId of guardiansToDestroy) {
           const guardian = guardians.find(g => g.id === guardianId);
@@ -1396,6 +1397,7 @@ export function CombatTerminal({
 
   // Track trades (when END_TURN is dispatched with unheld dice)
   const handleEndCombatTurnWithFeed = useCallback(() => {
+    playUIClick();
     const state = engineRef.current?.getState();
     if (state) {
       const unheldCount = state.hand.filter(d => !d.isHeld).length;
@@ -1413,22 +1415,25 @@ export function CombatTerminal({
       }
     }
     engineRef.current?.dispatch({ type: 'END_TURN' });
-  }, [onFeedUpdate]);
+  }, [onFeedUpdate, playUIClick]);
 
   // Combat action handlers
   const handleToggleHold = useCallback((dieId: string) => {
+    playUIClick();
     engineRef.current?.dispatch({ type: 'TOGGLE_HOLD', dieId });
-  }, []);
+  }, [playUIClick]);
 
   // Hold all dice (none selected for throwing) - atomic operation
   const handleHoldAll = useCallback(() => {
+    playUIClick();
     engineRef.current?.dispatch({ type: 'HOLD_ALL' });
-  }, []);
+  }, [playUIClick]);
 
   // Release all holds (all dice selected for throwing) - atomic operation
   const handleHoldNone = useCallback(() => {
+    playUIClick();
     engineRef.current?.dispatch({ type: 'HOLD_NONE' });
-  }, []);
+  }, [playUIClick]);
 
   const handleThrowDice = useCallback(() => {
     // Prevent multiple throws while processing
@@ -1468,6 +1473,7 @@ export function CombatTerminal({
         // Detect draw events (special dice patterns) and apply bonuses
         const drawEvents = detectDrawEvents(newState.hand);
         if (drawEvents.length > 0) {
+          playUIClick(); // Celebratory click for bonus patterns
           const { totalBonus, totalMultiplier } = calculateEventBonuses(drawEvents);
           // Accumulate bonuses (multipliers stack multiplicatively)
           setDrawEventBonus(prev => prev + totalBonus);
