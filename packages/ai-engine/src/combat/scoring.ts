@@ -210,6 +210,11 @@ export interface ElementComboResult {
  * Calculate element combo bonus when throwing 3+ dice of same element
  */
 export function calculateElementCombo(dice: Die[]): ElementComboResult {
+  // Early return for empty arrays (optimization)
+  if (dice.length === 0) {
+    return { element: null, diceCount: 0, bonusMultiplier: 1.0 };
+  }
+
   const counts: Record<Element, number> = {
     Void: 0,
     Earth: 0,

@@ -549,23 +549,24 @@ if (this.state.pool.available.length < MAX_HAND_SIZE - this.state.hand.filter(d 
 
 ## Recommendations
 
-1. **Immediate Fixes (P0):**
-   - Add score floor validation (EC-003)
-   - Document victory precedence over defeat (EC-001)
-   - Validate domainId range in constructor (EC-008)
+1. **Immediate Fixes (P0):** ALL RESOLVED
+   - [x] Add score floor validation (EC-003) - Fixed in P0-001
+   - [x] Document victory precedence over defeat (EC-001) - Documented
+   - [x] Validate domainId range in constructor (EC-008) - Fixed in P0-004
 
-2. **High Priority (P1):**
-   - Fix pool recycling order (EC-020, EC-009)
-   - Enforce multiplier cap from COMBAT_CAPS (EC-011)
-   - Prevent pity farming with held dice (EC-005)
+2. **High Priority (P1):** ALL RESOLVED
+   - [x] Fix pool recycling order (EC-020, EC-009) - Fixed in P0-002
+   - [x] Enforce multiplier cap from COMBAT_CAPS (EC-011) - Fixed
+   - [x] Prevent pity farming with held dice (EC-005) - Fixed in P1
 
-3. **Balance Review (P2):**
-   - Decide if critical hits should affect penalties (EC-010)
-   - Cap time pressure multiplier explicitly (EC-007)
+3. **Balance Review (P2):** ALL RESOLVED
+   - [x] Decide if critical hits should affect penalties (EC-010) - Design: intentional
+   - [x] Cap time pressure multiplier explicitly (EC-007) - Fixed in P0-003
+   - [x] Early return for empty dice array (EC-002) - Fixed
 
-4. **Documentation (P3):**
-   - Document draw event behavior (EC-014, EC-015, EC-016)
-   - Clarify held dice exclusion from events (EC-019)
+4. **Documentation (P3):** Deferred (post-MVP)
+   - [ ] Document draw event behavior (EC-014, EC-015, EC-016)
+   - [ ] Clarify held dice exclusion from events (EC-019)
 
 ---
 

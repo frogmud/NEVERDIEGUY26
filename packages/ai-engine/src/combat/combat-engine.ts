@@ -530,13 +530,15 @@ export class CombatEngine {
   private checkEndConditions(): void {
     this.setPhase('check_end');
 
-    // Victory: score >= target
+    // IMPORTANT: Victory check MUST come before defeat check.
+    // If player reaches target score on their final throw, they win.
+    // This ensures score >= target always results in victory.
     if (this.state.currentScore >= this.state.targetScore) {
       this.setPhase('victory');
       return;
     }
 
-    // Defeat: out of throws (trades can't help - only throws add score)
+    // Defeat: out of throws (only checked after victory condition fails)
     if (this.state.throwsRemaining <= 0) {
       this.setPhase('defeat');
       return;
