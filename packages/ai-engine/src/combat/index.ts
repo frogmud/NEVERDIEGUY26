@@ -118,9 +118,10 @@ export {
   getDieDecayModifier,
   calculateWeightedDecay,
   getEffectiveGracePeriod,
-  // Combat Damage Config
-  COMBAT_DAMAGE,
 } from './balance-config';
+
+// Combat Damage Config (from balance module)
+export { COMBAT_DAMAGE } from '../balance';
 
 // Draw Events System
 export {
