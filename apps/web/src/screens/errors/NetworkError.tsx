@@ -12,7 +12,6 @@ import {
   SignalWifiOffSharp as NoSignalIcon,
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
-import { AsciiGalaxy } from '../../components/AsciiGalaxy';
 
 interface NetworkErrorProps {
   type?: 'connection' | 'timeout' | 'server';
@@ -53,9 +52,6 @@ export function NetworkError({ type = 'connection', onRetry }: NetworkErrorProps
 
   return (
     <Container maxWidth="sm" sx={{ position: 'relative' }}>
-      {/* Interactive galaxy background */}
-      {retrying && <AsciiGalaxy mode="interactive" opacity={0.4} starCount={120} />}
-
       <Box
         sx={{
           minHeight: '80vh',

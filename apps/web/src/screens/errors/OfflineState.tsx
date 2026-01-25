@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { WifiOffSharp as OfflineIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
-import { AsciiGalaxy } from '../../components/AsciiGalaxy';
 
 export function OfflineState() {
   const [isRetrying, setIsRetrying] = useState(false);
@@ -30,9 +29,6 @@ export function OfflineState() {
         px: 2,
       }}
     >
-      {/* Interactive galaxy background during retry */}
-      {isRetrying && <AsciiGalaxy mode="interactive" opacity={0.4} starCount={120} />}
-
       <OfflineIcon
         sx={{
           fontSize: 80,
