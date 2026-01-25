@@ -650,7 +650,6 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'nexus-explorer', rate: '100%' },
     ],
-    seeAlso: ['the-dying-saucer'],
     diceEffects: [
       { trigger: 'onMax', die: 6, effect: 'Master Navigator: Unlock secret portal' },
     ],
@@ -701,7 +700,6 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'courier-jobs', rate: '100%' },
     ],
-    seeAlso: ['the-dying-saucer'],
     diceEffects: [
       { trigger: 'onMax', die: 6, effect: 'Express Delivery: Double delivery reward' },
     ],
@@ -744,7 +742,6 @@ export const questItems: Item[] = [
     obtainMethods: [
       { type: 'quest', source: 'messenger-jobs', rate: '100%' },
     ],
-    seeAlso: ['the-dying-saucer'],
     diceEffects: [
       { trigger: 'onRoll', die: 6, effect: 'Peek Inside: Glimpse letter content on high roll' },
     ],

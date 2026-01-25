@@ -45,8 +45,7 @@ import {
   detectDrawEvents,
   calculateEventBonuses,
 } from '@ndg/ai-engine';
-// Draw event toast disabled to reduce UI clutter
-// import { DrawEventToast, useDrawEventToast } from '../../../components/DrawEventToast';
+import { DrawEventToast, useDrawEventToast } from '../../../components/DrawEventToast';
 import { DensityMeter } from '../../../components/DensityMeter';
 import type { RunCombatState } from '../../../contexts/RunContext';
 import type { EventType } from '../../../games/meteor/gameConfig';
@@ -516,7 +515,7 @@ export function CombatTerminal({
   const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion, playUIClick } = useSoundContext();
 
   // Game settings (speed affects animation timings)
-  const { adjustDelay, gameSpeed, asciiMode } = useGameSettings();
+  const { adjustDelay, gameSpeed, asciiMode, drawEventsEnabled } = useGameSettings();
 
   // Combat engine ref
   const engineRef = useRef<CombatEngine | null>(null);
@@ -542,7 +541,8 @@ export function CombatTerminal({
   const [drawEventBonus, setDrawEventBonus] = useState(0);
   const [drawEventMultiplier, setDrawEventMultiplier] = useState(1);
 
-  // Draw event toast disabled - reduces UI clutter
+  // Draw event toast queue
+  const { currentEvent: drawEvent, showEvents: showDrawEvents, clearCurrent: clearDrawEvent } = useDrawEventToast();
 
   // Event timer state (45s countdown)
   const [timeRemainingMs, setTimeRemainingMs] = useState<number>(FLAT_EVENT_CONFIG.eventDurationMs);
@@ -1298,7 +1298,8 @@ export function CombatTerminal({
     if (engineState.phase === 'victory' && soundPlayedRef.current !== 'victory') {
       soundPlayedRef.current = 'victory';
       playVictory();
-      playExplosion(); // Planet explosion sound
+      // Stagger explosion sound for more cinematic effect
+      setTimeout(() => playExplosion(), 200);
     } else if (engineState.phase === 'defeat' && soundPlayedRef.current !== 'defeat') {
       soundPlayedRef.current = 'defeat';
       playDefeat();
@@ -1478,6 +1479,10 @@ export function CombatTerminal({
           // Accumulate bonuses (multipliers stack multiplicatively)
           setDrawEventBonus(prev => prev + totalBonus);
           setDrawEventMultiplier(prev => prev * totalMultiplier);
+          // Show toast notifications (if enabled in settings)
+          if (drawEventsEnabled) {
+            showDrawEvents(drawEvents);
+          }
         }
 
         // Fire situational triggers based on game state
@@ -1756,7 +1761,13 @@ export function CombatTerminal({
         onClose={() => setReportOpen(false)}
       />
 
-      {/* Draw Event Toast disabled - reduces UI clutter during gameplay */}
+      {/* Draw Event Toast - shows Lucky Straight, High Roller, etc. */}
+      {drawEventsEnabled && (
+        <DrawEventToast
+          event={drawEvent}
+          onComplete={clearDrawEvent}
+        />
+      )}
     </Box>
   );
 }

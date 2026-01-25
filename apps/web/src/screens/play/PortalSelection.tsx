@@ -10,7 +10,7 @@
  */
 
 import { useMemo, useCallback, useState, useEffect } from 'react';
-import { Box, Typography, Button, keyframes } from '@mui/material';
+import { Box, Typography, Button, Tooltip, keyframes } from '@mui/material';
 import { tokens } from '../../theme';
 import { DURATION, EASING, GLOW } from '../../utils/transitions';
 import { useRun } from '../../contexts/RunContext';
@@ -205,14 +205,6 @@ function PortalCard({ portal, currentHp, isSelected, hasSelection, onSelect, ind
         },
       }}
     >
-      {/* Animated ASCII flume background */}
-      {!portal.isUnknown && (
-        <AsciiFlumeBackground domainId={portal.domainId} isHovered={isHovered || isSelected} />
-      )}
-
-      {/* ASCII scanline overlay */}
-      <AsciiOverlay isHovered={isHovered || isSelected} color={planetConfig?.color || '#666'} />
-
       {/* Unknown portal background */}
       {portal.isUnknown && (
         <Box
@@ -402,12 +394,18 @@ export default function PortalSelection() {
       </Box>
 
       {/* Current HP */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 3 }}>
-        <Box component="img" src="/assets/items/consumables/Heart-Full.svg" alt="" sx={{ width: 16, height: 16 }} />
-        <Typography sx={{ ...gamingFont, fontSize: '0.9rem' }}>
-          {hp}
-        </Typography>
-      </Box>
+      <Tooltip
+        title="HP is depleted by taking extra turns in combat and traveling between domains. Reach 0 HP and your run ends."
+        arrow
+        placement="bottom"
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 3, cursor: 'help' }}>
+          <Box component="img" src="/assets/items/consumables/Heart-Full.svg" alt="" sx={{ width: 16, height: 16 }} />
+          <Typography sx={{ ...gamingFont, fontSize: '0.9rem' }}>
+            {hp}
+          </Typography>
+        </Box>
+      </Tooltip>
 
       {/* Portal cards */}
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>

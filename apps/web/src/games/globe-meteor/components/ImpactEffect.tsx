@@ -18,6 +18,15 @@ import { Text } from '@react-three/drei';
 import { ImpactZone, METEOR_CONFIG, GLOBE_CONFIG, DICE_EFFECTS } from '../config';
 import { cartesianToLatLng, getSurfaceNormal } from '../utils/sphereCoords';
 
+// Pre-created geometries (module-level, shared across all instances)
+// Avoids 30+ geometry allocations per frame per impact
+const CIRCLE_GEO = new THREE.CircleGeometry(1, 16);
+const CIRCLE_GEO_8 = new THREE.CircleGeometry(1, 8);
+const RING_GEO = new THREE.RingGeometry(0.714, 1, 32); // 0.714 = 0.2/0.28 ratio for shockwave
+const RING_GEO_INNER = new THREE.RingGeometry(0.667, 1, 20); // ratio for second shockwave
+const SPHERE_GEO = new THREE.SphereGeometry(1, 4, 4);
+const BOX_GEO = new THREE.BoxGeometry(1, 0.7, 1.2); // debris chunk proportions
+
 interface ImpactEffectProps {
   impact: ImpactZone;
   onComplete?: (impactId: string) => void;
@@ -61,8 +70,14 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
   const groupRef = useRef<THREE.Group>(null);
   const textRef = useRef<THREE.Group>(null);
   const particlesRef = useRef<THREE.Group>(null);
-  const [progress, setProgress] = useState(0);
+  // Ref-based progress to avoid per-frame re-renders
+  const progressRef = useRef(0);
+  const startTimeRef = useRef(Date.now());
+  const [isComplete, setIsComplete] = useState(false);
   const shakeApplied = useRef(false);
+  // Track idle state to properly pause/resume animation timing
+  const wasIdleRef = useRef(isIdle);
+  const pausedAtRef = useRef<number | null>(null);
 
   const { camera } = useThree();
 
@@ -84,29 +99,12 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
   const normal = useMemo(() => getSurfaceNormal(lat, lng), [lat, lng]);
 
-  // Animation progress - particles animate, but crater stays
+  // Reset start time when impact changes
   useEffect(() => {
-    if (isIdle) return;
-
-    const startTime = Date.now();
-    const duration = METEOR_CONFIG.explosionDuration * 1.5; // Slower for more drama
-
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const newProgress = Math.min(elapsed / duration, 1);
-      setProgress(newProgress);
-
-      if (newProgress < 1) {
-        requestAnimationFrame(animate);
-      }
-      // Don't call onComplete - let craters persist!
-    };
-
-    const frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [impact.id, isIdle]);
-
-  // Camera shake removed for accessibility (epilepsy concerns)
+    startTimeRef.current = Date.now();
+    progressRef.current = 0;
+    setIsComplete(false);
+  }, [impact.id]);
 
   // Calculate rotation to align with surface
   const rotation = useMemo(() => {
@@ -118,14 +116,67 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
     return new THREE.Euler().setFromQuaternion(quaternion);
   }, [normal]);
 
-  // Animate particles and floating text
+  const duration = METEOR_CONFIG.explosionDuration * 1.5;
+
+  // Animate everything in useFrame - no RAF loop, no setState per frame
   useFrame(() => {
+    // Handle pause/resume - adjust start time to preserve progress
+    if (isIdle && !wasIdleRef.current) {
+      // Just became idle - remember when we paused
+      pausedAtRef.current = Date.now();
+      wasIdleRef.current = true;
+      return;
+    } else if (!isIdle && wasIdleRef.current) {
+      // Just resumed from idle - shift start time forward by pause duration
+      if (pausedAtRef.current !== null) {
+        const pauseDuration = Date.now() - pausedAtRef.current;
+        startTimeRef.current += pauseDuration;
+        pausedAtRef.current = null;
+      }
+      wasIdleRef.current = false;
+    }
+
+    if (isIdle || isComplete) return;
+
+    // Update progress ref (no re-render)
+    const elapsed = Date.now() - startTimeRef.current;
+    const newProgress = Math.min(elapsed / duration, 1);
+    progressRef.current = newProgress;
+
+    // Mark complete to stop animation
+    if (newProgress >= 1 && !isComplete) {
+      setIsComplete(true);
+    }
+
+    // Animate text position directly
     if (textRef.current) {
-      // Text rises upward and fades
-      const textRise = progress * 0.6;
-      textRef.current.position.y = textRise;
+      textRef.current.position.y = newProgress * 0.6;
+    }
+
+    // Animate particle positions and scales directly
+    if (particlesRef.current) {
+      const easeOut = 1 - Math.pow(1 - newProgress, 3);
+      particlesRef.current.children.forEach((mesh, i) => {
+        if (i >= particleDirections.length) return;
+        const particle = particleDirections[i];
+        const particleProgress = easeOut * particle.speed;
+        const distance = particleProgress * 0.6 * intensity * (1 + impact.dieType / 15);
+        mesh.position.set(
+          particle.x * distance,
+          particle.y * distance * 0.5,
+          particle.z * distance
+        );
+        const scale = particle.size * intensity * (1 - newProgress * 0.5);
+        mesh.scale.setScalar(scale);
+        // Update material opacity
+        const mat = (mesh as THREE.Mesh).material as THREE.MeshBasicMaterial;
+        if (mat) mat.opacity = Math.max(0, (1 - newProgress * 1.2) * 0.85);
+      });
     }
   });
+
+  // Use ref progress for initial render, then useFrame updates directly
+  const progress = progressRef.current;
 
   // Position slightly above surface - use raw position, just nudge outward slightly
   const surfacePosition = useMemo((): [number, number, number] => {
@@ -148,8 +199,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
       <group ref={groupRef} rotation={rotation}>
         {/* Crater burn mark - fades over time instead of persistent black */}
         {progress < 0.95 && (
-          <mesh>
-            <circleGeometry args={[0.2 * intensity, 16]} />
+          <mesh geometry={CIRCLE_GEO} scale={[0.2 * intensity, 0.2 * intensity, 1]}>
             <meshBasicMaterial
               color="#1a1a1a"
               transparent
@@ -162,8 +212,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
         {/* Central flash - scales with roll */}
         {progress < 0.5 && (
-          <mesh>
-            <circleGeometry args={[(0.3 + progress * 0.8) * intensity, 16]} />
+          <mesh geometry={CIRCLE_GEO} scale={[(0.3 + progress * 0.8) * intensity, (0.3 + progress * 0.8) * intensity, 1]}>
             <meshBasicMaterial
               color={impactColor}
               transparent
@@ -175,8 +224,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
         {/* Inner bright core - only on good rolls */}
         {progress < 0.25 && intensity > 0.8 && (
-          <mesh>
-            <circleGeometry args={[(0.1 + progress * 0.2) * intensity, 8]} />
+          <mesh geometry={CIRCLE_GEO_8} scale={[(0.1 + progress * 0.2) * intensity, (0.1 + progress * 0.2) * intensity, 1]}>
             <meshBasicMaterial
               color="#ffffff"
               transparent
@@ -188,12 +236,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
         {/* Expanding shockwave ring - MORE EXTREME */}
         {progress > 0.02 && progress < 0.8 && (
-          <mesh>
-            <ringGeometry args={[
-              (0.2 + progress * 1.5) * intensity,
-              (0.28 + progress * 1.6) * intensity,
-              32
-            ]} />
+          <mesh geometry={RING_GEO} scale={[(0.28 + progress * 1.6) * intensity, (0.28 + progress * 1.6) * intensity, 1]}>
             <meshBasicMaterial
               color={impactColor}
               transparent
@@ -205,12 +248,7 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
 
         {/* Second shockwave - only on high rolls */}
         {intensity > 1.0 && progress > 0.1 && progress < 0.7 && (
-          <mesh>
-            <ringGeometry args={[
-              (0.08 + (progress - 0.1) * 0.8) * intensity,
-              (0.12 + (progress - 0.1) * 0.9) * intensity,
-              20
-            ]} />
+          <mesh geometry={RING_GEO_INNER} scale={[(0.12 + (progress - 0.1) * 0.9) * intensity, (0.12 + (progress - 0.1) * 0.9) * intensity, 1]}>
             <meshBasicMaterial
               color="#ffffff"
               transparent
@@ -220,28 +258,20 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
           </mesh>
         )}
 
-        {/* Particle burst - scales with intensity */}
+        {/* Particle burst - positions/scales updated in useFrame */}
         <group ref={particlesRef}>
           {particleDirections.map((particle, i) => {
-            const particleProgress = easeOut * particle.speed;
-            const distance = particleProgress * 0.6 * intensity * (1 + impact.dieType / 15);
-            const particleOpacity = Math.max(0, (1 - progress * 1.2) * 0.85);
-            const particleScale = particle.size * intensity * (1 - progress * 0.5);
-
+            const particleScale = particle.size * intensity;
             return (
               <mesh
                 key={i}
-                position={[
-                  particle.x * distance,
-                  particle.y * distance * 0.5,
-                  particle.z * distance,
-                ]}
+                geometry={SPHERE_GEO}
+                scale={[particleScale, particleScale, particleScale]}
               >
-                <sphereGeometry args={[particleScale, 4, 4]} />
                 <meshBasicMaterial
                   color={impactColor}
                   transparent
-                  opacity={particleOpacity}
+                  opacity={0.85}
                 />
               </mesh>
             );
@@ -256,17 +286,19 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
               const emberProgress = (progress - 0.2) / 0.8;
               const emberDistance = (0.15 + emberProgress * 0.4) * intensity;
               const emberOpacity = Math.max(0, (1 - emberProgress) * 0.7);
+              const emberScale = 0.03 * intensity;
 
               return (
                 <mesh
                   key={`ember-${i}`}
+                  geometry={SPHERE_GEO}
+                  scale={[emberScale, emberScale, emberScale]}
                   position={[
                     Math.cos(emberAngle) * emberDistance,
                     emberProgress * 0.3 * intensity,
                     Math.sin(emberAngle) * emberDistance,
                   ]}
                 >
-                  <sphereGeometry args={[0.03 * intensity, 4, 4]} />
                   <meshBasicMaterial
                     color="#ffaa00"
                     transparent
@@ -286,17 +318,19 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
               const smokeProgress = (progress - 0.15) / 0.7;
               const smokeDistance = smokeProgress * 0.5 * intensity;
               const smokeOpacity = Math.max(0, (1 - smokeProgress) * 0.25);
+              const smokeScale = 0.08 * intensity;
 
               return (
                 <mesh
                   key={`smoke-${i}`}
+                  geometry={SPHERE_GEO}
+                  scale={[smokeScale, smokeScale, smokeScale]}
                   position={[
                     Math.cos(angle) * smokeDistance,
                     smokeProgress * 0.25 * intensity,
                     Math.sin(angle) * smokeDistance,
                   ]}
                 >
-                  <sphereGeometry args={[0.08 * intensity, 4, 4]} />
                   <meshBasicMaterial
                     color="#666666"
                     transparent
@@ -338,10 +372,11 @@ export function ImpactEffect({ impact, onComplete, isIdle = false }: ImpactEffec
               return (
                 <mesh
                   key={`debris-${i}`}
+                  geometry={BOX_GEO}
+                  scale={[chunkSize, chunkSize, chunkSize]}
                   position={[x, y, z]}
                   rotation={[rotX, rotY, rotZ]}
                 >
-                  <boxGeometry args={[chunkSize, chunkSize * 0.7, chunkSize * 1.2]} />
                   <meshBasicMaterial
                     color="#3a3a4a"
                     transparent

@@ -633,3 +633,14 @@ export function calculateFitness(
 
   return fitness;
 }
+
+// === COMBAT DAMAGE (turn-based) ===
+// Player takes damage based on how many turns they use to win
+// Turn 1 win: 0 damage (clean victory)
+// Turn 2 win: 3 HP
+// Turn 3 win: 6 HP
+// Turn 4 win: 9 HP
+// Turn 5 win: 12 HP
+export const COMBAT_DAMAGE = {
+  basePerTurn: 3,  // HP lost per turn after first
+};

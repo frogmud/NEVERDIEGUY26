@@ -85,15 +85,20 @@ function CameraTracker({
   onDistanceChange,
   onCenterTargetChange,
   domainId,
+  planetRef,
 }: {
   onDistanceChange?: (distance: number) => void;
   onCenterTargetChange?: (target: { lat: number; lng: number; point3D: [number, number, number] } | null) => void;
   domainId?: number;
+  planetRef?: React.RefObject<THREE.Mesh>;
 }) {
   const { camera, scene } = useThree();
   const lastDistance = useRef(0);
   const lastTarget = useRef<{ lat: number; lng: number } | null>(null);
+  const lastCameraPos = useRef(new THREE.Vector3());
   const raycaster = useRef(new THREE.Raycaster());
+  // Reuse Vector2 to avoid allocations
+  const screenCenter = useRef(new THREE.Vector2(0, 0));
 
   useFrame(() => {
     // Report distance changes
@@ -105,18 +110,26 @@ function CameraTracker({
       }
     }
 
-    // Raycast from camera through screen center to find planet intersection
+    // Skip raycast if camera hasn't moved significantly (optimization)
     if (onCenterTargetChange) {
-      // Screen center is (0, 0) in normalized device coordinates
-      raycaster.current.setFromCamera(new THREE.Vector2(0, 0), camera);
+      const cameraMoved = camera.position.distanceTo(lastCameraPos.current) > 0.02;
+      if (!cameraMoved) return;
+      lastCameraPos.current.copy(camera.position);
 
-      // Find all intersections with the scene
-      const intersects = raycaster.current.intersectObjects(scene.children, true);
+      raycaster.current.setFromCamera(screenCenter.current, camera);
 
-      // Find the planet specifically by name
-      const planetHit = intersects.find(
-        (hit) => hit.object.name === 'planet'
-      );
+      // If we have a planet ref, raycast only that mesh (much faster)
+      // Otherwise fall back to scene search
+      let planetHit: THREE.Intersection | undefined;
+
+      if (planetRef?.current) {
+        const hits = raycaster.current.intersectObject(planetRef.current, false);
+        planetHit = hits[0];
+      } else {
+        // Fallback: search scene for planet by name
+        const intersects = raycaster.current.intersectObjects(scene.children, true);
+        planetHit = intersects.find((hit) => hit.object.name === 'planet');
+      }
 
       if (planetHit) {
         const point = planetHit.point;

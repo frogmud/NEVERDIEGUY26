@@ -126,6 +126,22 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
   // Track which meteors have already created impacts (prevent duplicates)
   const processedMeteorsRef = useRef<Set<string>>(new Set());
 
+  // Refs for fresh state access in RAF loops (avoids stale closure issue)
+  const comboStateRef = useRef(comboState);
+  const densityNpcCountRef = useRef(densityState.npcCount);
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    comboStateRef.current = comboState;
+  }, [comboState]);
+
+  useEffect(() => {
+    densityNpcCountRef.current = densityState.npcCount;
+  }, [densityState.npcCount]);
+
+  // Ref to track game phase timeout for cleanup
+  const phaseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Idle detection (5 seconds of no interaction)
   useEffect(() => {
     const idleCheck = setInterval(() => {
@@ -261,17 +277,31 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
 
   // Handle game phase transitions when meteors land
   useEffect(() => {
+    // Clear any pending timeout when state changes
+    if (phaseTimeoutRef.current) {
+      clearTimeout(phaseTimeoutRef.current);
+      phaseTimeoutRef.current = null;
+    }
+
     if (meteors.length === 0) {
       // All meteors have landed - transition to result phase, then select
       if (gamePhase === 'firing' || gamePhase === 'impact') {
         setGamePhase('result');
         // Auto-transition back to select after showing result
-        setTimeout(() => setGamePhase('select'), 1500);
+        phaseTimeoutRef.current = setTimeout(() => setGamePhase('select'), 1500);
       }
     } else if (gamePhase === 'firing') {
       // At least one meteor in flight
       setGamePhase('impact');
     }
+
+    // Cleanup on unmount
+    return () => {
+      if (phaseTimeoutRef.current) {
+        clearTimeout(phaseTimeoutRef.current);
+        phaseTimeoutRef.current = null;
+      }
+    };
   }, [meteors.length, gamePhase]);
 
   // Meteor animation loop - RAF based for smooth animation
@@ -407,8 +437,9 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
         });
 
         // Calculate score with density efficiency
+        // Use ref for fresh value (avoids stale closure in RAF loop)
         let points = 0;
-        const currentNpcCount = densityState.npcCount;
+        const currentNpcCount = densityNpcCountRef.current;
 
         hitNpcsWithDie.forEach(({ npc, dieType }) => {
           const basePoints = NPC_CONFIG.scoreMultiplier[npc.rarity];
@@ -423,11 +454,12 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
           points += Math.floor(basePoints * densityEff);
         });
 
-        // Apply combo multiplier
+        // Apply combo multiplier using fresh ref values
         setStats((prev) => {
+          const currentCombo = comboStateRef.current;
           const comboMultiplier =
-            comboState.comboType
-              ? COMBO_CONFIG.comboTypes[comboState.comboType].multiplier
+            currentCombo.comboType
+              ? COMBO_CONFIG.comboTypes[currentCombo.comboType].multiplier
               : 1;
           const finalPoints = Math.floor(points * comboMultiplier);
 
@@ -435,12 +467,12 @@ export function useGlobeMeteorGame(options: UseGlobeMeteorGameOptions = {}) {
             ...prev,
             score: prev.score + finalPoints,
             npcsSquished: prev.npcsSquished + hitNpcs.length,
-            maxCombo: Math.max(prev.maxCombo, comboState.currentChain + hitNpcs.length),
+            maxCombo: Math.max(prev.maxCombo, currentCombo.currentChain + hitNpcs.length),
           };
         });
       }
     },
-    [comboState, densityState.npcCount]
+    [] // No dependencies - uses refs for fresh values
   );
 
   // Clear old impacts

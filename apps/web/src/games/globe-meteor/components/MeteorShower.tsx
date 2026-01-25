@@ -15,6 +15,13 @@ import * as THREE from 'three';
 
 import { MeteorProjectile, DICE_EFFECTS } from '../config';
 
+// Pre-created cylinder geometries (module-level, shared across all meteors)
+// Avoids 6+ geometry allocations per meteor per frame
+const CORE_CYLINDER = new THREE.CylinderGeometry(1, 1, 1, 6);
+const GLOW_CYLINDER = new THREE.CylinderGeometry(1, 1, 1, 6);
+const OUTER_CYLINDER = new THREE.CylinderGeometry(1, 1, 1, 8);
+const TRAIL_CYLINDER = new THREE.CylinderGeometry(1, 0.33, 1, 4); // Tapered for trail
+
 interface MeteorShowerProps {
   meteors: MeteorProjectile[];
   onImpact?: (meteorId: string, position: [number, number, number]) => void;
@@ -90,14 +97,12 @@ function Meteor({ meteor, cameraPos }: { meteor: MeteorProjectile; cameraPos: TH
   return (
     <group position={position} rotation={rotation}>
       {/* Core streak - bright center */}
-      <mesh>
-        <cylinderGeometry args={[streakThickness, streakThickness, streakLength, 6]} />
+      <mesh geometry={CORE_CYLINDER} scale={[streakThickness, streakLength, streakThickness]}>
         <meshBasicMaterial color={meteorColor} />
       </mesh>
 
       {/* Glow around streak */}
-      <mesh>
-        <cylinderGeometry args={[streakThickness * 2.5, streakThickness * 2.5, streakLength * 0.9, 6]} />
+      <mesh geometry={GLOW_CYLINDER} scale={[streakThickness * 2.5, streakLength * 0.9, streakThickness * 2.5]}>
         <meshBasicMaterial
           color={meteorColor}
           transparent
@@ -106,8 +111,7 @@ function Meteor({ meteor, cameraPos }: { meteor: MeteorProjectile; cameraPos: TH
       </mesh>
 
       {/* Outer glow - wider, softer */}
-      <mesh>
-        <cylinderGeometry args={[streakThickness * 5, streakThickness * 5, streakLength * 0.7, 8]} />
+      <mesh geometry={OUTER_CYLINDER} scale={[streakThickness * 5, streakLength * 0.7, streakThickness * 5]}>
         <meshBasicMaterial
           color={meteorColor}
           transparent
@@ -133,8 +137,7 @@ function Meteor({ meteor, cameraPos }: { meteor: MeteorProjectile; cameraPos: TH
             ];
 
             return (
-              <mesh key={i} position={localOffset}>
-                <cylinderGeometry args={[streakThickness * 1.5, streakThickness * 0.5, trailLength, 4]} />
+              <mesh key={i} geometry={TRAIL_CYLINDER} position={localOffset} scale={[streakThickness * 1.5, trailLength, streakThickness * 1.5]}>
                 <meshBasicMaterial
                   color={meteorColor}
                   transparent

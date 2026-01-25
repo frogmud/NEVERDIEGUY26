@@ -58,7 +58,7 @@ import {
 import { getBonusesFromInventory, filterPersistentItems } from '../data/items/combat-effects';
 import { getEarlyFinishBonus, calculateGoldGain, filterPersistentItems as filterPersistentItemsByRarity, canAddToInventory } from '../data/balance-config';
 import { type PortalOption, calculateHpAfterTravel, getAvailablePortals, isFinale } from '../data/portal-config';
-import { getFlatScoreGoal, getFlatGoldReward, type LoadoutStats } from '@ndg/ai-engine';
+import { getFlatScoreGoal, getFlatGoldReward, COMBAT_DAMAGE, type LoadoutStats } from '@ndg/ai-engine';
 import { getLoadoutById, LOADOUT_PRESETS } from '../data/loadouts';
 
 // Combat system types from ai-engine
@@ -399,6 +399,11 @@ function runReducer(state: RunState, action: RunAction): RunState {
         const totalGold = Math.floor(baseGold * bonusMultiplier);
         const bonusGold = totalGold - baseGold;
 
+        // Calculate combat damage based on turns used (turn 1 is free, 3 HP per extra turn)
+        // turnsUsed = 6 - turnsRemaining, damage = (turnsUsed - 1) * basePerTurn
+        const combatDamage = Math.max(0, (5 - turnsRemaining) * COMBAT_DAMAGE.basePerTurn);
+        const newHp = Math.max(1, state.hp - combatDamage);
+
         // Store bonus info for UI (only if there's a bonus)
         const roomBonus: RoomBonus | null = turnsRemaining > 0 ? {
           turnsRemaining,
@@ -435,6 +440,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
           lastRoomBonus: roomBonus,
           totalScore: state.totalScore + state.pendingVictory.score,
           gold: state.gold + calculateGoldGain(totalGold, state.gold),
+          hp: newHp,  // Apply combat damage
           pendingVictory: null,
           diceBag: updatedDiceBag,
           runStats: {
@@ -791,6 +797,18 @@ function runReducer(state: RunState, action: RunAction): RunState {
       if (state.gold < action.cost) {
         console.warn('Purchase attempted with insufficient gold');
         return state;
+      }
+
+      // Reroll is a special case - just spend gold, don't add to inventory
+      if (action.itemId === 'reroll') {
+        return {
+          ...state,
+          gold: state.gold - action.cost,
+          runStats: {
+            ...state.runStats,
+            purchases: state.runStats.purchases + 1,
+          },
+        };
       }
 
       // Validate inventory capacity for powerups/upgrades

@@ -62,6 +62,10 @@ export function AsciiEffect({
   // Render target ref - managed manually to ensure proper disposal on resize
   const renderTargetRef = useRef<THREE.WebGLRenderTarget | null>(null);
 
+  // Frame skip for 12fps throttle (GPU readback is expensive)
+  const frameSkipRef = useRef(0);
+  const FRAME_SKIP = 5; // Run every 5th frame = ~12fps at 60fps base
+
   // Create/recreate render target on size change, disposing old one first
   useEffect(() => {
     // Dispose old render target if it exists
@@ -141,8 +145,13 @@ export function AsciiEffect({
   }, [width, height]);
 
   // Render ASCII effect - runs AFTER scene render (priority > 0)
+  // Throttled to ~12fps to avoid GPU sync stalls from readRenderTargetPixels
   useFrame(() => {
     if (!enabled || !ctxRef.current || !canvasRef.current || !pixelsRef.current || !renderTargetRef.current) return;
+
+    // Throttle to 12fps (every 5th frame) - GPU readback is expensive
+    frameSkipRef.current = (frameSkipRef.current + 1) % FRAME_SKIP;
+    if (frameSkipRef.current !== 0) return;
 
     const ctx = ctxRef.current;
     const canvas = canvasRef.current;

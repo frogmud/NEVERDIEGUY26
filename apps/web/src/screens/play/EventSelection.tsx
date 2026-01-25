@@ -472,7 +472,7 @@ export function EventSelection({
               mb: 0.5,
             }}
           >
-            ROOM {currentEvent + 1}/3
+            EVENT {currentEvent + 1}/3
           </Typography>
           <Typography
             sx={{

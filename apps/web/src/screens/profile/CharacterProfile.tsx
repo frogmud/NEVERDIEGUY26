@@ -295,7 +295,7 @@ export function CharacterProfile() {
                     {/* Portrait & Name */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                       <Avatar
-                        src={`/assets/characters/portraits/120px/${director.slug}.png`}
+                        src={`/assets/characters/portraits/120px/pantheon-portrait-${director.slug.replace('-', '')}-01.svg`}
                         sx={{ width: 40, height: 40 }}
                       />
                       <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '0.9rem' }}>

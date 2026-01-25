@@ -16,6 +16,7 @@ const MUSIC_ENABLED_KEY = 'ndg-music-enabled';
 const MASTER_VOLUME_KEY = 'ndg-master-volume';
 const SOUND_THEME_KEY = 'ndg-sound-theme';
 const ASCII_MODE_KEY = 'ndg-ascii-mode';
+const DRAW_EVENTS_KEY = 'ndg-draw-events-enabled';
 
 // Sound theme options
 export type SoundTheme = 'synth' | 'medieval' | 'wooden' | 'stone';
@@ -27,6 +28,7 @@ const DEFAULT_MUSIC_ENABLED = true;
 const DEFAULT_MASTER_VOLUME = 0.15; // Chess.com-style subtle volume
 const DEFAULT_SOUND_THEME: SoundTheme = 'synth';
 const DEFAULT_ASCII_MODE = true; // ASCII art rendering enabled by default
+const DEFAULT_DRAW_EVENTS_ENABLED = true; // Show draw event toasts (Lucky Straight, etc.)
 
 interface GameSettingsContextValue {
   // Game speed (0.5 to 2)
@@ -52,6 +54,10 @@ interface GameSettingsContextValue {
   // ASCII art rendering mode
   asciiMode: boolean;
   setAsciiMode: (enabled: boolean) => void;
+
+  // Draw event notifications (Lucky Straight, High Roller, etc.)
+  drawEventsEnabled: boolean;
+  setDrawEventsEnabled: (enabled: boolean) => void;
 
   // Helper to adjust delay based on game speed
   // Lower game speed = slower animations (higher delay)
@@ -116,6 +122,15 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     return DEFAULT_ASCII_MODE;
   });
 
+  // Draw events enabled state
+  const [drawEventsEnabled, setDrawEventsEnabledState] = useState(() => {
+    const stored = localStorage.getItem(DRAW_EVENTS_KEY);
+    if (stored !== null) {
+      return stored === 'true';
+    }
+    return DEFAULT_DRAW_EVENTS_ENABLED;
+  });
+
   // Setters with localStorage persistence
   const setGameSpeed = useCallback((speed: number) => {
     const clampedSpeed = Math.max(0.5, Math.min(2, speed));
@@ -149,6 +164,11 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(ASCII_MODE_KEY, String(enabled));
   }, []);
 
+  const setDrawEventsEnabled = useCallback((enabled: boolean) => {
+    setDrawEventsEnabledState(enabled);
+    localStorage.setItem(DRAW_EVENTS_KEY, String(enabled));
+  }, []);
+
   // Helper to adjust delays based on game speed
   // gameSpeed 2 = delays cut in half (faster)
   // gameSpeed 0.5 = delays doubled (slower)
@@ -172,6 +192,8 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
         setSoundTheme,
         asciiMode,
         setAsciiMode,
+        drawEventsEnabled,
+        setDrawEventsEnabled,
         adjustDelay,
       }}
     >
