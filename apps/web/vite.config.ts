@@ -38,14 +38,20 @@ export default defineConfig({
             if (id.includes('dice-roller')) {
               return 'dice-roller';
             }
-            // 3D rendering
-            if (id.includes('three') || id.includes('@react-three')) {
+            // 3D rendering - split drei helpers from core three
+            if (id.includes('@react-three/drei')) {
+              return 'three-drei';
+            }
+            if (id.includes('three') || id.includes('@react-three/fiber')) {
               return 'three';
             }
           }
 
-          // Route-based splitting (source code)
-          if (id.includes('/screens/play/') || id.includes('/games/')) {
+          // Route-based splitting (source code) - split games from play screens
+          if (id.includes('/games/')) {
+            return 'route-games';
+          }
+          if (id.includes('/screens/play/')) {
             return 'route-play';
           }
           if (id.includes('/screens/wiki/')) {
