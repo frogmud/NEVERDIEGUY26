@@ -9,6 +9,7 @@ import { useEffect, useRef } from 'react';
 import { Box, keyframes } from '@mui/material';
 import { tokens } from '../theme';
 import { AsciiCanvas, AsciiCanvasHandle, useWipeAnimation, SKULL_CONFIG } from '../ascii';
+import { AsciiGalaxy } from './AsciiGalaxy';
 
 // Animation: opacity-only fade in (no scale transform)
 const canvasFadeIn = keyframes`
@@ -103,10 +104,14 @@ export function TransitionWipe({
         },
       }}
     >
+      {/* Galaxy background layer */}
+      <AsciiGalaxy mode="ambient" opacity={0.3} starCount={100} />
+
       {/* ASCII Skull Canvas - opacity-only animations, no scale transforms */}
       <Box
         sx={{
           position: 'relative',
+          zIndex: 1,
           animation: `
             ${canvasFadeIn} ${duration * 0.3}ms ease-out forwards,
             ${canvasFadeOut} ${duration * 0.3}ms ease-in ${duration * 0.7}ms forwards
