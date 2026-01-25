@@ -118,6 +118,8 @@ export {
   getDieDecayModifier,
   calculateWeightedDecay,
   getEffectiveGracePeriod,
+  // Combat Damage Config
+  COMBAT_DAMAGE,
 } from './balance-config';
 
 // Draw Events System

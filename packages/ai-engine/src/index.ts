@@ -737,6 +737,8 @@ export {
   getDieDecayModifier,
   calculateWeightedDecay,
   getEffectiveGracePeriod,
+  // Combat Damage Config
+  COMBAT_DAMAGE,
 } from './combat';
 export type { StatKey, LoadoutStats, DensityTier, DieDensityConfig, DieDecayConfig, BalanceDieSides } from './combat';
 
