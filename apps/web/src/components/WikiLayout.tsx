@@ -19,6 +19,8 @@ interface WikiLayoutProps {
   infoboxWidth?: number;
   /** Optional breadcrumbs rendered at top of content */
   breadcrumbs?: React.ReactNode;
+  /** Optional title rendered between breadcrumbs and content */
+  title?: React.ReactNode;
 }
 
 /**
@@ -44,13 +46,46 @@ export function scrollToSection(sectionId: string): void {
   }
 }
 
+/** Sections navigation list */
+function SectionsNav({ sections }: { sections: WikiSection[] }) {
+  return (
+    <Box>
+      <Typography variant="subtitle2" sx={{ mb: 2, color: tokens.colors.text.secondary }}>
+        Sections
+      </Typography>
+      {sections.map((section) => {
+        const sectionId = section.id || toAnchorId(section.name);
+        return (
+          <Typography
+            key={sectionId}
+            variant="body2"
+            onClick={() => scrollToSection(sectionId)}
+            sx={{
+              color: tokens.colors.secondary,
+              cursor: 'pointer',
+              mb: 1,
+              '&:hover': { textDecoration: 'underline' },
+              '&:last-child': { mb: 0 },
+            }}
+          >
+            {section.name}
+          </Typography>
+        );
+      })}
+    </Box>
+  );
+}
+
 /**
  * WikiLayout - Traditional wiki-style layout with content on left, infobox on right
  *
  * Features:
  * - Right-side infobox/stats panel (like Wikipedia)
  * - Sections navigation with working anchor links
- * - Responsive design (stacks on mobile)
+ * - Responsive design (stacks on mobile with correct visual order)
+ *
+ * Mobile order: breadcrumbs -> title -> infobox (image+stats) -> content -> sections nav
+ * Desktop order: [breadcrumbs, title, content] left | [infobox, sections nav] right
  */
 export function WikiLayout({
   children,
@@ -58,64 +93,73 @@ export function WikiLayout({
   sections,
   infoboxWidth = 280,
   breadcrumbs,
+  title,
 }: WikiLayoutProps) {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: 4,
-        flexDirection: { xs: 'column', md: 'row' },
-        px: { xs: 2, sm: 3, md: 0 }, // Add horizontal padding on smaller screens
-      }}
-    >
-      {/* Main Content (Left Side) */}
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        {breadcrumbs}
-        {children}
-      </Box>
-
-      {/* Infobox Sidebar (Right Side) */}
+    <Box>
+      {/* Mobile-only: breadcrumbs + title above everything */}
       <Box
         sx={{
-          width: { xs: '100%', md: infoboxWidth },
-          flexShrink: 0,
-          order: { xs: -1, md: 1 }, // On mobile, show infobox first
+          display: { xs: 'block', md: 'none' },
+          px: { xs: 2, sm: 3 },
         }}
       >
-        {/* Infobox Content */}
-        {infobox}
+        {breadcrumbs && <Box sx={{ mt: 1, mb: 1 }}>{breadcrumbs}</Box>}
+        {title && <Box sx={{ mb: 1.5 }}>{title}</Box>}
+      </Box>
 
-        {/* Sections Navigation */}
+      {/* Main flex container */}
+      <Box
+        sx={{
+          display: 'flex',
+          gap: { xs: 2, md: 4 },
+          flexDirection: { xs: 'column', md: 'row' },
+          px: { xs: 2, sm: 3, md: 0 },
+        }}
+      >
+        {/* Main Content (Left Side) */}
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          {/* Desktop-only: breadcrumbs + title inside main column */}
+          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            {breadcrumbs}
+            {title}
+          </Box>
+          {children}
+        </Box>
+
+        {/* Infobox Sidebar (Right Side) */}
         <Box
           sx={{
-            mt: 3,
-            position: { md: 'sticky' },
-            top: { md: 80 }, // Below any top chrome
+            width: { xs: '100%', md: infoboxWidth },
+            flexShrink: 0,
           }}
         >
-          <Typography variant="subtitle2" sx={{ mb: 2, color: tokens.colors.text.secondary }}>
-            Sections
-          </Typography>
-          {sections.map((section) => {
-            const sectionId = section.id || toAnchorId(section.name);
-            return (
-              <Typography
-                key={sectionId}
-                variant="body2"
-                onClick={() => scrollToSection(sectionId)}
-                sx={{
-                  color: tokens.colors.secondary,
-                  cursor: 'pointer',
-                  mb: 1,
-                  '&:hover': { textDecoration: 'underline' },
-                  '&:last-child': { mb: 0 },
-                }}
-              >
-                {section.name}
-              </Typography>
-            );
-          })}
+          {infobox}
+
+          {/* Desktop-only: sticky sections nav in sidebar */}
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              mt: 3,
+              position: 'sticky',
+              top: 80,
+            }}
+          >
+            <SectionsNav sections={sections} />
+          </Box>
         </Box>
+      </Box>
+
+      {/* Mobile-only: sections nav at the bottom */}
+      <Box
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          px: { xs: 2, sm: 3 },
+          mt: 3,
+          mb: 2,
+        }}
+      >
+        <SectionsNav sections={sections} />
       </Box>
     </Box>
   );

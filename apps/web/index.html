@@ -9,7 +9,8 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="A roguelike dice game where you throw meteors at a 3D globe. Balatro-style mechanics meet intergalactic sibling rivalry." />
     <meta name="keywords" content="roguelike, dice game, 3D game, indie game, browser game" />
-    <meta name="author" content="NEVER DIE GUY" />
+    <meta name="author" content="Kevin Grzejka" />
+    <link rel="canonical" href="https://neverdieguy.com" />
 
     <!-- Open Graph (Facebook, Discord, etc.) -->
     <meta property="og:type" content="website" />
@@ -47,7 +48,43 @@
         font-style: normal;
         font-display: swap;
       }
+      /* Loading splash — React replaces #root contents on mount */
+      @keyframes ndg-pulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+      }
+      .ndg-splash {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+      }
+      .ndg-splash img {
+        width: 48px;
+        height: 54px;
+        animation: ndg-pulse 1.5s ease-in-out infinite;
+      }
     </style>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "NEVER DIE GUY",
+      "url": "https://neverdieguy.com",
+      "description": "A roguelike dice game where you throw meteors at a 3D globe. Balatro-style mechanics meet intergalactic sibling rivalry.",
+      "genre": ["Roguelike", "Dice Game", "Browser Game"],
+      "gamePlatform": "Web Browser",
+      "applicationCategory": "Game",
+      "creator": {
+        "@type": "Person",
+        "name": "Kevin Grzejka",
+        "url": "https://kgrz.design"
+      }
+    }
+    </script>
+
     <!-- Preload APL font for globe rendering -->
     <link rel="preload" href="/fonts/APL385.ttf" as="font" type="font/ttf" crossorigin />
     <!-- FOUC Prevention: Apply user settings before React hydration -->
@@ -66,7 +103,11 @@
     </script>
   </head>
   <body style="background-color: #0a0a0a; margin: 0;">
-    <div id="root" style="background-color: #0a0a0a; min-height: 100vh;"></div>
+    <div id="root" style="background-color: #0a0a0a; min-height: 100vh;">
+      <div class="ndg-splash">
+        <img src="/logos/ndg-skull-dome.svg" alt="Loading" />
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

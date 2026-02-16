@@ -19,6 +19,7 @@ import { Box, Paper, Typography, IconButton, LinearProgress } from '@mui/materia
 import {
   FlagSharp as FlagIcon,
   FullscreenSharp as FullscreenIcon,
+  TerminalSharp as AsciiIcon,
 } from '@mui/icons-material';
 import { CardSection } from '../../../components/CardSection';
 import { ReportGameDialog } from '../../../components/ReportGameDialog';
@@ -515,7 +516,7 @@ export function CombatTerminal({
   const { playDiceRoll, playImpact, playVictory, playDefeat, playExplosion, playUIClick } = useSoundContext();
 
   // Game settings (speed affects animation timings)
-  const { adjustDelay, gameSpeed, asciiMode, drawEventsEnabled } = useGameSettings();
+  const { adjustDelay, gameSpeed, asciiMode, setAsciiMode, drawEventsEnabled } = useGameSettings();
 
   // Combat engine ref
   const engineRef = useRef<CombatEngine | null>(null);
@@ -1719,6 +1720,16 @@ export function CombatTerminal({
             sx={{ bgcolor: tokens.colors.background.elevated, '&:hover': { bgcolor: tokens.colors.background.paper } }}
           >
             <FlagIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={() => setAsciiMode(!asciiMode)}
+            sx={{
+              bgcolor: asciiMode ? tokens.colors.primary : tokens.colors.background.elevated,
+              '&:hover': { bgcolor: asciiMode ? tokens.colors.primary : tokens.colors.background.paper },
+            }}
+          >
+            <AsciiIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"

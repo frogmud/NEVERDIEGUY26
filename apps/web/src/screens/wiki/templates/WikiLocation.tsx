@@ -200,7 +200,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
               position: 'relative',
               borderRadius: '18px',
               overflow: 'hidden',
-              height: 180,
+              height: { xs: 260, sm: 280, md: 180 },
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -245,13 +245,14 @@ export function WikiLocation({ entity }: WikiLocationProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              height: { xs: 260, sm: 280, md: 220 },
             }}>
               <AssetImage
                 src={entity.image || entity.portrait || ''}
                 alt={locationInfo.name}
                 category={(entity.category || 'domains') as 'domains' | 'shops'}
                 width="100%"
-                height={220}
+                height="100%"
                 fallback="placeholder"
               />
             </Box>
@@ -375,10 +376,8 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           entityName={locationInfo.name}
         />
       }
+      title={<PageHeader title={locationInfo.name} />}
     >
-      <PageHeader
-        title={locationInfo.name}
-      />
 
       {/* Quick Facts Bar */}
       <WikiSectionAnchor id={toAnchorId('Quick Facts')}>

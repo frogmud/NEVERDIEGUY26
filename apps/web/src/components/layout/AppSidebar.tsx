@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -55,6 +55,10 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
   const { playUIClick } = useSoundContext();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const { isAuthenticated, user } = useAuth();
+
+  // Skull pulse state — triggers on logo click, resets on navigation
+  const [skullLoading, setSkullLoading] = useState(false);
+  useEffect(() => { setSkullLoading(false); }, [location.pathname]);
 
   // Load seed for username display (synced with HomeDashboard)
   const currentSeed = useMemo(() => loadCurrentSeed() || 'XXXXXX', []);
@@ -149,13 +153,23 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             borderBottom: `1px solid ${tokens.colors.border}`,
             '&:hover': { opacity: 0.8 },
           }}
-          onClick={() => { playUIClick(); navigate('/'); onMobileClose?.(); }}
+          onClick={() => { playUIClick(); setSkullLoading(true); navigate('/'); onMobileClose?.(); }}
         >
           <Box
             component="img"
             src="/logos/ndg-skull-dome.svg"
             alt="NDG"
-            sx={{ width: 32, height: 36 }}
+            sx={{
+              width: 32,
+              height: 36,
+              ...(skullLoading && {
+                animation: 'ndg-pulse 1.5s ease-in-out infinite',
+                '@keyframes ndg-pulse': {
+                  '0%, 100%': { opacity: 0.4 },
+                  '50%': { opacity: 1 },
+                },
+              }),
+            }}
           />
         </Box>
 
@@ -230,13 +244,23 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           borderBottom: `1px solid ${tokens.colors.border}`,
           '&:hover': { opacity: 0.8 },
         }}
-        onClick={() => { playUIClick(); navigate('/'); }}
+        onClick={() => { playUIClick(); setSkullLoading(true); navigate('/'); }}
       >
         <Box
           component="img"
           src="/logos/ndg-skull-dome.svg"
           alt="NDG"
-          sx={{ width: 32, height: 36 }}
+          sx={{
+            width: 32,
+            height: 36,
+            ...(skullLoading && {
+              animation: 'ndg-pulse 1.5s ease-in-out infinite',
+              '@keyframes ndg-pulse': {
+                '0%, 100%': { opacity: 0.4 },
+                '50%': { opacity: 1 },
+              },
+            }),
+          }}
         />
       </Box>
 
@@ -645,7 +669,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {/* Multiplayer */}
           <Tooltip title="Multiplayer" placement={expanded ? 'top' : 'right'} arrow>
             <IconButton
-              onClick={() => { playUIClick(); navigate('/multiplayer'); }}
+              onClick={() => { playUIClick(); navigate('/play/multiplayer'); }}
               sx={{
                 width: 32,
                 height: 32,

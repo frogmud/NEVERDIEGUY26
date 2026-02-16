@@ -1,7 +1,10 @@
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { MenuSharp as MenuIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import { HEADER_HEIGHT } from './navItems';
+import { useSoundContext } from '../../contexts/SoundContext';
 
 interface AppTopbarProps {
   isMobile?: boolean;
@@ -16,6 +19,12 @@ interface AppTopbarProps {
  * Mobile: Hamburger menu + centered logo
  */
 export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { playUIClick } = useSoundContext();
+  const [skullLoading, setSkullLoading] = useState(false);
+  useEffect(() => { setSkullLoading(false); }, [location.pathname]);
+
   // Only render on mobile
   if (!isMobile) {
     return null;
@@ -41,12 +50,25 @@ export function AppTopbar({ isMobile = false, onMenuClick }: AppTopbarProps) {
         </IconButton>
 
         {/* Center logo and brand */}
-        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+        <Box
+          onClick={() => { playUIClick(); setSkullLoading(true); navigate('/'); }}
+          sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, cursor: 'pointer' }}
+        >
           <Box
             component="img"
             src="/logos/ndg-skull-dome.svg"
             alt="NDG"
-            sx={{ width: 24, height: 28 }}
+            sx={{
+              width: 24,
+              height: 28,
+              ...(skullLoading && {
+                animation: 'ndg-pulse 1.5s ease-in-out infinite',
+                '@keyframes ndg-pulse': {
+                  '0%, 100%': { opacity: 0.4 },
+                  '50%': { opacity: 1 },
+                },
+              }),
+            }}
           />
           <Typography
             sx={{

@@ -7,7 +7,7 @@
  * The decision: "Can I afford healing after this jump, and is the gold bonus worth it?"
  */
 
-import { getDomainOrder, getDomainPosition, isFinale, DOMAIN_CONFIGS } from './domains';
+import { getDomainOrder, isFinale, DOMAIN_CONFIGS } from './domains';
 import { createSeededRng, type SeededRng } from './pools';
 
 // Re-export isFinale for external use
@@ -149,19 +149,20 @@ export function getAvailablePortals(
   // Get pool config for current domain
   const poolConfig = PORTAL_POOL_CONFIG[currentDomain] || { poolSize: 3, showCount: 3 };
 
-  // Find all unvisited domains (except current and finale until forced)
-  const currentPosition = getDomainPosition(currentDomain);
+  // Find all unvisited domains (except current and finale until 5 are cleared)
+  const clearedCount = visitedDomains.length;
   const finaleId = domainOrder[domainOrder.length - 1]; // Null Providence
 
   // Available candidates: all domains not visited, not current
+  // Finale only appears once 5 domains have been cleared (visited)
   let candidates = domainOrder.filter(id =>
     id !== currentDomain &&
     !visitedDomains.includes(id) &&
-    (id !== finaleId || currentPosition >= 5) // Only show finale from D5
+    (id !== finaleId || clearedCount >= 5)
   );
 
-  // If at D5, only finale is available
-  if (currentPosition >= 5) {
+  // If 5+ domains cleared, only finale is available
+  if (clearedCount >= 5) {
     candidates = [finaleId];
   }
 

@@ -9,7 +9,7 @@
  * - Domain/Event progress
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { tokens } from '../../../../theme';
 import { TokenIcon } from '../../../../components/TokenIcon';
@@ -87,6 +87,7 @@ interface GameTabPlayingProps {
 
   // Run timing
   runStartTime?: number;
+  runEnded?: boolean;
 
   // Roll history
   rollHistory: RollHistoryEntry[];
@@ -119,15 +120,31 @@ export function GameTabPlaying({
   combatFeed = [],
   heat = 0,
   runStartTime = 0,
+  runEnded = false,
 }: GameTabPlayingProps) {
-  // Live timer update
+  // Live timer update (freezes when run ends)
   const [elapsedTime, setElapsedTime] = useState('0:00');
+  const frozenTimeRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!runStartTime || runStartTime === 0) {
       setElapsedTime('0:00');
       return;
     }
+
+    if (runEnded) {
+      // Freeze: compute final time once and stop updating
+      if (!frozenTimeRef.current) {
+        const elapsed = Date.now() - runStartTime;
+        const minutes = Math.floor(elapsed / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+        frozenTimeRef.current = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      }
+      setElapsedTime(frozenTimeRef.current);
+      return;
+    }
+
+    frozenTimeRef.current = null;
 
     const updateTimer = () => {
       const elapsed = Date.now() - runStartTime;
@@ -139,7 +156,7 @@ export function GameTabPlaying({
     updateTimer(); // Initial update
     const interval = setInterval(updateTimer, 1000);
     return () => clearInterval(interval);
-  }, [runStartTime]);
+  }, [runStartTime, runEnded]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>

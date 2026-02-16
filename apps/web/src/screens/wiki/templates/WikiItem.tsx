@@ -147,6 +147,7 @@ export function WikiItem({ entity }: WikiItemProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              height: { xs: 180, sm: 200, md: 140 },
               ...(itemData?.isElite && eliteOverlaySx),
             }}
           >
@@ -155,7 +156,7 @@ export function WikiItem({ entity }: WikiItemProps) {
               alt={itemInfo.name}
               category="items"
               width="100%"
-              height={140}
+              height="100%"
               fallback="placeholder"
               sx={{ objectFit: 'contain' }}
             />
@@ -236,10 +237,8 @@ export function WikiItem({ entity }: WikiItemProps) {
           entityName={itemInfo.name}
         />
       }
+      title={<PageHeader title={itemInfo.name} />}
     >
-      <PageHeader
-        title={itemInfo.name}
-      />
 
       {/* At a Glance */}
       <WikiSectionAnchor id={toAnchorId('At a Glance')}>

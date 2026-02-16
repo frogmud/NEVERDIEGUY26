@@ -279,7 +279,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
             // Factions: center icon at 50% scale within container
             <Box sx={{
               width: '100%',
-              height: 220,
+              height: { xs: 260, sm: 280, md: 220 },
               borderRadius: '18px',
               bgcolor: tokens.colors.background.elevated,
               display: 'flex',
@@ -299,7 +299,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           ) : (
             <Box sx={{
               width: '100%',
-              height: 220,
+              height: { xs: 260, sm: 280, md: 220 },
               borderRadius: '18px',
               bgcolor: tokens.colors.background.elevated,
               display: 'flex',
@@ -312,7 +312,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
                 alt={characterInfo.name}
                 category={category as 'enemies' | 'travelers' | 'wanderers' | 'pantheon'}
                 width="100%"
-                height={220}
+                height="100%"
                 fallback="placeholder"
                 sx={{ objectFit: 'cover' }}
               />
@@ -524,10 +524,8 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
           entityName={characterInfo.name}
         />
       }
+      title={<PageHeader title={characterInfo.name} />}
     >
-      <PageHeader
-        title={characterInfo.name}
-      />
 
 
 
