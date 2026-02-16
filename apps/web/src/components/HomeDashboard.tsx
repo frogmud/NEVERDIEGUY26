@@ -1851,6 +1851,29 @@ export function HomeDashboard() {
   // Render
   // ============================================
 
+  // Show loading state matching the HTML splash until boot sequence starts
+  if (bootPhase === 'slide') {
+    return (
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        minHeight: '60vh',
+      }}>
+        <Box
+          component="img"
+          src="/logos/ndg-skull-dome.svg"
+          alt="Loading"
+          sx={{
+            width: 48,
+            height: 54,
+            animation: `${pulse} 1.5s ease-in-out infinite`,
+          }}
+        />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{
