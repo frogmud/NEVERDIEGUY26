@@ -2,6 +2,8 @@
 
 A roguelike dice game where you throw meteors at a globe to score points. Balatro meets globe-smashing chaos.
 
+**Play now:** [neverdieguy.com](https://neverdieguy.com)
+
 ## The Story
 
 You are Guy "Never Die Guy" Smith, The Fixer - a clone sent on intergalactic squabbles by six siblings who control fate.
@@ -10,9 +12,7 @@ The Die-rectors resurrect dead planets to harvest materials, then supply those s
 
 The meteors you throw? Those are dice. The planets you destroy? They'll be back. The siblings you serve? They all want the same thing: to win.
 
-Welcome to NEVER DIE GUY.
-
-## Current State (v0.5.0 - January 2026)
+## Current State (v0.5.0)
 
 The core gameplay loop is polished and production-ready:
 
@@ -57,33 +57,36 @@ NEVERDIEGUY26/
 ├── apps/
 │   └── web/                    # React frontend (Vite)
 │       ├── src/
-│       │   ├── games/          # Game components
-│       │   │   ├── globe-meteor/   # 3D globe scene (Three.js)
-│       │   │   └── meteor/         # Combat HUD
-│       │   ├── screens/        # App screens
-│       │   │   └── play/           # PlayHub + CombatTerminal
-│       │   ├── contexts/       # State management
-│       │   │   ├── RunContext      # Game state machine
-│       │   │   ├── SoundContext    # Audio system
-│       │   │   └── GameSettingsContext  # Persistent settings
-│       │   └── theme/          # DIE/DIE design system
-│       └── public/
+│       │   ├── screens/        # App screens (play, wiki, home, etc.)
+│       │   ├── components/     # Shared UI components
+│       │   ├── contexts/       # State management (RunContext, SoundContext)
+│       │   ├── hooks/          # Custom React hooks
+│       │   ├── games/          # 3D game components (Three.js globe, combat HUD)
+│       │   ├── services/       # API + chatbase services
+│       │   └── theme.ts        # DIE/DIE design system tokens
+│       └── public/assets/      # Game assets (dice, items, UI, logos)
 │
 ├── packages/
-│   └── ai-engine/              # Game logic package
-│       ├── src/
-│       │   ├── combat/         # Combat engine, dice mechanics
-│       │   ├── core/           # Seeded RNG, utilities
-│       │   └── npc/            # NPC dialogue triggers
-│       └── COMBAT_SYSTEM.md    # Combat documentation
+│   ├── ai-engine/              # Combat engine, NPC logic, game balance
+│   │   └── src/
+│   │       ├── combat/         # Dice mechanics, turn flow, scoring
+│   │       ├── npcs/           # NPC definitions (pantheon, travelers)
+│   │       ├── items/          # Item definitions and effects
+│   │       ├── balance/        # Game balance constants
+│   │       ├── economy/        # Gold, trading, pricing
+│   │       └── stream/         # Eternal Stream (ambient NPC dialogue)
+│   └── shared/                 # Shared types and utilities
 │
-├── docs/
-│   └── ux/                     # UX documentation
-│       ├── GAMEPLAY_LOOP.md    # Full run flow
-│       ├── STATE_MACHINE.md    # RunContext state diagram
-│       └── SCREEN_INVENTORY.md # Screen registry
+├── api/                        # Vercel serverless functions
+│   ├── chat.ts                 # NPC dialogue (rate-limited)
+│   ├── chat-manifest.ts        # NPC configuration
+│   ├── health.ts               # Health check
+│   └── stats.ts                # Game statistics
 │
-└── design-system/              # Brand assets, sprites
+└── docs/ux/                    # UX documentation
+    ├── GAMEPLAY_LOOP.md        # Full run flow
+    ├── STATE_MACHINE.md        # RunContext state diagram
+    └── SCREEN_INVENTORY.md     # Screen registry
 ```
 
 ## Development
@@ -113,15 +116,15 @@ pnpm typecheck
 - **Frontend**: React 19, Vite, MUI 7
 - **3D**: Three.js, React Three Fiber, Drei
 - **State**: React Context (RunContext, SoundContext, GameSettingsContext)
+- **AI/NPC**: Anthropic SDK for dynamic dialogue
 - **Monorepo**: Turborepo, pnpm workspaces
 - **Types**: TypeScript strict mode
-- **Audio**: Web Audio API via useSound hook
+- **Deploy**: Vercel (auto-deploy from main)
 
 ## Game Modes
 
 1. **Arena** - Solo roguelike, 6 domains x 3 rooms (current focus)
-2. **VBots** - Async vs bots on same globe (planned)
-3. **1v1** - Real-time multiplayer (planned)
+2. **Multiplayer** - Coming soon
 
 ---
 

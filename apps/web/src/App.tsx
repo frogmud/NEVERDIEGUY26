@@ -90,8 +90,6 @@ const Inventory = lazy(() => import('./screens/play/Inventory').then(m => ({ def
 const MatchStats = lazy(() => import('./screens/play/MatchStats').then(m => ({ default: m.MatchStats })));
 const LootDrop = lazy(() => import('./screens/play/LootDrop').then(m => ({ default: m.LootDrop })));
 const Globe3D = lazy(() => import('./screens/play/Globe3D').then(m => ({ default: m.Globe3D })));
-// const MultiplayerHub = lazy(() => import('./screens/play/MultiplayerHub').then(m => ({ default: m.MultiplayerHub })));
-
 // Graveyard (run history)
 const Graveyard = lazy(() => import('./screens/graveyard/Graveyard').then(m => ({ default: m.Graveyard })));
 
@@ -155,9 +153,6 @@ function App() {
           <Route path="/play" element={<Suspense fallback={<RouteLoader />}><RunProvider><PlayHub /></RunProvider></Suspense>} />
           <Route path="/play/results" element={<Suspense fallback={<RouteLoader />}><PlayResults /></Suspense>} />
           <Route path="/play/meteor" element={<Suspense fallback={<RouteLoader />}><DiceMeteor /></Suspense>} />
-          {/* Multiplayer - disabled until ready */}
-          <Route path="/play/multiplayer" element={<Navigate to="/" replace />} />
-          <Route path="/play/multiplayer/:roomCode" element={<Navigate to="/" replace />} />
           {/* MVP: Replays/Tournaments hidden until backend ready */}
           {/* <Route path="/play/replays" element={<Suspense fallback={<RouteLoader />}><ReplayList /></Suspense>} /> */}
           {/* <Route path="/play/tournament" element={<Suspense fallback={<RouteLoader />}><TournamentBracket /></Suspense>} /> */}

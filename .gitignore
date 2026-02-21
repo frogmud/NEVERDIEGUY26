@@ -38,3 +38,7 @@ packages/ai-engine/logs/
 /design-system/assets/
 /design-system/assets-pixelart/
 packages/ai-engine/generated/
+
+# Internal dev directories (not for public repo)
+/audit/
+/testing-context/
