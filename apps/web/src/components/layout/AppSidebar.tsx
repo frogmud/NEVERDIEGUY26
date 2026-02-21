@@ -666,19 +666,22 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             py: 0.25,
           }}
         >
-          {/* Multiplayer */}
-          <Tooltip title="Multiplayer" placement={expanded ? 'top' : 'right'} arrow>
-            <IconButton
-              onClick={() => { playUIClick(); navigate('/play/multiplayer'); }}
-              sx={{
-                width: 32,
-                height: 32,
-                color: tokens.colors.text.disabled,
-                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
-              }}
-            >
-              <FriendsIcon sx={{ fontSize: 18 }} />
-            </IconButton>
+          {/* Multiplayer - disabled, coming soon */}
+          <Tooltip title="Coming Soon" placement={expanded ? 'top' : 'right'} arrow>
+            <span>
+              <IconButton
+                disabled
+                sx={{
+                  width: 32,
+                  height: 32,
+                  color: tokens.colors.text.disabled,
+                  opacity: 0.4,
+                  '&.Mui-disabled': { color: tokens.colors.text.disabled, opacity: 0.4 },
+                }}
+              >
+                <FriendsIcon sx={{ fontSize: 18 }} />
+              </IconButton>
+            </span>
           </Tooltip>
 
           {/* About / Info */}
