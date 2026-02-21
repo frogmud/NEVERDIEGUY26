@@ -1893,8 +1893,8 @@ export function HomeDashboard() {
           alignItems: 'center',
           justifyContent: 'space-between',
           // Fade in during ui-reveal phase
-          opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-          transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(-10px)' : 'translateY(0)',
+          opacity: bootPhase === 'skull-hero' ? 0 : 1,
+          transform: bootPhase === 'skull-hero' ? 'translateY(-10px)' : 'translateY(0)',
           transition: 'opacity 400ms ease-out, transform 400ms ease-out',
         }}>
           {/* Left: Avatar + Username */}
@@ -2076,8 +2076,8 @@ export function HomeDashboard() {
             gap: 2.5,
             mb: 4,
             // Fade in during ui-reveal phase
-            opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-            transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateX(-20px)' : 'translateX(0)',
+            opacity: bootPhase === 'skull-hero' ? 0 : 1,
+            transform: bootPhase === 'skull-hero' ? 'translateX(-20px)' : 'translateX(0)',
             transition: 'opacity 400ms ease-out, transform 400ms ease-out',
           }}>
             {/* Coin icon - larger */}
@@ -2154,8 +2154,8 @@ export function HomeDashboard() {
               bgcolor: tokens.colors.primary,
               cursor: bootPhase === 'active' ? 'pointer' : 'default',
               // Staggered fade in - 100ms delay
-              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              opacity: bootPhase === 'skull-hero' ? 0 : 1,
+              transform: bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
               transition: `opacity 300ms ease-out 100ms, transform 300ms ease-out 100ms, filter 150ms ease, box-shadow 150ms ease`,
               boxShadow: `0 4px 16px rgba(233, 4, 65, 0.4)`,
               '&:hover': bootPhase === 'active' ? {
@@ -2191,8 +2191,8 @@ export function HomeDashboard() {
               bgcolor: tokens.colors.warning,
               cursor: corruptionData.level >= 100 ? 'default' : 'pointer',
               // Staggered fade in - 200ms delay (base opacity affected by corruption)
-              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : (corruptionData.level >= 100 ? 0.6 : 1),
-              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              opacity: bootPhase === 'skull-hero' ? 0 : (corruptionData.level >= 100 ? 0.6 : 1),
+              transform: bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
               transition: `opacity 300ms ease-out 200ms, transform 300ms ease-out 200ms, filter 150ms ease, box-shadow 150ms ease`,
               boxShadow: `0 4px 16px rgba(234, 179, 8, 0.3)`,
               '&:hover': corruptionData.level < 100 ? {
@@ -2269,8 +2269,8 @@ export function HomeDashboard() {
               border: `2px solid ${savedRun ? tokens.colors.border : 'transparent'}`,
               cursor: savedRun ? 'pointer' : 'default',
               // Staggered fade in - 300ms delay (base opacity affected by savedRun)
-              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : (savedRun ? 1 : 0.5),
-              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              opacity: bootPhase === 'skull-hero' ? 0 : (savedRun ? 1 : 0.5),
+              transform: bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
               transition: `opacity 300ms ease-out 300ms, transform 300ms ease-out 300ms, background-color 150ms ease`,
               '&:hover': savedRun ? {
                 bgcolor: tokens.colors.background.elevated,
@@ -2311,8 +2311,8 @@ export function HomeDashboard() {
               border: `2px solid ${tokens.colors.border}`,
               cursor: 'pointer',
               // Staggered fade in - 350ms delay
-              opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-              transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
+              opacity: bootPhase === 'skull-hero' ? 0 : 1,
+              transform: bootPhase === 'skull-hero' ? 'translateY(20px)' : 'translateY(0)',
               transition: `opacity 300ms ease-out 350ms, transform 300ms ease-out 350ms, background-color 150ms ease`,
               '&:hover': {
                 bgcolor: tokens.colors.background.elevated,
@@ -2350,8 +2350,8 @@ export function HomeDashboard() {
                 mt: 1,
                 cursor: 'pointer',
                 // Staggered fade in - 400ms delay
-                opacity: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 0 : 1,
-                transform: bootPhase === 'slide' || bootPhase === 'skull-hero' ? 'translateY(10px)' : 'translateY(0)',
+                opacity: bootPhase === 'skull-hero' ? 0 : 1,
+                transform: bootPhase === 'skull-hero' ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'opacity 300ms ease-out 400ms, transform 300ms ease-out 400ms',
                 '&:hover': {
                   '& .seed-text': {
