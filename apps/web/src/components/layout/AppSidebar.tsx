@@ -663,7 +663,8 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
             alignItems: 'center',
             gap: expanded ? 0.25 : 0.5,
             px: expanded ? 1.5 : 0.5,
-            py: 0.25,
+            pt: expanded ? 0.25 : 1.5,
+            pb: 0.25,
           }}
         >
           {/* Multiplayer - disabled, coming soon */}
