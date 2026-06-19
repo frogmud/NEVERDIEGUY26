@@ -7,8 +7,9 @@ import type { DataBadgeColor } from '@neverdieguy/ui';
 import { tokens } from '../../../theme';
 
 const PORTRAIT_BASE = '/assets/characters/portraits/60px-hifi';
+const SPRITE_BASE = '/assets/characters/pantheon';
 
-/** Office id -> Die-rector portrait SVG. */
+/** Office id -> Die-rector portrait SVG (small headshot, for chips/rows). */
 export const OFFICE_PORTRAIT: Record<number, string> = {
   1: `${PORTRAIT_BASE}/pantheon-portrait-theone-01.svg`, // Favor / The One
   2: `${PORTRAIT_BASE}/pantheon-portrait-john-01.svg`,   // Graveyard / John
@@ -16,6 +17,19 @@ export const OFFICE_PORTRAIT: Record<number, string> = {
   4: `${PORTRAIT_BASE}/pantheon-portrait-robert-01.svg`, // Myth / Robert
   5: `${PORTRAIT_BASE}/pantheon-portrait-alice-01.svg`,  // Archive / Alice
   6: `${PORTRAIT_BASE}/pantheon-portrait-jane-01.svg`,   // Corruption / Jane
+};
+
+/**
+ * Office id -> full-body Die-rector idle sprite (3840x3840 vector-traced pixel
+ * art). This is the "something stares at you" hero art for the encounter beat.
+ */
+export const OFFICE_SPRITE: Record<number, string> = {
+  1: `${SPRITE_BASE}/theone/pantheon-sprite-theone-idle01.svg`, // Favor / The One
+  2: `${SPRITE_BASE}/john/pantheon-sprite-john-idle-01.svg`,    // Graveyard / John
+  3: `${SPRITE_BASE}/peter/pantheon-sprite-peter-idle-01.svg`,  // Death / Peter
+  4: `${SPRITE_BASE}/robert/pantheon-sprite-robert-idle-01.svg`,// Myth / Robert
+  5: `${SPRITE_BASE}/alice/pantheon-sprite-alice-idle-02.svg`,  // Archive / Alice
+  6: `${SPRITE_BASE}/jane/pantheon-sprite-jane-idle-01.svg`,    // Corruption / Jane
 };
 
 /** Office id -> DataBadge semantic color (not rarity). */

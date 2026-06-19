@@ -27,7 +27,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useSoundContext } from '../../contexts/SoundContext';
 import { GameOverModal } from '../../games/meteor/components';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
-import { FaceRevealPanel } from './panels/FaceRevealPanel';
 import { ResponsePhasePanel } from './panels/ResponsePhasePanel';
 import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
@@ -208,7 +207,7 @@ export function PlayHub() {
     ) {
       pendingAutoLaunchRef.current = false;
       castBones();
-      transitionToPanel('reveal');
+      transitionToPanel('response');
     }
   }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel, castBones]);
 
@@ -334,10 +333,10 @@ export function PlayHub() {
     }
   };
 
-  // Handle Launch (Cast Bones - reveal Faces before combat)
+  // Handle Launch (Throw Bones - encounter the Face before combat)
   const handleLaunch = () => {
     castBones();
-    transitionToPanel('reveal');
+    transitionToPanel('response');
   };
 
   // Handle Skip (skip event without playing - no reward)
@@ -402,7 +401,7 @@ export function PlayHub() {
     ) {
       pendingShopLaunchRef.current = false;
       castBones();
-      transitionToPanel('reveal');
+      transitionToPanel('response');
     }
   }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel, castBones]);
 
@@ -508,7 +507,6 @@ export function PlayHub() {
   // Check if we're in summary, shop, or portals mode (rendered in center area)
   const isInSummary = state.centerPanel === 'summary' && !state.runEnded;
   const isInPortals = state.centerPanel === 'portals' && !state.runEnded;
-  const isInReveal = state.centerPanel === 'reveal' && !state.runEnded;
   const isInResponse = state.centerPanel === 'response' && !state.runEnded;
 
   // Apply the Jump Check modifier to the room's score target (score/disadvantage
@@ -668,19 +666,8 @@ export function PlayHub() {
               onContinue={continueFromSummary}
             />
           </Box>
-        ) : isInReveal ? (
-          /* Face reveal (after Cast Bones, before combat) */
-          <Box
-            sx={{
-              width: '100%',
-              height: '100%',
-              animation: `${panelEnter} 0.3s ${EASING.smooth} forwards`,
-            }}
-          >
-            <FaceRevealPanel />
-          </Box>
         ) : isInResponse ? (
-          /* Response Phase + Jump Check (before combat) */
+          /* Encounter beat: Throw Bones -> Face stares -> Flee/Slap -> Jump Check */
           <Box
             sx={{
               width: '100%',

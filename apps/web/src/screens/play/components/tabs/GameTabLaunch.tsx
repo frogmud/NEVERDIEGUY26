@@ -158,7 +158,7 @@ export function GameTabLaunch({
           },
         }}
       >
-        CAST BONES
+        THROW BONES
       </Button>
 
       {/* Skip Button - disabled for boss zones */}

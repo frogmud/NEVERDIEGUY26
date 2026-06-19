@@ -1,27 +1,30 @@
 /**
- * ResponsePhasePanel - the playable beat after Face reveal.
+ * ResponsePhasePanel - the single-creature encounter beat after Throw Bones.
  *
- * The player answers the primary Face with Guard / Throw Bones / Flee. The choice
- * resolves a Jump Check (score / disadvantage modifier only - never HP, never
- * run-ending). Visual language follows the BONES v2 Concept Prototype (node 134:5):
- * a hero-vs-Die-rector face-off over a red action stack.
+ * Collapses reveal + response into one screen (per the BONES v2 Concept Prototype,
+ * node 134:5): the Bones land, one dominant Face/Die-rector stares at you, and you
+ * answer with Flee or Slap. The choice resolves a Jump Check (score / disadvantage
+ * modifier only - never HP, never run-ending; reveal cannot kill). The other Bones
+ * that landed still ride along in state.revealedFaces for What Remained.
  */
 
 import { Box, Typography } from '@mui/material';
-import { BaseCard, MenuButton } from '@neverdieguy/ui';
+import { BaseCard, DataBadge, MenuButton } from '@neverdieguy/ui';
 import { OFFICES } from '@ndg/shared';
 import type { ResponseChoice } from '@ndg/ai-engine';
 import { tokens } from '../../../theme';
 import { useRun } from '../../../contexts/RunContext';
-import { OFFICE_PORTRAIT, OFFICE_ACCENT } from './officeArt';
+import { DiceShape } from '../../../components/DiceShapes';
+import { OFFICE_SPRITE, OFFICE_ACCENT, OFFICE_BADGE_COLOR, OFFICE_BONE_SIDES } from './officeArt';
 
 export function ResponsePhasePanel() {
   const { state, chooseResponse, transitionToPanel } = useRun();
-  const face = state.revealedFaces[0];
+  const faces = state.revealedFaces;
+  const face = faces[0];
   const result = state.jumpResult;
   const accent = face ? OFFICE_ACCENT[face.officeId] ?? tokens.colors.primary : tokens.colors.primary;
 
-  // After a choice is resolved, show the Jump Check result + Continue.
+  // After a choice is resolved, show the Jump Check result + Enter the room.
   if (result) {
     return (
       <Box sx={panelSx}>
@@ -45,54 +48,66 @@ export function ResponsePhasePanel() {
 
   return (
     <Box sx={panelSx}>
+      {/* The Bones that landed */}
       <Box sx={{ textAlign: 'center' }}>
-        <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: { xs: '1.2rem', sm: '1.4rem' }, color: tokens.colors.text.primary }}>
-          Response Phase
+        <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: { xs: '1.1rem', sm: '1.3rem' }, letterSpacing: '0.05em', color: tokens.colors.text.primary }}>
+          The Bones land
         </Typography>
-        {face && (
-          <Typography sx={{ color: tokens.colors.text.secondary, mt: 1, fontSize: '0.85rem' }}>
-            The {face.label} is watching. Answer it.
-          </Typography>
-        )}
+        <Box sx={{ display: 'flex', gap: 1.25, justifyContent: 'center', mt: 1 }}>
+          {faces.map((f, i) => (
+            <DiceShape key={`${f.id}-${i}`} sides={OFFICE_BONE_SIDES[f.officeId] ?? 6} size={26} color={OFFICE_ACCENT[f.officeId] ?? tokens.colors.primary} />
+          ))}
+        </Box>
       </Box>
 
-      {/* Hero vs Die-rector face-off */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: { xs: 2, sm: 4 }, width: '100%' }}>
-        <Box
-          component="img"
-          src="/assets/heroes/hero-01.png"
-          alt="Never Die Guy"
-          sx={{ width: { xs: 88, sm: 110 }, height: 'auto', imageRendering: 'pixelated', filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.5))' }}
-        />
-        <Typography sx={{ fontFamily: tokens.fonts.gaming, color: tokens.colors.text.disabled, fontSize: '1rem' }}>vs</Typography>
-        {face && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.75 }}>
+      {/* The dominant Face stares at you */}
+      {face && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+          <Box
+            sx={{
+              width: { xs: 200, sm: 240 },
+              height: { xs: 200, sm: 240 },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: `radial-gradient(circle, ${accent}24 0%, transparent 68%)`,
+            }}
+          >
             <Box
+              component="img"
+              src={OFFICE_SPRITE[face.officeId]}
+              alt={OFFICES[face.officeId].director}
               sx={{
-                width: 96,
-                height: 96,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: `radial-gradient(circle, ${accent}22 0%, transparent 70%)`,
-                border: `1px solid ${accent}66`,
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                filter: `drop-shadow(0 0 18px ${accent}66) drop-shadow(0 8px 16px rgba(0,0,0,0.5))`,
               }}
-            >
-              <Box component="img" src={OFFICE_PORTRAIT[face.officeId]} alt={OFFICES[face.officeId].director} sx={{ width: 72, height: 72, imageRendering: 'pixelated' }} />
-            </Box>
-            <Box sx={{ px: 1, py: 0.25, borderRadius: '9999px', backgroundColor: `${accent}22`, border: `1px solid ${accent}55` }}>
-              <Typography sx={{ color: accent, fontSize: '0.65rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Watching</Typography>
-            </Box>
+            />
           </Box>
-        )}
-      </Box>
+          <Typography sx={{ color: tokens.colors.text.secondary, fontSize: '0.85rem', fontStyle: 'italic' }}>
+            Something stares at you.
+          </Typography>
+          <DataBadge label={OFFICES[face.officeId].office} color={OFFICE_BADGE_COLOR[face.officeId] ?? 'primary'} />
+          <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: { xs: '1.3rem', sm: '1.6rem' }, color: tokens.colors.text.primary, textAlign: 'center' }}>
+            {face.label}
+          </Typography>
+          {face.effects[0] && (
+            <Typography sx={{ color: tokens.colors.text.secondary, fontSize: '0.8rem', textAlign: 'center', maxWidth: 320 }}>
+              {face.effects[0]}
+            </Typography>
+          )}
+        </Box>
+      )}
 
-      {/* Red action stack */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25, width: { xs: '100%', sm: 300 }, maxWidth: 340 }}>
-        <MenuButton title="Throw Bones" subtitle="Take the Face head-on" color="red" onClick={() => chooseResponse('throw' as ResponseChoice)} />
-        <MenuButton title="Guard" subtitle="Brace - soften a jump" color="neutral" onClick={() => chooseResponse('guard' as ResponseChoice)} />
-        <MenuButton title="Flee" subtitle="Back off - minor cost" color="yellow" onClick={() => chooseResponse('flee' as ResponseChoice)} />
+      {/* Answer it: Flee / Slap */}
+      <Box sx={{ display: 'flex', gap: { xs: 1.25, sm: 2 }, width: { xs: '100%', sm: 'auto' }, maxWidth: 420, justifyContent: 'center' }}>
+        <Box sx={{ flex: 1, minWidth: { xs: 0, sm: 150 } }}>
+          <MenuButton title="Flee" subtitle="Back off - minor cost" color="yellow" onClick={() => chooseResponse('flee' as ResponseChoice)} />
+        </Box>
+        <Box sx={{ flex: 1, minWidth: { xs: 0, sm: 150 } }}>
+          <MenuButton title="Slap" subtitle="Take it head-on" color="red" onClick={() => chooseResponse('throw' as ResponseChoice)} />
+        </Box>
       </Box>
     </Box>
   );
@@ -105,7 +120,7 @@ const panelSx = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: { xs: 2.5, sm: 3 },
+  gap: { xs: 2, sm: 2.5 },
   p: { xs: 2, sm: 3 },
   overflowY: 'auto',
 } as const;
