@@ -1,0 +1,39 @@
+name: Code Connect
+
+# Auto-publish Code Connect mappings to Figma when any *.figma.tsx (or the config)
+# lands on main. Keeps Figma Dev Mode in sync with the code with no manual
+# `figma connect publish` - add a component's .figma.tsx, merge, done.
+#
+# This is the CLI path: our CI pushes mappings to Figma using a scoped token.
+# Figma is NOT given access to the repo. The token lives only as the
+# FIGMA_ACCESS_TOKEN GitHub Actions secret (scopes: file_content:read +
+# file_code_connect:write).
+#
+# All design-system components live in packages/ui, so one publish from there
+# covers everything. If a second DS package ever holds components, add its path
+# below and a matching publish step.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/ui/**/*.figma.tsx'
+      - 'packages/ui/figma.config.json'
+
+jobs:
+  publish:
+    name: Publish Code Connect
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Publish to Figma
+        working-directory: packages/ui
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: pnpm exec figma connect publish --exit-on-unreadable-files
