@@ -68,6 +68,18 @@ for every drift row is the same: update the Figma variable to the canonical valu
 | Component | Figma (BONES) | Code (before) | Resolution |
 |-----------|---------------|---------------|------------|
 | DataBadge (60:16) | `Rarity` variant: Common..Legendary | `color`: primary/secondary/... | **Done.** Added optional `rarity` prop to `@neverdieguy/ui` DataBadge; when set it tints from the rarity ramp and overrides `color`. Backward compatible. Code Connect maps `figma.enum('Rarity', ...)` -> `rarity`. |
+| StatCard (62:1032) | no variants; value over uppercase label | `value`, `label`, `icon` | **Done.** Static mapping; value/label read via `figma.string`. |
+| ListItemRow (62:6) | no variants; name + meta + trailing value | `primary`, `secondary`, `action` | **Done.** Static mapping; `primary`/`secondary` via `figma.string`, trailing value as `action`. |
+| SettingRow (71:25) | `Control`: Switch / Chevron / Value | `title`, `description`, `checked`, Switch | **Partial.** Mapped only `Control=Switch` (matches code). Chevron + Value controls have no code home yet - see below. |
+| PageHeader (71:1165) | `Breadcrumb` x `Action`; breadcrumb + page title + Button | none (code `CardHeader` is a card title bar, not a page header) | **Deferred.** Not mapped - no faithful code counterpart. Needs a new `PageHeader` component in `@neverdieguy/ui` (breadcrumb + title + optional action) before mapping. |
+
+### Open prop-model gaps
+- **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron
+  (navigates) or a static value (e.g. "High"), neither of which the code `SettingRow` supports.
+  Options: add a `control?: 'switch' | 'chevron' | 'value'` prop (+ `value`/`onClick`), or route
+  those cases through `ListItemRow`. Decide before mapping the other two variants.
+- **PageHeader.** Build a `PageHeader` code component, then map `71:1165` (the `Action=Button`
+  variant uses the BONES Button, which also still needs a code home).
 
 The draft mapping lives in `packages/ui/src/DataBadge.figma.tsx` (Figma property names are
 per the documented spec, to be confirmed against the live component post-upgrade).
