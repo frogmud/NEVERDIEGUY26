@@ -14,10 +14,6 @@ figma.connect(
   StatCard,
   'https://www.figma.com/design/IfJ0MKBk5pGKNDnPp0d5sv?node-id=62-1032',
   {
-    props: {
-      value: figma.string('142'),
-      label: figma.string('RUNS'),
-    },
-    example: ({ value, label }) => <StatCard value={value} label={label} />,
+    example: () => <StatCard value="142" label="Runs" />,
   },
 );

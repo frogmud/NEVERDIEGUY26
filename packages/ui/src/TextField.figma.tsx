@@ -16,10 +16,9 @@ figma.connect(
         Default: false,
         Focus: false,
       }),
-      label: figma.string('Label'),
     },
-    example: ({ error, label }) => (
-      <TextField label={label} placeholder="Enter value…" error={error} />
+    example: ({ error }) => (
+      <TextField label="Label" placeholder="Enter value…" error={error} />
     ),
   },
 );

@@ -21,10 +21,9 @@ figma.connect(
         Warning: 'warning',
         Error: 'error',
       }),
-      label: figma.string('Label'),
     },
-    example: ({ variant, color, label }) => (
-      <Chip label={label} variant={variant} color={color} />
+    example: ({ variant, color }) => (
+      <Chip label="Label" variant={variant} color={color} />
     ),
   },
 );

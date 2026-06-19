@@ -23,10 +23,9 @@ figma.connect(
         Inactive: false,
         Hover: false,
       }),
-      label: figma.string('Items'),
     },
-    example: ({ active, disabled, label }) => (
-      <Tab label={label} active={active} disabled={disabled} />
+    example: ({ active, disabled }) => (
+      <Tab label="Items" active={active} disabled={disabled} />
     ),
   },
 );

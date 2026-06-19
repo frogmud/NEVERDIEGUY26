@@ -27,11 +27,10 @@ figma.connect(
         Default: false,
         Hover: false,
       }),
-      label: figma.string('Button'),
     },
-    example: ({ variant, size, disabled, label }) => (
+    example: ({ variant, size, disabled }) => (
       <Button variant={variant} size={size} disabled={disabled}>
-        {label}
+        Button
       </Button>
     ),
   },

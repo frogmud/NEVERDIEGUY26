@@ -14,12 +14,8 @@ figma.connect(
   ListItemRow,
   'https://www.figma.com/design/IfJ0MKBk5pGKNDnPp0d5sv?node-id=62-6',
   {
-    props: {
-      primary: figma.string('Aberrant Bow'),
-      secondary: figma.string('Weapon · Rare'),
-    },
-    example: ({ primary, secondary }) => (
-      <ListItemRow primary={primary} secondary={secondary} action={<span>120</span>} />
+    example: () => (
+      <ListItemRow primary="Aberrant Bow" secondary="Weapon · Rare" action={<span>120</span>} />
     ),
   },
 );

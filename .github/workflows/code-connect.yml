@@ -19,10 +19,37 @@ on:
     paths:
       - 'packages/ui/**/*.figma.tsx'
       - 'packages/ui/figma.config.json'
+  pull_request:
+    paths:
+      - 'packages/ui/**/*.figma.tsx'
+      - 'packages/ui/figma.config.json'
 
 jobs:
+  # On PRs: validate the mappings against the live Figma components WITHOUT publishing.
+  # Catches "property X does not exist" style failures before they reach main (publish is
+  # all-or-nothing, so one bad mapping aborts the whole batch).
+  validate:
+    name: Validate Code Connect (dry run)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Dry-run publish to Figma
+        working-directory: packages/ui
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: pnpm exec figma connect publish --dry-run --exit-on-unreadable-files
+
+  # On merge to main: actually publish.
   publish:
     name: Publish Code Connect
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

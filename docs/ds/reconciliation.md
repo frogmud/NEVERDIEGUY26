@@ -92,6 +92,16 @@ mapped to its BONES node:
 | Chip | 8:22 | `Style` -> `variant` (solid/outline); `Color` -> `color`. |
 | TextField | 10:17 | `State=Error` -> `error`; single-line input (BONES renamed Input -> "Text Field"). |
 
+### Gotcha: `figma.string` needs a real text property
+
+`figma.string('X')` binds to a Figma component **text property** named `X`, not to an arbitrary
+text layer's contents. None of the BONES components expose text properties, so every
+`figma.string` call failed server-side validation ("property ... does not exist"), and because
+`figma connect publish` is **all-or-nothing**, one bad mapping aborted the entire batch (the
+batch-2 publish failed this way - only DataBadge, which uses `figma.enum`, was live). Fix: use
+`figma.enum` for variant props and inline sample text directly in the `example`. The workflow now
+runs `figma connect publish --dry-run` on PRs so this is caught before merge, not after.
+
 ### Open prop-model gaps
 - **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron
   (navigates) or a static value (e.g. "High"), neither of which the code `SettingRow` supports.
