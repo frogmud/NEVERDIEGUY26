@@ -2,6 +2,18 @@ packages:
   - 'packages/*'
   - 'apps/*'
 
+# Supply-chain cooldown: refuse to install any npm package version published less
+# than this many minutes ago (1440 = 1 day). Blocks the highest-risk window when a
+# compromised release (stolen maintainer token, install-script worm) is live before
+# npm/registry takedowns. pnpm 11 already defaults to 1 day; we pin it explicitly so
+# CI and every machine enforce the same rule rather than relying on a pnpm default.
+# TODO (calm weekday): raise to 4320 (3 days) so Friday releases can't install until
+# Monday. That needs a clean `pnpm clean --lockfile && pnpm install` to age out fresh
+# browserslist transitives (electron-to-chromium / node-releases publish ~daily), so
+# do it deliberately with a full typecheck+build, not right before a weekend.
+# Per-package same-day exceptions go in minimumReleaseAgeExclude.
+minimumReleaseAge: 1440
+
 # Dependencies allowed to run install/build scripts (pnpm 10+ blocks these by default)
 allowBuilds:
   esbuild: true
