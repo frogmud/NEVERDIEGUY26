@@ -51,6 +51,10 @@ import {
   logRunStart,
   logRoomClear,
   logDomainClear,
+  logBonesThrown,
+  logFacesRevealed,
+  logResponsePhaseStarted,
+  logJumpCheckResolved,
   logShopPurchase,
   logRunEnd,
   logDefeat,
@@ -80,6 +84,8 @@ import { generateEncounter } from '@ndg/ai-engine';
 // Exploration bonus system from ai-engine
 import type { ExplorationState } from '@ndg/ai-engine';
 import { createExplorationState, recordSelection } from '@ndg/ai-engine';
+import type { Face, ResponseChoice, JumpResult } from '@ndg/ai-engine';
+import { revealFaces, resolveJumpCheck } from '@ndg/ai-engine';
 
 // Dice bag system for persistent dice across run
 import type { DiceBag, DieConfig } from '@ndg/ai-engine';
@@ -104,7 +110,9 @@ import {
 // 'summary' is ONLY for final victory after D6
 // 'briefing' is The General's mission briefing (shown once at run start)
 // shop is now in sidebar (not a center panel)
-export type CenterPanel = 'globe' | 'combat' | 'portals' | 'summary' | 'briefing';
+// 'reveal' shows the 3 Face cards after Cast Bones; 'response' is the Response Phase
+// (Guard / Throw Bones / Flee) before combat. See Bones/Faces run loop.
+export type CenterPanel = 'globe' | 'combat' | 'portals' | 'summary' | 'briefing' | 'reveal' | 'response';
 
 // Transition phases for orchestrated panel swaps
 export type TransitionPhase = 'idle' | 'exit' | 'wipe' | 'enter';
@@ -199,6 +207,10 @@ export interface RunState extends Omit<GameState, 'currentEncounter'> {
   explorationState: ExplorationState | null;
   // Mission briefing modal (The General)
   showBriefing: boolean;
+  // Bones / Faces run loop
+  revealedFaces: Face[];              // Faces revealed by the current Cast Bones
+  responseChoice: ResponseChoice | null;  // Player's Response Phase choice
+  jumpResult: JumpResult | null;      // Jump Check outcome + score/disadvantage modifier
 }
 
 // Run context value
@@ -224,6 +236,10 @@ interface RunContextValue {
 
   // Zone selection (Globe3D -> combat)
   selectZone: (zone: ZoneMarker) => void;
+
+  // Bones / Faces run loop
+  castBones: () => void;                          // Reveal 3 Faces (-> reveal panel)
+  chooseResponse: (choice: ResponseChoice) => void;  // Response Phase -> Jump Check
 
   // Combat callbacks
   setPendingVictory: (payload: PendingVictory) => void;
@@ -286,6 +302,9 @@ type RunAction =
   | { type: 'END_RUN'; won: boolean }
   | { type: 'RESET_RUN' }
   | { type: 'SELECT_ZONE'; zone: ZoneMarker }
+  // Bones / Faces run loop
+  | { type: 'CAST_BONES'; faces: Face[] }
+  | { type: 'CHOOSE_RESPONSE'; choice: ResponseChoice; result: JumpResult }
   | { type: 'COMPLETE_ROOM'; score: number; gold: number; stats: { npcsSquished: number; diceThrown: number } }
   | { type: 'FAIL_ROOM' }
   | { type: 'SKIP_ROOM' }
@@ -361,6 +380,10 @@ function createInitialRunState(): RunState {
     explorationState: null,
     // Mission briefing modal (not shown initially)
     showBriefing: false,
+    // Bones / Faces run loop
+    revealedFaces: [],
+    responseChoice: null,
+    jumpResult: null,
   };
 }
 
@@ -647,6 +670,24 @@ function runReducer(state: RunState, action: RunAction): RunState {
         selectedZone: action.zone,
         phase: 'playing',
         eventStartTime: Date.now(),  // Track when event starts for timing stats
+      };
+
+    case 'CAST_BONES':
+      // Throw Bones -> reveal Faces. Reveal never ends the run (No-Instant-Death).
+      return {
+        ...state,
+        revealedFaces: action.faces,
+        responseChoice: null,
+        jumpResult: null,
+      };
+
+    case 'CHOOSE_RESPONSE':
+      // Response Phase choice resolves the Jump Check. The modifier is applied to
+      // the upcoming room at combat init (score / disadvantage only).
+      return {
+        ...state,
+        responseChoice: action.choice,
+        jumpResult: action.result,
       };
 
     case 'COMPLETE_ROOM': {
@@ -1310,6 +1351,30 @@ export function RunProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SELECT_ZONE', zone });
   }, []);
 
+  // Bones / Faces run loop ----------------------------------------------------
+  const castBones = useCallback(() => {
+    const domain = state.currentDomain || 1;
+    const room = state.roomNumber || 1;
+    const rng = createSeededRng(`${state.threadId}:${domain}:${room}:bones`);
+    const faces = revealFaces(rng, 3, 'reveal');
+    logBonesThrown(domain, room, faces.length);
+    logFacesRevealed(faces.map((f) => f.id));
+    dispatch({ type: 'CAST_BONES', faces });
+  }, [state.threadId, state.currentDomain, state.roomNumber]);
+
+  const chooseResponse = useCallback((choice: ResponseChoice) => {
+    const domain = state.currentDomain || 1;
+    const room = state.roomNumber || 1;
+    // Primary Face is the first revealed; it drives the Jump Check for this slice.
+    const face = state.revealedFaces[0];
+    if (!face) return;
+    logResponsePhaseStarted();
+    const rng = createSeededRng(`${state.threadId}:${domain}:${room}:jump`);
+    const result = resolveJumpCheck(face, choice, rng, 'jump');
+    logJumpCheckResolved(face.id, choice, result.outcome);
+    dispatch({ type: 'CHOOSE_RESPONSE', choice, result });
+  }, [state.threadId, state.currentDomain, state.roomNumber, state.revealedFaces]);
+
   const setPendingVictory = useCallback((payload: PendingVictory) => {
     dispatch({ type: 'SET_PENDING_VICTORY', payload });
   }, []);
@@ -1519,7 +1584,12 @@ export function RunProvider({ children }: { children: ReactNode }) {
       totalScore: state.totalScore,
       tier: state.tier,
       phase: state.phase,
-      centerPanel: state.centerPanel,
+      // Do not persist the transient reveal/response panels; resume at zone select
+      // so a reload re-casts Bones rather than restoring an empty reveal.
+      centerPanel:
+        state.centerPanel === 'reveal' || state.centerPanel === 'response'
+          ? 'globe'
+          : state.centerPanel,
       domainState: state.domainState ? {
         id: state.domainState.id,
         name: state.domainState.name,
@@ -1556,6 +1626,8 @@ export function RunProvider({ children }: { children: ReactNode }) {
     endRun,
     resetRun,
     selectZone,
+    castBones,
+    chooseResponse,
     setPendingVictory,
     completeRoom,
     failRoom,
@@ -1600,6 +1672,8 @@ export function RunProvider({ children }: { children: ReactNode }) {
     endRun,
     resetRun,
     selectZone,
+    castBones,
+    chooseResponse,
     setPendingVictory,
     completeRoom,
     failRoom,

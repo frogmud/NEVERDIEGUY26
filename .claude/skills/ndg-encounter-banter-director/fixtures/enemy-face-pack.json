@@ -1,0 +1,43 @@
+{
+  "_comment": "FIXTURE - full banter pack for one enemy Face (The Custodian, Office 3 / Death). All beats across low/mid/high Myth; jump covers jump/watch/open. In-voice, HUD-short, no emojis or em dashes.",
+  "banterPoolId": "banter-death-custodian",
+  "faceId": "face-custodian",
+  "officeId": 3,
+  "lines": [
+    { "beat": "intro", "myth": "low", "text": "The Custodian steps in. It keeps the books on the dead." },
+    { "beat": "intro", "myth": "mid", "text": "The Custodian again. People are starting to know its name." },
+    { "beat": "intro", "myth": "high", "text": "The Custodian arrives like a story already told. The room leans toward it." },
+
+    { "beat": "reveal", "myth": "low", "text": "A skull Face turns up. Custody, not kindness." },
+    { "beat": "reveal", "myth": "mid", "text": "The skull Face. The one they whisper cleared the third Office." },
+    { "beat": "reveal", "myth": "high", "text": "The skull Face. The Archive and the Myth disagree on what it did to you last time." },
+
+    { "beat": "response_pressure", "myth": "low", "text": "Guard, throw, or back off. It is patient." },
+    { "beat": "response_pressure", "myth": "mid", "text": "It has seen your move before. Pick anyway." },
+    { "beat": "response_pressure", "myth": "high", "text": "It already knows the line you will choose. Prove the story wrong." },
+
+    { "beat": "jump", "myth": "low", "outcome": "jump", "text": "It jumps. The room tightens around you." },
+    { "beat": "jump", "myth": "mid", "outcome": "jump", "text": "It jumps the way the rumor said it would." },
+    { "beat": "jump", "myth": "high", "outcome": "jump", "text": "It jumps, and the Myth writes the bruise before you feel it." },
+
+    { "beat": "jump", "myth": "low", "outcome": "watch", "text": "It watches. No hit lands." },
+    { "beat": "jump", "myth": "mid", "outcome": "watch", "text": "It watches, taking notes for the Archive." },
+    { "beat": "jump", "myth": "high", "outcome": "watch", "text": "It watches. Even its patience is a legend now." },
+
+    { "beat": "jump", "myth": "low", "outcome": "open", "text": "It opens. A clean window appears." },
+    { "beat": "jump", "myth": "mid", "outcome": "open", "text": "It opens wider than the stories claim it ever does." },
+    { "beat": "jump", "myth": "high", "outcome": "open", "text": "It opens, and for once the Myth owes you a debt." },
+
+    { "beat": "victory", "myth": "low", "text": "The room clears. The Custodian files you under survived." },
+    { "beat": "victory", "myth": "mid", "text": "Cleared. The story gets a new line in your favor." },
+    { "beat": "victory", "myth": "high", "text": "Cleared. The Myth will exaggerate this. Let it." },
+
+    { "beat": "fail", "myth": "low", "text": "The room takes you. Death is a change in custody, not an end." },
+    { "beat": "fail", "myth": "mid", "text": "You fall. The Custodian was expecting the paperwork." },
+    { "beat": "fail", "myth": "high", "text": "You fall into the story you helped write. Custody, as promised." },
+
+    { "beat": "flee", "myth": "low", "text": "You back off. It lets the door stay open." },
+    { "beat": "flee", "myth": "mid", "text": "You flee. It marks the page and waits." },
+    { "beat": "flee", "myth": "high", "text": "You flee, and the Myth keeps your seat warm." }
+  ]
+}

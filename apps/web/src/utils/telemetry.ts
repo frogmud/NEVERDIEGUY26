@@ -124,3 +124,31 @@ export function logDefeat(
     location: `${domain}-${room}`,
   });
 }
+
+// ============================================
+// Bones / Faces run loop
+// ============================================
+
+export function logBonesThrown(domain: number, room: number, faceCount: number): void {
+  log('bones_thrown', { location: `${domain}-${room}`, faces: faceCount });
+}
+
+export function logFacesRevealed(faceIds: string[]): void {
+  log('faces_revealed', { faces: faceIds.join(',') });
+}
+
+export function logResponsePhaseStarted(): void {
+  log('response_phase_started');
+}
+
+export function logJumpCheckResolved(
+  faceId: string,
+  choice: string,
+  outcome: string
+): void {
+  log('jump_check_resolved', { face: faceId, choice, outcome });
+}
+
+export function logRoomResolved(domain: number, room: number, won: boolean): void {
+  log('room_resolved', { location: `${domain}-${room}`, result: won ? 'win' : 'loss' });
+}

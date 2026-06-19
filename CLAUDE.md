@@ -24,6 +24,11 @@ Be mindful of parallel work in other worktrees when making changes.
 
 **Important:** Do not run npm/pnpm commands without asking the user first.
 
+**Supply-chain cooldown:** `pnpm-workspace.yaml` sets `minimumReleaseAge: 1440` - installing any
+npm package version published less than 1 day ago hard-fails (by design, not a break). Avoid
+installing fresh/external deps, especially on Fri/weekends. This is why the per-package `tsc`
+validation path is preferred over `turbo` tasks that re-run install.
+
 ```bash
 # Development (ask user to run)
 pnpm dev          # Run dev server (Turborepo)
@@ -35,9 +40,16 @@ pnpm typecheck    # TypeScript validation
 
 # Simulation scripts (ai-engine package)
 pnpm sim:pantheon     # NPC encounter simulation
+pnpm sim:eternal      # Eternal Stream multi-NPC chatter
 pnpm sim:chatter      # Pre-game NPC chatter
 pnpm sim:extract      # Extract chatbase data
-pnpm sim:restock      # Restock NPC dialogue
+
+# Other
+pnpm dev:cms          # Run asset CMS
+pnpm export:wiki      # Export wiki data (tsx script)
+
+# Validate a single package without the turbo install gate
+cd packages/<name> && npx tsc --noEmit
 ```
 
 ## CI / Secrets
@@ -54,17 +66,52 @@ pnpm sim:restock      # Restock NPC dialogue
 ### Monorepo Structure
 ```
 NEVERDIEGUY26/
-├── apps/web/              # React frontend (Vite, MUI 7, React 19)
-├── packages/ai-engine/    # Combat engine, NPC logic, chatbase
-├── packages/shared/       # Shared types and utilities
+├── apps/web/              # @ndg/web - React frontend (Vite, MUI 7, React 19) - private
+├── apps/asset-cms/        # @ndg/asset-cms - asset CMS - private
+├── packages/ai-engine/    # @ndg/ai-engine - combat engine, NPC logic, chatbase - private
+├── packages/shared/       # @ndg/shared - shared types/utilities - private
+├── packages/tokens/       # @neverdieguy/tokens - curated design tokens - PUBLIC
+├── packages/ui/           # @neverdieguy/ui - presentational MUI components - PUBLIC
 ├── api/                   # Vercel serverless functions
 ├── design-system/         # Brand assets, sprites (not git tracked)
 └── docs/ux/               # UX documentation
 ```
 
+The `@neverdieguy/*` scope is the public/open-source signal (the two DS packages publish
+to npm); `@ndg/*` packages stay private. Both live in this single private repo.
+
 ### Package Dependencies
-- `@ndg/web` depends on `@ndg/ai-engine` and `@ndg/shared`
+- `@ndg/web` depends on `@ndg/ai-engine`, `@ndg/shared`, `@neverdieguy/ui`, `@neverdieguy/tokens`
 - `@ndg/ai-engine` depends on `@ndg/shared`
+- `@neverdieguy/ui` depends on `@neverdieguy/tokens` (peer: react, @mui/material)
+
+### Build mechanics (important)
+- Every package builds with plain `tsc` -> `dist/`. The web app and other packages consume the
+  **built `dist/`** of their workspace deps, so after editing `packages/shared|ai-engine|tokens|ui`
+  you must rebuild that package (`pnpm --filter <name> build`) before its changes are visible to
+  consumers at runtime.
+- `turbo typecheck` / `turbo build` run `^build` first, which re-trips the supply-chain cooldown
+  install gate. To validate quickly, prefer per-package `npx tsc --noEmit` (in the edited package
+  and in `apps/web`) plus `pnpm --filter @ndg/web build`, rather than the turbo tasks.
+
+### Design system + Code Connect
+The BONES v2 Figma file is Code-Connected to `@neverdieguy/ui` (22 components). Mappings live in
+`packages/ui/src/*.figma.tsx` and publish via `.github/workflows/code-connect.yml`. When building
+new app UI, prefer `@neverdieguy/ui` components (Button, MenuButton, BaseCard, DataBadge, Chip, ...)
+over raw MUI to dogfood the system. Figma working notes / token table live in the parent workspace's
+`CLAUDE.md` (one directory up).
+
+### Bones / Faces run loop (current content direction)
+The app is pivoting dice language to the product spine: `Throw the Bones. Feed the Myth.` The run
+loop wraps existing combat with: `Cast Bones -> Reveal Faces -> Response Phase -> Jump Check ->
+Resolve Room -> Bury -> What Remained`. Foundations are wired:
+- `@ndg/shared` `OfficeId`/`OFFICES`/`domainToOffice` - Office identity is **separate from `domainId`**
+  (never collapse them).
+- `@ndg/ai-engine/faces` - `Face` type, 6 Faces (one per Office), seeded `revealFaces`, pure
+  `resolveJumpCheck` (score/disadvantage modifier only - **a Face reveal must never end the run**).
+- `RunContext` owns `reveal`/`response` panels + `castBones`/`chooseResponse`; `PlayHub` renders the
+  panels. Wrap and surface the existing `CombatEngine`; do not rewrite combat math.
+See `../docs/current/08-app-systems-alignment-plan.md` for the full audit and the deferred backlog.
 
 ### Key React Contexts (apps/web/src/contexts/)
 | Context | Purpose |
@@ -246,7 +293,7 @@ Located in `packages/ai-engine/src/balance/balance-config.ts` and `apps/web/src/
 - **Frontend**: React 19, Vite 6, MUI 7, TypeScript 5.8
 - **3D**: Three.js 0.182, React Three Fiber, Drei
 - **State**: React Context (RunContext, SoundContext, GameSettingsContext)
-- **Monorepo**: Turborepo 2.7, pnpm 9.15 workspaces
+- **Monorepo**: Turborepo 2.9, pnpm 11.8 workspaces, TypeScript 5.9
 - **Deployment**: Vercel (serverless functions in `/api`)
 - **Analytics**: Vercel Analytics (page views, web vitals)
 - **AI**: Anthropic SDK (dynamic import for Vercel cold start optimization)
