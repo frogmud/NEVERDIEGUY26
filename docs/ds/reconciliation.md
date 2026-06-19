@@ -89,6 +89,8 @@ mapped to its BONES node:
 | Textarea | 86:16 | `State=Error` -> `error`; multi-line field. |
 | Select | 84:42 | `State` -> `error` / `disabled`; options are a code concern. |
 | LinearProgress | 60:813 | `Color` -> `color` (Primary/Success/Warning/Error). |
+| Chip | 8:22 | `Style` -> `variant` (solid/outline); `Color` -> `color`. |
+| TextField | 10:17 | `State=Error` -> `error`; single-line input (BONES renamed Input -> "Text Field"). |
 
 ### Open prop-model gaps
 - **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron

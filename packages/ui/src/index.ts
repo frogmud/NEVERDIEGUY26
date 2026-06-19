@@ -64,3 +64,9 @@ export type { SelectProps, SelectOption } from './Select';
 
 export { LinearProgress } from './LinearProgress';
 export type { LinearProgressProps, LinearProgressColor } from './LinearProgress';
+
+export { Chip } from './Chip';
+export type { ChipProps, ChipStyle, ChipColor } from './Chip';
+
+export { TextField } from './TextField';
+export type { TextFieldProps } from './TextField';
