@@ -71,15 +71,16 @@ for every drift row is the same: update the Figma variable to the canonical valu
 | StatCard (62:1032) | no variants; value over uppercase label | `value`, `label`, `icon` | **Done.** Static mapping; value/label read via `figma.string`. |
 | ListItemRow (62:6) | no variants; name + meta + trailing value | `primary`, `secondary`, `action` | **Done.** Static mapping; `primary`/`secondary` via `figma.string`, trailing value as `action`. |
 | SettingRow (71:25) | `Control`: Switch / Chevron / Value | `title`, `description`, `checked`, Switch | **Partial.** Mapped only `Control=Switch` (matches code). Chevron + Value controls have no code home yet - see below. |
-| PageHeader (71:1165) | `Breadcrumb` x `Action`; breadcrumb + page title + Button | none (code `CardHeader` is a card title bar, not a page header) | **Deferred.** Not mapped - no faithful code counterpart. Needs a new `PageHeader` component in `@neverdieguy/ui` (breadcrumb + title + optional action) before mapping. |
+| Page Header (71:1165) | `Breadcrumb=Show\|Hide` x `Action=None\|Button`; breadcrumb + page title + Button | none previously | **Done.** Built `PageHeader` in `@neverdieguy/ui` (breadcrumb trail + bold title + `action` slot). Code Connect maps `figma.enum('Breadcrumb', ...)` -> `breadcrumbs` and `figma.enum('Action', ...)` -> `action`. The Figma display name keeps the space ("Page Header", intentional); the code identifier is `PageHeader` - the mapping binds by node id, so the names need not match. |
 
 ### Open prop-model gaps
 - **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron
   (navigates) or a static value (e.g. "High"), neither of which the code `SettingRow` supports.
   Options: add a `control?: 'switch' | 'chevron' | 'value'` prop (+ `value`/`onClick`), or route
   those cases through `ListItemRow`. Decide before mapping the other two variants.
-- **PageHeader.** Build a `PageHeader` code component, then map `71:1165` (the `Action=Button`
-  variant uses the BONES Button, which also still needs a code home).
+- **PageHeader action slot.** The BONES `Action=Button` variant renders the BONES Button; code
+  `PageHeader` takes `action` as a `ReactNode` slot so the page owns its button. When a code
+  `Button` component lands, the mapping's placeholder action can point at it.
 
 The draft mapping lives in `packages/ui/src/DataBadge.figma.tsx` (Figma property names are
 per the documented spec, to be confirmed against the live component post-upgrade).

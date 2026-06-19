@@ -34,3 +34,6 @@ export type { StatusBannerProps, StatusBannerVariant } from './StatusBanner';
 
 export { CardHeader, InfoTooltip } from './CardHeader';
 export type { CardHeaderProps, InfoTooltipProps } from './CardHeader';
+
+export { PageHeader } from './PageHeader';
+export type { PageHeaderProps, PageHeaderCrumb } from './PageHeader';
