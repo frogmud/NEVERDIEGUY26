@@ -68,6 +68,36 @@ for every drift row is the same: update the Figma variable to the canonical valu
 | Component | Figma (BONES) | Code (before) | Resolution |
 |-----------|---------------|---------------|------------|
 | DataBadge (60:16) | `Rarity` variant: Common..Legendary | `color`: primary/secondary/... | **Done.** Added optional `rarity` prop to `@neverdieguy/ui` DataBadge; when set it tints from the rarity ramp and overrides `color`. Backward compatible. Code Connect maps `figma.enum('Rarity', ...)` -> `rarity`. |
+| StatCard (62:1032) | no variants; value over uppercase label | `value`, `label`, `icon` | **Done.** Static mapping; value/label read via `figma.string`. |
+| ListItemRow (62:6) | no variants; name + meta + trailing value | `primary`, `secondary`, `action` | **Done.** Static mapping; `primary`/`secondary` via `figma.string`, trailing value as `action`. |
+| SettingRow (71:25) | `Control`: Switch / Chevron / Value | `title`, `description`, `checked`, Switch | **Partial.** Mapped only `Control=Switch` (matches code). Chevron + Value controls have no code home yet - see below. |
+| Page Header (71:1165) | `Breadcrumb=Show\|Hide` x `Action=None\|Button`; breadcrumb + page title + Button | none previously | **Done.** Built `PageHeader` in `@neverdieguy/ui` (breadcrumb trail + bold title + `action` slot). Code Connect maps `figma.enum('Breadcrumb', ...)` -> `breadcrumbs` and `figma.enum('Action', ...)` -> `action`. The Figma display name keeps the space ("Page Header", intentional); the code identifier is `PageHeader` - the mapping binds by node id, so the names need not match. |
+
+### Core interactive components (built + mapped)
+
+New `@neverdieguy/ui` components, each a thin MUI wrapper styled from canonical tokens,
+mapped to its BONES node:
+
+| Component | BONES node | Variant -> prop mapping |
+|-----------|------------|-------------------------|
+| Button | 6:10 | `Style` -> `variant` (Contained/Outlined/Subtle/Text/Destructive); `Size` -> `size`; `State=Disabled` -> `disabled`. Start/End icon booleans left to code `startIcon`/`endIcon` slots. |
+| Switch | 22:7 | `State=On` -> `checked`; `Size` -> `size`. Red when on (brand primary), not green. |
+| Checkbox | 83:12 | `State` -> `checked` / `indeterminate` / `disabled`. Checked = primary red. |
+| IconButton | 84:1409 | `State=Disabled` -> `disabled`; icon is a code child. |
+| Link | 102:1373 | interaction-state variants -> one static example; uses the `info` accent. |
+| Tab | 60:857 | `State` -> `active` / `disabled`. Single tab item; compose a row for a bar. |
+| Textarea | 86:16 | `State=Error` -> `error`; multi-line field. |
+| Select | 84:42 | `State` -> `error` / `disabled`; options are a code concern. |
+| LinearProgress | 60:813 | `Color` -> `color` (Primary/Success/Warning/Error). |
+
+### Open prop-model gaps
+- **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron
+  (navigates) or a static value (e.g. "High"), neither of which the code `SettingRow` supports.
+  Options: add a `control?: 'switch' | 'chevron' | 'value'` prop (+ `value`/`onClick`), or route
+  those cases through `ListItemRow`. Decide before mapping the other two variants.
+- **PageHeader action slot.** The BONES `Action=Button` variant renders the BONES Button; code
+  `PageHeader` takes `action` as a `ReactNode` slot so the page owns its button. When a code
+  `Button` component lands, the mapping's placeholder action can point at it.
 
 The draft mapping lives in `packages/ui/src/DataBadge.figma.tsx` (Figma property names are
 per the documented spec, to be confirmed against the live component post-upgrade).
