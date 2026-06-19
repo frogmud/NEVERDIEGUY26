@@ -14,15 +14,14 @@ Worklist for converging the BONES Figma design system and the code design system
   canonical value (a cheap structural edit in a `use_figma` session). Do not change code
   to match Figma unless a row below is explicitly marked as a deliberate redesign.
 
-## Blocker: Code Connect entitlement
+## Status: Code Connect entitlement (resolved)
 
-Code Connect (publish + `get_context_for_code_connect`) requires a **Dev/Full seat on a
-Figma Organization or Enterprise plan**. The current plan (kev.studio Pro) returns:
-`You need a Dev or Full seat on an Organization or Enterprise plan to use Code Connect.`
+Code Connect requires a Dev/Full seat on a Figma Organization or Enterprise plan. The
+workspace was upgraded to Organization (Dev seat) on 2026-06-19, unblocking it.
 
-Everything below that does not need that seat is done now. The live Figma<->code wiring is
-staged and ready (`packages/ui/figma.config.json`, `packages/ui/src/DataBadge.figma.tsx`)
-and goes live once a Dev seat is available - see "Go live" at the bottom.
+`DataBadge` (60:16) is mapped and `figma connect parse`-validated; `@figma/code-connect` is
+a devDep of `@neverdieguy/ui`. The one remaining step is `figma connect publish` with a
+Figma token to push the mapping to Dev Mode - see "Go live" at the bottom.
 
 ## Token drift
 
@@ -73,17 +72,20 @@ for every drift row is the same: update the Figma variable to the canonical valu
 The draft mapping lives in `packages/ui/src/DataBadge.figma.tsx` (Figma property names are
 per the documented spec, to be confirmed against the live component post-upgrade).
 
-## Go live (post-upgrade to an Org/Enterprise Dev seat)
+## Go live
 
-1. `pnpm --filter @neverdieguy/ui add -D @figma/code-connect` (pin a version >24h old per
-   the supply-chain cooldown).
-2. Confirm the live component property names: `get_context_for_code_connect` on node 60:16,
-   adjust `DataBadge.figma.tsx` if "Rarity" / "Label" differ.
-3. Remove the `@ts-nocheck` header and the `**/*.figma.tsx` tsconfig exclude so the mapping
-   typechecks against the real component.
-4. `npx figma connect publish --token <FIGMA_TOKEN>`; confirm the snippet renders in BONES
-   Dev Mode for node 60:16.
-5. Correct the Figma variables per the token-drift table.
+- [x] Upgrade to Organization + Dev seat (2026-06-19).
+- [x] `@figma/code-connect` added as a devDep of `@neverdieguy/ui`.
+- [x] Confirmed live props via `get_context_for_code_connect`: node 60:16 has one `Rarity`
+      variant (Common..Legendary); the label is the rarity word, mapped from the same variant.
+- [x] `DataBadge.figma.tsx` authored and `figma connect parse`-validated (source resolves to
+      the private-repo blob URL).
+- [ ] **Publish:** from `packages/ui`, run
+      `FIGMA_ACCESS_TOKEN=<token> npx figma connect publish`
+      (token scopes: Code Connect write + File content read). Confirm the snippet renders in
+      BONES Dev Mode for node 60:16.
+- [ ] Correct the Figma variables per the token-drift table.
+- [ ] Map the remaining components (see below).
 
 ## Next components to map (after DataBadge proves the pipeline)
 

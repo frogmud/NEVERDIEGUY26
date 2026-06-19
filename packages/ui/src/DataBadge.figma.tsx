@@ -1,22 +1,16 @@
 /**
- * Code Connect mapping: BONES `DataBadge` (node 60:16) <-> @neverdieguy/ui DataBadge.
+ * Code Connect mapping: BONES "Data Badge" (node 60:16) <-> @neverdieguy/ui DataBadge.
  *
- * STATUS: ready to publish, NOT YET ACTIVE.
- * Code Connect requires a Dev/Full seat on a Figma Organization/Enterprise plan.
- * The current plan (kev.studio Pro) cannot publish or read Code Connect context,
- * so this file is intentionally excluded from the tsc build (see tsconfig.json
- * `exclude`) and @figma/code-connect is not yet a dependency.
+ * The Figma component has a single `Rarity` variant (Common..Legendary) and renders
+ * the rarity word as its label (a per-variant text layer, not a separate property).
+ * So both the code `rarity` prop and the `label` text are mapped from that one variant.
  *
- * Before going live (post-upgrade), confirm the exact Figma property names below
- * via get_context_for_code_connect on node 60:16 - the "Rarity" variant name and
- * the "Label" text source are taken from the documented BONES spec, not yet
- * verified against the live component. Then:
- *   1. pnpm --filter @neverdieguy/ui add -D @figma/code-connect   (pin >24h old)
- *   2. npx figma connect publish --token <FIGMA_TOKEN>
+ * This file is excluded from the package tsc build (see tsconfig.json) - it is a Code
+ * Connect template, not shipped runtime code. The Code Connect CLI parses it via
+ * figma.config.json. Publish with `npx figma connect publish` (or the Figma MCP).
  *
  * See docs/ds/reconciliation.md for the prop-model reconciliation rationale.
  */
-// @ts-nocheck - @figma/code-connect is installed post-upgrade; see header.
 import figma from '@figma/code-connect';
 import { DataBadge } from './DataBadge';
 
@@ -33,9 +27,14 @@ figma.connect(
         Epic: 'epic',
         Legendary: 'legendary',
       }),
-      // Badge text. Confirm whether this is a component text property or a named
-      // text layer (figma.textContent) once the live component is readable.
-      label: figma.string('Label'),
+      // The badge label is the rarity word itself, derived from the same variant.
+      label: figma.enum('Rarity', {
+        Common: 'Common',
+        Uncommon: 'Uncommon',
+        Rare: 'Rare',
+        Epic: 'Epic',
+        Legendary: 'Legendary',
+      }),
     },
     example: ({ rarity, label }) => (
       <DataBadge rarity={rarity} label={label} variant="outlined" />
