@@ -8,7 +8,7 @@ import {
   SpaSharp as CalmIcon,
   WhatshotSharp as HeatIcon,
 } from '@mui/icons-material';
-import { DiceRoll } from '@dice-roller/rpg-dice-roller';
+import { safeDiceRoll } from '../../../utils/safeDiceRoll';
 import { BottomSheet } from '../../../components/BottomSheet';
 import { tokens } from '../../../theme';
 import type { EncounterState } from '../gameConfig';
@@ -119,8 +119,8 @@ export function EncounterPanel({
     setPhase('rolling');
 
     // Roll both dice
-    const playerDiceRoll = new DiceRoll(`1d${encounter.playerDice}`);
-    const npcDiceRoll = new DiceRoll(`1d${encounter.npcDice}`);
+    const playerDiceRoll = safeDiceRoll(`1d${encounter.playerDice}`);
+    const npcDiceRoll = safeDiceRoll(`1d${encounter.npcDice}`);
 
     const playerTotal = playerDiceRoll.total;
     const npcTotal = npcDiceRoll.total + encounter.npcBonus;

@@ -5,7 +5,7 @@ import {
   RemoveSharp as RemoveIcon,
   ClearSharp as ClearIcon,
 } from '@mui/icons-material';
-import { DiceRoll } from '@dice-roller/rpg-dice-roller';
+import { safeDiceRoll } from '../../../utils/safeDiceRoll';
 import { DiceShape } from '../../../components/DiceShapes';
 import { tokens } from '../../../theme';
 import { getDiceTypes, DieSides } from '../../../data/dice';
@@ -160,7 +160,7 @@ export function DiceBuilder({ onRoll, initialModifier = 0 }: DiceBuilderProps) {
         clearInterval(rollInterval);
 
         try {
-          const roll = new DiceRoll(notation);
+          const roll = safeDiceRoll(notation);
 
           // Parse individual dice results from the roll
           const finalDice: DieResult[] = [];
