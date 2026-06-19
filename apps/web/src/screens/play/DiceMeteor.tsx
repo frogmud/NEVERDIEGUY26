@@ -11,7 +11,7 @@ import {
   FlagSharp as FlagIcon,
   FullscreenSharp as FullscreenIcon,
 } from '@mui/icons-material';
-import { DiceRoll } from '@dice-roller/rpg-dice-roller';
+import { safeDiceRoll } from '../../utils/safeDiceRoll';
 import { CardSection } from '../../components/CardSection';
 import { SidebarSetup } from '../../components/SidebarSetup';
 import { ReportGameDialog } from '../../components/ReportGameDialog';
@@ -196,7 +196,7 @@ export function DiceMeteor({
       // Roll all non-held dice
       const newHand = prev.hand.map(die => {
         if (die.isHeld && die.rollValue !== null) return die; // Keep held dice with their values
-        const roll = new DiceRoll(`1d${die.sides}`);
+        const roll = safeDiceRoll(`1d${die.sides}`);
         return { ...die, rollValue: roll.total };
       });
 
@@ -273,7 +273,7 @@ export function DiceMeteor({
 
     // Roll dice using rpg-dice-roller library and build DieData for element system
     const diceData: DieData[] = selectedSides.map((sides) => {
-      const roll = new DiceRoll(`1d${sides}`);
+      const roll = safeDiceRoll(`1d${sides}`);
       const config = getDiceConfig(sides);
       return {
         sides: sides as 4 | 6 | 8 | 10 | 12 | 20,
@@ -360,7 +360,7 @@ export function DiceMeteor({
 
     // Roll dice using rpg-dice-roller library
     const values = selectedSides.map((sides) => {
-      const roll = new DiceRoll(`1d${sides}`);
+      const roll = safeDiceRoll(`1d${sides}`);
       return roll.total;
     });
 

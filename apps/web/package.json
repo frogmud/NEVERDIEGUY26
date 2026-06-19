@@ -24,7 +24,7 @@
     "phaser": "^3.90.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.12.0",
+    "react-router-dom": "^7.15.1",
     "three": "^0.182.0",
     "zdog": "^1.1.3"
   },
