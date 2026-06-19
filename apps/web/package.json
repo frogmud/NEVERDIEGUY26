@@ -17,6 +17,8 @@
     "@mui/material": "^7.3.5",
     "@ndg/ai-engine": "workspace:*",
     "@ndg/shared": "workspace:*",
+    "@neverdieguy/tokens": "workspace:*",
+    "@neverdieguy/ui": "workspace:*",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
     "@vercel/analytics": "^1.6.1",

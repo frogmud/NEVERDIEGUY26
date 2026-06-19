@@ -1,57 +1,45 @@
 import { createTheme } from '@mui/material/styles';
+import {
+  colors as dsColors,
+  spacing as dsSpacing,
+  radius as dsRadius,
+  fonts as dsFonts,
+} from '@neverdieguy/tokens';
 
-// NDG Design Tokens - aligned with main design system
+// NDG Design Tokens
+// The shared, canonical design tokens now live in @neverdieguy/tokens (the
+// public design-system package). This file composes them with the app-only,
+// game-specific tokens (dice/combo/npc colors, gold/anomaly/stable accents)
+// that are NOT part of the public design system. The exported `tokens` shape is
+// unchanged, so existing `import { tokens } from '@/theme'` call sites keep
+// working untouched.
 export const tokens = {
   // Semantic aliases for multiplayer components
   status: {
-    success: '#30d158',    // Apple green
-    error: '#ff453a',      // Apple red
-    warning: '#ffd60a',    // Apple yellow
-    info: '#00e5ff',       // Cyan
-    gold: '#c4a000',       // Gold currency
+    success: dsColors.success,
+    error: dsColors.error,
+    warning: dsColors.warning,
+    info: dsColors.secondary, // cyan
+    gold: '#c4a000',       // Gold currency (game)
     silver: '#b8b8b8',     // Silver (2nd place)
     bronze: '#cd7f32',     // Bronze (3rd place)
   },
   surface: {
-    panel: '#1a1a1a',
-    elevated: '#242424',
-    border: 'rgba(255, 255, 255, 0.12)',
+    panel: dsColors.background.paper,
+    elevated: dsColors.background.elevated,
+    border: dsColors.border,
   },
   text: {
-    primary: '#ffffff',
-    secondary: 'rgba(255, 255, 255, 0.7)',
+    primary: dsColors.text.primary,
+    secondary: dsColors.text.secondary,
   },
   accent: {
-    primary: '#E90441',
+    primary: dsColors.primary,
   },
-  // Original colors structure
+  // DS core (from @neverdieguy/tokens) + game-only extras
   colors: {
-    primary: '#E90441',      // pinky red (accessible)
-    secondary: '#00e5ff',    // cyan
-    success: '#30d158',      // Apple green (DS aligned)
-    error: '#ff453a',        // Apple red (DS aligned)
-    warning: '#ffd60a',      // Apple yellow (DS aligned)
-    background: {
-      default: '#0a0a0a',
-      paper: '#1a1a1a',
-      elevated: '#242424',
-    },
-    text: {
-      primary: '#ffffff',
-      secondary: 'rgba(255, 255, 255, 0.7)',
-      disabled: 'rgba(255, 255, 255, 0.5)',
-    },
-    border: 'rgba(255, 255, 255, 0.12)',
-    // Item rarity colors (game standard)
-    rarity: {
-      common: '#9e9e9e',     // gray
-      uncommon: '#4caf50',   // green
-      rare: '#2196f3',       // blue
-      epic: '#9c27b0',       // purple
-      legendary: '#ff9800',  // orange
-      unique: '#e91e63',     // pink
-    },
-    // Game-specific colors (Dice Meteor)
+    ...dsColors,
+    // Game-specific colors (Dice Meteor) - app-only, not in the design system
     game: {
       combo: {
         pair: '#4caf50',     // green
@@ -80,24 +68,9 @@ export const tokens = {
       stable: '#6b7280',     // Stable/neutral gray
     },
   },
-  spacing: {
-    xs: 4,
-    sm: 8,
-    md: 16,
-    lg: 24,
-    xl: 32,
-    xxl: 48,
-  },
-  radius: {
-    sm: 4,
-    md: 8,
-    lg: 12,
-  },
-  fonts: {
-    primary: '"Inter", sans-serif',
-    mono: '"IBM Plex Mono", monospace',
-    gaming: '"m6x11plus", monospace',
-  },
+  spacing: dsSpacing,
+  radius: dsRadius,
+  fonts: dsFonts,
 };
 
 // Rarity color map - use this in components instead of recreating
