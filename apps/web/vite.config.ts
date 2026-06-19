@@ -48,25 +48,12 @@ export default defineConfig({
             }
           }
 
-          // Route-based splitting (source code) - split games from play screens
-          if (id.includes('/games/')) {
-            return 'route-games';
-          }
-          if (id.includes('/screens/play/')) {
-            return 'route-play';
-          }
-          if (id.includes('/screens/wiki/')) {
-            return 'route-wiki';
-          }
-          if (id.includes('/screens/shop/')) {
-            return 'route-shop';
-          }
-
-          // AI engine gets its own chunk
-          if (id.includes('ai-engine')) {
-            return 'ai-engine';
-          }
-
+          // Source code is NOT manually chunked. Routes are already lazy()-loaded
+          // in App.tsx, so Rollup auto-splits them at the dynamic import() boundaries
+          // and keeps mutually-dependent modules together. Forcing source directories
+          // into named chunks (route-games / route-wiki / etc.) split a circular
+          // import graph across chunks, which crashed the app at boot with
+          // "Cannot access 'X' before initialization" (a cross-chunk TDZ).
           return undefined;
         },
       },
