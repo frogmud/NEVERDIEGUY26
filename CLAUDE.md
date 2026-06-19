@@ -40,6 +40,15 @@ pnpm sim:extract      # Extract chatbase data
 pnpm sim:restock      # Restock NPC dialogue
 ```
 
+## CI / Secrets
+
+- **`FIGMA_ACCESS_TOKEN`** (GitHub Actions repo secret) powers the Code Connect auto-publish
+  workflow (`.github/workflows/code-connect.yml`). It is a Figma personal access token scoped to
+  `file_content:read` + `file_code_connect:write`.
+- **Token expires 2026-07-19** (30-day Figma PAT, kept deliberately short over a long-lived one).
+  Rotate before then or Code Connect publishing on merge to main will fail: generate a fresh Figma
+  PAT with the same two scopes and update the repo secret.
+
 ## Architecture
 
 ### Monorepo Structure

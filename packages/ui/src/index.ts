@@ -12,7 +12,7 @@ export { StatCard } from './StatCard';
 export type { StatCardProps } from './StatCard';
 
 export { DataBadge } from './DataBadge';
-export type { DataBadgeProps } from './DataBadge';
+export type { DataBadgeProps, DataBadgeColor, DataBadgeRarity } from './DataBadge';
 
 export { ListItemRow } from './ListItemRow';
 export type { ListItemRowProps } from './ListItemRow';
