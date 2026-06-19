@@ -1,0 +1,18 @@
+{
+  "_comment": "FIXTURE - BOO G shop-to-shrine Myth drift. Same shopkeeper, three Myth tiers; voice shifts from clerk to remembered legend. Keyed to the world-state tiers in ndg-systems-pack-builder's boo-g-shop-to-shrine.json.",
+  "banterPoolId": "banter-boo-g",
+  "worldStateKey": "boo-g",
+  "lines": [
+    { "beat": "intro", "myth": "low", "stateKey": "boo-g:shop", "text": "Boo G leans on the counter. Buy something or move along." },
+    { "beat": "intro", "myth": "mid", "stateKey": "boo-g:shrine-tier-1", "text": "Boo G nods at the offerings creeping in among the goods. Funny what people leave now." },
+    { "beat": "intro", "myth": "high", "stateKey": "boo-g:shrine-tier-2", "text": "Boo G speaks from the shrine like a thing remembered. You came to the right altar." },
+
+    { "beat": "response_pressure", "myth": "low", "stateKey": "boo-g:shop", "text": "Prices are prices. Pick fast." },
+    { "beat": "response_pressure", "myth": "mid", "stateKey": "boo-g:shrine-tier-1", "text": "It is tribute now, mostly. Choose like it matters." },
+    { "beat": "response_pressure", "myth": "high", "stateKey": "boo-g:shrine-tier-2", "text": "Tribute, not trade. The Myth is watching your hands." },
+
+    { "beat": "victory", "myth": "low", "stateKey": "boo-g:shop", "text": "Good doing business. Do not die out there." },
+    { "beat": "victory", "myth": "mid", "stateKey": "boo-g:shrine-tier-1", "text": "The story likes you today. Spend it well." },
+    { "beat": "victory", "myth": "high", "stateKey": "boo-g:shrine-tier-2", "text": "The shrine remembers a winner. So will everyone else." }
+  ]
+}

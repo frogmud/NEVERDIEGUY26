@@ -1,0 +1,38 @@
+{
+  "_comment": "FIXTURE - a Myth-tiered world-state record. BOO G's shop transforms into a shrine as Myth rises. Stable state keys, thresholds, and the telemetry that fires on each transition. This is data the world-state system reads; no logic here.",
+  "worldStateKey": "boo-g",
+  "drivenBy": "myth",
+  "tiers": [
+    {
+      "tier": "low",
+      "stateKey": "boo-g:shop",
+      "mythThreshold": 0,
+      "label": "B's Hits Shop",
+      "description": "A normal shop. Boo G sells; nothing watches back.",
+      "banterPoolId": "banter-boo-g-shop",
+      "telemetry": "store_cta_clicked"
+    },
+    {
+      "tier": "mid",
+      "stateKey": "boo-g:shrine-tier-1",
+      "mythThreshold": 40,
+      "label": "B's Hits (warming)",
+      "description": "Offerings appear among the goods. The myth is starting to stick.",
+      "banterPoolId": "banter-boo-g-shrine-1",
+      "telemetry": "myth_tier_changed"
+    },
+    {
+      "tier": "high",
+      "stateKey": "boo-g:shrine-tier-2",
+      "mythThreshold": 75,
+      "label": "Shrine of B",
+      "description": "The shop is a shrine. Prices are tribute; Boo G speaks like a thing remembered.",
+      "banterPoolId": "banter-boo-g-shrine-2",
+      "telemetry": "myth_tier_changed"
+    }
+  ],
+  "unlocks": [
+    { "trigger": { "kind": "myth_tier_changed", "tier": "mid" }, "grants": { "worldState": "boo-g:shrine-tier-1" }, "once": true, "telemetry": "myth_tier_changed" },
+    { "trigger": { "kind": "myth_tier_changed", "tier": "high" }, "grants": { "worldState": "boo-g:shrine-tier-2", "wikiSlug": "shrine-of-b" }, "once": true, "telemetry": "wiki_unlock_shown" }
+  ]
+}

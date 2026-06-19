@@ -1,0 +1,49 @@
+{
+  "_comment": "FIXTURE - one domain-specific encounter pack. Shadow Keep (domainId 4) maps to Office 3 (Death/Peter) via domainToOffice. Bundles the Faces that can appear here plus location-flavored lines for the shared beats. In-voice, HUD-short, no emojis or em dashes. Lines key to banterPoolId so the engine/screen can pull them.",
+  "packId": "domain-shadow-keep",
+  "domainId": 4,
+  "officeId": 3,
+  "office": "Death",
+  "director": "Peter",
+  "facePool": ["face-custodian", "face-buried", "face-witness"],
+  "encounter": {
+    "banterPoolId": "banter-domain-shadow-keep",
+    "lines": [
+      { "beat": "intro", "myth": "low", "text": "Shadow Keep. Peter keeps the third Office. He counts what stops moving." },
+      { "beat": "intro", "myth": "mid", "text": "Shadow Keep again. The Keep is starting to recognize your step." },
+      { "beat": "intro", "myth": "high", "text": "Shadow Keep opens for you like it has done this a hundred times. Maybe it has." },
+
+      { "beat": "reveal", "myth": "low", "text": "Three Faces land in the dark. The Keep decides which one looks back." },
+      { "beat": "reveal", "myth": "mid", "text": "The Faces fall the way the Keep prefers. Watch the skull one." },
+      { "beat": "reveal", "myth": "high", "text": "The Faces land already half-legend. The Keep tells the story before you read it." },
+
+      { "beat": "response_pressure", "myth": "low", "text": "Keep a Face or answer cold. Peter is in no hurry." },
+      { "beat": "response_pressure", "myth": "mid", "text": "The Keep has logged your last visit. Choose anyway." },
+      { "beat": "response_pressure", "myth": "high", "text": "Peter already knows the line. Make the Keep revise its records." },
+
+      { "beat": "jump", "myth": "low", "outcome": "jump", "text": "Something lunges from the dark. Pressure before the math." },
+      { "beat": "jump", "myth": "mid", "outcome": "jump", "text": "The Keep jumps you the way the rumor swore it would." },
+      { "beat": "jump", "myth": "high", "outcome": "jump", "text": "The dark jumps, and the Myth dates the bruise before it lands." },
+
+      { "beat": "jump", "myth": "low", "outcome": "watch", "text": "The Keep watches. No hit, but it is taking names." },
+      { "beat": "jump", "myth": "mid", "outcome": "watch", "text": "The Keep watches and files you under regulars." },
+      { "beat": "jump", "myth": "high", "outcome": "watch", "text": "Even the Keep's patience has become a story now." },
+
+      { "beat": "jump", "myth": "low", "outcome": "open", "text": "A gap opens in the dark. Take the window." },
+      { "beat": "jump", "myth": "mid", "outcome": "open", "text": "The Keep opens wider than it should for someone it half-trusts." },
+      { "beat": "jump", "myth": "high", "outcome": "open", "text": "The Keep opens the way, and the Myth owes you the favor." },
+
+      { "beat": "victory", "myth": "low", "text": "Room cleared. The Keep marks you survived the third Office." },
+      { "beat": "victory", "myth": "mid", "text": "Cleared. Peter's ledger gains a line in your column." },
+      { "beat": "victory", "myth": "high", "text": "Cleared. The Keep will tell this one bigger than it was. Let it." },
+
+      { "beat": "fail", "myth": "low", "text": "The Keep takes you. Death is a change in custody, not an end." },
+      { "beat": "fail", "myth": "mid", "text": "You fall in the dark. Peter had the paperwork ready." },
+      { "beat": "fail", "myth": "high", "text": "You fall into the story the Keep keeps about you. Custody, as filed." },
+
+      { "beat": "flee", "myth": "low", "text": "You back out of the Keep. The door stays unlocked." },
+      { "beat": "flee", "myth": "mid", "text": "You flee. The Keep marks the page and waits." },
+      { "beat": "flee", "myth": "high", "text": "You flee, and the Keep keeps your seat in the dark." }
+    ]
+  }
+}
