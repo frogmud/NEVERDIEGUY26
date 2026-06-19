@@ -27,12 +27,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useSoundContext } from '../../contexts/SoundContext';
 import { GameOverModal } from '../../games/meteor/components';
 import { CombatTerminal, type FeedEntry, type GameStateUpdate } from './components/CombatTerminal';
+import { FaceRevealPanel } from './panels/FaceRevealPanel';
+import { ResponsePhasePanel } from './panels/ResponsePhasePanel';
 import type { ZoneInfo } from './components/tabs/GameTabLaunch';
 
 import { type ZoneMarker } from '../../types/zones';
 import { LOADOUT_PRESETS, DEFAULT_LOADOUT_ID } from '../../data/loadouts';
 import { applyHeatReward } from '../../data/balance-config';
 import { getFlatScoreGoal, getFlatGoldReward } from '@ndg/ai-engine';
+import { logRoomResolved } from '../../utils/telemetry';
 import { isFinale } from '../../data/portal-config';
 import { getItemImage, getItemName, LOADOUT_ITEMS } from '../../data/decrees';
 import { Tooltip } from '@mui/material';
@@ -99,6 +102,7 @@ export function PlayHub() {
     endRun,
     setPanel,
     transitionToPanel,
+    castBones,
     setPendingVictory,
     failRoom,
     continueFromSummary,
@@ -203,9 +207,10 @@ export function PlayHub() {
       state.transitionPhase === 'idle'
     ) {
       pendingAutoLaunchRef.current = false;
-      transitionToPanel('combat');
+      castBones();
+      transitionToPanel('reveal');
     }
-  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel]);
+  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel, castBones]);
 
   // Shop state: show shop on D2+ arrivals (before first combat of domain)
   // Track whether we've shopped this domain
@@ -329,9 +334,10 @@ export function PlayHub() {
     }
   };
 
-  // Handle Launch (start combat after zone selection)
+  // Handle Launch (Cast Bones - reveal Faces before combat)
   const handleLaunch = () => {
-    transitionToPanel('combat');
+    castBones();
+    transitionToPanel('reveal');
   };
 
   // Handle Skip (skip event without playing - no reward)
@@ -395,9 +401,10 @@ export function PlayHub() {
       state.transitionPhase === 'idle'
     ) {
       pendingShopLaunchRef.current = false;
-      transitionToPanel('combat');
+      castBones();
+      transitionToPanel('reveal');
     }
-  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel]);
+  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel, castBones]);
 
   // Build zones list for sidebar (simplified - 1 zone per domain)
   const zonesForSidebar: ZoneInfo[] = useMemo(() => {
@@ -428,6 +435,12 @@ export function PlayHub() {
   useEffect(() => {
     currentDomainRef.current = state.currentDomain || 1;
   }, [state.currentDomain]);
+
+  // Track current room in a ref for stable telemetry on combat resolution
+  const roomNumberRef = useRef<number>(1);
+  useEffect(() => {
+    roomNumberRef.current = state.roomNumber || 1;
+  }, [state.roomNumber]);
 
   // Track heat in a ref for stable gold calculation with heat bonus
   const heatRef = useRef<number>(0);
@@ -460,6 +473,7 @@ export function PlayHub() {
   // Uses refs instead of state to keep callback reference stable
   // Victory data is stored in context and applied atomically when transition completes
   const handleCombatWin = useCallback((score: number, stats: { npcsSquished: number; diceThrown: number }, turnsRemaining: number, bestThrowScore?: number) => {
+    logRoomResolved(currentDomainRef.current, roomNumberRef.current, true);
     // Practice mode: end immediately with win (no summary/shop)
     if (practiceModeRef.current) {
       endRun(true);
@@ -494,6 +508,18 @@ export function PlayHub() {
   // Check if we're in summary, shop, or portals mode (rendered in center area)
   const isInSummary = state.centerPanel === 'summary' && !state.runEnded;
   const isInPortals = state.centerPanel === 'portals' && !state.runEnded;
+  const isInReveal = state.centerPanel === 'reveal' && !state.runEnded;
+  const isInResponse = state.centerPanel === 'response' && !state.runEnded;
+
+  // Apply the Jump Check modifier to the room's score target (score/disadvantage
+  // only - no HP). startScoreMult > 1 eases the room; throwDisadvantage hardens it.
+  const adjustedScoreGoal = useMemo(() => {
+    const base = getFlatScoreGoal(state.currentDomain || 1);
+    const mod = state.jumpResult?.modifier;
+    if (!mod) return base;
+    const eased = base / (mod.startScoreMult || 1);
+    return Math.round(eased * (1 + 0.05 * (mod.throwDisadvantage || 0)));
+  }, [state.currentDomain, state.jumpResult]);
 
   return (
     <Box
@@ -642,6 +668,28 @@ export function PlayHub() {
               onContinue={continueFromSummary}
             />
           </Box>
+        ) : isInReveal ? (
+          /* Face reveal (after Cast Bones, before combat) */
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              animation: `${panelEnter} 0.3s ${EASING.smooth} forwards`,
+            }}
+          >
+            <FaceRevealPanel />
+          </Box>
+        ) : isInResponse ? (
+          /* Response Phase + Jump Check (before combat) */
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              animation: `${panelEnter} 0.3s ${EASING.smooth} forwards`,
+            }}
+          >
+            <ResponsePhasePanel />
+          </Box>
         ) : isInPortals ? (
           /* Portal Selection (after D1-5 combat win) */
           <Box
@@ -661,9 +709,12 @@ export function PlayHub() {
               domain={state.currentDomain || 1}
               eventType={state.selectedZone?.eventType || 'big'}
               tier={state.selectedZone?.tier || 1}
-              scoreGoal={getFlatScoreGoal(state.currentDomain || 1)}
+              scoreGoal={adjustedScoreGoal}
               onWin={handleCombatWin}
-              onLose={failRoom}
+              onLose={() => {
+                logRoomResolved(currentDomainRef.current, roomNumberRef.current, false);
+                failRoom();
+              }}
               isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat' || state.runEnded}
               currentDomain={state.currentDomain || 1}
               totalDomains={6}

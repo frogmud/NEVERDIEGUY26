@@ -959,3 +959,17 @@ export {
   selectWithExplorationBonus,
   getExplorationStats,
 } from './exploration';
+
+// ============================================
+// Faces (Bones / Faces run loop)
+// ============================================
+export type {
+  Face,
+  RevealRole,
+  JumpProfile,
+  ResponseChoice,
+  JumpOutcome,
+  JumpModifier,
+  JumpResult,
+} from './faces';
+export { FACES, getFace, revealFaces, resolveJumpCheck } from './faces';

@@ -134,7 +134,7 @@ export function GameTabLaunch({
       {/* Spacer */}
       <Box sx={{ flex: 1 }} />
 
-      {/* Launch Button */}
+      {/* Cast Bones Button (reveals Faces before combat) */}
       <Button
         variant="contained"
         fullWidth
@@ -158,7 +158,7 @@ export function GameTabLaunch({
           },
         }}
       >
-        LAUNCH
+        CAST BONES
       </Button>
 
       {/* Skip Button - disabled for boss zones */}
