@@ -14,6 +14,13 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    ignore:
+      # major bumps need deliberate, paired migrations (MUI material+icons,
+      # vite+plugin-react, typescript+@types/node) - do those by hand, not as
+      # auto-PR noise. Security alerts still surface via the Dependabot tab.
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
     labels:
       - "dependencies"
 
