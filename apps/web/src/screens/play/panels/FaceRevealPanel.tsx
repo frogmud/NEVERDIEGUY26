@@ -3,23 +3,18 @@
  *
  * Pure presentational: reads state.revealedFaces from RunContext. A reveal never
  * ends the run (No-Instant-Death). Continue advances to the Response Phase.
- * Built with @neverdieguy/ui (BaseCard, DataBadge, MenuButton).
+ * Visual language follows the BONES v2 Concept Prototype (node 134:5): each Face
+ * is its Office's Die-rector portrait, tinted on the Office accent, with the Bone
+ * shape that revealed it.
  */
 
 import { Box, Typography } from '@mui/material';
-import { BaseCard, DataBadge, MenuButton, type DataBadgeColor } from '@neverdieguy/ui';
+import { BaseCard, DataBadge, MenuButton } from '@neverdieguy/ui';
 import { OFFICES } from '@ndg/shared';
 import { tokens } from '../../../theme';
 import { useRun } from '../../../contexts/RunContext';
-
-const OFFICE_BADGE_COLOR: Record<number, DataBadgeColor> = {
-  1: 'secondary', // Favor
-  2: 'success',   // Graveyard
-  3: 'primary',   // Death
-  4: 'warning',   // Myth
-  5: 'primary',   // Archive
-  6: 'error',     // Corruption
-};
+import { DiceShape } from '../../../components/DiceShapes';
+import { OFFICE_PORTRAIT, OFFICE_BADGE_COLOR, OFFICE_ACCENT, OFFICE_BONE_SIDES } from './officeArt';
 
 export function FaceRevealPanel() {
   const { state, transitionToPanel } = useRun();
@@ -34,64 +29,111 @@ export function FaceRevealPanel() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 4,
-        p: 3,
+        gap: { xs: 2.5, sm: 4 },
+        p: { xs: 2, sm: 3 },
+        overflowY: 'auto',
       }}
     >
       <Box sx={{ textAlign: 'center' }}>
         <Typography
           sx={{
             fontFamily: tokens.fonts.gaming,
-            fontSize: '1.5rem',
+            fontSize: { xs: '1.2rem', sm: '1.5rem' },
             letterSpacing: '0.05em',
             color: tokens.colors.text.primary,
           }}
         >
           The Bones land
         </Typography>
-        <Typography sx={{ color: tokens.colors.text.secondary, mt: 1 }}>
+        <Typography sx={{ color: tokens.colors.text.secondary, mt: 1, fontSize: '0.85rem' }}>
           Three Faces answer the throw.
         </Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {faces.map((face) => (
-          <BaseCard key={face.id} surface="elevated" sx={{ width: 220, p: 2 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: { xs: 1.25, sm: 2 },
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: 720,
+        }}
+      >
+        {faces.map((face) => {
+          const accent = OFFICE_ACCENT[face.officeId] ?? tokens.colors.primary;
+          return (
+            <BaseCard
+              key={face.id}
+              surface="elevated"
+              sx={{
+                width: { xs: 150, sm: 200 },
+                p: { xs: 1.5, sm: 2 },
+                borderTop: `3px solid ${accent}`,
+                boxShadow: `0 0 24px -8px ${accent}`,
+              }}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25, alignItems: 'center' }}>
+                {/* Office portrait haloed on the Office accent */}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    width: 84,
+                    height: 84,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: `radial-gradient(circle, ${accent}22 0%, transparent 70%)`,
+                    border: `1px solid ${accent}55`,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={OFFICE_PORTRAIT[face.officeId]}
+                    alt={OFFICES[face.officeId].director}
+                    sx={{ width: 64, height: 64, imageRendering: 'pixelated' }}
+                  />
+                  {/* The Bone that revealed this Face */}
+                  <Box sx={{ position: 'absolute', bottom: -6, right: -6 }}>
+                    <DiceShape sides={OFFICE_BONE_SIDES[face.officeId] ?? 6} size={28} color={accent} />
+                  </Box>
+                </Box>
+
                 <DataBadge
                   label={OFFICES[face.officeId].office}
                   color={OFFICE_BADGE_COLOR[face.officeId] ?? 'primary'}
                 />
-                <Typography sx={{ color: tokens.colors.text.disabled, fontSize: '0.7rem' }}>
+                <Typography
+                  sx={{
+                    fontFamily: tokens.fonts.gaming,
+                    fontSize: { xs: '0.95rem', sm: '1.1rem' },
+                    color: tokens.colors.text.primary,
+                    textAlign: 'center',
+                  }}
+                >
+                  {face.label}
+                </Typography>
+                <Typography sx={{ color: tokens.colors.text.disabled, fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                   {face.revealRole}
                 </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, width: '100%' }}>
+                  {face.effects.map((effect, i) => (
+                    <Typography
+                      key={i}
+                      sx={{ color: tokens.colors.text.secondary, fontSize: '0.75rem', textAlign: 'center' }}
+                    >
+                      {effect}
+                    </Typography>
+                  ))}
+                </Box>
               </Box>
-              <Typography
-                sx={{
-                  fontFamily: tokens.fonts.gaming,
-                  fontSize: '1.1rem',
-                  color: tokens.colors.text.primary,
-                }}
-              >
-                {face.label}
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                {face.effects.map((effect, i) => (
-                  <Typography
-                    key={i}
-                    sx={{ color: tokens.colors.text.secondary, fontSize: '0.8rem' }}
-                  >
-                    {effect}
-                  </Typography>
-                ))}
-              </Box>
-            </Box>
-          </BaseCard>
-        ))}
+            </BaseCard>
+          );
+        })}
       </Box>
 
-      <Box sx={{ width: 260 }}>
+      <Box sx={{ width: { xs: '100%', sm: 280 }, maxWidth: 320 }}>
         <MenuButton
           title="Continue"
           subtitle="Answer the Faces"
