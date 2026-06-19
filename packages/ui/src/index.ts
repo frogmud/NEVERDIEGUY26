@@ -55,3 +55,12 @@ export type { LinkProps } from './Link';
 
 export { Tab } from './Tab';
 export type { TabProps } from './Tab';
+
+export { Textarea } from './Textarea';
+export type { TextareaProps } from './Textarea';
+
+export { Select } from './Select';
+export type { SelectProps, SelectOption } from './Select';
+
+export { LinearProgress } from './LinearProgress';
+export type { LinearProgressProps, LinearProgressColor } from './LinearProgress';

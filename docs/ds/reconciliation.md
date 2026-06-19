@@ -86,6 +86,9 @@ mapped to its BONES node:
 | IconButton | 84:1409 | `State=Disabled` -> `disabled`; icon is a code child. |
 | Link | 102:1373 | interaction-state variants -> one static example; uses the `info` accent. |
 | Tab | 60:857 | `State` -> `active` / `disabled`. Single tab item; compose a row for a bar. |
+| Textarea | 86:16 | `State=Error` -> `error`; multi-line field. |
+| Select | 84:42 | `State` -> `error` / `disabled`; options are a code concern. |
+| LinearProgress | 60:813 | `Color` -> `color` (Primary/Success/Warning/Error). |
 
 ### Open prop-model gaps
 - **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron
