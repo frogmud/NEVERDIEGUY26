@@ -19,7 +19,7 @@
     "@ndg/shared": "workspace:*",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
-    "@vercel/analytics": "^1.6.1",
+    "@vercel/analytics": "^2.0.1",
     "jszip": "^3.10.1",
     "phaser": "^3.90.0",
     "react": "^19.1.0",
