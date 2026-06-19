@@ -59,13 +59,13 @@ importers:
         version: 19.2.3(@types/react@19.2.17)
       '@vitejs/plugin-react':
         specifier: ^4.3.4
-        version: 4.7.0(vite@6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0))
+        version: 4.7.0(vite@6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0))
       typescript:
         specifier: ^5.8.0
         version: 5.8.3
       vite:
         specifier: ^6.4.3
-        version: 6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0)
+        version: 6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0)
 
   apps/web:
     dependencies:
@@ -122,8 +122,8 @@ importers:
         version: 1.1.3
     devDependencies:
       '@types/node':
-        specifier: ^22.0.0
-        version: 22.19.21
+        specifier: ^26.0.0
+        version: 26.0.0
       '@types/react':
         specifier: ^19.1.6
         version: 19.2.17
@@ -138,13 +138,13 @@ importers:
         version: 5.8.17(rollup@4.62.0)
       '@vitejs/plugin-react':
         specifier: ^4.5.0
-        version: 4.7.0(vite@6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0))
+        version: 4.7.0(vite@6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0))
       typescript:
         specifier: ~5.8.3
         version: 5.8.3
       vite:
         specifier: ^6.4.3
-        version: 6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0)
+        version: 6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0)
 
   packages/ai-engine:
     dependencies:
@@ -156,8 +156,8 @@ importers:
         specifier: ^0.71.2
         version: 0.71.2
       '@types/node':
-        specifier: ^20.10.0
-        version: 20.19.43
+        specifier: ^26.0.0
+        version: 26.0.0
       '@types/react':
         specifier: ^19.1.6
         version: 19.2.17
@@ -938,11 +938,8 @@ packages:
   '@types/node@20.11.0':
     resolution: {integrity: sha512-o9bjXmDNcF7GbM4CNQpmi+TutCgap/K3w1JyKgxAjqx41zp9qlIAVFi0IhCNsJcXolEqLWhbFbEeL0PvYm4pcQ==}
 
-  '@types/node@20.19.43':
-    resolution: {integrity: sha512-6oYBAi5ikg4Pl+kGsoYtawUMBT2zZMCvPNF7pVLnHZfd1zf38DRiWn/gT01RYCdUqkv7Fhr+C9ot4/tb+2sVvA==}
-
-  '@types/node@22.19.21':
-    resolution: {integrity: sha512-VMeFBSCKQKmm2swI2kW51SFusDqekC6q9trBCvJ/JliDchFSuoYYKN7yVNjPthP1HKZcx3U1gI/wTcEBjEFKTA==}
+  '@types/node@26.0.0':
+    resolution: {integrity: sha512-vf2YFi1iY9lHGwNJMs01biZFbKJkrZR1T6/MlzjhJLPdntOHLhTrDSnSVcdtvjihi4VQNlrFRIxLsDBlQpAipA==}
 
   '@types/offscreencanvas@2019.7.3':
     resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
@@ -1874,8 +1871,8 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  undici-types@8.3.0:
+    resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
   undici@8.5.0:
     resolution: {integrity: sha512-xamtWoB1EshgjpmlXd7GGm2VfdDtw1+rD8uhry8pSNW3If6S8E0m2T2+orSKeZXEn/aPJMviCpDBA65WJt8zhg==}
@@ -2689,13 +2686,9 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.19.43':
+  '@types/node@26.0.0':
     dependencies:
-      undici-types: 6.21.0
-
-  '@types/node@22.19.21':
-    dependencies:
-      undici-types: 6.21.0
+      undici-types: 8.3.0
 
   '@types/offscreencanvas@2019.7.3': {}
 
@@ -2816,7 +2809,7 @@ snapshots:
       json-schema-to-ts: 1.6.4
       ts-morph: 12.0.0
 
-  '@vitejs/plugin-react@4.7.0(vite@6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0))':
+  '@vitejs/plugin-react@4.7.0(vite@6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0))':
     dependencies:
       '@babel/core': 8.0.1
       '@babel/plugin-transform-react-jsx-self': 7.29.7(@babel/core@8.0.1)
@@ -2824,7 +2817,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0)
+      vite: 6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0)
 
   '@webgpu/types@0.1.70': {}
 
@@ -3599,7 +3592,7 @@ snapshots:
 
   undici-types@5.26.5: {}
 
-  undici-types@6.21.0: {}
+  undici-types@8.3.0: {}
 
   undici@8.5.0: {}
 
@@ -3623,7 +3616,7 @@ snapshots:
 
   utility-types@3.11.0: {}
 
-  vite@6.4.3(@types/node@22.19.21)(tsx@4.22.4)(yaml@2.9.0):
+  vite@6.4.3(@types/node@26.0.0)(tsx@4.22.4)(yaml@2.9.0):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.4)
@@ -3632,7 +3625,7 @@ snapshots:
       rollup: 4.62.0
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 22.19.21
+      '@types/node': 26.0.0
       fsevents: 2.3.3
       tsx: 4.22.4
       yaml: 2.9.0
