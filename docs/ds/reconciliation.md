@@ -73,6 +73,20 @@ for every drift row is the same: update the Figma variable to the canonical valu
 | SettingRow (71:25) | `Control`: Switch / Chevron / Value | `title`, `description`, `checked`, Switch | **Partial.** Mapped only `Control=Switch` (matches code). Chevron + Value controls have no code home yet - see below. |
 | Page Header (71:1165) | `Breadcrumb=Show\|Hide` x `Action=None\|Button`; breadcrumb + page title + Button | none previously | **Done.** Built `PageHeader` in `@neverdieguy/ui` (breadcrumb trail + bold title + `action` slot). Code Connect maps `figma.enum('Breadcrumb', ...)` -> `breadcrumbs` and `figma.enum('Action', ...)` -> `action`. The Figma display name keeps the space ("Page Header", intentional); the code identifier is `PageHeader` - the mapping binds by node id, so the names need not match. |
 
+### Core interactive components (built + mapped)
+
+New `@neverdieguy/ui` components, each a thin MUI wrapper styled from canonical tokens,
+mapped to its BONES node:
+
+| Component | BONES node | Variant -> prop mapping |
+|-----------|------------|-------------------------|
+| Button | 6:10 | `Style` -> `variant` (Contained/Outlined/Subtle/Text/Destructive); `Size` -> `size`; `State=Disabled` -> `disabled`. Start/End icon booleans left to code `startIcon`/`endIcon` slots. |
+| Switch | 22:7 | `State=On` -> `checked`; `Size` -> `size`. Red when on (brand primary), not green. |
+| Checkbox | 83:12 | `State` -> `checked` / `indeterminate` / `disabled`. Checked = primary red. |
+| IconButton | 84:1409 | `State=Disabled` -> `disabled`; icon is a code child. |
+| Link | 102:1373 | interaction-state variants -> one static example; uses the `info` accent. |
+| Tab | 60:857 | `State` -> `active` / `disabled`. Single tab item; compose a row for a bar. |
+
 ### Open prop-model gaps
 - **SettingRow Chevron / Value controls.** BONES models a settings row that ends in a chevron
   (navigates) or a static value (e.g. "High"), neither of which the code `SettingRow` supports.
