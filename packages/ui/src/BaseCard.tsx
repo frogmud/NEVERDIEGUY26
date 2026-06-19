@@ -2,8 +2,12 @@ import { ReactNode } from 'react';
 import { Paper, SxProps, Theme } from '@mui/material';
 import { tokens } from '@neverdieguy/tokens';
 
+export type BaseCardSurface = 'paper' | 'elevated';
+
 export interface BaseCardProps {
   children: ReactNode;
+  /** Surface tone. Maps to the BONES "Surface" variant. */
+  surface?: BaseCardSurface;
   hover?: boolean;
   padding?: number;
   onClick?: () => void;
@@ -12,6 +16,7 @@ export interface BaseCardProps {
 
 export function BaseCard({
   children,
+  surface = 'paper',
   hover = false,
   padding = 3,
   onClick,
@@ -22,7 +27,10 @@ export function BaseCard({
       onClick={onClick}
       sx={{
         p: padding,
-        backgroundColor: tokens.colors.background.paper,
+        backgroundColor:
+          surface === 'elevated'
+            ? tokens.colors.background.elevated
+            : tokens.colors.background.paper,
         border: `1px solid ${tokens.colors.border}`,
         borderRadius: '30px',
         cursor: onClick ? 'pointer' : 'default',

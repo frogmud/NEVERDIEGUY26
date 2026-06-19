@@ -91,6 +91,12 @@ mapped to its BONES node:
 | LinearProgress | 60:813 | `Color` -> `color` (Primary/Success/Warning/Error). |
 | Chip | 8:22 | `Style` -> `variant` (solid/outline); `Color` -> `color`. |
 | TextField | 10:17 | `State=Error` -> `error`; single-line input (BONES renamed Input -> "Text Field"). |
+| BaseCard | 9:8 | `Surface` -> `surface` (paper/elevated); `State=Hover` -> `hover`. Added `surface` prop. |
+| MenuButton | 32:25 | `Color` -> `color` (red/yellow/neutral/blue); `State=Disabled` -> `disabled`. Two-line action button. |
+| MenuItem | 85:15 | `State` -> `selected` / `disabled`. Paired with a `Menu` container. |
+| Autocomplete | 87:21 | static example (Default/Open are runtime states). |
+| Drawer | 73:867 | side-panel shell; body is a code slot. |
+| DataTable | 89:225 | `State=Loading` -> `loading`; generic columns/rows table. |
 
 ### Gotcha: `figma.string` needs a real text property
 

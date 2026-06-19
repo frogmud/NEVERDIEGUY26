@@ -6,7 +6,7 @@
  */
 
 export { BaseCard } from './BaseCard';
-export type { BaseCardProps } from './BaseCard';
+export type { BaseCardProps, BaseCardSurface } from './BaseCard';
 
 export { StatCard } from './StatCard';
 export type { StatCardProps } from './StatCard';
@@ -70,3 +70,18 @@ export type { ChipProps, ChipStyle, ChipColor } from './Chip';
 
 export { TextField } from './TextField';
 export type { TextFieldProps } from './TextField';
+
+export { MenuButton } from './MenuButton';
+export type { MenuButtonProps, MenuButtonColor } from './MenuButton';
+
+export { Menu, MenuItem } from './Menu';
+export type { MenuProps, MenuItemProps } from './Menu';
+
+export { Autocomplete } from './Autocomplete';
+export type { AutocompleteProps } from './Autocomplete';
+
+export { Drawer } from './Drawer';
+export type { DrawerProps } from './Drawer';
+
+export { DataTable } from './DataTable';
+export type { DataTableProps, DataTableColumn } from './DataTable';
