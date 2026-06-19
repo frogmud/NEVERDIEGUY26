@@ -23,11 +23,10 @@ figma.connect(
         Focus: false,
         Error: false,
       }),
-      placeholder: figma.string('Select rarity'),
     },
-    example: ({ error, disabled, placeholder }) => (
+    example: ({ error, disabled }) => (
       <Select
-        placeholder={placeholder}
+        placeholder="Select rarity"
         error={error}
         disabled={disabled}
         options={[

@@ -10,9 +10,6 @@ figma.connect(
   Link,
   'https://www.figma.com/design/IfJ0MKBk5pGKNDnPp0d5sv?node-id=102-1373',
   {
-    props: {
-      label: figma.string('Read the design system guide'),
-    },
-    example: ({ label }) => <Link href="#">{label}</Link>,
+    example: () => <Link href="#">Read the design system guide</Link>,
   },
 );

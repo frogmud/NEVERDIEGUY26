@@ -15,10 +15,9 @@ figma.connect(
         Default: false,
         Focus: false,
       }),
-      placeholder: figma.string('Describe the item...'),
     },
-    example: ({ error, placeholder }) => (
-      <Textarea placeholder={placeholder} error={error} />
+    example: ({ error }) => (
+      <Textarea placeholder="Describe the item..." error={error} />
     ),
   },
 );

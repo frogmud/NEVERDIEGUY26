@@ -18,14 +18,10 @@ figma.connect(
   'https://www.figma.com/design/IfJ0MKBk5pGKNDnPp0d5sv?node-id=71-25',
   {
     variant: { Control: 'Switch' },
-    props: {
-      title: figma.string('Sound effects'),
-      description: figma.string('Play sounds during runs'),
-    },
-    example: ({ title, description }) => (
+    example: () => (
       <SettingRow
-        title={title}
-        description={description}
+        title="Sound effects"
+        description="Play sounds during runs"
         checked={false}
         onChange={() => {}}
       />
