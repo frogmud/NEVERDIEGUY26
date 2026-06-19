@@ -21,7 +21,7 @@
     "@vercel/node": "^5.5.23",
     "tsx": "^4.19.0",
     "turbo": "^2.9.14",
-    "typescript": "~5.8.3"
+    "typescript": "~6.0.3"
   },
   "engines": {
     "node": ">=18"
