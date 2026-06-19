@@ -63,7 +63,7 @@
     "@ndg/shared": "workspace:*"
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "^0.71.2",
+    "@anthropic-ai/sdk": "^0.105.0",
     "@types/node": "^20.10.0",
     "@types/react": "^19.1.6",
     "react": "^19.1.0",
