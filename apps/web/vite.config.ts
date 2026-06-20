@@ -6,8 +6,16 @@ export default defineConfig({
   plugins: [react()],
   server: { port: 4006 },
   resolve: {
+    dedupe: [
+      'react',
+      'react-dom',
+      '@emotion/react',
+      '@emotion/styled',
+    ],
     alias: {
       '@': path.resolve(__dirname, './src'),
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
     },
   },
   build: {
