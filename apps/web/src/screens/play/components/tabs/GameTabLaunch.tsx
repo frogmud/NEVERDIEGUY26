@@ -30,9 +30,6 @@ interface GameTabLaunchProps {
 }
 
 export function GameTabLaunch({
-  zones,
-  selectedZoneId,
-  onZoneSelect,
   onLaunch,
   onSkip,
   currentDomain = 1,
@@ -40,9 +37,6 @@ export function GameTabLaunch({
 }: GameTabLaunchProps) {
   const scoreGoal = getFlatScoreGoal(currentDomain);
   const goldReward = getFlatGoldReward(currentDomain);
-
-  // Auto-select first zone if none selected
-  const activeZone = zones.find(z => z.id === selectedZoneId) || zones[0];
 
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -138,13 +132,7 @@ export function GameTabLaunch({
       <Button
         variant="contained"
         fullWidth
-        onClick={() => {
-          // Select zone if not selected, then launch
-          if (!selectedZoneId && activeZone) {
-            onZoneSelect?.(activeZone.id);
-          }
-          onLaunch?.();
-        }}
+        onClick={() => onLaunch?.()}
         startIcon={<PlayIcon />}
         sx={{
           py: 1.5,

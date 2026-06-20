@@ -51,6 +51,7 @@ type CharacterType = 'traveler' | 'enemy' | 'wanderer' | 'pantheon' | 'faction';
 // Dynamic section configuration based on entity type and available data
 const getCharacterSections = (
   characterType: CharacterType,
+  hasDescription: boolean,
   hasPhases: boolean,
   hasDrops: boolean,
   hasLocations: boolean,
@@ -58,6 +59,10 @@ const getCharacterSections = (
   hasFavorEffects: boolean,
 ): WikiSection[] => {
   const sections: WikiSection[] = [];
+
+  if (hasDescription && characterType !== 'faction') {
+    sections.push({ name: 'Entry' });
+  }
 
   switch (characterType) {
     case 'traveler':
@@ -248,6 +253,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   const hasLoadout = startingLoadout.length > 0;
   const hasServices = services.length > 0;
   const hasFavorEffects = favorEffects.length > 0;
+  const hasDescription = Boolean(entity.description);
 
   // Get relationship data for affiliations
   const factionMemberships = entity ? getRelated(entity.slug, 'memberOf') as Faction[] : [];
@@ -507,6 +513,7 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
   // Build dynamic sections based on entity type and available data
   const sections = getCharacterSections(
     characterType,
+    hasDescription,
     hasPhases,
     hasDrops,
     hasLocations,
@@ -527,7 +534,16 @@ export function WikiCharacter({ entity }: WikiCharacterProps) {
       title={<PageHeader title={characterInfo.name} />}
     >
 
-
+      {/* Entry - shared readable record copy for non-faction character pages */}
+      {!isFaction && entity.description && (
+        <WikiSectionAnchor id={toAnchorId('Entry')}>
+          <BaseCard sx={{ mb: 4, borderRadius: 2 }}>
+            <Typography variant="body1" sx={{ color: tokens.colors.text.secondary, lineHeight: 1.8 }}>
+              {entity.description}
+            </Typography>
+          </BaseCard>
+        </WikiSectionAnchor>
+      )}
 
       {/* Faction Overview - for factions only */}
       {isFaction && factionInfo && (factionInfo.motto || factionInfo.founder || factionInfo.lore) && (

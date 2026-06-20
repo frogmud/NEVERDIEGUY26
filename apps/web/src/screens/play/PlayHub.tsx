@@ -21,7 +21,6 @@ import { PlayOptionsModal } from './components/PlayOptionsModal';
 import { DomainInfoModal } from './components/DomainInfoModal';
 import PortalSelection from './PortalSelection';
 import MissionBriefing from './MissionBriefing';
-import { useGlobeMeteorGame } from '../../games/globe-meteor/hooks/useGlobeMeteorGame';
 import { useRun } from '../../contexts';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSoundContext } from '../../contexts/SoundContext';
@@ -79,17 +78,6 @@ const overlayEnter = keyframes`
   }
 `;
 
-
-// Preview parking spots for lobby (shows available landing zones)
-// These are static positions that hint at the game structure
-const LOBBY_PREVIEW_ZONES: ZoneMarker[] = [
-  { id: 'preview-1', lat: 30, lng: -60, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
-  { id: 'preview-2', lat: 45, lng: 30, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
-  { id: 'preview-3', lat: -20, lng: 120, tier: 3, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 200, goldMax: 400, lootTier: 3 } },
-  { id: 'preview-4', lat: -45, lng: -120, tier: 1, type: 'stable', eventType: 'small', cleared: false, rewards: { goldMin: 50, goldMax: 100, lootTier: 1 } },
-  { id: 'preview-5', lat: 10, lng: 170, tier: 2, type: 'elite', eventType: 'big', cleared: false, rewards: { goldMin: 100, goldMax: 200, lootTier: 2 } },
-  { id: 'preview-6', lat: -60, lng: 60, tier: 4, type: 'anomaly', eventType: 'boss', cleared: false, rewards: { goldMin: 300, goldMax: 600, lootTier: 4 } },
-];
 
 export function PlayHub() {
   const {
@@ -197,20 +185,6 @@ export function PlayHub() {
     }
   }, [state.phase, state.domainState?.zones, state.selectedZone, state.centerPanel, state.transitionPhase, selectZone]);
 
-  // Auto-launch into combat when zone is selected and pending
-  useEffect(() => {
-    if (
-      pendingAutoLaunchRef.current &&
-      state.selectedZone &&
-      state.centerPanel === 'globe' &&
-      state.transitionPhase === 'idle'
-    ) {
-      pendingAutoLaunchRef.current = false;
-      castBones();
-      transitionToPanel('response');
-    }
-  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel, castBones]);
-
   // Shop state: show shop on D2+ arrivals (before first combat of domain)
   // Track whether we've shopped this domain
   const [hasShoppedThisDomain, setHasShoppedThisDomain] = useState(false);
@@ -247,19 +221,24 @@ export function PlayHub() {
   // Check if we're in shop mode (for hiding score to beat in sidebar)
   const isInShop = sidebarPhase === 'shop';
 
-  // 3D Globe game state
-  const {
-    npcs,
-    meteors,
-    impacts,
-    targetPosition,
-    handleGlobeClick,
-    setLastInteraction,
-    isIdle,
-  } = useGlobeMeteorGame();
-
   // Combat game state (throws, trades, score) from CombatTerminal
   const [combatGameState, setCombatGameState] = useState<GameStateUpdate | null>(null);
+  const handleCombatGameStateChange = useCallback((nextState: GameStateUpdate) => {
+    setCombatGameState((prevState) => {
+      if (
+        prevState &&
+        prevState.throws === nextState.throws &&
+        prevState.trades === nextState.trades &&
+        prevState.score === nextState.score &&
+        prevState.goal === nextState.goal &&
+        prevState.multiplier === nextState.multiplier
+      ) {
+        return prevState;
+      }
+
+      return nextState;
+    });
+  }, []);
 
   // Build game state for sidebar - uses live combat state when available
   // When run ends, use final state values (don't let combatGameState reset cause flicker)
@@ -333,10 +312,36 @@ export function PlayHub() {
     }
   };
 
-  // Handle Launch (Throw Bones - encounter the Face before combat)
-  const handleLaunch = () => {
+  const enterEncounterBeat = useCallback(() => {
     castBones();
     transitionToPanel('response');
+  }, [castBones, transitionToPanel]);
+
+  // Auto-launch into the encounter beat when zone is selected and pending
+  useEffect(() => {
+    if (
+      pendingAutoLaunchRef.current &&
+      state.selectedZone &&
+      state.centerPanel === 'globe' &&
+      state.transitionPhase === 'idle'
+    ) {
+      pendingAutoLaunchRef.current = false;
+      enterEncounterBeat();
+    }
+  }, [state.selectedZone, state.centerPanel, state.transitionPhase, enterEncounterBeat]);
+
+  // Handle Launch (Throw Bones - encounter the Face before combat)
+  const handleLaunch = () => {
+    if (!state.selectedZone) {
+      const zones = state.domainState?.zones || [];
+      const launchZone = zones.find((zone) => !zone.cleared) || zones[0];
+
+      if (launchZone) {
+        selectZone(launchZone);
+      }
+    }
+
+    enterEncounterBeat();
   };
 
   // Handle Skip (skip event without playing - no reward)
@@ -400,10 +405,9 @@ export function PlayHub() {
       state.transitionPhase === 'idle'
     ) {
       pendingShopLaunchRef.current = false;
-      castBones();
-      transitionToPanel('response');
+      enterEncounterBeat();
     }
-  }, [state.selectedZone, state.centerPanel, state.transitionPhase, transitionToPanel, castBones]);
+  }, [state.selectedZone, state.centerPanel, state.transitionPhase, enterEncounterBeat]);
 
   // Build zones list for sidebar (simplified - 1 zone per domain)
   const zonesForSidebar: ZoneInfo[] = useMemo(() => {
@@ -503,6 +507,11 @@ export function PlayHub() {
       transitionToPanel('portals');
     }
   }, [transitionToPanel, endRun, setPendingVictory]);
+
+  const handleCombatLose = useCallback(() => {
+    logRoomResolved(currentDomainRef.current, roomNumberRef.current, false);
+    failRoom();
+  }, [failRoom]);
 
   // Check if we're in summary, shop, or portals mode (rendered in center area)
   const isInSummary = state.centerPanel === 'summary' && !state.runEnded;
@@ -698,10 +707,7 @@ export function PlayHub() {
               tier={state.selectedZone?.tier || 1}
               scoreGoal={adjustedScoreGoal}
               onWin={handleCombatWin}
-              onLose={() => {
-                logRoomResolved(currentDomainRef.current, roomNumberRef.current, false);
-                failRoom();
-              }}
+              onLose={handleCombatLose}
               isLobby={state.phase === 'event_select' || !state.selectedZone || state.centerPanel !== 'combat' || state.runEnded}
               currentDomain={state.currentDomain || 1}
               totalDomains={6}
@@ -712,7 +718,7 @@ export function PlayHub() {
               gold={state.gold || 0}
               inventoryItems={state.inventory?.powerups || []}
               onFeedUpdate={setCombatFeed}
-              onGameStateChange={setCombatGameState}
+              onGameStateChange={handleCombatGameStateChange}
               isDomainClear={state.domainState ? state.domainState.clearedCount + 1 >= state.domainState.totalZones : false}
               loadoutStats={state.loadoutStats}
             />

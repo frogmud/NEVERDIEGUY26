@@ -1751,6 +1751,14 @@ export function CombatTerminal({
 
       </Paper>
 
+      {/* Draw event notice - low-priority text feedback for Lucky Straight, Wild Surge, etc. */}
+      {drawEventsEnabled && (
+        <DrawEventToast
+          event={drawEvent}
+          onComplete={clearDrawEvent}
+        />
+      )}
+
       {/* Combat HUD */}
       <CombatHUD
         combatState={combatState}
@@ -1771,14 +1779,6 @@ export function CombatTerminal({
         open={reportOpen}
         onClose={() => setReportOpen(false)}
       />
-
-      {/* Draw Event Toast - shows Lucky Straight, High Roller, etc. */}
-      {drawEventsEnabled && (
-        <DrawEventToast
-          event={drawEvent}
-          onComplete={clearDrawEvent}
-        />
-      )}
     </Box>
   );
 }
