@@ -21,10 +21,10 @@ const RESPONSE_ACTIONS: Array<{
   choice: ResponseChoice;
   title: string;
   subtitle: string;
-  color: 'red' | 'yellow';
+  color: 'red' | 'blue';
 }> = [
-  { choice: 'flee', title: 'Flee', subtitle: 'Leave pressure on the floor', color: 'yellow' },
-  { choice: 'throw', title: 'Slap', subtitle: 'Answer before the room closes', color: 'red' },
+  { choice: 'flee', title: 'Go', subtitle: 'Leave pressure on the floor', color: 'blue' },
+  { choice: 'throw', title: 'Stay', subtitle: 'Answer before the room closes', color: 'red' },
 ];
 
 function getJumpDetail(result: JumpResult): string {
@@ -54,7 +54,6 @@ export function ResponsePhasePanel() {
   const faces = state.revealedFaces;
   const face = faces[0];
   const result = state.jumpResult;
-  const accent = face ? OFFICE_ACCENT[face.officeId] ?? tokens.colors.primary : tokens.colors.primary;
   const office = face ? OFFICES[face.officeId] : null;
 
   if (!face) {
@@ -64,7 +63,7 @@ export function ResponsePhasePanel() {
           <Typography sx={eyebrowSx}>No Face answered</Typography>
           <Typography sx={titleSx}>The room is quiet.</Typography>
           <Box sx={singleActionSx}>
-            <MenuButton title="Enter the room" subtitle="Resolve" color="red" onClick={() => transitionToPanel('combat')} />
+            <MenuButton title="Enter the room" subtitle="Resolve" color="red" onClick={() => transitionToPanel('combat')} sx={liftSx} />
           </Box>
         </BaseCard>
       </Box>
@@ -80,7 +79,7 @@ export function ResponsePhasePanel() {
           <Typography sx={titleSx}>{result.message}</Typography>
           <Typography sx={bodySx}>{getJumpDetail(result)}</Typography>
           <Box sx={singleActionSx}>
-            <MenuButton title="Enter the room" subtitle="Resolve" color="red" onClick={() => transitionToPanel('combat')} />
+            <MenuButton title="Enter the room" subtitle="Resolve" color="red" onClick={() => transitionToPanel('combat')} sx={liftSx} />
           </Box>
         </BaseCard>
       </Box>
@@ -100,7 +99,8 @@ export function ResponsePhasePanel() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain',
-                filter: `drop-shadow(0 0 14px ${accent}55) drop-shadow(0 8px 16px rgba(0,0,0,0.45))`,
+                transform: 'scale(0.8)',
+                filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.45))',
               }}
             />
           </Box>
@@ -138,6 +138,7 @@ export function ResponsePhasePanel() {
               subtitle={action.subtitle}
               color={action.color}
               onClick={() => chooseResponse(action.choice)}
+              sx={choiceButtonSx}
             />
           ))}
         </Box>
@@ -230,4 +231,17 @@ const singleActionSx = {
   width: '100%',
   maxWidth: 320,
   mt: 2.5,
+} as const;
+
+// Consistent, simple motion: a slight lift on hover, nothing slower.
+const liftSx = {
+  transition: 'transform 120ms ease-out',
+  '&:hover': { transform: 'translateY(-2px)' },
+} as const;
+
+const choiceButtonSx = {
+  ...liftSx,
+  '& .MuiTypography-root:first-of-type': {
+    fontSize: { xs: '1.5rem', sm: '1.9rem' },
+  },
 } as const;
