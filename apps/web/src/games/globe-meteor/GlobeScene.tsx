@@ -5,7 +5,7 @@
  * NEVER DIE GUY
  */
 
-import { useRef, Suspense, useEffect, useCallback } from 'react';
+import { useRef, Suspense, useCallback } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, PerspectiveCamera } from '@react-three/drei';
@@ -268,22 +268,6 @@ export function GlobeScene({
   demoMode = false,
 }: GlobeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const glRef = useRef<THREE.WebGLRenderer | null>(null);
-
-  // Cleanup WebGL context on unmount to prevent memory leaks
-  useEffect(() => {
-    return () => {
-      if (glRef.current) {
-        glRef.current.dispose();
-        // Only force context loss if not already lost
-        const gl = glRef.current.getContext();
-        if (gl && !gl.isContextLost()) {
-          glRef.current.forceContextLoss();
-        }
-        glRef.current = null;
-      }
-    };
-  }, []);
 
   // Memoize interaction handler for stable reference
   const handleInteraction = useCallback(() => {
@@ -301,10 +285,9 @@ export function GlobeScene({
       onTouchStart={handleInteraction}
     >
       <Canvas
-        shadows
+        shadows={{ type: THREE.PCFShadowMap }}
         style={{ background: skyConfig.fog, cursor: 'pointer' }}
         gl={{ preserveDrawingBuffer: true }}
-        onCreated={({ gl }) => { glRef.current = gl; }}
       >
         <Suspense fallback={<color attach="background" args={[skyConfig.fog]} />}>
           {/* Track camera distance and center target for zoom-aware UI */}

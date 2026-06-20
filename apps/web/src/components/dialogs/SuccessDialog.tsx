@@ -14,7 +14,10 @@ import { useSoundContext } from '../../contexts/SoundContext';
 const dialogPaperProps = {
   sx: {
     bgcolor: tokens.colors.background.paper,
-    border: `1px solid ${tokens.colors.border}`,
+    border: 'none',
+    borderLeft: `1px solid ${tokens.colors.border}`,
+    borderRight: `1px solid ${tokens.colors.border}`,
+    borderBottom: `1px solid ${tokens.colors.border}`,
   },
 };
 

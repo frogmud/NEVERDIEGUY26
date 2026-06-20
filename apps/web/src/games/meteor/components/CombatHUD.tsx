@@ -311,29 +311,15 @@ function DiceHandRow({
         const { identity: dieIdentity } = getDieIdentity(validDie);
         const densityTier = npcCount > 0 ? getDensityTier(npcCount) : 'sparse';
         const effPercent = Math.round(efficiency * 100);
-        const effColor = efficiency >= 1.2 ? '#4caf50' : efficiency >= 1.0 ? '#ffeb3b' : efficiency >= 0.7 ? '#ff9800' : '#f44336';
 
-        // Efficiency tooltip content
-        const tooltipContent = npcCount > 0 ? (
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography sx={{ ...gamingFont, fontSize: '0.7rem', fontWeight: 600, color: effColor }}>
-              {effPercent}% Efficiency
-            </Typography>
-            <Typography sx={{ ...gamingFont, fontSize: '0.6rem', color: 'text.secondary' }}>
-              {dieIdentity} @ {densityTier}
-            </Typography>
-          </Box>
-        ) : null;
+        const dieTitle = npcCount > 0
+          ? `${effPercent}% Efficiency - ${dieIdentity} @ ${densityTier}`
+          : undefined;
 
         return (
-          <Tooltip
-            key={die.id}
-            title={tooltipContent || ''}
-            placement="top"
-            arrow
-            disableHoverListener={!npcCount}
-          >
           <Box
+            key={die.id}
+            title={dieTitle}
             onClick={() => handleDieClick(die.id)}
             sx={{
               cursor: disabled ? 'default' : 'pointer',
@@ -438,7 +424,6 @@ function DiceHandRow({
               </Box>
             )}
           </Box>
-          </Tooltip>
         );
       })}
     </Box>

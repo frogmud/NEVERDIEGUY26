@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, GlobalStyles, Typography } from '@mui/material';
 import { Analytics } from '@vercel/analytics/react';
 import { Shell } from './components/Shell';
@@ -121,11 +121,16 @@ const DesignSystem = lazy(() => import('./screens/design-system/DesignSystem').t
 const ComponentDetail = lazy(() => import('./screens/design-system/ComponentDetail').then(m => ({ default: m.ComponentDetail })));
 
 function App() {
+  // BrowserRouter must live here, not in main.tsx, so Routes/Route render inside it.
+  // The context providers in main.tsx render OUTSIDE this Router by design, so none of
+  // them may call a router hook (useNavigate/useLocation/useParams) or the app white-screens
+  // (a green build will not catch it). Add new router-dependent logic inside App, not in a provider.
   return (
-    <ErrorBoundary>
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-        <GlobalStyles styles={globalAnimations} />
-        <Routes>
+    <BrowserRouter>
+      <ErrorBoundary>
+        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+          <GlobalStyles styles={globalAnimations} />
+          <Routes>
         {/* Auth routes redirect to home (MVP: no login required) */}
         <Route path="/login" element={<Navigate to="/" replace />} />
         <Route path="/signup" element={<Navigate to="/" replace />} />
@@ -210,10 +215,11 @@ function App() {
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Route>
-      </Routes>
-      </Box>
-      <Analytics />
-    </ErrorBoundary>
+          </Routes>
+        </Box>
+        <Analytics />
+      </ErrorBoundary>
+    </BrowserRouter>
   );
 }
 

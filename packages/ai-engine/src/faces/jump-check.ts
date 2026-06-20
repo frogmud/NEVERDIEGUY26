@@ -62,7 +62,7 @@ export function resolveJumpCheck(
   if (response === 'flee') {
     return {
       outcome: 'watch',
-      message: `You back off the ${face.label}. It watches you go.`,
+      message: `You back away. ${face.label} watches you go.`,
       modifier: { startScoreMult: 0.9, throwDisadvantage: 0 },
     };
   }
@@ -78,20 +78,20 @@ export function resolveJumpCheck(
     case 'jump':
       return {
         outcome,
-        message: `The ${face.label} jumps. The room tightens.`,
+        message: `${face.label} jumps. The room tightens.`,
         modifier: { startScoreMult: 0.8, throwDisadvantage: 1 },
       };
     case 'open':
       return {
         outcome,
-        message: `The ${face.label} opens. A window appears.`,
+        message: `${face.label} opens. A window appears.`,
         modifier: { startScoreMult: 1.15, throwDisadvantage: 0 },
       };
     case 'watch':
     default:
       return {
         outcome: 'watch',
-        message: `The ${face.label} watches. No hit lands.`,
+        message: `${face.label} watches. No hit lands.`,
         modifier: { ...NEUTRAL },
       };
   }

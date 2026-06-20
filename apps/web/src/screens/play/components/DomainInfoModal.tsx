@@ -68,7 +68,10 @@ export function DomainInfoModal({
       PaperProps={{
         sx: {
           bgcolor: tokens.colors.background.paper,
-          border: `2px solid ${tokens.colors.border}`,
+          border: 'none',
+          borderLeft: `2px solid ${tokens.colors.border}`,
+          borderRight: `2px solid ${tokens.colors.border}`,
+          borderBottom: `2px solid ${tokens.colors.border}`,
           borderRadius: 2,
           minWidth: 340,
           maxWidth: 400,

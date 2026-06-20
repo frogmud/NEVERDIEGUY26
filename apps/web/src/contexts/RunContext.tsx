@@ -525,7 +525,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       return {
         ...initialState,
         centerPanel: 'globe',
-        showBriefing: true,  // Show The General's briefing modal on launch
+        showBriefing: false,
         threadId: action.threadId,
         protocolRoll: action.protocolRoll,
         ledger: [threadStartEvent],
