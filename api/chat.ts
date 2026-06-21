@@ -74,31 +74,27 @@ const VALID_POOLS: TemplatePool[] = [
   'npcAlliance', 'alliance', 'betrayal', 'rescue',
 ];
 
+// ============================================
+// Input Bounds (this endpoint is public)
+// ============================================
+const MAX_CONTEXT_LENGTH = 1000; // context / previous-turn free text
+const MAX_NAME_LENGTH = 100; // display names
+
+function isOverLength(value: unknown, max: number): boolean {
+  return typeof value === 'string' && value.length > max;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Get client IP for rate limiting
-  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim()
-    || req.socket?.remoteAddress
-    || 'unknown';
-
-  // Rate limit check
-  const rateLimit = checkRateLimit(clientIp);
-  res.setHeader('X-RateLimit-Remaining', rateLimit.remaining.toString());
-
-  if (!rateLimit.allowed) {
-    return res.status(429).json({
-      error: 'Too Many Requests',
-      message: 'Rate limit exceeded. Try again in a minute.',
-    });
-  }
-
-  // CORS headers - locked to specific origins in production
+  // CORS headers first, so every response (including 429 and 500) carries them.
+  // A 429 without CORS headers surfaces in the browser as an opaque CORS error
+  // rather than a readable "rate limited" response.
   const origin = getCorsOrigin(req.headers.origin as string);
   res.setHeader('Access-Control-Allow-Origin', origin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Vary', 'Origin');
 
-  // Handle preflight
+  // Handle preflight before rate limiting so OPTIONS requests do not spend budget.
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -111,6 +107,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
+  // Rate limit (after CORS/OPTIONS so the 429 still carries CORS headers and
+  // preflight requests are not counted against the limit).
+  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim()
+    || req.socket?.remoteAddress
+    || 'unknown';
+  const rateLimit = checkRateLimit(clientIp);
+  res.setHeader('X-RateLimit-Remaining', rateLimit.remaining.toString());
+
+  if (!rateLimit.allowed) {
+    return res.status(429).json({
+      error: 'Too Many Requests',
+      message: 'Rate limit exceeded. Try again in a minute.',
+    });
+  }
+
   try {
     const body = req.body as ChatRequest;
 
@@ -119,6 +130,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({
         error: 'Bad Request',
         message: 'npcSlug and pool are required',
+      });
+    }
+
+    // Bound free-text fields before prompt construction. /api/chat is public, so the
+    // client-side 300-char cap in HomeChatter is not enforceable here.
+    if (
+      isOverLength(body.context, MAX_CONTEXT_LENGTH) ||
+      isOverLength(body.conversationContext?.previousText, MAX_CONTEXT_LENGTH) ||
+      isOverLength(body.conversationContext?.targetNpcName, MAX_NAME_LENGTH)
+    ) {
+      return res.status(400).json({
+        error: 'Bad Request',
+        message: 'A text field exceeds the maximum allowed length',
       });
     }
 
@@ -185,10 +209,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json(response);
 
   } catch (error) {
+    // Log full detail server-side; return a generic message in production so
+    // internal error text is not leaked to clients.
     console.error('Chat handler error:', error);
+    const exposeDetail = process.env.NODE_ENV !== 'production';
     return res.status(500).json({
       error: 'Internal Server Error',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: exposeDetail && error instanceof Error
+        ? error.message
+        : 'Something went wrong. Please try again.',
     });
   }
 }
