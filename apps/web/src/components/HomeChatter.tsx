@@ -178,6 +178,12 @@ const FALLBACK_AMBIENT = [
 // All domain keys for random selection (roaming characters)
 const DOMAIN_KEYS = Object.keys(DOMAIN_INTERRUPTS);
 
+// Free-text chat is the /api/chat prompt-injection vector (typed input -> context -> Claude refine).
+// Gated OFF: the homepage chatter is reactions + preset FAQ only. Do not flip this true until the
+// server has a shared-store rate limiter and the input hardening is confirmed live.
+// See docs/current/11-eternal-stream-and-security-hardening.md.
+const ALLOW_FREE_TEXT_CHAT: boolean = false;
+
 export function HomeChatter() {
   const navigate = useNavigate();
   const { sidebarWidth } = useOutletContext<ShellContext>();
@@ -1726,8 +1732,8 @@ export function HomeChatter() {
             ))}
           </Box>
 
-          {/* API mode: Autocomplete with free-form input + FAQ suggestions */}
-          {apiAvailable && (
+          {/* API mode: free-text input - gated off (prompt-injection vector), see ALLOW_FREE_TEXT_CHAT */}
+          {ALLOW_FREE_TEXT_CHAT && apiAvailable && (
             <Box
               sx={{
                 display: 'flex',
@@ -1823,8 +1829,8 @@ export function HomeChatter() {
             </Box>
           )}
 
-          {/* FAQ mode: single select with chip display and send icon */}
-          {!apiAvailable && (
+          {/* FAQ mode: preset questions only (always on while free-text chat is gated off) */}
+          {(!ALLOW_FREE_TEXT_CHAT || !apiAvailable) && (
             <Box
               sx={{
                 display: 'flex',
