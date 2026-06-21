@@ -1,130 +1,63 @@
 # NEVER DIE GUY
 
-A roguelike dice game where you throw meteors at a globe to score points. Balatro meets globe-smashing chaos.
+A roguelike dice game where you throw meteors at a dying world to score. Balatro-style scoring meets intergalactic sibling rivalry.
 
 **Play now:** [neverdieguy.com](https://neverdieguy.com)
 
 ## The Story
 
-You are Guy "Never Die Guy" Smith, The Fixer - a clone sent on intergalactic squabbles by six siblings who control fate.
+You are Guy "Never Die Guy" Smith, The Fixer - a clone sent to settle the squabbles of six siblings who control fate. The Die-rectors resurrect dead planets to harvest materials, then hand those same materials back to you as weapons against their rivals. A circular economy of destruction and rebirth.
 
-The Die-rectors resurrect dead planets to harvest materials, then supply those same materials to you as weapons against their siblings. It's a circular economy of destruction and rebirth. You curry favor, trade with survivors, and question whether your immortality is even real anymore.
+The meteors you throw are dice. The planets you destroy come back. The siblings you serve all want the same thing: to win. Your immortality? You are a clone of a clone, so that part is up for debate.
 
-The meteors you throw? Those are dice. The planets you destroy? They'll be back. The siblings you serve? They all want the same thing: to win.
+## Gameplay
 
-## Current State (v0.5.0)
+Solo roguelike across six domains, three rooms each. Each turn you roll dice (meteors), reroll what you do not hold, and trade dice for multipliers to clear a score goal before the timer runs out.
 
-The core gameplay loop is polished and production-ready:
+- Six die types, each with its own meteor effect
+- Guardians that absorb matching dice, draw-pattern bonuses (straights, triples), and skip pressure for forfeited rooms
+- Powerups, upgrades, gold, and trading between rooms
+- Domain-bound NPCs that react to your rolls, wins, and deaths
+- Production wiring: audio, WCAG touch targets, analytics, and security headers
 
-### Combat System
-- **3 throws per turn** - reroll unheld dice up to 3 times
-- **Trades** - sacrifice dice for multiplier boosts
-- **6 die types** (d4-d20) - each with unique colors and meteor effects
-- **Guardians** - orbital enemies that absorb matching dice
-- **Draw event bonuses** - straights, triples, and patterns apply score bonuses
-- **Skip events** - forfeit difficult rooms (with skip pressure penalty)
-- **Inventory limits** - max 8 powerups, 6 upgrades
-
-### Audio System
-- **Sound effects** - dice roll, impact, victory, defeat, explosion sounds
-- **UI feedback** - click sounds on buttons, holds, and combat actions
-- **Music toggle** - background music support (loops at 30% master volume)
-- **Persistent settings** - game speed, animations, music saved to localStorage
-
-### Accessibility & Production
-- **WCAG touch targets** - 44px minimum on all interactive elements
-- **Error boundary** - graceful crash recovery
-- **SEO meta tags** - Open Graph, Twitter Cards for social sharing
-- **Security headers** - CSP, X-Frame-Options in vercel.json
-- **Vercel Analytics** - page views and web vitals tracking
-
-### Visual Polish
-- **Overall progress bar** - domain/room/score/gold at top of play area
-- **Damage visualization** - localized flash effect + floating damage numbers
-- **Meteor targeting** - tight clustering around center reticle
-- **Domain-themed planets** - unique colors per domain
-- **Fast mode** - timer and animations scale with game speed (0.5x-2x)
-
-### NPC System
-- **Domain-bound NPCs** - each domain has its own Die-rector
-- **Ambient commentary** - NPCs react to dice rolls, victories, defeats
-- **Roll pattern detection** - triples, doubles, straights trigger special dialogue
+Multiplayer is in development.
 
 ## Project Structure
 
 ```
-NEVERDIEGUY26/
-├── apps/
-│   └── web/                    # React frontend (Vite)
-│       ├── src/
-│       │   ├── screens/        # App screens (play, wiki, home, etc.)
-│       │   ├── components/     # Shared UI components
-│       │   ├── contexts/       # State management (RunContext, SoundContext)
-│       │   ├── hooks/          # Custom React hooks
-│       │   ├── games/          # 3D game components (Three.js globe, combat HUD)
-│       │   ├── services/       # API + chatbase services
-│       │   └── theme.ts        # DIE/DIE design system tokens
-│       └── public/assets/      # Game assets (dice, items, UI, logos)
-│
-├── packages/
-│   ├── ai-engine/              # Combat engine, NPC logic, game balance
-│   │   └── src/
-│   │       ├── combat/         # Dice mechanics, turn flow, scoring
-│   │       ├── npcs/           # NPC definitions (pantheon, travelers)
-│   │       ├── items/          # Item definitions and effects
-│   │       ├── balance/        # Game balance constants
-│   │       ├── economy/        # Gold, trading, pricing
-│   │       └── stream/         # Eternal Stream (ambient NPC dialogue)
-│   └── shared/                 # Shared types and utilities
-│
-├── api/                        # Vercel serverless functions
-│   ├── chat.ts                 # NPC dialogue (rate-limited)
-│   ├── chat-manifest.ts        # NPC configuration
-│   ├── health.ts               # Health check
-│   └── stats.ts                # Game statistics
-│
-└── docs/ux/                    # UX documentation
-    ├── GAMEPLAY_LOOP.md        # Full run flow
-    ├── STATE_MACHINE.md        # RunContext state diagram
-    └── SCREEN_INVENTORY.md     # Screen registry
+apps/
+  web/         # React + Vite frontend (screens, 3D globe, contexts, services)
+packages/
+  ai-engine/   # Combat engine, NPC logic, balance, economy, items
+  shared/      # Shared types and utilities
+  tokens/      # @neverdieguy/tokens - public design tokens
+  ui/          # @neverdieguy/ui - public MUI component library
+api/           # Vercel serverless functions (chat, manifest, health, stats)
+docs/ux/       # Gameplay loop, state machine, screen inventory
 ```
 
 ## Development
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Run dev server
-pnpm dev
-
-# Build
-pnpm build
-
-# Type check
-pnpm typecheck
+pnpm install     # install dependencies
+pnpm dev         # run dev server
+pnpm build       # build all packages
+pnpm typecheck   # type check
 ```
-
-## Documentation
-
-- [Combat System](packages/ai-engine/COMBAT_SYSTEM.md) - Dice mechanics, turn flow, scoring
-- [Gameplay Loop](docs/ux/GAMEPLAY_LOOP.md) - Full run structure
-- [State Machine](docs/ux/STATE_MACHINE.md) - RunContext transitions
 
 ## Tech Stack
 
-- **Frontend**: React 19, Vite, MUI 7
-- **3D**: Three.js, React Three Fiber, Drei
-- **State**: React Context (RunContext, SoundContext, GameSettingsContext)
-- **AI/NPC**: Anthropic SDK for dynamic dialogue
-- **Monorepo**: Turborepo, pnpm workspaces
-- **Types**: TypeScript strict mode
-- **Deploy**: Vercel (auto-deploy from main)
+- **Frontend:** React 19, Vite, MUI 7, TypeScript (strict)
+- **3D:** Three.js, React Three Fiber, Drei
+- **State:** React Context (RunContext, SoundContext, GameSettingsContext)
+- **NPC dialogue:** Anthropic SDK behind rate-limited serverless functions
+- **Monorepo:** Turborepo + pnpm workspaces
+- **Deploy:** Vercel (auto-deploy from `main`)
 
-## Game Modes
+## Documentation
 
-1. **Arena** - Solo roguelike, 6 domains x 3 rooms (current focus)
-2. **Multiplayer** - Coming soon
+- [Gameplay Loop](docs/ux/GAMEPLAY_LOOP.md) - full run structure
+- [State Machine](docs/ux/STATE_MACHINE.md) - RunContext transitions
 
 ---
 
