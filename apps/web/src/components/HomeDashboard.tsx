@@ -10,7 +10,7 @@
  */
 
 import { useState, useEffect, useMemo, useRef, useCallback, memo } from 'react';
-import { Box, Typography, keyframes, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Box, Typography, keyframes, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Button, Drawer, IconButton } from '@mui/material';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -1401,8 +1401,7 @@ export function HomeDashboard() {
   const [streamEnabled, setStreamEnabled] = useState(true);
 
   // Stream popover state (dropdown from icon instead of bottom rail)
-  const [streamAnchorEl, setStreamAnchorEl] = useState<HTMLElement | null>(null);
-  const streamOpen = Boolean(streamAnchorEl);
+  const [streamOpen, setStreamOpen] = useState(false);
 
   // Unread message count (accumulates when minimized)
   const [unreadCount, setUnreadCount] = useState(0);
@@ -2284,7 +2283,7 @@ export function HomeDashboard() {
             {/* Eternal Stream Icon */}
             <Tooltip title="Eternal Stream" placement="bottom">
               <Box
-                onClick={(e) => setStreamAnchorEl(streamAnchorEl ? null : e.currentTarget)}
+                onClick={() => setStreamOpen((o) => !o)}
                 sx={{
                   position: 'relative',
                   width: 40,
@@ -2684,49 +2683,38 @@ export function HomeDashboard() {
           />
         </Box>
 
-        {/* Click-outside overlay (invisible, no backdrop) */}
-        {streamOpen && (
-          <Box
-            onClick={() => setStreamAnchorEl(null)}
-            sx={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 1099,
-            }}
-          />
-        )}
-
-        {/* Eternal Stream - Slide-in Sidebar Panel */}
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            width: 380,
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            bgcolor: tokens.colors.background.elevated,
-            borderLeft: `1px solid ${tokens.colors.border}`,
-            boxShadow: streamOpen ? '-4px 0 32px rgba(0,0,0,0.3)' : 'none',
-            zIndex: 1100,
-            // Slide animation
-            transform: streamOpen ? 'translateX(0)' : 'translateX(100%)',
-            transition: 'transform 250ms ease-out, box-shadow 250ms ease-out',
+        {/* Eternal Stream - right-side Drawer. ESC, focus trap, backdrop
+            click-away and scroll-lock come from MUI; keepMounted preserves the
+            feed and scroll position while it is closed. */}
+        <Drawer
+          anchor="right"
+          open={streamOpen}
+          onClose={() => setStreamOpen(false)}
+          keepMounted
+          // Preserve the original no-dim look; ESC, focus trap, click-away and
+          // scroll-lock still come from the Modal. Drop this to restore the
+          // default dimming backdrop.
+          slotProps={{ backdrop: { invisible: true } }}
+          PaperProps={{
+            sx: {
+              width: 380,
+              maxWidth: '100vw',
+              display: 'flex',
+              flexDirection: 'column',
+              bgcolor: tokens.colors.background.elevated,
+              borderLeft: `1px solid ${tokens.colors.border}`,
+              backgroundImage: 'none',
+            },
           }}
         >
-              {/* Stream Header - fixed height, click to close */}
+              {/* Stream Header */}
               <Box
-                onClick={() => setStreamAnchorEl(null)}
                 sx={{
                   px: 2,
                   pt: 2,
                   pb: 1.5,
                   flexShrink: 0,
                   borderBottom: `1px solid ${tokens.colors.border}`,
-                  cursor: 'pointer',
-                  transition: 'background-color 150ms ease',
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.02)' },
                 }}
               >
                 {/* Title Row */}
@@ -2741,42 +2729,30 @@ export function HomeDashboard() {
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
                     <Tooltip title={streamEnabled ? "Pause feed" : "Resume feed"} placement="bottom">
-                      <Box
-                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamEnabled(prev => !prev); }}
+                      <IconButton
+                        size="small"
+                        aria-label={streamEnabled ? "Pause feed" : "Resume feed"}
+                        onClick={() => setStreamEnabled(prev => !prev)}
                         sx={{
-                          width: 28,
-                          height: 28,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: '50%',
-                          cursor: 'pointer',
                           color: tokens.colors.text.disabled,
-                          transition: 'all 150ms ease',
                           '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
                         }}
                       >
                         {streamEnabled ? <PauseIcon sx={{ fontSize: 18 }} /> : <PlayArrowIcon sx={{ fontSize: 18 }} />}
-                      </Box>
+                      </IconButton>
                     </Tooltip>
                     <Tooltip title="Close" placement="bottom">
-                      <Box
-                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); setStreamAnchorEl(null); }}
+                      <IconButton
+                        size="small"
+                        aria-label="Close stream"
+                        onClick={() => setStreamOpen(false)}
                         sx={{
-                          width: 28,
-                          height: 28,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: '50%',
-                          cursor: 'pointer',
                           color: tokens.colors.text.disabled,
-                          transition: 'all 150ms ease',
                           '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.paper },
                         }}
                       >
                         <CloseIcon sx={{ fontSize: 18 }} />
-                      </Box>
+                      </IconButton>
                     </Tooltip>
                   </Box>
                 </Box>
@@ -3235,7 +3211,7 @@ export function HomeDashboard() {
               </Box>
               ))}
             </Box>
-          </Box>
+          </Drawer>
         </Box>
 
       {/* Invite NPC Modal */}
