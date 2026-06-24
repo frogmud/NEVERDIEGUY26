@@ -9,7 +9,7 @@
  * NEVER DIE GUY
  */
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback, memo } from 'react';
 import { Box, Typography, keyframes, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -475,7 +475,7 @@ interface BHitCardProps {
   category: string;
   index: number;
   animateIn: boolean;
-  onStart: () => void;
+  onStart: (itemSlug: string) => void;
 }
 
 function getRarityTier(rarity: string): number {
@@ -508,7 +508,7 @@ function getEditionChrome(edition: string | null, rarityColor: string): string {
   }
 }
 
-function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, onStart }: BHitCardProps) {
+function BHitCardImpl({ itemSlug, itemName, itemStats, category, index, animateIn, onStart }: BHitCardProps) {
   const entryDelay = `${index * 100}ms`;
   const tier = getRarityTier(itemStats.rarity);
   const editionChrome = getEditionChrome(itemStats.edition, itemStats.rarityColor);
@@ -519,7 +519,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
       type="button"
       data-testid={`home-hit-${itemSlug}`}
       aria-label={`Start run with ${itemName}`}
-      onClick={onStart}
+      onClick={() => onStart(itemSlug)}
       sx={{
         appearance: 'none',
         border: `2px solid ${itemStats.rarityColor}55`,
@@ -855,6 +855,8 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
   );
 }
 
+const BHitCard = memo(BHitCardImpl);
+
 interface BHitsPanelProps {
   loadout: StartingLoadout;
   animateIn: boolean;
@@ -882,6 +884,20 @@ function BHitsPanel({ loadout, animateIn, onStartItem }: BHitsPanelProps) {
       }
     };
   }, [animateIn, itemSignature, loadout.seed]);
+
+  // Precompute card data once per loadout (seeded + deterministic) so chat-feed
+  // re-renders do not re-run generateItemStats for every card on every tick.
+  const cards = useMemo(
+    () =>
+      loadout.items.map((itemSlug, index) => ({
+        itemSlug,
+        itemName: getItemName(itemSlug),
+        itemStats: generateItemStats(itemSlug, loadout.seed, index),
+        category: LOADOUT_ITEMS[itemSlug]?.category || 'misc',
+        index,
+      })),
+    [itemSignature, loadout.seed],
+  );
 
   return (
     <Box
@@ -959,24 +975,18 @@ function BHitsPanel({ loadout, animateIn, onStartItem }: BHitsPanelProps) {
             gap: 2.5,
           }}
         >
-          {loadout.items.map((itemSlug, index) => {
-            const itemName = getItemName(itemSlug);
-            const itemStats = generateItemStats(itemSlug, loadout.seed, index);
-            const baseItem = LOADOUT_ITEMS[itemSlug];
-
-            return (
-              <BHitCard
-                key={`${itemSlug}-${index}`}
-                itemSlug={itemSlug}
-                itemName={itemName}
-                itemStats={itemStats}
-                category={baseItem?.category || 'misc'}
-                index={index}
-                animateIn={animateIn && entryReady}
-                onStart={() => onStartItem(itemSlug)}
-              />
-            );
-          })}
+          {cards.map((card) => (
+            <BHitCard
+              key={`${card.itemSlug}-${card.index}`}
+              itemSlug={card.itemSlug}
+              itemName={card.itemName}
+              itemStats={card.itemStats}
+              category={card.category}
+              index={card.index}
+              animateIn={animateIn && entryReady}
+              onStart={onStartItem}
+            />
+          ))}
         </Box>
       </Box>
     </Box>
@@ -1709,12 +1719,20 @@ export function HomeDashboard() {
     if (!isTyping || !fullTypingText) return;
 
     if (typingText.length < fullTypingText.length) {
+      // When the stream panel is closed the typewriter is invisible, so jump
+      // straight to the full text instead of re-rendering once per character.
+      // The completion effect still fires, so messages keep accruing and the
+      // unread badge stays accurate.
+      if (!streamOpen) {
+        setTypingText(fullTypingText);
+        return;
+      }
       const timer = setTimeout(() => {
         setTypingText(fullTypingText.slice(0, typingText.length + 1));
       }, 25 + Math.random() * 25); // 25-50ms per character
       return () => clearTimeout(timer);
     }
-  }, [isTyping, typingText, fullTypingText]);
+  }, [isTyping, typingText, fullTypingText, streamOpen]);
 
   // ============================================
   // Ambient Stream Flow
@@ -1875,6 +1893,16 @@ export function HomeDashboard() {
     setFullTypingText('');
     setAmbientIndex(prev => prev + 1);
   }, [isTyping, typingText, fullTypingText, currentSpeaker, participants]);
+
+  // Cap the ambient feed so it cannot grow unbounded while idle on the homepage.
+  // Trim with hysteresis (only once it crosses 80, back down to 60) so we are not
+  // slicing on every message. Trimming the tail is safe: reactions and dedup only
+  // ever touch messages[0].
+  useEffect(() => {
+    if (messages.length > 80) {
+      setMessages(prev => (prev.length > 80 ? prev.slice(0, 60) : prev));
+    }
+  }, [messages.length]);
 
   // ============================================
   // Inline Ad Insertion
@@ -2044,7 +2072,7 @@ export function HomeDashboard() {
     }, 600);
   };
 
-  const handleStartWithItem = (itemSlug: string) => {
+  const handleStartWithItem = useCallback((itemSlug: string) => {
     playUIClick();
     sessionStorage.setItem('ndg-starting-loadout', JSON.stringify({
       ...currentLoadout,
@@ -2053,7 +2081,7 @@ export function HomeDashboard() {
       entryPoint: 'home-item',
     }));
     navigate('/play');
-  };
+  }, [currentLoadout, navigate, playUIClick]);
 
   const handleQuickPrompt = (prompt: QuickPrompt) => {
     // Inject player question into stream
@@ -3025,7 +3053,7 @@ export function HomeDashboard() {
             )}
 
             {/* Messages (newest first) - only show after boot */}
-            {bootPhase === 'active' && messages.filter(m => m.text?.trim()).map((msg, i) => (
+            {bootPhase === 'active' && messages.filter(m => m.text?.trim()).slice(0, 60).map((msg, i) => (
               <Box
                 key={msg.id}
                 sx={{
