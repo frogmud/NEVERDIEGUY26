@@ -113,6 +113,67 @@
         gap: 12px;
         min-height: 32px;
       }
+      .ndg-boot-nav-icon {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        image-rendering: pixelated;
+        flex-shrink: 0;
+      }
+      .ndg-boot-nav-label {
+        color: #f5f5f5;
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .ndg-boot-nav-row--muted .ndg-boot-nav-label {
+        color: #a0a0a0;
+        font-weight: 600;
+      }
+      .ndg-boot-search-mark {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        flex-shrink: 0;
+        opacity: 0.76;
+      }
+      .ndg-boot-search-mark::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 10px;
+        height: 10px;
+        border: 2px solid #a0a0a0;
+        border-radius: 50%;
+      }
+      .ndg-boot-search-mark::after {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 14px;
+        width: 8px;
+        height: 2px;
+        border-radius: 2px;
+        background: #a0a0a0;
+        transform: rotate(45deg);
+        transform-origin: left center;
+      }
+      .ndg-boot-menu-mark {
+        width: 24px;
+        height: 18px;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+      .ndg-boot-menu-mark span {
+        display: block;
+        height: 2px;
+        border-radius: 2px;
+        background: #a0a0a0;
+      }
       .ndg-boot-skeleton {
         border-radius: 4px;
         background: #2a2a2a;
@@ -341,18 +402,18 @@
           </div>
           <div class="ndg-boot-sidebar__nav">
             <div class="ndg-boot-nav-row">
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--icon"></span>
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--label"></span>
+              <img class="ndg-boot-nav-icon" src="/assets/nav/nav1-play.svg" alt="" />
+              <span class="ndg-boot-nav-label">Play</span>
             </div>
             <div class="ndg-boot-nav-row">
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--icon"></span>
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--label-short"></span>
+              <img class="ndg-boot-nav-icon" src="/assets/nav/nav2-wiki.svg" alt="" />
+              <span class="ndg-boot-nav-label">Wiki</span>
             </div>
           </div>
           <div class="ndg-boot-sidebar__bottom">
-            <div class="ndg-boot-nav-row">
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--icon"></span>
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--label"></span>
+            <div class="ndg-boot-nav-row ndg-boot-nav-row--muted">
+              <span class="ndg-boot-search-mark"></span>
+              <span class="ndg-boot-nav-label">Search</span>
             </div>
             <div class="ndg-boot-nav-row">
               <span class="ndg-boot-skeleton ndg-boot-skeleton--avatar"></span>
@@ -361,7 +422,7 @@
           </div>
         </aside>
         <div class="ndg-boot-topbar" aria-hidden="true">
-          <span class="ndg-boot-skeleton ndg-boot-skeleton--icon"></span>
+          <span class="ndg-boot-menu-mark"><span></span><span></span><span></span></span>
           <img src="/logos/ndg-skull-dome.svg" alt="" />
           <span class="ndg-boot-skeleton ndg-boot-skeleton--avatar"></span>
         </div>
