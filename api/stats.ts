@@ -30,9 +30,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
   } catch (error) {
+    // Log full detail server-side; return a generic message in production so
+    // internal error text is not leaked to clients.
+    console.error('Stats handler error:', error);
+    const exposeDetail = process.env.NODE_ENV !== 'production';
     return res.status(500).json({
       error: 'Internal Server Error',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: exposeDetail && error instanceof Error
+        ? error.message
+        : 'Something went wrong. Please try again.',
     });
   }
 }

@@ -314,6 +314,11 @@ type RunAction =
   | { type: 'CONTINUE_FROM_SUMMARY' }
   | { type: 'LOAD_RUN'; savedRun: SavedRunState }
   // Combat actions
+  // QUARANTINED (2026-06-24): the four actions below are stale. CombatEngine
+  // (packages/ai-engine/src/combat/combat-engine.ts) is the authority for live
+  // combat - these reducer actions have no external callers and disagree with the
+  // engine on hold/trade behavior. Do not wire new callers. Remove after the
+  // CombatSession adapter lands (docs/current/08-app-systems-alignment-plan.md, P0 #5).
   | { type: 'INIT_COMBAT'; combatState: RunCombatState }
   | { type: 'TOGGLE_HOLD_DIE'; dieId: string }
   | { type: 'THROW_DICE'; rollResults: Die[] }
@@ -1023,6 +1028,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
         pendingVictory: action.payload,
       };
 
+    // QUARANTINED stale combat action (see ReducerAction union note) - CombatEngine is the authority.
     case 'INIT_COMBAT':
       return {
         ...state,
@@ -1031,6 +1037,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
         runStartTime: state.runStartTime > 0 ? state.runStartTime : Date.now(),
       };
 
+    // QUARANTINED stale combat action (see ReducerAction union note) - CombatEngine is the authority.
     case 'TOGGLE_HOLD_DIE': {
       if (!state.combatState) return state;
 
@@ -1069,6 +1076,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       return state;
     }
 
+    // QUARANTINED stale combat action (see ReducerAction union note) - CombatEngine is the authority.
     case 'THROW_DICE': {
       if (!state.combatState) return state;
 
@@ -1096,6 +1104,7 @@ function runReducer(state: RunState, action: RunAction): RunState {
       };
     }
 
+    // QUARANTINED stale combat action (see ReducerAction union note) - CombatEngine is the authority.
     case 'END_COMBAT_TURN': {
       if (!state.combatState) return state;
 
@@ -1446,9 +1455,11 @@ export function RunProvider({ children }: { children: ReactNode }) {
       enemiesSquished: 0,
       friendlyHits: 0,
     };
-    dispatch({ type: 'INIT_COMBAT', combatState });
+    dispatch({ type: 'INIT_COMBAT', combatState }); // QUARANTINED stale combat dispatcher - CombatEngine is the authority.
   }, [state.currentDomain, state.inventory, state.heat]);
 
+  // QUARANTINED stale combat dispatchers (see ReducerAction union note) - no external
+  // callers; CombatEngine owns live combat. Do not wire new callers.
   const toggleHoldDie = useCallback((dieId: string) => {
     dispatch({ type: 'TOGGLE_HOLD_DIE', dieId });
   }, []);
