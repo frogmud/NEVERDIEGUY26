@@ -90,6 +90,11 @@ const pulse = keyframes`
   50% { opacity: 1; }
 `;
 
+const spinnerRotate = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
 const pulseGlow = keyframes`
   0%, 100% { filter: drop-shadow(0 0 15px rgba(233, 4, 65, 0.5)); transform: scale(1); }
   50% { filter: drop-shadow(0 0 30px rgba(233, 4, 65, 0.8)); transform: scale(1.02); }
@@ -132,25 +137,6 @@ const popUp = keyframes`
   100% { transform: translateY(0) scale(1); opacity: 1; }
 `;
 
-// Balatro-style card entrance with dramatic entrance
-const cardDeal = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(60px) scale(0.7) rotate(calc(var(--card-rotation, 0deg) * 3));
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-8px) scale(1.05) rotate(var(--card-rotation, 0deg));
-  }
-  80% {
-    transform: translateY(4px) scale(0.98) rotate(calc(var(--card-rotation, 0deg) * 0.5));
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotate(0deg);
-  }
-`;
-
 const streamSlideIn = keyframes`
   0% { transform: translateX(100%); }
   100% { transform: translateX(0); }
@@ -185,53 +171,29 @@ const messageSlideIn = keyframes`
   }
 `;
 
-// Chunky button wiggle on hover
-const buttonWiggle = keyframes`
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-1deg); }
-  75% { transform: rotate(1deg); }
-`;
-
-// Idle card wiggle - subtle continuous floating effect (Balatro-style)
-const idleWiggle = keyframes`
-  0%, 100% {
-    transform: translateY(0) rotate(var(--base-rotation, 0deg));
-  }
-  25% {
-    transform: translateY(-2px) rotate(calc(var(--base-rotation, 0deg) + 0.5deg));
-  }
-  50% {
-    transform: translateY(-3px) rotate(calc(var(--base-rotation, 0deg) - 0.3deg));
-  }
-  75% {
-    transform: translateY(-1px) rotate(calc(var(--base-rotation, 0deg) + 0.2deg));
-  }
-`;
-
-// Items fly up from bottom - straight path to final position (planet selection style)
-// Start at 10% opacity, reach full opacity mid-flight, lock into final position
-// After animation completes, card physics (hover/drag/tilt) take over
-const itemDropIn = keyframes`
-  0% {
-    opacity: 0.1;
-    transform: translateY(120vh) scale(1.2);
-  }
-  50% {
-    opacity: 0.8;
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(20px) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-`;
-
 // Boot sequence phases
-// New sequence: skull-hero -> ui-reveal -> items-drop -> active
-type BootPhase = 'slide' | 'skull-hero' | 'ui-reveal' | 'items-drop' | 'active' | 'launching';
+// New sequence: skeleton shell -> calm content reveal -> active
+type BootPhase = 'slide' | 'skull-hero' | 'ui-reveal' | 'active' | 'launching';
+
+declare global {
+  interface Window {
+    __NDG_BOOT_SHELL_PENDING__?: boolean;
+    __NDG_BOOT_SHELL_PATH__?: string;
+  }
+}
+
+function shouldUseInitialHomeBootShell(): boolean {
+  if (typeof window === 'undefined') return false;
+
+  const bootPath = window.__NDG_BOOT_SHELL_PATH__;
+  const path = bootPath || window.location.pathname;
+  const isHomeBootRoute = document.documentElement.classList.contains('ndg-boot-route-home');
+
+  return (
+    (window.__NDG_BOOT_SHELL_PENDING__ === true || isHomeBootRoute) &&
+    (path === '/' || path === '/home')
+  );
+}
 
 /**
  * ASCII Skull - NDG skull dome logo with 3D shading
@@ -356,6 +318,139 @@ function FlickeringArtifacts({ active }: { active: boolean }) {
   );
 }
 
+function HomeBootFallback({ sidebarExpanded, exiting }: { sidebarExpanded: boolean; exiting: boolean }) {
+  const skeletonSx = {
+    bgcolor: tokens.colors.background.elevated,
+    opacity: 0.56,
+    animation: `${pulse} 2.8s ease-in-out infinite`,
+  };
+
+  return (
+    <Box
+      aria-hidden="true"
+      sx={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        px: '30px',
+        py: '30px',
+        overflow: 'hidden',
+        opacity: exiting ? 0 : 1,
+        transform: exiting ? 'translateY(-4px)' : 'translateY(0)',
+        transition: 'opacity 1200ms ease, transform 1200ms ease',
+        pointerEvents: 'none',
+        '@media (prefers-reduced-motion: reduce)': {
+          transition: 'none',
+          transform: 'none',
+        },
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ ...skeletonSx, width: 56, height: 56, borderRadius: `${tokens.radius.md}px` }} />
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Box sx={{ ...skeletonSx, width: 128, height: 14, borderRadius: `${tokens.radius.sm}px` }} />
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box sx={{ ...skeletonSx, width: 24, height: 24, borderRadius: '50%' }} />
+              <Box sx={{ ...skeletonSx, width: 24, height: 24, borderRadius: '50%' }} />
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ ...skeletonSx, width: 40, height: 40, borderRadius: `${tokens.radius.md}px` }} />
+      </Box>
+
+      <Box
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: { xs: 3, md: sidebarExpanded ? 4 : 6 },
+          pt: 6,
+        }}
+      >
+        <Box sx={{ width: { xs: '100%', md: sidebarExpanded ? 240 : 260 }, flexShrink: 0 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5, mb: 4 }}>
+            <Box sx={{ ...skeletonSx, width: 86, height: 86, borderRadius: '50%' }} />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Box sx={{ ...skeletonSx, width: 132, height: 14, borderRadius: `${tokens.radius.sm}px` }} />
+              <Box sx={{ ...skeletonSx, width: 46, height: 42, borderRadius: `${tokens.radius.sm}px` }} />
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {[80, 88, 68, 68].map((height, index) => (
+              <Box
+                key={index}
+                sx={{
+                  ...skeletonSx,
+                  width: '100%',
+                  height,
+                  borderRadius: '16px',
+                  animationDelay: `${index * 120}ms`,
+                }}
+              />
+            ))}
+            <Box sx={{ ...skeletonSx, width: 104, height: 10, borderRadius: `${tokens.radius.sm}px`, alignSelf: 'center', mt: 1 }} />
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            display: { xs: 'none', sm: 'flex' },
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            pt: { sm: 2, md: 7 },
+          }}
+        >
+          <Box
+            sx={{
+              width: 'min(650px, 100%)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1.5,
+            }}
+          >
+            <Box sx={{ height: 14, ml: 0.5 }} />
+            <Box
+              sx={{
+                width: '100%',
+                boxSizing: 'border-box',
+                minHeight: 300,
+                borderRadius: '24px',
+                p: 3,
+                bgcolor: 'rgba(20, 20, 20, 0.58)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Box
+                data-testid="home-card-spinner"
+                sx={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: '50%',
+                  border: `3px solid ${tokens.colors.primary}2e`,
+                  borderTopColor: tokens.colors.primary,
+                  animation: `${spinnerRotate} 1.15s linear infinite`,
+                  '@media (prefers-reduced-motion: reduce)': {
+                    animation: 'none',
+                  },
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
 /**
  * Generate a funny player alias from seed
  * e.g., "guy_12345", "xX_guy12345_Xx", "guy.12345.exe"
@@ -370,387 +465,305 @@ function generatePlayerAlias(seed: string): string {
 }
 
 // ============================================
-// Interactive Item Card Component
+// B's Hits Item Entry Cards
 // ============================================
 
-interface ItemCardProps {
+interface BHitCardProps {
   itemSlug: string;
   itemName: string;
   itemStats: SeededItemStats;
   category: string;
-  baseRotation: number;
   index: number;
-  bootPhase: BootPhase;
+  animateIn: boolean;
+  onStart: () => void;
 }
 
-function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index, bootPhase }: ItemCardProps) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [isPoked, setIsPoked] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const cardRef = useRef<HTMLDivElement>(null);
-  const tooltipTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+function getRarityTier(rarity: string): number {
+  switch (rarity) {
+    case 'legendary':
+      return 5;
+    case 'epic':
+      return 4;
+    case 'rare':
+      return 3;
+    case 'uncommon':
+      return 2;
+    default:
+      return 1;
+  }
+}
 
-  // Handle mouse move for physics-like tilt (disabled once tooltip shows for stability)
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || showTooltip) return; // Stop tilting once tooltip visible
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    // Tilt based on mouse position - stronger at edges
-    const tiltX = (y - 0.5) * 15; // -7.5 to +7.5 degrees
-    const tiltY = (x - 0.5) * -15; // -7.5 to +7.5 degrees (inverted for natural feel)
-    setTilt({ x: tiltX, y: tiltY });
-  };
+function getEditionChrome(edition: string | null, rarityColor: string): string {
+  switch (edition) {
+    case 'Holographic':
+      return 'linear-gradient(135deg, rgba(255, 121, 198, 0.34), rgba(80, 250, 123, 0.22), rgba(139, 233, 253, 0.3), rgba(255, 184, 108, 0.28))';
+    case 'Foil':
+      return 'linear-gradient(130deg, rgba(255,255,255,0.42), rgba(255,255,255,0.08) 34%, rgba(255,255,255,0.28) 55%, rgba(255,255,255,0.04))';
+    case 'Polychrome':
+      return 'conic-gradient(from 210deg, rgba(255,0,92,0.28), rgba(255,214,0,0.26), rgba(0,255,148,0.22), rgba(0,204,255,0.28), rgba(154,92,255,0.24), rgba(255,0,92,0.28))';
+    case 'Negative':
+      return 'linear-gradient(135deg, rgba(255,255,255,0.18), rgba(0,0,0,0.66), rgba(255,255,255,0.08))';
+    default:
+      return `linear-gradient(135deg, ${rarityColor}2e, rgba(255,255,255,0.06), rgba(255,255,255,0.02))`;
+  }
+}
 
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
-    setIsHovered(false);
-    setShowTooltip(false);
-    if (tooltipTimeoutRef.current) {
-      clearTimeout(tooltipTimeoutRef.current);
-    }
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    // Longer delay to let card fully settle before showing tooltip
-    tooltipTimeoutRef.current = setTimeout(() => {
-      setTilt({ x: 0, y: 0 }); // Reset tilt for stable tooltip
-      setShowTooltip(true);
-    }, 400);
-  };
-
-  // Handle mouse down for drag start
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setDragStart({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
-    // Clear tooltip on drag start
-    setShowTooltip(false);
-    if (tooltipTimeoutRef.current) {
-      clearTimeout(tooltipTimeoutRef.current);
-    }
-  };
-
-  // Handle mouse move for dragging with bounds
-  useEffect(() => {
-    if (!isDragging) return;
-
-    const handleGlobalMouseMove = (e: MouseEvent) => {
-      let newX = e.clientX - dragStart.x;
-
-      // Horizontal only - lock Y axis
-      const maxHorizontal = 400; // Can go 400px left or right
-      newX = Math.max(-maxHorizontal, Math.min(maxHorizontal, newX));
-
-      setDragOffset({ x: newX, y: 0 }); // Y locked to 0
-      // Dynamic tilt based on horizontal drag only
-      setTilt({
-        x: 0,
-        y: Math.max(-15, Math.min(15, newX * -0.05))
-      });
-    };
-
-    const handleGlobalMouseUp = () => {
-      setIsDragging(false);
-      // Snap back with momentum feel
-      setTilt({ x: 0, y: 0 });
-    };
-
-    window.addEventListener('mousemove', handleGlobalMouseMove);
-    window.addEventListener('mouseup', handleGlobalMouseUp);
-
-    return () => {
-      window.removeEventListener('mousemove', handleGlobalMouseMove);
-      window.removeEventListener('mouseup', handleGlobalMouseUp);
-    };
-  }, [isDragging, dragStart]);
-
-  // Handle click for "poke" effect (only if not dragging)
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // If we dragged, don't poke
-    if (Math.abs(dragOffset.x) > 5 || Math.abs(dragOffset.y) > 5) return;
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    // Stronger tilt towards click point
-    const pokeX = (y - 0.5) * 25;
-    const pokeY = (x - 0.5) * -25;
-    setTilt({ x: pokeX, y: pokeY });
-    setIsPoked(true);
-    // Bounce back
-    setTimeout(() => {
-      setTilt({ x: 0, y: 0 });
-      setIsPoked(false);
-    }, 150);
-  };
-
-  const isDropping = bootPhase === 'items-drop';
-  const isActive = bootPhase === 'active';
-
-  // Build transform string based on state
-  // Note: Cards maintain horizontal spacing via flexbox gap, not translateX
-  const getTransform = () => {
-    const dragTranslate = `translate(${dragOffset.x}px, ${dragOffset.y}px)`;
-    if (isDragging) {
-      return `${dragTranslate} perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.08)`;
-    }
-    if (showTooltip) {
-      return `${dragTranslate} perspective(600px) rotateX(0deg) rotateY(0deg) translateY(-32px) scale(1.05)`;
-    }
-    if (isHovered || isPoked) {
-      return `${dragTranslate} perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-24px) scale(1.03)`;
-    }
-    return `${dragTranslate} perspective(600px) rotateX(0deg) rotateY(0deg)`;
-  };
+function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, onStart }: BHitCardProps) {
+  const entryDelay = `${index * 100}ms`;
+  const tier = getRarityTier(itemStats.rarity);
+  const editionChrome = getEditionChrome(itemStats.edition, itemStats.rarityColor);
 
   return (
     <Box
-      ref={cardRef}
-      onMouseMove={isDragging ? undefined : handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseDown={handleMouseDown}
-      onClick={handleClick}
+      component="button"
+      type="button"
+      data-testid={`home-hit-${itemSlug}`}
+      aria-label={`Start run with ${itemName}`}
+      onClick={onStart}
       sx={{
-        width: 260,
-        height: 360,
-        flexShrink: 0,
+        appearance: 'none',
+        border: `2px solid ${itemStats.rarityColor}55`,
+        bgcolor: tokens.colors.background.paper,
+        borderRadius: '16px',
+        color: tokens.colors.text.primary,
+        cursor: 'pointer',
+        width: '100%',
+        height: 318,
+        minWidth: 0,
+        p: 0,
+        overflow: 'visible',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: '16px',
-        border: `2px solid ${isDragging ? tokens.colors.primary : isHovered ? itemStats.rarityColor : tokens.colors.border}`,
-        bgcolor: tokens.colors.background.paper,
-        overflow: 'visible',
+        textAlign: 'left',
         position: 'relative',
-        cursor: isDragging ? 'grabbing' : 'grab',
-        userSelect: 'none',
-        '--card-rotation': `${baseRotation}deg`,
-        '--base-rotation': `${baseRotation}deg`,
-        // Transform with tilt physics and drag offset
-        transform: getTransform(),
-        // Animation states - disabled when dragging or has been dragged
-        animation: isDragging || (dragOffset.x !== 0 || dragOffset.y !== 0)
-          ? 'none'
-          : isDropping
-          ? `${itemDropIn} 900ms ease-out ${index * 50}ms both`
-          : isActive && !isHovered
-          ? `${idleWiggle} ${3 + index * 0.5}s ease-in-out infinite ${index * 0.3}s`
-          : 'none',
-        transition: isDragging
-          ? 'border-color 100ms ease, box-shadow 100ms ease'
-          : isPoked
-          ? 'transform 100ms ease-out, border-color 200ms ease, box-shadow 200ms ease'
-          : 'transform 200ms ease-out, border-color 200ms ease, box-shadow 200ms ease',
-        boxShadow: isDragging
-          ? `0 20px 50px rgba(0,0,0,0.5), 0 0 30px ${tokens.colors.primary}40`
-          : isHovered
-          ? `0 12px 32px rgba(0,0,0,0.4), 0 0 20px ${itemStats.rarityColor}40`
-          : '0 4px 12px rgba(0,0,0,0.2)',
-        zIndex: isDragging ? 100 : 'auto',
-        '&::before': itemStats.edition ? {
+        isolation: 'isolate',
+        opacity: animateIn ? 1 : 0,
+        transform: animateIn ? 'translateY(0) scale(1)' : 'translateY(34px) scale(0.985)',
+        boxShadow: `0 12px 28px rgba(0,0,0,0.34), 0 0 0 1px rgba(255,255,255,0.03), 0 0 20px ${itemStats.rarityColor}16`,
+        transition: [
+          `opacity 620ms cubic-bezier(0.22, 1, 0.36, 1) ${entryDelay}`,
+          `transform 780ms cubic-bezier(0.22, 1, 0.36, 1) ${entryDelay}`,
+          'border-color 180ms ease',
+          'background-color 180ms ease',
+          'box-shadow 180ms ease',
+        ].join(', '),
+        '&::before': {
           content: '""',
           position: 'absolute',
           inset: -2,
           borderRadius: '18px',
-          background: itemStats.edition === 'Holographic'
-            ? 'linear-gradient(45deg, #ff000040, #00ff0040, #0000ff40, #ff000040)'
-            : itemStats.edition === 'Foil'
-            ? 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(255,255,255,0.2) 100%)'
-            : itemStats.edition === 'Polychrome'
-            ? 'conic-gradient(from 0deg, #ff000030, #ffff0030, #00ff0030, #00ffff30, #0000ff30, #ff00ff30, #ff000030)'
-            : 'none',
-          zIndex: -1,
-          animation: itemStats.edition === 'Holographic' ? `${pulse} 2s ease-in-out infinite` : 'none',
-        } : {},
+          background: editionChrome,
+          opacity: itemStats.edition ? 0.72 : 0.18,
+          filter: itemStats.edition ? 'saturate(1.35)' : 'none',
+          zIndex: 0,
+          pointerEvents: 'none',
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          borderRadius: '16px',
+          background: 'linear-gradient(116deg, transparent 6%, rgba(255,255,255,0.14) 36%, rgba(255,255,255,0.04) 48%, transparent 68%)',
+          opacity: itemStats.edition ? 0.34 : 0.14,
+          mixBlendMode: 'screen',
+          zIndex: 2,
+          pointerEvents: 'none',
+          transition: 'opacity 180ms ease',
+        },
+        '&:hover': {
+          borderColor: itemStats.rarityColor,
+          bgcolor: tokens.colors.background.elevated,
+          transform: animateIn ? 'translateY(-4px) scale(1.01)' : 'translateY(34px) scale(0.985)',
+          boxShadow: `0 18px 42px rgba(0,0,0,0.46), 0 0 28px ${itemStats.rarityColor}45`,
+        },
+        '&:hover::after, &:focus-visible::after': {
+          opacity: itemStats.edition ? 0.55 : 0.28,
+        },
+        '&:hover .home-hit-image, &:focus-visible .home-hit-image': {
+          transform: 'scale(1.08) translateY(-4px)',
+          filter: `
+            drop-shadow(0 2px 2px rgba(0,0,0,0.2))
+            drop-shadow(0 6px 8px rgba(0,0,0,0.28))
+            drop-shadow(0 14px 20px rgba(0,0,0,0.34))
+          `,
+        },
+        '&:hover .home-hit-tooltip, &:focus-visible .home-hit-tooltip': {
+          opacity: 1,
+          transform: 'translate(-50%, 0)',
+          visibility: 'visible',
+        },
+        '&:focus-visible': {
+          outline: `2px solid ${tokens.colors.primary}`,
+          outlineOffset: 3,
+        },
+        '@media (prefers-reduced-motion: reduce)': {
+          opacity: 1,
+          transform: 'none',
+          transition: 'border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease',
+        },
       }}
     >
-      {/* Edition Badge */}
-      {itemStats.edition && (
-        <Box sx={{
-          position: 'absolute',
-          top: 8,
-          right: 8,
-          px: 1,
-          py: 0.25,
-          borderRadius: '8px',
-          bgcolor: 'rgba(0,0,0,0.7)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          zIndex: 10,
-        }}>
-          <Typography sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.65rem',
-            color: '#fff',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px',
-          }}>
-            {itemStats.edition}
-          </Typography>
-        </Box>
-      )}
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          height: '100%',
+          overflow: 'hidden',
+          borderRadius: '14px',
+          display: 'flex',
+          flexDirection: 'column',
+          bgcolor: tokens.colors.background.paper,
+        }}
+      >
+        {itemStats.edition && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              px: 1,
+              py: 0.35,
+              borderRadius: '8px',
+              bgcolor: 'rgba(0,0,0,0.72)',
+              border: '1px solid rgba(255,255,255,0.22)',
+              zIndex: 3,
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '0.56rem',
+                color: tokens.colors.text.primary,
+                textTransform: 'uppercase',
+                letterSpacing: 0,
+                lineHeight: 1,
+              }}
+            >
+              {itemStats.edition}
+            </Typography>
+          </Box>
+        )}
 
-      {/* Grid Pattern Background */}
-      <Box sx={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-        `,
-        backgroundSize: '20px 20px',
-        position: 'relative',
-        borderRadius: '14px 14px 0 0',
-        overflow: 'hidden',
-      }}>
-        {/* Item Sprite with layered shadow for depth */}
         <Box
-          component="img"
-          src={getItemImage(itemSlug)}
-          alt={itemSlug}
           sx={{
-            width: 120,
-            height: 120,
-            objectFit: 'contain',
-            imageRendering: 'pixelated',
-            filter: `
-              drop-shadow(0 2px 2px rgba(0,0,0,0.2))
-              drop-shadow(0 4px 6px rgba(0,0,0,0.25))
-              drop-shadow(0 8px 16px rgba(0,0,0,0.3))
+            flex: 1,
+            minHeight: 218,
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+              ${itemStats.edition ? editionChrome : `linear-gradient(135deg, ${itemStats.rarityColor}14, rgba(255,255,255,0.02))`}
             `,
-            transition: 'transform 150ms ease, filter 150ms ease',
-            transform: isHovered ? 'scale(1.1) translateY(-4px)' : 'scale(1)',
+            backgroundSize: '22px 22px, 22px 22px, 100% 100%',
+            overflow: 'hidden',
           }}
-        />
-      </Box>
+        >
+          {itemStats.edition && (
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                background: editionChrome,
+                opacity: 0.24,
+                mixBlendMode: 'screen',
+              }}
+            />
+          )}
+          <Box
+            component="img"
+            className="home-hit-image"
+            src={getItemImage(itemSlug)}
+            alt=""
+            onError={(event) => {
+              event.currentTarget.style.display = 'none';
+            }}
+            sx={{
+              width: 148,
+              height: 148,
+              objectFit: 'contain',
+              imageRendering: 'pixelated',
+              position: 'relative',
+              zIndex: 1,
+              filter: `
+                drop-shadow(0 2px 2px rgba(0,0,0,0.2))
+                drop-shadow(0 5px 7px rgba(0,0,0,0.26))
+                drop-shadow(0 12px 18px rgba(0,0,0,0.32))
+              `,
+              transition: 'transform 180ms ease, filter 180ms ease',
+            }}
+          />
+        </Box>
 
-      {/* Item Label - Bottom */}
-      <Box sx={{
-        px: 2,
-        py: 1.5,
-        borderTop: `1px solid ${tokens.colors.border}`,
-        bgcolor: tokens.colors.background.elevated,
-        borderRadius: '0 0 14px 14px',
-      }}>
-        <Typography sx={{
-          fontFamily: tokens.fonts.gaming,
-          fontSize: '0.9rem',
-          color: tokens.colors.text.primary,
-          textAlign: 'center',
-          lineHeight: 1.2,
-        }}>
-          {itemName}
-        </Typography>
-        {/* Rarity + Category */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mt: 0.5 }}>
-          <Typography sx={{
-            fontSize: '0.7rem',
-            color: itemStats.rarityColor,
-            fontWeight: 600,
-            textTransform: 'capitalize',
-          }}>
-            {itemStats.rarity}
+        <Box
+          sx={{
+            px: 2,
+            py: 1.35,
+            borderTop: `1px solid ${tokens.colors.border}`,
+            bgcolor: tokens.colors.background.elevated,
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: tokens.fonts.gaming,
+              fontSize: '0.78rem',
+              color: tokens.colors.text.primary,
+              textAlign: 'center',
+              lineHeight: 1.25,
+              overflowWrap: 'anywhere',
+            }}
+          >
+            {itemName || 'Unknown Hit'}
           </Typography>
-          <Typography sx={{ fontSize: '0.65rem', color: tokens.colors.text.disabled }}>
-            {category}
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mt: 0.6 }}>
+            <Typography
+              sx={{
+                fontSize: '0.72rem',
+                color: itemStats.rarityColor,
+                fontWeight: 700,
+                textTransform: 'capitalize',
+                letterSpacing: 0,
+              }}
+            >
+              {itemStats.rarity}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: '0.68rem',
+                color: tokens.colors.text.disabled,
+                textTransform: 'lowercase',
+              }}
+            >
+              {category}
+            </Typography>
+          </Box>
         </Box>
       </Box>
 
-      {/* Hover Tooltip - positioned below card to avoid top cutoff */}
-      {showTooltip && (
-        <Box sx={{
+      <Box
+        className="home-hit-tooltip"
+        sx={{
           position: 'absolute',
-          top: 'calc(100% + 16px)',
+          top: 'calc(100% + 18px)',
           left: '50%',
-          transform: 'translateX(-50%)',
-          width: 260,
+          width: 278,
           bgcolor: tokens.colors.background.paper,
           border: `2px solid ${itemStats.rarityColor}`,
           borderRadius: '12px',
           p: 2,
-          zIndex: 9999, // Above toolbar and everything
-          boxShadow: `0 8px 32px rgba(0,0,0,0.6), 0 0 20px ${itemStats.rarityColor}40`,
-          pointerEvents: 'none', // Don't interfere with card hover
-        }}>
-          {/* Edition Badge if special */}
-          {itemStats.edition && (
-            <Box sx={{
-              display: 'inline-block',
-              px: 1,
-              py: 0.25,
-              mb: 1.5,
-              borderRadius: '6px',
-              bgcolor: `${itemStats.rarityColor}20`,
-              border: `1px solid ${itemStats.rarityColor}`,
-            }}>
-              <Typography sx={{
-                fontFamily: tokens.fonts.gaming,
-                fontSize: '0.65rem',
-                color: itemStats.rarityColor,
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-              }}>
-                {itemStats.edition} Edition
-              </Typography>
-            </Box>
-          )}
-
-          {/* Buffs - Loot Table Style */}
-          <Box sx={{ mb: 1.5 }}>
-            {itemStats.buffs.map((buff, bi) => (
-              <Box key={bi} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5 }}>
-                <Box sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: itemStats.rarityColor,
-                  flexShrink: 0,
-                }} />
-                <Typography sx={{ fontSize: '0.85rem', color: tokens.colors.text.secondary }}>
-                  +{buff.value}{buff.isPercent ? '%' : ''} {buff.stat.charAt(0).toUpperCase() + buff.stat.slice(1)}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-
-          {/* Category Info */}
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 1,
-            mb: 1,
-            borderTop: `1px solid ${tokens.colors.border}`,
-            borderBottom: `1px solid ${tokens.colors.border}`,
-          }}>
-            <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
-              {category}
-            </Typography>
-            <Typography sx={{ fontSize: '0.7rem', color: itemStats.rarityColor, fontWeight: 600 }}>
-              Tier {itemStats.rarity === 'legendary' ? 5 : itemStats.rarity === 'epic' ? 4 : itemStats.rarity === 'rare' ? 3 : itemStats.rarity === 'uncommon' ? 2 : 1}
-            </Typography>
-          </Box>
-
-          {/* Flavor Text */}
-          <Typography sx={{
-            fontSize: '0.75rem',
-            color: tokens.colors.text.disabled,
-            fontStyle: 'italic',
-            lineHeight: 1.4,
-          }}>
-            "{itemStats.flavorText}"
-          </Typography>
-
-          {/* Tooltip Arrow - points up since tooltip is below card */}
-          <Box sx={{
+          zIndex: 8,
+          opacity: 0,
+          visibility: 'hidden',
+          transform: 'translate(-50%, -8px)',
+          transition: 'opacity 160ms ease, transform 160ms ease, visibility 160ms ease',
+          boxShadow: `0 18px 42px rgba(0,0,0,0.66), 0 0 24px ${itemStats.rarityColor}45`,
+          pointerEvents: 'none',
+          textAlign: 'left',
+          '&::before': {
+            content: '""',
             position: 'absolute',
             top: -8,
             left: '50%',
@@ -760,9 +773,212 @@ function ItemCard({ itemSlug, itemName, itemStats, category, baseRotation, index
             borderLeft: '8px solid transparent',
             borderRight: '8px solid transparent',
             borderBottom: `8px solid ${itemStats.rarityColor}`,
-          }} />
+          },
+        }}
+      >
+        {itemStats.edition && (
+          <Box
+            sx={{
+              display: 'inline-block',
+              px: 1,
+              py: 0.35,
+              mb: 1.5,
+              borderRadius: '6px',
+              bgcolor: `${itemStats.rarityColor}20`,
+              border: `1px solid ${itemStats.rarityColor}`,
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: tokens.fonts.gaming,
+                fontSize: '0.6rem',
+                color: itemStats.rarityColor,
+                textTransform: 'uppercase',
+                letterSpacing: 0,
+              }}
+            >
+              {itemStats.edition} Edition
+            </Typography>
+          </Box>
+        )}
+
+        <Box sx={{ mb: 1.5 }}>
+          {itemStats.buffs.map((buff, buffIndex) => (
+            <Box key={buffIndex} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.45 }}>
+              <Box
+                sx={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: itemStats.rarityColor,
+                  flexShrink: 0,
+                }}
+              />
+              <Typography sx={{ fontSize: '0.86rem', color: tokens.colors.text.secondary }}>
+                +{buff.value}{buff.isPercent ? '%' : ''} {buff.stat.charAt(0).toUpperCase() + buff.stat.slice(1)}
+              </Typography>
+            </Box>
+          ))}
         </Box>
-      )}
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 1,
+            mb: 1,
+            borderTop: `1px solid ${tokens.colors.border}`,
+            borderBottom: `1px solid ${tokens.colors.border}`,
+          }}
+        >
+          <Typography sx={{ fontSize: '0.72rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+            {category}
+          </Typography>
+          <Typography sx={{ fontSize: '0.72rem', color: itemStats.rarityColor, fontWeight: 700 }}>
+            Tier {tier}
+          </Typography>
+        </Box>
+
+        <Typography
+          sx={{
+            fontSize: '0.78rem',
+            color: tokens.colors.text.disabled,
+            fontStyle: 'italic',
+            lineHeight: 1.4,
+          }}
+        >
+          &quot;{itemStats.flavorText}&quot;
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+interface BHitsPanelProps {
+  loadout: StartingLoadout;
+  animateIn: boolean;
+  onStartItem: (itemSlug: string) => void;
+}
+
+function BHitsPanel({ loadout, animateIn, onStartItem }: BHitsPanelProps) {
+  const itemSignature = loadout.items.join('|');
+  const [entryReady, setEntryReady] = useState(false);
+
+  useEffect(() => {
+    setEntryReady(false);
+
+    if (!animateIn) return;
+
+    let timer: number | undefined;
+    const frame = window.requestAnimationFrame(() => {
+      timer = window.setTimeout(() => setEntryReady(true), 520);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      if (timer) {
+        window.clearTimeout(timer);
+      }
+    };
+  }, [animateIn, itemSignature, loadout.seed]);
+
+  return (
+    <Box
+      sx={{
+        width: 'min(760px, 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1.5,
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 2, px: 0.5 }}>
+        <Typography
+          sx={{
+            fontFamily: tokens.fonts.gaming,
+            color: tokens.colors.text.primary,
+            fontSize: '0.86rem',
+            letterSpacing: 0,
+          }}
+        >
+          B&apos;s Hits
+        </Typography>
+        <Typography
+          sx={{
+            color: tokens.colors.text.disabled,
+            fontSize: '0.76rem',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          pick a starter
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          width: '100%',
+          minHeight: 390,
+          boxSizing: 'border-box',
+          borderRadius: '24px',
+          p: 3,
+          bgcolor: 'rgba(20, 20, 20, 0.82)',
+          position: 'relative',
+          overflow: 'visible',
+        }}
+      >
+        <Box
+          data-testid="home-card-spinner"
+          sx={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            width: 34,
+            height: 34,
+            borderRadius: '50%',
+            border: `3px solid ${tokens.colors.primary}2e`,
+            borderTopColor: tokens.colors.primary,
+            opacity: animateIn && !entryReady ? 1 : 0,
+            transform: 'translate(-50%, -50%)',
+            transition: 'opacity 280ms ease',
+            animation: `${spinnerRotate} 1.15s linear infinite`,
+            pointerEvents: 'none',
+            '@media (prefers-reduced-motion: reduce)': {
+              animation: 'none',
+            },
+          }}
+        />
+        <Box
+          sx={{
+            width: '100%',
+            minHeight: 318,
+            boxSizing: 'border-box',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, minmax(170px, 220px))',
+            alignItems: 'stretch',
+            justifyContent: 'center',
+            gap: 3,
+          }}
+        >
+          {loadout.items.map((itemSlug, index) => {
+            const itemName = getItemName(itemSlug);
+            const itemStats = generateItemStats(itemSlug, loadout.seed, index);
+            const baseItem = LOADOUT_ITEMS[itemSlug];
+
+            return (
+              <BHitCard
+                key={`${itemSlug}-${index}`}
+                itemSlug={itemSlug}
+                itemName={itemName}
+                itemStats={itemStats}
+                category={baseItem?.category || 'misc'}
+                index={index}
+                animateIn={animateIn && entryReady}
+                onStart={() => onStartItem(itemSlug)}
+              />
+            );
+          })}
+        </Box>
+      </Box>
     </Box>
   );
 }
@@ -1158,8 +1374,10 @@ export function HomeDashboard() {
   const [fullTypingText, setFullTypingText] = useState('');
   const [ambientIndex, setAmbientIndex] = useState(0);
 
-  // Boot sequence state - full animation on page load: slide → skull-hero → ui-reveal → items-drop → active
-  const [bootPhase, setBootPhase] = useState<BootPhase>('slide');
+  // Boot sequence state - static skeleton shell into calm content reveal.
+  const [didUseDocumentBootShell] = useState(() => shouldUseInitialHomeBootShell());
+  const [bootPhase, setBootPhase] = useState<BootPhase>(() => didUseDocumentBootShell ? 'active' : 'slide');
+  const [showHomeFallback, setShowHomeFallback] = useState(() => !didUseDocumentBootShell);
   const [asciiRowsVisible, setAsciiRowsVisible] = useState(0);
   const [uiAsciiRowsVisible, setUiAsciiRowsVisible] = useState(0);
 
@@ -1276,10 +1494,10 @@ export function HomeDashboard() {
     // Save the new seed for persistence
     saveCurrentSeed(newLoadout.seed);
 
-    // Quick item swap - just replay the items-drop animation, no full loading screen
-    // This keeps the UI responsive and only swaps the cards
-    setBootPhase('items-drop');
-    setTimeout(() => setBootPhase('active'), 1100);
+    // Keep rerolls as a direct content swap; the skeleton only belongs to first load.
+    if (bootPhase !== 'active') {
+      setBootPhase('active');
+    }
 
     // Shuffle NPCs from preloaded cache - visitors through eternity
     const shuffledNpcs = [...validNpcs].sort(() => Math.random() - 0.5);
@@ -1337,17 +1555,15 @@ export function HomeDashboard() {
   // ============================================
 
   useEffect(() => {
-    // Boot sequence timing - ASCII skull loads -> UI slides in -> items drop, skull explodes
-    // ASCII: 29 rows × 25ms = 725ms, then hold to admire
+    // The static HTML splash covers slow SPA boot. Once React is mounted,
+    // keep a calm minimum beat before fading into the homepage.
     const timings: Record<BootPhase, { next: BootPhase | null; delay: number }> = {
-      slide: { next: 'skull-hero', delay: 100 },           // Brief setup
-      'skull-hero': { next: 'ui-reveal', delay: 1800 },    // ASCII loads (725ms) + nice hold (~1s)
-      'ui-reveal': { next: 'items-drop', delay: 600 },     // Top rail + stream slide in
-      'items-drop': { next: 'active', delay: 1100 },       // Items drop centered, skull explodes, cards spread
+      slide: { next: 'skull-hero', delay: 120 },
+      'skull-hero': { next: 'ui-reveal', delay: 650 },
+      'ui-reveal': { next: 'active', delay: 720 },
       active: { next: null, delay: 0 },
       launching: { next: null, delay: 0 },                  // Launching state (handled by handlePlay)
     };
-    // Total: 100 + 1800 + 600 + 900 = 3400ms
 
     const current = timings[bootPhase];
     if (!current.next) return;
@@ -1360,6 +1576,26 @@ export function HomeDashboard() {
 
     return () => clearTimeout(timer);
   }, [bootPhase, currentLoadout.seed]);
+
+  useEffect(() => {
+    if (didUseDocumentBootShell) {
+      const timer = window.setTimeout(() => {
+        window.__NDG_BOOT_SHELL_PENDING__ = false;
+      }, 100);
+      return () => window.clearTimeout(timer);
+    }
+  }, [didUseDocumentBootShell]);
+
+  useEffect(() => {
+    if (bootPhase === 'active') {
+      const timer = setTimeout(() => setShowHomeFallback(false), 1200);
+      return () => clearTimeout(timer);
+    }
+
+    if (bootPhase !== 'launching') {
+      setShowHomeFallback(true);
+    }
+  }, [bootPhase]);
 
   // Save seed to localStorage for sidebar sync
   useEffect(() => {
@@ -1808,6 +2044,17 @@ export function HomeDashboard() {
     }, 600);
   };
 
+  const handleStartWithItem = (itemSlug: string) => {
+    playUIClick();
+    sessionStorage.setItem('ndg-starting-loadout', JSON.stringify({
+      ...currentLoadout,
+      items: [itemSlug],
+      quickLaunch: true,
+      entryPoint: 'home-item',
+    }));
+    navigate('/play');
+  };
+
   const handleQuickPrompt = (prompt: QuickPrompt) => {
     // Inject player question into stream
     const playerQuestion: StreamMessage = {
@@ -1851,39 +2098,40 @@ export function HomeDashboard() {
   // Render
   // ============================================
 
-  // Show loading state matching the HTML splash until boot sequence starts
-  if (bootPhase === 'slide') {
-    return (
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        minHeight: '60vh',
-      }}>
-        <Box
-          component="img"
-          src="/logos/ndg-skull-dome.svg"
-          alt="Loading"
-          sx={{
-            width: 48,
-            height: 54,
-            animation: `${pulse} 1.5s ease-in-out infinite`,
-          }}
-        />
-      </Box>
-    );
-  }
+  const homeContentVisible = bootPhase === 'active' || bootPhase === 'launching';
 
   return (
     <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
       height: '100%', // Fill parent container (Shell provides the height)
+      minHeight: 'calc(100vh - 64px)',
       maxHeight: '100vh', // Cap at viewport height
       overflow: 'hidden',
       overflowX: 'hidden', // Explicitly prevent horizontal scroll
       position: 'relative',
+      bgcolor: tokens.colors.background.default,
+    }}>
+    {showHomeFallback && (
+      <HomeBootFallback
+        sidebarExpanded={sidebarExpanded}
+        exiting={homeContentVisible}
+      />
+    )}
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      maxHeight: '100vh',
+      overflow: 'hidden',
+      overflowX: 'hidden',
+      position: 'relative',
+      opacity: homeContentVisible ? 1 : 0,
+      transform: homeContentVisible ? 'translateY(0)' : 'translateY(8px)',
+      transition: 'opacity 1200ms ease 180ms, transform 1200ms ease 180ms',
+      pointerEvents: homeContentVisible ? 'auto' : 'none',
+      '@media (prefers-reduced-motion: reduce)': {
+        transition: 'none',
+        transform: 'none',
+      },
     }}>
       {/* Top: Player Identity + Badges */}
       <Box sx={{ position: 'relative', px: sidebarExpanded ? 2 : 3, pt: 2, pb: 0, overflow: 'hidden', transition: 'padding 200ms ease' }}>
@@ -2384,74 +2632,28 @@ export function HomeDashboard() {
           </Box>
         </Box>
 
-        {/* Right Column - Oversized Item Cards */}
+        {/* Right Column - B's Hits item-first entry cards */}
         <Box sx={{
           flex: 1,
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'center',
-          pt: 6,
-          gap: 3,
+          pt: 7,
           position: 'relative',
           minWidth: 0,
-          // overflow handled by scaled content fitting within container
+          opacity: homeContentVisible ? 1 : 0,
+          transform: homeContentVisible ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 720ms ease 520ms, transform 720ms ease 520ms',
+          '@media (prefers-reduced-motion: reduce)': {
+            transition: 'none',
+            transform: 'none',
+          },
         }}>
-          {/* Oversized Item Cards with Grid Pattern - Balatro Style */}
-          {(bootPhase === 'items-drop' || bootPhase === 'active') && (
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '100%',
-              minWidth: 'fit-content',
-              px: 4,
-              py: 3,
-              zIndex: 5,
-            }}>
-              {/* Dealer's mat background */}
-              <Box sx={{
-                bgcolor: 'rgba(30, 30, 35, 0.6)',
-                borderRadius: '24px',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                px: 6,
-                py: 4,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexWrap: 'nowrap',
-                flexShrink: 0,
-                gap: sidebarExpanded ? 3 : 4.5,
-                // Fade in during ui-reveal phase
-                opacity: bootPhase === 'active' ? 1 : 0.8,
-                transition: 'opacity 600ms ease-out, transform 200ms ease-out, gap 200ms ease',
-                // Scale down to fit available space
-                transform: sidebarExpanded ? 'scale(0.7)' : 'scale(0.85)',
-                transformOrigin: 'center top',
-              }}>
-                {currentLoadout.items.map((itemSlug, i) => {
-                const itemName = getItemName(itemSlug);
-                const itemStats = generateItemStats(itemSlug, currentLoadout.seed, i);
-                const baseItem = LOADOUT_ITEMS[itemSlug];
-
-                // Stable rotation variance based on index for "dealt" feel
-                const baseRotation = (i - 1) * 2; // -2, 0, +2 degrees for subtle tilt
-
-                return (
-                  <ItemCard
-                    key={`${itemSlug}-${i}`}
-                    itemSlug={itemSlug}
-                    itemName={itemName}
-                    itemStats={itemStats}
-                    category={baseItem?.category || 'misc'}
-                    baseRotation={baseRotation}
-                    index={i}
-                    bootPhase={bootPhase}
-                  />
-                );
-                })}
-              </Box>
-            </Box>
-          )}
+          <BHitsPanel
+            loadout={currentLoadout}
+            animateIn={homeContentVisible}
+            onStartItem={handleStartWithItem}
+          />
         </Box>
 
         {/* Click-outside overlay (invisible, no backdrop) */}
@@ -2718,7 +2920,7 @@ export function HomeDashboard() {
             }}
           >
             {/* Skeleton Loader for Chat Stream - chess.com style staggered reveal */}
-            {(bootPhase === 'ui-reveal' || bootPhase === 'items-drop') && (
+            {bootPhase === 'ui-reveal' && (
               <Box sx={{ px: 2, py: 2 }}>
                 {[85, 70, 90, 65].map((width, i) => (
                   <Box
@@ -3220,11 +3422,12 @@ export function HomeDashboard() {
               opacity: 0.8,
             }}
           >
-            Generating fate...
+          Generating fate...
           </Typography>
         </Box>
       )}
 
+      </Box>
     </Box>
   );
 }
