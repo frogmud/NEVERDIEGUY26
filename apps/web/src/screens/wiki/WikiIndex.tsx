@@ -30,6 +30,7 @@ import {
 } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { tokens } from '../../theme';
+import { useIsMobile } from '../../components/ds';
 import { AssetImage, SortableHeader, type SortConfig } from '../../components/ds';
 import { GuestBanner } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
@@ -257,6 +258,9 @@ export function WikiIndex() {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'name', direction: 'asc' });
   const [filters, setFilters] = useState<Record<string, string | null>>({});
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+  // Mobile forces the card grid - the dense table doesn't fit a phone. Desktop honors the toggle.
+  const isMobile = useIsMobile();
+  const effectiveViewMode = isMobile ? 'grid' : viewMode;
   const [visibleCount, setVisibleCount] = useState(LAZY_LOAD_BATCH_SIZE);
   const lazyLoadRef = useRef<HTMLDivElement | null>(null);
 
@@ -271,7 +275,7 @@ export function WikiIndex() {
   const is1440 = useMediaQuery('(min-width: 1440px)');
   const is1280 = useMediaQuery('(min-width: 1280px)');
   const is1024 = useMediaQuery('(min-width: 1024px)');
-  const padding = is1440 ? '60px' : is1280 ? '30px' : is1024 ? '24px' : '18px';
+  const padding = is1440 ? '60px' : is1280 ? '30px' : is1024 ? '24px' : '8px';
 
   // Dice animation effect
   useEffect(() => {
@@ -489,10 +493,10 @@ export function WikiIndex() {
     };
 
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 1.5, borderBottom: `1px solid ${tokens.colors.border}` }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.5, px: { xs: 2, md: 3 }, py: 1.5, borderBottom: `1px solid ${tokens.colors.border}` }}>
         <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, mr: 0.5 }}>Filters</Typography>
         {Object.entries(tabFilters).map(([filterKey, config]) => (
-          <FormControl key={filterKey} size="small" sx={{ minWidth: 140 }}>
+          <FormControl key={filterKey} size="small" sx={{ minWidth: { xs: 120, md: 140 } }}>
             <Select
               value={filters[filterKey] || ''}
               onChange={(e) => setFilters(prev => ({ ...prev, [filterKey]: e.target.value || null }))}
@@ -817,7 +821,7 @@ export function WikiIndex() {
   // =============================================================================
 
   return (
-    <Box sx={{ p: padding }}>
+    <Box sx={{ p: padding, overflowX: 'hidden' }}>
       {/* Header */}
       <Typography
         variant="h1"
@@ -840,11 +844,15 @@ export function WikiIndex() {
       )}
 
       {/* Tabs */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2, maxWidth: '100%' }}>
         <Tabs
           value={activeTab}
           onChange={handleTabChange}
+          variant={isMobile ? 'scrollable' : 'standard'}
+          scrollButtons={false}
+          allowScrollButtonsMobile
           sx={{
+            maxWidth: '100%',
             '& .MuiTabs-indicator': { display: 'none' },
             '& .MuiTab-root': {
               color: tokens.colors.text.secondary,
@@ -852,7 +860,7 @@ export function WikiIndex() {
               fontWeight: 500,
               fontSize: '1rem',
               minHeight: 56,
-              px: 3,
+              px: { xs: 1.75, md: 3 },
               position: 'relative',
               '&.Mui-selected': {
                 color: tokens.colors.text.primary,
@@ -902,6 +910,7 @@ export function WikiIndex() {
               }
             }}
             sx={{
+              display: { xs: 'none', md: 'block' },
               width: 28,
               height: 28,
               ml: 2,
@@ -944,7 +953,7 @@ export function WikiIndex() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            px: 3,
+            px: { xs: 2, md: 3 },
             py: 2.25,
             borderBottom: `1px solid ${tokens.colors.border}`,
           }}
@@ -978,22 +987,24 @@ export function WikiIndex() {
               />
               <SearchIcon sx={{ color: tokens.colors.text.disabled, fontSize: 18 }} />
             </Paper>
-            <Box sx={{ display: 'flex', gap: 0.5 }}>
-              <IconButton
-                size="small"
-                onClick={() => setViewMode('table')}
-                sx={{ color: viewMode === 'table' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
-              >
-                <ViewListIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
-                onClick={() => setViewMode('grid')}
-                sx={{ color: viewMode === 'grid' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
-              >
-                <GridViewIcon fontSize="small" />
-              </IconButton>
-            </Box>
+            {!isMobile && (
+              <Box sx={{ display: 'flex', gap: 0.5 }}>
+                <IconButton
+                  size="small"
+                  onClick={() => setViewMode('table')}
+                  sx={{ color: viewMode === 'table' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
+                >
+                  <ViewListIcon fontSize="small" />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={() => setViewMode('grid')}
+                  sx={{ color: viewMode === 'grid' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
+                >
+                  <GridViewIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            )}
           </Box>
         </Box>
 
@@ -1001,14 +1012,14 @@ export function WikiIndex() {
         {renderFilters()}
 
         {/* Content - Table or Grid */}
-        {viewMode === 'table' ? (
+        {effectiveViewMode === 'table' ? (
           <TableContainer>
             <Table size="small" key={activeTab}>
               {renderTableContent()}
             </Table>
           </TableContainer>
         ) : (
-          <Box sx={{ p: 3, bgcolor: tokens.colors.background.default }}>
+          <Box sx={{ p: { xs: 1.5, md: 3 }, bgcolor: tokens.colors.background.default }}>
             <Grid container spacing={2}>
               {visibleEntities
                 .filter(e => activeTabConfig.categories.includes(e.category as WikiCategory))
@@ -1030,8 +1041,8 @@ export function WikiIndex() {
                 } else if (activeTab === 'characters') {
                   subtitle = getCharacterGroupLabel(entity.category);
                 } else if (activeTab === 'shops') {
-                  const isMobile = shop.travelPattern && shop.travelPattern.length > 0;
-                  subtitle = isMobile ? 'Mobile' : 'Fixed';
+                  const isMobileShop = shop.travelPattern && shop.travelPattern.length > 0;
+                  subtitle = isMobileShop ? 'Mobile' : 'Fixed';
                 }
 
                 // Get color for subtitle
