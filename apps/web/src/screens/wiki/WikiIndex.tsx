@@ -30,6 +30,7 @@ import {
 } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { tokens } from '../../theme';
+import { useIsMobile } from '../../components/ds';
 import { AssetImage, SortableHeader, type SortConfig } from '../../components/ds';
 import { GuestBanner } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
@@ -257,6 +258,9 @@ export function WikiIndex() {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'name', direction: 'asc' });
   const [filters, setFilters] = useState<Record<string, string | null>>({});
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+  // Mobile forces the card grid - the dense table doesn't fit a phone. Desktop honors the toggle.
+  const isMobile = useIsMobile();
+  const effectiveViewMode = isMobile ? 'grid' : viewMode;
   const [visibleCount, setVisibleCount] = useState(LAZY_LOAD_BATCH_SIZE);
   const lazyLoadRef = useRef<HTMLDivElement | null>(null);
 
@@ -978,22 +982,24 @@ export function WikiIndex() {
               />
               <SearchIcon sx={{ color: tokens.colors.text.disabled, fontSize: 18 }} />
             </Paper>
-            <Box sx={{ display: 'flex', gap: 0.5 }}>
-              <IconButton
-                size="small"
-                onClick={() => setViewMode('table')}
-                sx={{ color: viewMode === 'table' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
-              >
-                <ViewListIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
-                onClick={() => setViewMode('grid')}
-                sx={{ color: viewMode === 'grid' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
-              >
-                <GridViewIcon fontSize="small" />
-              </IconButton>
-            </Box>
+            {!isMobile && (
+              <Box sx={{ display: 'flex', gap: 0.5 }}>
+                <IconButton
+                  size="small"
+                  onClick={() => setViewMode('table')}
+                  sx={{ color: viewMode === 'table' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
+                >
+                  <ViewListIcon fontSize="small" />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={() => setViewMode('grid')}
+                  sx={{ color: viewMode === 'grid' ? tokens.colors.text.primary : tokens.colors.text.disabled }}
+                >
+                  <GridViewIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            )}
           </Box>
         </Box>
 
@@ -1001,7 +1007,7 @@ export function WikiIndex() {
         {renderFilters()}
 
         {/* Content - Table or Grid */}
-        {viewMode === 'table' ? (
+        {effectiveViewMode === 'table' ? (
           <TableContainer>
             <Table size="small" key={activeTab}>
               {renderTableContent()}
@@ -1030,8 +1036,8 @@ export function WikiIndex() {
                 } else if (activeTab === 'characters') {
                   subtitle = getCharacterGroupLabel(entity.category);
                 } else if (activeTab === 'shops') {
-                  const isMobile = shop.travelPattern && shop.travelPattern.length > 0;
-                  subtitle = isMobile ? 'Mobile' : 'Fixed';
+                  const isMobileShop = shop.travelPattern && shop.travelPattern.length > 0;
+                  subtitle = isMobileShop ? 'Mobile' : 'Fixed';
                 }
 
                 // Get color for subtitle
