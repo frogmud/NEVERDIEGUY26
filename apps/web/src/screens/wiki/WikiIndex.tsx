@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, type ReactNode } from 'react';
 import { useNavigate, useParams, useSearchParams, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
@@ -11,15 +11,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Pagination,
   Tabs,
   Tab,
   Grid,
   Select,
   MenuItem,
   FormControl,
+  Skeleton,
   Tooltip,
   useMediaQuery,
+  type SxProps,
+  type Theme,
 } from '@mui/material';
 import {
   SearchSharp as SearchIcon,
@@ -50,7 +52,7 @@ import { getRarityColor, getDifficultyColor, slugToName, getEnemyTypeColor, getE
 // CONSTANTS
 // =============================================================================
 
-const ITEMS_PER_PAGE = 15;
+const LAZY_LOAD_BATCH_SIZE = 15;
 
 // Standardized column widths - percentages for consistency
 // Icon fixed, Name 50%, remaining columns split the rest
@@ -73,6 +75,111 @@ const TABS = [
 ] as const;
 
 type TabId = typeof TABS[number]['id'];
+
+function toSxArray(sx?: SxProps<Theme>) {
+  if (!sx) return [];
+  return Array.isArray(sx) ? sx : [sx];
+}
+
+interface WikiTextCellProps {
+  children: ReactNode;
+  color?: string;
+  loading?: boolean;
+  skeletonWidth?: number | string;
+  sx?: SxProps<Theme>;
+}
+
+function WikiTextCell({
+  children,
+  color = tokens.colors.text.secondary,
+  loading = false,
+  skeletonWidth = '60%',
+  sx,
+}: WikiTextCellProps) {
+  if (loading) {
+    return (
+      <Skeleton
+        variant="text"
+        width={skeletonWidth}
+        sx={{ bgcolor: tokens.colors.background.elevated }}
+      />
+    );
+  }
+
+  return (
+    <Typography variant="body2" sx={[{ color }, ...toSxArray(sx)]}>
+      {children}
+    </Typography>
+  );
+}
+
+interface WikiArtworkCellProps {
+  src: string;
+  alt: string;
+  category: WikiCategory;
+  width?: number;
+  height?: number;
+  sx?: SxProps<Theme>;
+}
+
+function WikiArtworkCell({
+  src,
+  alt,
+  category,
+  width = 48,
+  height = 48,
+  sx,
+}: WikiArtworkCellProps) {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false);
+  }, [src, alt, category]);
+
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        width,
+        height,
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {!loaded && (
+        <Skeleton
+          variant="rectangular"
+          width={width}
+          height={height}
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            bgcolor: tokens.colors.background.elevated,
+            borderRadius: 0.5,
+          }}
+        />
+      )}
+      <AssetImage
+        src={src}
+        alt={alt}
+        category={category}
+        width={width}
+        height={height}
+        fallback="placeholder"
+        onLoad={() => setLoaded(true)}
+        sx={[
+          {
+            borderRadius: 0.5,
+            opacity: loaded ? 1 : 0,
+            transition: 'opacity 120ms ease-out',
+          },
+          ...toSxArray(sx),
+        ]}
+      />
+    </Box>
+  );
+}
 
 // Filter options per tab with labels
 const FILTER_OPTIONS: Record<string, Record<string, { label: string; allLabel: string; options: readonly string[] }>> = {
@@ -140,22 +247,13 @@ export function WikiIndex() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated } = useAuth();
 
-  // Page from URL (persists across navigation)
-  const page = parseInt(searchParams.get('page') || '1', 10);
-  const setPage = (newPage: number) => {
-    if (newPage === 1) {
-      searchParams.delete('page');
-    } else {
-      searchParams.set('page', String(newPage));
-    }
-    setSearchParams(searchParams, { replace: true });
-  };
-
   // State
   const [searchQuery, setSearchQuery] = useState('');
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'name', direction: 'asc' });
   const [filters, setFilters] = useState<Record<string, string | null>>({});
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+  const [visibleCount, setVisibleCount] = useState(LAZY_LOAD_BATCH_SIZE);
+  const lazyLoadRef = useRef<HTMLDivElement | null>(null);
 
   // Dice animation state - random dice variant on each page load
   const [diceVariant] = useState(() => Math.floor(Math.random() * DICE_VARIANTS.length));
@@ -286,31 +384,45 @@ export function WikiIndex() {
     });
   }, [filteredEntities, sortConfig]);
 
-  // Paginate
-  const totalPages = Math.ceil(sortedEntities.length / ITEMS_PER_PAGE);
-  const paginatedEntities = sortedEntities.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  );
+  const visibleEntities = sortedEntities.slice(0, visibleCount);
+  const hasMoreEntities = visibleEntities.length < sortedEntities.length;
+
+  useEffect(() => {
+    if (!searchParams.has('page')) return;
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('page');
+    setSearchParams(nextParams, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   // Reset state when tab changes
   useEffect(() => {
-    // Clear page from URL
-    if (searchParams.has('page')) {
-      searchParams.delete('page');
-      setSearchParams(searchParams, { replace: true });
-    }
     setFilters({});
     setSearchQuery('');
   }, [activeTab]);
 
-  // Reset page when search or filters change
+  // Reset lazy loading when the result set changes.
   useEffect(() => {
-    if (searchParams.has('page')) {
-      searchParams.delete('page');
-      setSearchParams(searchParams, { replace: true });
-    }
-  }, [searchQuery, filters]);
+    setVisibleCount(LAZY_LOAD_BATCH_SIZE);
+  }, [activeTab, searchQuery, filters, sortConfig]);
+
+  useEffect(() => {
+    const sentinel = lazyLoadRef.current;
+    if (!sentinel || !hasMoreEntities) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+
+        setVisibleCount(prev => Math.min(prev + LAZY_LOAD_BATCH_SIZE, sortedEntities.length));
+      },
+      { rootMargin: '320px 0px' }
+    );
+
+    observer.observe(sentinel);
+
+    return () => observer.disconnect();
+  }, [hasMoreEntities, sortedEntities.length, visibleCount]);
 
   // Handlers
   const handleTabChange = (_: React.SyntheticEvent, newValue: string) => {
@@ -326,14 +438,8 @@ export function WikiIndex() {
     });
   };
 
-  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-    window.scrollTo({ top: 400, behavior: 'smooth' });
-  };
-
   const handleRowClick = (entity: AnyEntity) => {
-    const returnTo = page > 1 ? `/wiki/${entity.category}?page=${page}` : `/wiki/${entity.category}`;
-    navigate(`/wiki/${entity.category}/${entity.slug}`, { state: { returnTo } });
+    navigate(`/wiki/${entity.category}/${entity.slug}`, { state: { returnTo: `/wiki/${entity.category}` } });
   };
 
   // Get category counts for tab badges
@@ -445,7 +551,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities.map((entity) => {
+        {visibleEntities.map((entity) => {
           const item = entity as Item;
           return (
             <TableRow
@@ -454,16 +560,16 @@ export function WikiIndex() {
               sx={rowSx}
             >
               <TableCell>
-                <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="items" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
+                <WikiArtworkCell src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="items" />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: getRarityColor(item.rarity) }}>{item.rarity || 'Common'}</Typography>
+                <WikiTextCell color={getRarityColor(item.rarity)} skeletonWidth={80}>{item.rarity || 'Common'}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>{item.itemType || '-'}</Typography>
+                <WikiTextCell skeletonWidth={90}>{item.itemType || '-'}</WikiTextCell>
               </TableCell>
             </TableRow>
           );
@@ -483,7 +589,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities.map((entity) => {
+        {visibleEntities.map((entity) => {
           const enemy = entity as Enemy;
           return (
             <TableRow
@@ -492,18 +598,18 @@ export function WikiIndex() {
               sx={rowSx}
             >
               <TableCell>
-                <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="enemies" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
+                <WikiArtworkCell src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="enemies" />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: getEnemyTypeColor(enemy.enemyType as 'Normal' | 'Elite' | 'Miniboss' | 'Boss') }}>
+                <WikiTextCell color={getEnemyTypeColor(enemy.enemyType as 'Normal' | 'Elite' | 'Miniboss' | 'Boss')} skeletonWidth={80}>
                   {enemy.enemyType || 'Normal'}
-                </Typography>
+                </WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2">{enemy.level || '-'}</Typography>
+                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={40}>{enemy.level || '-'}</WikiTextCell>
               </TableCell>
             </TableRow>
           );
@@ -523,7 +629,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities.map((entity) => {
+        {visibleEntities.map((entity) => {
           const domain = entity as Domain;
           return (
             <TableRow
@@ -544,15 +650,15 @@ export function WikiIndex() {
                 />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: getDifficultyColor(domain.difficulty || 'Normal') }}>
+                <WikiTextCell color={getDifficultyColor(domain.difficulty || 'Normal')} skeletonWidth={80}>
                   {domain.difficulty || 'Normal'}
-                </Typography>
+                </WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2">{domain.levelRange || '-'}</Typography>
+                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={70}>{domain.levelRange || '-'}</WikiTextCell>
               </TableCell>
             </TableRow>
           );
@@ -572,7 +678,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities.map((entity) => {
+        {visibleEntities.map((entity) => {
           const traveler = entity as Traveler;
           const pantheonMember = entity as Pantheon;
           const luckyNum = traveler.luckyNumber || pantheonMember.luckyNumber;
@@ -587,18 +693,18 @@ export function WikiIndex() {
               sx={rowSx}
             >
               <TableCell>
-                <AssetImage src={entity.sprites?.[0] || entity.portrait || entity.image || ''} alt={entity.name} category={entity.category as 'travelers' | 'wanderers' | 'pantheon'} width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
+                <WikiArtworkCell src={entity.sprites?.[0] || entity.portrait || entity.image || ''} alt={entity.name} category={entity.category as WikiCategory} />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>{typeLabel}</Typography>
+                <WikiTextCell skeletonWidth={90}>{typeLabel}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2">
+                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={56}>
                   {luckyNum === 7 ? 'ALL' : luckyNum || '-'}
-                </Typography>
+                </WikiTextCell>
               </TableCell>
             </TableRow>
           );
@@ -618,7 +724,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities
+        {visibleEntities
           .filter(e => e.category === 'shops')
           .map((entity) => {
             const shop = entity as Shop;
@@ -631,15 +737,15 @@ export function WikiIndex() {
                 sx={rowSx}
               >
                 <TableCell>
-                  <AssetImage src={entity.sprites?.[0] || entity.portrait || entity.image || ''} alt={entity.name} category="shops" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
+                  <WikiArtworkCell src={entity.sprites?.[0] || entity.portrait || entity.image || ''} alt={entity.name} category="shops" />
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                  <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" sx={{ color: isMobile ? tokens.colors.warning : tokens.colors.text.secondary }}>
+                  <WikiTextCell color={isMobile ? tokens.colors.warning : tokens.colors.text.secondary} skeletonWidth={90}>
                     {isMobile ? 'Mobile' : shop.location ? slugToName(shop.location) : 'Fixed'}
-                  </Typography>
+                  </WikiTextCell>
                 </TableCell>
                 <TableCell></TableCell>
               </TableRow>
@@ -660,7 +766,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities.map((entity) => {
+        {visibleEntities.map((entity) => {
           const trophy = entity as Item;
           return (
             <TableRow
@@ -669,13 +775,13 @@ export function WikiIndex() {
               sx={rowSx}
             >
               <TableCell>
-                <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="trophies" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
+                <WikiArtworkCell src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="trophies" />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: getRarityColor(trophy.rarity) }}>{trophy.rarity || 'Common'}</Typography>
+                <WikiTextCell color={getRarityColor(trophy.rarity)} skeletonWidth={80}>{trophy.rarity || 'Common'}</WikiTextCell>
               </TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -696,7 +802,7 @@ export function WikiIndex() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {paginatedEntities.map((entity) => {
+        {visibleEntities.map((entity) => {
           const faction = entity as Faction;
           return (
             <TableRow
@@ -705,18 +811,18 @@ export function WikiIndex() {
               sx={rowSx}
             >
               <TableCell>
-                <AssetImage src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="factions" width={48} height={48} fallback="placeholder" sx={{ borderRadius: 0.5 }} />
+                <WikiArtworkCell src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="factions" />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.secondary }}>{entity.name}</Typography>
+                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ color: tokens.colors.text.secondary }}>{faction.element || 'Neutral'}</Typography>
+                <WikiTextCell skeletonWidth={80}>{faction.element || 'Neutral'}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <Typography variant="body2">
+                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={56}>
                   {faction.luckyNumber === 7 ? 'ALL' : faction.luckyNumber ?? '-'}
-                </Typography>
+                </WikiTextCell>
               </TableCell>
             </TableRow>
           );
@@ -936,7 +1042,7 @@ export function WikiIndex() {
         ) : (
           <Box sx={{ p: 3, bgcolor: tokens.colors.background.default }}>
             <Grid container spacing={2}>
-              {paginatedEntities
+              {visibleEntities
                 .filter(e => activeTabConfig.categories.includes(e.category as WikiCategory))
                 .map((entity) => {
                 const item = entity as Item;
@@ -983,7 +1089,7 @@ export function WikiIndex() {
                     <Paper
                       component={RouterLink}
                       to={`/wiki/${entity.category}/${entity.slug}`}
-                      state={{ returnTo: page > 1 ? `/wiki/${entity.category}?page=${page}` : `/wiki/${entity.category}` }}
+                      state={{ returnTo: `/wiki/${entity.category}` }}
                       elevation={0}
                       sx={{
                         p: 2.5,
@@ -1060,34 +1166,18 @@ export function WikiIndex() {
           </Box>
         )}
 
-        {/* Pagination or Count */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 2, borderTop: `1px solid ${tokens.colors.border}` }}>
-          {totalPages > 1 ? (
-            <Pagination
-              count={totalPages}
-              page={page}
-              onChange={handlePageChange}
-              sx={{
-                '& .MuiPaginationItem-root': {
-                  color: tokens.colors.text.secondary,
-                  borderColor: tokens.colors.border,
-                  '&.Mui-selected': {
-                    bgcolor: tokens.colors.background.elevated,
-                    color: tokens.colors.text.primary,
-                  },
-                },
-              }}
-            />
-          ) : (
-            <Typography variant="body2" sx={{ color: tokens.colors.text.disabled }}>
-              Showing {sortedEntities.length} of {sortedEntities.length} {activeTabConfig.label}
-            </Typography>
-          )}
+        <Box
+          ref={lazyLoadRef}
+          sx={{ display: 'flex', justifyContent: 'center', py: 2, borderTop: `1px solid ${tokens.colors.border}` }}
+        >
+          <Typography variant="body2" sx={{ color: tokens.colors.text.disabled }}>
+            Showing {visibleEntities.length} of {sortedEntities.length} {activeTabConfig.label}
+          </Typography>
         </Box>
       </Paper>
 
       {/* Empty state */}
-      {paginatedEntities.length === 0 && (
+      {sortedEntities.length === 0 && (
         <Box sx={{ textAlign: 'center', py: 8 }}>
           <Typography variant="h6" sx={{ color: tokens.colors.text.disabled, mb: 1 }}>
             No results found
