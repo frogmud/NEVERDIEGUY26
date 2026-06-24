@@ -36,7 +36,7 @@ import { useSoundContext } from '../../contexts/SoundContext';
 import { searchEntities, type AnyEntity } from '../../data/wiki';
 import { getCategoryInfo, getElementInfo } from '../../data/wiki/helpers';
 import type { Domain } from '../../data/wiki/types';
-import { loadCurrentSeed, hasSavedRun, getRunHistoryStats } from '../../data/player/storage';
+import { loadCurrentSeed, isReturningPlayer } from '../../data/player/storage';
 import { Switch } from '@neverdieguy/ui';
 import { useGameSettings } from '../../contexts/GameSettingsContext';
 
@@ -48,6 +48,11 @@ interface AppSidebarProps {
   isMobile?: boolean;
 }
 
+// Shared styles for the account/settings popup rows - identical across the
+// All settings / Help / Log out items, defined once.
+const menuItemSx = { gap: 1.5, py: 1 };
+const menuIconSx = { fontSize: 20, color: tokens.colors.text.secondary };
+
 export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onToggleExpand, isMobile = false }: AppSidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,10 +63,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
   // Returning players (resumable run or completed-run history) can switch the home
   // into the stripped "New Guy" launcher. Re-checked on navigation so it stays fresh
   // after a first run, without re-parsing localStorage on every sidebar re-render.
-  const isReturning = useMemo(
-    () => hasSavedRun() || getRunHistoryStats().totalRuns > 0,
-    [location.pathname],
-  );
+  const isReturning = useMemo(() => isReturningPlayer(), [location.pathname]);
 
   // Skull pulse state — triggers on logo click, resets on navigation
   const [skullLoading, setSkullLoading] = useState(false);
@@ -709,9 +711,9 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {/* All settings */}
           <MenuItem
             onClick={() => { playUIClick(); navigate('/settings'); setSettingsAnchor(null); }}
-            sx={{ gap: 1.5, py: 1 }}
+            sx={menuItemSx}
           >
-            <BuildIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+            <BuildIcon sx={menuIconSx} />
             <Typography sx={{ fontSize: '0.85rem' }}>All settings</Typography>
           </MenuItem>
 
@@ -719,7 +721,7 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {isReturning && (
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, px: 1.5, py: 1 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <HomeViewIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+                <HomeViewIcon sx={menuIconSx} />
                 <Typography sx={{ fontSize: '0.85rem' }}>New Guy view</Typography>
               </Box>
               <Switch
@@ -735,9 +737,9 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {/* Help */}
           <MenuItem
             onClick={() => { playUIClick(); navigate('/help'); setSettingsAnchor(null); }}
-            sx={{ gap: 1.5, py: 1 }}
+            sx={menuItemSx}
           >
-            <HelpIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+            <HelpIcon sx={menuIconSx} />
             <Typography sx={{ fontSize: '0.85rem' }}>Help & support</Typography>
           </MenuItem>
 
@@ -745,9 +747,9 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           {isAuthenticated && (
             <MenuItem
               onClick={() => { playUIClick(); setSettingsAnchor(null); }}
-              sx={{ gap: 1.5, py: 1 }}
+              sx={menuItemSx}
             >
-              <LogoutIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+              <LogoutIcon sx={menuIconSx} />
               <Typography sx={{ fontSize: '0.85rem' }}>Log out</Typography>
             </MenuItem>
           )}

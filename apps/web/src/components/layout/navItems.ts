@@ -10,10 +10,14 @@ export type NavItem = {
   requiresAuth?: boolean; // If true, hide when not authenticated
 };
 
+// Nav icon asset paths - single source so BottomNav and the sidebar agree.
+export const PLAY_ICON_SRC = '/assets/nav/nav1-play.svg';
+export const WIKI_ICON_SRC = '/assets/nav/nav2-wiki.svg';
+
 // MVP Nav: Core navigation entries (keep minimal)
 export const navItems: NavItem[] = [
-  { label: 'Play', iconSrc: '/assets/nav/nav1-play.svg', path: '/play' },
-  { label: 'Wiki', iconSrc: '/assets/nav/nav2-wiki.svg', path: '/wiki' },
+  { label: 'Play', iconSrc: PLAY_ICON_SRC, path: '/play' },
+  { label: 'Wiki', iconSrc: WIKI_ICON_SRC, path: '/wiki' },
 ];
 
 export const DRAWER_WIDTH_COLLAPSED = 58;

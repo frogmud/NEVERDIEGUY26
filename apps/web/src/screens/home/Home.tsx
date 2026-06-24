@@ -21,18 +21,17 @@ import { HomeDashboard } from '../../components/HomeDashboard';
 import { NewGuyHome } from './NewGuyHome';
 import { useGameSettings } from '../../contexts/GameSettingsContext';
 import { useIsMobile } from '../../components/ds';
-import { hasSavedRun, getRunHistoryStats } from '../../data/player/storage';
+import { isReturningPlayer } from '../../data/player/storage';
 
 export function Home() {
   const { homeView } = useGameSettings();
   const isMobile = useIsMobile();
 
   // A "returning" player has a resumable run or completed-run history.
-  const isReturning = useMemo(
-    () => hasSavedRun() || getRunHistoryStats().totalRuns > 0,
-    [],
-  );
+  const isReturning = useMemo(() => isReturningPlayer(), []);
 
+  // Mobile always gets the launcher; otherwise honor the preference. 'dashboard'
+  // (and 'auto' for a returning player) falls through to the dashboard below.
   const showNewGuy =
     isMobile ||
     homeView === 'newguy' ||
