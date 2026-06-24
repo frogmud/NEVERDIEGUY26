@@ -10,7 +10,6 @@
 import { Box } from '@mui/material';
 import { tokens } from '../../theme';
 import { HomeDashboard } from '../../components/HomeDashboard';
-// Legacy: import { HomeChatter } from '../../components/HomeChatter';
 
 export function Home() {
   return (
