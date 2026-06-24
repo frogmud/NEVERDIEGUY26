@@ -23,7 +23,7 @@ import { WikiLink } from '../../../components/WikiLink';
 import { BaseCard } from '../../../components/BaseCard';
 import { SectionHeader } from '../../../components/SectionHeader';
 import { CardHeader, AssetImage } from '../../../components/ds';
-import { getRarityColor, slugToName } from '../../../data/wiki/helpers';
+import { formatBoneDie, getRarityColor, slugToName } from '../../../data/wiki/helpers';
 import type { AnyEntity, Item, WikiCategory } from '../../../data/wiki/types';
 import { getEntity } from '../../../data/wiki';
 
@@ -194,14 +194,14 @@ export function WikiItem({ entity }: WikiItemProps) {
           overflow: 'hidden',
         }}
       >
-        <CardHeader title="Quick Info" />
+        <CardHeader title="Facts" />
         <Box sx={{ p: 2 }}>
           {[
             { icon: ValueIcon, label: 'Value', value: itemInfo.value },
             { icon: ElementIcon, label: 'Element', value: itemInfo.element },
             { icon: TierIcon, label: 'Tier', value: `T${itemInfo.tier}` },
             { icon: TierIcon, label: 'Level', value: `Lv.${itemInfo.level}` },
-            ...(itemInfo.preferredDice ? [{ icon: DiceIcon, label: 'Dice', value: `d${itemInfo.preferredDice}` }] : []),
+            ...(itemInfo.preferredDice ? [{ icon: DiceIcon, label: 'Bone', value: formatBoneDie(itemInfo.preferredDice) }] : []),
           ].map((item) => {
             const Icon = item.icon;
             return (
@@ -237,7 +237,7 @@ export function WikiItem({ entity }: WikiItemProps) {
           entityName={itemInfo.name}
         />
       }
-      title={<PageHeader title={itemInfo.name} />}
+      title={<PageHeader title={itemInfo.name} headingVariant="h1" />}
     >
 
       {/* At a Glance */}
@@ -307,8 +307,8 @@ export function WikiItem({ entity }: WikiItemProps) {
             </Box>
             {itemInfo.preferredDice && (
               <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Dice</Typography>
-                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.25rem', fontWeight: 600 }}>d{itemInfo.preferredDice}</Typography>
+                <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>Bone</Typography>
+                <Typography sx={{ fontFamily: tokens.fonts.gaming, fontSize: '1.25rem', fontWeight: 600 }}>{formatBoneDie(itemInfo.preferredDice)}</Typography>
               </Box>
             )}
           </Box>

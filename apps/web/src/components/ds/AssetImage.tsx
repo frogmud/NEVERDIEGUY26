@@ -47,6 +47,8 @@ export interface AssetImageProps {
   objectFit?: 'contain' | 'cover' | 'fill' | 'none';
   /** Click handler */
   onClick?: () => void;
+  /** Load handler for consumers that render image loading states */
+  onLoad?: () => void;
   /** MUI sx prop for additional styling */
   sx?: SxProps<Theme>;
   /** Additional class name */
@@ -68,6 +70,7 @@ export function AssetImage({
   padded = false,
   objectFit = 'contain',
   onClick,
+  onLoad,
   sx,
   className,
 }: AssetImageProps) {
@@ -171,6 +174,7 @@ export function AssetImage({
       alt={alt}
       className={className}
       onClick={onClick}
+      onLoad={onLoad}
       onError={handleError}
       sx={{
         width,

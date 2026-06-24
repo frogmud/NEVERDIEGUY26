@@ -178,10 +178,18 @@ export function FormField({ label = true }: { label?: boolean }) {
 }
 
 // Page header
-export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+export function PageHeader({
+  title,
+  subtitle,
+  headingVariant = 'h4',
+}: {
+  title: string;
+  subtitle?: string;
+  headingVariant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+}) {
   return (
     <Box sx={{ mb: 4 }}>
-      <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
+      <Typography variant={headingVariant} sx={{ fontWeight: 600, mb: 1 }}>
         {title}
       </Typography>
       {subtitle && (

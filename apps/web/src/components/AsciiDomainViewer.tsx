@@ -34,6 +34,7 @@ interface AsciiDomainViewerProps {
   height?: number;
   cellSize?: number;
   autoRotate?: boolean;
+  asciiArt?: boolean;
 }
 
 /**
@@ -206,11 +207,13 @@ function SceneContent({
   glowColor,
   cellSize,
   autoRotate,
+  asciiArt,
 }: {
   domainColor: string;
   glowColor: string;
   cellSize: number;
   autoRotate: boolean;
+  asciiArt: boolean;
 }) {
   return (
     <>
@@ -235,7 +238,7 @@ function SceneContent({
       />
 
       {/* ASCII overlay */}
-      <AsciiOverlay color={domainColor} glowColor={glowColor} cellSize={cellSize} />
+      {asciiArt && <AsciiOverlay color={domainColor} glowColor={glowColor} cellSize={cellSize} />}
     </>
   );
 }
@@ -248,6 +251,7 @@ export function AsciiDomainViewer({
   height = 200,
   cellSize = 10,
   autoRotate = true,
+  asciiArt = true,
 }: AsciiDomainViewerProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -354,6 +358,7 @@ export function AsciiDomainViewer({
             glowColor={colors.glow}
             cellSize={cellSize}
             autoRotate={autoRotate && !isHovered}
+            asciiArt={asciiArt}
           />
         </Canvas>
       </Suspense>
