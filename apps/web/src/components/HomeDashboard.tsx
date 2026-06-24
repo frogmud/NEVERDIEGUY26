@@ -528,7 +528,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
         color: tokens.colors.text.primary,
         cursor: 'pointer',
         width: '100%',
-        height: 318,
+        height: 278,
         minWidth: 0,
         p: 0,
         overflow: 'visible',
@@ -580,7 +580,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
           opacity: itemStats.edition ? 0.55 : 0.28,
         },
         '&:hover .home-hit-image, &:focus-visible .home-hit-image': {
-          transform: 'scale(1.08) translateY(-4px)',
+          transform: 'scale(1.05) translateY(-3px)',
           filter: `
             drop-shadow(0 2px 2px rgba(0,0,0,0.2))
             drop-shadow(0 6px 8px rgba(0,0,0,0.28))
@@ -619,10 +619,10 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
           <Box
             sx={{
               position: 'absolute',
-              top: 10,
-              right: 10,
+              top: 8,
+              right: 8,
               px: 1,
-              py: 0.35,
+              py: 0.3,
               borderRadius: '8px',
               bgcolor: 'rgba(0,0,0,0.72)',
               border: '1px solid rgba(255,255,255,0.22)',
@@ -647,7 +647,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
         <Box
           sx={{
             flex: 1,
-            minHeight: 218,
+            minHeight: 184,
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
@@ -657,7 +657,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
               linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
               ${itemStats.edition ? editionChrome : `linear-gradient(135deg, ${itemStats.rarityColor}14, rgba(255,255,255,0.02))`}
             `,
-            backgroundSize: '22px 22px, 22px 22px, 100% 100%',
+            backgroundSize: '20px 20px, 20px 20px, 100% 100%',
             overflow: 'hidden',
           }}
         >
@@ -682,8 +682,8 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
               event.currentTarget.style.display = 'none';
             }}
             sx={{
-              width: 148,
-              height: 148,
+              width: 118,
+              height: 118,
               objectFit: 'contain',
               imageRendering: 'pixelated',
               position: 'relative',
@@ -701,7 +701,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
         <Box
           sx={{
             px: 2,
-            py: 1.35,
+            py: 1.15,
             borderTop: `1px solid ${tokens.colors.border}`,
             bgcolor: tokens.colors.background.elevated,
           }}
@@ -709,7 +709,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
           <Typography
             sx={{
               fontFamily: tokens.fonts.gaming,
-              fontSize: '0.78rem',
+              fontSize: '0.72rem',
               color: tokens.colors.text.primary,
               textAlign: 'center',
               lineHeight: 1.25,
@@ -721,7 +721,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, mt: 0.6 }}>
             <Typography
               sx={{
-                fontSize: '0.72rem',
+                fontSize: '0.68rem',
                 color: itemStats.rarityColor,
                 fontWeight: 700,
                 textTransform: 'capitalize',
@@ -732,7 +732,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
             </Typography>
             <Typography
               sx={{
-                fontSize: '0.68rem',
+                fontSize: '0.64rem',
                 color: tokens.colors.text.disabled,
                 textTransform: 'lowercase',
               }}
@@ -747,17 +747,17 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
         className="home-hit-tooltip"
         sx={{
           position: 'absolute',
-          top: 'calc(100% + 18px)',
+          top: 'calc(100% + 12px)',
           left: '50%',
-          width: 278,
+          width: 248,
           bgcolor: tokens.colors.background.paper,
           border: `2px solid ${itemStats.rarityColor}`,
           borderRadius: '12px',
-          p: 2,
+          p: 1.5,
           zIndex: 8,
           opacity: 0,
           visibility: 'hidden',
-          transform: 'translate(-50%, -8px)',
+          transform: 'translate(-50%, -6px)',
           transition: 'opacity 160ms ease, transform 160ms ease, visibility 160ms ease',
           boxShadow: `0 18px 42px rgba(0,0,0,0.66), 0 0 24px ${itemStats.rarityColor}45`,
           pointerEvents: 'none',
@@ -781,8 +781,8 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
             sx={{
               display: 'inline-block',
               px: 1,
-              py: 0.35,
-              mb: 1.5,
+              py: 0.3,
+              mb: 1,
               borderRadius: '6px',
               bgcolor: `${itemStats.rarityColor}20`,
               border: `1px solid ${itemStats.rarityColor}`,
@@ -791,7 +791,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
             <Typography
               sx={{
                 fontFamily: tokens.fonts.gaming,
-                fontSize: '0.6rem',
+                fontSize: '0.56rem',
                 color: itemStats.rarityColor,
                 textTransform: 'uppercase',
                 letterSpacing: 0,
@@ -802,9 +802,9 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
           </Box>
         )}
 
-        <Box sx={{ mb: 1.5 }}>
+        <Box sx={{ mb: 1 }}>
           {itemStats.buffs.map((buff, buffIndex) => (
-            <Box key={buffIndex} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.45 }}>
+            <Box key={buffIndex} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.3 }}>
               <Box
                 sx={{
                   width: 6,
@@ -814,7 +814,7 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
                   flexShrink: 0,
                 }}
               />
-              <Typography sx={{ fontSize: '0.86rem', color: tokens.colors.text.secondary }}>
+              <Typography sx={{ fontSize: '0.78rem', color: tokens.colors.text.secondary }}>
                 +{buff.value}{buff.isPercent ? '%' : ''} {buff.stat.charAt(0).toUpperCase() + buff.stat.slice(1)}
               </Typography>
             </Box>
@@ -826,26 +826,26 @@ function BHitCard({ itemSlug, itemName, itemStats, category, index, animateIn, o
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            py: 1,
-            mb: 1,
+            py: 0.75,
+            mb: 0.75,
             borderTop: `1px solid ${tokens.colors.border}`,
             borderBottom: `1px solid ${tokens.colors.border}`,
           }}
         >
-          <Typography sx={{ fontSize: '0.72rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
+          <Typography sx={{ fontSize: '0.66rem', color: tokens.colors.text.disabled, textTransform: 'uppercase' }}>
             {category}
           </Typography>
-          <Typography sx={{ fontSize: '0.72rem', color: itemStats.rarityColor, fontWeight: 700 }}>
+          <Typography sx={{ fontSize: '0.66rem', color: itemStats.rarityColor, fontWeight: 700 }}>
             Tier {tier}
           </Typography>
         </Box>
 
         <Typography
           sx={{
-            fontSize: '0.78rem',
+            fontSize: '0.7rem',
             color: tokens.colors.text.disabled,
             fontStyle: 'italic',
-            lineHeight: 1.4,
+            lineHeight: 1.35,
           }}
         >
           &quot;{itemStats.flavorText}&quot;
@@ -886,7 +886,7 @@ function BHitsPanel({ loadout, animateIn, onStartItem }: BHitsPanelProps) {
   return (
     <Box
       sx={{
-        width: 'min(760px, 100%)',
+        width: 'min(704px, 100%)',
         display: 'flex',
         flexDirection: 'column',
         gap: 1.5,
@@ -917,10 +917,10 @@ function BHitsPanel({ loadout, animateIn, onStartItem }: BHitsPanelProps) {
       <Box
         sx={{
           width: '100%',
-          minHeight: 390,
+          minHeight: 326,
           boxSizing: 'border-box',
           borderRadius: '24px',
-          p: 3,
+          p: 2.5,
           bgcolor: 'rgba(20, 20, 20, 0.82)',
           position: 'relative',
           overflow: 'visible',
@@ -950,13 +950,13 @@ function BHitsPanel({ loadout, animateIn, onStartItem }: BHitsPanelProps) {
         <Box
           sx={{
             width: '100%',
-            minHeight: 318,
+            minHeight: 278,
             boxSizing: 'border-box',
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, minmax(170px, 220px))',
+            gridTemplateColumns: 'repeat(3, minmax(150px, 196px))',
             alignItems: 'stretch',
             justifyContent: 'center',
-            gap: 3,
+            gap: 2.5,
           }}
         >
           {loadout.items.map((itemSlug, index) => {
@@ -2638,7 +2638,7 @@ export function HomeDashboard() {
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'center',
-          pt: 7,
+          pt: 5,
           position: 'relative',
           minWidth: 0,
           opacity: homeContentVisible ? 1 : 0,
