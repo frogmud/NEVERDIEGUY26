@@ -275,7 +275,7 @@ export function WikiIndex() {
   const is1440 = useMediaQuery('(min-width: 1440px)');
   const is1280 = useMediaQuery('(min-width: 1280px)');
   const is1024 = useMediaQuery('(min-width: 1024px)');
-  const padding = is1440 ? '60px' : is1280 ? '30px' : is1024 ? '24px' : '18px';
+  const padding = is1440 ? '60px' : is1280 ? '30px' : is1024 ? '24px' : '8px';
 
   // Dice animation effect
   useEffect(() => {

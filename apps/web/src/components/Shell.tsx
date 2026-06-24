@@ -80,7 +80,9 @@ export function Shell() {
                 ? `calc(${BOTTOM_NAV_HEIGHT}px + env(safe-area-inset-bottom) + 8px)`
                 : 3,
             backgroundColor: tokens.colors.background.default,
-            overflow: isPlayRoute ? 'hidden' : 'auto',
+            // Never scroll horizontally - clip x, scroll y (play routes clip both).
+            overflowX: 'hidden',
+            overflowY: isPlayRoute ? 'hidden' : 'auto',
             position: 'relative',
             minHeight: 0,
           }}
