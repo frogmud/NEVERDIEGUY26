@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { Box, Typography, ButtonBase } from '@mui/material';
 import { tokens } from '../../../../theme';
 
@@ -13,24 +12,6 @@ interface GameTabProps {
 }
 
 export function GameTab({ hasSaveData = false, savedProgress, onNewRun, onContinue }: GameTabProps) {
-  const navigate = useNavigate();
-
-  const handleNewRun = () => {
-    if (onNewRun) {
-      onNewRun();
-    } else {
-      navigate('/play/globe');
-    }
-  };
-
-  const handleContinue = () => {
-    if (onContinue) {
-      onContinue();
-    } else {
-      navigate('/play/globe');
-    }
-  };
-
   // Format progress subtitle
   const progressText = savedProgress
     ? `Domain ${savedProgress.domain}, Room ${savedProgress.room}`
@@ -69,7 +50,7 @@ export function GameTab({ hasSaveData = false, savedProgress, onNewRun, onContin
       {/* New Run Button */}
       <ActionButton
         label="New Run"
-        onClick={handleNewRun}
+        onClick={onNewRun}
         primary
       />
 
@@ -77,7 +58,7 @@ export function GameTab({ hasSaveData = false, savedProgress, onNewRun, onContin
       <ActionButton
         label="Continue"
         subtitle={progressText}
-        onClick={handleContinue}
+        onClick={onContinue}
         disabled={!hasSaveData}
       />
     </Box>

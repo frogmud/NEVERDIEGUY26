@@ -2,7 +2,7 @@
  * RunContext - Unified game state for /play shell
  *
  * Manages center panel swapping (Balatro-style) and run state.
- * Globe3D for zone selection, combat/shop/doors/summary panels swap in center.
+ * Zone selection, combat/shop/doors/summary panels swap in center.
  *
  * Now includes integrated combat state management using ai-engine combat module.
  *
@@ -234,7 +234,7 @@ interface RunContextValue {
   endRun: (won: boolean) => void;
   resetRun: () => void;
 
-  // Zone selection (Globe3D -> combat)
+  // Zone selection
   selectZone: (zone: ZoneMarker) => void;
 
   // Bones / Faces run loop
@@ -1435,7 +1435,7 @@ export function RunProvider({ children }: { children: ReactNode }) {
 
     const combatState: RunCombatState = {
       phase: 'draw',
-      hand: [], // Will be populated by DiceMeteor component
+      hand: [], // Populated when combat starts
       holdsRemaining: baseTrades + bonuses.bonusTrades,      // 2 base + item bonuses
       throwsRemaining: baseThrows + bonuses.bonusThrows,     // 3 base + item bonuses
       targetScore: getFlatScoreGoal(domain, state.heat),      // Domain + heat scaling (800-4000 base)

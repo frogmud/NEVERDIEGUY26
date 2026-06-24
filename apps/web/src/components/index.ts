@@ -53,8 +53,5 @@ export { BaseDialog, ConfirmDialog, ReportDialog, SuccessDialog } from './dialog
 export { PageHeader, TextBlock, FormField, SidebarLayout, PlaceholderCard } from './Placeholder';
 export { LeaderboardSkeleton, ProgressSkeleton, HistorySkeleton, WikiIndexSkeleton, HomeSkeleton } from './Placeholder';
 
-// Setup
-export { SidebarSetup } from './SidebarSetup';
-
 // Guest Experience
 export { GuestBanner, GuestBlockModal } from './GuestExperience';
