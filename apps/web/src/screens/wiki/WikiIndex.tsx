@@ -493,10 +493,10 @@ export function WikiIndex() {
     };
 
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 1.5, borderBottom: `1px solid ${tokens.colors.border}` }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.5, px: { xs: 2, md: 3 }, py: 1.5, borderBottom: `1px solid ${tokens.colors.border}` }}>
         <Typography variant="body2" sx={{ color: tokens.colors.text.disabled, mr: 0.5 }}>Filters</Typography>
         {Object.entries(tabFilters).map(([filterKey, config]) => (
-          <FormControl key={filterKey} size="small" sx={{ minWidth: 140 }}>
+          <FormControl key={filterKey} size="small" sx={{ minWidth: { xs: 120, md: 140 } }}>
             <Select
               value={filters[filterKey] || ''}
               onChange={(e) => setFilters(prev => ({ ...prev, [filterKey]: e.target.value || null }))}
@@ -821,7 +821,7 @@ export function WikiIndex() {
   // =============================================================================
 
   return (
-    <Box sx={{ p: padding }}>
+    <Box sx={{ p: padding, overflowX: 'hidden' }}>
       {/* Header */}
       <Typography
         variant="h1"
@@ -844,11 +844,15 @@ export function WikiIndex() {
       )}
 
       {/* Tabs */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2, maxWidth: '100%' }}>
         <Tabs
           value={activeTab}
           onChange={handleTabChange}
+          variant={isMobile ? 'scrollable' : 'standard'}
+          scrollButtons={false}
+          allowScrollButtonsMobile
           sx={{
+            maxWidth: '100%',
             '& .MuiTabs-indicator': { display: 'none' },
             '& .MuiTab-root': {
               color: tokens.colors.text.secondary,
@@ -856,7 +860,7 @@ export function WikiIndex() {
               fontWeight: 500,
               fontSize: '1rem',
               minHeight: 56,
-              px: 3,
+              px: { xs: 1.75, md: 3 },
               position: 'relative',
               '&.Mui-selected': {
                 color: tokens.colors.text.primary,
@@ -906,6 +910,7 @@ export function WikiIndex() {
               }
             }}
             sx={{
+              display: { xs: 'none', md: 'block' },
               width: 28,
               height: 28,
               ml: 2,
@@ -948,7 +953,7 @@ export function WikiIndex() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            px: 3,
+            px: { xs: 2, md: 3 },
             py: 2.25,
             borderBottom: `1px solid ${tokens.colors.border}`,
           }}
@@ -1014,7 +1019,7 @@ export function WikiIndex() {
             </Table>
           </TableContainer>
         ) : (
-          <Box sx={{ p: 3, bgcolor: tokens.colors.background.default }}>
+          <Box sx={{ p: { xs: 1.5, md: 3 }, bgcolor: tokens.colors.background.default }}>
             <Grid container spacing={2}>
               {visibleEntities
                 .filter(e => activeTabConfig.categories.includes(e.category as WikiCategory))
