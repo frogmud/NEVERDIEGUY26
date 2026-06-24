@@ -15,7 +15,7 @@
  */
 
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { Box, Paper, Typography, IconButton, LinearProgress } from '@mui/material';
+import { Box, Paper, Typography, IconButton } from '@mui/material';
 import {
   FlagSharp as FlagIcon,
   FullscreenSharp as FullscreenIcon,
@@ -57,34 +57,13 @@ import { latLngToCartesian } from '../../../games/globe-meteor/utils/sphereCoord
 import { getBonusesFromInventory } from '../../../data/items/combat-effects';
 import { getBossForZone, getBossTargetScore, type BossDefinition } from '../../../data/boss-types';
 import { BossHeartsHUD } from '../../../games/globe-meteor/components/BossHeartsHUD';
+import { HUDReticle } from './combat/CombatReticle';
+import { DamageFlash } from './combat/DamageFlash';
+import { EventTimer } from './combat/EventTimer';
 
 const gamingFont = { fontFamily: tokens.fonts.gaming };
 
-// Die shape SVG paths for HUD reticle (centered at 50,50)
-const DIE_SHAPES: Record<number, { points: string }> = {
-  4:  { points: '50,15 85,80 15,80' },                    // Triangle
-  6:  { points: '50,10 90,50 50,90 10,50' },              // Diamond
-  8:  { points: '50,10 87,30 87,70 50,90 13,70 13,30' },  // Hexagon
-  10: { points: '50,10 95,40 80,90 20,90 5,40' },         // Pentagon
-  12: { points: '50,5 75,15 90,35 90,65 75,85 50,95 25,85 10,65 10,35 25,15' }, // Decagon
-  20: { points: '50,8 82,18 92,50 82,82 50,92 18,82 8,50 18,18' }, // Octagon
-};
-
-// Die size multipliers for range visualization (d4=smallest, d20=largest)
-const DIE_SIZES: Record<number, number> = {
-  4: 0.4,
-  6: 0.5,
-  8: 0.6,
-  10: 0.7,
-  12: 0.85,
-  20: 1.0,
-};
-
-// Die colors from config
-const getDieColor = (dieType: number): string => {
-  const effect = DICE_EFFECTS[dieType];
-  return effect?.color || tokens.colors.secondary;
-};
+// DIE_SHAPES / DIE_SIZES / getDieColor moved to ./combat/dieVisuals.ts
 
 /**
  * Detect special roll patterns for NPC commentary
@@ -158,267 +137,11 @@ function detectRollRarity(values: number[], diceTypes: number[]): DiceRollEventP
   };
 }
 
-/**
- * Single die reticle layer - subtle outline only
- */
-function DieReticleLayer({ dieType, baseSize }: { dieType: number; baseSize: number }) {
-  const shape = DIE_SHAPES[dieType] || DIE_SHAPES[6];
-  const color = getDieColor(dieType);
-  const sizeMultiplier = DIE_SIZES[dieType] || 0.5;
-  const size = baseSize * sizeMultiplier;
+// DieReticleLayer + HUDReticle moved to ./combat/CombatReticle.tsx
 
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      {/* Outline only - subtle */}
-      <polygon
-        points={shape.points}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.5"
-        opacity="0.5"
-      />
-    </svg>
-  );
-}
+// DamageFlash moved to ./combat/DamageFlash.tsx
 
-/**
- * HUDReticle - Fixed center-screen targeting reticle
- * Shows stacked die shapes for all unheld dice - scales with zoom
- */
-function HUDReticle({
-  dice,
-  zoomScale = GLOBE_CONFIG.camera.initialDistance,
-  domainScale = 1
-}: {
-  dice: Array<{ sides: number; id: string }>;
-  zoomScale?: number;
-  domainScale?: number;
-}) {
-  // Base size at default zoom - represents the spread area on planet
-  const baseSize = 200; // 2x larger for better visibility
-
-  // Scale inversely with distance (closer = bigger reticle, farther = smaller)
-  // Also scale with domain size (bigger planets = bigger spread area)
-  const defaultDistance = GLOBE_CONFIG.camera.initialDistance;
-  const zoomFactor = defaultDistance / Math.max(zoomScale, GLOBE_CONFIG.camera.minDistance);
-  const adjustedSize = baseSize * zoomFactor * domainScale;
-
-  // Clamp to reasonable bounds
-  const finalSize = Math.max(60, Math.min(200, adjustedSize));
-
-  // Sort dice by size (largest first so they render behind)
-  const sortedDice = [...dice].sort((a, b) => b.sides - a.sides);
-
-  // Get the primary color (largest die)
-  const primaryColor = sortedDice.length > 0 ? getDieColor(sortedDice[0].sides) : tokens.colors.secondary;
-
-  return (
-    <Box sx={{ position: 'relative', width: finalSize, height: finalSize }}>
-      {/* Stacked die shapes (largest in back) */}
-      {sortedDice.map((die) => (
-        <DieReticleLayer key={die.id} dieType={die.sides} baseSize={finalSize} />
-      ))}
-
-      {/* Center dot - subtle */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 4,
-          height: 4,
-          bgcolor: primaryColor,
-          borderRadius: '50%',
-          opacity: 0.6,
-        }}
-      />
-    </Box>
-  );
-}
-
-/**
- * DamageFlash - Visual feedback when damage is dealt
- * Shows a flash effect and floating damage numbers
- */
-function DamageFlash({
-  impacts,
-  scoreGained
-}: {
-  impacts: Array<{ id: string; dieType: number; timestamp: number }>;
-  scoreGained: number;
-}) {
-  const [flashOpacity, setFlashOpacity] = useState(0);
-  const [damageNumbers, setDamageNumbers] = useState<Array<{ id: string; value: number; opacity: number; y: number }>>([]);
-  const lastImpactCount = useRef(0);
-
-  // Trigger damage number on new impacts (flash removed for accessibility)
-  useEffect(() => {
-    if (impacts.length > lastImpactCount.current && impacts.length > 0) {
-      // Add damage number for the score gained
-      if (scoreGained > 0) {
-        const newDamage = {
-          id: `dmg-${Date.now()}`,
-          value: scoreGained,
-          opacity: 1,
-          y: 0,
-        };
-        setDamageNumbers(prev => [...prev, newDamage]);
-
-        // Animate the damage number
-        let frame = 0;
-        const animateDamage = () => {
-          frame++;
-          setDamageNumbers(prev =>
-            prev.map(d =>
-              d.id === newDamage.id
-                ? { ...d, opacity: Math.max(0, 1 - frame / 30), y: frame * 2 }
-                : d
-            ).filter(d => d.opacity > 0)
-          );
-          if (frame < 30) {
-            requestAnimationFrame(animateDamage);
-          }
-        };
-        requestAnimationFrame(animateDamage);
-      }
-    }
-    lastImpactCount.current = impacts.length;
-  }, [impacts.length, scoreGained]);
-
-  // Get primary color from latest impact
-  const latestImpact = impacts[impacts.length - 1];
-  const flashColor = latestImpact ? getDieColor(latestImpact.dieType) : tokens.colors.primary;
-
-  return (
-    <>
-      {/* Localized flash effect - centered circle at reticle position */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 120,
-          height: 120,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${flashColor}80 0%, ${flashColor}40 40%, transparent 70%)`,
-          opacity: flashOpacity,
-          transition: 'opacity 0.1s ease-out',
-          pointerEvents: 'none',
-          zIndex: 15,
-        }}
-      />
-
-      {/* Floating damage numbers */}
-      {damageNumbers.map(dmg => (
-        <Typography
-          key={dmg.id}
-          sx={{
-            position: 'absolute',
-            top: '40%',
-            left: '50%',
-            transform: `translate(-50%, -${dmg.y}px)`,
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '2rem',
-            fontWeight: 700,
-            color: tokens.colors.warning,
-            textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(255,193,7,0.5)',
-            opacity: dmg.opacity,
-            pointerEvents: 'none',
-            zIndex: 20,
-          }}
-        >
-          +{dmg.value.toLocaleString()}
-        </Typography>
-      ))}
-    </>
-  );
-}
-
-/**
- * EventTimer - Countdown timer with visual states
- * Shows 45s countdown with color escalation and grace period indicator
- */
-function EventTimer({
-  timeRemainingMs,
-  isGracePeriod,
-  isPaused,
-}: {
-  timeRemainingMs: number;
-  isGracePeriod: boolean;
-  isPaused: boolean;
-}) {
-  const { eventDurationMs, gracePeriodMs } = FLAT_EVENT_CONFIG;
-  const progress = (timeRemainingMs / eventDurationMs) * 100;
-  const seconds = Math.ceil(timeRemainingMs / 1000);
-
-  // Color thresholds (from TIMER_BALANCE_SPEC)
-  // 45-30s: Green, 30-15s: Yellow, 15-5s: Orange, 5-0s: Red
-  const getTimerColor = () => {
-    if (isGracePeriod) return tokens.colors.secondary; // Blue during grace
-    if (seconds > 30) return tokens.colors.success; // Green
-    if (seconds > 15) return tokens.colors.warning; // Yellow
-    if (seconds > 5) return tokens.colors.rarity.legendary; // Orange
-    return tokens.colors.error; // Red
-  };
-
-  const color = getTimerColor();
-
-  return (
-    <Box sx={{ width: '100%', position: 'relative' }}>
-      {/* Timer bar */}
-      <LinearProgress
-        variant="determinate"
-        value={progress}
-        sx={{
-          height: 6,
-          borderRadius: 1,
-          bgcolor: 'rgba(255,255,255,0.1)',
-          '& .MuiLinearProgress-bar': {
-            bgcolor: color,
-            transition: isPaused ? 'none' : 'transform 0.1s linear',
-          },
-        }}
-      />
-      {/* Grace period marker */}
-      <Box
-        sx={{
-          position: 'absolute',
-          right: `${(gracePeriodMs / eventDurationMs) * 100}%`,
-          top: 0,
-          width: 2,
-          height: 6,
-          bgcolor: 'rgba(255,255,255,0.4)',
-        }}
-      />
-      {/* Time display - simplified, just seconds */}
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.5 }}>
-        <Typography
-          sx={{
-            fontFamily: tokens.fonts.gaming,
-            fontSize: '0.85rem',
-            fontWeight: 700,
-            color,
-            textShadow: seconds <= 5 ? `0 0 8px ${color}` : 'none',
-          }}
-        >
-          {seconds}s
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
+// EventTimer moved to ./combat/EventTimer.tsx
 
 /** Feed entry types for sidebar history */
 export type FeedEntryType = 'npc_chat' | 'roll' | 'trade' | 'victory' | 'defeat';
