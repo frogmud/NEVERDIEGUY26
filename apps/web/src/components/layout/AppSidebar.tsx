@@ -11,7 +11,6 @@ import {
   Tooltip,
   Collapse,
   IconButton,
-  Avatar,
   InputBase,
   Popover,
   Paper,
@@ -24,13 +23,11 @@ import {
   ExpandLessSharp as CollapseIcon,
   SearchSharp as SearchIcon,
   Group as FriendsIcon,
-  Settings as SettingsIcon,
   Build as BuildIcon,
   HelpOutlineSharp as HelpIcon,
   Info as InfoIcon,
   LogoutSharp as LogoutIcon,
-  ContrastSharp as ThemeIcon,
-  TuneSharp as CustomizeIcon,
+  HomeSharp as HomeViewIcon,
 } from '@mui/icons-material';
 import { tokens, sxPatterns } from '../../theme';
 import { navItems, type NavItem, DRAWER_WIDTH_COLLAPSED, DRAWER_WIDTH_EXPANDED, HEADER_HEIGHT } from './navItems';
@@ -39,7 +36,9 @@ import { useSoundContext } from '../../contexts/SoundContext';
 import { searchEntities, type AnyEntity } from '../../data/wiki';
 import { getCategoryInfo, getElementInfo } from '../../data/wiki/helpers';
 import type { Domain } from '../../data/wiki/types';
-import { loadCurrentSeed } from '../../data/player/storage';
+import { loadCurrentSeed, hasSavedRun, getRunHistoryStats } from '../../data/player/storage';
+import { Switch } from '@neverdieguy/ui';
+import { useGameSettings } from '../../contexts/GameSettingsContext';
 
 interface AppSidebarProps {
   expanded: boolean;
@@ -54,7 +53,15 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
   const location = useLocation();
   const { playUIClick } = useSoundContext();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { homeView, setHomeView } = useGameSettings();
+  // Returning players (resumable run or completed-run history) can switch the home
+  // into the stripped "New Guy" launcher. Re-checked on navigation so it stays fresh
+  // after a first run, without re-parsing localStorage on every sidebar re-render.
+  const isReturning = useMemo(
+    () => hasSavedRun() || getRunHistoryStats().totalRuns > 0,
+    [location.pathname],
+  );
 
   // Skull pulse state — triggers on logo click, resets on navigation
   const [skullLoading, setSkullLoading] = useState(false);
@@ -420,43 +427,68 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
         </List>
       </Box>
 
-      {/* Bottom section: Search, User, Icons */}
-      <Box sx={{ borderTop: `1px solid ${tokens.colors.border}`, pt: 1.5, pb: 1 }}>
-        {/* Search */}
-        <Tooltip title={!expanded ? 'Search' : ''} placement="right" arrow enterDelay={300}>
-          <ListItemButton
-            onClick={(e) => { playUIClick(); setSearchAnchor(e.currentTarget); }}
-            sx={{
-              mx: 0.5,
-              borderRadius: 1,
-              mb: 0.25,
-              justifyContent: expanded ? 'flex-start' : 'center',
-              px: expanded ? 1.5 : 1,
-              py: 0.75,
-            }}
-          >
-            <ListItemIcon
+      {/* Bottom section: quick actions + account/settings */}
+      <Box sx={{ borderTop: `1px solid ${tokens.colors.border}`, pt: 1.5, pb: 1, pr: expanded ? 0.5 : 0 }}>
+        {/* Quick actions: Search + About grouped (Multiplayer coming soon) */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: expanded ? 'row' : 'column',
+            justifyContent: expanded ? 'flex-start' : 'center',
+            alignItems: 'center',
+            gap: 0.5,
+            px: expanded ? 1.25 : 0.5,
+            pb: 0.5,
+          }}
+        >
+          {/* Search */}
+          <Tooltip title="Search" placement={expanded ? 'top' : 'right'} arrow enterDelay={300}>
+            <IconButton
+              onClick={(e) => { playUIClick(); setSearchAnchor(e.currentTarget); }}
               sx={{
-                minWidth: expanded ? 32 : 'auto',
-                mr: expanded ? 0.375 : 0,
+                width: 36,
+                height: 36,
                 color: tokens.colors.text.disabled,
+                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
               }}
             >
-              <SearchIcon sx={{ fontSize: 22 }} />
-            </ListItemIcon>
-            {expanded && (
-              <ListItemText
-                primary="Search"
-                primaryTypographyProps={{
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap',
+              <SearchIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
+
+          {/* About */}
+          <Tooltip title="About" placement={expanded ? 'top' : 'right'} arrow>
+            <IconButton
+              onClick={() => { playUIClick(); navigate('/about'); }}
+              sx={{
+                width: 36,
+                height: 36,
+                color: tokens.colors.text.disabled,
+                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
+              }}
+            >
+              <InfoIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
+
+          {/* Multiplayer - coming soon */}
+          <Tooltip title="Multiplayer (coming soon)" placement={expanded ? 'top' : 'right'} arrow>
+            <span>
+              <IconButton
+                disabled
+                sx={{
+                  width: 36,
+                  height: 36,
                   color: tokens.colors.text.disabled,
+                  opacity: 0.4,
+                  '&.Mui-disabled': { color: tokens.colors.text.disabled, opacity: 0.4 },
                 }}
-              />
-            )}
-          </ListItemButton>
-        </Tooltip>
+              >
+                <FriendsIcon sx={{ fontSize: 20 }} />
+              </IconButton>
+            </span>
+          </Tooltip>
+        </Box>
 
         {/* Search Popover with Input and Results */}
         <Popover
@@ -594,181 +626,131 @@ export function AppSidebar({ expanded, mobileOpen = false, onMobileClose, onTogg
           </Paper>
         </Popover>
 
-        {/* User info */}
-        {isAuthenticated && (
-          <Tooltip title={!expanded ? `guy_${currentSeed}` : ''} placement="right" arrow enterDelay={300}>
-            <ListItemButton
-              onClick={() => { playUIClick(); navigate('/profile'); }}
+        {/* Settings - opens the account + settings popup */}
+        <Tooltip title={!expanded ? 'Settings' : ''} placement="right" arrow enterDelay={300}>
+          <ListItemButton
+            onClick={(e) => { playUIClick(); setSettingsAnchor(e.currentTarget); }}
+            selected={settingsOpen}
+            sx={{
+              mx: 0.5,
+              borderRadius: 1,
+              justifyContent: expanded ? 'flex-start' : 'center',
+              px: expanded ? 1.5 : 1,
+              py: 0.75,
+              minHeight: 44, // WCAG touch target minimum
+              ...sxPatterns.selectedItem,
+            }}
+          >
+            <ListItemIcon
               sx={{
-                mx: 0.5,
-                borderRadius: 1,
-                mb: 0.25,
-                justifyContent: expanded ? 'flex-start' : 'center',
-                px: expanded ? 1.5 : 1,
-                py: 0.75,
-                minHeight: 44, // WCAG touch target minimum
+                minWidth: expanded ? 32 : 'auto',
+                mr: expanded ? 0.75 : 0,
+                color: settingsOpen ? tokens.colors.primary : tokens.colors.text.secondary,
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: expanded ? 32 : 'auto',
-                  mr: expanded ? 0.5 : 0,
+              <BuildIcon sx={{ fontSize: 22 }} />
+            </ListItemIcon>
+            {expanded && (
+              <ListItemText
+                primary="Settings"
+                primaryTypographyProps={{
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
                 }}
-              >
-                {/* Avatar cropped at shoulders */}
-                <Box sx={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  bgcolor: tokens.colors.background.elevated,
-                  flexShrink: 0,
-                }}>
-                  <Box
-                    component="img"
-                    src="/assets/characters/travelers/sprite-never-die-guy-1.png"
-                    alt={user.name}
-                    sx={{
-                      width: '140%',
-                      height: '140%',
-                      objectFit: 'cover',
-                      objectPosition: 'top center',
-                      imageRendering: 'pixelated',
-                      marginLeft: '-20%',
-                    }}
-                  />
-                </Box>
-              </ListItemIcon>
-              {expanded && (
-                <ListItemText
-                  primary={`guy_${currentSeed}`}
-                  primaryTypographyProps={{
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    whiteSpace: 'nowrap',
-                    color: tokens.colors.text.primary,
-                  }}
-                />
-              )}
-            </ListItemButton>
-          </Tooltip>
-        )}
+              />
+            )}
+          </ListItemButton>
+        </Tooltip>
 
-        {/* Stacked Icons: Multiplayer, Notifications, Settings */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: expanded ? 'row' : 'column',
-            justifyContent: expanded ? 'flex-start' : 'center',
-            alignItems: 'center',
-            gap: expanded ? 0.25 : 0.5,
-            px: expanded ? 1.5 : 0.5,
-            pt: expanded ? 0.25 : 1.5,
-            pb: 0.25,
-          }}
-        >
-          {/* Multiplayer - disabled, coming soon */}
-          <Tooltip title="Coming Soon" placement={expanded ? 'top' : 'right'} arrow>
-            <span>
-              <IconButton
-                disabled
-                sx={{
-                  width: 32,
-                  height: 32,
-                  color: tokens.colors.text.disabled,
-                  opacity: 0.4,
-                  '&.Mui-disabled': { color: tokens.colors.text.disabled, opacity: 0.4 },
-                }}
-              >
-                <FriendsIcon sx={{ fontSize: 18 }} />
-              </IconButton>
-            </span>
-          </Tooltip>
-
-          {/* About / Info */}
-          <Tooltip title="About" placement={expanded ? 'top' : 'right'} arrow>
-            <IconButton
-              onClick={() => { playUIClick(); navigate('/about'); }}
-              sx={{
-                width: 32,
-                height: 32,
-                color: tokens.colors.text.disabled,
-                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
-              }}
-            >
-              <InfoIcon sx={{ fontSize: 18 }} />
-            </IconButton>
-          </Tooltip>
-
-          {/* Settings - Direct to All Settings */}
-          <Tooltip title="All Settings" placement={expanded ? 'top' : 'right'} arrow>
-            <IconButton
-              onClick={() => { playUIClick(); navigate('/settings'); }}
-              sx={{
-                width: 32,
-                height: 32,
-                color: tokens.colors.text.disabled,
-                '&:hover': { color: tokens.colors.text.secondary, bgcolor: tokens.colors.background.elevated },
-              }}
-            >
-              <BuildIcon sx={{ fontSize: 18 }} />
-            </IconButton>
-          </Tooltip>
-        </Box>
-
-        {/* Settings Flyout Menu */}
+        {/* Account + settings popup (opens upward from the Settings button) */}
         <Menu
           anchorEl={settingsAnchor}
           open={settingsOpen}
           onClose={() => setSettingsAnchor(null)}
-          anchorOrigin={{ vertical: 'center', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'center', horizontal: 'left' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           sx={{
             '& .MuiPaper-root': {
               bgcolor: tokens.colors.background.paper,
               border: `1px solid ${tokens.colors.border}`,
               borderRadius: 2,
-              minWidth: 200,
-              ml: 1,
+              minWidth: 240,
+              mb: 1,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
             },
+            '& .MuiList-root': { py: 0.5 },
           }}
         >
+          {/* Identity - click to open profile */}
           <MenuItem
-            onClick={() => { navigate('/settings'); setSettingsAnchor(null); }}
-            sx={{ gap: 1.5, py: 1.25 }}
+            onClick={() => { playUIClick(); navigate('/profile'); setSettingsAnchor(null); }}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1.25, px: 1.5, py: 1.25 }}
           >
-            <SettingsIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
-            <Typography sx={{ fontSize: '0.9rem' }}>All Settings</Typography>
+            <Box sx={{ width: 36, height: 36, borderRadius: '6px', overflow: 'hidden', bgcolor: tokens.colors.background.elevated, flexShrink: 0 }}>
+              <Box
+                component="img"
+                src="/assets/characters/travelers/sprite-never-die-guy-1.png"
+                alt={`guy_${currentSeed}`}
+                sx={{ width: '140%', height: '140%', objectFit: 'cover', objectPosition: 'top center', imageRendering: 'pixelated', marginLeft: '-20%' }}
+              />
+            </Box>
+            <Box sx={{ minWidth: 0 }}>
+              <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: tokens.colors.text.primary, whiteSpace: 'nowrap' }}>
+                guy_{currentSeed}
+              </Typography>
+              <Typography sx={{ fontSize: '0.7rem', color: tokens.colors.text.disabled }}>
+                The Fixer
+              </Typography>
+            </Box>
           </MenuItem>
+          <Divider sx={{ borderColor: tokens.colors.border }} />
+
+          {/* All settings */}
           <MenuItem
-            onClick={() => setSettingsAnchor(null)}
-            sx={{ gap: 1.5, py: 1.25 }}
+            onClick={() => { playUIClick(); navigate('/settings'); setSettingsAnchor(null); }}
+            sx={{ gap: 1.5, py: 1 }}
           >
-            <CustomizeIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
-            <Typography sx={{ fontSize: '0.9rem' }}>Customize Sidebar</Typography>
+            <BuildIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+            <Typography sx={{ fontSize: '0.85rem' }}>All settings</Typography>
           </MenuItem>
+
+          {/* New Guy view - returning players strip the home down to the launcher */}
+          {isReturning && (
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, px: 1.5, py: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <HomeViewIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+                <Typography sx={{ fontSize: '0.85rem' }}>New Guy view</Typography>
+              </Box>
+              <Switch
+                checked={homeView === 'newguy'}
+                onChange={(checked) => { playUIClick(); setHomeView(checked ? 'newguy' : 'auto'); }}
+                size="small"
+              />
+            </Box>
+          )}
+
+          <Divider sx={{ borderColor: tokens.colors.border }} />
+
+          {/* Help */}
           <MenuItem
-            onClick={() => setSettingsAnchor(null)}
-            sx={{ gap: 1.5, py: 1.25 }}
-          >
-            <ThemeIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
-            <Typography sx={{ fontSize: '0.9rem' }}>Light UI</Typography>
-          </MenuItem>
-          <Divider sx={{ my: 0.5, borderColor: tokens.colors.border }} />
-          <MenuItem
-            onClick={() => { navigate('/help'); setSettingsAnchor(null); }}
-            sx={{ gap: 1.5, py: 1.25 }}
+            onClick={() => { playUIClick(); navigate('/help'); setSettingsAnchor(null); }}
+            sx={{ gap: 1.5, py: 1 }}
           >
             <HelpIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
-            <Typography sx={{ fontSize: '0.9rem' }}>Help & Support</Typography>
+            <Typography sx={{ fontSize: '0.85rem' }}>Help & support</Typography>
           </MenuItem>
-          <MenuItem
-            onClick={() => setSettingsAnchor(null)}
-            sx={{ gap: 1.5, py: 1.25 }}
-          >
-            <LogoutIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
-            <Typography sx={{ fontSize: '0.9rem' }}>Log Out</Typography>
-          </MenuItem>
+
+          {/* Log out */}
+          {isAuthenticated && (
+            <MenuItem
+              onClick={() => { playUIClick(); setSettingsAnchor(null); }}
+              sx={{ gap: 1.5, py: 1 }}
+            >
+              <LogoutIcon sx={{ fontSize: 20, color: tokens.colors.text.secondary }} />
+              <Typography sx={{ fontSize: '0.85rem' }}>Log out</Typography>
+            </MenuItem>
+          )}
         </Menu>
       </Box>
 

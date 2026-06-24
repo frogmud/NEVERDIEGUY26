@@ -400,7 +400,7 @@ export function DiceMeteor({
         display: 'flex',
         flexDirection: isSmall ? 'column' : 'row',
         gap: 2,
-        height: isSmall ? 'auto' : 'calc(100vh - 56px - 48px)',
+        height: isSmall ? 'auto' : 'calc(100dvh - 56px - 48px)',
         minHeight: isSmall ? 'auto' : 500,
         overflow: 'hidden',
       }}

@@ -3,6 +3,8 @@ import { Fab } from '@mui/material';
 import { KeyboardArrowUp as UpIcon } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import { tokens } from '../theme';
+import { useIsMobile } from './ds';
+import { BOTTOM_NAV_HEIGHT } from './layout/BottomNav';
 
 const FAB_SIZE = 40; // MUI small fab size
 const FAB_MARGIN = 24; // margin from edge
@@ -17,6 +19,9 @@ export function BackToTop() {
   const [visible, setVisible] = useState(false);
   const [bottomOffset, setBottomOffset] = useState(FAB_MARGIN);
   const location = useLocation();
+  const isMobile = useIsMobile();
+  // On mobile the fixed BottomNav owns the bottom of the viewport; lift the FAB above it.
+  const baseOffset = isMobile ? FAB_MARGIN + BOTTOM_NAV_HEIGHT : FAB_MARGIN;
 
   // Scroll to top on route change
   useEffect(() => {
@@ -27,6 +32,12 @@ export function BackToTop() {
   useEffect(() => {
     const handleScroll = () => {
       setVisible(window.scrollY > 300);
+
+      if (isMobile) {
+        // No footer on mobile; just keep the FAB clear of the fixed bottom nav.
+        setBottomOffset(baseOffset);
+        return;
+      }
 
       // Calculate if FAB would overlap footer
       const scrollBottom = window.scrollY + window.innerHeight;
@@ -44,7 +55,7 @@ export function BackToTop() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial check
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile, baseOffset]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

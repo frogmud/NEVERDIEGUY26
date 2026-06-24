@@ -128,7 +128,7 @@ function App() {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
           <GlobalStyles styles={globalAnimations} />
           <Routes>
         {/* Auth routes redirect to home (MVP: no login required) */}

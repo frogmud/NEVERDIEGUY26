@@ -2130,8 +2130,8 @@ export function HomeDashboard() {
   return (
     <Box sx={{
       height: '100%', // Fill parent container (Shell provides the height)
-      minHeight: 'calc(100vh - 64px)',
-      maxHeight: '100vh', // Cap at viewport height
+      minHeight: 'calc(100dvh - 64px)',
+      maxHeight: '100dvh', // Cap at viewport height
       overflow: 'hidden',
       overflowX: 'hidden', // Explicitly prevent horizontal scroll
       position: 'relative',
@@ -2147,7 +2147,7 @@ export function HomeDashboard() {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       overflow: 'hidden',
       overflowX: 'hidden',
       position: 'relative',

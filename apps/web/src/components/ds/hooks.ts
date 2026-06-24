@@ -5,6 +5,41 @@
  */
 
 import { useState, useEffect } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+/**
+ * Responsive layout boundaries (single source of truth).
+ *
+ * These encode the app's *layout-mode* decisions, NOT MUI's `sx` breakpoints
+ * (which keep their default values so existing responsive props are untouched).
+ *
+ * - MOBILE_MAX_WIDTH (768): at/below this the app uses its mobile layout - the
+ *   desktop sidebar is hidden, the bottom tab bar shows, content is single-column.
+ *   This is the "below tablet" line. Aligns with the BONES Tablet token (768).
+ * - TABLET_MAX_WIDTH (1024): at/below this (but above mobile) the desktop sidebar
+ *   collapses to icon-only.
+ */
+export const MOBILE_MAX_WIDTH = 768;
+export const TABLET_MAX_WIDTH = 1024;
+
+/**
+ * useIsMobile - true at/below 768px (the "below tablet" mobile layout).
+ *
+ * Canonical replacement for ad-hoc `useMediaQuery('(max-width: 768px)')` calls.
+ * Use this for sidebar-hidden / bottom-nav / single-column decisions.
+ */
+export function useIsMobile(): boolean {
+  return useMediaQuery(`(max-width:${MOBILE_MAX_WIDTH}px)`);
+}
+
+/**
+ * useIsTablet - true at/below 1024px (sidebar collapses to icon-only).
+ * Note: this is also true on mobile; pair with `useIsMobile()` when you need the
+ * exclusive 768-1024 band (e.g. `isTablet && !isMobile`).
+ */
+export function useIsTablet(): boolean {
+  return useMediaQuery(`(max-width:${TABLET_MAX_WIDTH}px)`);
+}
 
 /**
  * useMidnightCountdown - Returns a countdown string to midnight EST
