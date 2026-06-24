@@ -3,7 +3,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { tokens } from '../theme';
 import type { WikiCategory } from '../data/wiki/types';
-import { getCategoryInfo } from '../data/wiki/helpers';
+import { getCategoryIndexRoute, getCategoryInfo } from '../data/wiki/helpers';
 
 interface WikiBreadcrumbsProps {
   /** The wiki category (enemies, items, domains, etc.) */
@@ -25,7 +25,7 @@ export function WikiBreadcrumbs({ category, entityName }: WikiBreadcrumbsProps) 
   const categoryInfo = getCategoryInfo(category);
   const location = useLocation();
   // Use returnTo from navigation state if available (preserves page number)
-  const categoryUrl = (location.state as { returnTo?: string })?.returnTo ?? `/wiki/${category}`;
+  const categoryUrl = (location.state as { returnTo?: string })?.returnTo ?? getCategoryIndexRoute(category);
 
   return (
     <Breadcrumbs

@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
   Paper,
+  Button,
   Chip,
+  FormControlLabel,
   Grid,
+  Switch,
 } from '@mui/material';
 import {
   PlaceSharp as LocationIcon,
@@ -24,10 +28,18 @@ import { WikiBreadcrumbs } from '../../../components/WikiBreadcrumbs';
 import { WikiLink } from '../../../components/WikiLink';
 import { BaseCard } from '../../../components/BaseCard';
 import { SectionHeader } from '../../../components/SectionHeader';
+import { DataBadge } from '../../../components/DataBadge';
 import { CardHeader, AssetImage } from '../../../components/ds';
-import { getDifficultyColor, getRarityColor, getEnemyTypeColor, slugToName, getElementInfo } from '../../../data/wiki/helpers';
+import {
+  formatBoneDie,
+  formatLuckyNumber,
+  getRarityColor,
+  getEnemyTypeColor,
+  slugToName,
+  getElementInfo,
+} from '../../../data/wiki/helpers';
 import { getEntity } from '../../../data/wiki';
-import type { AnyEntity, Domain, Shop, WikiCategory, Wanderer, Enemy, Item } from '../../../data/wiki/types';
+import type { AnyEntity, Domain, Element, Shop, WikiCategory, Wanderer, Enemy, Item } from '../../../data/wiki/types';
 import { AsciiDomainViewer } from '../../../components/AsciiDomainViewer';
 
 interface WikiLocationProps {
@@ -41,6 +53,20 @@ interface DisplayConnectedArea {
   level: string;
 }
 
+const RARITY_ORDER = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Unique'];
+type BadgeRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'unique';
+
+const getRarityRank = (rarity: string) => {
+  const rank = RARITY_ORDER.indexOf(rarity);
+  return rank === -1 ? RARITY_ORDER.length : rank;
+};
+
+const getBadgeRarity = (rarity: string): BadgeRarity | undefined => {
+  const normalized = rarity.toLowerCase();
+  return ['common', 'uncommon', 'rare', 'epic', 'legendary', 'unique'].includes(normalized)
+    ? (normalized as BadgeRarity)
+    : undefined;
+};
 
 // Dynamic section configuration based on available data
 const getLocationSections = (
@@ -50,19 +76,20 @@ const getLocationSections = (
   isDomain: boolean,
 ): WikiSection[] => {
   const sections: WikiSection[] = [
-    { name: 'Quick Facts' },
-    { name: isShop ? 'Proprietor' : 'NPCs' },
+    { name: 'At a Glance' },
+    { name: isShop ? 'Proprietor' : 'Guys' },
   ];
   if (hasEnemies) sections.push({ name: 'Monsters' });
-  if (isDomain) sections.push({ name: 'Domain View' });
+  if (isDomain) sections.push({ name: 'World View' });
   sections.push({ name: isShop ? 'Shop Inventory' : 'Items Found' });
-  if (hasConnectedAreas) sections.push({ name: 'Connected Areas' });
+  if (hasConnectedAreas) sections.push({ name: 'Connected Worlds' });
   return sections;
 };
 
 export function WikiLocation({ entity }: WikiLocationProps) {
   const { category } = useParams();
   const navigate = useNavigate();
+  const [asciiArtEnabled, setAsciiArtEnabled] = useState(true);
 
   // Guard: entity should always exist (WikiEntity shows 404 for missing entities)
   if (!entity) {
@@ -79,19 +106,24 @@ export function WikiLocation({ entity }: WikiLocationProps) {
   // Check for mobile vendor (shop with travelPattern)
   const isMobileVendor = isShop && shopData?.travelPattern && shopData.travelPattern.length > 0;
   const travelPattern = shopData?.travelPattern || [];
+  const officeName = domainData?.dieRector ? slugToName(domainData.dieRector) : '-';
+  const elementName: Element = domainData?.element || 'Neutral';
+  const elementColor = getElementInfo(elementName)?.color || tokens.colors.text.secondary;
+  const doorName = domainData?.door ? `Door ${domainData.door}` : '-';
+  const boneName = formatBoneDie(domainData?.preferredDice);
+  const luckyNumber = formatLuckyNumber(domainData?.luckyNumber);
 
   // Map entity data to locationInfo format
   const locationInfo = {
     name: entity.name,
     region: isMobileVendor ? 'Mobile Vendor' : (domainData?.region || shopData?.location || '-'),
-    difficulty: domainData?.difficulty || 'Normal',
     levelRange: domainData?.levelRange || '-',
     requirements: domainData?.requirements || '-',
-    type: entity.category.charAt(0).toUpperCase() + entity.category.slice(1, -1),
+    type: isDomain ? 'World' : entity.category.charAt(0).toUpperCase() + entity.category.slice(1, -1),
   };
 
-  // Map NPCs from domain.npcs slugs to real wanderer entities
-  // For shops, use the proprietor as the NPC
+  // Map world Guys from domain.npcs slugs to real wanderer entities.
+  // For shops, use the proprietor as the Guy.
   const npcs = (() => {
     if (domainData?.npcs) {
       return domainData.npcs.map(slug => {
@@ -130,7 +162,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
     };
   }) || [];
 
-  // Map items from domain.items or shop.inventory to real item entities, grouped by rarity
+  // Map items from domain.items or shop.inventory to real item entities.
   const locationItems = (() => {
     if (domainData?.items) {
       return domainData.items.map(slug => {
@@ -139,6 +171,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           slug,
           name: item?.name || slugToName(slug),
           rarity: item?.rarity || 'Common',
+          image: item?.image || item?.sprites?.[0] || '',
         };
       });
     }
@@ -149,26 +182,15 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           slug: inv.item,
           name: item?.name || slugToName(inv.item),
           rarity: item?.rarity || 'Common',
+          image: item?.image || item?.sprites?.[0] || '',
         };
       });
     }
     return [];
   })();
 
-  // Group items by rarity
-  const itemsByRarity: Record<string, Array<{ slug: string; name: string }>> = {};
-  if (locationItems.length > 0) {
-    for (const item of locationItems) {
-      if (!itemsByRarity[item.rarity]) {
-        itemsByRarity[item.rarity] = [];
-      }
-      itemsByRarity[item.rarity].push({ slug: item.slug, name: item.name });
-    }
-  }
-
-  // Order rarities for display
-  const rarityOrder = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Unique'];
-  const hasItems = Object.keys(itemsByRarity).length > 0;
+  const sortedLocationItems = [...locationItems].sort((a, b) => getRarityRank(a.rarity) - getRarityRank(b.rarity));
+  const hasItems = sortedLocationItems.length > 0;
   const connectedAreas = domainData?.connectedAreas?.map((conn) => ({
     slug: conn.area,
     name: slugToName(conn.area),
@@ -179,6 +201,25 @@ export function WikiLocation({ entity }: WikiLocationProps) {
   // Determine which sections have data
   const hasEnemies = enemies.length > 0;
   const hasConnectedAreas = connectedAreas.length > 0;
+  const atAGlanceFacts: Array<{ label: string; value: string; icon: typeof RegionIcon; color?: string }> = isShop
+    ? [
+        { label: 'Location', value: isMobileVendor ? 'Mobile Vendor' : (shopData?.location ? slugToName(shopData.location) : 'Unknown'), icon: RegionIcon },
+        { label: 'Specialty', value: shopData?.specialty || 'General Goods', icon: ShopIcon },
+      ]
+    : [
+        { label: 'Office', value: officeName, icon: RegionIcon },
+        { label: 'Door', value: doorName, icon: LocationIcon },
+        { label: 'Element', value: elementName, icon: DifficultyIcon, color: elementColor },
+        { label: 'Bone', value: boneName, icon: RequirementIcon },
+        { label: 'Lucky No.', value: luckyNumber, icon: LocationIcon },
+      ];
+
+  const scrollToWorldView = () => {
+    document.getElementById(toAnchorId('World View'))?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
 
   // Infobox content (right sidebar)
   const infoboxContent = (
@@ -258,17 +299,28 @@ export function WikiLocation({ entity }: WikiLocationProps) {
             </Box>
           )}
         </Box>
-        {/* Only show "view full map" for domains, not shops */}
+        {/* Only show "view full map" for worlds, not shops */}
         {isDomain && (
           <Box sx={{ pb: 2 }}>
-            <Typography variant="caption" sx={{ color: tokens.colors.text.disabled }}>
-              Click to view full map
-            </Typography>
+            <Button
+              size="small"
+              onClick={scrollToWorldView}
+              sx={{
+                minHeight: 28,
+                color: tokens.colors.text.secondary,
+                fontFamily: tokens.fonts.mono,
+                fontSize: '0.68rem',
+                textTransform: 'uppercase',
+                letterSpacing: 0,
+              }}
+            >
+              Click for preview
+            </Button>
           </Box>
         )}
       </Paper>
 
-      {/* Location Info */}
+      {/* Facts */}
       <Paper
         sx={{
           mt: 2,
@@ -278,7 +330,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           overflow: 'hidden',
         }}
       >
-        <CardHeader title={isShop ? 'Shop Info' : 'Location Info'} />
+        <CardHeader title="Facts" />
         <Box sx={{ p: 3 }}>
           {isShop ? (
             // Shop-specific info
@@ -304,13 +356,14 @@ export function WikiLocation({ entity }: WikiLocationProps) {
               })}
             </>
           ) : (
-            // Domain-specific info
+            // World-specific info
             <>
               {[
-                { icon: RegionIcon, label: 'Region', value: locationInfo.region },
-                { icon: DifficultyIcon, label: 'Difficulty', value: locationInfo.difficulty, color: getDifficultyColor(locationInfo.difficulty) },
-                { icon: LocationIcon, label: 'Level', value: locationInfo.levelRange },
-                { icon: RequirementIcon, label: 'Unlock', value: locationInfo.requirements },
+                { icon: RegionIcon, label: 'Office', value: officeName },
+                { icon: LocationIcon, label: 'Door', value: doorName },
+                { icon: DifficultyIcon, label: 'Element', value: elementName, color: elementColor },
+                { icon: RequirementIcon, label: 'Bone', value: boneName },
+                { icon: LocationIcon, label: 'Lucky No.', value: luckyNumber },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -351,7 +404,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
               ))}
             </Box>
             <Typography variant="caption" sx={{ color: tokens.colors.text.disabled, mt: 1.5, display: 'block' }}>
-              This vendor travels between domains. Check each location for current availability.
+              This vendor travels between worlds. Check each location for current availability.
             </Typography>
           </Box>
         </Paper>
@@ -376,11 +429,11 @@ export function WikiLocation({ entity }: WikiLocationProps) {
           entityName={locationInfo.name}
         />
       }
-      title={<PageHeader title={locationInfo.name} />}
+      title={<PageHeader title={locationInfo.name} headingVariant="h1" />}
     >
 
-      {/* Quick Facts Bar */}
-      <WikiSectionAnchor id={toAnchorId('Quick Facts')}>
+      {/* At a Glance */}
+      <WikiSectionAnchor id={toAnchorId('At a Glance')}>
         <Paper
           sx={{
             mb: 4,
@@ -390,14 +443,9 @@ export function WikiLocation({ entity }: WikiLocationProps) {
             overflow: 'hidden',
           }}
         >
-          <CardHeader title="Quick Facts" />
+          <CardHeader title="At a Glance" />
           <Box sx={{ p: 2, display: 'flex', gap: 3, flexWrap: 'wrap' }}>
-          {[
-            { label: 'Region', value: locationInfo.region, icon: RegionIcon },
-            { label: 'Difficulty', value: locationInfo.difficulty, icon: DifficultyIcon, color: getDifficultyColor(locationInfo.difficulty) },
-            { label: 'Level', value: locationInfo.levelRange, icon: LocationIcon },
-            { label: 'Unlock', value: 'Quest Required', icon: RequirementIcon },
-          ].map((fact) => {
+          {atAGlanceFacts.map((fact) => {
             const Icon = fact.icon;
             return (
               <Box key={fact.label} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -429,12 +477,12 @@ export function WikiLocation({ entity }: WikiLocationProps) {
         </Paper>
       </WikiSectionAnchor>
 
-      {/* Two Columns: NPCs | Monsters */}
+      {/* Two Columns: Guys | Monsters */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* NPCs / Proprietor Column */}
+        {/* Guys / Proprietor Column */}
         <Grid size={{ xs: 12, md: 6 }}>
-          <WikiSectionAnchor id={toAnchorId(isShop ? 'Proprietor' : 'NPCs')}>
-            <SectionHeader title={isShop ? 'Proprietor' : 'NPCs'} sx={{ mb: 2 }} />
+          <WikiSectionAnchor id={toAnchorId(isShop ? 'Proprietor' : 'Guys')}>
+            <SectionHeader title={isShop ? 'Proprietor' : 'Guys'} sx={{ mb: 2 }} />
             <BaseCard padding={0}>
               {npcs.length > 0 ? npcs.map((npc, i) => (
                 <Box
@@ -492,7 +540,7 @@ export function WikiLocation({ entity }: WikiLocationProps) {
               )) : (
                 <Box sx={{ p: 3, textAlign: 'center' }}>
                   <Typography variant="body2" sx={{ color: tokens.colors.text.disabled }}>
-                    {isShop ? 'No proprietor data available' : 'No NPCs in this area'}
+                    {isShop ? 'No proprietor data available' : 'No Guys in this world'}
                   </Typography>
                 </Box>
               )}
@@ -566,15 +614,50 @@ export function WikiLocation({ entity }: WikiLocationProps) {
         )}
       </Grid>
 
-      {/* Domain Viewer - ASCII 3D globe for domains only */}
+      {/* World Viewer - ASCII 3D globe for worlds only */}
       {isDomain && entity?.slug && (
-        <WikiSectionAnchor id={toAnchorId('Domain View')}>
-          <SectionHeader title="Domain View" sx={{ mb: 2 }} />
+        <WikiSectionAnchor id={toAnchorId('World View')}>
+          <Box
+            sx={{
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 2,
+              flexWrap: 'wrap',
+            }}
+          >
+            <SectionHeader title="World View" sx={{ mb: 0 }} />
+            <FormControlLabel
+              control={
+                <Switch
+                  size="small"
+                  checked={asciiArtEnabled}
+                  onChange={(event) => setAsciiArtEnabled(event.target.checked)}
+                  sx={{
+                    '& .MuiSwitch-switchBase.Mui-checked': {
+                      color: tokens.colors.error,
+                    },
+                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                      backgroundColor: tokens.colors.error,
+                    },
+                  }}
+                />
+              }
+              label={
+                <Typography variant="caption" sx={{ color: tokens.colors.text.secondary }}>
+                  ASCII art
+                </Typography>
+              }
+              sx={{ mr: 0 }}
+            />
+          </Box>
           <AsciiDomainViewer
             domainSlug={entity.slug}
             height={220}
             cellSize={10}
             autoRotate={true}
+            asciiArt={asciiArtEnabled}
           />
         </WikiSectionAnchor>
       )}
@@ -632,52 +715,88 @@ export function WikiLocation({ entity }: WikiLocationProps) {
             })}
           </Grid>
         ) : (
-          // Domain items by rarity (chip cloud)
-          <BaseCard sx={{ mb: 4 }}>
+          // World items as compact linked item cards
+          <>
             {hasItems ? (
-              rarityOrder
-                .filter(rarity => itemsByRarity[rarity]?.length > 0)
-                .map((rarity) => (
-                  <Box key={rarity} sx={{ mb: 2, '&:last-child': { mb: 0 } }}>
-                    <Typography variant="caption" sx={{ color: getRarityColor(rarity), fontWeight: 500, mb: 1, display: 'block' }}>
-                      {rarity}
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                      {itemsByRarity[rarity].map((item) => (
-                        item.slug ? (
-                          <WikiLink key={item.slug} slug={item.slug} category="items" variant="chip" />
-                        ) : (
-                          <Chip
-                            key={item.name}
-                            label={item.name}
-                            size="small"
-                            sx={{
-                              bgcolor: `${getRarityColor(rarity)}20`,
-                              borderRadius: 1,
-                              cursor: 'pointer',
-                              '&:hover': { bgcolor: `${getRarityColor(rarity)}30` },
-                            }}
-                          />
-                        )
-                      ))}
-                    </Box>
-                  </Box>
-                ))
+              <Grid container spacing={2} sx={{ mb: 4 }}>
+                {sortedLocationItems.map((item) => (
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.slug || item.name}>
+                    <Paper
+                      onClick={() => item.slug && navigate(`/wiki/items/${item.slug}`)}
+                      sx={{
+                        p: 2,
+                        minHeight: 96,
+                        backgroundColor: tokens.colors.background.paper,
+                        border: `1px solid ${tokens.colors.border}`,
+                        borderRadius: '20px',
+                        cursor: item.slug ? 'pointer' : 'default',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        transition: 'border-color 160ms ease, transform 160ms ease',
+                        '&:hover': item.slug ? {
+                          borderColor: getRarityColor(item.rarity),
+                          transform: 'translateY(-1px)',
+                        } : {},
+                      }}
+                    >
+                      <AssetImage
+                        src={item.image}
+                        alt={item.name}
+                        category="items"
+                        width={56}
+                        height={56}
+                        fallback="placeholder"
+                        sx={{
+                          borderRadius: 1,
+                          bgcolor: tokens.colors.background.elevated,
+                          objectFit: 'contain',
+                          flexShrink: 0,
+                        }}
+                      />
+                      <Box sx={{ flex: 1, minWidth: 0 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 600,
+                            color: item.slug ? tokens.colors.secondary : tokens.colors.text.primary,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            mb: 0.75,
+                          }}
+                        >
+                          {item.name}
+                        </Typography>
+                        <DataBadge
+                          label={item.rarity}
+                          rarity={getBadgeRarity(item.rarity)}
+                          variant="outlined"
+                          size="sm"
+                        />
+                      </Box>
+                      {item.slug && <ArrowIcon sx={{ color: tokens.colors.text.disabled, fontSize: 18, flexShrink: 0 }} />}
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
             ) : (
-              <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Typography variant="body2" sx={{ color: tokens.colors.text.disabled }}>
-                  No items found in this area
-                </Typography>
-              </Box>
+              <BaseCard sx={{ mb: 4 }}>
+                <Box sx={{ p: 2, textAlign: 'center' }}>
+                  <Typography variant="body2" sx={{ color: tokens.colors.text.disabled }}>
+                    No items found in this area
+                  </Typography>
+                </Box>
+              </BaseCard>
             )}
-          </BaseCard>
+          </>
         )}
       </WikiSectionAnchor>
 
-      {/* Connected Areas - only show if there are connected areas */}
+      {/* Connected Worlds - only show if there are connected areas */}
       {hasConnectedAreas && (
-        <WikiSectionAnchor id={toAnchorId('Connected Areas')}>
-          <SectionHeader title="Connected Areas" sx={{ mb: 2 }} />
+        <WikiSectionAnchor id={toAnchorId('Connected Worlds')}>
+          <SectionHeader title="Connected Worlds" sx={{ mb: 2 }} />
           <Grid container spacing={2}>
             {connectedAreas.map((area: DisplayConnectedArea) => {
               const areaEntity = area.slug ? getEntity(area.slug) as Domain | undefined : undefined;

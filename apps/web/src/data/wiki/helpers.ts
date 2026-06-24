@@ -202,9 +202,9 @@ export interface CategoryInfo {
 export function getCategoryInfo(category: WikiCategory): CategoryInfo {
   const info: Record<WikiCategory, CategoryInfo> = {
     travelers: {
-      label: 'Traveler',
-      pluralLabel: 'Travelers',
-      description: 'Playable characters and their abilities',
+      label: 'Guy',
+      pluralLabel: 'Guys',
+      description: 'Playable characters and allies',
       color: tokens.colors.secondary,
     },
     enemies: {
@@ -220,9 +220,9 @@ export function getCategoryInfo(category: WikiCategory): CategoryInfo {
       color: tokens.colors.warning,
     },
     domains: {
-      label: 'Domain',
-      pluralLabel: 'Domains',
-      description: 'Game worlds and locations',
+      label: 'World',
+      pluralLabel: 'Worlds',
+      description: 'Worlds, Offices, Doors, Elements, and Bones',
       color: tokens.colors.success,
     },
     shops: {
@@ -234,13 +234,13 @@ export function getCategoryInfo(category: WikiCategory): CategoryInfo {
     pantheon: {
       label: 'Die-rector',
       pluralLabel: 'Pantheon',
-      description: 'Divine beings controlling the domains',
+      description: 'Die-rectors controlling the worlds',
       color: tokens.colors.primary,
     },
     wanderers: {
-      label: 'Wanderer',
-      pluralLabel: 'Wanderers',
-      description: 'Mobile NPCs and merchants',
+      label: 'Guy',
+      pluralLabel: 'Guys',
+      description: 'Strangers, merchants, and other non-Pantheon characters',
       color: tokens.colors.secondary,
     },
     trophies: {
@@ -250,9 +250,9 @@ export function getCategoryInfo(category: WikiCategory): CategoryInfo {
       color: tokens.colors.warning,
     },
     factions: {
-      label: 'Faction',
-      pluralLabel: 'Factions',
-      description: 'Gameplay teams for 1v1 and arena modes',
+      label: 'Affiliation',
+      pluralLabel: 'Affiliations',
+      description: 'Legacy alignment groups and membership records',
       color: tokens.colors.primary,
     },
   };
@@ -263,6 +263,29 @@ export function getCategoryInfo(category: WikiCategory): CategoryInfo {
     description: '',
     color: tokens.colors.text.secondary,
   };
+}
+
+export function getCategoryIndexRoute(category: WikiCategory): string {
+  if (category === 'domains') return '/wiki/worlds';
+  if (category === 'travelers' || category === 'wanderers' || category === 'pantheon') return '/wiki/characters';
+  if (category === 'factions') return '/wiki/characters';
+  return `/wiki/${category}`;
+}
+
+export function getCharacterGroupLabel(category: WikiCategory): string {
+  if (category === 'pantheon') return 'Pantheon';
+  if (category === 'travelers' || category === 'wanderers') return 'Guys';
+  return getCategoryInfo(category).label;
+}
+
+export function formatLuckyNumber(luckyNumber?: number): string {
+  if (luckyNumber === 7) return 'ALL';
+  if (luckyNumber === 0) return '0';
+  return luckyNumber ? String(luckyNumber) : '-';
+}
+
+export function formatBoneDie(sides?: number): string {
+  return sides ? `d${sides}` : '-';
 }
 
 // Format drop rate for display

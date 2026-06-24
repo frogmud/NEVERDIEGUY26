@@ -44,9 +44,17 @@ import {
   type Traveler,
   type Pantheon,
   type Shop,
-  type Faction,
 } from '../../data/wiki';
-import { getRarityColor, getDifficultyColor, slugToName, getEnemyTypeColor, getElementInfo } from '../../data/wiki/helpers';
+import {
+  formatBoneDie,
+  formatLuckyNumber,
+  getCategoryIndexRoute,
+  getCharacterGroupLabel,
+  getElementInfo,
+  getEnemyTypeColor,
+  getRarityColor,
+  slugToName,
+} from '../../data/wiki/helpers';
 
 // =============================================================================
 // CONSTANTS
@@ -67,9 +75,8 @@ const COL = {
 const TABS = [
   { id: 'items', label: 'Items', categories: ['items'] as WikiCategory[] },
   { id: 'enemies', label: 'Monsters', categories: ['enemies'] as WikiCategory[] },
-  { id: 'domains', label: 'Domains', categories: ['domains'] as WikiCategory[] },
+  { id: 'worlds', label: 'Worlds', categories: ['domains'] as WikiCategory[] },
   { id: 'characters', label: 'Characters', categories: ['travelers', 'wanderers', 'pantheon'] as WikiCategory[] },
-  { id: 'factions', label: 'Factions', categories: ['factions'] as WikiCategory[] },
   { id: 'shops', label: 'Shops', categories: ['shops'] as WikiCategory[] },
   { id: 'trophies', label: 'Trophies', categories: ['trophies'] as WikiCategory[] },
 ] as const;
@@ -190,20 +197,18 @@ const FILTER_OPTIONS: Record<string, Record<string, { label: string; allLabel: s
   enemies: {
     type: { label: 'Rank', allLabel: 'All Ranks', options: ['Normal', 'Elite', 'Miniboss', 'Boss'] },
   },
-  domains: {
-    difficulty: { label: 'Difficulty', allLabel: 'All Difficulties', options: ['Easy', 'Normal', 'Hard', 'Extreme'] },
+  worlds: {
+    office: { label: 'Office', allLabel: 'All Offices', options: ['The One', 'John', 'Peter', 'Robert', 'Alice', 'Jane'] },
+    element: { label: 'Element', allLabel: 'All Elements', options: ['Void', 'Earth', 'Death', 'Fire', 'Ice', 'Wind'] },
   },
   characters: {
-    type: { label: 'Type', allLabel: 'All Types', options: ['Traveler', 'Wanderer', 'Pantheon'] },
+    type: { label: 'Group', allLabel: 'All Groups', options: ['Guys', 'Pantheon'] },
   },
   shops: {
     location: { label: 'Location', allLabel: 'All Locations', options: ['Fixed', 'Mobile'] },
   },
   trophies: {
     rarity: { label: 'Rarity', allLabel: 'All Rarities', options: ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Unique'] },
-  },
-  factions: {
-    element: { label: 'Element', allLabel: 'All Elements', options: ['Void', 'Earth', 'Death', 'Fire', 'Ice', 'Wind', 'Neutral'] },
   },
 };
 
@@ -215,9 +220,9 @@ function categoryToTab(category: string | undefined): TabId {
   // Direct matches
   if (lower === 'items') return 'items';
   if (lower === 'enemies') return 'enemies';
-  if (lower === 'domains') return 'domains';
+  if (lower === 'domains' || lower === 'worlds') return 'worlds';
   if (lower === 'travelers' || lower === 'wanderers' || lower === 'pantheon' || lower === 'characters') return 'characters';
-  if (lower === 'factions') return 'factions';
+  if (lower === 'factions') return 'characters';
   if (lower === 'shops') return 'shops';
   if (lower === 'trophies') return 'trophies';
 
@@ -325,18 +330,18 @@ export function WikiIndex() {
             if (activeTab === 'items') return (entity as Item).itemType === value;
             if (activeTab === 'enemies') return (entity as Enemy).enemyType === value;
             if (activeTab === 'characters') {
-              const typeMap: Record<string, string> = { 'Traveler': 'travelers', 'Wanderer': 'wanderers', 'Pantheon': 'pantheon' };
-              return entity.category === typeMap[value];
+              if (value === 'Guys') return entity.category === 'travelers' || entity.category === 'wanderers';
+              return entity.category === 'pantheon';
             }
             return true;
-          case 'difficulty':
-            return (entity as Domain).difficulty === value;
+          case 'office':
+            return slugToName((entity as Domain).dieRector || '') === value;
           case 'location':
             const shop = entity as Shop;
             const isMobile = shop.travelPattern && shop.travelPattern.length > 0;
             return value === 'Mobile' ? isMobile : !isMobile;
           case 'element':
-            return (entity as Faction).element === value;
+            return (entity as Domain).element === value;
           default:
             return true;
         }
@@ -439,7 +444,7 @@ export function WikiIndex() {
   };
 
   const handleRowClick = (entity: AnyEntity) => {
-    navigate(`/wiki/${entity.category}/${entity.slug}`, { state: { returnTo: `/wiki/${entity.category}` } });
+    navigate(`/wiki/${entity.category}/${entity.slug}`, { state: { returnTo: getCategoryIndexRoute(entity.category) } });
   };
 
   // Get category counts for tab badges
@@ -618,19 +623,23 @@ export function WikiIndex() {
     </>
   );
 
-  const renderDomainsTable = () => (
+  const renderWorldsTable = () => (
     <>
       <TableHead>
         <TableRow sx={headRowSx}>
           <TableCell sx={{ width: COL.icon }}></TableCell>
           <SortableHeader column="name" label="Name" sortConfig={sortConfig} onSort={handleSort} width={COL.name} />
-          <SortableHeader column="difficulty" label="Difficulty" sortConfig={sortConfig} onSort={handleSort} width={COL.col3} />
-          <TableCell sx={{ ...headerCellSx, width: COL.col4 }}>Level</TableCell>
+          <TableCell sx={{ ...headerCellSx, width: COL.col3 }}>Office</TableCell>
+          <TableCell sx={{ ...headerCellSx, width: COL.col4 }}>Door / Bone</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {visibleEntities.map((entity) => {
           const domain = entity as Domain;
+          const officeName = domain.dieRector ? slugToName(domain.dieRector) : '-';
+          const doorLabel = domain.door ? `Door ${domain.door}` : '-';
+          const boneLabel = formatBoneDie(domain.preferredDice);
+          const elementColor = getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary;
           return (
             <TableRow
               key={entity.slug}
@@ -643,9 +652,9 @@ export function WikiIndex() {
                     width: 48,
                     height: 48,
                     borderRadius: '50%',
-                    backgroundColor: getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary,
-                    boxShadow: `0 0 12px ${getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary}50`,
-                    border: `2px solid ${getElementInfo(domain.element || 'Neutral')?.color || tokens.colors.primary}`,
+                    backgroundColor: elementColor,
+                    boxShadow: `0 0 12px ${elementColor}50`,
+                    border: `2px solid ${elementColor}`,
                   }}
                 />
               </TableCell>
@@ -653,12 +662,14 @@ export function WikiIndex() {
                 <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
               </TableCell>
               <TableCell>
-                <WikiTextCell color={getDifficultyColor(domain.difficulty || 'Normal')} skeletonWidth={80}>
-                  {domain.difficulty || 'Normal'}
+                <WikiTextCell color={elementColor} skeletonWidth={100}>
+                  {officeName} / {domain.element || 'Neutral'}
                 </WikiTextCell>
               </TableCell>
               <TableCell>
-                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={70}>{domain.levelRange || '-'}</WikiTextCell>
+                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={100}>
+                  {doorLabel} / {boneLabel}
+                </WikiTextCell>
               </TableCell>
             </TableRow>
           );
@@ -673,18 +684,16 @@ export function WikiIndex() {
         <TableRow sx={headRowSx}>
           <TableCell sx={{ width: COL.icon }}></TableCell>
           <SortableHeader column="name" label="Name" sortConfig={sortConfig} onSort={handleSort} width={COL.name} />
-          <TableCell sx={{ ...headerCellSx, width: COL.col3 }}>Type</TableCell>
-          <TableCell sx={{ ...headerCellSx, width: COL.col4 }}>Lucky #</TableCell>
+          <TableCell sx={{ ...headerCellSx, width: COL.col3 }}>Group</TableCell>
+          <TableCell sx={{ ...headerCellSx, width: COL.col4 }}>Lucky No.</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {visibleEntities.map((entity) => {
           const traveler = entity as Traveler;
           const pantheonMember = entity as Pantheon;
-          const luckyNum = traveler.luckyNumber || pantheonMember.luckyNumber;
-          const typeLabel = entity.category === 'travelers' ? 'Traveler' :
-                           entity.category === 'wanderers' ? 'Wanderer' :
-                           entity.category === 'pantheon' ? 'Pantheon' : '-';
+          const luckyNum = traveler.luckyNumber ?? pantheonMember.luckyNumber;
+          const typeLabel = getCharacterGroupLabel(entity.category);
 
           return (
             <TableRow
@@ -703,7 +712,7 @@ export function WikiIndex() {
               </TableCell>
               <TableCell>
                 <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={56}>
-                  {luckyNum === 7 ? 'ALL' : luckyNum || '-'}
+                  {formatLuckyNumber(luckyNum)}
                 </WikiTextCell>
               </TableCell>
             </TableRow>
@@ -791,53 +800,12 @@ export function WikiIndex() {
     </>
   );
 
-  const renderFactionsTable = () => (
-    <>
-      <TableHead>
-        <TableRow sx={headRowSx}>
-          <TableCell sx={{ width: COL.icon }}></TableCell>
-          <SortableHeader column="name" label="Name" sortConfig={sortConfig} onSort={handleSort} width={COL.name} />
-          <TableCell sx={{ ...headerCellSx, width: COL.col3 }}>Element</TableCell>
-          <TableCell sx={{ ...headerCellSx, width: COL.col4 }}>Lucky #</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {visibleEntities.map((entity) => {
-          const faction = entity as Faction;
-          return (
-            <TableRow
-              key={`faction-${entity.slug}`}
-              onClick={() => handleRowClick(entity)}
-              sx={rowSx}
-            >
-              <TableCell>
-                <WikiArtworkCell src={entity.sprites?.[0] || entity.image || ''} alt={entity.name} category="factions" />
-              </TableCell>
-              <TableCell>
-                <WikiTextCell color={tokens.colors.secondary} skeletonWidth="70%">{entity.name}</WikiTextCell>
-              </TableCell>
-              <TableCell>
-                <WikiTextCell skeletonWidth={80}>{faction.element || 'Neutral'}</WikiTextCell>
-              </TableCell>
-              <TableCell>
-                <WikiTextCell color={tokens.colors.text.primary} skeletonWidth={56}>
-                  {faction.luckyNumber === 7 ? 'ALL' : faction.luckyNumber ?? '-'}
-                </WikiTextCell>
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </>
-  );
-
   const renderTableContent = () => {
     switch (activeTab) {
       case 'items': return renderItemsTable();
       case 'enemies': return renderEnemiesTable();
-      case 'domains': return renderDomainsTable();
+      case 'worlds': return renderWorldsTable();
       case 'characters': return renderCharactersTable();
-      case 'factions': return renderFactionsTable();
       case 'shops': return renderShopsTable();
       case 'trophies': return renderTrophiesTable();
       default: return renderItemsTable();
@@ -924,7 +892,7 @@ export function WikiIndex() {
               const categories: WikiCategory[] = [
                 'items', 'enemies', 'domains',
                 'travelers', 'wanderers', 'pantheon',
-                'factions', 'shops', 'trophies',
+                'shops', 'trophies',
               ];
               const randomCategory = categories[Math.floor(Math.random() * categories.length)];
               const entities = getEntitiesByCategory(randomCategory);
@@ -1056,17 +1024,14 @@ export function WikiIndex() {
                   subtitle = item.rarity || 'Common';
                 } else if (activeTab === 'enemies') {
                   subtitle = enemy.enemyType || 'Normal';
-                } else if (activeTab === 'domains') {
-                  subtitle = domain.difficulty || 'Normal';
+                } else if (activeTab === 'worlds') {
+                  const officeName = domain.dieRector ? slugToName(domain.dieRector) : '-';
+                  subtitle = `${officeName} / ${formatBoneDie(domain.preferredDice)}`;
                 } else if (activeTab === 'characters') {
-                  subtitle = entity.category === 'travelers' ? 'Traveler' :
-                             entity.category === 'wanderers' ? 'Wanderer' : 'Pantheon';
+                  subtitle = getCharacterGroupLabel(entity.category);
                 } else if (activeTab === 'shops') {
                   const isMobile = shop.travelPattern && shop.travelPattern.length > 0;
                   subtitle = isMobile ? 'Mobile' : 'Fixed';
-                } else if (activeTab === 'factions') {
-                  const faction = entity as Faction;
-                  subtitle = faction.element || 'Neutral';
                 }
 
                 // Get color for subtitle
@@ -1075,8 +1040,8 @@ export function WikiIndex() {
                   subtitleColor = getRarityColor(item.rarity);
                 } else if (activeTab === 'enemies' && enemy.enemyType) {
                   subtitleColor = getEnemyTypeColor(enemy.enemyType as 'Normal' | 'Elite' | 'Miniboss' | 'Boss');
-                } else if (activeTab === 'domains' && domain.difficulty) {
-                  subtitleColor = getDifficultyColor(domain.difficulty);
+                } else if (activeTab === 'worlds' && domain.element) {
+                  subtitleColor = getElementInfo(domain.element)?.color || tokens.colors.text.secondary;
                 }
 
                 // Always prefer sprites in grid view
@@ -1089,7 +1054,7 @@ export function WikiIndex() {
                     <Paper
                       component={RouterLink}
                       to={`/wiki/${entity.category}/${entity.slug}`}
-                      state={{ returnTo: `/wiki/${entity.category}` }}
+                      state={{ returnTo: getCategoryIndexRoute(entity.category) }}
                       elevation={0}
                       sx={{
                         p: 2.5,
@@ -1126,8 +1091,8 @@ export function WikiIndex() {
                             sx={{ objectFit: 'contain', maxWidth: '100%' }}
                           />
                         </Box>
-                      ) : activeTab === 'domains' ? (
-                        // Domain cards: colored circle
+                      ) : activeTab === 'worlds' ? (
+                        // World cards: colored element circle
                         <Box
                           sx={{
                             width: 64,
