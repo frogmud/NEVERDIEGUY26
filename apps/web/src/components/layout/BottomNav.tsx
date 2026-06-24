@@ -4,6 +4,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import { tokens } from '../../theme';
 import { useSoundContext } from '../../contexts/SoundContext';
+import { PLAY_ICON_SRC, WIKI_ICON_SRC } from './navItems';
 
 /**
  * BottomNav - mobile primary navigation (Home / Play / Wiki / You).
@@ -28,8 +29,8 @@ interface Tab {
 
 const TABS: Tab[] = [
   { label: 'Home', value: 'home', path: '/', icon: <HomeRoundedIcon /> },
-  { label: 'Play', value: 'play', path: '/play', iconSrc: '/assets/nav/nav1-play.svg' },
-  { label: 'Wiki', value: 'wiki', path: '/wiki', iconSrc: '/assets/nav/nav2-wiki.svg' },
+  { label: 'Play', value: 'play', path: '/play', iconSrc: PLAY_ICON_SRC },
+  { label: 'Wiki', value: 'wiki', path: '/wiki', iconSrc: WIKI_ICON_SRC },
   { label: 'You', value: 'you', path: '/profile', icon: <PersonRoundedIcon /> },
 ];
 

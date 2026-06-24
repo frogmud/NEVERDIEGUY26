@@ -980,6 +980,14 @@ export function getRunHistoryStats(): {
   };
 }
 
+/**
+ * A "returning" player has a resumable saved run or any completed-run history.
+ * Shared so the home route and sidebar agree on who sees the New Guy launcher.
+ */
+export function isReturningPlayer(): boolean {
+  return hasSavedRun() || getRunHistoryStats().totalRuns > 0;
+}
+
 // ============================================
 // Current Seed Persistence (for username sync)
 // ============================================

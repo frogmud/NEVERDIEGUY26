@@ -9,9 +9,10 @@
 
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Typography, useMediaQuery, useTheme, Drawer, IconButton, Breadcrumbs, Link as MuiLink } from '@mui/material';
+import { Box, Typography, Drawer, IconButton, Breadcrumbs, Link as MuiLink } from '@mui/material';
 import { MenuSharp as MenuIcon, ChevronLeftSharp as BackIcon, NavigateNextSharp as NextIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
+import { useIsMobile } from '../../components/ds';
 
 // Section components
 import { BoardAndPiecesSection } from './sections/BoardAndPieces';
@@ -47,8 +48,7 @@ const categories: CategoryConfig[] = [
 // ============================================
 
 export function SettingsIndex() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useIsMobile();
 
   const [activeCategory, setActiveCategory] = useState<SettingsCategory>('controls');
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);

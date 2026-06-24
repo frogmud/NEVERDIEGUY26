@@ -10,10 +10,11 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, Drawer, Fab, useMediaQuery, useTheme, keyframes } from '@mui/material';
+import { Box, Drawer, Fab, keyframes } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { tokens } from '../../theme';
+import { useIsMobile } from '../../components/ds';
 import { EASING, FADE } from '../../utils/transitions';
 import { PlaySidebar } from './components';
 import { RunSummary } from './components/RunSummary';
@@ -107,9 +108,8 @@ export function PlayHub() {
   const location = useLocation();
   const navState = location.state as { practiceMode?: boolean } | null;
 
-  // Mobile responsive: drawer for sidebar on small screens
-  const muiTheme = useTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md')); // < 900px
+  // Mobile responsive: drawer for sidebar on small screens (768px - matches the Shell).
+  const isMobile = useIsMobile();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Mark that user has started a game (transforms home page from marketing LP)

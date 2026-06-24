@@ -4,9 +4,10 @@
 
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Box, Typography, Paper, useMediaQuery, useTheme, Drawer, IconButton, Breadcrumbs, Link as MuiLink } from '@mui/material';
+import { Box, Typography, Paper, Drawer, IconButton, Breadcrumbs, Link as MuiLink } from '@mui/material';
 import { MenuSharp as MenuIcon, ChevronLeftSharp as BackIcon, NavigateNextSharp as NextIcon } from '@mui/icons-material';
 import { tokens } from '../../theme';
+import { useIsMobile } from '../../components/ds';
 
 // ============================================
 // Types & Config
@@ -196,8 +197,7 @@ function ShortcutsSection() {
 // ============================================
 
 export function HelpCenter() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
 
   const [activeSection, setActiveSection] = useState<HelpSection>('guide');

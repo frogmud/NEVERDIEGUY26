@@ -7,7 +7,7 @@
  * NEVER DIE GUY
  */
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react';
 
 // Storage keys
 const GAME_SPEED_KEY = 'ndg-game-speed';
@@ -23,8 +23,9 @@ const HOME_VIEW_KEY = 'ndg-home-view';
 export type SoundTheme = 'synth' | 'medieval' | 'wooden' | 'stone';
 
 // Home landing view: 'auto' shows the New Guy flow for new/mobile users and the
-// dashboard for returning desktop users; 'newguy'/'dashboard' force one (set via
-// the sidebar switch).
+// dashboard for returning desktop users. The sidebar switch toggles 'newguy'
+// (force the launcher) vs 'auto'; 'dashboard' (force the dashboard) is reserved
+// and not yet set by any control.
 export type HomeView = 'auto' | 'newguy' | 'dashboard';
 
 // Default values
@@ -202,28 +203,52 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     return baseDelay / gameSpeed;
   }, [gameSpeed, animationsEnabled]);
 
+  // Memoize so the context value keeps a stable identity across provider
+  // re-renders that don't change a setting (all setters are useCallback-stable),
+  // avoiding a re-render of every useGameSettings() consumer.
+  const value = useMemo<GameSettingsContextValue>(
+    () => ({
+      gameSpeed,
+      setGameSpeed,
+      animationsEnabled,
+      setAnimationsEnabled,
+      musicEnabled,
+      setMusicEnabled,
+      masterVolume,
+      setMasterVolume,
+      soundTheme,
+      setSoundTheme,
+      asciiMode,
+      setAsciiMode,
+      drawEventsEnabled,
+      setDrawEventsEnabled,
+      homeView,
+      setHomeView,
+      adjustDelay,
+    }),
+    [
+      gameSpeed,
+      setGameSpeed,
+      animationsEnabled,
+      setAnimationsEnabled,
+      musicEnabled,
+      setMusicEnabled,
+      masterVolume,
+      setMasterVolume,
+      soundTheme,
+      setSoundTheme,
+      asciiMode,
+      setAsciiMode,
+      drawEventsEnabled,
+      setDrawEventsEnabled,
+      homeView,
+      setHomeView,
+      adjustDelay,
+    ],
+  );
+
   return (
-    <GameSettingsContext.Provider
-      value={{
-        gameSpeed,
-        setGameSpeed,
-        animationsEnabled,
-        setAnimationsEnabled,
-        musicEnabled,
-        setMusicEnabled,
-        masterVolume,
-        setMasterVolume,
-        soundTheme,
-        setSoundTheme,
-        asciiMode,
-        setAsciiMode,
-        drawEventsEnabled,
-        setDrawEventsEnabled,
-        homeView,
-        setHomeView,
-        adjustDelay,
-      }}
-    >
+    <GameSettingsContext.Provider value={value}>
       {children}
     </GameSettingsContext.Provider>
   );
