@@ -49,7 +49,7 @@ export class ErrorBoundary extends Component<Props, State> {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: '100vh',
+            minHeight: '100dvh',
             bgcolor: tokens.colors.background.default,
             color: tokens.colors.text.primary,
             p: 4,

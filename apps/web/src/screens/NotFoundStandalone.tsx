@@ -7,7 +7,7 @@ export function NotFoundStandalone() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ minHeight: '100vh', width: '100%', backgroundColor: tokens.colors.background.default }}>
+    <Box sx={{ minHeight: '100dvh', width: '100%', backgroundColor: tokens.colors.background.default }}>
       {/* Header */}
       <Box
         sx={{
@@ -37,7 +37,7 @@ export function NotFoundStandalone() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: 'calc(100vh - 160px)',
+          minHeight: 'calc(100dvh - 160px)',
           textAlign: 'center',
           py: 4,
         }}

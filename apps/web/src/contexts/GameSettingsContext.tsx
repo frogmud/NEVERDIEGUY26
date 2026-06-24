@@ -17,9 +17,15 @@ const MASTER_VOLUME_KEY = 'ndg-master-volume';
 const SOUND_THEME_KEY = 'ndg-sound-theme';
 const ASCII_MODE_KEY = 'ndg-ascii-mode';
 const DRAW_EVENTS_KEY = 'ndg-draw-events-enabled';
+const HOME_VIEW_KEY = 'ndg-home-view';
 
 // Sound theme options
 export type SoundTheme = 'synth' | 'medieval' | 'wooden' | 'stone';
+
+// Home landing view: 'auto' shows the New Guy flow for new/mobile users and the
+// dashboard for returning desktop users; 'newguy'/'dashboard' force one (set via
+// the sidebar switch).
+export type HomeView = 'auto' | 'newguy' | 'dashboard';
 
 // Default values
 const DEFAULT_GAME_SPEED = 1;
@@ -29,6 +35,7 @@ const DEFAULT_MASTER_VOLUME = 0.15; // Chess.com-style subtle volume
 const DEFAULT_SOUND_THEME: SoundTheme = 'synth';
 const DEFAULT_ASCII_MODE = true; // ASCII art rendering enabled by default
 const DEFAULT_DRAW_EVENTS_ENABLED = true; // Show draw event toasts (Lucky Straight, etc.)
+const DEFAULT_HOME_VIEW: HomeView = 'auto';
 
 interface GameSettingsContextValue {
   // Game speed (0.5 to 2)
@@ -58,6 +65,10 @@ interface GameSettingsContextValue {
   // Draw event notifications (Lucky Straight, High Roller, etc.)
   drawEventsEnabled: boolean;
   setDrawEventsEnabled: (enabled: boolean) => void;
+
+  // Home landing view preference (see HomeView)
+  homeView: HomeView;
+  setHomeView: (view: HomeView) => void;
 
   // Helper to adjust delay based on game speed
   // Lower game speed = slower animations (higher delay)
@@ -131,6 +142,15 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     return DEFAULT_DRAW_EVENTS_ENABLED;
   });
 
+  // Home landing view preference
+  const [homeView, setHomeViewState] = useState<HomeView>(() => {
+    const stored = localStorage.getItem(HOME_VIEW_KEY);
+    if (stored === 'auto' || stored === 'newguy' || stored === 'dashboard') {
+      return stored;
+    }
+    return DEFAULT_HOME_VIEW;
+  });
+
   // Setters with localStorage persistence
   const setGameSpeed = useCallback((speed: number) => {
     const clampedSpeed = Math.max(0.5, Math.min(2, speed));
@@ -169,6 +189,11 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(DRAW_EVENTS_KEY, String(enabled));
   }, []);
 
+  const setHomeView = useCallback((view: HomeView) => {
+    setHomeViewState(view);
+    localStorage.setItem(HOME_VIEW_KEY, view);
+  }, []);
+
   // Helper to adjust delays based on game speed
   // gameSpeed 2 = delays cut in half (faster)
   // gameSpeed 0.5 = delays doubled (slower)
@@ -194,6 +219,8 @@ export function GameSettingsProvider({ children }: { children: ReactNode }) {
         setAsciiMode,
         drawEventsEnabled,
         setDrawEventsEnabled,
+        homeView,
+        setHomeView,
         adjustDelay,
       }}
     >

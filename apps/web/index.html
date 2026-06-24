@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logos/ndg-skull-dome.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>NEVER DIE GUY</title>
 
     <!-- SEO Meta Tags -->
@@ -122,15 +122,6 @@
       .ndg-boot-sidebar__bottom .ndg-boot-nav-row {
         margin-bottom: 2px;
       }
-      .ndg-boot-search-row .ndg-boot-nav-icon-wrap {
-        margin-right: 3px;
-      }
-      .ndg-boot-user-row {
-        min-height: 44px;
-      }
-      .ndg-boot-user-row .ndg-boot-nav-icon-wrap {
-        margin-right: 4px;
-      }
       .ndg-boot-nav-icon-wrap {
         width: 32px;
         margin-right: 6px;
@@ -152,10 +143,6 @@
         font-size: 0.85rem;
         font-weight: 600;
         line-height: 1;
-      }
-      .ndg-boot-nav-row--muted .ndg-boot-nav-label {
-        color: #5c5c5c;
-        font-weight: 600;
       }
       .ndg-boot-search-mark {
         width: 22px;
@@ -185,22 +172,6 @@
         background: #5c5c5c;
         transform: rotate(45deg);
         transform-origin: left center;
-      }
-      .ndg-boot-user-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #1e1e1e;
-        flex-shrink: 0;
-      }
-      .ndg-boot-user-avatar img {
-        width: 140%;
-        height: 140%;
-        object-fit: cover;
-        object-position: top center;
-        image-rendering: pixelated;
-        margin-left: -20%;
       }
       .ndg-boot-sidebar__utilities {
         display: flex;
@@ -284,10 +255,6 @@
       .ndg-boot-skeleton--icon {
         width: 28px;
         height: 28px;
-      }
-      .ndg-boot-skeleton--label {
-        width: 58px;
-        height: 12px;
       }
       .ndg-boot-skeleton--label-short {
         width: 42px;
@@ -483,12 +450,7 @@
           margin-right: 0;
           justify-content: center;
         }
-        .ndg-boot-search-row .ndg-boot-nav-icon-wrap,
-        .ndg-boot-user-row .ndg-boot-nav-icon-wrap {
-          margin-right: 0;
-        }
-        .ndg-boot-nav-label,
-        .ndg-boot-user-label {
+        .ndg-boot-nav-label {
           display: none;
         }
         .ndg-boot-sidebar__utilities {
@@ -565,24 +527,16 @@
             </div>
           </div>
           <div class="ndg-boot-sidebar__bottom">
-            <div class="ndg-boot-nav-row ndg-boot-nav-row--muted ndg-boot-search-row">
-              <span class="ndg-boot-nav-icon-wrap">
-                <span class="ndg-boot-search-mark"></span>
-              </span>
-              <span class="ndg-boot-nav-label">Search</span>
-            </div>
-            <div class="ndg-boot-nav-row ndg-boot-user-row">
-              <span class="ndg-boot-nav-icon-wrap">
-                <span class="ndg-boot-user-avatar">
-                  <img src="/assets/characters/travelers/sprite-never-die-guy-1.png" alt="" />
-                </span>
-              </span>
-              <span class="ndg-boot-skeleton ndg-boot-skeleton--label ndg-boot-user-label"></span>
-            </div>
             <div class="ndg-boot-sidebar__utilities">
-              <span class="ndg-boot-utility-icon ndg-boot-utility-icon--friends"><span></span></span>
+              <span class="ndg-boot-utility-icon"><span class="ndg-boot-search-mark"></span></span>
               <span class="ndg-boot-utility-icon ndg-boot-utility-icon--info"></span>
-              <span class="ndg-boot-utility-icon ndg-boot-utility-icon--build"></span>
+              <span class="ndg-boot-utility-icon ndg-boot-utility-icon--friends"><span></span></span>
+            </div>
+            <div class="ndg-boot-nav-row">
+              <span class="ndg-boot-nav-icon-wrap">
+                <span class="ndg-boot-utility-icon ndg-boot-utility-icon--build" style="opacity:1;color:#a0a0a0;"></span>
+              </span>
+              <span class="ndg-boot-nav-label">Settings</span>
             </div>
           </div>
         </aside>
