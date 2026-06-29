@@ -18,7 +18,7 @@
     "export:wiki": "npx tsx apps/web/scripts/export-wiki-data.ts"
   },
   "devDependencies": {
-    "@vercel/node": "^5.5.23",
+    "@vercel/node": "^5.8.22",
     "tsx": "^4.19.0",
     "turbo": "^2.9.14",
     "typescript": "~5.9.3"
