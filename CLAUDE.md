@@ -113,6 +113,17 @@ Resolve Room -> Bury -> What Remained`. Foundations are wired:
   panels. Wrap and surface the existing `CombatEngine`; do not rewrite combat math.
 See `../docs/current/08-app-systems-alignment-plan.md` for the full audit and the deferred backlog.
 
+### Run end + failure (where is the "failure screen"?)
+A Face reveal never ends the run. The run ends and `state.runEnded` flips true in two ways:
+- **Defeat**: the player accumulates **4 scars** (1 scar per failed room; see `scars` in `RunContext`)
+  or loses a combat (combat `phase: 'defeat'`). Sets `gameWon: false`, records `killedBy`.
+- **Victory**: all 6 domains cleared. Sets `gameWon: true`.
+
+Both surface the **same** `GameOverModal` (rendered in `PlayHub` under `state.runEnded`), flipped by
+`state.gameWon` - red defeat overlay vs green victory. There is no separate failure screen; the
+defeat variant of `GameOverModal` is it. `RunSummary` is the per-room clear summary, not the end
+screen. To exercise defeat: fail/skip rooms to 4 scars, or lose a combat.
+
 ### Key React Contexts (apps/web/src/contexts/)
 | Context | Purpose |
 |---------|---------|
@@ -127,11 +138,10 @@ See `../docs/current/08-app-systems-alignment-plan.md` for the full audit and th
 ### Key Components (apps/web/src/screens/play/)
 | Component | Purpose |
 |-----------|---------|
-| `PlayHub` | Main game shell with progress bar + sidebar |
-| `Globe3D` | 3D globe rendering (Three.js) |
+| `PlayHub` | Main game shell with progress bar + sidebar; renders `CombatTerminal` |
+| `CombatTerminal` | Live combat surface (`components/CombatTerminal.tsx`); renders the 3D globe via `GlobeScene`. Fold in progress: presentational pieces moved to `components/combat/` |
 | `Shop` | In-game item shop |
 | `Inventory` | Player inventory management |
-| `EventSelection` | Domain/event picker |
 
 ### Homepage (apps/web/src/components/)
 | Component | Purpose |
@@ -287,6 +297,26 @@ Located in `packages/ai-engine/src/balance/balance-config.ts` and `apps/web/src/
 /illustrations/*.svg              # UI illustrations (1v1.svg, newgame.svg, etc.)
 /logos/ndg-skull-dome.svg         # Brand logo
 ```
+
+### Sprite Vectorization (PNG -> SVG)
+Raster sprite art is vectorized with the **`ndg-sprite-vectorizer`** skill
+(`.claude/skills/ndg-sprite-vectorizer/`). It wraps an ImageMagick preprocess (color-merge +
+quantize) then a `vtracer` trace - the preprocess is what keeps output clean and small. Deps are
+`magick` + `vtracer` (prebuilt binary from the visioncortex/vtracer GitHub release; no cargo/pip
+needed).
+
+```bash
+SK=.claude/skills/ndg-sprite-vectorizer/scripts/vectorize.sh
+"$SK" hero.png hero.svg pixel          # detailed sprites (default go-to)
+"$SK" batch ./pngs ./svgs pixel        # whole folder
+```
+
+- **`pixel` preset** is the one for detailed character sprites (e.g. wanderers): `filter_speckle 0`
+  + 3x point upscale + 256 colors, so small features (cap text, chains, eyes) survive. Larger SVGs,
+  but faithful - recolor happens in Figma afterward anyway.
+- Other presets: `sprite` (larger/simpler art), `crisp` (glitchy archival), `portrait` (smooth
+  splines), `icon`, `poster`, `minimal`, `bw`. See the skill's `references/presets.md`.
+- Always eyeball one file before batching: render the SVG back to PNG and compare to the source.
 
 ## Tech Stack
 
