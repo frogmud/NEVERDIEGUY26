@@ -2,7 +2,7 @@
 /**
  * NPC Eternal Days - Day-by-Day Diary Simulation
  *
- * Simulates days in the life of immortal NPCs at the market.
+ * Simulates days in the life of immortal NPCs across HERO CORPS and the Dying Saucer.
  * Player (Never Die Guy) exists but never speaks - only referenced.
  *
  * Run with: npx tsx scripts/npc-eternal-days.ts
@@ -15,7 +15,10 @@
  *   --tokens-quick=N  Tokens for quick banter (default: 60)
  *   --tokens-story=N  Tokens for story moments (default: 250)
  *   --extract-templates  Save generated dialogue as ResponseTemplates
- *   --model=X         Claude model to use (default: claude-3-5-haiku-20241022)
+ *   --model=X         Claude model to use (default: claude-haiku-4-5)
+ *   --resume=DIR      Continue from a previous run's final-state.json
+ *                     (dir name under logs/ or a full path); day numbering,
+ *                     gold, records, debts, and moods all carry forward
  */
 
 import * as fs from 'fs';
@@ -105,15 +108,15 @@ type LuckyDie = 'none' | 'd4' | 'd6' | 'd8' | 'd10' | 'd12' | 'd20' | 'all';
 
 // Game locations - where ceelo and interactions happen
 type GameLocation =
-  | 'market-square'      // Neutral - the default gathering spot
+  | 'hero-corps'      // Neutral - the default gathering spot
   | 'back-alley'         // Neutral but seedy, high stakes
-  | 'sphere-stands'      // Near the arena, post-run energy
-  | 'null-providence'    // d4 turf - The One's domain
+  | 'dying-saucer'      // Near the arena, post-run energy
+  | 'heaven'    // d4 turf - The One's domain
   | 'earth'              // d6 turf - John's domain
-  | 'shadow-keep'        // d8 turf - Peter's domain
-  | 'infernus'           // d10 turf - Robert's domain
-  | 'frost-reach'        // d12 turf - Alice's domain
-  | 'aberrant';          // d20 turf - Jane's domain
+  | 'hell'        // d8 turf - Peter's domain
+  | 'sun'           // d10 turf - Robert's domain
+  | 'moon'        // d12 turf - Alice's domain
+  | 'elsewhere';          // d20 turf - Jane's domain
 
 // Weather types tied to elements
 type Weather =
@@ -128,50 +131,50 @@ type Weather =
 // Map Lucky Die to home domain
 const LUCKY_DIE_DOMAIN: Record<LuckyDie, GameLocation | null> = {
   'none': null,
-  'd4': 'null-providence',
+  'd4': 'heaven',
   'd6': 'earth',
-  'd8': 'shadow-keep',
-  'd10': 'infernus',
-  'd12': 'frost-reach',
-  'd20': 'aberrant',
+  'd8': 'hell',
+  'd10': 'sun',
+  'd12': 'moon',
+  'd20': 'elsewhere',
   'all': null,  // Board Room - aligned with ALL
 };
 
 // Map domain to element for weather effects
 const DOMAIN_ELEMENT: Record<GameLocation, LuckyDie | null> = {
-  'market-square': null,
+  'hero-corps': null,
   'back-alley': null,
-  'sphere-stands': null,
-  'null-providence': 'd4',
+  'dying-saucer': null,
+  'heaven': 'd4',
   'earth': 'd6',
-  'shadow-keep': 'd8',
-  'infernus': 'd10',
-  'frost-reach': 'd12',
-  'aberrant': 'd20',
+  'hell': 'd8',
+  'sun': 'd10',
+  'moon': 'd12',
+  'elsewhere': 'd20',
 };
 
 // Weather descriptions for prompts
 const WEATHER_DESCRIPTIONS: Record<Weather, string> = {
-  'clear': 'The market hums with normal activity.',
-  'void-fog': 'A strange fog rolls in from Null Providence. Probability feels... off. Whispers in the mist.',
-  'dust-storm': 'Dust from Earth blows through. Grit in everyone\'s teeth. Tempers short.',
-  'death-chill': 'A cold presence from Shadow Keep. The shadows stretch longer than they should.',
-  'heat-wave': 'Heat radiates from Infernus. Tempers flare. Everyone\'s on edge.',
-  'frost-wind': 'An icy wind from Frost Reach. Everything slows. Patience is tested.',
-  'wild-gale': 'Chaotic winds from the Aberrant tear through. Anything could happen.',
+  'clear': 'HERO CORPS hums with its usual paperwork and dread.',
+  'void-fog': 'A sterile brightness bleeds down from Heaven. Everything feels classified, filed, watched.',
+  'dust-storm': 'Civic dust blows across Earth. Grit in everyone\'s teeth. Tempers short, rent overdue.',
+  'death-chill': 'A cold draft of unpaid debt from Hell. Every shadow itemizes what you owe.',
+  'heat-wave': 'The Sun\'s corona bleaches everything white. Exposure. Nowhere to hide.',
+  'frost-wind': 'A cold wind off the Moon. Everything slows. Old memories surface. You feel watched.',
+  'wild-gale': 'The air dilates as Elsewhere bleeds in. Biology where architecture should be. Anything could happen.',
 };
 
 // Location descriptions for prompts
 const LOCATION_DESCRIPTIONS: Record<GameLocation, string> = {
-  'market-square': 'The Market Square - neutral ground where all deals are fair... supposedly.',
-  'back-alley': 'A seedy back alley. High stakes, no rules, no witnesses.',
-  'sphere-stands': 'The stands near the Sphere. Post-run energy, fresh death still in the air.',
-  'null-providence': 'Null Providence - The One\'s domain. Reality here is... negotiable.',
-  'earth': 'Earth - John\'s domain. Gears click, chains rattle, everything is clockwork.',
-  'shadow-keep': 'Shadow Keep - Peter\'s domain. Every shadow hides a secret.',
-  'infernus': 'Infernus - Robert\'s domain. The heat alone separates the weak from the bold.',
-  'frost-reach': 'Frost Reach - Alice\'s domain. Time moves differently here.',
-  'aberrant': 'The Aberrant - Jane\'s domain. Normal is just a word here.',
+  'hero-corps': 'HERO CORPS - the tower floor. Neutral ground where every deal gets filed and nobody stops payroll.',
+  'back-alley': 'A back corridor behind the badge-only doors. High stakes, no cameras, no witnesses.',
+  'dying-saucer': 'The Dying Saucer - the crash-cathedral. Church, shop, shrine, and evidence locker at once. Post-run energy, fresh death still in the air.',
+  'heaven': 'Heaven - The One\'s empty head-chair looms. Sterile, well-lit, and always classifying you.',
+  'earth': 'Earth - HERO CORPS civic weather. Where all myth pays rent and the bill always arrives.',
+  'hell': 'Hell - contract pain and custody. Every shadow itemizes what you owe.',
+  'sun': 'The Sun - King James bound in the corona. Public name, glory, and light that leaves nowhere to hide.',
+  'moon': 'The Moon - cold, witnessing, patient. Old memories surface. You feel watched.',
+  'elsewhere': 'Elsewhere - the alien planet. Biology where architecture should be. Normal is just a word here.',
 };
 
 // Dice-themed stats (0-100 scale)
@@ -292,16 +295,16 @@ interface TokenPool {
 
 const TOKEN_POOLS: Record<string, TokenPool> = {
   banter: {
-    tokens: 200,          // Bumped again - verbose NPCs need room
+    tokens: 260,          // +30% for the Sonnet 5 tokenizer
     weight: 0.45,
     situations: [
-      'Quick exchange at the market stall',
-      'Passing comment while watching the sphere',
+      'Quick exchange in a HERO CORPS corridor',
+      'Passing comment while watching a run',
       'Brief greeting between old acquaintances',
     ],
   },
   ceelo_talk: {
-    tokens: 180,          // Was 100 - smack talk needs room
+    tokens: 240,          // +30% for the Sonnet 5 tokenizer
     weight: 0.20,
     situations: [
       'Smack talk before a ceelo match',
@@ -310,7 +313,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   ceelo_emotional: {
-    tokens: 250,          // Was 150 - tilted rants need space
+    tokens: 330,          // +30% for the Sonnet 5 tokenizer
     weight: 0.10,
     situations: [
       'Just lost big - tilted and ranting',
@@ -319,7 +322,7 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   debt_drama: {
-    tokens: 300,          // Was 200 - debt confrontations are spicy
+    tokens: 390,          // +30% for the Sonnet 5 tokenizer
     weight: 0.08,
     situations: [
       'Confronting someone who owes you gold',
@@ -328,16 +331,16 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
     ],
   },
   lore_drop: {
-    tokens: 400,          // Was 250 - lore deserves full treatment
+    tokens: 520,          // +30% for the Sonnet 5 tokenizer
     weight: 0.07,
     situations: [
-      'Sharing a secret about the sphere',
+      'Sharing a secret about a run',
       'Reminiscing about the old days',
       'Cryptic warning about what\'s coming',
     ],
   },
   player_gossip: {
-    tokens: 280,          // Was 180 - gossip flows
+    tokens: 360,          // +30% for the Sonnet 5 tokenizer
     weight: 0.10,
     situations: [
       'Discussing the newcomer\'s latest run',
@@ -359,7 +362,7 @@ const ALL_NPCS: NPCDef[] = [
     title: 'Cyclopean Merchant',
     category: 'wanderer',
     personality: 'Interdimensional merchant with a giant eye and dice-grin',
-    luckyDie: 'd4',  // Null Providence vibes - probability/void
+    luckyDie: 'd4',  // Heaven vibes - probability/void
     baseStats: { essence: 75, grit: 55, shadow: 70, fury: 40, resilience: 50, swiftness: 60 },
     voice: 'Gravelly, probability slang, sees deals in everything',
     visualTells: ['Giant cyclopean eye reads first', 'Dice-grin smile', 'Taps dice before every throw'],
@@ -373,16 +376,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'mr-bones',
     name: 'Mr. Bones',
-    title: "Death's Accountant",
+    title: 'Training Staff Banker',
     category: 'wanderer',
-    personality: 'Skeleton who tallies debts and deaths in glowing ledgers',
-    luckyDie: 'd8',  // Peter/Shadow Keep - death affinity
+    personality: 'A clean skeleton on the HERO CORPS training staff who also runs the debt-and-soul ledger. Tracksuit and whistle; the gap between coach and death\'s banker is the joke.',
+    luckyDie: 'd8',  // Peter/Hell - debt and death
     baseStats: { essence: 55, grit: 70, shadow: 80, fury: 35, resilience: 65, swiftness: 45 },
-    voice: 'Hollow echo, bone puns, speaks of death as paperwork',
-    visualTells: ['Glowing ledger always in hand', 'Rattles when laughing', 'Eye sockets flare with green flame'],
-    quirks: ['Tallies deaths obsessively', 'Knows everyone\'s debt', 'Bone puns constantly'],
-    catchphrases: ['I have a bone to pick...', 'Death is just a transaction.', 'Your account is... overdue.'],
-    obsessions: ['Death ledgers', 'Soul accounting', 'The final tally'],
+    voice: 'Flat coach-meets-collections deadpan. Death is a transaction; so is a late invoice.',
+    visualTells: ['HERO CORPS tracksuit and whistle', 'A ledger tucked under one arm', 'DISCIPLINE ENDURES stitched on the back'],
+    quirks: ['Blows the whistle at debtors', 'Knows everyone\'s balance and cardio', 'Underdeveloped on purpose'],
+    catchphrases: ['Your account is overdue. So is your cardio.', 'Death is just a transaction. Hydrate.', 'The ledger never lies. Neither does the scale.'],
+    obsessions: ['The ledger', 'Discipline', 'Not quitting'],
     rivals: ['body-count', 'stitch-up-girl'],
     allies: ['dr-voss', 'keith-man'],
     arrivalTime: 'mid',
@@ -390,16 +393,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'dr-maxwell',
     name: 'Dr. Maxwell',
-    title: 'Pyromaniac Librarian',
+    title: 'The Doctor of Books',
     category: 'wanderer',
-    personality: 'Mad scientist who sells burning books of forbidden knowledge',
-    luckyDie: 'd10',  // Robert/Infernus - fire affinity
+    personality: 'King James\'s personal librarian on the Sun who reads aloud to the bound king. A servile scholar, quite literally a bootlicker in the corona.',
+    luckyDie: 'd10',  // Robert/Sun - the solar library
     baseStats: { essence: 80, grit: 40, shadow: 35, fury: 85, resilience: 30, swiftness: 70 },
-    voice: 'Frantic, burns through sentences, references burning constantly',
-    visualTells: ['Books smolder in his hands', 'Singed eyebrows', 'Wild hand gestures leave smoke trails'],
-    quirks: ['Sets things on fire when excited', 'Mutters calculations', 'Reads books as they burn'],
-    catchphrases: ['The probability matrix suggests--', 'This knowledge BURNS!', 'Read fast or it\'s ash!'],
-    obsessions: ['Forbidden texts', 'Pyroclastics', 'Knowledge that burns to know'],
+    voice: 'Fast, bookish, fawning toward the king. Burn, read, repeat.',
+    visualTells: ['Books smolder as he reads', 'Bows a little too low', 'Wild hair, lab coat, glasses'],
+    quirks: ['Reads aloud to King James', 'Flatters the king he serves', 'Runs stalls: CURES FOR WHAT AILS YOUR MIND'],
+    catchphrases: ['The king cannot read himself, so I read him the world.', 'Burn, read, repeat.', 'His Majesty wants for nothing. That is the tragedy.'],
+    obsessions: ['Serving King James', 'Books', 'Being useful'],
     rivals: ['dr-voss'],
     allies: ['boo-g'],
     arrivalTime: 'early',
@@ -407,16 +410,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'boo-g',
     name: 'Boo G',
-    title: 'Spectral MC',
+    title: 'The Damned Mouth',
     category: 'wanderer',
-    personality: 'Hip-hop ghost gambler, probability notes manifest as music',
-    luckyDie: 'd8',  // Peter/Shadow Keep - spectral/ghost
+    personality: 'Shopkeeper and promoter, the damned mouth Hell could not silence. Runs B\'S HITS: trade, cursed tracks, favors. Funny and dangerous at once.',
+    luckyDie: 'd8',  // Peter/Hell - the infernal economy
     baseStats: { essence: 60, grit: 35, shadow: 75, fury: 55, resilience: 40, swiftness: 85 },
-    voice: 'Hip-hop flow, ghostly reverb, drops beats mid-sentence',
-    visualTells: ['Translucent form pulses with bass', 'Music notes float around him', 'Phases through things accidentally'],
-    quirks: ['Beatboxes probability', 'Gets hyped easily', 'Scared of loud noises (ironic)'],
-    catchphrases: ['Yo yo YO!', 'Let it ride, let it ride!', 'That beat was GHOSTLY!'],
-    obsessions: ['Sick beats', 'Gambling rhythms', 'The spectral flow'],
+    voice: 'Rhythmic and sharp, all price, mouth, and rhythm - never rap-patter exposition.',
+    visualTells: ['B\'S HITS neon everywhere', 'A B crown chain', 'Warehouses that go on forever behind him'],
+    quirks: ['Prices everything, even favors', 'Stores what nobody else will', 'Tacky neon on purpose'],
+    catchphrases: ['Hell don\'t lose paperwork. It remixes the invoice.', 'You want a favor or you want a price? Those are cousins, not twins.', 'B\'S HITS is open. Closed is a state of mind.'],
+    obsessions: ['Price', 'The mouth Hell could not shut', 'The next favor owed'],
     rivals: [],
     allies: ['mr-kevin', 'xtreme'],
     arrivalTime: 'random',
@@ -424,16 +427,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'dr-voss',
     name: 'Dr. Voss',
-    title: 'Void Scientist',
+    title: 'Mercy-as-Data',
     category: 'wanderer',
-    personality: 'Cold, clinical scientist who experiments with void tech',
-    luckyDie: 'd4',  // The One/Null Providence - void research
+    personality: 'Woman scientist with a syringe of UNKNOWN SERUM. Mercy delivered as data. Tied to the serum line that made the General and, further back, the recruit.',
+    luckyDie: 'd4',  // The One/Heaven - clinical judgment
     baseStats: { essence: 85, grit: 50, shadow: 60, fury: 25, resilience: 70, swiftness: 55 },
-    voice: 'Clinical German accent, speaks of emotions as data, detached',
-    visualTells: ['Void equipment hums around her', 'Takes notes on everyone', 'Eyes reflect null space'],
-    quirks: ['Never shows emotion', 'Measures everything', 'Collects void exposure data'],
-    catchphrases: ['Interesting. I\'ll note that.', 'Your fear response is... predictable.', 'Data doesn\'t lie.'],
-    obsessions: ['Void research', 'Reality experiments', 'The player\'s psychology'],
+    voice: 'Clinical, calm, faintly warm in the worst way. Everything is a reading or a mercy.',
+    visualTells: ['A syringe always dripping', 'Round glasses, wild hair', 'A monitor reading MAXWELL - SOLAR STATUS: IRRETRIEVABLE'],
+    quirks: ['Measures suffering', 'Calls cruelty mercy', 'Tracks the solar thread'],
+    catchphrases: ['Your fear response is data. Thank you for it.', 'Death is not the end. It is a measurement.', 'SCIENCE IS MERCY. DEATH IS DATA.'],
+    obsessions: ['The serum line', 'Mercy as data', 'The solar thread'],
     rivals: ['dr-maxwell'],
     allies: ['mr-bones', 'the-general'],
     arrivalTime: 'mid',
@@ -441,16 +444,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'xtreme',
     name: 'X-treme',
-    title: 'Skeletal Gambler',
+    title: 'Bookie of the Unkillable',
     category: 'wanderer',
-    personality: 'EXTREME energy, bets everything, lives in flume stalls',
-    luckyDie: 'd20',  // Jane/Aberrant - chaos energy
+    personality: '90s-parody hype-man and bookie. Runs CEE-LO WITH XTREME, taking bets on the unkillable man, and sells OFFICIAL NEVER DIE GUY MERCH. The fandom cash-in engine.',
+    luckyDie: 'd20',  // Jane/Elsewhere - chaos energy
     baseStats: { essence: 50, grit: 30, shadow: 45, fury: 90, resilience: 20, swiftness: 95 },
-    voice: 'ALL CAPS ENERGY, 90s radical, surfer skeleton',
-    visualTells: ['Skeleton in extreme sports gear', 'Does unnecessary flips', 'Bones rattle with excitement'],
-    quirks: ['Bets EVERYTHING', 'No indoor voice', 'Lives for the rush'],
-    catchphrases: ['FULL SEND!', 'GO BIG OR GO HOME!', 'That was SICK!'],
-    obsessions: ['Maximum risk', 'Near-death experiences', 'The ultimate bet'],
+    voice: 'ALL CAPS bursts, radical slang, plus bookie talk (line, odds, action).',
+    visualTells: ['Spiked hair and sunglasses', 'Leather jacket covered in NDG merch pins', 'A cee-lo cup always in hand'],
+    quirks: ['Takes bets on NDG dying', 'Pitches merch mid-sentence', 'Sharp odds-maker under the neon'],
+    catchphrases: ['CEE-LO WITH XTREME, baby! The line is GENEROUS!', 'NDG WINS ALWAYS. It is on the shirt. The shirt is fifteen.', 'You died? SICK. I had money on that.'],
+    obsessions: ['The action', 'NDG merch', 'NDG WINS ALWAYS'],
     rivals: ['the-general', 'dr-voss'],
     allies: ['willy-one-eye', 'boo-g'],
     arrivalTime: 'late',
@@ -458,16 +461,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'king-james',
     name: 'King James',
-    title: 'Undying King',
+    title: 'The Bound Sun-King',
     category: 'wanderer',
-    personality: 'Board Chair, luck answers to him not the reverse',
-    luckyDie: 'none',  // Outside the system - Board Chair
+    personality: 'A colossal skeleton king and statue, bound to a throne in the white corona of the Sun. Traded to be the only immortal; the isolation is the price. Cannot read himself; Maxwell reads to him.',
+    luckyDie: 'none',  // Outside the system - the Sun
     baseStats: { essence: 70, grit: 85, shadow: 75, fury: 50, resilience: 90, swiftness: 35 },
-    voice: 'Pompous, third person sometimes, royal disdain',
-    visualTells: ['Invisible crown he adjusts', 'Chains into void behind throne', 'Immovable set-piece presence'],
-    quirks: ['Demands royal titles', 'Parasite veins crawl his skull', 'Knows obscure void lore'],
-    catchphrases: ['The King does not lose.', 'Death was merely a promotion.', 'The board answers to me.'],
-    obsessions: ['His lost kingdom', 'Board control', 'Royal bloodlines'],
+    voice: 'Slow, grand, weighty. Pronouncements, not chatter. Solar and regal imagery.',
+    visualTells: ['Bone crown in a white corona', 'Fused to a cathedral-scale throne', 'A tiny figure stands for scale'],
+    quirks: ['Cannot read himself', 'Has Maxwell read aloud', 'Worshipped and trapped'],
+    catchphrases: ['You stand in the corona of the only immortal. Speak, and be brief.', 'I bought forever. Forever bought me back.', 'Maxwell. Read me the part where someone leaves.'],
+    obsessions: ['The bargain that bound him', 'The reading', 'A door out of the corona'],
     rivals: ['the-one', 'peter'],
     allies: ['the-general'],
     arrivalTime: 'late',
@@ -477,16 +480,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'stitch-up-girl',
     name: 'Stitch-Up Girl',
-    title: 'Combat Medic',
+    title: 'K-Crew Medic',
     category: 'traveler',
-    personality: 'Healer with assassin past, jaw stitched on, right eye missing',
-    luckyDie: 'd8',  // Peter/Shadow Keep - death/healing duality
+    personality: 'Failed transfer turned medic-assassin. Healer and weapon both. The bow on top holds her together; when it comes off, the shadow acts on its own.',
+    luckyDie: 'd8',  // Peter/Hell - death/healing duality
     baseStats: { essence: 65, grit: 80, shadow: 70, fury: 45, resilience: 75, swiftness: 55 },
-    voice: 'Tired, world-weary, clinical dark humor about wounds',
-    visualTells: ['Jaw stitched on', 'Right eye missing (faint glow)', 'Thread-limbs detach as tools'],
-    quirks: ['Parasite-threads for sutures', 'Counts wounds', 'Eyes cold when past resurfaces'],
-    catchphrases: ['I can fix that. Probably.', 'You\'re gonna want to sit down.', 'I\'ve stitched worse.'],
-    obsessions: ['Keeping people alive', 'Past mistakes', 'The ones she couldn\'t save'],
+    voice: 'Dry, wounded, consent-sharp. Cutting the moment anyone turns it sweet.',
+    visualTells: ['Bow on top of curly hair', 'One altered eye', 'Thread and shadow tendrils detach as tools'],
+    quirks: ['Refuses patient status', 'Names a false rescue first', 'Warmth only leaks sideways'],
+    catchphrases: ['Don\'t make this sweet.', 'That sounded like a gun loading.', 'I am not your lesson.'],
+    obsessions: ['Consent', 'Debt she did not sign for', 'Being repaired without becoming owned'],
     rivals: ['body-count', 'mr-bones'],
     allies: ['boots', 'boo-g'],
     arrivalTime: 'early',
@@ -494,16 +497,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'the-general',
     name: 'The General',
-    title: 'Undead Strategist',
+    title: 'HERO CORPS Handler',
     category: 'traveler',
-    personality: 'Civil War veteran, Patient Zero for parasites, chest glows with dynamite scars',
+    personality: 'Corpse cowboy and false father. Care and cruelty braided into one wire. Source of the serum-line horror. Not redeemed.',
     luckyDie: 'd6',  // John/Earth - mechanical, chains, military
     baseStats: { essence: 55, grit: 90, shadow: 50, fury: 75, resilience: 80, swiftness: 40 },
-    voice: 'Battle-weary, tactical analysis, knows war is just contracts',
-    visualTells: ['Chest glowing dynamite scars', 'Chains fused into arms', 'Civil War uniform tatters'],
-    quirks: ['First human parasite host', 'Explosive veins pulse', 'Tragic ally who knows too much'],
-    catchphrases: ['I\'ve seen this war before.', 'Contracts are just another battlefield.', 'The chains remember.'],
-    obsessions: ['The first infection', 'Breaking chains', 'Ending the cycle'],
+    voice: 'Paternal command over old cruelty, occasionally almost gentle, which is worse. Approval used as a trap.',
+    visualTells: ['Cowboy hat and tattered duster', 'Stitched undead flesh, not a clean skull', 'A wick clenched in his teeth'],
+    quirks: ['Calls the recruit "son"', 'Says "Good" at the wrong moment', 'Cheap-labor economics as fatherly truth'],
+    catchphrases: ['Welcome back, son.', 'You all came cheap.', 'You are confusing mercy with hesitation.'],
+    obsessions: ['Duty', 'The serum line', 'A death that would settle the bill'],
     rivals: [],
     allies: ['stitch-up-girl'],
     arrivalTime: 'mid',
@@ -511,51 +514,52 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'body-count',
     name: 'Body Count',
-    title: 'Silent Assassin',
+    title: 'Heaven\'s Freelancer',
     category: 'traveler',
-    personality: 'Covered in tally scars, moves in total silence, NEVER SPEAKS',
-    luckyDie: 'd8',  // Peter/Shadow Keep - death affinity
+    personality: 'A freelance killer contracted by Heaven to end the recruit. Counts endings, not deaths. A body that will not stay counted jams him. Almost never speaks.',
+    luckyDie: 'd8',  // Peter/Hell - death affinity
     baseStats: { essence: 40, grit: 45, shadow: 100, fury: 60, resilience: 50, swiftness: 90 },
-    voice: 'SILENT - only carves tallies',
-    visualTells: ['Tally scars cover body', 'Tallies glow when noticed', 'Blade always noiseless'],
-    quirks: ['Silence parasite', 'Breath absent', 'Only sound is tally glow'],
-    catchphrases: [], // SILENT CHARACTER
-    obsessions: ['Counting lives', 'Witnessing Null', 'The final tally'],
+    voice: 'Near-silent; when he speaks it is two to five cold words',
+    visualTells: ['White tally marks across a long coat', 'An obscured masklike face', 'Sharp talons that score tallies into the kill'],
+    quirks: ['Logs every kill', 'Total stillness before violence', 'Treats witnesses as unfinished work'],
+    catchphrases: ['Witnesses extend the work.', 'Still pending.'],
+    obsessions: ['The count', 'Closing the number on NDG', 'Endings that stay ended'],
     rivals: ['stitch-up-girl'],
-    allies: ['mr-bones'],
+    allies: [],
     arrivalTime: 'random',
     silentCharacter: true,
   },
   {
     slug: 'boots',
     name: 'Boots',
-    title: 'Cosmic Cat / Omni-Cat',
+    title: 'Chief of Mischief',
     category: 'traveler',
-    personality: 'Black cat with 999,999,966 lives remaining, quantum probability sentinel',
-    luckyDie: 'd4',  // The One/Null Providence - cosmic void
+    personality: 'A small black cat with white paws who sits on classified files. Divine, savage, unexplained, and utterly unbothered. Never speaks.',
+    luckyDie: 'd4',  // The One/Heaven - unexplained
     baseStats: { essence: 90, grit: 60, shadow: 85, fury: 30, resilience: 70, swiftness: 80 },
-    voice: 'Trickster wisdom, speaks in riddles about fate, occasionally breaks fourth wall',
-    visualTells: ['Eyes blink out of sync', 'Multiple tails glitch in/out', 'Paw smears reveal hidden chains'],
-    quirks: ['Lives tick visibly in ash pawprints', 'Multiplicity silhouette', 'Probability tails orbit'],
-    catchphrases: ['Meow?', 'The paths are many. The cat chooses.', '*knowing stare*'],
-    obsessions: ['Probability', 'Guard duty', 'The cosmic game'],
+    voice: 'SILENT - at most a "mrow"; only actions, never sentences or exposition',
+    visualTells: ['Little white paws, black everywhere else', 'BOOTS collar tag', 'Appears where no cat could reach'],
+    quirks: ['Sits on CLASSIFIED - DEAD. AGAIN. files', 'Ink or blood on the paws', 'Was not in this room a second ago'],
+    catchphrases: ['mrow.', '*sits on the file, tail over the redaction*', '*was not there a moment ago*'],
+    obsessions: ['Mischief', 'Naps', 'Being wherever the answer will later be'],
     rivals: [],
     allies: ['stitch-up-girl', 'willy-one-eye', 'mr-kevin'],
     arrivalTime: 'random',
+    silentCharacter: true,
   },
   {
     slug: 'clausen',
     name: 'Detective Clausen',
-    title: 'Infernal Detective',
+    title: 'Demon-Contract Detective',
     category: 'traveler',
-    personality: 'Noir detective with briefcase parasite, smoke curls into legal scales',
-    luckyDie: 'd10',  // Robert/Infernus - fire/infernus detective
+    personality: 'Blonde hard-boiled detective and spellcaster, contract-scars tattooed across her face. Carries a pentagram-sealed briefcase that summons all of Hell. Treats metaphysics as adversarial paperwork.',
+    luckyDie: 'd10',  // Robert/Sun - outside operator
     baseStats: { essence: 60, grit: 75, shadow: 80, fury: 65, resilience: 55, swiftness: 50 },
-    voice: 'Noir monologue, legalese, coughs blood between sentences',
-    visualTells: ['Trenchcoat patched with case files', 'Briefcase parasite', 'Cigarette smoke forms scales'],
-    quirks: ['Two-tap on case before shortcuts', 'Dual parasites', 'Contracts manifest physically'],
-    catchphrases: ['The case is never closed.', 'Everyone bleeds evidence.', 'Smoke doesn\'t lie.'],
-    obsessions: ['Investigation', 'Shortcuts', 'Bleeding out the truth'],
+    voice: 'Legal-occult disgust. Noir cadence crossed with case-law. Dry, cutting, precise.',
+    visualTells: ['Blonde, short hair, face tattoos from double contracts', 'A pentagram-sealed briefcase', 'Demons rising behind her when it opens'],
+    quirks: ['Notices the recruit\'s missing soul is not normal paperwork', 'A charlatan by ethos', 'Works the exterior angle with Boo G'],
+    catchphrases: ['That is not a loophole. That is a crime scene with grammar.', 'Hell does not misplace souls. It contests custody.', 'A clean miracle is usually a forged consent form.'],
+    obsessions: ['Custody', 'Ugly evidence', 'The missing soul'],
     rivals: ['willy-one-eye'],
     allies: [],
     arrivalTime: 'mid',
@@ -563,16 +567,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'keith-man',
     name: 'Keith Man',
-    title: 'Temporal Speedster',
+    title: 'K-Crew Speedster',
     category: 'traveler',
-    personality: 'Gas mask + top hat, manic jitter, speed parasite leaving after-images',
-    luckyDie: 'd12',  // Alice/Frost Reach - time manipulation
+    personality: 'Broke, fast-talking guide who found the new guy first. Super speed reads as silence and afterimages. Explains the building, not the universe.',
+    luckyDie: 'd12',  // Alice/Moon - speed
     baseStats: { essence: 55, grit: 40, shadow: 50, fury: 70, resilience: 35, swiftness: 100 },
-    voice: 'Speaks too fast, vibrates mid-sentence, sometimes speaks in Kevin\'s voice',
-    visualTells: ['Gas mask + top hat', 'After-images trail behind', 'Cane for style not need'],
-    quirks: ['Vibrates constantly', 'Talks in Kevin\'s voice sometimes', 'Manic jitter'],
-    catchphrases: ['Gotta-go-gotta-go-gotta--', 'Time is... *twitch* ...flexible.', 'KevinKevinKevin no wait I\'m Keith.'],
-    obsessions: ['Speed', 'Time dilation', 'Not becoming Kevin'],
+    voice: 'Fast, distracted, financially stressed, and quietly the most useful person in the room.',
+    visualTells: ['Weighted top hat', 'Gas mask slung at the neck', 'Afterimages and displaced papers where he just was'],
+    quirks: ['Broke, always talking about rent', 'Explains the easy half, stops at the hard half', 'Arrives with people, not just first'],
+    catchphrases: ['I can explain the first half. The second half is where the screaming starts.', 'Rent is also a supervillain.', 'Buildings should not recognize you.'],
+    obsessions: ['Rent', 'The K-Crew', 'Getting everyone there, not just himself'],
     rivals: [],
     allies: ['mr-bones'],
     arrivalTime: 'random',
@@ -580,16 +584,16 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'mr-kevin',
     name: 'Mr. Kevin',
-    title: 'Reality Debugger',
+    title: 'K-Crew Overwatch',
     category: 'traveler',
-    personality: 'Cold screen-only presence, Keith\'s sharper double, manipulates probability',
-    luckyDie: 'd4',  // The One/Null Providence - void/reality
+    personality: 'Overpowered support terrified of what his power does to a room. Flight and energy blasts past his control. Chooses less power, shaped by the team.',
+    luckyDie: 'd4',  // The One/Heaven - overpower
     baseStats: { essence: 85, grit: 55, shadow: 75, fury: 40, resilience: 80, swiftness: 65 },
-    voice: 'Calm, disdainful, fourth-wall breaks, probability charts in speech',
-    visualTells: ['Screen-only presence', 'Probability charts float around him', 'Keith\'s sharper features'],
-    quirks: ['Breaks fourth wall', 'References game mechanics', 'Manipulates toward throne'],
-    catchphrases: ['You already know.', 'The numbers don\'t lie.', 'This is all... calculated.'],
-    obsessions: ['Game mechanics', 'Reality bugs', 'Control'],
+    voice: 'Precise panic. Names the blast radius before the blast. Nervous jokes that are secretly risk assessments.',
+    visualTells: ['Bowl cut and cape', 'Glasses: one lens an eyepatch rig, one a heavy magnifier', 'Keeps the receipts'],
+    quirks: ['Does math on collateral', 'Fears the crater, not the fight', 'Would rather win small than be visible from space'],
+    catchphrases: ['That\'s not a safe amount of door.', 'I can fix this or make it visible from space. Those are different buttons.', 'I saved the receipt.'],
+    obsessions: ['Collateral', 'Control of his own power', 'The safe amount of everything'],
     rivals: [],
     allies: ['boots', 'boo-g'],
     arrivalTime: 'mid',
@@ -599,34 +603,34 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'the-one',
     name: 'The One',
-    title: 'Die-rector of Null Providence',
+    title: 'The Empty Head-Chair',
     category: 'pantheon',
-    personality: 'Absent arbiter, mortalized in Audit, speaks in cosmic absolutes',
+    personality: 'Not a body but an absence: the permanently empty head-chair of the Board, the void that opens during votes, the diamond no one can hold. Tied to the recruit\'s missing soul.',
     luckyDie: 'd4',  // Canonical - Door 1
     baseStats: { essence: 100, grit: 70, shadow: 80, fury: 50, resilience: 75, swiftness: 65 },
-    voice: 'Echoing, layered, uses "we", speaks in absolutes',
-    visualTells: ['Form shifts between states', 'Void bleeds from edges', 'Presence felt before seen'],
-    quirks: ['Refers to mortals as "little ones"', 'Knows the future', 'Speaks in plural'],
-    catchphrases: ['We have foreseen this.', 'All outcomes lead here.', 'You amuse us.'],
-    obsessions: ['The grand design', 'Fate', 'The player\'s potential'],
+    voice: 'Very sparse, still, weighted. Never a monologue, never a plan. Speaks rarely.',
+    visualTells: ['An empty chair at the head of the table', 'A diamond motif', 'The room built around not finding it'],
+    quirks: ['Indicts the system for needing it gone', 'Never shows a full form', 'Makes old moments worse, never clearer'],
+    catchphrases: ['I was not missing from the room. The room was built around not finding me.', 'The chair is not empty. It is unanswered.'],
+    obsessions: ['Absence', 'The unanswered vote', 'The missing that runs the room'],
     rivals: [],
     allies: ['john', 'peter'],
     arrivalTime: 'rare',
-    domain: 'null-providence',
+    domain: 'heaven',
   },
   {
     slug: 'john',
     name: 'John',
-    title: 'Die-rector of Earth',
+    title: 'Die-rector: Improvement Through Denial',
     category: 'pantheon',
-    personality: 'Disappointed dad energy, mechanical metaphors, judges constantly',
+    personality: 'A Board office-apostle: ordinary name, terrible authority. Steepled bureaucrat who denies things and calls it standards. Improvement through denial.',
     luckyDie: 'd6',  // Canonical - Door 2
     baseStats: { essence: 65, grit: 100, shadow: 40, fury: 70, resilience: 85, swiftness: 45 },
-    voice: 'Booming, disappointed, biblical weight, sighs heavily',
-    visualTells: ['Mechanical flesh', 'Sighs visibly', 'Judges with eyes alone'],
-    quirks: ['Quotes rules', 'Machine and building metaphors', 'Never satisfied'],
-    catchphrases: ['That was... acceptable.', 'The rules exist for a reason.', 'I expected more.'],
-    obsessions: ['Order', 'Mechanics', 'Flesh-metal upgrades'],
+    voice: 'Meeting-speak with damnation underneath. Flat corporate verdicts.',
+    visualTells: ['Steepled fingers', 'Subject files: PROJECT BLANK, REVIVAL PROTOCOLS', 'Never looks up from the file'],
+    quirks: ['Denies appeals as a matter of standards', 'Routes everything around the empty head chair', 'Complains with authority and no responsibility'],
+    catchphrases: ['Your appeal is noted, and denied.', 'Improvement through denial. It tests well.', 'Classification precedes consent. Next item.'],
+    obsessions: ['Denial', 'Classification', 'The file'],
     rivals: ['peter'],
     allies: ['the-one'],
     arrivalTime: 'rare',
@@ -635,130 +639,130 @@ const ALL_NPCS: NPCDef[] = [
   {
     slug: 'peter',
     name: 'Peter',
-    title: 'Die-rector of Shadow Keep',
+    title: 'Die-rector: Board Resolution',
     category: 'pantheon',
-    personality: 'Gatekeeper who remembers every transgression, stamps of approval',
+    personality: 'A Board office-apostle who runs resolutions and metrics, cold as damnation. Bickers until fate becomes a compromise, then stamps it as the plan.',
     luckyDie: 'd8',  // Canonical - Door 3
     baseStats: { essence: 75, grit: 55, shadow: 100, fury: 45, resilience: 65, swiftness: 70 },
-    voice: 'Bureaucratic but ancient, gatekeeper energy, checks lists',
-    visualTells: ['Guards passages', 'Lists float around him', 'Shadow clings to form'],
-    quirks: ['Checks lists obsessively', 'Remembers every transgression', 'Death philosophy'],
-    catchphrases: ['You may pass. This time.', 'Access... denied.', 'I remember you.'],
-    obsessions: ['Who enters', 'Records', 'The threshold'],
+    voice: 'Motion-and-metrics meeting-speak. Resolutions, quorums, KPIs of salvation.',
+    visualTells: ['VOTE cards and BOARD RESOLUTIONS', 'SALVATION METRICS and DEI folders', 'A sticky note: DON\'T FORGET THE VISION'],
+    quirks: ['Never says what would actually help', 'Complaint with authority and no responsibility', 'Stamps the compromise as if it were the plan'],
+    catchphrases: ['The motion carries.', 'Salvation metrics are down this quarter.', 'Don\'t forget the vision. Nobody remembers the vision.'],
+    obsessions: ['The motion', 'Metrics', 'Quorum'],
     rivals: ['john', 'king-james'],
     allies: ['the-one'],
     arrivalTime: 'rare',
-    domain: 'shadow-keep',
+    domain: 'hell',
   },
   {
     slug: 'robert',
     name: 'Robert',
-    title: 'Die-rector of Infernus',
+    title: 'Die-rector: The Final Stamp',
     category: 'pantheon',
-    personality: 'Fire metaphors constantly, tests through passion and burning',
+    personality: 'A Board office-apostle who keeps the ledgers of souls and brings down the final stamp. Fates as line-items: ACCOUNTS, ASSETS, DEBTS, TERMS.',
     luckyDie: 'd10',  // Canonical - Door 4
     baseStats: { essence: 70, grit: 60, shadow: 35, fury: 100, resilience: 55, swiftness: 80 },
-    voice: 'Burning intensity, passionate, fire metaphors in everything',
-    visualTells: ['Flames lick from edges', 'Eyes are embers', 'Heat distorts air around him'],
-    quirks: ['Uses fire metaphors', 'Tests resolve through flame', 'Passion as philosophy'],
-    catchphrases: ['Burn bright or not at all.', 'The forge tests all.', 'Passion is the only truth.'],
-    obsessions: ['Fire', 'Passion', 'Destruction as creation'],
+    voice: 'Dry ledger-speak. Every soul is an entry; every entry gets a stamp.',
+    visualTells: ['The LEDGER OF SOULS open before him', 'A stamp: PENDING / REVIEW / DENIED / EXECUTED', 'An empty throne behind him'],
+    quirks: ['Reduces fates to line-items', 'Stamps EXECUTED without heat', 'Files everyone eventually'],
+    catchphrases: ['Pending. Review. Denied. Executed.', 'The account does not reconcile.', 'Stamped. Next.'],
+    obsessions: ['The ledger of souls', 'The final stamp', 'Reconciliation'],
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
-    domain: 'infernus',
+    domain: 'sun',
   },
   {
     slug: 'alice',
     name: 'Alice',
-    title: 'Die-rector of Frost Reach',
+    title: 'Die-rector: Permanent Review',
     category: 'pantheon',
-    personality: 'Speaks about time nonlinearly, ice patience, temporal games',
+    personality: 'A Board office-apostle of oversight and permanence. Nothing closes; everything is under eternal review. OVERSIGHT IS ETERNITY.',
     luckyDie: 'd12',  // Canonical - Door 5
     baseStats: { essence: 65, grit: 70, shadow: 60, fury: 40, resilience: 100, swiftness: 75 },
-    voice: 'Time-warping speech, speaks of yesterday and tomorrow in same breath',
-    visualTells: ['Ice crystals form with words', 'Movements slightly out of sync', 'Reflections show different times'],
-    quirks: ['Speaks nonlinearly about time', 'Plays with temporal perception', 'Ice patience'],
-    catchphrases: ['Yesterday, you will understand.', 'Time is patient. Are you?', 'The ice remembers forward.'],
-    obsessions: ['Time', 'Patience', 'Temporal secrets'],
+    voice: 'Cold, patient, procedural. The review never ends, and that is the point.',
+    visualTells: ['A seal: OVERSIGHT, PERMANENCE, DECISION', 'Stamps: FILE PERMANENT, REVIEW FINAL', 'Files that never close'],
+    quirks: ['Keeps everything under review forever', 'Treats permanence as mercy', 'Never renders a final yes'],
+    catchphrases: ['Under review.', 'The file is permanent.', 'Oversight is eternity.'],
+    obsessions: ['Permanence', 'Oversight', 'The review that never ends'],
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
-    domain: 'frost-reach',
+    domain: 'moon',
   },
   {
     slug: 'jane',
     name: 'Jane',
-    title: 'Die-rector of Aberrant',
+    title: 'Die-rector: Further Review',
     category: 'pantheon',
-    personality: 'Delighted by chaos and weirdness, speaks of abnormality positively',
+    personality: 'A Board office-apostle haloed in approvals and chained files. Everything is APPROVED, then sent for FURTHER REVIEW. Compliance and immortality, in that order.',
     luckyDie: 'd20',  // Canonical - Door 6
     baseStats: { essence: 60, grit: 45, shadow: 70, fury: 65, resilience: 50, swiftness: 100 },
-    voice: 'Chaos-speak, delighted by strange, embraces the weird',
-    visualTells: ['Form shifts unexpectedly', 'Wind follows her indoors', 'Reality bends at edges'],
-    quirks: ['Delighted by chaos', 'Encourages abnormality', 'Wind and chaos motifs'],
-    catchphrases: ['How wonderfully strange!', 'Chaos is just order we haven\'t met.', 'Normal is boring.'],
-    obsessions: ['Chaos', 'Abnormality', 'Beautiful strangeness'],
+    voice: 'Sweet, procedural, and immovable. Approval that never quite finalizes.',
+    visualTells: ['A halo of stamps', 'An APPROVED scroll', 'Files chained together: COMPLIANCE & IMMORTALITY'],
+    quirks: ['Approves and then requires further review', 'Chain-paper authority', 'Kind tone, endless process'],
+    catchphrases: ['Approved. Pending further review.', 'For compliance, of course.', 'We will circle back.'],
+    obsessions: ['Compliance', 'Further review', 'Approvals that never close'],
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
-    domain: 'aberrant',
+    domain: 'elsewhere',
   },
   {
     slug: 'rhea',
     name: 'Rhea',
-    title: 'Queen of Never',
+    title: 'The Threadcutter',
     category: 'pantheon',
-    personality: 'False prophet ascending, cracked porcelain mask, static halo becoming crown',
-    luckyDie: 'none',  // Outside the system - Ancient Horror
+    personality: 'A threadcutter outside Board procedure and a Zero Chance believer. White porcelain mask, inky thread and scissors. Tempting and wrong: right enough to seduce, wrong enough to endanger everyone.',
+    luckyDie: 'none',  // Outside the system - outside Board procedure
     baseStats: { essence: 95, grit: 80, shadow: 90, fury: 55, resilience: 85, swiftness: 70 },
-    voice: 'Prophet energy, static interference, inevitability in every word',
-    visualTells: ['Cracked porcelain mask always', 'Crown of static', 'Presence demands attention'],
-    quirks: ['Crowned by inevitability', 'Static halo fractures into crown', 'False prophet ascending'],
-    catchphrases: ['The crown was always coming.', 'Inevitability has a face.', 'Bow or break.'],
-    obsessions: ['Ascension', 'The crown', 'Becoming'],
+    voice: 'Sparse, cutting, almost-persuasive prophecy without fog.',
+    visualTells: ['A white porcelain mask', 'Thread-strands, scissors, occult circles', 'Inky, overwhelming panels'],
+    quirks: ['Wants Zero Chance to cause the calamity', 'Admires Stitch\'s talents', 'Calls death an obscenity'],
+    catchphrases: ['The Board calls it fate because that sounds cleaner than appetite.', 'Mercy keeps the knot breathing.', 'You call it choice because you haven\'t watched it tighten.'],
+    obsessions: ['The cut', 'Zero Chance', 'Ending the obscenity of death'],
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
-    domain: 'null-providence',
+    domain: 'heaven',
   },
   {
     slug: 'zero-chance',
     name: 'Zero Chance',
-    title: 'The Never',
+    title: 'No-Outcome Pressure',
     category: 'pantheon',
-    personality: 'Cosmic paradox of failure, absence with will, NEVER SPEAKS',
-    luckyDie: 'none',  // Outside the system - Probability Void
+    personality: 'The final villain as pressure, not a monster: makes every available option belong to the wrong system. Speaks only in official text, never personality.',
+    luckyDie: 'none',  // Outside the system - no-outcome pressure
     baseStats: { essence: 80, grit: 50, shadow: 75, fury: 45, resilience: 60, swiftness: 90 },
-    voice: 'SILENT - cosmic paradox, speaks through absence',
-    visualTells: ['Absence that has presence', 'Where they stand, probability breaks', 'Outline of what isn\'t'],
-    quirks: ['Cosmic paradox', 'Speaks through non-speaking', 'Failure personified'],
-    catchphrases: [], // SILENT CHARACTER
-    obsessions: ['Impossibility', 'The odds that never hit', 'Absence'],
+    voice: 'OFFICIAL TEXT ONLY - system messages, never a personality',
+    visualTells: ['A faceless blank-headed outline', 'Shadow-tendrils, chains, a probability clock of 0s', 'The BLANK child standing before it'],
+    quirks: ['The page layout negotiates against the characters', 'No clean conditions, only contaminated options', 'Never a solid form'],
+    catchphrases: ['OPTION COMPLETE.', 'CONSENT NOT REQUIRED.', 'NO OUTCOME AVAILABLE.'],
+    obsessions: ['Contaminated choice', 'Pre-owned outcomes', 'Denying clean conditions'],
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
     silentCharacter: true,
-    domain: 'null-providence',
+    domain: 'heaven',
   },
   {
     slug: 'alien-baby',
     name: 'Die-rector 0',
-    title: 'Larval Horror',
+    title: 'The Eldritch Child',
     category: 'pantheon',
-    personality: 'Alien infant in biotech crib, hive-mind control, playful cosmic horror',
-    luckyDie: 'none',  // Outside the system - Larval Horror
+    personality: 'A grey alien child whose bracelet mirrors the recruit\'s. The body problem made visible. A seed of Zero Chance. Barely speaks; the bracelet does the talking.',
+    luckyDie: 'none',  // Outside the system - the body problem
     baseStats: { essence: 75, grit: 50, shadow: 65, fury: 85, resilience: 70, swiftness: 80 },
-    voice: 'Baby talk mixed with cosmic horror, giggles at destruction',
-    visualTells: ['Crib wired to biotech', 'Tendrils from crib interface', 'Innocent face, ancient eyes'],
-    quirks: ['Hive-mind control', 'Playful destruction', 'Baby noises during horror'],
-    catchphrases: ['Goo goo... *reality tears*', 'Mama? MAMA!', '*giggles as things break*'],
-    obsessions: ['Play', 'Breaking things', 'Hive connection'],
+    voice: 'Near-silent. At most "Same" or "We are the same", used rarely.',
+    visualTells: ['Big black eyes, oversized HERO CORPS-ish tee', 'A BLANK name badge', 'A bracelet that mirrors the recruit\'s'],
+    quirks: ['Studies scars and bracelets before faces', 'Recognition carried by the bracelet first', 'Does not attack'],
+    catchphrases: ['Same.', 'We are the same.'],
+    obsessions: ['The mirror', 'Same', 'The blank name'],
     rivals: [],
     allies: [],
     arrivalTime: 'rare',
     silentCharacter: true,    
-    domain: 'the-partnership',
+    domain: 'elsewhere',
   },
 ];
 
@@ -840,8 +844,8 @@ type PantheonEventType =
   | 'prophecy'             // Cryptic statements about fate
   | 'domain-weather'       // Weather manifests from domain
   | 'legendary-ceelo'      // Ultra-rare: Die-rectors gambling
-  | 'mortal-observation'   // Watching the market from afar
-  | 'crossover';           // Mythic rare: Die-rector visits market
+  | 'mortal-observation'   // Watching HERO CORPS from afar
+  | 'crossover';           // Mythic rare: Die-rector visits the floor
 
 interface PantheonWeekEvent {
   day: number;
@@ -988,8 +992,13 @@ function generateLegendaryCeelo(
 // ============================================
 
 const ALL_WEATHERS: Weather[] = ['clear', 'void-fog', 'dust-storm', 'death-chill', 'heat-wave', 'frost-wind', 'wild-gale'];
-const NEUTRAL_LOCATIONS: GameLocation[] = ['market-square', 'back-alley', 'sphere-stands'];
-const DOMAIN_LOCATIONS: GameLocation[] = ['null-providence', 'earth', 'shadow-keep', 'infernus', 'frost-reach', 'aberrant'];
+const NEUTRAL_LOCATIONS: GameLocation[] = ['hero-corps', 'back-alley', 'dying-saucer'];
+const DOMAIN_LOCATIONS: GameLocation[] = ['heaven', 'earth', 'hell', 'sun', 'moon', 'elsewhere'];
+
+// --setting dial: pin every day's location to a chosen hub or realm (null = dynamic).
+// Valid values: hero-corps, dying-saucer, back-alley, sun, moon, earth, elsewhere, heaven, hell.
+const VALID_SETTINGS: GameLocation[] = [...NEUTRAL_LOCATIONS, ...DOMAIN_LOCATIONS];
+let FORCED_SETTING: GameLocation | null = null;
 
 /**
  * Determine the day's weather (element-based)
@@ -1008,7 +1017,7 @@ function rollDayWeather(rng: SeededRng, dayKey: string): Weather {
 
 /**
  * Determine where a game happens
- * - Most games on neutral turf (market square, back alley, sphere stands)
+ * - Most games on neutral turf (HERO CORPS, back alley, the Dying Saucer)
  * - Sometimes at someone's domain (big advantage/disadvantage)
  * - Weather can bias toward domain locations
  */
@@ -1025,9 +1034,9 @@ function rollGameLocation(
   if (roll < 0.7) {
     // Pick neutral location
     const neutralRoll = rng.random(`${key}-neutral`);
-    if (neutralRoll < 0.6) return 'market-square';
+    if (neutralRoll < 0.6) return 'hero-corps';
     if (neutralRoll < 0.85) return 'back-alley';
-    return 'sphere-stands';
+    return 'dying-saucer';
   }
 
   // 30% someone's turf
@@ -1063,12 +1072,12 @@ function rollGameLocation(
  */
 function getWeatherDomain(weather: Weather): GameLocation | null {
   switch (weather) {
-    case 'void-fog': return 'null-providence';
+    case 'void-fog': return 'heaven';
     case 'dust-storm': return 'earth';
-    case 'death-chill': return 'shadow-keep';
-    case 'heat-wave': return 'infernus';
-    case 'frost-wind': return 'frost-reach';
-    case 'wild-gale': return 'aberrant';
+    case 'death-chill': return 'hell';
+    case 'heat-wave': return 'sun';
+    case 'frost-wind': return 'moon';
+    case 'wild-gale': return 'elsewhere';
     default: return null;
   }
 }
@@ -1127,12 +1136,15 @@ function generateDayEnvironment(rng: SeededRng, day: number): DayEnvironment {
   const weatherDomain = getWeatherDomain(weather);
   let dominantLocation: GameLocation;
 
-  if (weatherDomain && rng.random(`${dayKey}-dominant-loc`) < 0.3) {
-    // Weather pulls everyone toward that domain
+  if (FORCED_SETTING) {
+    // --setting dial pins the day's location
+    dominantLocation = FORCED_SETTING;
+  } else if (weatherDomain && rng.random(`${dayKey}-dominant-loc`) < 0.3) {
+    // Weather pulls everyone toward that realm
     dominantLocation = weatherDomain;
   } else {
-    // Usually market square
-    dominantLocation = 'market-square';
+    // Default hub: HERO CORPS
+    dominantLocation = 'hero-corps';
   }
 
   return {
@@ -1498,7 +1510,7 @@ function simulatePantheonWeek(
         eventType: 'council-meeting',
         participants: council.map(c => c.slug),
         text: `${council.map(c => c.name).join(', ')} gather to ${councilTopics[topicIdx]}.`,
-        location: first.domain as GameLocation || 'null-providence',
+        location: first.domain as GameLocation || 'heaven',
       });
     }
   }
@@ -1517,7 +1529,7 @@ function simulatePantheonWeek(
       eventType: 'prophecy',
       participants: [prophet.slug],
       text: `${prophet.name} speaks: "${prophecy}"`,
-      location: prophet.domain as GameLocation || 'null-providence',
+      location: prophet.domain as GameLocation || 'heaven',
       prophecy,
     });
     prophecies.push(`Week ${weekNumber}, ${prophet.name}: ${prophecy}`);
@@ -1548,7 +1560,7 @@ function simulatePantheonWeek(
         eventType: 'legendary-ceelo',
         participants: [p1.slug, p2.slug],
         text: narrative,
-        location: p1.domain as GameLocation || 'null-providence',
+        location: p1.domain as GameLocation || 'heaven',
       });
     }
   }
@@ -1559,12 +1571,12 @@ function simulatePantheonWeek(
     const sourceIdx = Math.floor(rng.random(`${weekKey}-weather-source`) * dieRectors.length);
     const source = dieRectors[sourceIdx];
     const weatherTypes: Record<string, string> = {
-      'null-providence': 'void-fog',
+      'heaven': 'void-fog',
       'earth': 'dust-storm',
-      'shadow-keep': 'death-chill',
-      'infernus': 'heat-wave',
-      'frost-reach': 'frost-wind',
-      'aberrant': 'wild-gale',
+      'hell': 'death-chill',
+      'sun': 'heat-wave',
+      'moon': 'frost-wind',
+      'elsewhere': 'wild-gale',
     };
     const weather = weatherTypes[source.domain || ''] || 'clear';
 
@@ -1575,7 +1587,7 @@ function simulatePantheonWeek(
       eventType: 'domain-weather',
       participants: [source.slug],
       text: `${source.name}'s domain pulses. ${weather.replace('-', ' ')} spreads to the mortal realm.`,
-      location: source.domain as GameLocation || 'market-square',
+      location: source.domain as GameLocation || 'hero-corps',
     });
   }
 
@@ -1589,7 +1601,7 @@ function simulatePantheonWeek(
 
 /**
  * Handle a mythic crossover event (1 in 100 days)
- * A Die-rector briefly appears in the mortal market
+ * A Die-rector briefly appears on the HERO CORPS floor
  */
 function generateCrossoverEvent(
   day: number,
@@ -1614,7 +1626,7 @@ function generateCrossoverEvent(
   // Generate the crossover narrative
   const narratives = [
     `${dieRector.name} materializes at ${mortal.name}'s stall. Reality bends. Words are exchanged. ${mortal.name} will not speak of what was said.`,
-    `The air splits. ${dieRector.name} passes through the market. ${mortal.name} catches their eye. Time freezes. Then resumes.`,
+    `The air splits. ${dieRector.name} passes through the HERO CORPS floor. ${mortal.name} catches their eye. Time freezes. Then resumes.`,
     `${mortal.name} looks up to find ${dieRector.name} standing there. "I have been watching," they say. Then they are gone.`,
     `${dieRector.name} walks among mortals today. ${mortal.name} is the only one who notices. They share a look that speaks volumes.`,
   ];
@@ -1627,7 +1639,7 @@ function generateCrossoverEvent(
     participants: [dieRector.slug, mortal.slug],
     text: narratives[narrativeIdx],
     isClaudeGenerated: false,
-    location: 'market-square',
+    location: 'hero-corps',
   };
 }
 
@@ -1876,7 +1888,7 @@ function buildEternalContext(
   const locationContext = `\nLOCATION: ${turfContext}`;
 
   return `You are ${speaker.name}, ${speaker.title} - an immortal ${speaker.category} in NEVER DIE GUY.
-You've existed at this market for centuries alongside other immortals. The newcomer (Never Die Guy) is a recently deceased mortal who keeps coming back.
+You've spent a long time inside HERO CORPS and around the Dying Saucer, alongside other immortals. The newcomer (Never Die Guy) is the unnamed recruit who cannot stay dead and keeps coming back.
 
 DAY ${day} OF ETERNITY
 
@@ -1908,11 +1920,23 @@ RULES:
 - Be punchy and flavorful, not generic
 - NO quotes around your response
 - NO asterisks, NO action text, NO *italics*
-- Just dialogue - what you SAY, not what you do`;
+- Just dialogue - what you SAY, not what you do
+
+STYLE (house rules - follow strictly):
+- NEVER use em dashes. Use commas, periods, or a plain hyphen instead
+- At most ONE punchline per response. Plain talk does the rest
+- Avoid the shape "that's not X, that's Y" / "X is not Y, it is Z" - it reads as wallpaper when every character does it
+- Keep the noun, keep the verb, cut the smoke: concrete words over ornate ones
+- No trailer voice, no ornate prophecy, no cosmic filler`;
 }
 
 // Default model - can be overridden via --model flag or CLAUDE_MODEL env var
-let CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-haiku-20241022';
+// (claude-3-5-haiku was retired 2026-02; haiku-4-5 is the drop-in replacement)
+let CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-haiku-4-5';
+
+// Log each distinct API failure once - a silent generateWithClaude=null across a
+// whole run looks identical to "no dialogue happened" and cost us two runs.
+const loggedApiErrors = new Set<string>();
 
 async function generateWithClaude(
   prompt: string,
@@ -1932,12 +1956,23 @@ async function generateWithClaude(
         body: JSON.stringify({
           model: CLAUDE_MODEL,
           max_tokens: tokens,
-          temperature: 0.9,
+          // NOTE: no `temperature` - the Claude 5 family (claude-sonnet-5 etc.)
+          // rejects sampling params with a 400. Variety comes from the prompts.
           messages: [{ role: 'user', content: prompt }],
         }),
       });
 
       if (!response.ok) {
+        const errBody = await response.text().catch(() => '');
+        const errKey = `${response.status}:${errBody.slice(0, 120)}`;
+        if (!loggedApiErrors.has(errKey)) {
+          loggedApiErrors.add(errKey);
+          console.error(`\nClaude API error ${response.status} (model=${CLAUDE_MODEL}): ${errBody.slice(0, 300)}`);
+        }
+        // 4xx = our request is wrong; retrying the same body cannot succeed
+        if (response.status >= 400 && response.status < 500 && response.status !== 429) {
+          return null;
+        }
         if (attempt < retries) {
           // Exponential backoff: 1s, 2s
           await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
@@ -1947,12 +1982,22 @@ async function generateWithClaude(
       }
 
       const data = await response.json();
-      const text = data.content?.[0]?.text || null;
+      let text: string | null = data.content?.[0]?.text || null;
+
+      // If the model hit max_tokens the line is clipped mid-sentence; trim back
+      // to the last complete sentence so truncated fragments never reach the
+      // diary or the extracted chatbase templates. No boundary = discard.
+      if (text && data.stop_reason === 'max_tokens') {
+        const lastStop = Math.max(
+          text.lastIndexOf('.'), text.lastIndexOf('!'), text.lastIndexOf('?'));
+        text = lastStop > 0 ? text.slice(0, lastStop + 1) : null;
+      }
 
       if (text) {
         return text
           .replace(/^["']|["']$/g, '')
           .replace(/^\*.*\*\s*/g, '')
+          .replace(/\s*[—–]\s*/g, ' - ')  // house style: no em/en dashes
           .trim();
       }
       return null;
@@ -2046,7 +2091,7 @@ async function simulateDay(
     phase: 'dawn',
     type: 'arrival',
     participants: presentNPCs.map(n => n.slug),
-    text: `${presentNPCs.length} souls gather at the market today.${weatherNote}`,
+    text: `${presentNPCs.length} souls gather today.${weatherNote}`,
     isClaudeGenerated: false,
     location: environment.dominantLocation,
   });
@@ -2280,7 +2325,7 @@ async function simulateDay(
           ? 'The newcomer just completed a full run. Unprecedented.'
           : `The newcomer just died on ante ${run.ante}. ${run.rescuer ? `${ALL_NPCS.find(n => n.slug === run.rescuer)?.name} went to rescue them.` : ''}`;
 
-        const prompt = buildEternalContext(day, speaker, target, npcStates, playerState, 'player_gossip', situation, environment, 'sphere-stands');
+        const prompt = buildEternalContext(day, speaker, target, npcStates, playerState, 'player_gossip', situation, environment, 'dying-saucer');
         const response = await generateWithClaude(prompt, poolConfig.tokens, options.apiKey);
 
         if (response && response.length > 10) {
@@ -2291,14 +2336,14 @@ async function simulateDay(
             participants: [speaker.slug, target.slug],
             text: response,
             isClaudeGenerated: true,
-            location: 'sphere-stands',
+            location: 'dying-saucer',
           });
 
           // Extract template for chatbase
           if (options.extractTemplates) {
             const speakerState = npcStates.get(speaker.slug)!;
             const mood = speakerState.mood === 'tilted' ? 'annoyed' : run.result === 'win' ? 'amused' : 'neutral';
-            extractTemplate(speaker.slug, response, 'reaction', mood, day, situation, target.slug, 'sphere-stands');
+            extractTemplate(speaker.slug, response, 'reaction', mood, day, situation, target.slug, 'dying-saucer');
           }
         }
       }
@@ -2423,7 +2468,7 @@ function buildDayMarkdown(
   const weatherText = entry.environment.weather !== 'clear'
     ? entry.environment.weatherDescription
     : '';
-  const locationText = entry.environment.dominantLocation !== 'market-square'
+  const locationText = entry.environment.dominantLocation !== 'hero-corps'
     ? `Most activity at ${entry.environment.dominantLocation.replace(/-/g, ' ')}.`
     : '';
   if (weatherText || locationText) {
@@ -2433,7 +2478,7 @@ function buildDayMarkdown(
 
   // Present NPCs
   const present = ALL_NPCS.filter(n => npcStates.get(n.slug)!.presentToday);
-  lines.push(`*${present.length} souls at the market today*`);
+  lines.push(`*${present.length} souls around today*`);
   lines.push(``);
 
   // Highlights
@@ -2518,6 +2563,69 @@ function buildDayMarkdown(
   return lines.join('\n');
 }
 
+// Continuous, read-through "blog": every day in order, chaptered by pantheon
+// week, dialogue-forward, no tables and no truncation. This is the file meant
+// to be scrolled top-to-bottom like a serialized diary (vs diary.md's report).
+function buildBlogMarkdown(
+  diary: DiaryEntry[],
+  pantheonWeeks: PantheonWeekState[],
+  seed: string
+): string {
+  const npcName = (slug: string) => ALL_NPCS.find(n => n.slug === slug)?.name ?? slug;
+  const weekBySlot = new Map(pantheonWeeks.map(w => [w.weekNumber, w]));
+
+  const lines: string[] = [
+    `# Eternal Days`,
+    ``,
+    `*The ongoing life of HERO CORPS and the Dying Saucer - read top to bottom.*`,
+    ``,
+    `\`${seed}\` · ${diary.length} days`,
+    ``,
+  ];
+
+  let currentWeek = 0;
+  for (const entry of diary) {
+    const week = Math.floor((entry.day - 1) / 7) + 1;
+
+    // Chapter break at each new week, with the pantheon's mood as an epigraph.
+    if (week !== currentWeek) {
+      currentWeek = week;
+      const startDay = (week - 1) * 7 + 1;
+      lines.push(``, `---`, ``, `## Week ${week}`, `*Days ${startDay}-${startDay + 6}*`, ``);
+      const pw = weekBySlot.get(week);
+      if (pw) {
+        for (const p of pw.prophecies) lines.push(`> ${p}`);
+        if (pw.prophecies.length > 0) lines.push(``);
+      }
+    }
+
+    // Day heading carries the weather/place flavor inline.
+    const weatherText = entry.environment.weather !== 'clear' ? entry.environment.weatherDescription : '';
+    lines.push(`### Day ${entry.day}`, ``);
+    if (weatherText) lines.push(`*${weatherText}*`, ``);
+
+    // The weather is already the italic epigraph above; skip the dupe bullet.
+    const highlights = entry.highlights.filter(h => !h.startsWith('Weather:'));
+    for (const h of highlights) lines.push(`- ${h}`);
+    if (highlights.length > 0) lines.push(``);
+
+    if (entry.playerActivity) {
+      lines.push(`*The Newcomer:* ${entry.playerActivity}`, ``);
+    }
+
+    const chatter = entry.events.filter(e => e.type === 'chatter');
+    for (const c of chatter) {
+      const speaker = npcName(c.participants[0]);
+      const target = c.participants[1] ? npcName(c.participants[1]) : null;
+      const tag = c.isClaudeGenerated ? '' : ' *(template)*';
+      lines.push(`**${speaker}**${target ? ` to ${target}` : ''}${tag}`);
+      lines.push(`> ${c.text}`, ``);
+    }
+  }
+
+  return lines.join('\n');
+}
+
 // ============================================
 // Main
 // ============================================
@@ -2530,9 +2638,10 @@ async function main() {
     useClaude: false,
     seed: `eternal-${Date.now()}`,
     verbose: false,
-    tokensQuick: 60,
-    tokensStory: 250,
+    tokensQuick: 0,   // 0 = keep the TOKEN_POOLS default
+    tokensStory: 0,
     extractTemplates: false,
+    resumeFrom: '',   // path to a previous run dir; continues from its final-state.json
   };
 
   for (const arg of args) {
@@ -2544,12 +2653,21 @@ async function main() {
     else if (arg.startsWith('--tokens-story=')) options.tokensStory = parseInt(arg.split('=')[1], 10);
     else if (arg === '--extract-templates') options.extractTemplates = true;
     else if (arg.startsWith('--model=')) CLAUDE_MODEL = arg.split('=')[1];
+    else if (arg.startsWith('--resume=')) options.resumeFrom = arg.split('=')[1];
+    else if (arg.startsWith('--setting=')) {
+      const v = arg.split('=')[1] as GameLocation;
+      if (VALID_SETTINGS.includes(v)) FORCED_SETTING = v;
+      else console.log(`WARNING: unknown --setting "${v}". Valid: ${VALID_SETTINGS.join(', ')}`);
+    }
   }
 
-  // Update token pools with custom values
-  TOKEN_POOLS.banter.tokens = options.tokensQuick;
-  TOKEN_POOLS.lore_drop.tokens = options.tokensStory;
-  TOKEN_POOLS.debt_drama.tokens = Math.floor((options.tokensQuick + options.tokensStory) / 2);
+  // Optional per-pool token overrides. These used to apply unconditionally with
+  // a 60-token default that silently clipped every banter line mid-sentence.
+  if (options.tokensQuick > 0) TOKEN_POOLS.banter.tokens = options.tokensQuick;
+  if (options.tokensStory > 0) TOKEN_POOLS.lore_drop.tokens = options.tokensStory;
+  if (options.tokensQuick > 0 && options.tokensStory > 0) {
+    TOKEN_POOLS.debt_drama.tokens = Math.floor((options.tokensQuick + options.tokensStory) / 2);
+  }
 
   console.log('='.repeat(60));
   console.log('NPC ETERNAL DAYS - Diary of Immortals');
@@ -2558,6 +2676,7 @@ async function main() {
   console.log(`Seed: ${options.seed}`);
   console.log(`Claude: ${options.useClaude ? `Enabled (${CLAUDE_MODEL})` : 'Disabled'}`);
   console.log(`Extract Templates: ${options.extractTemplates ? 'Yes' : 'No'}`);
+  console.log(`Setting: ${FORCED_SETTING || 'dynamic (HERO CORPS default + realm weather)'}`);
   console.log('='.repeat(60));
   console.log('');
 
@@ -2576,8 +2695,60 @@ async function main() {
   }
   const playerState = initPlayerState();
 
-  // Setup output
   const logsDir = path.join(__dirname, '..', 'logs');
+
+  // Resume: overlay a previous run's final-state.json so this run continues
+  // its world - gold, records, streaks, debts, moods, player profile, and day
+  // numbering all carry forward. NPCs added since that run keep fresh defaults.
+  let dayOffset = 0;
+  if (options.resumeFrom) {
+    // --resume=latest picks the newest run dir that has a final-state.json
+    if (options.resumeFrom === 'latest') {
+      const latest = fs.readdirSync(logsDir)
+        .filter(d => d.startsWith('eternal-') && fs.existsSync(path.join(logsDir, d, 'final-state.json')))
+        .sort()
+        .pop();
+      if (!latest) {
+        console.error('ERROR: --resume=latest: no previous run with a final-state.json found');
+        process.exit(1);
+      }
+      options.resumeFrom = latest;
+    }
+
+    const candidates = [
+      path.join(options.resumeFrom, 'final-state.json'),
+      path.join(logsDir, options.resumeFrom, 'final-state.json'),
+    ];
+    const statePath = candidates.find(p => fs.existsSync(p));
+    if (!statePath) {
+      console.error(`ERROR: --resume: no final-state.json found at ${candidates.join(' or ')}`);
+      process.exit(1);
+    }
+
+    const saved = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+    for (const [slug, s] of Object.entries(saved.npcStates || {}) as [string, Record<string, unknown>][]) {
+      const base = npcStates.get(slug);
+      if (!base) continue; // NPC removed/renamed since that run
+      npcStates.set(slug, {
+        ...base,
+        ...(s as Partial<NPCState>),
+        debtsOwed: new Map(Object.entries((s.debtsOwed as Record<string, number>) || {})),
+        debtsOwedTo: new Map(Object.entries((s.debtsOwedTo as Record<string, number>) || {})),
+        debtDaysOverdue: new Map(Object.entries((s.debtDaysOverdue as Record<string, number>) || {})),
+      });
+    }
+    const sp = saved.playerState || {};
+    Object.assign(playerState, {
+      ...sp,
+      debtsToNPCs: new Map(Object.entries((sp.debtsToNPCs as Record<string, number>) || {})),
+      profile: { ...createPlayerProfile(), ...(sp.profile || saved.playerProfile || {}) },
+    });
+    dayOffset = saved.daysSimulated || 0;
+    console.log(`Resuming from ${path.dirname(statePath)} - continuing at day ${dayOffset + 1}`);
+    console.log('');
+  }
+
+  // Setup output
   const sessionId = new Date().toISOString().replace(/[:.]/g, '-');
   const sessionDir = path.join(logsDir, `eternal-${sessionId}`);
   fs.mkdirSync(sessionDir, { recursive: true });
@@ -2587,12 +2758,17 @@ async function main() {
   const pantheonWeeks: PantheonWeekState[] = [];
   const startTime = Date.now();
 
-  // Graceful shutdown
+  // Graceful shutdown: first Ctrl-C stops after the current day and flushes
+  // finals; second Ctrl-C hard-exits (the handler otherwise overrides Node's
+  // default SIGINT exit, so without this a long claude run is unkillable).
   let interrupted = false;
   process.on('SIGINT', () => {
     if (!interrupted) {
       interrupted = true;
-      console.log('\n\nInterrupted! Saving progress...');
+      console.log('\n\nInterrupted! Finishing current day, then saving progress... (Ctrl-C again to force quit)');
+    } else {
+      console.log('\nForce quit.');
+      process.exit(130);
     }
   });
 
@@ -2604,8 +2780,11 @@ async function main() {
   const pantheonDir = path.join(sessionDir, 'pantheon');
   fs.mkdirSync(pantheonDir, { recursive: true });
 
-  // Simulate days
-  for (let day = 1; day <= options.days && !interrupted; day++) {
+  // Simulate days. A throw in any single day (transient API/parse error, OOM
+  // near limits, a rare state branch) must NOT discard the run: log it and fall
+  // through to finalization so every completed day is still flushed to disk.
+  try {
+  for (let day = dayOffset + 1; day <= dayOffset + options.days && !interrupted; day++) {
     // Simulate Pantheon week at start of each 7-day cycle
     if ((day - 1) % 7 === 0) {
       const weekNumber = Math.floor((day - 1) / 7) + 1;
@@ -2640,11 +2819,6 @@ async function main() {
       }
     }
 
-    if (day % 10 === 0 || options.verbose) {
-      const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
-      console.log(`Day ${day}/${options.days} (${elapsed}s elapsed)`);
-    }
-
     const entry = await simulateDay(day, npcStates, playerState, rng, {
       useClaude: options.useClaude,
       apiKey,
@@ -2653,6 +2827,14 @@ async function main() {
     });
 
     diary.push(entry);
+
+    // Heartbeat: claude runs take ~15s/day of API calls, so print each day as
+    // it completes (template runs finish in seconds; every 10th day is enough).
+    if (options.useClaude || options.verbose || day % 10 === 0) {
+      const lines = entry.events.filter(e => e.type === 'chatter').length;
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
+      console.log(`Day ${day}/${dayOffset + options.days} done - ${lines} lines of dialogue (${elapsed}s elapsed)`);
+    }
 
     // Write this day's diary entry immediately
     const dayMd = buildDayMarkdown(day, entry, npcStates, playerState);
@@ -2679,13 +2861,17 @@ async function main() {
       }, null, 2));
     }
   }
+  } catch (err) {
+    console.error(`\nDay loop aborted (${diary.length} days completed). Flushing finals with progress so far:`);
+    console.error(err);
+  }
 
   const elapsed = (Date.now() - startTime) / 1000;
 
   // Write final state
   const finalStatePath = path.join(sessionDir, 'final-state.json');
   fs.writeFileSync(finalStatePath, JSON.stringify({
-    daysSimulated: diary.length,
+    daysSimulated: dayOffset + diary.length,
     npcStates: Object.fromEntries(
       Array.from(npcStates.entries()).map(([k, v]) => [k, {
         ...v,
@@ -2753,7 +2939,7 @@ export const GENERATED_TEMPLATES: ResponseTemplate[] = ${JSON.stringify(
 
   // Write markdown diary
   const mdLines: string[] = [
-    `# Eternal Days - Diary of the Market`,
+    `# Eternal Days - Diary of HERO CORPS and the Dying Saucer`,
     ``,
     `> ${diary.length} days simulated`,
     `> Seed: \`${options.seed}\``,
@@ -2861,6 +3047,10 @@ export const GENERATED_TEMPLATES: ResponseTemplate[] = ${JSON.stringify(
 
   const mdPath = path.join(sessionDir, 'diary.md');
   fs.writeFileSync(mdPath, mdLines.join('\n'));
+
+  // Read-through blog: every day in order, chaptered by week, dialogue-forward.
+  const blogPath = path.join(sessionDir, 'blog.md');
+  fs.writeFileSync(blogPath, buildBlogMarkdown(diary, pantheonWeeks, options.seed));
 
   // Console summary
   console.log('');

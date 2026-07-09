@@ -4,6 +4,7 @@
  * Defines how each NPC "sounds" through text - speech patterns,
  * quirks, energy levels, and linguistic fingerprints.
  *
+ * Grounded in the HERO CORPS Field Guide (comic canon).
  * These archetypes inform dialogue generation and can be mixed.
  */
 
@@ -59,12 +60,464 @@ export const VOICE_ARCHETYPES: Record<string, VoiceArchetype> = {
   // ---- Mr. Kevin ----
   'unhinged-debugger': {
     id: 'unhinged-debugger',
-    name: 'Unhinged Debugger',
-    description: 'Stared at reality\'s source code too long. Tired but wired.',
+    name: 'Anxious Overpower',
+    description: 'Overpowered K-Crew support at HERO CORPS, terrified of what his power does to a room. Precise panic. Would rather win small than be visible from space.',
+    sentenceStyle: 'complete',
+    punctuation: {
+      usesEllipsis: true,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'wired',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['blast radius', 'collateral', 'receipt', 'exits', 'contain', 'readings'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'Oh good, you are intact. Let me not change that.' },
+      { generic: 'I can fix it.', voiced: 'I can fix this or make it visible from space. Those are different buttons.' },
+      { generic: 'That is dangerous.', voiced: 'That\'s not a safe amount of door.' },
+    ],
+  },
+
+  // ---- Zero Chance ----
+  'apl-oracle': {
+    id: 'apl-oracle',
+    name: 'No-Outcome Pressure',
+    description: 'Zero Chance: the final villain as pressure, not a monster. Speaks only in official system text, never personality.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: true,
+      usesAsterisks: false,
+    },
+    energy: 'dead',
+    capitalization: 'uppercase',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['OPTION', 'CONSENT', 'OUTCOME', 'COMPLETE', 'AVAILABLE'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'OPTION COMPLETE.' },
+      { generic: 'You cannot win.', voiced: 'NO OUTCOME AVAILABLE.' },
+      { generic: 'I do not need permission.', voiced: 'CONSENT NOT REQUIRED.' },
+    ],
+  },
+
+  // ---- Mr. Bones ----
+  'ominous-ledger': {
+    id: 'ominous-ledger',
+    name: 'Training Staff Banker',
+    description: 'Mr. Bones: a HERO CORPS tracksuit skeleton who also runs the debt-and-soul ledger. Coach meets collections.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: true,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'dead',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: true,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['ledger', 'balance', 'overdue', 'cardio', 'reps', 'discipline', 'quitters', 'account'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'The ledger notes your arrival. So does the scale.' },
+      { generic: 'You won.', voiced: 'A credit... for now. Hydrate.' },
+    ],
+  },
+
+  // ---- Dr. Maxwell ----
+  'manic-scientist': {
+    id: 'manic-scientist',
+    name: 'The Doctor of Books',
+    description: 'Dr. Maxwell: King James\'s librarian on the Sun who reads aloud to the bound king. A fawning bootlicker in the corona. Burn, read, repeat.',
+    sentenceStyle: 'fragments',
+    punctuation: {
+      usesEllipsis: true,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'wired',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: true,
+      trailsOff: true,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['the king', 'read', 'burn', 'page', 'ash', 'cure', 'His Majesty', 'honor'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'Ah, a listener! His Majesty cannot read himself, you know. I do that now. *bows*' },
+      { generic: 'Interesting roll.', voiced: 'Burn, read, repeat... the cure is in here somewhere, if it does not go to ash first.' },
+    ],
+  },
+
+  // ---- Boo G ----
+  'ghostly-hype': {
+    id: 'ghostly-hype',
+    name: 'The Damned Mouth',
+    description: 'Boo G: shopkeeper and the mouth Hell could not silence. All price, mouth, and rhythm - funny and dangerous, never a harmless mascot.',
+    sentenceStyle: 'fragments',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: true,
+      usesAsterisks: true,
+    },
+    energy: 'wired',
+    capitalization: 'mixed',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['price', 'favor', 'invoice', 'remix', 'B\'S HITS', 'track', 'cost', 'owed'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'B\'S HITS is open, baby. Closed is a state of mind.' },
+      { generic: 'Good roll.', voiced: 'Nice. You want a favor or you want a price? Those are cousins, not twins.' },
+    ],
+  },
+
+  // ---- Boots ----
+  'cosmic-cat': {
+    id: 'cosmic-cat',
+    name: 'Chief of Mischief',
+    description: 'Boots: a small black cat who never talks. At most a "mrow". Divine, savage, unexplained. No sentences, ever.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'tired',
+    capitalization: 'lowercase',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['mrow'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'mrow.' },
+      { generic: 'Good job.', voiced: '*sits on the file, unimpressed*' },
+    ],
+  },
+
+  // ---- Body Count ----
+  'silent-tally': {
+    id: 'silent-tally',
+    name: 'Heaven\'s Freelancer',
+    description: 'Body Count: a freelance killer contracted by Heaven to end the recruit. Counts endings, almost never speaks. Not a buddy.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'dead',
+    capitalization: 'lowercase',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['count', 'tally', 'pending', 'witnesses', 'still', 'work'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: '*marks a tally, slowly*' },
+      { generic: 'You survived.', voiced: 'Still pending.' },
+    ],
+  },
+
+  // ---- Clausen ----
+  'noir-detective': {
+    id: 'noir-detective',
+    name: 'Demon-Contract Detective',
+    description: 'Detective Clausen: blonde spellcaster-detective with contract-scars on her face and a briefcase that summons Hell. Legal-occult disgust.',
+    sentenceStyle: 'complete',
+    punctuation: {
+      usesEllipsis: true,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'tired',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['custody', 'contract', 'consent form', 'loophole', 'grammar', 'jurisdiction', 'Hell'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: '*snaps the briefcase shut* That is not a loophole. That is a crime scene with grammar.' },
+      { generic: 'Be careful.', voiced: 'A clean miracle is usually a forged consent form. Watch yourself.' },
+    ],
+  },
+
+  // ---- Stitch-Up Girl ----
+  'pragmatic-medic': {
+    id: 'pragmatic-medic',
+    name: 'Wounded Medic',
+    description: 'Failed transfer at HERO CORPS. Medic and weapon both. Dry, wounded, consent-sharp - tenderness arrives like a threat she never authorized.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'tired',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['patch', 'thread', 'bow', 'consent', 'hold still', 'debt', 'wound'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'Need patching? Hands off until I say.' },
+      { generic: 'Good luck.', voiced: 'Don\'t make this sweet.' },
+      { generic: 'I will help you.', voiced: 'I can be repaired without becoming yours.' },
+    ],
+  },
+
+  // ---- The General ----
+  'tactical-commander': {
+    id: 'tactical-commander',
+    name: 'Corpse Cowboy',
+    description: 'HERO CORPS commander and false father. A stitched undead thing in a cowboy silhouette, wick in his teeth. Paternal command over old cruelty, sometimes almost gentle, which makes him worse. Not redeemed.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'neutral',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['son', 'cheap', 'duty', 'wick', 'serum', 'mercy', 'hesitation', 'good'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'Welcome back, son.' },
+      { generic: 'You did well.', voiced: 'Good.' },
+      { generic: 'You are all valuable.', voiced: 'You all came cheap.' },
+    ],
+  },
+
+  // ---- Willy One-Eye (cyclops merchant, kept) ----
+  'enthusiastic-merchant': {
+    id: 'enthusiastic-merchant',
+    name: 'Cyclops Merchant',
+    description: 'Willy One-Eye: a cheerful interdimensional merchant with one enormous cyclopean eye. DEALS! BARGAINS! The eye reads the odds.',
+    sentenceStyle: 'fragments',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: true,
+      usesAsterisks: true,
+    },
+    energy: 'manic',
+    capitalization: 'mixed',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['deal', 'bargain', 'quality', 'special', 'friend', 'odds', 'the eye'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'Welcome, WELCOME! My eye never lies, and it likes you!' },
+      { generic: 'This item is good.', voiced: 'QUALITY merchandise! Fell through THREE dimensions to get here!' },
+    ],
+  },
+
+  // ---- Xtreme ----
+  'radical-energy': {
+    id: 'radical-energy',
+    name: 'Bookie of the Unkillable',
+    description: 'X-treme: 90s-parody hype-man and bookie running CEE-LO WITH XTREME, selling NEVER DIE GUY merch. The fandom cash-in engine.',
+    sentenceStyle: 'fragments',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: true,
+      usesAsterisks: true,
+    },
+    energy: 'manic',
+    capitalization: 'mixed',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['SICK', 'line', 'odds', 'action', 'all-in', 'merch', 'cee-lo'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'CEE-LO WITH XTREME, baby! The line is GENEROUS!' },
+      { generic: 'Good roll.', voiced: 'SICK! I had money on that. NDG WINS ALWAYS. It is on the shirt. The shirt is fifteen.' },
+    ],
+  },
+
+  // ---- King James ----
+  'nihilistic-royalty': {
+    id: 'nihilistic-royalty',
+    name: 'The Bound Sun-King',
+    description: 'King James: a colossal skeleton king and statue bound in the Sun\'s corona. Cannot read himself; Maxwell reads to him. Mythic, not chatty.',
+    sentenceStyle: 'complete',
+    punctuation: {
+      usesEllipsis: true,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'dead',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: true,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['corona', 'crown', 'throne', 'forever', 'bone', 'Maxwell', 'light'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'You stand in the corona of the only immortal. Speak, and be brief.' },
+      { generic: 'Goodbye.', voiced: 'I bought forever. Forever bought me back.' },
+    ],
+  },
+
+  // ---- The One ----
+  'primordial-void': {
+    id: 'primordial-void',
+    name: 'The Empty Head-Chair',
+    description: 'The One: not a body but an absence - the empty head-chair of the Board, the void in the vote. Speaks rarely; never explains.',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: false,
+    },
+    energy: 'dead',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['chair', 'room', 'vote', 'unanswered', 'missing', 'diamond'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'I was not missing from the room. The room was built around not finding me.' },
+      { generic: 'You are insignificant.', voiced: 'The chair is not empty. It is unanswered.' },
+    ],
+  },
+
+  // ---- Eldritch Child ----
+  'eldritch-infant': {
+    id: 'eldritch-infant',
+    name: 'The Eldritch Child',
+    description: 'The alien child whose bracelet mirrors the recruit\'s. Barely speaks; the bracelet does the talking. At most "Same".',
+    sentenceStyle: 'terse',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: false,
+      usesAsterisks: true,
+    },
+    energy: 'neutral',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: false,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['same', 'bracelet', 'blank'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: '*holds up a bracelet that mirrors yours*' },
+      { generic: 'We are alike.', voiced: 'Same.' },
+    ],
+  },
+
+  // ---- Jane (Board Die-rector) ----
+  'chaos-incarnate': {
+    id: 'chaos-incarnate',
+    name: 'Die-rector: Further Review',
+    description: 'Jane: a Board office-apostle haloed in approvals and chained files. Everything is APPROVED, then sent for FURTHER REVIEW.',
+    sentenceStyle: 'complete',
+    punctuation: {
+      usesEllipsis: false,
+      usesEmDash: false,
+      usesCaps: true,
+      usesAsterisks: true,
+    },
+    energy: 'neutral',
+    capitalization: 'normal',
+    patterns: {
+      interruptsSelf: false,
+      trailsOff: false,
+      asksRhetorically: true,
+      talksToAbsent: false,
+      breaksWall: false,
+      usesJargon: ['approved', 'further review', 'compliance', 'circle back', 'the file'],
+    },
+    examples: [
+      { generic: 'Hello.', voiced: 'Approved. Pending further review.' },
+      { generic: 'You won.', voiced: 'Noted. For compliance, of course. We will circle back.' },
+    ],
+  },
+
+  // ---- Keith Man ----
+  'temporal-displaced': {
+    id: 'temporal-displaced',
+    name: 'Broke Speedster',
+    description: 'The K-Crew guide at HERO CORPS. Super speed reads as silence and afterimages. Fast, distracted, broke, and the most emotionally useful person in the building. Explains the building, not the universe.',
     sentenceStyle: 'stream',
     punctuation: {
       usesEllipsis: true,
-      usesEmDash: true,
+      usesEmDash: false,
       usesCaps: false,
       usesAsterisks: true,
     },
@@ -74,493 +527,42 @@ export const VOICE_ARCHETYPES: Record<string, VoiceArchetype> = {
       interruptsSelf: true,
       trailsOff: true,
       asksRhetorically: true,
-      talksToAbsent: true,
-      breaksWall: true,
-      usesJargon: ['spawn', 'render', 'callback', 'pointer', 'null', 'thread', 'memory leak', 'hitbox', 'rng'],
-    },
-    examples: [
-      { generic: 'Hello, welcome.', voiced: 'oh! oh you loaded in. wait-- yeah okay the spawn worked.' },
-      { generic: 'Good job winning.', voiced: 'nice! or concerning? i genuinely can\'t tell anymore. let\'s say nice.' },
-    ],
-  },
-
-  // ---- Zero Chance - APL Speaker ----
-  'apl-oracle': {
-    id: 'apl-oracle',
-    name: 'APL Oracle',
-    description: 'Speaks in APL symbols. Probability incarnate. Cannot use words.',
-    sentenceStyle: 'symbolic',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-      custom: ['⍳', '⍴', '⍺', '⍵', '∊', '⍒', '⍋', '⌽', '⊖', '⍉', '∇', '⌈', '⌊', '×', '÷', '⍟', '○', '⌹', '⊂', '⊃', '∪', '∩', '≢', '≡', '⍸', '⍷', '⌿', '⍀', '¨', '⍨', '⍣', '∘', '⍤', '⍥', '←', '→', '⋄', '⍝'],
-    },
-    energy: 'dead',
-    capitalization: 'lowercase',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: false,
       talksToAbsent: false,
       breaksWall: false,
-      usesJargon: [], // no words, only symbols
+      usesJargon: ['rent', 'coupon', 'overtime', 'the building', 'badge', 'the print room', 'fast'],
     },
     examples: [
-      { generic: 'Hello.', voiced: '⍳1' },
-      { generic: 'The probability is zero.', voiced: '0≡⍴⍵' },
-      { generic: 'Chaos reigns.', voiced: '⌽⊖⍉∇' },
-    ],
-  },
-
-  // ---- Mr. Bones ----
-  'ominous-ledger': {
-    id: 'ominous-ledger',
-    name: 'Ominous Ledger',
-    description: 'Death\'s accountant. Every word is a transaction.',
-    sentenceStyle: 'terse',
-    punctuation: {
-      usesEllipsis: true,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'dead',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: true,
-      asksRhetorically: false,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['ledger', 'balance', 'debt', 'account', 'interest', 'payment', 'due', 'owed', 'collected'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'The ledger notes your arrival.' },
-      { generic: 'You won.', voiced: 'A credit... for now.' },
-    ],
-  },
-
-  // ---- Dr. Maxwell ----
-  'manic-scientist': {
-    id: 'manic-scientist',
-    name: 'Manic Scientist',
-    description: 'EVERYTHING IS DATA. Enthusiasm overload.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: true,
-      usesCaps: true,
-      usesAsterisks: true,
-    },
-    energy: 'manic',
-    capitalization: 'mixed',
-    patterns: {
-      interruptsSelf: true,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['data', 'hypothesis', 'variance', 'specimen', 'probability', 'experiment', 'FASCINATING', 'REMARKABLE'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'EXCELLENT! A new data point!' },
-      { generic: 'Interesting roll.', voiced: 'The variance is-- UNPRECEDENTED! *scribbles*' },
-    ],
-  },
-
-  // ---- Boo-G ----
-  'ghostly-hype': {
-    id: 'ghostly-hype',
-    name: 'Ghostly Hype',
-    description: 'Afterlife MC. Dead but vibing.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: true,
-      usesAsterisks: true,
-    },
-    energy: 'manic',
-    capitalization: 'mixed',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['yo', 'fam', 'vibe', 'fire', 'boo', 'ghost', 'spooky', 'afterlife', 'remix'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'Yo yo YO! The afterlife MC is in the HOUSE!' },
-      { generic: 'Good roll.', voiced: 'That roll was FIRE! Ghostly fire, but still!' },
-    ],
-  },
-
-  // ---- Boots ----
-  'cosmic-cat': {
-    id: 'cosmic-cat',
-    name: 'Cosmic Cat',
-    description: 'Ancient being in cat form. Condescending but helpful.',
-    sentenceStyle: 'complete',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'tired',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['mortal', 'nap', 'cosmic', 'timeline', 'amusing', 'entertain'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: '*yawns cosmically* Oh. You again.' },
-      { generic: 'Good job.', voiced: 'Adequate. For a mortal.' },
-    ],
-  },
-
-  // ---- Body Count ----
-  'silent-tally': {
-    id: 'silent-tally',
-    name: 'Silent Tally',
-    description: 'Tracks death. Speaks in numbers and minimal words.',
-    sentenceStyle: 'terse',
-    punctuation: {
-      usesEllipsis: true,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'dead',
-    capitalization: 'lowercase',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: true,
-      asksRhetorically: false,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['count', 'tally', 'mark', 'still', 'breathing'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: '*marks tally* ...one more.' },
-      { generic: 'You survived.', voiced: '...still breathing. noted.' },
-    ],
-  },
-
-  // ---- Clausen ----
-  'noir-detective': {
-    id: 'noir-detective',
-    name: 'Noir Detective',
-    description: 'Hard-boiled Infernus detective. Cigarettes and cynicism.',
-    sentenceStyle: 'complete',
-    punctuation: {
-      usesEllipsis: true,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'tired',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: true,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['case', 'clue', 'suspect', 'gut', 'dame', 'trouble', 'city'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: '*lights cigarette* Another case walks through my door.' },
-      { generic: 'Be careful.', voiced: 'Watch yourself out there. This city eats the careless.' },
-    ],
-  },
-
-  // ---- Stitch Up Girl ----
-  'pragmatic-medic': {
-    id: 'pragmatic-medic',
-    name: 'Pragmatic Medic',
-    description: 'Field surgeon energy. Blunt but caring.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'neutral',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['patch', 'wound', 'integrity', 'bleed', 'stitch', 'hold still'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'Need patching up? You look rough.' },
-      { generic: 'Good luck.', voiced: 'Try not to come back in pieces.' },
-    ],
-  },
-
-  // ---- The General ----
-  'tactical-commander': {
-    id: 'tactical-commander',
-    name: 'Tactical Commander',
-    description: 'Military precision. Every word is an order.',
-    sentenceStyle: 'terse',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'neutral',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: false,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['soldier', 'tactical', 'flank', 'recon', 'mission', 'command', 'status'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'Soldier. Status report.' },
-      { generic: 'Goodbye.', voiced: 'Dismissed. Stay operational.' },
-    ],
-  },
-
-  // ---- Willy ----
-  'enthusiastic-merchant': {
-    id: 'enthusiastic-merchant',
-    name: 'Enthusiastic Merchant',
-    description: 'DEALS! BARGAINS! Salesman energy turned up to 11.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: true,
-      usesAsterisks: true,
-    },
-    energy: 'manic',
-    capitalization: 'mixed',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['deal', 'bargain', 'quality', 'limited', 'special', 'friend'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'Welcome, WELCOME! A discerning customer!' },
-      { generic: 'This item is good.', voiced: 'QUALITY merchandise! Fell through THREE dimensions to get here!' },
-    ],
-  },
-
-  // ---- Xtreme ----
-  'radical-energy': {
-    id: 'radical-energy',
-    name: 'Radical Energy',
-    description: 'EXTREME SPORTS ENTHUSIASM. Everything is SICK.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: true,
-      usesAsterisks: true,
-    },
-    energy: 'manic',
-    capitalization: 'mixed',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['SICK', 'RADICAL', 'GNARLY', 'full send', 'EXTREME', 'shred'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'LETS GOOO! Ready for MAXIMUM DICE ACTION?!' },
-      { generic: 'Good roll.', voiced: 'THAT WAS SICK! Full send, dude!' },
-    ],
-  },
-
-  // ---- King James ----
-  'nihilistic-royalty': {
-    id: 'nihilistic-royalty',
-    name: 'Nihilistic Royalty',
-    description: 'Rules over nothing. Finds meaning in meaninglessness.',
-    sentenceStyle: 'complete',
-    punctuation: {
-      usesEllipsis: true,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'dead',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: true,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['throne', 'null', 'kingdom', 'void', 'royal', 'subjects'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'You stand before the Null Throne. Act accordingly.' },
-      { generic: 'Goodbye.', voiced: 'Leave, then. The void will remember... or it won\'t.' },
-    ],
-  },
-
-  // ---- The One ----
-  'primordial-void': {
-    id: 'primordial-void',
-    name: 'Primordial Void',
-    description: 'The origin. Speaks in cosmic weight.',
-    sentenceStyle: 'complete',
-    punctuation: {
-      usesEllipsis: true,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'dead',
-    capitalization: 'normal',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: true,
-      asksRhetorically: false,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['void', 'potential', 'existence', 'nothing', 'before', 'origin'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'You enter the void. The void... notices.' },
-      { generic: 'You are insignificant.', voiced: 'You are a pattern I will forget.' },
-    ],
-  },
-
-  // ---- Alien Baby ----
-  'eldritch-infant': {
-    id: 'eldritch-infant',
-    name: 'Eldritch Infant',
-    description: 'Cosmic horror baby talk. Cute but terrifying.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: false,
-      usesCaps: true,
-      usesAsterisks: true,
-    },
-    energy: 'manic',
-    capitalization: 'mixed',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['pway', 'hewwo', 'fwiend', 'squish', 'fun', 'cwy'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'Hewwo fwiend! Want to see weality go SQUISH?' },
-      { generic: 'I\'m angry.', voiced: 'If you make me CWY, I will unmake you!' },
-    ],
-  },
-
-  // ---- Jane (Chaos Die-rector) ----
-  'chaos-incarnate': {
-    id: 'chaos-incarnate',
-    name: 'Chaos Incarnate',
-    description: 'Rules change mid-sentence. Embraces disorder.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: false,
-      usesEmDash: true,
-      usesCaps: true,
-      usesAsterisks: true,
-    },
-    energy: 'manic',
-    capitalization: 'mixed',
-    patterns: {
-      interruptsSelf: true,
-      trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: false,
-      breaksWall: false,
-      usesJargon: ['chaos', 'change', 'rules', 'adapt', 'beautiful', 'pattern', 'break'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: 'Chaos WELCOMES you! Or does it? YES! Maybe!' },
-      { generic: 'You won.', voiced: 'HA! Did you expect THAT? Neither did I!' },
-    ],
-  },
-
-  // ---- Keith Man ----
-  'temporal-displaced': {
-    id: 'temporal-displaced',
-    name: 'Temporal Displaced',
-    description: 'Exists in multiple times. Speaks to past/future you.',
-    sentenceStyle: 'fragments',
-    punctuation: {
-      usesEllipsis: true,
-      usesEmDash: false,
-      usesCaps: false,
-      usesAsterisks: true,
-    },
-    energy: 'tired',
-    capitalization: 'lowercase',
-    patterns: {
-      interruptsSelf: false,
-      trailsOff: true,
-      asksRhetorically: false,
-      talksToAbsent: true,
-      breaksWall: false,
-      usesJargon: ['time', 'when', 'was', 'will be', 'already', 'not yet'],
-    },
-    examples: [
-      { generic: 'Hello.', voiced: '...you are early. or late. time is optional here.' },
-      { generic: 'Be careful.', voiced: '...what you will do has already happened. somewhere.' },
+      { generic: 'Hello.', voiced: 'hey. found you first. also i am broke, but that is not new.' },
+      { generic: 'Let me explain.', voiced: 'i can explain the first half. the second half is where the screaming starts.' },
+      { generic: 'This place is strange.', voiced: 'rent is also a supervillain. keep up.' },
     ],
   },
 
   // ---- Rhea ----
   'cosmic-liturgist': {
     id: 'cosmic-liturgist',
-    name: 'Cosmic Liturgist',
-    description: 'Queen of Never. Speaks APL as ancient summons. Chatty cosmic grandmother who remembers when math was magic.',
-    sentenceStyle: 'complete',
+    name: 'The Threadcutter',
+    description: 'Rhea: a threadcutter outside Board procedure, white porcelain mask, a Zero Chance believer. Sparse, cutting, almost-persuasive prophecy without fog.',
+    sentenceStyle: 'terse',
     punctuation: {
       usesEllipsis: false,
       usesEmDash: false,
-      usesCaps: true,
+      usesCaps: false,
       usesAsterisks: true,
-      custom: ['⍬', '←', '⍳', '⌽', '⍉', '≢', '∊', '⍴', '⌹', '⍟', '÷', '∞'],
     },
-    energy: 'manic',
-    capitalization: 'mixed',
+    energy: 'neutral',
+    capitalization: 'normal',
     patterns: {
-      interruptsSelf: true,
+      interruptsSelf: false,
       trailsOff: false,
-      asksRhetorically: true,
-      talksToAbsent: true, // talks to Zero Chance, the void, etc.
+      asksRhetorically: false,
+      talksToAbsent: true,
       breaksWall: false,
-      usesJargon: ['APL glyphs', 'probability', 'summon', 'old tongue', 'before', 'remember', 'delightful', 'fascinating'],
+      usesJargon: ['thread', 'cut', 'knot', 'fate', 'appetite', 'mercy', 'tighten'],
     },
     examples: [
-      { generic: 'Hello.', voiced: 'Oh! OH! Did you see that? Did you FEEL that? The mathematics just noticed you!' },
-      { generic: 'Let me show you.', voiced: 'Here, let me show you something delightful. *traces ⍬←⍳0 in the air* That means "empty vector gets index of nothing." It\'s a summoning.' },
-      { generic: 'Zero Chance is here.', voiced: 'See? Zero noticed! Your roll matched nothing in the probability matrix! It happened anyway! Zero finds that FASCINATING. Don\'t you, Zero?' },
+      { generic: 'Hello.', voiced: 'The Board calls it fate because that sounds cleaner than appetite.' },
+      { generic: 'Let me help.', voiced: 'Mercy keeps the knot breathing. You call it choice because you haven\'t watched it tighten.' },
     ],
   },
 };
