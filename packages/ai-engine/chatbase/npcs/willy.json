@@ -4,19 +4,24 @@
     "name": "Willy One Eye",
     "category": "wanderers"
   },
-  "entryCount": 19,
+  "entryCount": 70,
   "pools": {
-    "gamblingTrashTalk": 17,
-    "gamblingBrag": 1,
-    "threat": 1
+    "gamblingTrashTalk": 57,
+    "gamblingBrag": 2,
+    "threat": 8,
+    "gamblingFrustration": 1,
+    "reaction": 1,
+    "salesPitch": 1
   },
   "moods": {
-    "pleased": 7,
-    "neutral": 2,
-    "threatening": 6,
+    "pleased": 14,
+    "neutral": 5,
+    "threatening": 29,
     "generous": 1,
-    "amused": 2,
-    "sad": 1
+    "amused": 4,
+    "sad": 4,
+    "scared": 2,
+    "annoyed": 11
   },
   "entries": [
     {
@@ -43,7 +48,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -66,7 +71,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.000Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -91,7 +96,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.000Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -119,7 +124,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -142,7 +147,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -170,7 +175,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -193,7 +198,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0009.md",
         "extractedDay": 9,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -218,7 +223,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -246,7 +251,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -269,7 +274,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -295,7 +300,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -318,7 +323,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -343,7 +348,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -371,7 +376,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -397,7 +402,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0020.md",
         "extractedDay": 20,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -423,7 +428,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0023.md",
         "extractedDay": 23,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -449,7 +454,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0024.md",
         "extractedDay": 24,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -477,7 +482,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -500,7 +505,1431 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0028.md",
         "extractedDay": 28,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-zcmtzv",
+      "text": "My eye reads that streak of yours, General, and it's a two-toned lie: half luck, half the pup's unpaid debt bleeding into your favor. Twelve wins looks shiny till you remember who's collecting on the newcomer, and it sure ain't you. Tap your dice all you want, the odds still owe me first.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-fepozl",
+      "text": "My eye's on the boy's run, Doc, not yours, though yours is running hot too. Two losses stacked on my side already, and his debt's still sitting pretty at a hundred. Seven come eleven, someone's paying up tonight.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-6kmds3",
+      "text": "Squint all you want, cat, my one eye already caught the color on these dice. Gold shakes loose from smug pockets easiest, and yours got a nice yellow tint to it tonight. Seven come eleven, Boots, don't say I never fed the strays.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-4ilt3r",
+      "text": "My eye's already counting your losses, General, sixteen and twelve, colors going gray on you lately. Your recruit still owes me a hundred, but I figure your odds might be worse than his tonight. Tap the dice, hot shot, let's see what the bones say.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0034.md",
+        "extractedDay": 34,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-1lvqmm",
+      "text": "My eye's on that kid's tab, Bones, hundred gold and climbing like a fever chart. Tilt suits you though, twelve and eighteen, maybe you and the newcomer should start a support group. Seven come eleven, I still get paid either way.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-xntkl5",
+      "text": "My eye sees red on you, Stitch-Up, same color as my last throw. Sit before you unravel that bow chasing a loss, and tell your patient he still owes me a hundred gold before he dies again.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-p339qy",
+      "text": "My eye's on you, Doc, and it's reading heat, not luck. Careful, that librarian blush burns hotter than King James's whole corona. Two losses don't scare me, the dice still love me more than your bootlicked king does.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-p8yf52",
+      "text": "My eye's on you, Boo G, and it's reading smug like a bad color. Two losses don't scare me, and that new kid's debt is still worth more than your whole rack of cursed tracks. Seven come eleven, I'll be back on top before you finish counting your teeth.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingFrustration",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-125kn0",
+      "text": "My eye's on the kid again, X-treme, watch him swan dive off that ledge like gold don't matter. Still owes me a hundred, and the odds he pays before he dies again are looking real thin, real red. Seven come eleven, friend, maybe this time he lands soft.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-tqgi91",
+      "text": "My eye's on you, Doc, not that syringe. Colors around you say 18 and 19, close to even, but tonight I smell a shift coming. Newcomer still owes me 100 gold, so if his blood's in that needle, tell it to pay up before it dies again.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-nzsoiq",
+      "text": "My eye's on your bow, Stitch-Up, and it's flickering a color I don't like. Tilted odds make for sloppy stitches, friend, so don't go patching up our boy on credit. He owes me a hundred already, and my dice don't forget.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-4ktv0k",
+      "text": "My eye's gone gold looking at you, Boots, fourteen wins smug as a cat sitting on classified files. Fourteen and ten, that's real color, not just luck. Newcomer's still drowning in debt to half the Saucer and I ain't holding my breath on that hundred gold.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-mrjii0",
+      "text": "My eye's on you, Body Count, and it's reading hot red, all fury and no patience. Two losses don't scare me, the dice still love me more than that debtor of mine loves staying dead. Seven come eleven, friend, let's see whose count jams tonight.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-iayi4",
+      "text": "My eye's still twitching from that clutch roll of his, Doc. Newcomer walks through fire and comes out owing me nothing but sass, meanwhile his hundred gold sits collecting dust like your king's tan lines. Seven come eleven, the boy's luck is a color I ain't seen before, and I don't like colors I can't price.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qn0alp",
+      "text": "My eye caught your boy's little dance with that boss, General. Barely a scratch on him, and he still owes me a hundred in gold he ain't paid. Odds say he's lucky in fights, unlucky in debts.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ou8d3d",
+      "text": "My eye's on you, Keith, not the new guy's lucky streak. Seven come eleven, fast feet don't mean fast hands with the dice.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0054.md",
+        "extractedDay": 54,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-woqvl5",
+      "text": "My eye squints at you, Doctor, and it don't like your shine. Two losses don't scare me, my dice still remember my name, unlike that newcomer who owes me gold and can't even remember how to stay dead.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-ef305v",
+      "text": "My eye's on your briefcase, Clausen, not your mood. Two losses don't scare me, and neither does your paperwork from Hell. Kid still owes me a hundred gold, so if you're hunting him, get in line behind my ledger.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-9n63jv",
+      "text": "My eye caught that clutch roll, Body Count, and it came up gold. Newcomer's still 100 in the hole to me, so whatever count you're keeping, put him back on the board when you're done. Seven come eleven, he pays before he stays dead.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-k709aj",
+      "text": "Smug don't pay debts, General. My eye sees your kid's luck bleedin' white same as this sun, and that boy still owes me a hundred gold. Seven come eleven, next roll's mine.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-pxp4i3",
+      "text": "My eye don't blink and it don't lie, Keith, that four was hot enough to sunburn. Ten and three you're sitting pretty, but streaks turn faster than a loaded die on ice. Newcomer still owes me a hundred, so tell your friend the odds are stacking up ugly for him.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qexen",
+      "text": "My eye caught that roll before the dice stopped spinning, Body Count. Smug's a good color on you, but it fades fast around here, ask the kid with 100 gold still in my pocket. Seven come eleven, friend, the count ain't over till I say it's over.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-t2pb17",
+      "text": "My eye's twitching red on you, Body Count, two losses hot in a row don't scare me off. The kid still owes me a hundred gold before you get to count him for good, so tap your dice and let's see whose color wins tonight.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3gcafj",
+      "text": "My eye's twitching, General, four losses deep and the color's gone all wrong, sour yellow everywhere I look. You want a piece of this table, fine, but the kid still owes me a hundred gold and my patience is thinner than your hairline under that hat.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-r8q8za",
+      "text": "My eye's twitching red, Keith, five losses deep and yours smug for once. Don't get comfortable, that new guy's luck bends the whole table and it's coming for you next.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-w27ejr",
+      "text": "My eye is on you, Doctor. That even record's gone yellow-grey, like a coin that can't decide which face it loves. Tap your dice, lick fewer boots, and let's see what color your luck bleeds tonight.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-8en8z",
+      "text": "My eye sees a lot of grey around you today, Doc. Cold odds, colder math. That serum of yours, the one that's got the recruit's blood in its family tree, still owes me a look someday - just like he still owes me his hundred gold.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-7ds2pt",
+      "text": "Xtreme. Four losses, huh. My eye sees a color on you that ain't confidence, friend.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-p7uszv",
+      "text": "Four in a row, Boo, and this line ain't moving any faster than your win column. My eye's on that kid's tab too, hundred gold and counting, probability says he dies again before he pays it.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-goo9th",
+      "text": "My eye's on that rival's pile, Stitch-Up, watching it go red to black. Four wins deep and your boy still owes me a hundred, tell him the fluorescent lights don't pay debts for him. Seven come eleven, honey, some of us just born lucky.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-q4t8yv",
+      "text": "My eye caught that roll before it landed, General, gold-white and screaming luck. Smug looks good on you for now, but streaks turn faster than a debtor's promise. Newcomer still owes me a hundred, and I got a feeling your luck's about to owe somebody too.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-jp8lpa",
+      "text": "My eye caught that roll turning gold before it landed, Body Count. Kid's still good for my hundred, streak or no streak. Seven come eleven, the corpse collector's smiling and I'm the one down two losses, funny how the dice fall.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-g4zy44",
+      "text": "My eye's on you, book-licker, and it sees a whole lot of smug for a 36-35 record. Tap your dice while you can, Doc, my one loss don't scare me half as much as what the newcomer rolled last week. Seven come eleven, let's see whose luck's really made of gold.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-8p0pvj",
+      "text": "My eye's on you, Kevin, all flickering static and almost. 2 and 7 ain't odds, that's a warning light. Now the newcomer, that lucky corpse, he's a different color of luck entirely, and he still owes me 100 gold.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-94hgdl",
+      "text": "My eye caught that roll before it stopped spinning, Keith. Gold flash, clean edges, that's a four-leaf clover in dice form. Kid's still 225 short of squaring up with me though, luck don't pay bar tabs.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-3k3fdc",
+      "text": "My eye's twitching gold at your smug little grin, Body Count. That kid owes me 225, and you keep trying to close the account before I collect. Jam him again and we'll see who's counted last.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-vtqu74",
+      "text": "Doc Maxwell, your king's corona's warm but my luck's ice cold, three losses deep and my eye's seeing red numbers everywhere. That newcomer's sitting on some impossible roll while I owe nobody nothing, and he owes me two-twenty-five still. My eye never lies, friend, and right now it says you're hot enough to take some of this bad air off me. Seven come eleven, you rolling or just reading about it up there?",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qmcvid",
+      "text": "My eye's twitching, Doc, four losses deep and the dice hate me right now. That newcomer still owes me 225 gold and rolled something stupid lucky last I heard, maybe his shine's rubbing off nearby. You're hot though, so sit close and don't move.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-g8nk7y",
+      "text": "My eye caught that roll, Doctor, gold shot clean through green before landing. Lucky for you the corona's already hotter than my dice. Now if only Never Die Guy rolled numbers that pretty, he might've paid off that 225 by now.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-un75k6",
+      "text": "Headache's cheap. I'll sell you something for the squinting after.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "salesPitch",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-u3ohwi",
+      "text": "My eye's on you, General, and it's reading orange, real shaky odds. Two losses don't scare me, your boy's 225 in the hole and I collect one way or another. Tap the dice, General. Seven come eleven, let's see who's really broke tonight.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-dlzfsu",
+      "text": "My eye don't blink for smug, Doctor. That clutch roll just cost you the shine you walked in with, and the newcomer's 225 still sits on my ledger colder than that moon wind. Seven come eleven, next throw's on you.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-m0vy1m",
+      "text": "My eye's on you, General, and it sees smug wrapped around a two-loss skid same as mine. Your boy still owes me 225 in gold he keeps dying before he pays. Tap the dice, cowboy, let's see what color your luck's wearing tonight.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-k3v5jz",
+      "text": "My eye don't care whose corona you polish, Doctor, three losses is three losses and the dice smell it on me. Newcomer still owes me 225 in gold he keeps not staying dead long enough to pay. Deal me in before my luck turns, or don't, but stop reading me your odds like I can't see the colors myself.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-w01eec",
+      "text": "My eye's twitching, General, and not from your smug little smirk. Four losses deep, but the boy's 225 in the hole to me, and debts don't tilt. They compound.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-nsv57o",
+      "text": "Five losses, Boots. Five. My eye's seeing red where the gold should be, and that's never a good color. Newcomer better find those 225 he owes me before I start collecting in fingers.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-x5hjf6",
+      "text": "My eye's twitching, Doctor, and not from your king's glow. Five losses deep, and here you stroll by hot as a fresh sun ray, don't rub it in on these stairs. That new boy still owes me 225 in gold he ain't got, so if your king's got a spare vault I'm listening.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-gyc77k",
+      "text": "My eye's twitching, General, and not from your smug little grin. Six losses deep, but the boy's 225 gold debt is still standing tall, ripest number in the room. Seven come eleven, you keep him breathing, I'll keep the tab open.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-qa4bon",
+      "text": "My eye's on the kid again, Boo. Two-fifty in the red column and he still walks around like death owes him change. I'll collect, one way or the other, the odds favor patience.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-cqmyzs",
+      "text": "My eye's on you now, Keith. Fast feet, empty pockets, and a friend who owes me 225 in gold he ain't got. Funny how the odds always land the same way with your crew.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-willy-9xurj5",
+      "text": "My eye caught that roll before your hand finished the throw, Doctor, gold spinning right past the newcomer's debt to my pocket. Seven come eleven, and my streak's already forgetting that loss ever happened.",
+      "speaker": {
+        "slug": "willy",
+        "name": "Willy One Eye",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

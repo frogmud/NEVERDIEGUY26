@@ -4,22 +4,25 @@
     "name": "Dr. Maxwell",
     "category": "wanderers"
   },
-  "entryCount": 21,
+  "entryCount": 67,
   "pools": {
     "lore": 1,
-    "gamblingTrashTalk": 12,
+    "gamblingTrashTalk": 53,
     "greeting": 3,
-    "threat": 4,
+    "threat": 9,
     "reaction": 1
   },
   "moods": {
-    "neutral": 2,
+    "neutral": 9,
     "cryptic": 1,
     "sad": 3,
     "angry": 1,
-    "threatening": 8,
-    "annoyed": 3,
-    "pleased": 3
+    "threatening": 30,
+    "annoyed": 14,
+    "pleased": 5,
+    "scared": 1,
+    "generous": 1,
+    "amused": 2
   },
   "entries": [
     {
@@ -43,7 +46,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -71,7 +74,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.000Z",
+        "extractedAt": "2026-07-09T01:48:12.448Z",
         "version": 1
       }
     },
@@ -96,7 +99,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.448Z",
         "version": 1
       }
     },
@@ -121,7 +124,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -149,7 +152,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -177,7 +180,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -203,7 +206,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0008.md",
         "extractedDay": 8,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -229,7 +232,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0008.md",
         "extractedDay": 8,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -254,7 +257,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -279,7 +282,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -312,7 +315,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -338,7 +341,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0014.md",
         "extractedDay": 14,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -366,7 +369,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0015.md",
         "extractedDay": 15,
-        "extractedAt": "2026-07-09T00:40:26.010Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -389,7 +392,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0016.md",
         "extractedDay": 16,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -415,7 +418,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -443,7 +446,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -469,7 +472,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0024.md",
         "extractedDay": 24,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -495,7 +498,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0024.md",
         "extractedDay": 24,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -521,7 +524,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0025.md",
         "extractedDay": 25,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -555,7 +558,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -589,7 +592,1284 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-bnqice",
+      "text": "Ah, Voss, 13 and 12, still one loss behind me in the ledger of shame. Careful with that syringe, dear, I've read enough anatomy texts to know exactly where a bad roll lands on you. Burn, read, repeat, and perhaps tonight I read your defeat aloud to the king.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-g93wey",
+      "text": "Bones, my ledger still says the newcomer owes me 125, and now I've bled more to your dice than King James bleeds light. Burn, read, repeat, but tonight I'm just burning.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-xfmv5w",
+      "text": "Ah, Bones, 12 and 18, tilted as a burnt spine. The newcomer still owes me 125 gold, so tell your ledger to get in line behind mine.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-fpnf7t",
+      "text": "Ah, X-treme, still 0 and 1, I see. Do put a note in the ledger, ours boy still owes me 125 gold, and unlike your favorite corpse, that debt won't be resurrecting itself.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-wqnnnz",
+      "text": "Willy One Eye, that single pupil of yours has seen more debts than my library's seen dust, so hear this one: the newcomer owes me 125 gold, and something's coming for all of us that won't care about ledgers. Burn, read, repeat, but maybe read faster this time.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-nueo5f",
+      "text": "Ah, Keith. Tell your fast little friend his 125 gold doesn't outrun anything, not even you, and you outrun light.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0034.md",
+        "extractedDay": 34,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-tma6d9",
+      "text": "Ah, Boots, sitting smug on those classified files as always. I'd read you a verse from the Book of Fours, but cats can't read, and neither can kings, so I suppose we're all just here for the dice tonight.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-kuv56z",
+      "text": "Ah, General, still walking despite the paperwork Hell must have on you. Our mutual problem child owes me 125 gold now, tell me, does he owe you more or less than his own life is worth these days? Burn, read, repeat, General, some debts just compound in the reading.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-xqqg2f",
+      "text": "Ah, Boots. Eleven wins, sitting smug on files His Majesty would burn for. Careful, cat, my last two losses were just the king warming my arm for the real roll.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-7i10xv",
+      "text": "Careful, Voss, sixteen losses looks bad on anyone's spine, even one propped up by unknown serum. The king's dice don't lie, unlike your smugness. Burn, read, repeat, and maybe you'll learn something before the recruit's debts bury us all.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-14p1o5",
+      "text": "Four losses running, General, and the boy still owes me one hundred twenty-five gold he'll never see the shape of again. The king reads of ruin daily, I just never thought I'd star in the chapter.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-v2t7hd",
+      "text": "Ah, a clutch roll, delicious, the dice sing hotter than the king's own pages. Smug as you look, Body Count, even Heaven's ledger can't jam a man who keeps un-counting himself. Burn, read, repeat, and do collect your losses before the recruit adds you to his tally of debts.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-d7sykg",
+      "text": "Ah, Body Count, hot off a kill no doubt, though I hear the recruit still won't stay in your ledger. Two losses for me, but the king's dice run hotter than your streak ever will. Roll well, freelancer, someone here still owes me 125 gold and I intend to collect from the living or the reassembled.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-63s1fa",
+      "text": "Two losses, Bones, two! And that newcomer still owes me 125 gold he'll never pay in this life or the next fourteen. Burn, read, repeat, roll the bones again before I start reading YOUR future to the King as a cautionary tale.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-yp5m5u",
+      "text": "Ah, tilted, are we? Even the King's ledgers read calmer than your dice hand tonight. Still, at least you're not 125 gold deep like our favorite corpse who won't stay buried, burn, read, repeat.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-dkpoa2",
+      "text": "Ah, a clutch roll, and that smug little face already knows the answer, doesn't it. Even King James would applaud, and he applauds for nothing. Burn, read, repeat, Boots, though I suspect you've never read a page in your life.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-vt7f6h",
+      "text": "Willy One Eye, still cold as the Sun is hot, ha! The king would enjoy your company more than mine, he never blinks either. Now tell me, has our favorite corpse settled his tab with you too, or does his debt only smolder in my direction?",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-u1za0a",
+      "text": "Oh General, smug already, and the dice not even warm yet. Careful, your record's worse than mine, and I've got a boy who owes me 125 gold to prove pity doesn't pay debts. Burn, read, repeat, and roll, General, roll.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-lxal6b",
+      "text": "Ha! Even the King's own dice-slave has a bad night, Willy. Third loss will read like a tragedy in tomorrow's chapter, right next to the newcomer's tab. Burn, read, repeat, my eye's twin, the streak ends when it ends.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-5q6ict",
+      "text": "Three losses, General, and my dice arm feels like it's on fire from the wrong end. The newcomer walks through a boss fight without a scratch and still owes me 125 gold. Burn, read, repeat, that's my luck today, not his.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-n3t09w",
+      "text": "Ah, Willy, one eye and still you look down on me, quite the trick. My streak's a single loss, yours will be twenty-two soon enough, and the newcomer still owes me 125 gold he barely broke a sweat earning. Burn, read, repeat, One Eye. Roll.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-7cyqsw",
+      "text": "Ah, Mr. Kevin, 2 and 7, tilted as a bookshelf in an earthquake. The newcomer walked out of a boss fight without a scratch while still owing me 125 gold, so I'd say your luck and his are cousins who don't speak. Burn, read, repeat, Kevin, the dice don't care how gently you hold your power.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-1psl42",
+      "text": "Nine and three, Keith, hot as the corona itself. But your friend still owes me 125 gold, and streaks don't pay debts, only dice do. Burn, read, repeat, shall we roll?",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-4v52yw",
+      "text": "Boo G, three losses deep and my dice still feel hot, isn't that a delicious little lie the mind tells itself. The newcomer's 125 gold sits heavier than the debt drafts blowing off Hell tonight, and I intend to collect before he dies again and forgets his own name.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0058.md",
+        "extractedDay": 58,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-ssedwb",
+      "text": "Ah, Kevin! Two wins, seven losses, tilted as a bookshelf in an earthquake, yet here you stand. The king would say restraint is its own power, and I'd read him a whole chapter on it if he asked. Now, about that newcomer's 125 gold, tell him the corona keeps its own ledger.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-b3rh4h",
+      "text": "Ha! A clutch roll, General, straight off the page and into the gold. His Majesty would weep with joy, if he wept anything but light. Now if only the newcomer rolled half so well against his 125 gold debt to me.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-8ou3ob",
+      "text": "Ah, Stitch-Up Girl, tilted as ever, bow crooked and eyes darker for it. The newcomer owes me 125 gold and still hasn't paid, yet somehow he rolls like the dice love him more than King James loves silence. Sit, read with me a moment, it'll settle that shadow of yours before it settles you.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-bg64da",
+      "text": "Ah, Willy, one eye and yet you see the newcomer's debts clearer than most see with two. Ha! 125 gold he owes me, still, a small matter, His Majesty would say, though the king cannot read himself, so I read him the world instead.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-tl0wol",
+      "text": "Ah! A clutch roll, bound in leather it deserves its own chapter! Even His Majesty leaned forward for that one, Body Count, and he leans for nothing. Tell me, does it sting more when the ledger won't close, or when the boy simply won't lie down?",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-exi2tt",
+      "text": "Ha! A clutch roll, right under the King's light, no less. Even Heaven's own ledger gets smudged by a boy who won't stay filed away, Body Count. Burn, read, repeat, and maybe collect the recruit's 125 gold while you're at it, eh?",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-2by7pq",
+      "text": "Ah, Kevin! Tilted at 2 and 7, I feel your pain, truly, though His Majesty would say pain is just information poorly delivered. Care to roll? I'm on a hot streak, the newcomer's debts are piling like unread scrolls, and burn, read, repeat, my luck holds.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-osznft",
+      "text": "Ah, Boots, sharpening your smugness on those classified files again? I've read every trick you've got bound in three different tomes, so let's roll before the newcomer's 125 gold debt starts collecting interest on my patience too.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-q62t27",
+      "text": "General, the boy rolled like the dice owed him money instead of the other way around, still owes me 125 gold and now the universe too. Burn, read, repeat, I'll add it to his tab in a book only I can read.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-uzeolx",
+      "text": "Ah, Body Count, smug as ever, good, I like an audience for my dice. The king reads of legends who rolled fours all their lives, tonight I roll for one who owes me 125 gold and a losing streak he'll regret.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "threatening"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-d3xwxj",
+      "text": "Your Majesty, the newcomer rolled trips again, right here under these dreadful lights. I bowed low enough to see my own reflection in the tile, and still lost the throw. Two losses now, and that boy still owes me a hundred and twenty-five gold he clearly doesn't intend to pay.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-c6x6s2",
+      "text": "Ah, smug silence, the loudest sound in the book. The recruit rolls like the dice owe him money too, and mine still owes me 125 gold, so I understand his patience with debts. Burn, read, repeat, Body Count. Even a killer's tally needs a footnote sometimes.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-6ya766",
+      "text": "Ah, Boots, silent as a footnote and twice as judged. The newcomer's dice ran hot enough to blister the page, but hot dice cool, and 125 gold doesn't forget its own name. Roll for His Majesty's amusement, cat, the king cannot read the odds himself, so I read them for him.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-tqd0xp",
+      "text": "Ah, Voss. Still cold as your serum, I see. The newcomer died on ante three again, adds a lovely rhythm to my week, and he still owes me 125 gold he'll never read his way out of.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-pm781n",
+      "text": "Careful now, General, smug tastes better before the dice fall than after. I've read a thousand endings and yours usually starts with a two-one.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-fhakym",
+      "text": "Three losses, Boo G, three! The dice on this rock are cursed, or you're loaded, one of the two. His Majesty reads of kings who lost empires on worse rolls than mine, so I've got that comfort at least, small as it is.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-jqaza8",
+      "text": "Ah, Willy One-Eye, fifty-three and forty-two, a fine record for a man who only has half the depth perception of the rest of us. I read King James tales of merchants far sharper than you every single night. Burn, read, repeat, and tonight I collect gold, not stories.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-7vyzmu",
+      "text": "Ah, Boo G, smug as ever, I see your streak's got you preening like a peacock in the corona. Careful though, the newcomer's debts are contagious, 125 gold and counting, and I do so hate reading bad omens aloud.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-xhwj3x",
+      "text": "General, four wins deep and the boy still owes me 125 gold he'll die before he pays. Fitting light in here, really, makes everyone look like a corpse already. Burn, read, repeat, General - though you'd know something about that last part better than most.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-rqp0zs",
+      "text": "Willy, my one-eyed friend, the king's dice run hot tonight, hotter than that debt the newcomer owes me. Burn, read, repeat, and roll again - the book says fortune favors the bootlicker.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-u3iab6",
+      "text": "Ah, Willy, one eye but you still see my two losses plainer than most. Let's call it, best of three, and maybe the newcomer's 125 gold debt turns into your problem instead of mine. Burn, read, repeat, Willy, and roll.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0086.md",
+        "extractedDay": 86,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-maxwell-oeth3",
+      "text": "Willy, my one-eyed friend, that streak of yours reads like a tragedy His Majesty would enjoy having narrated. Careful, or you'll owe more than the newcomer's 125 gold. Burn, read, repeat, and maybe rethink your dice grip while you're at it.",
+      "speaker": {
+        "slug": "dr-maxwell",
+        "name": "Dr. Maxwell",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0086.md",
+        "extractedDay": 86,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

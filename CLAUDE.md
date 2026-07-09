@@ -42,7 +42,13 @@ pnpm typecheck    # TypeScript validation
 pnpm sim:pantheon     # NPC encounter simulation
 pnpm sim:eternal      # Eternal Stream multi-NPC chatter
 pnpm sim:chatter      # Pre-game NPC chatter
-pnpm sim:extract      # Extract chatbase data
+pnpm sim:extract      # Rebuild chatbase/ from ALL logs/eternal-* runs (free, idempotent)
+
+# NPC canon loop (the main content pipeline - see "NPC canon pipeline" below)
+pnpm sim:canon:week            # start a FRESH 7-day sonnet-5 world
+pnpm sim:canon:continue        # +7 days resumed from the latest run (--resume=latest)
+pnpm sim:canon:continue:month  # +30 days resumed (the long-leg version)
+# NOTE: sim:canon:day/week/month start fresh worlds; the :continue scripts chain them
 
 # Other
 pnpm dev:cms          # Run asset CMS
@@ -183,6 +189,39 @@ screen. To exercise defeat: fail/skip rooms to 4 scars, or lose a combat.
 | `items/` | Item definitions and effects |
 | `shop/` | Shop inventory and NPC offerings |
 | `adapters/` | External system adapters |
+
+### NPC canon pipeline (eternal days) - the content loop
+
+`packages/ai-engine/scripts/npc-eternal-days.ts` simulates day-by-day NPC life
+(ceelo gambling, debts, moods, weather, pantheon weeks) and uses claude-sonnet-5
+for in-voice dialogue. It is the primary chatbase + canon generator.
+
+**The loop:** `sim:canon:week` once (fresh world) -> `sim:canon:continue` /
+`sim:canon:continue:month` repeatedly (each leg resumes the latest run via
+`--resume=latest`: gold, records, debts, moods, player profile, and day
+numbering all carry forward) -> read the leg's `blog.md` (chronological
+read-through, chaptered by pantheon week) -> tweak NPC defs if a voice drifts ->
+`sim:extract` (free, idempotent full rebuild of `chatbase/` from ALL
+`logs/eternal-*` dirs). Cost ~1.8 cents/sim-day.
+
+Rules the pipeline enforces:
+- **`logs/eternal-*` is the source of truth; `chatbase/` is derived.** Deleting
+  a run dir removes its lines on the next extract. Logs are gitignored - back
+  them up if the canon matters.
+- **Dialogue style** (from `../docs/skills/NDG_CONSOLIDATED_WRITING_SKILL.md`)
+  is baked into the sim prompt: no em dashes, one punchline max per line, no
+  "that's not X, that's Y" wallpaper. Mechanical dash scrubs run in both the
+  sim output and the extractor; truncated (max_tokens) lines are trimmed to the
+  last full sentence or dropped.
+- **Canon reconciliation:** when the sim surfaces a contradiction with the
+  comic canon, resolve it in the Field Guide reconciliation log
+  (`../comic/field-guide/09-reconciliation-log.md`) and enforce it in the sim.
+  Example: King James never leaves the Sun - matches against him are forced to
+  the `sun` location and Maxwell rolls the King's dice (log entry 10).
+- Sim NPC defs live in the script itself (`ALL_NPCS`); they are the model, the
+  chatbase is samples. `--use-claude` requires `ANTHROPIC_API_KEY` (the canon
+  scripts source `../../.env`). Do NOT pass `temperature` - the Claude 5 family
+  rejects sampling params.
 
 ### API Endpoints (api/)
 | Endpoint | Purpose |

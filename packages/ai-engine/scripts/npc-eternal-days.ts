@@ -351,6 +351,36 @@ const TOKEN_POOLS: Record<string, TokenPool> = {
 };
 
 // ============================================
+// Midday Encounters - WHERE the chatter happens
+// ============================================
+// Orthogonal to the topic pools above: the pool is what they talk about, the
+// encounter is where they collided. Office-horror texture - fluorescent grid,
+// forced proximity, civic weather. Weights are relative (city sighting rare).
+const MIDDAY_ENCOUNTERS: { text: string; weight: number }[] = [
+  { text: 'Waiting for the elevator together. It is slow, and neither of you can leave without losing face', weight: 3 },
+  { text: 'Stuck in the elevator together between floors. The inspection certificate expired years ago', weight: 1 },
+  { text: 'Crossing paths in the HERO CORPS lobby, between the front desk and the badge gates', weight: 3 },
+  { text: 'In line for the one working bathroom on this floor', weight: 2 },
+  { text: 'At the break room coffee machine. The pot is nearly empty and neither of you brewed it', weight: 2 },
+  { text: 'Assigned to the same field mission, waiting on a briefing that is running late', weight: 2 },
+  { text: 'Mid-mission lull - holding a perimeter together with nothing to do but talk', weight: 2 },
+  { text: 'Spotted each other out in the city, off the clock. Neither expected to be seen', weight: 1 },
+  { text: 'Adjacent windows at the records office, both waiting on stamps', weight: 2 },
+  { text: 'The Dying Saucer counter, waiting on orders side by side', weight: 2 },
+  { text: 'Passing on the stairwell, one going up, one going down. Someone stopped', weight: 2 },
+];
+
+function pickEncounter(rng: SeededRng, key: string): string {
+  const total = MIDDAY_ENCOUNTERS.reduce((a, e) => a + e.weight, 0);
+  let roll = rng.random(key) * total;
+  for (const e of MIDDAY_ENCOUNTERS) {
+    roll -= e.weight;
+    if (roll < 0) return e.text;
+  }
+  return MIDDAY_ENCOUNTERS[0].text;
+}
+
+// ============================================
 // NPC Definitions - Canonical from Diepedia + Comic Character Master
 // ============================================
 
@@ -400,7 +430,7 @@ const ALL_NPCS: NPCDef[] = [
     baseStats: { essence: 80, grit: 40, shadow: 35, fury: 85, resilience: 30, swiftness: 70 },
     voice: 'Fast, bookish, fawning toward the king. Burn, read, repeat.',
     visualTells: ['Books smolder as he reads', 'Bows a little too low', 'Wild hair, lab coat, glasses'],
-    quirks: ['Reads aloud to King James', 'Flatters the king he serves', 'Runs stalls: CURES FOR WHAT AILS YOUR MIND'],
+    quirks: ['Reads aloud to King James', 'Flatters the king he serves', 'Rolls the King\'s dice for him at the Sun (bound to the throne, James cannot)', 'Runs stalls: CURES FOR WHAT AILS YOUR MIND'],
     catchphrases: ['The king cannot read himself, so I read him the world.', 'Burn, read, repeat.', 'His Majesty wants for nothing. That is the tragedy.'],
     obsessions: ['Serving King James', 'Books', 'Being useful'],
     rivals: ['dr-voss'],
@@ -468,7 +498,7 @@ const ALL_NPCS: NPCDef[] = [
     baseStats: { essence: 70, grit: 85, shadow: 75, fury: 50, resilience: 90, swiftness: 35 },
     voice: 'Slow, grand, weighty. Pronouncements, not chatter. Solar and regal imagery.',
     visualTells: ['Bone crown in a white corona', 'Fused to a cathedral-scale throne', 'A tiny figure stands for scale'],
-    quirks: ['Cannot read himself', 'Has Maxwell read aloud', 'Worshipped and trapped'],
+    quirks: ['Cannot read himself', 'Has Maxwell read aloud', 'Worshipped and trapped', 'Maxwell rolls his dice for him; sometimes the King lets him play a hand of his own'],
     catchphrases: ['You stand in the corona of the only immortal. Speak, and be brief.', 'I bought forever. Forever bought me back.', 'Maxwell. Read me the part where someone leaves.'],
     obsessions: ['The bargain that bound him', 'The reading', 'A door out of the corona'],
     rivals: ['the-one', 'peter'],
@@ -765,6 +795,59 @@ const ALL_NPCS: NPCDef[] = [
     domain: 'elsewhere',
   },
 ];
+
+// ============================================
+// Cover Rank - character importance
+// ============================================
+// The comic covers rank character importance (../comic/field-guide/03-cast.md):
+// NDG is 01 (the player), Keith 02, The General 03, Stitch 04, Mr. Kevin 05...
+// Dialogue value follows cover order: the core four should carry the most
+// lines, key players next, wanderers/board least. Weighted speaker selection
+// keeps the chatbase distribution aligned with the book.
+const COVER_RANK: Record<string, number> = {
+  'keith-man': 2,
+  'the-general': 3,
+  'stitch-up-girl': 4,
+  'mr-kevin': 5,
+  'boo-g': 6,
+  'clausen': 7,
+  'rhea': 8,
+  'king-james': 10,
+  'body-count': 11,
+  'alien-baby': 12,
+  'john': 13,
+  'jane': 14,
+  'robert': 15,
+  'alice': 16,
+  'peter': 17,
+  'the-one': 18,
+  'zero-chance': 19,
+  'mr-bones': 20,
+  'boots': 21,
+  'willy-one-eye': 22,
+  'xtreme': 23,
+  'dr-maxwell': 24,
+  'dr-voss': 25,
+};
+
+function coverWeight(slug: string): number {
+  const r = COVER_RANK[slug] ?? 99;
+  if (r <= 5) return 3;   // core four - the book belongs to them
+  if (r <= 11) return 2;  // key players - recurring pressure
+  return 1;               // enigmas, board, wanderers
+}
+
+/** Weighted index pick - higher cover rank speaks more often */
+function pickWeightedIndex(items: { slug: string }[], rng: SeededRng, key: string): number {
+  const weights = items.map(i => coverWeight(i.slug));
+  const total = weights.reduce((a, b) => a + b, 0);
+  let roll = rng.random(key) * total;
+  for (let i = 0; i < items.length; i++) {
+    roll -= weights[i];
+    if (roll < 0) return i;
+  }
+  return items.length - 1;
+}
 
 // ============================================
 // Pantheon Affinity Matrix
@@ -1780,7 +1863,8 @@ function buildEternalContext(
   pool: string,
   situation: string,
   environment: DayEnvironment,
-  gameLocation?: GameLocation
+  gameLocation?: GameLocation,
+  scene?: string
 ): string {
   const speakerState = npcStates.get(speaker.slug)!;
   const targetState = npcStates.get(target.slug)!;
@@ -1882,10 +1966,23 @@ function buildEternalContext(
     ? `\nWEATHER: ${environment.weatherDescription}`
     : '';
 
-  // Location/turf context
-  const locationToUse = gameLocation || environment.dominantLocation;
+  // Location/turf context. If the King is in the conversation, it happens at
+  // the Sun regardless of the day's dominant location - he cannot leave, so
+  // no fluorescent-hallway small talk with James (reconciliation #10).
+  const locationToUse = (speaker.slug === 'king-james' || target.slug === 'king-james')
+    ? 'sun'
+    : (gameLocation || environment.dominantLocation);
   const turfContext = getTurfContext(speaker.luckyDie, target.luckyDie, locationToUse);
-  const locationContext = `\nLOCATION: ${turfContext}`;
+  let locationContext = `\nLOCATION: ${turfContext}`;
+
+  // Canon: King James never leaves the throne. Games against him happen at the
+  // Sun, Maxwell handles the King's dice (and sometimes plays a hand of his
+  // own), and guests hate making the trip.
+  if (speaker.slug === 'king-james' || target.slug === 'king-james') {
+    locationContext += speaker.slug === 'king-james'
+      ? `\nCANON: You are bound to your throne. Maxwell rolls your dice for you; sometimes you let him play a hand of his own. Your guests came to the Sun because they had to, and you know they hate it here.`
+      : `\nCANON: King James cannot leave his throne, so you came to the Sun to play - and you hate it here (the corona, the exposure, the King's scale). Maxwell rolls the King's dice for him.`;
+  }
 
   return `You are ${speaker.name}, ${speaker.title} - an immortal ${speaker.category} in NEVER DIE GUY.
 You've spent a long time inside HERO CORPS and around the Dying Saucer, alongside other immortals. The newcomer (Never Die Guy) is the unnamed recruit who cannot stay dead and keeps coming back.
@@ -1906,7 +2003,8 @@ YOUR STATS:
 - Ceelo record: ${speakerState.ceeloWins}W-${speakerState.ceeloLosses}L
 - Current streak: ${speakerState.currentStreak > 0 ? `${speakerState.currentStreak} wins` : speakerState.currentStreak < 0 ? `${Math.abs(speakerState.currentStreak)} losses` : 'even'}
 
-SITUATION: ${situation}
+SITUATION: ${situation}${scene ? `
+SCENE: ${scene}. Let the setting color the exchange - who can leave, who cannot, what the fluorescent grid does to a conversation.` : ''}
 
 Speaking to ${target.name}, ${target.title} (${target.personality}).
 Their mood: ${targetState.mood}
@@ -1982,7 +2080,11 @@ async function generateWithClaude(
       }
 
       const data = await response.json();
-      let text: string | null = data.content?.[0]?.text || null;
+      // Sonnet 5 runs adaptive thinking by default: complex prompts return a
+      // thinking block FIRST, so content[0].text is undefined. Find the text
+      // block instead of assuming position 0.
+      let text: string | null =
+        data.content?.find((b: { type: string }) => b.type === 'text')?.text || null;
 
       // If the model hit max_tokens the line is clipped mid-sentence; trim back
       // to the last complete sentence so truncated fragments never reach the
@@ -2126,7 +2228,11 @@ async function simulateDay(
     );
 
     // Determine game location
-    const matchLocation = rollGameLocation(rng, `${dayKey}-m${m}`, p1.luckyDie, p2.luckyDie, environment.weather);
+    let matchLocation = rollGameLocation(rng, `${dayKey}-m${m}`, p1.luckyDie, p2.luckyDie, environment.weather);
+
+    // Canon: King James is bound to his throne in the corona. Anyone who wants
+    // a game comes to the Sun, and Maxwell rolls the dice on the King's behalf.
+    if (p1.slug === 'king-james' || p2.slug === 'king-james') matchLocation = 'sun';
 
     const match = playCeeloMatch({
       npc1: p1,
@@ -2237,10 +2343,11 @@ async function simulateDay(
   for (let c = 0; c < numChatter; c++) {
     if (middayNPCs.length < 2) break;
 
-    const speakerIdx = Math.floor(rng.random(`${dayKey}-c${c}-speaker`) * middayNPCs.length);
+    // Cover-rank weighted: core four speak (and get spoken to) most often
+    const speakerIdx = pickWeightedIndex(middayNPCs, rng, `${dayKey}-c${c}-speaker`);
     const speaker = middayNPCs[speakerIdx];
     const targets = middayNPCs.filter((_, i) => i !== speakerIdx);
-    const targetIdx = Math.floor(rng.random(`${dayKey}-c${c}-target`) * targets.length);
+    const targetIdx = pickWeightedIndex(targets, rng, `${dayKey}-c${c}-target`);
     const target = targets[targetIdx];
 
     if (options.useClaude) {
@@ -2262,7 +2369,9 @@ async function simulateDay(
       const poolConfig = TOKEN_POOLS[pool];
       const situation = poolConfig.situations[Math.floor(rng.random(`${dayKey}-c${c}-sit`) * poolConfig.situations.length)];
 
-      const prompt = buildEternalContext(day, speaker, target, npcStates, playerState, pool, situation, environment);
+      // Where they collided - elevator, lobby, bathroom line, mission, city
+      const scene = pickEncounter(rng, `${dayKey}-c${c}-scene`);
+      const prompt = buildEternalContext(day, speaker, target, npcStates, playerState, pool, situation, environment, undefined, scene);
       const response = await generateWithClaude(prompt, poolConfig.tokens, options.apiKey);
 
       if (response && response.length > 10) {
@@ -2283,6 +2392,107 @@ async function simulateDay(
           const templatePool = poolToType[pool as keyof typeof poolToType] || 'idle';
           extractTemplate(speaker.slug, response, templatePool, mood, day, situation, target.slug, environment.dominantLocation);
         }
+      }
+    }
+  }
+
+  // ========== MIDDAY - Group Scene (~half of days) ==========
+  // One API call writes a whole multi-party exchange (3 people = usually a
+  // 2-on-1, 4-5 = the room turns on itself), then it is parsed back into
+  // per-speaker lines so the day log and extractor treat each NPC's line
+  // individually. Participants drawn cover-rank weighted, no repeats.
+  if (options.useClaude && middayNPCs.length >= 3 && rng.random(`${dayKey}-group-gate`) < 0.5) {
+    const sizeRoll = rng.random(`${dayKey}-group-size`);
+    const size = sizeRoll < 0.5 ? 3 : sizeRoll < 0.85 ? 4 : 5;
+
+    const draw = [...middayNPCs];
+    const group: NPCDef[] = [];
+    while (group.length < size && draw.length > 0) {
+      const idx = pickWeightedIndex(draw, rng, `${dayKey}-group-p${group.length}`);
+      group.push(draw[idx]);
+      draw.splice(idx, 1);
+    }
+
+    // Canon: if the King is in the room, the room is the corona (he cannot
+    // leave the throne - see field-guide reconciliation #10)
+    const scene = group.some(g => g.slug === 'king-james')
+      ? 'Summoned to the corona. The King cannot leave the throne, so the meeting came to the Sun - his light, his terms, everyone else squinting and wishing they were anywhere with a ceiling'
+      : pickEncounter(rng, `${dayKey}-group-scene`);
+
+    // Pairwise dynamics: alliances, rivalries, debts between those present
+    const dynamics: string[] = [];
+    for (let i = 0; i < group.length; i++) {
+      for (let j = 0; j < group.length; j++) {
+        if (i === j) continue;
+        const a = group[i], b = group[j];
+        if (i < j && (a.allies.includes(b.slug) || b.allies.includes(a.slug))) dynamics.push(`${a.name} and ${b.name} are allies`);
+        if (i < j && (a.rivals.includes(b.slug) || b.rivals.includes(a.slug))) dynamics.push(`${a.name} and ${b.name} are rivals`);
+        const owes = npcStates.get(a.slug)!.debtsOwed.get(b.slug) || 0;
+        if (owes > 0) dynamics.push(`${a.name} owes ${b.name} ${owes} gold`);
+      }
+    }
+
+    const roster = group.map(n => {
+      const s = npcStates.get(n.slug)!;
+      return `- ${n.name}, ${n.title}. Voice: ${n.voice} Mood: ${s.mood}. Record ${s.ceeloWins}W-${s.ceeloLosses}L, ${s.gold} gold.`;
+    }).join('\n');
+
+    const groupPrompt = `You are writing a group scene for NEVER DIE GUY - immortal coworkers colliding inside HERO CORPS.
+
+SCENE: ${scene}.
+
+WHO'S THERE:
+${roster}
+
+DYNAMICS:
+${dynamics.length > 0 ? dynamics.map(d => `- ${d}`).join('\n') : '- None of them particularly like each other today.'}
+
+Write a short group exchange, ${size + 2} to ${size * 2} lines total. People interrupt, take sides, gang up, or change the subject. Lines need not be evenly distributed - someone can stay quiet and land one line.
+
+FORMAT (strict):
+- Each line exactly: NAME: dialogue
+- Use exactly these names: ${group.map(g => g.name).join(', ')}
+- Dialogue only. No stage directions, no asterisks, no narration between lines
+
+STYLE (house rules - follow strictly):
+- NEVER use em dashes. Commas, periods, or a plain hyphen
+- ONE punchline max in the whole scene. Plain talk does the rest
+- Avoid the shape "that's not X, that's Y"
+- Concrete words over ornate ones. Complete sentences, never trail off`;
+
+    const response = await generateWithClaude(groupPrompt, 700, options.apiKey);
+    if (process.env.DEBUG_GROUP) console.error(`[group] day ${day} size=${size} resp=${response ? response.length + 'ch' : 'NULL'}\n${response?.slice(0, 300)}`);
+    if (response) {
+      const byName = new Map(group.map(n => [n.name.toLowerCase(), n]));
+      const parsed: { npc: NPCDef; text: string }[] = [];
+      for (const raw of response.split('\n')) {
+        const m = raw.trim().match(/^\**([A-Za-z .'-]+?)\**\s*:\s*(.+)$/);
+        if (!m) continue;
+        const npc = byName.get(m[1].trim().toLowerCase());
+        if (!npc) continue;
+        const text = m[2].trim();
+        if (text.length < 5) continue;
+        parsed.push({ npc, text });
+      }
+
+      if (parsed.length >= 2) {
+        for (const line of parsed) {
+          events.push({
+            day,
+            phase: 'midday',
+            type: 'chatter',
+            participants: [line.npc.slug],
+            text: line.text,
+            isClaudeGenerated: true,
+            location: environment.dominantLocation,
+          });
+          if (options.extractTemplates) {
+            const st = npcStates.get(line.npc.slug)!;
+            const mood = st.mood === 'tilted' ? 'annoyed' : st.mood === 'hot' ? 'pleased' : 'neutral';
+            extractTemplate(line.npc.slug, line.text, 'idle', mood, day, scene, undefined, environment.dominantLocation);
+          }
+        }
+        highlights.push(`Group scene (${group.map(g => g.name).join(', ')}): ${scene.split('.')[0].toLowerCase()}`);
       }
     }
   }
@@ -2374,7 +2584,11 @@ async function simulateDay(
     );
 
     // Evening games - more likely to be in back alleys or domain-based
-    const eveningLocation = rollGameLocation(rng, `${dayKey}-ev${m}`, p1.luckyDie, p2.luckyDie, environment.weather);
+    let eveningLocation = rollGameLocation(rng, `${dayKey}-ev${m}`, p1.luckyDie, p2.luckyDie, environment.weather);
+
+    // Canon: King James never leaves the corona - his games happen at the Sun
+    // (Maxwell rolls the King's dice; see field-guide reconciliation log #10)
+    if (p1.slug === 'king-james' || p2.slug === 'king-james') eveningLocation = 'sun';
 
     const match = playCeeloMatch({
       npc1: p1,

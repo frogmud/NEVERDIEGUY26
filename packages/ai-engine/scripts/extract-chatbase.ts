@@ -221,6 +221,27 @@ function parseStreaks(highlightsSection: string): Map<string, { type: 'loss' | '
   return streaks;
 }
 
+// ============================================
+// Cover Rank - character importance
+// ============================================
+// The comic covers rank character importance (../comic/field-guide/03-cast.md).
+// Keys are EXTRACT slugs (post NAME_TO_SLUG normalization, e.g. 'willy').
+const COVER_RANK: Record<string, number> = {
+  'keith-man': 2, 'the-general': 3, 'stitch-up-girl': 4, 'mr-kevin': 5,
+  'boo-g': 6, 'clausen': 7, 'rhea': 8, 'king-james': 10, 'body-count': 11,
+  'john': 13, 'jane': 14, 'robert': 15, 'alice': 16, 'peter': 17,
+  'the-one': 18, 'zero-chance': 19, 'mr-bones': 20, 'boots': 21,
+  'willy': 22, 'xtreme': 23, 'dr-maxwell': 24, 'dr-voss': 25,
+};
+
+function coverRankBonus(slug: string): number {
+  const r = COVER_RANK[slug] ?? 99;
+  if (r <= 5) return 15;  // core four
+  if (r <= 11) return 8;  // key players
+  if (r <= 19) return 4;  // board / enigmas
+  return 0;               // wanderers
+}
+
 interface OverheardEntry {
   speaker: string;
   speakerName: string;
@@ -498,7 +519,11 @@ function createEntryFromEternal(
     contextTags,
     triggers: Object.keys(triggers).length > 0 ? triggers : undefined,
     metrics: {
-      interestScore: 70, // Default for eternal logs
+      // Base 70 for eternal logs, plus a cover-rank bonus: the comic covers
+      // rank character importance (core four > key players > wanderers), and
+      // dialogue value follows cover order. Higher scores win dedup ties and
+      // rank higher in lookups.
+      interestScore: 70 + coverRankBonus(speakerSlug),
       source: 'eternal_sim',
     },
     metadata: {

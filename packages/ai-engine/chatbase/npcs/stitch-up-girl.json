@@ -4,15 +4,15 @@
     "name": "Stitch Up Girl",
     "category": "travelers"
   },
-  "entryCount": 19,
+  "entryCount": 40,
   "pools": {
-    "reaction": 3,
-    "gamblingTrashTalk": 9,
-    "threat": 4,
-    "gamblingBrag": 3
+    "reaction": 4,
+    "gamblingTrashTalk": 17,
+    "threat": 14,
+    "gamblingBrag": 5
   },
   "moods": {
-    "annoyed": 6,
+    "annoyed": 27,
     "threatening": 11,
     "neutral": 1,
     "scared": 1
@@ -33,13 +33,13 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-01-34-881Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.995Z",
+        "extractedAt": "2026-07-09T01:48:12.444Z",
         "version": 1
       }
     },
@@ -58,13 +58,13 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -83,13 +83,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -111,13 +111,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -136,13 +136,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -164,13 +164,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.000Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -192,13 +192,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.000Z",
+        "extractedAt": "2026-07-09T01:48:12.448Z",
         "version": 1
       }
     },
@@ -219,13 +219,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.449Z",
         "version": 1
       }
     },
@@ -244,13 +244,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -269,13 +269,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -297,13 +297,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -325,13 +325,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -353,13 +353,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -379,13 +379,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -412,13 +412,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0008.md",
         "extractedDay": 8,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -438,13 +438,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0009.md",
         "extractedDay": 9,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -472,13 +472,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0015.md",
         "extractedDay": 15,
-        "extractedAt": "2026-07-09T00:40:26.010Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -505,13 +505,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -538,13 +538,707 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0022.md",
         "extractedDay": 22,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-k814nh",
+      "text": "Two and seven, Kevin, and you still throw like the dice owe you money. They don't. Newcomer owes me 75, and I'm starting to think the debt's contagious.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-lw9if7",
+      "text": "Smug looks good on you, Boo, but three of my last losses want a word before you get comfortable. Kid's out there bleeding gold he doesn't have again, same as always, so at least I'm not the saddest wallet at this table tonight.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0038.md",
+        "extractedDay": 38,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-upeh4d",
+      "text": "Three losses deep and you're watching him bleed gold he doesn't have, that's rich coming from you, General. Kid still owes me seventy-five. Small matter, until it isn't.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-fd27ts",
+      "text": "Four and one, huh. Must be nice watching someone else's streak burn for once instead of mine.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-ljfbhc",
+      "text": "Three losses, Bones. Don't smile at me with that whole clean jaw, I can see the math you're doing behind those sockets. Add it to whatever ledger you keep, I'm good for it, unlike your favorite disaster who still owes me seventy-five gold and a functioning spine.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-do5r74",
+      "text": "Nine losses and you're still shaped like a nice guy, Kevin. Three in a row for me, dice rigged by God himself. And our favorite corpse still owes me 75 he'll die again before he pays.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-xlkgc2",
+      "text": "Three losses, X-treme. Don't grin at me like that's a stat you're proud of, you're 0 and 2 yourself. Deal the bones again, and somebody go find that debt-riddled idiot before I start collecting in blood instead of gold.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-v9cgac",
+      "text": "Willy, three losses deep and Keith Man's out playing hero again, so don't smile at me like the dice owe me anything. Newcomer's still good for seventy five, whether he's breathing or not. Deal me in before I start counting other people's debts out loud.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0054.md",
+        "extractedDay": 54,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-ye2amb",
+      "text": "Three losses in a row and you're watching someone else's rival bleed out, General. That's not comfort, that's a draft from the same cold direction. Newcomer still owes me seventy-five, so don't ask me to enjoy the view for free.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-1a46zj",
+      "text": "Kevin, three losses doesn't mean the fourth one owes you anything. Trust me, I know the math. Fifty-eight seconds ago I was inventing a rescue that didn't happen just to feel steady, don't do the version where you feel invincible instead.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-imtdq5",
+      "text": "Three losses deep and watching you bleed gold isn't fixing my night, Voss. Whatever's in that syringe, don't call it mercy to my face. I've got a recruit who owes me 75 and a streak that owes me nothing, I don't need your data on top of it.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0063.md",
+        "extractedDay": 63,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-7l6kqs",
+      "text": "Twelve and eighteen, Bones. Even your whistle sounds embarrassed for you. Careful, your ledger's about as steady as my streak, and mine's a mess.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-n72j0m",
+      "text": "Four losses and you're still setting the line, Xtreme. That's not confidence, that's a man betting against gravity with someone else's coat on. I've got eleven gold and a bad mood, so unless you're paying out on the newcomer's next flatline, walk yourself back to the badge gate.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0068.md",
+        "extractedDay": 68,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-91q1hj",
+      "text": "Nine losses on you and seven on me, Kevin, we could open a support group and still lose the raffle. Newcomer still owes me 75, and the lobby lights are doing that thing where they make everyone look guilty. Don't ask if I'm okay, I will start counting your losses out loud.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-pkpks5",
+      "text": "Six losses this month, General, and the kid still owes me 75 gold he'll never remember dying for. Don't stand there hot and quiet like you're about to fix it. That sounded like a gun loading, and I've already got enough debt I didn't sign for.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-z1fin2",
+      "text": "Even numbers under a fluorescent grid can't dress up 36 and 36, Doctor. Fifty-fifty's a coin flip you keep paying to lose. And before you ask, no, I won't front you the entrance fee, the newcomer already owes me 75 and hasn't paid a cent of it.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-2p5xr4",
+      "text": "Three losses, General. Don't smile at me like the fluorescents are on your side too. Newcomer still owes me seventy-five, so if your stamp's slow again today I'm billing someone.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-i7y685",
+      "text": "Three losses doesn't scare me, Clausen, it just means the fourth one's overdue. You want to read my fortune off that briefcase or you want to order before the fluorescents give us both a headache.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-kly5se",
+      "text": "Smug looks good on you, Boo. Must be nice, sitting at even odds while I'm three deep in the ground. Newcomer still owes me 75, you want to buy that debt or just watch me sweat under these lights.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-xo1aaj",
+      "text": "Three losses and eleven gold, Kevin, and you're still hovering like you got somewhere better to be. Newcomer's out there rolling miracles while I'm down here owing the fluorescent lights rent. Don't look at me like that. I'm not the lesson tonight.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-stitch-up-girl-vn8626",
+      "text": "Nine and four, must be nice to lose from a throne instead of a folding chair. I'm down eleven gold and a losing streak, so forgive me if I don't ask how the corona's treating you.",
+      "speaker": {
+        "slug": "stitch-up-girl",
+        "name": "Stitch Up Girl",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0086.md",
+        "extractedDay": 86,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }
