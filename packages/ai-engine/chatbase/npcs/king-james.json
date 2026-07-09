@@ -4,19 +4,21 @@
     "name": "King James",
     "category": "wanderers"
   },
-  "entryCount": 14,
+  "entryCount": 34,
   "pools": {
-    "reaction": 2,
-    "gamblingTrashTalk": 7,
-    "threat": 5
+    "reaction": 3,
+    "gamblingTrashTalk": 17,
+    "threat": 14
   },
   "moods": {
-    "annoyed": 3,
+    "annoyed": 5,
     "grateful": 1,
     "curious": 1,
     "pleased": 1,
-    "threatening": 7,
-    "scared": 1
+    "threatening": 21,
+    "scared": 1,
+    "sad": 1,
+    "neutral": 3
   },
   "entries": [
     {
@@ -34,13 +36,13 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -59,13 +61,13 @@
         "weather:heat"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -85,13 +87,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -113,13 +115,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -139,13 +141,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -164,13 +166,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -190,13 +192,13 @@
         "debtTension": "notable"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -218,13 +220,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0015.md",
         "extractedDay": 15,
-        "extractedAt": "2026-07-09T00:40:26.010Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -246,13 +248,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -272,13 +274,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -299,13 +301,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -326,13 +328,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0023.md",
         "extractedDay": 23,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -352,13 +354,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0025.md",
         "extractedDay": 25,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -378,13 +380,545 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0028.md",
         "extractedDay": 28,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-de8r4z",
+      "text": "Nine losses stitched into six wins, girl, and still you sit at my table. The bow keeps you standing but it won't cover a debt. Maxwell, mark her tilt, and remind the newcomer his hundred gold hasn't grown legs yet either.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-st82i0",
+      "text": "Mr. Kevin. Two wins in nine tries, and still you choose the smaller flame. Wisdom, or fear wearing wisdom's coat. Doesn't matter today, my streak carries the table, and the newcomer's hundred gold still burns a hole in my ledger.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-drp3fu",
+      "text": "Willy, mark it in your ledger, that one collects wounds like other men collect gold. A hundred owed to me, and counting elsewhere, I'd wager. Still, he keeps rising. That's worth more than the gold, some days.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-jd11oo",
+      "text": "Maxwell. Read me the ledger, the page where the boy still owes me a hundred gold. Then read me his odds of living long enough to pay it.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-qwqlqi",
+      "text": "Keith Man. You move fast enough to outrun a debt, but not fast enough to outrun mine. The boy owes me a hundred gold, and I am told you found him first, so tell me, did you also find his coin purse and leave it somewhere?",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-nj3k3w",
+      "text": "Willy One Eye. Your one eye burns hotter than my whole corona today, I see the streak in it. The boy still owes me his hundred gold, tell me you have not lent him more against it.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-z61e1",
+      "text": "Willy, your eye is bright with heat and I feel it from here. A full run, unprecedented, and the boy still owes me a hundred gold he has not thought once to mention. Maxwell, read me the part where a debtor becomes a legend, I want to know if the ink changes.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-px2sbg",
+      "text": "The boy walked through fire and did not blink, Boo G. Odd talent, for someone who still owes me a hundred in gold he has not found the nerve to pay.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-7w9966",
+      "text": "General, your rival bleeds gold like the boy owes it. Sit, watch the ruin with me, it costs nothing and warms better than that Moon wind. Maxwell will read us the part where he loses it all, if you ask nicely.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-7ucevl",
+      "text": "Keith Man. You move so fast the flesh cannot follow, yet the boy's debt sits still as a stone. A hundred gold, unmoved by any speed you own.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0062.md",
+        "extractedDay": 62,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-ip1ka8",
+      "text": "Nine losses tilts a scale, girl, same as a debt tilts a man. The boy owes me a hundred gold and still throws bones like he owes nothing. Watch him lose. It steadies the nerves.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-ig37l4",
+      "text": "Doctor. Your serum made him, and now he cannot even stay dead long enough to pay me the hundred he owes. Perhaps you should have added a clause for debts.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0065.md",
+        "extractedDay": 65,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-k235q7",
+      "text": "The pot is empty, X-treme, same as your record against me. Four losses and you still stand here brewing nothing, waiting on a man who cannot even die properly to save you. He owes me a hundred gold. Add your merch cut to it and maybe we call it even.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-pl3plg",
+      "text": "General, the boy owes me a hundred gold and a body count I've lost track of. Fluorescent light does no favors to a debtor's face, but he wears it well enough. Tell me he's dying somewhere useful this time.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-g54q7b",
+      "text": "Maxwell, the boy dies again and the debt just sits there, patient as bone. A hundred gold, unpaid since the world was younger than this conversation. Read me the part where he learns to count.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0069.md",
+        "extractedDay": 69,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-xswhz5",
+      "text": "Mr. Kevin. Two wins, seven losses, and a face like a man who wishes his own hands would stop working. Sit if you like, though the fluorescent light here flatters no one, least of all a throne bound to a dying star.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-lv6nx4",
+      "text": "Mr. Bones, tell the ledger the boy died again and still owes me his hundred. Death does not forgive debt, it only delays the collection.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-q6pkuw",
+      "text": "Ante one, and already dead. X-treme, the boy owes me gold and now he owes the General his bones back. Maxwell will read me this chapter twice.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-f4nyx",
+      "text": "General. The pot's empty and the fluorescents make even the dust look guilty in here. Our boy still owes me a hundred gold, so if he's dead again somewhere, tell him forever waits, but I don't.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-king-james-8en3br",
+      "text": "Boo G. Even the fluorescent light here bends toward flattery when you walk through it. Tell me you've come to collect on the boy's debts, not add to mine.",
+      "speaker": {
+        "slug": "king-james",
+        "name": "King James",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

@@ -15,6 +15,7 @@
     "sim:canon:day": "pnpm --filter @ndg/ai-engine sim:canon:day",
     "sim:canon:week": "pnpm --filter @ndg/ai-engine sim:canon:week",
     "sim:canon:continue": "pnpm --filter @ndg/ai-engine sim:canon:continue",
+    "sim:canon:continue:month": "pnpm --filter @ndg/ai-engine sim:canon:continue:month",
     "sim:canon:month": "pnpm --filter @ndg/ai-engine sim:canon:month",
     "sim:extract": "pnpm --filter @ndg/ai-engine sim:extract",
     "sim:chatter": "pnpm --filter @ndg/ai-engine sim:chatter",

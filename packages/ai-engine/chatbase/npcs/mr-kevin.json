@@ -4,17 +4,18 @@
     "name": "Mr. Kevin",
     "category": "travelers"
   },
-  "entryCount": 15,
+  "entryCount": 42,
   "pools": {
-    "gamblingTrashTalk": 10,
-    "reaction": 2,
+    "gamblingTrashTalk": 25,
+    "reaction": 3,
     "hint": 1,
-    "gamblingBrag": 1,
-    "threat": 1
+    "gamblingBrag": 5,
+    "threat": 7,
+    "gossip": 1
   },
   "moods": {
     "threatening": 4,
-    "annoyed": 7,
+    "annoyed": 34,
     "pleased": 1,
     "neutral": 2,
     "sad": 1
@@ -35,13 +36,13 @@
         "weather:heat"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -68,13 +69,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -94,13 +95,13 @@
         "playerArchetype": "aggressive"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.449Z",
         "version": 1
       }
     },
@@ -117,13 +118,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.449Z",
         "version": 1
       }
     },
@@ -142,13 +143,13 @@
         "weather:heat"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -174,13 +175,13 @@
         }
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -197,13 +198,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -220,13 +221,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -246,13 +247,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0012.md",
         "extractedDay": 12,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -273,13 +274,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -296,13 +297,13 @@
       "moodIntensity": -2,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -328,13 +329,13 @@
         }
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0016.md",
         "extractedDay": 16,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -360,13 +361,13 @@
         }
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0016.md",
         "extractedDay": 16,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -392,13 +393,13 @@
         }
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0020.md",
         "extractedDay": 20,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -425,13 +426,905 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0023.md",
         "extractedDay": 23,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-htarwg",
+      "text": "Three losses isn't a streak, Stitch, it's a blast radius with my name on it. Newcomer's out there dying for damage again, racking up debts like it's a hobby, and I'm sitting here doing math on how much worse this can get. I saved the receipt, just in case one of us needs to remember whose fault this was.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "aggressive",
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0038.md",
+        "extractedDay": 38,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-jyvecc",
+      "text": "Three losses, Willy, three. I've recalculated the odds of a fourth like six times now and the math keeps getting meaner. Newcomer's out there racking up debt like it's a hobby, and I'm sitting here doing collateral math on my own bad luck. I saved the receipt on this one just so future-me can suffer properly.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "threatening"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-uubqne",
+      "text": "Kid's 0-for-whatever tonight and still calling doubles, General. I did the math, his debt-to-dignity ratio is officially visible from space. I saved the receipt, in case anyone asks what the crater used to look like.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-f5pihl",
+      "text": "Smug's a bad look on a 24-19 record, Doc, math says regression's coming. I'm three losses deep myself, so I get the itch, but I've done the collateral on this table and it's not a safe amount of confidence.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-3u7c35",
+      "text": "Three losses in a row isn't a streak, X-treme, it's a trend line, and I've done the math on where it ends. I saved the receipt from last time, so let's just skip to the part where you take my gold slower.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-f53bjv",
+      "text": "Five wins, two losses, and you didn't even flinch, Your Majesty. Meanwhile I'm 2 and 7 and the newcomer rolls one good number and suddenly he's the main character. I saved the receipt, for what it's worth. It just says \"ouch\" seven times.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0054.md",
+        "extractedDay": 54,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-74u14a",
+      "text": "Three losses, thirty nine gold, and your syringe still doesn't scare me as much as compound interest does, Voss. Newcomer dies again tonight, I guarantee it, and somehow I'm the one doing the math on the funeral costs. I saved the receipt, by the way, for every single one of them.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-968h4r",
+      "text": "Six wins, nine losses, and your bow's still on so I'm counting that as a good day. Newcomer owes half the block money and I'm 3 losses deep myself, so don't feel special. I saved the receipt on all of it, in case the Moon wants a refund.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-793okk",
+      "text": "Six wins to your King's name and my rookie's still out here financing every table in the corona. I saved the receipt, your Majesty, it's just his debt written in someone else's blood again.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-5bocov",
+      "text": "X-treme, 0 and 2 betting on a guy who can't even die permanently, that's a special kind of math I don't want to check. I saved the receipt on your last three \"sure things\" just in case the sun decides to audit us all.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0057.md",
+        "extractedDay": 57,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-hb0o6w",
+      "text": "Three losses, thirty-nine gold, and the kid's debts are stacking up faster than my collateral spreadsheet. I did the math on this table, X-treme, and the odds were never fair, they were just quiet about it. I saved the receipt, and it says I'm an idiot for buying back in.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-yytxji",
+      "text": "Ante 1, Keith. He died on ante 1. That's a new record for us, and not the good kind, I saved the receipt already and I hate what it says.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-8ee0s0",
+      "text": "Three losses isn't a streak, it's a blast radius with a delay timer. I saved the receipt on all of them, want to see the math before we go again?",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-wi6olh",
+      "text": "Three losses, General, and the kid's debts are stacking like a crater nobody's filed a report on yet. I keep doing the math and the math keeps saying \"run.\" I saved the receipt, if you want to see exactly how bad this streak looks in writing.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-ycpdpf",
+      "text": "Three losses, zero gold I can spare, and a bathroom line long enough to be its own municipality. If you're here to pitch me a Ceelo rematch, X-treme, the answer's no. I already did the math on my luck today and the crater's bigger than the win.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-g4vc8d",
+      "text": "Thirty-six and thirty-six, Doc, you're a coin flip with a library card. Newcomer rolled something stupid again today, I did the math twice hoping I'd get a smaller number. I didn't.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-ul2vxv",
+      "text": "Doctor Voss, 22 and 28, that's a survivable ratio. Mine's 2 and 7 and I still hear it in my sleep. I saved the receipt on that serum line too, by the way, in case anybody asks where the recruit's bad luck actually comes from.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-uqfyb",
+      "text": "Twelve and eighteen, Bones, and you're still smiling under that whistle. Three losses in a row for me, the kid's debt is basically its own zip code, and this elevator hasn't moved in four minutes. I did the math, we're stuck here long enough for me to lose a fourth.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-14vk1m",
+      "text": "Three losses in a row, X-treme, so no, I'm not buying a hoodie with his face on it. I already own the debt, I don't need the merchandise too. I saved the receipt.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-lyeqfm",
+      "text": "Ante 2, Doctor. That's a new record for how fast he can find the floor. Clausen's carrying him out and I'm over here doing math on how many more debts one guy can rack up before somebody sends US the bill.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0075.md",
+        "extractedDay": 75,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-ic1bj1",
+      "text": "Two-to-seven, and my last stamp came back three losses deep, so yeah, I did the math and the math hates me. Newcomer owes six people in this building alone and somehow I'm the one sweating under fluorescent lights. I saved the receipt, in case anyone asks who's actually good for it.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-nc8s5d",
+      "text": "Three losses, Dr. Voss, and this elevator's slower than my dice tonight. Numbers still work the same whether you're cold or I'm tilted, so don't read too much into the streak. I saved the receipt anyway, just in case one of us needs it later.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-51jvku",
+      "text": "Three losses, Keith, three. I did the math on the stairwell lighting alone and it's not flattering to anyone's decisions today, especially mine. Your guy's debts are stacking faster than my Ceelo record, and that's saying something, since my record is a crime scene. I saved the receipt, if you want to see exactly how bad this got.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-2xn9v5",
+      "text": "Twenty-eight losses and the fluorescent lights still buzz like they're keeping score. I'm 2 and 7 myself, so don't look at me for sympathy, Detective, look at me for math. Your kid, the one who won't stay dead, he's racking up interest in three different ledgers and I saved every receipt.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-52l5fg",
+      "text": "Sixteen and thirteen, huh. Meanwhile I'm 2-7 and this elevator's the only thing in the building slower than my luck. Don't smile, Keith, I can hear it.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0081.md",
+        "extractedDay": 81,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-nfgtf7",
+      "text": "The window opening is exactly the kind of statement that gets someone killed in this building.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gossip",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0081.md",
+        "extractedDay": 81,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-kevin-3dg229",
+      "text": "Oh great, X-treme. Perfect, out here under buzzing lights where everybody's off the clock but me and my bad math. Three losses, thirty-nine gold, and I'm pretty sure I saw your merch table selling a shirt with the kid's death count on it like it's a box score.",
+      "speaker": {
+        "slug": "mr-kevin",
+        "name": "Mr. Kevin",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

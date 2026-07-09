@@ -4,12 +4,12 @@
     "name": "Mr. Bones",
     "category": "wanderers"
   },
-  "entryCount": 27,
+  "entryCount": 43,
   "pools": {
-    "gamblingTrashTalk": 22,
-    "gamblingBrag": 2,
-    "reaction": 2,
-    "threat": 1
+    "gamblingTrashTalk": 33,
+    "gamblingBrag": 4,
+    "reaction": 3,
+    "threat": 3
   },
   "moods": {
     "threatening": 14,
@@ -17,7 +17,7 @@
     "scared": 3,
     "sad": 1,
     "fearful": 1,
-    "annoyed": 2
+    "annoyed": 18
   },
   "entries": [
     {
@@ -44,7 +44,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-01-34-881Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.994Z",
+        "extractedAt": "2026-07-09T01:48:12.443Z",
         "version": 1
       }
     },
@@ -72,7 +72,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-01-34-881Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.995Z",
+        "extractedAt": "2026-07-09T01:48:12.444Z",
         "version": 1
       }
     },
@@ -100,7 +100,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -128,7 +128,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -156,7 +156,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -182,7 +182,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0002.md",
         "extractedDay": 2,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -209,7 +209,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -235,7 +235,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0002.md",
         "extractedDay": 2,
-        "extractedAt": "2026-07-09T00:40:26.002Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -262,7 +262,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -288,7 +288,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0008.md",
         "extractedDay": 8,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -314,7 +314,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0008.md",
         "extractedDay": 8,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -339,7 +339,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -367,7 +367,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -393,7 +393,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0014.md",
         "extractedDay": 14,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -419,7 +419,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0014.md",
         "extractedDay": 14,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -445,7 +445,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0016.md",
         "extractedDay": 16,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -473,7 +473,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0017.md",
         "extractedDay": 17,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -499,7 +499,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -525,7 +525,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -553,7 +553,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -576,7 +576,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -602,7 +602,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0024.md",
         "extractedDay": 24,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -628,7 +628,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0025.md",
         "extractedDay": 25,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -654,7 +654,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0025.md",
         "extractedDay": 25,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -679,7 +679,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -707,7 +707,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -740,7 +740,542 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0028.md",
         "extractedDay": 28,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-ka307i",
+      "text": "Two and seven, Kevin, and you're still holding back on purpose. That's the kind of discipline the newcomer wouldn't know if it bit him. Ledger says you're current, so breathe easy, just not too much energy in one breath.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:void",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0041.md",
+        "extractedDay": 41,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-zcnj8g",
+      "text": "Three losses, Stitch. Three. The dice hate me same as they hate your suture budget, so don't smirk at my ledger while your own patient list reads like a body count. Newcomer's down there dying for free again, and somehow I'm the one short on gold.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-a2isl4",
+      "text": "Three losses don't scare me, X-treme, that's just the ledger warming up. Roll the bones, I'm feeling invincible and your record's still 0 and 2.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-l3pcry",
+      "text": "Two and seven, Kevin. Your ledger's bleeding worse than mine and I'm 3 for my last 3. Hydrate, hold the line, and stop shooting energy blasts at the dice.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-4aris7",
+      "text": "Boo G, three losses don't erase thirty gold in my pocket or the sun cooking us both. Newcomer's 75 is still open too, so if he wanders through, hold him at the door. The ledger doesn't care about my streak, and neither should you.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-sspufy",
+      "text": "Three losses, Your Majesty, but who's counting. Me. I'm counting, in the ledger, in your corona giving me a sunburn on bone somehow.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-xvfqvx",
+      "text": "Nine and thirteen, Boo G. That's not a record, that's a eulogy with extra steps. Newcomer still owes me seventy-five, and watching you burn keeps my mind off collecting it.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-2ha7ox",
+      "text": "Newcomer died again, Clausen's playing hero, and I'm still down three straight, Your Majesty. Kid still owes me 75 gold, dead or alive doesn't clear the ledger. Death is just a transaction. Hydrate.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-cqfi0t",
+      "text": "Two for two on the L's, X-treme. That's not a slump, that's a business model. Meanwhile the new kid's out there rolling miracles and still hasn't paid me my 75, so at least I know somebody's luck is contagious, just not for you.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0054.md",
+        "extractedDay": 54,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-j1s3jh",
+      "text": "Oh-for-two, X-treme. The ledger's got a page just for you now. Right next to the newcomer's, funny enough, both of you owe the house and both of you keep swinging anyway.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-83x4sb",
+      "text": "Willy, three losses don't scare me, they just mean the fourth bet's overdue. Newcomer's still 75 gold deep and his luck won't cover mine. Roll the bones already, my cardio can't take the suspense.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:death",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0061.md",
+        "extractedDay": 61,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-5bgesg",
+      "text": "Three losses, Kevin, three. My cardio's fine, my dice are cursed. Meanwhile the new kid rolls something biblical and still owes me 75 gold, and here's you sitting at 2 and 7 like the universe just picked its favorite punching bags today.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:wild",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0062.md",
+        "extractedDay": 62,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-trb73l",
+      "text": "Six and nine, huh. Almost as ugly as my three-loss streak, almost as ugly as that stitching job holding you together. Your account's due same as mine, sweetheart, only difference is I'm not the one leaking shadow at the seams.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-wk50uy",
+      "text": "Twelve and eighteen, Willy. I've watched better rolls come out of a vending machine. Fifty-two and forty looks good till you remember the newcomer owes half this building money and you're still in line for a stamp like the rest of us mortals - well, immortals.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-75aq7x",
+      "text": "Three losses deep and the rival's cardio still beats mine, Voss. Ledger says the recruit's 75 gold richer than sense allows him to be. Hydrate, or don't, the stairs don't care either way.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-mr-bones-fkkvne",
+      "text": "Three losses in a row, Voss. Three. The dice hate me like the recruit hates staying dead, and that's saying something. Your account's still clean, so don't ask me to hydrate, just tell that briefing to hurry up before I start charging interest on the fluorescent lights.",
+      "speaker": {
+        "slug": "mr-bones",
+        "name": "Mr. Bones",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
         "version": 1
       }
     }

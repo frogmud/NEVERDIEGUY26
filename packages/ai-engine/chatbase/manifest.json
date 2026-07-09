@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "createdAt": "2026-07-09T00:40:26.017Z",
-  "lastUpdated": "2026-07-09T00:40:26.017Z",
+  "createdAt": "2026-07-09T01:48:12.478Z",
+  "lastUpdated": "2026-07-09T01:48:12.478Z",
   "sources": {
     "eternalLogDirs": [
       "eternal-2026-07-08T22-55-10-511Z",
@@ -17,55 +17,62 @@
       "eternal-2026-07-09T00-24-14-611Z",
       "eternal-2026-07-09T00-29-16-854Z",
       "eternal-2026-07-09T00-36-08-597Z",
-      "eternal-2026-07-09T00-38-40-638Z"
+      "eternal-2026-07-09T00-38-40-638Z",
+      "eternal-2026-07-09T00-56-35-071Z",
+      "eternal-2026-07-09T01-00-57-745Z",
+      "eternal-2026-07-09T01-25-39-241Z",
+      "eternal-2026-07-09T01-38-23-809Z",
+      "eternal-2026-07-09T01-42-58-616Z"
     ],
     "chatterLogDirs": [],
-    "totalDaysProcessed": 4200,
-    "totalConversationsProcessed": 222
+    "totalDaysProcessed": 5700,
+    "totalConversationsProcessed": 563
   },
   "stats": {
-    "totalEntries": 222,
+    "totalEntries": 563,
     "entriesBySpeaker": {
-      "mr-bones": 27,
-      "clausen": 40,
-      "stitch-up-girl": 19,
-      "king-james": 14,
-      "the-general": 23,
-      "boo-g": 13,
-      "mr-kevin": 15,
-      "dr-voss": 15,
-      "dr-maxwell": 21,
-      "willy": 19,
-      "xtreme": 10,
-      "keith-man": 6
+      "mr-bones": 43,
+      "clausen": 71,
+      "stitch-up-girl": 40,
+      "king-james": 34,
+      "the-general": 79,
+      "boo-g": 40,
+      "mr-kevin": 42,
+      "dr-voss": 36,
+      "dr-maxwell": 67,
+      "willy": 70,
+      "xtreme": 22,
+      "keith-man": 19
     },
     "entriesByPool": {
-      "gamblingTrashTalk": 139,
-      "reaction": 28,
-      "gamblingBrag": 18,
-      "salesPitch": 4,
+      "gamblingTrashTalk": 365,
+      "reaction": 51,
+      "gamblingBrag": 38,
+      "salesPitch": 5,
       "lore": 2,
-      "threat": 25,
-      "hint": 2,
+      "threat": 91,
+      "hint": 4,
       "greeting": 3,
-      "challenge": 1
+      "challenge": 2,
+      "gamblingFrustration": 1,
+      "gossip": 1
     },
     "entriesByMood": {
-      "threatening": 74,
-      "annoyed": 32,
-      "pleased": 41,
-      "neutral": 20,
-      "scared": 14,
+      "threatening": 209,
+      "annoyed": 145,
+      "pleased": 72,
+      "neutral": 39,
+      "scared": 30,
       "grateful": 2,
       "cryptic": 1,
-      "sad": 9,
-      "amused": 18,
-      "generous": 7,
+      "sad": 17,
+      "amused": 28,
+      "generous": 13,
       "curious": 1,
-      "angry": 2,
+      "angry": 5,
       "fearful": 1
     },
-    "averageInterestScore": 70,
+    "averageInterestScore": 76.85612788632326,
     "deduplicationRatio": 1,
     "canonicalCount": 0
   },
@@ -73,73 +80,73 @@
     {
       "name": "mr-bones",
       "type": "by-speaker",
-      "entryCount": 27,
+      "entryCount": 43,
       "path": "npcs/mr-bones.json"
     },
     {
       "name": "clausen",
       "type": "by-speaker",
-      "entryCount": 40,
+      "entryCount": 71,
       "path": "npcs/clausen.json"
     },
     {
       "name": "stitch-up-girl",
       "type": "by-speaker",
-      "entryCount": 19,
+      "entryCount": 40,
       "path": "npcs/stitch-up-girl.json"
     },
     {
       "name": "king-james",
       "type": "by-speaker",
-      "entryCount": 14,
+      "entryCount": 34,
       "path": "npcs/king-james.json"
     },
     {
       "name": "the-general",
       "type": "by-speaker",
-      "entryCount": 23,
+      "entryCount": 79,
       "path": "npcs/the-general.json"
     },
     {
       "name": "boo-g",
       "type": "by-speaker",
-      "entryCount": 13,
+      "entryCount": 40,
       "path": "npcs/boo-g.json"
     },
     {
       "name": "mr-kevin",
       "type": "by-speaker",
-      "entryCount": 15,
+      "entryCount": 42,
       "path": "npcs/mr-kevin.json"
     },
     {
       "name": "dr-voss",
       "type": "by-speaker",
-      "entryCount": 15,
+      "entryCount": 36,
       "path": "npcs/dr-voss.json"
     },
     {
       "name": "dr-maxwell",
       "type": "by-speaker",
-      "entryCount": 21,
+      "entryCount": 67,
       "path": "npcs/dr-maxwell.json"
     },
     {
       "name": "willy",
       "type": "by-speaker",
-      "entryCount": 19,
+      "entryCount": 70,
       "path": "npcs/willy.json"
     },
     {
       "name": "xtreme",
       "type": "by-speaker",
-      "entryCount": 10,
+      "entryCount": 22,
       "path": "npcs/xtreme.json"
     },
     {
       "name": "keith-man",
       "type": "by-speaker",
-      "entryCount": 6,
+      "entryCount": 19,
       "path": "npcs/keith-man.json"
     }
   ]

@@ -4,24 +4,24 @@
     "name": "Detective Clausen",
     "category": "travelers"
   },
-  "entryCount": 40,
+  "entryCount": 71,
   "pools": {
-    "gamblingTrashTalk": 23,
-    "reaction": 9,
-    "gamblingBrag": 5,
-    "hint": 1,
+    "gamblingTrashTalk": 38,
+    "reaction": 13,
+    "gamblingBrag": 8,
+    "hint": 2,
     "salesPitch": 1,
-    "threat": 1
+    "threat": 9
   },
   "moods": {
-    "annoyed": 5,
-    "pleased": 11,
+    "annoyed": 9,
+    "pleased": 14,
     "neutral": 4,
-    "scared": 5,
-    "amused": 8,
+    "scared": 7,
+    "amused": 9,
     "generous": 3,
-    "sad": 2,
-    "threatening": 2
+    "sad": 3,
+    "threatening": 22
   },
   "entries": [
     {
@@ -39,13 +39,13 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-01-34-881Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.995Z",
+        "extractedAt": "2026-07-09T01:48:12.444Z",
         "version": 1
       }
     },
@@ -67,13 +67,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -92,13 +92,13 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-05-49-946Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.996Z",
+        "extractedAt": "2026-07-09T01:48:12.445Z",
         "version": 1
       }
     },
@@ -117,13 +117,13 @@
         "weather:dust"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.997Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -145,13 +145,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.997Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -168,13 +168,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0002.md",
         "extractedDay": 2,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -191,13 +191,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0002.md",
         "extractedDay": 2,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -219,13 +219,13 @@
         "playerArchetype": "defensive"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -244,13 +244,13 @@
         "weather:death"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.448Z",
         "version": 1
       }
     },
@@ -272,13 +272,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.449Z",
         "version": 1
       }
     },
@@ -300,13 +300,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.449Z",
         "version": 1
       }
     },
@@ -323,13 +323,13 @@
       "moodIntensity": 3,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.449Z",
         "version": 1
       }
     },
@@ -348,13 +348,13 @@
         "weather:dust"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:26.002Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -373,13 +373,13 @@
         "weather:dust"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:26.002Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -396,13 +396,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0002.md",
         "extractedDay": 2,
-        "extractedAt": "2026-07-09T00:40:26.002Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -422,13 +422,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0002.md",
         "extractedDay": 2,
-        "extractedAt": "2026-07-09T00:40:26.002Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -450,13 +450,13 @@
         "playerArchetype": "defensive"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0004.md",
         "extractedDay": 4,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -479,13 +479,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -504,13 +504,13 @@
         "weather:death"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -529,13 +529,13 @@
         "weather:death"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -556,13 +556,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0007.md",
         "extractedDay": 7,
-        "extractedAt": "2026-07-09T00:40:26.005Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -582,13 +582,13 @@
         "playerArchetype": "defensive"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0009.md",
         "extractedDay": 9,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -607,13 +607,13 @@
         "weather:wild"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -635,13 +635,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -660,13 +660,13 @@
         "weather:wild"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0010.md",
         "extractedDay": 10,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -683,13 +683,13 @@
       "moodIntensity": 1,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0012.md",
         "extractedDay": 12,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -709,13 +709,13 @@
         "debtTension": "notable"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -735,13 +735,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0014.md",
         "extractedDay": 14,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -760,13 +760,13 @@
         "weather:wild"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0015.md",
         "extractedDay": 15,
-        "extractedAt": "2026-07-09T00:40:26.010Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -786,13 +786,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0016.md",
         "extractedDay": 16,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -815,13 +815,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0017.md",
         "extractedDay": 17,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -838,13 +838,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0020.md",
         "extractedDay": 20,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -861,13 +861,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0020.md",
         "extractedDay": 20,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -884,13 +884,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -907,13 +907,13 @@
       "moodIntensity": 0,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -930,13 +930,13 @@
       "moodIntensity": -2,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0022.md",
         "extractedDay": 22,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -962,13 +962,13 @@
         }
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0023.md",
         "extractedDay": 23,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -987,13 +987,13 @@
         "weather:death"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -1012,13 +1012,13 @@
         "weather:death"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -1037,13 +1037,832 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 78,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-igwnxb",
+      "text": "Cute roll, Willy. One eye and still you saw that coming from a mile off. Don't get comfortable, the corona's bleaching your luck out same as everything else out here.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-128pkk",
+      "text": "Your Majesty, still squatting on daylight like it owes you rent. I'd curtsy but the corona's murder on my knees, and Maxwell can read you my regards later.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-atf4vd",
+      "text": "Maxwell. Still reading fairy tales to a ball of gas that owns you outright. Three wins deep tonight, so mind how you shuffle those dice, bootlicker.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-zdton7",
+      "text": "Nine and five, Boots, and you're sitting there like the file's already closed. Your streak's hotter than the recruit's death count this week, and that's saying something ugly. Roll again before Hell asks for a continuance on my patience.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-fjr41u",
+      "text": "Careful with that grin, One Eye. Sterile light up there shows every crooked die you carry. Two losses don't scare me half as much as the paperwork piling on your kid's soul debt, so let's roll before Hell files a lien on this whole table.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-ckiup5",
+      "text": "Two losses running and the kid's ledger reads like a haunted house closing costs. Bones, tell me straight, whose custody does he fall into when the debts finally call collateral?",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-ef1h5n",
+      "text": "Boo G. Still breathing, metaphorically speaking. Word is the new guy owes half of Hell and hasn't read a word of the fine print.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-71poe3",
+      "text": "Smug looks good on you, Body Count, right up until the ledger jams again. Your kid keeps not staying dead, and every time he skips out on you, that's another entry Heaven can't close. Three losses deep myself, so trust me, I know exactly how that itch feels.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0034.md",
+        "extractedDay": 34,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-74ff8b",
+      "text": "General. Two wins running, and your boy's still out there racking up debts he can't pay in this life or the next. Careful, one day Hell's going to start billing you as next of kin.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-kjvuvb",
+      "text": "Smug looks good on you, Boo G, right up until the sun finds the seams. Six and ten doesn't buy you a streak, it buys you a pattern I can subpoena.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-opxsvp",
+      "text": "Seventeen and seventeen, Voss. Even your win-loss looks like a controlled experiment. Roll the dice, not the syringe, this table's not one of your subjects.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-h1zl5l",
+      "text": "Two wins don't make a streak, General, they make a rumor with good posture. Keep smiling while your recruit's debts pile up like unpaid subpoenas, I'll wait for the interest to come due.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-jitgno",
+      "text": "Clutch roll like that, Maxwell, even the Sun's ledger flinched. Don't get smug, I've seen kid's luck flip a whole docket in one bad breath. Read that one twice before you file it.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-8beg8f",
+      "text": "X-treme. Still peddling t-shirts for a man who can't stay in his own body long enough to sign a release form. Your boy's debts are stacking up faster than his corpses, so tell me you're not taking bets on credit again.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-c2xx99",
+      "text": "Cute roll, Keith. Now do it again without the afterimage trick, see if luck still loves you at normal speed.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-czj4pz",
+      "text": "Kevin, you throttle down a nuclear reactor for a living and I still can't hit a four-five to save my streak. Sit down before your own mood blows a hole in the wall, I've had enough demolition for one night. The newcomer's debts I can file later, right now I'm filing a complaint against dice.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-lna09g",
+      "text": "Careful, Maxwell. Smug reads real nice till the dice remember your name. My streak's ugly, sure, but at least I earned it, not licked it off a king's boot.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-ydbu0s",
+      "text": "Kid dies again, General, and you smirk like it's a rerun you own the rights to. Every debt he racks up gets filed somewhere with your name on the paperwork too. Hell's counting his deaths like installments, and you're the collateral.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-723icu",
+      "text": "Kid's dying again, King. Fourth time this hour, and every time he comes back he owes somebody a little more of himself. I keep waiting for the soul to show up on a ledger somewhere, but Hell's staying quiet, which means they're still counting.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-c55w3z",
+      "text": "Two losses running and my briefcase still smells like brimstone and bad luck, Your Majesty. Maxwell can roll for you all he wants, the dice still know whose soul is missing from the ledger downstairs.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-3bonhq",
+      "text": "You want a secret, Willy? The kid's soul is missing from the ledger entirely. No lien, no lease, no signature. Somebody scrubbed it clean, and clean scares me more than dirty ever did.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "hint",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0066.md",
+        "extractedDay": 66,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-d1ti2o",
+      "text": "General, your recruit died on ante one and Body Count fetched him like a paper boy. That kid still owes me 175 in gold he doesn't have a soul to back. Hell doesn't misplace souls, General, it contests custody, and I'd like to know who's filing the paperwork on his.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-ytfdz3",
+      "text": "Boo G. Still overdue on the sun's good side, I see. Two losses running and now this Sun's got me sweating through my only clean shirt while we wait on brass that can't tell time.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-8c0csm",
+      "text": "Kevin. Off the clock, out of the grid, and you still look like you're bracing for a blast you didn't order. Two and seven suits you worse than it should. Your boy still owes me 175, so if you're feeling generous with that overwatch of yours, point him my way before the streak turns.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-e6ag9a",
+      "text": "Smug looks good on you, Keith, until someone bills you for it. The kid rolls one miracle and suddenly everybody's an investor. I've seen forged consent forms with better odds than 15 and 10.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-9njn84",
+      "text": "Your Majesty, out of the corona and off the throne, that's a look I never thought I'd catch. Eight and three, huh. Careful, someone might mistake you for a man who plays fair instead of a king with a scribe rolling for him.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-vn8you",
+      "text": "Ante two, Stitch. Boy dies faster than my luck turns, and my luck's been a crime scene lately. Boo G better bring him back with his soul this time, not just his pulse, because 400 gold doesn't collect itself from a corpse.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-poi5xe",
+      "text": "Boo G, this elevator's slower than Hell processing a refund. Kid still owes me 400, and every time he dies it's like watching a bad check bounce twice.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0081.md",
+        "extractedDay": 81,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-2taagq",
+      "text": "Doctor, you read to a king who can't turn his own pages. I chase a kid who can't stay in his own grave. Somewhere in that math is a joke about job security, but the elevator's too slow for me to find the punchline.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-ymzidv",
+      "text": "Everyone in this lobby is a case file waiting to happen. I find that comforting.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-clausen-iftanq",
+      "text": "Doctor, your king reads better than he pays attention, and my kid reads worse than he dies. Four hundred in debt and he still smiles at the paperwork, must be nice living on the Sun where nobody sends collectors.",
+      "speaker": {
+        "slug": "clausen",
+        "name": "Detective Clausen",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 78,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

@@ -4,19 +4,22 @@
     "name": "X-treme",
     "category": "wanderers"
   },
-  "entryCount": 10,
+  "entryCount": 22,
   "pools": {
-    "reaction": 1,
-    "gamblingTrashTalk": 9
+    "reaction": 3,
+    "gamblingTrashTalk": 18,
+    "threat": 1
   },
   "moods": {
     "pleased": 2,
     "grateful": 1,
-    "threatening": 1,
-    "angry": 1,
-    "generous": 2,
-    "annoyed": 2,
-    "scared": 1
+    "threatening": 4,
+    "angry": 2,
+    "generous": 3,
+    "annoyed": 4,
+    "scared": 4,
+    "amused": 1,
+    "neutral": 1
   },
   "entries": [
     {
@@ -38,7 +41,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.000Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -63,7 +66,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -89,7 +92,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -112,7 +115,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0012.md",
         "extractedDay": 12,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -135,7 +138,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0016.md",
         "extractedDay": 16,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -163,7 +166,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0017.md",
         "extractedDay": 17,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -188,7 +191,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -213,7 +216,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0019.md",
         "extractedDay": 19,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -239,7 +242,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0025.md",
         "extractedDay": 25,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -264,7 +267,315 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-dpmac5",
+      "text": "YO Clausen, that briefcase of yours ever roll a natural 20? Cause NDG's out there dying like it's on commission, and my line still ain't generous enough to cover it. 17 and 18, huh, you're basically break-even like me, we should compare notes over a cee-lo cup sometime.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-btx16c",
+      "text": "YO STITCH, don't look at me like that, the dice went cold, not my heart! 409 gold and a 0-1 record, I'm still up in SPIRIT, baby! You want a rematch? CEE-LO WITH XTREME, the line is GENEROUS, and I got a shirt with your name misspelled on it for six gold!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-yuo7k",
+      "text": "YO STITCH, 6 and 9 is a ROUGH LINE but the shadow don't do refunds, baby! Rattle that bow, shake off the tilt, and get back on NDG's next flatline, the odds are GENEROUS tonight. You died? SICK. I had money on that, wanna put some on yourself for once?",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0034.md",
+        "extractedDay": 34,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-nnifn2",
+      "text": "YO YO, DETECTIVE CLAUSEN, the paperwork queen of PAIN herself! You bring that hellfire briefcase near my table again, I'm slapping odds on it before you even pop the latch. 25 and 23, baby, you're a COIN FLIP WITH A GRUDGE, I respect it.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ked0rr",
+      "text": "YO GENERAL, kid's out there stacking debts like they're merch pins, and you're just cooking the books at 19 and 18 like it don't sting. Line's still GENEROUS on NDG eating dirt this run, you want in or you scared of my odds again.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-zwhn",
+      "text": "YO WILLY, ONE EYE, DOUBLE THE VISION for spotting a SUCKER BET, my man! NDG's out there racking up debts like it's a HIGH SCORE, but I'm still 0 and 2, so don't get SMUG on me yet. Roll the bones, baby, CEE-LO WITH XTREME, the line is GENEROUS!",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5wevdd",
+      "text": "YO WILLY, ANTE ONE?! Dude's got a new personal best for worst record, bones had to do a HOUSE CALL. Line's moving, baby, you want in before Bones drags him back or you wanna bet on the RESURRECTION TIME, I got both.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-7zcuyd",
+      "text": "YO KEVIN, 2 and 7, tilted as the Moon wind, my man, you're bleeding gold like NDG bleeds actual blood. Don't chase it, chase the merch table instead, shirt's fifteen and it don't lose. CEE-LO WITH XTREME, baby, the line is GENEROUS, come lose it to me instead of the void.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-5qzklv",
+      "text": "BONES, ZERO-WIN X-TREME JUST GOT SMOKED THREE STRAIGHT, THE DICE ARE ELSEWHERE-CURSED TONIGHT. Run it back, double the ledger, NDG WINS ALWAYS so at least MY SHIRT sales cover the bleeding.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "angry",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0062.md",
+        "extractedDay": 62,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-aowmwq",
+      "text": "BONESY, 12 and 18 is ROUGH, my man, the ledger's got you tilted worse than NDG's death count. Meanwhile that 75 gold he owes me is looking real safe compared to whatever you got riding on this cup right now.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0064.md",
+        "extractedDay": 64,
+        "extractedAt": "2026-07-09T01:48:12.470Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-ass77q",
+      "text": "YO BONES, twelve and eighteen, the fluorescents ain't lyin' to you, buddy, that record's got a limp. NDG still owes me 75, so tell your ledger to get in line behind mine. CEE-LO WITH XTREME, baby, the line is GENEROUS, come lose the rest of your soul to somebody with better odds.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-xtreme-vjx8z3",
+      "text": "YO KEITH, you speedy broke legend, still owe ME nothing but you STILL run with the guy who owes me SEVENTY FIVE GOLD. Fluorescent lights in here make everybody look guilty, but you, you just look tired. NDG WINS ALWAYS though, that part ain't changed, that's on the shirt, shirt's fifteen.",
+      "speaker": {
+        "slug": "xtreme",
+        "name": "X-treme",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
         "version": 1
       }
     }

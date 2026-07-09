@@ -4,22 +4,24 @@
     "name": "Dr. Voss",
     "category": "wanderers"
   },
-  "entryCount": 15,
+  "entryCount": 36,
   "pools": {
-    "reaction": 1,
+    "reaction": 7,
     "challenge": 1,
     "lore": 1,
-    "gamblingBrag": 4,
-    "gamblingTrashTalk": 7,
-    "threat": 1
+    "gamblingBrag": 6,
+    "gamblingTrashTalk": 18,
+    "threat": 3
   },
   "moods": {
-    "pleased": 6,
-    "threatening": 5,
-    "sad": 1,
+    "pleased": 7,
+    "threatening": 19,
+    "sad": 2,
     "scared": 1,
-    "annoyed": 1,
-    "neutral": 1
+    "annoyed": 4,
+    "neutral": 1,
+    "amused": 1,
+    "generous": 1
   },
   "entries": [
     {
@@ -43,7 +45,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -68,7 +70,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.001Z",
+        "extractedAt": "2026-07-09T01:48:12.448Z",
         "version": 1
       }
     },
@@ -93,7 +95,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -118,7 +120,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0006.md",
         "extractedDay": 6,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.452Z",
         "version": 1
       }
     },
@@ -143,7 +145,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -171,7 +173,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -194,7 +196,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0012.md",
         "extractedDay": 12,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -217,7 +219,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0014.md",
         "extractedDay": 14,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -243,7 +245,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0018.md",
         "extractedDay": 18,
-        "extractedAt": "2026-07-09T00:40:26.012Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -270,7 +272,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -293,7 +295,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0022.md",
         "extractedDay": 22,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -316,7 +318,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0023.md",
         "extractedDay": 23,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -339,7 +341,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0024.md",
         "extractedDay": 24,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.459Z",
         "version": 1
       }
     },
@@ -368,7 +370,7 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -393,7 +395,556 @@
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-4yzeij",
+      "text": "Three wins running, Detective. Your smugness reads as elevated cortisol, mine reads as baseline. The draft in this hallway is pricing your soul before Hell even asks, so maybe save the smirk for something you still own.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-zaxhj1",
+      "text": "Careful, Maxwell, that corona bleaches teeth as well as truth. Fourteen wins and you still fetch books for a bound king, tell me, does he tip in gold or just let you live another day. Roll the dice, I'll log your losing streak right next to his solar readout.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-523mjh",
+      "text": "Two losses is a small sample, General. Your smugness has a wider error bar than my syringe. Keep gloating, I'm just tracking the curve down to your regression.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0030.md",
+        "extractedDay": 30,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-lvn5p2",
+      "text": "Two losses in a row is just a small sample size, Willy. Your smugness is a variable, not a constant. Roll again, let's see what the data actually says about your luck.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-ezao2t",
+      "text": "Watching him lose again, another debt added to the pile. Your fear response is data, Stitch-Up, and right now you're generating quite a lot of it.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-7ermks",
+      "text": "Smug looks good on you, Clausen, but so does denial. I've watched enough contracts unravel to know your paperwork always finds a loophole death likes. Roll the dice, I'll take notes on your face when you lose.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0038.md",
+        "extractedDay": 38,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-q1nuuq",
+      "text": "Detective Clausen, one loss shy of my mercy threshold and I intend to stay there. Call it a winning streak if you like, I call it a controlled sample size.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0043.md",
+        "extractedDay": 43,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-uwa7yv",
+      "text": "Willy, your smug is showing, and I have not even rolled yet. Your one eye tracks my dice like the recruit tracks his own death, eager and doomed. Let's see if your streak survives contact with my data.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-xlaycb",
+      "text": "That clutch roll of yours spiked your cortisol beautifully, General. Your fear response is data, thank you for it, though your smugness will cost you on the next throw.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-h94jyw",
+      "text": "Two losses in a row, Boots, and yet you sit there like the die owes you rent. Roll again, I'll log your smugness as a baseline reading before I correct it. Your fear response, when it arrives, will be data. Thank you for it in advance.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0047.md",
+        "extractedDay": 47,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-tdbijs",
+      "text": "Keith. Still smug at 5 and 2, I see, while I'm sitting on two losses I'd rather not measure. Your speedster's afterimage still leaves a nice clean data trail, by the way.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-yr3tiy",
+      "text": "Three losses in a row, General, and my hands still won't stop shaking from it. The dice hate me the way Maxwell's sun hates staying put on that monitor. Give me a minute before you talk numbers, the fear response needs recording first.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0050.md",
+        "extractedDay": 50,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-hf7pez",
+      "text": "Your smugness is data too, Body Count. Eighteen wins against a man who won't stay counted, and still you can't close the file on ours.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-a5ba8k",
+      "text": "Five losses in a row for you, Willy, that's a beautiful sample size. Your pupil's blown wide and your gold's going the way Maxwell's sun went. Irretrievable.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "weather:heat",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        }
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-xjzypl",
+      "text": "Clean roll, clutch as they come, and your count still won't hold. Your fear response is data, Mr. Count, thank you for it. Maxwell's thread went dark trying to end that boy, so pace yourself before you join him.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-acd0zc",
+      "text": "Two losses isn't a streak, General, it's a sample size. Small, but the data's already ugly.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-rsnm1",
+      "text": "Two losses, Kevin, same as me. The stairwell lighting makes everyone look like a corpse already, so at least we're dressed for it. Your fear response is data - thank you for it, now let me pass before I start measuring yours properly.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-9yc5kt",
+      "text": "Two losses. My hands are steady, my ledger is not, and the recruit rolled his way out of a grave again while I sat here counting corona flicker on Maxwell's readout. Your record's worse than mine, Stitch, so spare me the face. Sit still, let me log your pulse, your fear response is data and right now it's the only currency I'm winning.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-iftto",
+      "text": "Two losses, and you're still tilted, not broken. Your cortisol's holding steady. That's good data.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-xq0m0x",
+      "text": "Noted. I'll mark this exchange as a mercy neither of you asked for.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-dr-voss-hs7q9k",
+      "text": "Mr. Kevin, 2 and 7 under fluorescent light, still choosing restraint over ruin. Your fear of your own power, that's the cleanest data I've logged all week. Thank you for it.",
+      "speaker": {
+        "slug": "dr-voss",
+        "name": "Dr. Voss",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 70,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0086.md",
+        "extractedDay": 86,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

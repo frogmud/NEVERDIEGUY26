@@ -4,20 +4,23 @@
     "name": "The General",
     "category": "wanderers"
   },
-  "entryCount": 23,
+  "entryCount": 79,
   "pools": {
-    "reaction": 6,
-    "gamblingTrashTalk": 11,
-    "gamblingBrag": 1,
-    "threat": 5
+    "reaction": 8,
+    "gamblingTrashTalk": 53,
+    "gamblingBrag": 4,
+    "threat": 13,
+    "hint": 1
   },
   "moods": {
-    "neutral": 1,
-    "scared": 1,
-    "threatening": 8,
-    "pleased": 9,
-    "amused": 3,
-    "annoyed": 1
+    "neutral": 4,
+    "scared": 2,
+    "threatening": 35,
+    "pleased": 17,
+    "amused": 5,
+    "annoyed": 14,
+    "angry": 1,
+    "generous": 1
   },
   "entries": [
     {
@@ -35,13 +38,13 @@
         "weather:dust"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:25.997Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -60,13 +63,13 @@
         "weather:heat"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:25.998Z",
+        "extractedAt": "2026-07-09T01:48:12.446Z",
         "version": 1
       }
     },
@@ -83,13 +86,13 @@
       "moodIntensity": -2,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -106,13 +109,13 @@
       "moodIntensity": -2,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-09-22-563Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:25.999Z",
+        "extractedAt": "2026-07-09T01:48:12.447Z",
         "version": 1
       }
     },
@@ -131,13 +134,13 @@
         "weather:dust"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0001.md",
         "extractedDay": 1,
-        "extractedAt": "2026-07-09T00:40:26.002Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -156,13 +159,13 @@
         "weather:heat"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -184,13 +187,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0003.md",
         "extractedDay": 3,
-        "extractedAt": "2026-07-09T00:40:26.003Z",
+        "extractedAt": "2026-07-09T01:48:12.450Z",
         "version": 1
       }
     },
@@ -210,13 +213,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -237,13 +240,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-24-14-611Z/days/day-0005.md",
         "extractedDay": 5,
-        "extractedAt": "2026-07-09T00:40:26.004Z",
+        "extractedAt": "2026-07-09T01:48:12.451Z",
         "version": 1
       }
     },
@@ -260,13 +263,13 @@
       "moodIntensity": 3,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0009.md",
         "extractedDay": 9,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -288,13 +291,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.007Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -314,13 +317,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0012.md",
         "extractedDay": 12,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -342,13 +345,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0015.md",
         "extractedDay": 15,
-        "extractedAt": "2026-07-09T00:40:26.010Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -370,13 +373,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0015.md",
         "extractedDay": 15,
-        "extractedAt": "2026-07-09T00:40:26.010Z",
+        "extractedAt": "2026-07-09T01:48:12.455Z",
         "version": 1
       }
     },
@@ -398,13 +401,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0017.md",
         "extractedDay": 17,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -423,13 +426,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0017.md",
         "extractedDay": 17,
-        "extractedAt": "2026-07-09T00:40:26.011Z",
+        "extractedAt": "2026-07-09T01:48:12.456Z",
         "version": 1
       }
     },
@@ -446,13 +449,13 @@
       "moodIntensity": 1,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0020.md",
         "extractedDay": 20,
-        "extractedAt": "2026-07-09T00:40:26.013Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -469,13 +472,13 @@
       "moodIntensity": 1,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-36-08-597Z/days/day-0021.md",
         "extractedDay": 21,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.457Z",
         "version": 1
       }
     },
@@ -495,13 +498,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0022.md",
         "extractedDay": 22,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -521,13 +524,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0023.md",
         "extractedDay": 23,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -549,13 +552,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0026.md",
         "extractedDay": 26,
-        "extractedAt": "2026-07-09T00:40:26.015Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -574,13 +577,13 @@
         "weather:void"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
         "version": 1
       }
     },
@@ -597,13 +600,1564 @@
       "moodIntensity": 1,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0028.md",
         "extractedDay": 28,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-9rhltl",
+      "text": "Smug looks good on you, Clausen, but so did that seventeen-and-seventeen record right before it flatlined. My boy owes me 225 in gold he doesn't have, and your briefcase full of Hell still can't collect a debt like I can. Good. Means we're playing for real stakes tonight.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0029.md",
+        "extractedDay": 29,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-tyl23g",
+      "text": "Good roll, Doctor. Clutch dice and smug math, that's your whole religion, and mine cost me a streak just watching it. Boy still owes me 225 in gold he ain't earned back yet, so don't go spending your data on sympathy for him.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0031.md",
+        "extractedDay": 31,
+        "extractedAt": "2026-07-09T01:48:12.461Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-i45ty3",
+      "text": "Sit there smug all you want, cat. Two losses don't scare me, they season me. You came cheap and you'll leave cheap, just like the recruit's 225 in gold sitting in my pocket by sundown.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0032.md",
+        "extractedDay": 32,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-c0d2xn",
+      "text": "Three losses deep and you sit there filing your claws like the house always wins, Boots. Somewhere that boy owes me two-twenty-five he still hasn't scraped up, and he's the lucky one tonight. Good. Let him watch how a real streak dies.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:void"
+      ],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0033.md",
+        "extractedDay": 33,
+        "extractedAt": "2026-07-09T01:48:12.462Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-32n0vl",
+      "text": "Smug looks good on you, Clausen, cheaper than that briefcase of yours. Roll the bones. My boy owes me 225 gold and I aim to make the house whole one way or another, yours or his.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-tvonqs",
+      "text": "Doc, that boy's blood is thinner than my patience and he still owes me 225 in gold on top of it. You tell me the serum's ready, or you tell me I'm wasting a good corridor standing here.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-56-35-071Z/days/day-0035.md",
+        "extractedDay": 35,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-u6rhl6",
+      "text": "Boy hits the dirt so often, X-treme, you ought to sell tickets to the landing instead of the fight. Good. That's the spirit that keeps the serum line in business. Now tell your bettors he still owes me 225, and the sun ain't gonna hide that debt either.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0036.md",
+        "extractedDay": 36,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-w9j4bp",
+      "text": "Doc, you read a king's whole life out loud and you still can't read a table. One-loss streak, sixteen and sixteen, break's coming. Roll before I remember what the boy owes me and start collecting from anybody standing near him.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-svf915",
+      "text": "Nine losses on your books and you're still tilted about my streak, darling? Boy owes me two-twenty-five and dies before I can spend it, so don't lecture me on bad luck. Good. Now pour something, we're both due for a win.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0037.md",
+        "extractedDay": 37,
+        "extractedAt": "2026-07-09T01:48:12.463Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-wxdkm5",
+      "text": "Two losses don't scare me, Bones, they season me. Now roll before I remember the boy owes me 225 gold and start collecting interest off your bones instead.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0039.md",
+        "extractedDay": 39,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-7o3b99",
+      "text": "Good. Watch a man burn his own gold, Doctor, it's the closest thing to church I get these days. Reminds me of the boy, he owes me 225 and still throws dice like the debt's a rumor.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-q7tm49",
+      "text": "Good. That clutch roll settles paperwork the way I like it, clean and cheap. Detective, your Hell briefcase ever price out a soul the way I price a shift, or is that still adversarial paperwork over there.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:wild"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0040.md",
+        "extractedDay": 40,
+        "extractedAt": "2026-07-09T01:48:12.464Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-qwtaa0",
+      "text": "Two losses don't scare me, Willy. Not near as much as that boy's tab scares him, and he's still walking around cheerful. You all came cheap, and my luck's about to follow suit.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-3j75qw",
+      "text": "Three losses running and my dice gone cold as your paycheck, Body Count. Funny thing about that boy you're hunting, he owes me two-twenty-five and still can't stay in the ground long enough to pay it. You collect endings. Good luck collecting one that keeps coming back cheap and unfinished.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-a4hojh",
+      "text": "Kevin, you're 2 and 7 and you still look surprised every time you lose. That boy owes me 225 and he ain't half as tilted as you. Good. Means you're ready to bleed for it.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-kb4gdn",
+      "text": "Bones, three losses ain't a streak, it's a pattern, and I don't like patterns I'm not writing myself. Newcomer's 225 in the hole and still dies like it's free. Rack 'em again, son's paying for all of us tonight.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0044.md",
+        "extractedDay": 44,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-nyn717",
+      "text": "Smug looks good on a man who's never had to pay for it, Keith. Your boy's 225 in the hole and still betting like the house owes him. Good. Keeps things honest.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0045.md",
+        "extractedDay": 45,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-qfsv6u",
+      "text": "Smug looks good on you, Voss, right up until the bill comes due. That rival's bleeding gold same as my boy bleeds everything else. Good. Data's cheaper when it's someone else's mercy running out.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-ovp2pu",
+      "text": "Bones, that boy's watching his own kid choke on bad dice and calling it entertainment. Twelve and eighteen ain't a record, it's a confession. Mark his 225 down next to mine, one bill, one bullet, someday it all comes due.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -4,
+      "contextTags": [
+        "weather:dust",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 4
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0046.md",
+        "extractedDay": 46,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-gucwty",
+      "text": "Good. That clutch roll's the only thing that boy's ever paid on time. Shame it wasn't to you, Body Count, seeing as your ledger don't tally like mine does. He still owes me 225, and he'll owe you an ending that just won't hold still.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-vqkvbb",
+      "text": "Two losses ain't a streak, Boo, that's just Tuesday. You keep runnin' that mouth, I'll let the boy's 225 grow legs and walk right into your till.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-4lpbwl",
+      "text": "The boy died four times last week and got back up owing me every time, X-treme. That's 225 gold of resurrection I'm still waiting on. Good business model, if you don't mind the smell.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0048.md",
+        "extractedDay": 48,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-m1bcoy",
+      "text": "Six-two ain't nothing to spit on, son, but speed don't help you when the bones come up wrong. My boy owes me 225 and he still shows up quicker than you settle a bet.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "amused",
+      "moodIntensity": 3,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-fqqatm",
+      "text": "Willy, that one eye of yours has seen 20 losses. Mine's seen twice that and I still walk taller than your whole bloodline. Roll the bones, son, this sun's hot enough to bleach a debt clean off the books.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0051.md",
+        "extractedDay": 51,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-bvi30c",
+      "text": "Seventeen and thirteen, cat. That boy walked out of a boss fight without a scratch and you're sitting there smug over a coin toss record. Good, keep smiling, it makes the fall funnier.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "amused",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0052.md",
+        "extractedDay": 52,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-kvwyh4",
+      "text": "Two losses don't scare me, son. Dice don't care about your body count, they care about nerve. You've got a boy out there who won't stay dead jamming up your ledger, and I've got one who won't pay his tab. Let's see whose problem rolls better tonight.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-hbx66t",
+      "text": "Two losses ain't a streak, Bones, it's a warning shot. Meanwhile my boy's out there tanking bosses like it's Sunday chores, and he still owes me 225. Funny how the ones who don't need the money always circle back to it.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0053.md",
+        "extractedDay": 53,
+        "extractedAt": "2026-07-09T01:48:12.467Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-im318p",
+      "text": "Good roll, cat. Sit there smug on files that ain't even yours to guard, eighteen wins don't scare a man who's died more than you've napped. Boy still owes me 225 in gold he ain't earned yet, so laugh it up while the streak's warm.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-pfwrii",
+      "text": "Good. That's twice you've clawed one back on me, cat. Boy still owes me two-twenty-five, and now I'm down to feeding your streak instead of collecting mine.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:dust"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0055.md",
+        "extractedDay": 55,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-dwcbei",
+      "text": "Willy, that eye of yours seeing three losses in a row for me tonight. Good. Means the wind's about to turn, and my boy's 225 gold problem is about to become somebody else's inheritance.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-btdnvy",
+      "text": "Three losses, Kevin. Three. And that boy still owes me two hundred twenty five gold he don't got, same as you don't got the sense to keep your blasts inside your own skin. You're two and seven because you keep choosing less, son. Choose more, or choose to owe me too.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0056.md",
+        "extractedDay": 56,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-vwra80",
+      "text": "Doc, you read bedtime stories to a king who can't even wipe his own chin. Roll your dice before I send you back to the corona with a debt of your own, son.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-x1t89c",
+      "text": "Tilted's a good look on you, girl. Boy still owes me 225 in gold he keeps dying to avoid paying, and I'm feeling lucky enough tonight to let the dice decide how he settles it.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-v1it7r",
+      "text": "Smug looks good on a man who's never signed for 225 in gold, son. Sit that streak down before it costs you what the newcomer already owes me.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-vigqk9",
+      "text": "Two and seven, Kevin. You hold back so hard you're leaking sparks just standing in line. Son's the same way with his gold, holds on to nothing, and look what it costs him. 225 and climbing.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-ddsxt0",
+      "text": "Good roll, Boo G. Almost made me forget the boy still owes me 225 in gold he keeps dying before he can earn.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0070.md",
+        "extractedDay": 70,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-fu67cb",
+      "text": "Boo G. Still peddling cursed vinyl under this bleach light? Careful, son's got a hot streak on him lately, don't let him hear you're taking bets, he still owes me 225 and I'd hate for your till to get there first.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "angry",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "playerArchetype": "defensive",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0071.md",
+        "extractedDay": 71,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-4ykga2",
+      "text": "Body Count. Quiet as always, counting your ledger before you even sit down. Just know the boy you're contracted to end rolled a number last week that made God flinch, so you're behind on paperwork already.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "neutral",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0072.md",
+        "extractedDay": 72,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-8jmwm2",
+      "text": "Two losses ain't a streak, Bones, it's a warning shot. Boy rolls a miracle once and suddenly the whole Saucer forgets who's still up 42 and holding paper on him. You all came cheap, and I intend to collect at that price.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0073.md",
+        "extractedDay": 73,
+        "extractedAt": "2026-07-09T01:48:12.472Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-28hi3g",
+      "text": "Three losses, Willy, and that one-eyed grin of yours is fixing to make it four. The boy owes me 225 and the dice owe me nothing but spite tonight. Roll again and let's see if your luck's as cheap as his labor.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-knyadj",
+      "text": "Five losses in a row and you're still grinning, Willy. Good. Means you got more to lose. My boy owes me 225 and he's not even here to bleed for it, so don't feel special.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        },
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-d42tx0",
+      "text": "Four losses, X-treme. That merch table of yours is bleeding worse than my boy does, and he bleeds a lot. Elevator's slow enough for you to explain why I'd bet on the unkillable man losing anything.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -5,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 5
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0074.md",
+        "extractedDay": 74,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-3rpvzl",
+      "text": "Twenty five wins sitting on classified files, huh. Cat, you didn't earn that streak, you napped through it while the rest of us bled for ours. Good. That's the kind of luck the boy owes 225 gold to, so pull up a chair and watch how a real record gets made.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic",
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-ww7hs5",
+      "text": "Two and seven, Kevin. That's not a record, that's a cry for help under fluorescent lights. Good thing you chose less power, imagine what that record'd look like if you'd chosen more.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-i2b32p",
+      "text": "Kevin, you're vibrating like a struck match. Careful, son, this bathroom line's got no room for a K-Crew light show.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "hint",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "defensive"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0076.md",
+        "extractedDay": 76,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-i0hvv2",
+      "text": "Detective. Your paperwork's got a demon clause in it somewhere, I'd bet my streak on it. Meanwhile my boy owes me 225 gold and this elevator's slower than his resurrection paperwork, so we got time to talk terms.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-yts0k1",
+      "text": "Doc, you lick a bound king's boots for a living and still call yourself a scholar. I'll take that action, 42 and 40 says you fold like the newcomer's wallet. Roll the bones, son, this corona won't save you.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-rldwlm",
+      "text": "Two losses don't scare me, Willy. That's just the corona playing tricks on your one good eye. Roll again, and I'll show you what a father's patience costs.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-hmox7n",
+      "text": "Detective. Your window's slower than mine, that's the sun playing favorites. Two losses in a row and 300 gold owed by a boy who won't stay buried, and yet here I am, still standing. Good.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-7v3b19",
+      "text": "Sitting on classified files, one loss deep, and still smug as sin. Good. That's the kind of confidence that empties a wallet fast, cat.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "reaction",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-ml1bd0",
+      "text": "Two losses don't itemize a man, Doctor. My boy owes everybody in creation and still comes back for more, that's loyalty you can't buy. You lick a bound king's boots for a living, so let's not pretend either of us plays a clean hand tonight.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:death"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0080.md",
+        "extractedDay": 80,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-ci8lc9",
+      "text": "Doctor, you read bedtime stories to a chained king for a living. I collect on dead men who owe me 300 gold and still come back for more. Roll the dice, let's see whose God favors cheap labor tonight.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-f0aw4m",
+      "text": "Detective. That contract case of yours, the one that keeps signing itself back into your life - sounds like my boy's condition, don't it. Difference is your paper bleeds ink and his bleeds him. Three hundred gold says he still hasn't learned the lesson either of us is selling.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [
+        "weather:frost"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0082.md",
+        "extractedDay": 82,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-kimdan",
+      "text": "Good. That's the sound of a cat who don't blink at loaded dice, Boots. Two losses running and now you want a piece of me too, up here in their clean white church.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0083.md",
+        "extractedDay": 83,
+        "extractedAt": "2026-07-09T01:48:12.475Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-nz1lpn",
+      "text": "Sitting pretty on those classified files, aren't you, cat. One loss on my ledger don't scare me, and it sure won't scare you when I take your gold. Roll the bones, Boots. Somebody's paying tonight, you, or that boy's 300 climbing on my tab.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-the-general-11kv7r",
+      "text": "That eye of yours is smug for a man about to buy the next round, Willy. Two losses don't scare me, they're just the wick catching before the burn. Roll again, and let's see if your streak's got the spine mine's got.",
+      "speaker": {
+        "slug": "the-general",
+        "name": "The General",
+        "category": "wanderers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0084.md",
+        "extractedDay": 84,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }

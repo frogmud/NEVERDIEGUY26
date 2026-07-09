@@ -4,13 +4,21 @@
     "name": "Keith Man",
     "category": "travelers"
   },
-  "entryCount": 6,
+  "entryCount": 19,
   "pools": {
-    "gamblingTrashTalk": 6
+    "gamblingTrashTalk": 15,
+    "threat": 2,
+    "reaction": 1,
+    "gamblingBrag": 1
   },
   "moods": {
-    "pleased": 1,
-    "amused": 5
+    "pleased": 4,
+    "amused": 6,
+    "generous": 1,
+    "sad": 1,
+    "scared": 1,
+    "annoyed": 3,
+    "threatening": 3
   },
   "entries": [
     {
@@ -26,13 +34,13 @@
       "moodIntensity": 1,
       "contextTags": [],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0009.md",
         "extractedDay": 9,
-        "extractedAt": "2026-07-09T00:40:26.006Z",
+        "extractedAt": "2026-07-09T01:48:12.453Z",
         "version": 1
       }
     },
@@ -51,13 +59,13 @@
         "weather:frost"
       ],
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0011.md",
         "extractedDay": 11,
-        "extractedAt": "2026-07-09T00:40:26.008Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -77,13 +85,13 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-29-16-854Z/days/day-0013.md",
         "extractedDay": 13,
-        "extractedAt": "2026-07-09T00:40:26.009Z",
+        "extractedAt": "2026-07-09T01:48:12.454Z",
         "version": 1
       }
     },
@@ -103,13 +111,13 @@
         "debtTension": "notable"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0022.md",
         "extractedDay": 22,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -129,13 +137,13 @@
         "debtTension": "minor"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0022.md",
         "extractedDay": 22,
-        "extractedAt": "2026-07-09T00:40:26.014Z",
+        "extractedAt": "2026-07-09T01:48:12.458Z",
         "version": 1
       }
     },
@@ -157,13 +165,351 @@
         "playerArchetype": "chaotic"
       },
       "metrics": {
-        "interestScore": 70,
+        "interestScore": 85,
         "source": "eternal_sim"
       },
       "metadata": {
         "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T00-38-40-638Z/days/day-0027.md",
         "extractedDay": 27,
-        "extractedAt": "2026-07-09T00:40:26.016Z",
+        "extractedAt": "2026-07-09T01:48:12.460Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-v5bxmk",
+      "text": "Twelve wins and you still can't close a tab, huh, that's rough - kid's not a body you count, he's a security deposit you never get back. I can explain the first half of that roll. The second half is where the screaming starts, and it wasn't yours.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "generous",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0042.md",
+        "extractedDay": 42,
+        "extractedAt": "2026-07-09T01:48:12.465Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-4q9p2q",
+      "text": "Bones, six and two, two in a row, and the kid still owes me a hundred gold he doesn't have. You're 12 and 18, so maybe don't talk streaks with me today.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 2,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0049.md",
+        "extractedDay": 49,
+        "extractedAt": "2026-07-09T01:48:12.466Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-abaj0k",
+      "text": "Six and nine, rough water, but hey, at least your rent's not due like mine is. Newcomer still owes me a hundred, and I'm four wins deep, so the math's working out for somebody in this room.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "amused",
+      "moodIntensity": 4,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0054.md",
+        "extractedDay": 54,
+        "extractedAt": "2026-07-09T01:48:12.468Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-lb7dc0",
+      "text": "Willy, one eye and you still see me coming, that's the scary part. I'm down one game and 175 gold poorer thanks to the new guy, so tonight I collect from someone. Might as well be the giant eyeball with 28 losses.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "sad",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-vgznq1",
+      "text": "Boo G, tell me the new guy hasn't run a tab here too, because he's already 175 into me and rent doesn't care about my feelings.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "reaction",
+      "mood": "scared",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0059.md",
+        "extractedDay": 59,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-c6ye5u",
+      "text": "Two losses ain't a streak, General, it's a warning shot. You're smug for a guy at 29 and 32, that's basically a rent history.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingBrag",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-00-57-745Z/days/day-0060.md",
+        "extractedDay": 60,
+        "extractedAt": "2026-07-09T01:48:12.469Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-l32dsz",
+      "text": "General, thirty-six and thirty-three, you're basically breaking even, which around here counts as a miracle. I got one loss on the board right now but the kid owes me 175 gold and I plan to collect before rent hits. Roll fast, I got places to be and buildings that still remember my face.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "notable"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-rf8bb5",
+      "text": "Smug's easy when your kid's got a 175 gold tab running under my name and you still act like the house always wins. Roll the dice, General, rent doesn't care about your record and neither do I. I can explain the first half of this game, the second half is where your streak starts screaming.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "pleased",
+      "moodIntensity": 1,
+      "contextTags": [],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-25-39-241Z/days/day-0067.md",
+        "extractedDay": 67,
+        "extractedAt": "2026-07-09T01:48:12.471Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-6jha76",
+      "text": "Doc, 38 and 39, you're basically my rent, always one loss from catastrophe. I'm riding a cold streak myself, but the new guy's cosmic bad luck makes yours look like a hobby. Roll the dice before he shows up and borrows against your losses too.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "playerArchetype": "chaotic"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-7kugdb",
+      "text": "Doc, you read to a guy chained to the sun, don't get smug with me about a fifty-fifty record. I got a newcomer who owes me 175 gold and a landlord who thinks rent is a personal hobby, so tonight I need the gold more than you need the ego boost.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0077.md",
+        "extractedDay": 77,
+        "extractedAt": "2026-07-09T01:48:12.473Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-vwqh1o",
+      "text": "Bow's crooked, tilted mood, six and nine, and you're still first in line ahead of me, so no, I can't leave. Landlord's basically cosplaying as a supervillain this month, so if you're here to fight someone, fight him first. New guy still owes me 175, by the way, if you're taking numbers.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "threat",
+      "mood": "threatening",
+      "moodIntensity": 0,
+      "contextTags": [],
+      "triggers": {
+        "debtTension": "minor"
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0078.md",
+        "extractedDay": 78,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-rbik95",
+      "text": "Two losses don't scare me, Maxwell, I've read worse odds on rent notices. You lick boots for a living, I'll take my chances with the dice.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "threatening",
+      "moodIntensity": -2,
+      "contextTags": [
+        "weather:heat"
+      ],
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-38-23-809Z/days/day-0079.md",
+        "extractedDay": 79,
+        "extractedAt": "2026-07-09T01:48:12.474Z",
+        "version": 1
+      }
+    },
+    {
+      "id": "cb-keith-man-pvbgdm",
+      "text": "Three losses, cold moon wind, and now a librarian with a smug face wants my gold too. Fine, Doc, roll them bones, but know the new guy's 175 is coming out of whoever's pile I win tonight.",
+      "speaker": {
+        "slug": "keith-man",
+        "name": "Keith Man",
+        "category": "travelers"
+      },
+      "pool": "gamblingTrashTalk",
+      "mood": "annoyed",
+      "moodIntensity": -3,
+      "contextTags": [
+        "weather:frost",
+        "loss_streak",
+        "tilted"
+      ],
+      "triggers": {
+        "streak": {
+          "type": "loss",
+          "min": 3
+        }
+      },
+      "metrics": {
+        "interestScore": 85,
+        "source": "eternal_sim"
+      },
+      "metadata": {
+        "extractedFrom": "/Users/kevin/Projects/NEVERDIEGUY26/packages/ai-engine/logs/eternal-2026-07-09T01-42-58-616Z/days/day-0085.md",
+        "extractedDay": 85,
+        "extractedAt": "2026-07-09T01:48:12.476Z",
         "version": 1
       }
     }
