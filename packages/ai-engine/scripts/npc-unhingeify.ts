@@ -197,7 +197,7 @@ Respond with ONLY the transformed line, no quotes, no explanation.`;
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-3-haiku-20240307',
+        model: 'claude-haiku-4-5',
         max_tokens: 150,
         temperature: voice.temperature,
         messages: [{

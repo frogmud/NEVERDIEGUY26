@@ -248,14 +248,25 @@ function parseOverheard(overheardSection: string): OverheardEntry[] {
     const speakerSlug = normalizeNPCName(speakerName);
     if (!speakerSlug) continue;
 
-    // Extract text (after the > quote marker)
-    const textMatch = block.match(/>\s*(.+)/s);
-    if (!textMatch) continue;
+    // Extract text: only consecutive `> ` quote lines. A dotall grab here used
+    // to swallow whatever followed the last quote in the section (the
+    // `*End of Day N*` footer, ## Debts lines) into the dialogue text.
+    const quoteLines = block.split('\n').filter(l => l.trim().startsWith('>'));
+    if (quoteLines.length === 0) continue;
 
-    const text = textMatch[1].trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+    const text = quoteLines
+      .map(l => l.trim().replace(/^>\s*/, ''))
+      .join(' ')
+      .replace(/\s*[—–]\s*/g, ' - ')  // house style: no em/en dashes (cleans older logs too)
+      .replace(/\s+/g, ' ')
+      .trim();
     if (!text || text.length < 10) continue; // Skip very short entries
 
-    const targetSlug = targetName ? normalizeNPCName(targetName) : undefined;
+    // Skip lines clipped mid-sentence (max_tokens truncation in older runs) -
+    // a fragment in the chatbase reads as a bug when surfaced in-game.
+    if (!/[.!?…"'”)\]]$/.test(text)) continue;
+
+    const targetSlug = (targetName ? normalizeNPCName(targetName) : undefined) ?? undefined;
 
     entries.push({
       speaker: speakerSlug,
@@ -828,6 +839,12 @@ async function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   fs.mkdirSync(path.join(OUTPUT_DIR, 'npcs'), { recursive: true });
   fs.mkdirSync(path.join(OUTPUT_DIR, 'indexes'), { recursive: true });
+
+  // The chatbase is fully derived from logs/ - clear stale per-NPC files so
+  // renamed slugs and removed NPCs don't linger from previous extractions.
+  for (const stale of fs.readdirSync(path.join(OUTPUT_DIR, 'npcs'))) {
+    if (stale.endsWith('.json')) fs.unlinkSync(path.join(OUTPUT_DIR, 'npcs', stale));
+  }
 
   // Write manifest
   fs.writeFileSync(
