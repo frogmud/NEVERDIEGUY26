@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@vercel/node": "^5.5.23",
-    "tsx": "^4.19.0",
-    "turbo": "^2.9.14",
+    "tsx": "^4.23.1",
+    "turbo": "^2.10.7",
     "typescript": "~5.9.3"
   },
   "engines": {

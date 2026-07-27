@@ -37,11 +37,11 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@figma/code-connect": "^1.4.8",
+    "@figma/code-connect": "^1.4.9",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
     "@types/react": "^19.1.6",
-    "react": "^19.1.0",
+    "react": "^19.2.8",
     "typescript": "~5.9.3"
   }
 }
